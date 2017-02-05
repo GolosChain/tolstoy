@@ -142,7 +142,17 @@ async function universalRender({ location, initial_state, offchain }) {
         // to resolve data correctly
         if (url.indexOf('/curation-rewards') !== -1) url = url.replace(/\/curation-rewards$/, '/transfers');
         if (url.indexOf('/author-rewards') !== -1) url = url.replace(/\/author-rewards$/, '/transfers');
-
+        
+        // ОЧЕРЕДНОЙ КОСТЫЛЬ
+        // Я пока не понимаю как обрабатывается запрос в БД, что он выискивает в url, но
+        // туда попадает следующий мусор: ?utm_source=odnoklassniki.ru&utm_medium=social&utm_campaign=....golos.io-o
+        // url выглядит следующим образом при запросе:
+        // golos.io/username/post-title?utm_source=odnoklassniki.ru&utm_medium=social&utm_campaign=....golos.io-o
+        // БД ессно ничего не находится и когда поддтягиваются мета данные типа ogp.me, то функция подставляет корневые данные
+        // или проще говоря индексную страницу
+        //
+        // Возможно что при таком раскладе не будет работать сортировка, завтра буду разбираться как рабоатет БД
+        url = url.split('?')[0]
         onchain = await Apis.instance().db_api.exec('get_state', [url]);
 
         // Calculate signup bonus
