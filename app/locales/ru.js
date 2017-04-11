@@ -24,6 +24,7 @@ const ru = {
   APP_NAME_can_only_register_one_account_per_verified_user: 'Пожалуйста, имейте ввиду что ' + APP_NAME + ' может регистрировть только один аккаунт для каждого подтвержденного пользователя',
   APP_NAME_cannot_recover_passwords_keep_this_page_in_a_secure_location: APP_NAME + ' не может восстановить пароли. Сохраните эту страницу в безопасном месте, например, в огнестойком сейфе или в депозитарной ячейке.',
   APP_NAME_chat: APP_NAME + " чат",
+  APP_NAME_reddit: APP_NAME + " Reddit",
   APP_NAME_is_a_social_media_platform_where_everyone_gets_paid: APP_NAME + ' это социальная медиа платформа в которой каждый зарабатывает за создание и курирование контента. Он использует надежную систему цифровых очков под названием ' + LIQUID_TOKEN + ', который поддерживает реальную ценность для цифровых наград через выявление рыночной цены и ликвидности.',
   APP_NAME_is_a_social_media_platform_where_everyone_gets_paid_for_creating_and_curating_content: APP_NAME + ' это социальная медиа платформа в которой <strong>все</strong>&nbsp;получают <strong>деньги</strong> за создание и курирование контента',
   APP_NAME_password_backup: APP_NAME + ' резервное копирование пароля',
