@@ -24,6 +24,7 @@ const ua = {
   APP_NAME_can_only_register_one_account_per_verified_user: 'Будь ласка, майте на увазі що ' + APP_NAME + ' може реєструвати тільки один акаунт для кожного підтвердженого користувача',
   APP_NAME_cannot_recover_passwords_keep_this_page_in_a_secure_location: APP_NAME + ' не може відновити паролі. Збережіть цю сторінку в безпечному місці, наприклад, в вогнестійкому сейфі або в депозитарному сховищі.',
   APP_NAME_chat: APP_NAME + " чат",
+  APP_NAME_reddit: APP_NAME + " Reddit",
   APP_NAME_is_a_social_media_platform_where_everyone_gets_paid: APP_NAME + ' це соціальна медіа платформа в якій кожен заробляє за створення і курирування контенту. Він використовує надійну систему цифрових очок під назвою' + LIQUID_TOKEN + ', який підтримує реальну цінність для цифрових нагород через виявлення ринкової ціни і ліквідності.',
   APP_NAME_is_a_social_media_platform_where_everyone_gets_paid_for_creating_and_curating_content: APP_NAME + ' це соціальна медіа платформа в якій<strong>всі</strong>&nbsp;отримують <strong>гроші</strong> за створення і курирування контенту',
   APP_NAME_password_backup: APP_NAME + ' резервне копіювання пароля',
