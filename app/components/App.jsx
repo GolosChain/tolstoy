@@ -288,6 +288,11 @@ class App extends React.Component {
                       </a>
                   </li>
                   <li>
+                    <a href="https://reddit.io/r/golos" target="_blank">
+                      {translate("APP_NAME_reddit")}&nbsp;<Icon name="extlink" />
+                    </a>
+                  </li>
+                  <li>
                       <a href="http://golostools.com/" onClick={this.navigate} target="_blank" rel="noopener noreferrer">
                           {translate('APP_NAME_app_center')}&nbsp;<Icon name="extlink" />
                       </a>
