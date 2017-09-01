@@ -1,6 +1,6 @@
 import store from 'store';
 
-export const ALLOWED_THEMES = ['Default', 'Green', 'Red']
+export const ALLOWED_THEMES = ['Default', 'Green', 'Brown', 'Dark']
 export const DEFAULT_THEME = 'Default'
 
 export function themeName() {

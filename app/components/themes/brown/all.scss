@@ -1,15 +1,15 @@
-$th_green: #1b9230;
-$th_green_dark: #226f30;
+$th_brown: #845736;
 
-body[data-theme="green"] {
+
+body[data-theme="brown"] {
   a {
-    color: $th_green_dark;
+    color: #633d21;
   }
 
   .PostSummary__header {
     > h1 {
       > a:visited {
-        color: #7aa977;
+        color: #a99789;
       }
     }
   }
@@ -17,95 +17,98 @@ body[data-theme="green"] {
   .shareItems {
     li > a:hover {
       svg {
-        fill: $th_green;
+        fill: $th_brown;
       }
     }
   }
 
   .TagList__horizontal {
     a {
-      background: #e8f5e7;
+      background: #f5d29c;
       &:hover {
-        background: #c5efc2;
+        background: #efc482;
       }
     }
   }
 
   .UserProfile__banner {
     text-align: center;
-    color: $black;
+    color: $white;
     a {
-      color: $black;
+      color: $white;
       font-size: 18px;
     }
     > div.column {
-      background: linear-gradient(to bottom, #c4f9c1 0%, $th_green 100%);
-      background-image: url('../../assets/images/themes/green/header-background.jpg');
+      background: linear-gradient(to bottom, #f3d5d9 0%, $th_brown 100%);
+      background-image: url('../../assets/images/themes/brown/header-background.jpg');
+      background-size: contain;
     }
   }
 
   .UserProfile__top-nav {
-    background-color: #ebf18a;
-    background-image: url('../../assets/images/themes/green/menu-background.jpg');
+    background-color: $th_brown;
     .menu > li > a {
-      color: $black;
+      color: $white;
       &:hover {
-        background-color: #91d540;
-        color: #000000;
+        background-color: #e17c06;
+        color: $white;
+      }
+      &.active {
+        color: $black;
       }
     }
   }
 
   .PostSummary {
-    box-shadow: 0 0 10px rgba(30, 82, 6, 0.5);;
+    box-shadow: 0 0 10px rgba(93, 46, 3, 0.5);
     border-radius: 5px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     padding: 7px;
   }
   .PostSummary:hover {
-    box-shadow: 0 0 19px #117723;
+    box-shadow: 0 0 10px $th_brown;
   }
 
   .Voting__button--upvoted circle {
-    fill: $th_green;
-    stroke: $th_green;
+    fill: $th_brown;
+    stroke: $th_brown;
   }
 
   .VotesAndComments {
     path {
-      fill: $th_green;
+      fill: $th_brown;
     }
   }
 
   @media screen and (min-width: 60rem) {
     .PostsList__post_overlay {
-      background-color: rgba(238, 247, 236, 0.9);
+      background-color: rgba(247, 207, 181, 0.9);
     }
     .PostsList__post_container {
-      box-shadow: 0 0 5px 0px #024205;
+      box-shadow: 0 0 5px 0px #420505;
     }
   }
   .close-button {
-    color: #066f0b;
+    color: #420208;
   }
 
   input[type=button]:disabled,
   input[type=button].disabled, input[type=button].disabled:focus,
   input[type=submit].disabled, input[type=submit].disabled:focus {
-    background-color: #35991a;
+    background-color: #994c1c;
   }
 
   form {
     .button {
-      background-color: $th_green_dark;
+      background-color: $th_brown;
     }
     .button:hover, .button:focus {
-      background-color: #1e5128;
+      background-color: #633b1f;
     }
     .button.hollow {
-      color: $th_green_dark;
-      border: 1px solid $th_green_dark;
+      color: $th_brown;
+      border: 1px solid $th_brown;
     }
     .button.hollow.no-border {
       border: none;
@@ -116,8 +119,8 @@ body[data-theme="green"] {
   }
 
   .button.hollow {
-    color: $th_green_dark;
-    border: 1px solid $th_green_dark;
+    color: $th_brown;
+    border: 1px solid $th_brown;
   }
 
   .Feedback a:hover, .Feedback a:focus {
@@ -127,55 +130,43 @@ body[data-theme="green"] {
 
   .Topics {
     .button {
-      background-color: $th_green_dark;
+      background-color: $th_brown;
     }
   }
   .Topics__filter {
-    background-color: #ebf9e4;
-    color: $th_green_dark;
+    background-color: #f7f2ed;
+    color: $th_brown;
   }
   .Topics__filter__expand {
-    background-color: #cdf1ab;
+    background-color: #e8ddd2;
     &:hover {
-      background-color: #a1e189;
+      background-color: #ecd8c4;
     }
   }
   .Topics__title {
-    color: $th_green_dark;
+    color: $th_brown;
   }
   .PostsIndex__topics {
-    border-left: 1px solid #adc3a5;
+    border-left: 1px solid #c3b4a5;
   }
 
   .HorizontalMenu {
     .active > a {
-      color: $th_green_dark;
-    }
-  }
-  .UserList {
-    a {
-      color: #5a5a5a;
-    }
-    ul.pager {
-      span {
-        color: $th_green;
-        border: 1px solid $th_green;
-      }
+      color: $th_brown;
     }
   }
   .ConfirmTransactionForm {
     .button {
-      background-color: $th_green_dark;
+      background-color: $th_brown;
     }
     .button.hollow {
       background-color: inherit;
     }
   }
-
   .Voting__adjust_weight .rangeslider .rangeslider__handle:active,
   .Voting__adjust_weight_down .rangeslider .rangeslider__handle:active,
   .Voting__adjust_weight .rangeslider-horizontal .rangeslider__fill,
   .Voting__adjust_weight_down .rangeslider-horizontal .rangeslider__fill {
-    background-color: #63ab6c;
+    background-color: $th_brown;
   }
 }

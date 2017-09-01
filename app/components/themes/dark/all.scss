@@ -1,0 +1,372 @@
+$th_light: #f0f0f0;
+$th_dark: #717171;
+$th_d_dark: #5a5a5a;
+
+body[data-theme="dark"] {
+  background-image: url('../../assets/images/themes/dark/background.jpg');
+  color: $th_light;
+  a {
+    color: $th_light;
+  }
+  .VerticalMenu {
+    > li {
+      > a {
+        color: $th_dark;
+      }
+    }
+  }
+
+  div.UserWallet {
+    color: $black;
+    .row {
+      background-color: #e6e6e6;
+    }
+    .row.zebra {
+      background-color: #f2f2f2;
+    }
+    a {
+      color: inherit;
+    }
+  }
+  div[role="dialog"] {
+    h3, div, a {
+      color: $th_dark;
+    }
+  }
+  .Header__sub-nav {
+    background-color: #010101;
+    border-bottom: 1px solid #010101;
+    li {
+      a {
+        border-bottom: 0px;
+        &:hover {
+          color: #acacac;
+        }
+      }
+    }
+  }
+  .Header__top {
+    background-color: #010101;
+    border-bottom: 1px solid #010101;
+  }
+  .Header {
+    .menu {
+      background-color: inherit;
+      .hamburger {
+        &::after {
+          box-shadow: 0 7px 0 #f2f2f2, 0 14px 0 #f2f2f2;
+          background: #f2f2f2;
+        }
+      }
+    }
+    .search {
+      svg {
+        path {
+          fill: #f2f2f2;
+        }
+      }
+    }
+  }
+
+  .PostSummary__header {
+    > h1 {
+      > a:visited {
+        color: #a99789;
+      }
+    }
+    a {
+      color: #2b2b2b;
+    }
+  }
+  .PostSummary__body {
+    a {
+      color: #2b2b2b;
+    }
+  }
+  .PostSummary__footer {
+    a {
+      color: #2b2b2b;
+    }
+  }
+
+  .PostsList__post_container {
+    background-color: #f9f9f9;
+    color: #2b2b2b;
+    .PostFull {
+      background-color: inherit;
+    }
+    a {
+      color: rgba(149, 149, 149, 1);
+      text-decoration: underline;
+    }
+  }
+  .ReplyEditor {
+    .Preview {
+      .Markdown{
+        background-color: #f9f9f9;
+        border: 1px solid #f9f9f9;
+        color: #2b2b2b;
+        a {
+          color: rgba(149, 149, 149, 1);
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+  .ReplyEditor__options {
+    select {
+      color: #2b2b2b !important;
+    }
+  }
+  .Dropdown__root___1B9ta {
+    select {
+      color: #2b2b2b;
+    }
+  }
+  .DraftEditor-editorContainer {
+    color: #2b2b2b;
+  }
+  .PostFull {
+    background-color: #f9f9f9;
+    color: #2b2b2b;
+    padding-left: 0.9375rem;
+    padding-right: 0.9375rem;
+    a {
+      color: rgba(149, 149, 149, 1);
+      text-decoration: underline;
+    }
+  }
+  .Post__promo {
+    background-color: #f9f9f9;
+    color: #2b2b2b;
+    padding-left: 0.9375rem;
+    padding-right: 0.9375rem;
+    a {
+      color: rgba(149, 149, 149, 1);
+      text-decoration: underline;
+    }
+  }
+  .Post_comments__content {
+    background-color: #f9f9f9;
+    color: #2b2b2b;
+    padding: 0 0.9375rem 0.9375rem 0.9375rem;
+    a {
+      color: rgba(149, 149, 149, 1);
+      text-decoration: underline;
+    }
+  }
+
+  .shareItems {
+    li {
+      > a {
+        text-decoration: none;
+        &:hover {
+          svg {
+            fill: $black;
+          }
+        }
+      }
+    }
+  }
+
+  .TagList__horizontal {
+    a {
+      background: #cccccc;
+      color: #2b2b2b;
+      &:hover {
+        background: #b4b4b4;
+      }
+    }
+  }
+
+  .UserProfile__banner {
+    text-align: center;
+    color: $th_light;
+    a {
+      color: $th_light;
+      font-size: 18px;
+    }
+    > div.column {
+      background-color: $black;
+      background-image: url('../../assets/images/themes/dark/header-background.jpg');
+      color: #f0f0f0;
+    }
+  }
+
+  .UserProfile__top-nav {
+    background-color: #272727;
+    .menu > li > a {
+      color: $th_light;
+      &:hover {
+        background-color: $th_dark;
+        color: $th_light;
+      }
+      &.active {
+        background-color: #949494;
+      }
+    }
+  }
+
+  .PostSummary {
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    padding: 7px;
+    background-color: rgb(247, 247, 247);
+  }
+  .PostSummary:hover {
+    box-shadow: 0 0 20px $white;
+  }
+
+  .Voting__button--upvoted circle {
+    fill: $th_dark;
+    stroke: $th_dark;
+  }
+
+  .VotesAndComments {
+    path {
+      fill: $th_dark;
+    }
+  }
+
+  @media screen and (min-width: 60rem) {
+    .PostsList__post_overlay {
+      background-color: rgba(107, 107, 107, 0.9)
+    }
+    .PostsList__post_container {
+      box-shadow: 0 0 5px 0px $black;
+    }
+  }
+  .close-button {
+    color: $black;
+  }
+
+  input[type=button]:disabled,
+  input[type=button].disabled, input[type=button].disabled:focus,
+  input[type=submit].disabled, input[type=submit].disabled:focus {
+    background-color: $th_d_dark;
+  }
+
+  form {
+    .button {
+      background-color: $th_d_dark;
+      color: $th_light;
+    }
+    .button:hover, .button:focus {
+      background-color: #707070;
+    }
+    .button.hollow {
+      /*color: $th_light;*/
+      color: $th_d_dark;/*для формы передачи токенов*/
+      border: 1px solid $th_d_dark;
+    }
+    .button.hollow.no-border {
+      border: none;
+    }
+    .button.hollow, .button.hollow:hover, .button.hollow:focus {
+      background-color: transparent;
+    }
+    label {
+      color: $th_light;
+    }
+  }
+  .LoginForm {
+    label {
+      color: #707070;
+    }
+  }
+  .VerticalMenu {
+    > li.title{
+      color: #707070;
+    }
+  }
+  .button.hollow {
+    color: $th_d_dark;
+    border: 1px solid $th_d_dark;
+  }
+  .Feedback a:hover, .Feedback a:focus {
+    height: 47px;
+    color: $black;
+  }
+
+  .Topics {
+    .button {
+      background-color: $th_d_dark;
+    }
+  }
+  .ConfirmTransactionForm {
+    .button {
+      background-color: $th_d_dark;
+    }
+    .button.hollow {
+      background-color: inherit;
+    }
+  }
+  .Topics__filter {
+    background-color: #ececec;
+    color: $th_d_dark;
+    margin: -0.5rem 0 0.5rem 0;
+    border-radius: 0.25rem 0.25rem 0 0;
+    a {
+      color: $th_d_dark;
+    }
+    div {
+      margin-left: 0;
+      color: inherit;
+    }
+  }
+  ul.Topics {
+    li.Topics__filter__expand {
+      background-color: #b9b9b9;
+      margin: -0.5rem 0 0.5rem 0;
+      &:hover {
+        background-color: #a0a0a0;
+      }
+    }
+  }
+
+  .UserList {
+    a {
+      color: $th_d_dark;
+    }
+    ul.pager {
+      span {
+        color: $white;
+        border: 1px solid $white;
+      }
+    }
+  }
+  .Topics__title {
+    color: $th_d_dark;
+    border-radius: 0.25rem 0.25rem 0 0;
+  }
+  .PostsIndex__topics {
+    border-left: 1px solid #dedede;
+  }
+  ul.Topics {
+    > li {
+      background-color: #ececec;
+      padding-left: 1.25rem;
+    }
+    a {
+      color: $th_d_dark;
+    }
+  }
+
+  .HorizontalMenu {
+    .active > a {
+      color: $white;
+    }
+  }
+  .ReplyEditor {
+    background-color: #b5b5b5;
+    padding-top: 0.9375rem;
+    padding-bottom: 0.9375rem;
+  }
+  .Voting__adjust_weight .rangeslider .rangeslider__handle:active,
+  .Voting__adjust_weight_down .rangeslider .rangeslider__handle:active,
+  .Voting__adjust_weight .rangeslider-horizontal .rangeslider__fill,
+  .Voting__adjust_weight_down .rangeslider-horizontal .rangeslider__fill {
+    background-color: $th_d_dark;
+  }
+}
