@@ -714,9 +714,9 @@
     "profile_gender": {
       "title": "Pol",
       "genders": {
-        "Undefined": "Nedefinisan",
-        "Male": "Muški",
-        "Female": "Zenski"
+        "undefined": "Nedefinisan",
+        "male": "Muški",
+        "female": "Zenski"
       }
     },
     "profile_about":"O profilu",

@@ -727,9 +727,9 @@
     "profile_gender": {
       "title": "Пол",
       "genders": {
-        "Undefined": "Неизвестен",
-        "Male": "Мужской",
-        "Female": "Женский"
+        "undefined": "Неизвестен",
+        "male": "Мужской",
+        "female": "Женский"
       }
     },
     "profile_about": "О проекте",

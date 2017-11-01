@@ -110,4 +110,4 @@ export const SEGMENT_ANALYTICS_KEY = 'F7tldQJxt491gXYqDGi5TkTT4wFpSPps'
 export const THEMES = ['Default', 'Green', 'Red']
 export const DEFAULT_THEME = THEMES[0]
 
-export const USER_GENDER = ['Undefined', 'Male', 'Female']
+export const USER_GENDER = ['undefined', 'male', 'female']

@@ -715,9 +715,9 @@
     "profile_gender": {
       "title": "Gen",
       "genders": {
-        "Undefined": "Nedefinit",
-        "Male": "Masculin",
-        "Female": "Femeie"
+        "undefined": "Nedefinit",
+        "male": "Masculin",
+        "female": "Femeie"
       }
     },
     "profile_about":"Despre poriect",

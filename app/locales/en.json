@@ -915,9 +915,9 @@
     "profile_gender": {
       "title": "Gender",
       "genders": {
-        "Undefined": "Undefined",
-        "Male": "Male",
-        "Female": "Female"
+        "undefined": "Undefined",
+        "male": "Male",
+        "female": "Female"
       }
     },
     "profile_about": "About",

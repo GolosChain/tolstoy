@@ -704,9 +704,9 @@
     "profile_gender": {
       "title": "Стать",
       "genders": {
-        "Undefined": "Невизначено",
-        "Male": "Чоловічий",
-        "Female": "Жіночий"
+        "undefined": "Невизначено",
+        "male": "Чоловічий",
+        "female": "Жіночий"
       }
     },
     "profile_about": "Про проект",
