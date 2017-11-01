@@ -724,6 +724,14 @@
     "profile_image_url": "Добавьте URL Вашего изображения",
     "cover_image_url": "Добавьте URL Вашей обложки",
     "profile_name": "Отображаемое имя",
+    "profile_gender": {
+      "title": "Пол",
+      "genders": {
+        "Undefined": "Неизвестен",
+        "Male": "Мужской",
+        "Female": "Женский"
+      }
+    },
     "profile_about": "О проекте",
     "profile_location": "Местоположение",
     "profile_website": "Веб-сайт"

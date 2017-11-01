@@ -912,6 +912,14 @@
     "profile_image_url": "Profile picture url",
     "cover_image_url": "Cover image url",
     "profile_name": "Display Name",
+    "profile_gender": {
+      "title": "Gender",
+      "genders": {
+        "Undefined": "Undefined",
+        "Male": "Male",
+        "Female": "Female"
+      }
+    },
     "profile_about": "About",
     "profile_location": "Location",
     "profile_website": "Website"

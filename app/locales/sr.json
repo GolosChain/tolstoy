@@ -711,6 +711,14 @@
     "profile_image_url":"URL za profilnu sliku",
     "cover_image_url": "Cover image url",
     "profile_name":"Pokazati ime",
+    "profile_gender": {
+      "title": "Pol",
+      "genders": {
+        "Undefined": "Nedefinisan",
+        "Male": "Muški",
+        "Female": "Zenski"
+      }
+    },
     "profile_about":"O profilu",
     "profile_location":"Lokacija",
     "profile_website":"Website"

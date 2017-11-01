@@ -712,6 +712,14 @@
     "profile_image_url":"Adăugați adresa URL a imaginii",
     "cover_image_url": "Cover image url",
     "profile_name":"Numele afișat",
+    "profile_gender": {
+      "title": "Gen",
+      "genders": {
+        "Undefined": "Nedefinit",
+        "Male": "Masculin",
+        "Female": "Femeie"
+      }
+    },
     "profile_about":"Despre poriect",
     "profile_location":"Locația",
     "profile_website":"Siteul"

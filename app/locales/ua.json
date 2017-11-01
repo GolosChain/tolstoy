@@ -701,6 +701,14 @@
     "profile_image_url": "Додайте URL Вашого зображення",
     "cover_image_url": "Додайте URL Вашої обкладинки",
     "profile_name": "Відображаєме ім'я ",
+    "profile_gender": {
+      "title": "Стать",
+      "genders": {
+        "Undefined": "Невизначено",
+        "Male": "Чоловічий",
+        "Female": "Жіночий"
+      }
+    },
     "profile_about": "Про проект",
     "profile_location": "Місцезнаходження",
     "profile_website": "Веб-сайт"
