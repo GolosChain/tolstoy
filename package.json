@@ -2,7 +2,7 @@
   "name": "Golos.io",
   "repository": {
     "type": "git",
-    "url": "https://github.com/cudr/tolstoy.git"
+    "url": "https://github.com/GolosChain/tolstoy.git"
   },
   "version": "1.0.0",
   "description": "Голос - социальная сеть, построенная на публичном блокчейне.",
