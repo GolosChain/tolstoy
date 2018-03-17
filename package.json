@@ -2,7 +2,7 @@
   "name": "Golos.io",
   "repository": {
     "type": "git",
-    "url": "https://github.com/GolosChain/tolstoy.git"
+    "url": "https://github.com/cudr/tolstoy.git"
   },
   "version": "1.0.0",
   "description": "Голос - социальная сеть, построенная на публичном блокчейне.",
@@ -132,6 +132,7 @@
     "speakingurl": "^9.0.0",
     "sqlite3": "^3.1.8",
     "style-loader": "^0.13.0",
+    "styled-jsx": "^2.2.6",
     "svg-inline-loader": "^0.4.0",
     "svg-inline-react": "^1.0.2",
     "svgo-loader": "^1.1.0",
@@ -151,6 +152,7 @@
     "babel-plugin-react-transform": "^2.0.2",
     "chai": "^4.1.2",
     "chai-immutable": "^1.5.3",
+    "classnames": "^2.2.5",
     "co-mocha": "^1.1.2",
     "co-supertest": "0.0.10",
     "dev-ip": "^1.0.1",
