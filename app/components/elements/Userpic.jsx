@@ -59,7 +59,7 @@ class Userpic extends Component {
             const md = JSON.parse(json_metadata);
             if(md.profile) url = md.profile.profile_image;
         } catch (e) {
-          console.warn('try to extract image url from users metaData failed!')
+          console.warn('Try to extract image url from users metaData failed!')
         }
 
         if (url && /^(https?:)\/\//.test(url)) {
@@ -88,29 +88,9 @@ class Userpic extends Component {
         show: showVotePow
       })
 
-      console.log('percentage', percentage)
-
       return (
         <div className={votingClasses}>
           <CircularProgress percentage={percentage} show={showVotePow} size={this.props.width} strokeWidth={4} />
-          <style jsx>{`
-            .progressbar {
-              position: relative;
-            }
-            .voting_power {
-              position: absolute;
-              top: 0;
-              left: 0;
-              right: 0;
-              bottom: 0;
-              opacity: 0;
-              z-index: 2;
-              transition: opacity .3s ease-in-out;
-            }
-            .voting_power.show {
-              opacity: 1;
-            }
-          `}</style>
         </div>
       )
     }
@@ -129,22 +109,6 @@ class Userpic extends Component {
         return (
           <div ref={n => { this.userPick = n }} className="Userpic" onClick={this.toggleVotePow} style={style}>
             {percentage ? this.getVotingIndicator(percentage) : null}
-            <style jsx>{`
-              .Userpic {
-                display: inline-block;
-                position: relative;
-
-                background-size: cover;
-                background-repeat: no-repeat;
-                background-position: 50% 50%;
-                border-radius: 50%;
-
-                width: 48px;
-                height: 48px;
-
-                overflow: hidden;
-              }
-            `}</style>
           </div>
         )
     }

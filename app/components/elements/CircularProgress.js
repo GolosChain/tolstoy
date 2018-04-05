@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 
+const animateTime = 1500
+
 class CircularProgress extends Component {
   constructor(props) {
     super(props)
@@ -19,14 +21,14 @@ class CircularProgress extends Component {
     const { progress } = this.state
     const { percentage } = this.props
 
-    this.animateValue(progress, percentage, 1500)
+    this.animateValue(progress, percentage, animateTime)
   }
 
   componentWillReceiveProps(nextProps) {
     const { percentage } = nextProps
 
     if (nextProps.show && !this.props.show) {
-      this.setState({ progress: 0 }, () => this.animateValue(0, percentage, 1500))
+      this.setState({ progress: 0 }, () => this.animateValue(0, percentage, animateTime))
     }
   }
 
@@ -113,44 +115,6 @@ class CircularProgress extends Component {
           <p className="percentage">{`${progress}%`}</p>
         </div>
         {children}
-        <style jsx>{`
-          .progress-container {
-            cursor: pointer;
-          }
-
-          .progress-bar {
-            transform: rotate(-90deg) scaleX(-1);
-            background-color: rgba(255, 255, 255, 0.7);
-          }
-
-          .progress-bar circle {
-            stroke-dashoffset: 0;
-            transition: stroke-dashoffset 1.5s ease-in-out;
-            stroke: #666;
-          }
-
-          .progress-text {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            color: black;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-shadow: none;
-            line-height: 1;
-          }
-          .progress-text p {
-            font-size: 0.2em;
-            margin-bottom: 0;
-          }
-          .progress-text .percentage {
-            font-size: 0.4em;
-          }
-        `}</style>
       </div>
     )
   }

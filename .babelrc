@@ -13,8 +13,7 @@
                 "redbox-react"
               ]
             }]
-          }],
-          "styled-jsx/babel"
+          }]
         ]
       }
     }

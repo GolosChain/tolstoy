@@ -132,7 +132,6 @@
     "speakingurl": "^9.0.0",
     "sqlite3": "^3.1.8",
     "style-loader": "^0.13.0",
-    "styled-jsx": "^2.2.6",
     "svg-inline-loader": "^0.4.0",
     "svg-inline-react": "^1.0.2",
     "svgo-loader": "^1.1.0",
