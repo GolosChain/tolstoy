@@ -15,12 +15,13 @@ import tt from 'counterpart';
 import { APP_NAME, APP_ICON, DEFAULT_DOMESTIC, DOMESTIC, SEO_TITLE } from 'app/client_config';
 import {detransliterate, capitalizeFirstLetter} from 'app/utils/ParsersAndFormatters';
 import MobileBanners from 'app/components/elements/MobileBanners/MobileBanners'
+import constants from 'app/redux/constants';
 
 
-function sortOrderToLink(so, topic, account) {
+function sortOrderToLink(so, topic, account, feedType = 'feed') {
     // to prevent probmes check if topic is not the same as account name
-    if ('@' + account == topic) topic = ''
-    if (so === 'home') return '/@' + account + '/feed';
+    if ('@' + account === topic) topic = '';
+    if (so === 'home') return '/@' + account + '/' + feedType;
     if (topic) return `/${so}/${topic}`;
     return `/${so}`;
 }
@@ -73,7 +74,7 @@ class Header extends React.Component {
 
     render() {
         const route = resolveRoute(this.props.location.pathname);
-        const current_account_name =  this.props.current_account_name;
+        const current_account_name = this.props.current_account_name;
         let home_account = false;
         let page_title = route.page;
 
@@ -82,6 +83,9 @@ class Header extends React.Component {
         let topic_original_link = '';
         let user_name = null;
         let page_name = null;
+        const feedList = [];
+        const extentedSortOrders = [];
+        const { FEED_ONLY_REPOST, FEED_ONLY_POST, FEED } = constants.CATEGORIES;
 
         if (route.page === 'PostsIndex') {
             sort_order = route.params[0] || '';
@@ -91,29 +95,28 @@ class Header extends React.Component {
                 if (current_account_name && account_name.indexOf(current_account_name) === 1)
                     home_account = true;
             } else {
-                const type = tt(route.params[0] == 'payout_comments' ? 'g.comments' : 'g.posts');
+                const type = tt(route.params[0] === 'payout_comments' ? 'g.comments' : 'g.posts');
                 const topic = (route.params.length > 1 ? detransliterate(route.params[1]) + ' ' : '')
                 topic_original_link = route.params[1]
                 let prefix = route.params[0];
-                if(prefix == 'created') prefix = tt('g.new')
-                if(prefix == 'payout') prefix = tt('voting_jsx.pending_payout')
-                if(prefix == 'payout_comments') prefix = tt('voting_jsx.pending_payout')
+                if(prefix === 'created') prefix = tt('g.new')
+                if(prefix === 'payout') prefix = tt('voting_jsx.pending_payout')
+                if(prefix === 'payout_comments') prefix = tt('voting_jsx.pending_payout')
                 page_title = `${prefix} ${topic}${type}`;
             }
         } else if (route.page === 'Post') {
-            sort_order = '';
             topic = route.params[0];
-        } else if (route.page == 'SubmitPost') {
+        } else if (route.page === 'SubmitPost') {
             page_title = tt('header_jsx.create_a_post');
-        } else if (route.page == 'Privacy') {
+        } else if (route.page === 'Privacy') {
             page_title = tt('navigation.privacy_policy');
-        } else if (route.page == 'Tos') {
+        } else if (route.page === 'Tos') {
             page_title = tt('navigation.terms_of_service');
-        } else if (route.page == 'ChangePassword') {
+        } else if (route.page === 'ChangePassword') {
             page_title = tt('header_jsx.change_account_password');
-        } else if (route.page == 'CreateAccount') {
+        } else if (route.page === 'CreateAccount') {
             page_title = tt('header_jsx.create_account');
-        } else if (route.page == 'RecoverAccountStep1' || route.page == 'RecoverAccountStep2') {
+        } else if (route.page === 'RecoverAccountStep1' || route.page === 'RecoverAccountStep2') {
             page_title = tt('header_jsx.stolen_account_recovery');
         } else if (route.page === 'UserProfile') {
             user_name = route.params[0].slice(1);
@@ -121,23 +124,23 @@ class Header extends React.Component {
             const name = acct_meta ? normalizeProfile(acct_meta.toJS()).name : null;
             const user_title = name ? `${name} (@${user_name})` : user_name;
             page_title = user_title;
-            if(route.params[1] === "followers"){
+            if(route.params[1] === "followers") {
                 page_title = tt('header_jsx.people_following') + " " + user_title;
             }
-            if(route.params[1] === "followed"){
+            if(route.params[1] === "followed") {
                 page_title = tt('header_jsx.people_followed_by') + " " + user_title;
             }
-            if(route.params[1] === "curation-rewards"){
+            if(route.params[1] === "curation-rewards") {
                 page_title = tt('header_jsx.curation_rewards_by') + " " + user_title;
             }
-            if(route.params[1] === "author-rewards"){
+            if(route.params[1] === "author-rewards") {
                 page_title = tt('header_jsx.author_rewards_by') + " " + user_title;
             }
-            if(route.params[1] === "recent-replies"){
+            if(route.params[1] === "recent-replies") {
                 page_title = tt('header_jsx.replies_to') + " " + user_title;
             }
             // @user/"posts" is deprecated in favor of "comments" as of oct-2016 (#443)
-            if(route.params[1] === "posts" || route.params[1] === "comments"){
+            if(route.params[1] === "posts" || route.params[1] === "comments") {
                 page_title = tt('header_jsx.comments_by') + " " + user_title;
             }
         } else {
@@ -154,7 +157,7 @@ class Header extends React.Component {
         const logo_link = route.params && route.params.length > 1 && this.last_sort_order ? '/' + this.last_sort_order : (current_account_name ? `/@${current_account_name}/feed` : '/');
         let topic_link = topic ? <Link to={`/${this.last_sort_order || 'hot'}/${topic_original_link}`}>{detransliterate(topic)}</Link> : null;
 
-        const sort_orders = [
+        let sort_orders = [
             ['created', tt('g.new')],
             ['hot', tt('main_menu.hot')],
             ['trending', tt('main_menu.trending')],
@@ -162,48 +165,57 @@ class Header extends React.Component {
             //['payout', 'payout (posts)'],
             //['payout_comments', 'payout (comments)'],
         ];
-        if (current_account_name) sort_orders.unshift(['home', tt('header_jsx.home')]);
-        const sort_order_menu = sort_orders.filter(so => so[0] !== sort_order).map(so => ({link: sortOrderToLink(so[0], topic_original_link, current_account_name), value: capitalizeFirstLetter(so[1])}));
-        const selected_sort_order = sort_orders.find(so => so[0] === sort_order);
 
-        const sort_orders_horizontal = [
-            ['created', tt('g.new')],
-            ['hot', tt('main_menu.hot')],
-            ['trending', tt('main_menu.trending')],
-            ['promoted', tt('g.promoted')],
-            //['payout', 'payout (posts)'],
-            //['payout_comments', 'payout (comments)'],
-        ];
-        if (current_account_name) sort_orders_horizontal.unshift(['home', tt('header_jsx.home')]);
-        const sort_order_menu_horizontal = sort_orders_horizontal.map(so => {
-                let active = (so[0] === sort_order);
-                if (so[0] === 'home' && sort_order === 'home' && !home_account) active = false;
-                return {link: sortOrderToLink(so[0], topic_original_link, current_account_name), value: so[1], active};
+        const sort_order_menu_horizontal = sort_orders.map(so => ({
+            link: sortOrderToLink(so[0], topic_original_link, current_account_name),
+            value: so[1],
+            active: so[0] === sort_order,
+          })
+        );
+        let sort_order_menu_vertical = sort_orders.filter(so => so[0] !== sort_order).map(so => ({link: sortOrderToLink(so[0], topic_original_link, current_account_name), value: capitalizeFirstLetter(so[1])}));
+
+        if (current_account_name) {
+          [FEED, FEED_ONLY_POST, FEED_ONLY_REPOST].forEach(feedType => {
+            const localization = tt(`header_jsx.${feedType}_type`);
+
+            feedList.push({
+              link: sortOrderToLink('home', topic_original_link, current_account_name, feedType),
+              value: localization,
             });
+
+            extentedSortOrders.push([feedType, localization]);
+          });
+
+          sort_orders = extentedSortOrders.concat(sort_orders);
+          sort_order_menu_vertical = feedList.concat(sort_order_menu_vertical);
+        }
+
+        const selected_sort_order = sort_orders.find(so => !!route.params[2] ? so[0] === route.params[2] : so[0] === sort_order);
 
         // domestic
         DOMESTIC.all = tt('g.all_langs');
         let currentDomesticKey = DEFAULT_DOMESTIC;
-        let currentDomesticTitle = DOMESTIC[currentDomesticKey];
         const domestic_menu = [];
-        for (var key in DOMESTIC) {
+        for (const key in DOMESTIC) {
           if (this.props.current_domestic === key) {
             currentDomesticKey = key;
-            currentDomesticTitle = DOMESTIC[currentDomesticKey];
           }
 
           domestic_menu.push({link: '#' + key, onClick: this.props.changeDomestic, value: DOMESTIC[key]})
         }
 
-        let sort_order_extra_menu = null;
-        if (sort_order === 'trending' || sort_order === 'trending30') {
-            const items = [
-                {link: `/trending/${topic_original_link}`, value: tt('g.24_hour'), active: sort_order === 'trending'},
-                {link: `/trending30/${topic_original_link}`, value: tt('g.30_day'), active: sort_order === 'trending30'}
-            ];
-            // hide extra menu until crowdsale start because they make no sense
-            sort_order_extra_menu = <HorizontalMenu items={items} />
-        }
+        // hide extra menu until crowdsale start because they make no sense
+        // let sort_order_extra_menu = null;
+        // if (sort_order === 'trending' || sort_order === 'trending30') {
+        //     const items = [
+        //         {link: `/trending/${topic_original_link}`, value: tt('g.24_hour'), active: sort_order === 'trending'},
+        //         {link: `/trending30/${topic_original_link}`, value: tt('g.30_day'), active: sort_order === 'trending30'}
+        //     ];
+        //     sort_order_extra_menu = <HorizontalMenu items={items} />
+        // }
+
+        const feedDropdownClassName = current_account_name && sort_order === 'home' && home_account ? 'active' : '';
+
         return (
             <header className="Header noPrint">
                 <div className="Header__top header">
@@ -219,14 +231,14 @@ class Header extends React.Component {
                                     <Link to={logo_link}>{APP_NAME}<span className="beta">beta</span></Link>
                                 </li>
                                 <li>
-                                    <MobileBanners showAndroid={true} />
+                                    <MobileBanners showAndroid />
                                 </li>
                                 {(topic_link || user_name || page_name) && <li className="delim show-for-medium">|</li>}
                                 {topic_link && <li className="Header__top-topic">{topic_link}</li>}
                                 {user_name && <li><Link to={`/@${user_name}`}>@{user_name}</Link></li>}
                                 {page_name && <li><span>{page_name}</span></li>}
                                 {(topic_link || user_name || page_name) && sort_order && <li className="delim show-for-small-only">|</li>}
-                                {selected_sort_order && route && route.page !== 'Landing' && <DropdownMenu className="Header__sort-order-menu show-for-small-only" items={sort_order_menu} selected={selected_sort_order[1]} el="li" />}
+                                {selected_sort_order && route && route.page !== 'Landing' && <DropdownMenu className="Header__sort-order-menu show-for-small-only" items={sort_order_menu_vertical} selected={selected_sort_order[1]} el="li" />}
                             </ul>
                         </div>
                         <div className="columns shrink">
@@ -237,17 +249,31 @@ class Header extends React.Component {
                 <div className={'Header__sub-nav expanded show-for-medium row' + (this.state.subheader_hidden ? ' hidden' : '')}>
                     <div className="columns">
                         <HorizontalMenu items={sort_order_menu_horizontal} >
-                          <LinkWithDropdown
-                            closeOnClickOutside
-                            dropdownPosition="bottom"
-                            dropdownAlignment="left"
-                            dropdownContent={<VerticalMenu items={domestic_menu} title={tt('settings_jsx.choose_domestic')} />}
+                          <li key="domastic" className="children">
+                            <LinkWithDropdown
+                              closeOnClickOutside
+                              dropdownPosition="bottom"
+                              dropdownAlignment="left"
+                              dropdownContent={<VerticalMenu items={domestic_menu} title={tt('settings_jsx.choose_domestic')} />}
                             >
                               <a className="domestic-selector" title={tt('settings_jsx.choose_domestic')} onClick={e => e.preventDefault()}>
                                 <Icon className="flag" name={'flags/1x1/' + currentDomesticKey} /> <Icon className="caret" name="caret-down" />
                                 {/* {DOMESTIC[currentDomesticKey].split(' ')[0]} <Icon name="caret-down" /> */}
                               </a>
                             </LinkWithDropdown>
+                          </li>
+                          {current_account_name && <li key="feed_dropdown" className={feedDropdownClassName} style={{ padding: 0 }}>
+                            <LinkWithDropdown
+                              closeOnClickOutside
+                              dropdownPosition="bottom"
+                              dropdownAlignment="left"
+                              dropdownContent={<VerticalMenu items={feedList} />}
+                            >
+                              <a title={tt('header_jsx.home')} onClick={e => e.preventDefault()}>
+                                <span>{tt('header_jsx.home')} <Icon className="caret" name="caret-down" /></span>
+                              </a>
+                            </LinkWithDropdown>
+                          </li>}
                         </HorizontalMenu>
                     </div>
                 </div>

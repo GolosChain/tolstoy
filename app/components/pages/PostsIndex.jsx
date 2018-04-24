@@ -111,7 +111,7 @@ class PostsIndex extends React.Component {
         if (!last_post) return;
         let {accountname} = this.props.routeParams
         let {category, order = constants.DEFAULT_SORT_ORDER} = this.props.routeParams;
-        if (category === 'feed') {
+        if (isFeed(category)) {
             accountname = order.slice(1);
             order = 'by_feed';
         }
@@ -123,7 +123,7 @@ class PostsIndex extends React.Component {
     loadSelected(keys) {
         let {accountname} = this.props.routeParams
         let {category, order = constants.DEFAULT_SORT_ORDER} = this.props.routeParams;
-        if (category === 'feed') {
+        if (isFeed(category)) {
             accountname = order.slice(1);
             order = 'by_feed';
         }
@@ -142,11 +142,11 @@ class PostsIndex extends React.Component {
         let posts = [];
         let emptyText = '';
         let markNotificationRead = null;
-        if (category === 'feed') {
+        if (isFeed(category)) {
             const account_name = order.slice(1);
             order = 'by_feed';
             topics_order = loggedIn ? 'created' : 'trending';
-            posts = this.props.accounts.getIn([account_name, 'feed']);
+            posts = this.props.accounts.getIn([account_name, category]);
             const isMyAccount = this.props.username === account_name;
             if (isMyAccount) {
                 emptyText = <div>
@@ -157,7 +157,7 @@ class PostsIndex extends React.Component {
                     <Link to="/welcome">{tt('submit_a_story.welcome_to_the_blockchain')}</Link><br />
                     <a href="https://golos.io/ru--golos/@bitcoinfo/samyi-polnyi-f-a-q-o-golose-spisok-luchshykh-postov-raskryvayushikh-vse-aspekty-proekta-bonusy-v-vide-kreativa">{tt('user_profile.full_faq', {APP_NAME})}</a>
                 </div>;
-                markNotificationRead = <MarkNotificationRead fields="feed" account={account_name} />
+                markNotificationRead = <MarkNotificationRead fields={category} account={account_name} />
             } else {
                 emptyText = <div>{tt('user_profile.user_hasnt_followed_anything_yet', {name: account_name})}</div>;
             }
@@ -208,6 +208,13 @@ class PostsIndex extends React.Component {
             </div>
         );
     }
+}
+
+function isFeed(category) {
+  const {FEED, FEED_ONLY_REPOST, FEED_ONLY_POST} = constants.CATEGORIES;
+  const feeds = [FEED, FEED_ONLY_REPOST, FEED_ONLY_POST];
+
+  return feeds.indexOf(category) !== -1;
 }
 
 module.exports = {

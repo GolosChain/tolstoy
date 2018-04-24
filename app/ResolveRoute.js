@@ -1,5 +1,5 @@
 export const routeRegex = {
-    PostsIndex: /^\/(@[\w\.\d-]+)\/feed\/?$/,
+    PostsIndex: /^\/(@[\w\.\d-]+)\/(feed|feed_only_posts|feed_only_reposts)\/?$/,
     UserProfile1: /^\/(@[\w\.\d-]+)\/?$/,
     UserProfile2: /^\/(@[\w\.\d-]+)\/(blog|posts|comments|recommended|transfers|invites|curation-rewards|author-rewards|permissions|created|recent-replies|feed|password|followed|followers|settings)\/??(?:&?[^=&]*=[^=&]*)*$/,
     UserProfile3: /^\/(@[\w\.\d-]+)\/[\w\.\d-]+/,
@@ -26,7 +26,7 @@ export default function resolveRoute(path)
     if (path === '/welcome') {
         return {page: 'Welcome'};
     }
-    if (path === '/start'){
+    if (path === '/start') {
         return {page: 'Start'}
     }
     if (path === '/about') {
@@ -76,7 +76,7 @@ export default function resolveRoute(path)
     }
     let match = path.match(routeRegex.PostsIndex);
     if (match) {
-        return {page: 'PostsIndex', params: ['home', match[1]]};
+        return {page: 'PostsIndex', params: ['home', match[1], match[2]]};
     }
     match = path.match(routeRegex.UserProfile1) ||
         // @user/"posts" is deprecated in favor of "comments" as of oct-2016 (#443)

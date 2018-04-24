@@ -411,6 +411,9 @@
   },
   "header_jsx": {
     "home": "Лента",
+    "feed_type": "Посты и репосты",
+    "feed_only_posts_type": "Только посты",
+    "feed_only_reposts_type": "Только репосты",
     "new_topic_posts": "Новый %(topic)s пост",
     "sort_order_topic_posts": "%(sort_order)s %(topic)s посты",
     "new_posts": "Новые посты",

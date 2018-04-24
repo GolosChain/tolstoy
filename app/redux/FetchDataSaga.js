@@ -76,7 +76,7 @@ export function* fetchState(location_change_action) {
             const uname = parts[0].substr(1)
             const [ account ] = yield call([api, api.getAccountsAsync], [uname])
             state.accounts[uname] = account
-            
+
             if (account) {
                 state.accounts[uname].tags_usage = yield call([api, api.getTagsUsedByAuthorAsync], uname)
                 state.accounts[uname].guest_bloggers = yield call([api, api.getBlogAuthorsAsync], uname)
@@ -86,7 +86,7 @@ export function* fetchState(location_change_action) {
                         const history = yield call([api, api.getAccountHistoryAsync], uname, -1, 1000)
                         account.transfer_history = []
                         account.other_history = []
-                        
+
                         history.forEach(operation => {
                             switch (operation[1].op[0]) {
                                 case 'transfer_to_vesting':
@@ -135,7 +135,7 @@ export function* fetchState(location_change_action) {
                         })
                     break
 
-                    case 'feed':
+                    case constants.CATEGORIES.FEED:
                         const feedEntries = yield call([api, api.getFeedEntriesAsync], uname, 0, 20)
                         state.accounts[uname].feed = []
 
@@ -144,14 +144,22 @@ export function* fetchState(location_change_action) {
                             const link = `${author}/${permlink}`
                             state.accounts[uname].feed.push(link)
                             state.content[link] = yield call([api, api.getContentAsync], author, permlink)
-                            
+
                             if (feedEntries[key].reblog_by.length > 0) {
                                 state.content[link].first_reblogged_by = feedEntries[key].reblog_by[0]
                                 state.content[link].reblogged_by = feedEntries[key].reblog_by
                                 state.content[link].first_reblogged_on = feedEntries[key].reblog_on
                             }
                         }
-                    break
+                    break;
+
+                  case constants.CATEGORIES.FEED_ONLY_POST:
+                    // TODO make api call to get only posts
+                    break;
+
+                  case constants.CATEGORIES.FEED_ONLY_REPOST:
+                    // TODO make api call to get only reposts
+                    break;
 
                     case 'blog':
                     default:
@@ -164,7 +172,7 @@ export function* fetchState(location_change_action) {
 
                             state.content[link] = yield call([api, api.getContentAsync], author, permlink)
                             state.accounts[uname].blog.push(link)
-                        
+
                             if (blogEntries[key].reblog_on !== '1970-01-01T00:00:00') {
                                 state.content[link].first_reblogged_on = blogEntries[key].reblog_on
                             }
@@ -177,19 +185,19 @@ export function* fetchState(location_change_action) {
             const account = parts[1].substr(1)
             const category = parts[0]
             const permlink = parts[2]
-    
+
             const curl = `${account}/${permlink}`
             state.content[curl] = yield call([api, api.getContentAsync], account, permlink)
             accounts.add(account)
 
             const replies =  yield call([api, api.getAllContentRepliesAsync], account, permlink)
-            
+
             for (let key in replies) {
                 let reply = replies[key]
                 const link = `${reply.author}/${reply.permlink}`
 
                 accounts.add(reply.author)
- 
+
                 state.content[link] = reply
                 if (reply.parent_permlink === permlink) {
                     state.content[curl].replies.push(link)
