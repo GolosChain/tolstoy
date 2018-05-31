@@ -1,6 +1,7 @@
 import path from 'path';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import writeStats from './utils/write-stats';
+import alias from './alias'
 
 const Webpack_isomorphic_tools_plugin = require('webpack-isomorphic-tools/plugin');
 const webpack_isomorphic_tools_plugin =
@@ -20,7 +21,7 @@ export default {
     },
     module: {
         loaders: [
-            {test: /\.(jpe?g|png)/, loader: 'url-loader?limit=4096'},
+            {test: /\.(jpe?g|png|gif)/, loader: 'url-loader?limit=4096'},
             {test: /\.json$/, loader: 'json'},
             {test: /\.js$|\.jsx$/, exclude: /node_modules/, loader: 'babel'},
             {test: /\.svg$/, loader: 'svg-inline-loader'},
@@ -57,9 +58,7 @@ export default {
         root: [
             path.resolve(__dirname, '..')
         ],
-        alias: {
-            'react': path.join(__dirname, '../node_modules', 'react')
-        },
+        alias,
         extensions: ['', '.js', '.json', '.jsx'],
         modulesDirectories: ['node_modules']
     }

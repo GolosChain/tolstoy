@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import transaction from 'app/redux/Transaction';
+import user from 'app/redux/User';
 import Slider from 'react-rangeslider';
 import Icon from 'app/components/elements/Icon';
 import shouldComponentUpdate from 'app/utils/shouldComponentUpdate';
@@ -238,11 +239,11 @@ class Voting extends React.Component {
         if (myVote <= 0 && vesting_shares > VOTE_WEIGHT_DROPDOWN_THRESHOLD) {
             voteUpClick = this.toggleWeightUp;
             dropdown = <FoundationDropdown show={showWeight} onHide={() => this.setState({showWeight: false})}>
-                <div className="Voting__adjust_weight">
-                    <a href="#" onClick={this.voteUp} className="confirm_weight" title={tt('g.upvote')}><Icon size="2x" name="chevron-up-circle" /></a>
-                    <div className="weight-display">{weight / 100}%</div>
-                    <Slider min={100} max={10000} step={100} value={weight} onChange={this.handleWeightChange} />
-                    <CloseButton className="Voting__adjust_weight_close" onClick={() => this.setState({showWeight: false})} />
+                <div className="Voting__adjust_weight row align-middle collapse">
+                    <a href="#" onClick={this.voteUp} className="columns small-2 confirm_weight" title={tt('g.upvote')}><Icon size="2x" name="chevron-up-circle" /></a>
+                    <div className="columns small-2 weight-display">{weight / 100}%</div>
+                    <Slider min={100} max={10000} step={100} value={weight} className="columns small-6" onChange={this.handleWeightChange} />
+                    <CloseButton className="columns small-2 Voting__adjust_weight_close" onClick={() => this.setState({showWeight: false})} />
                 </div>
             </FoundationDropdown>;
         }
@@ -304,6 +305,7 @@ export default connect(
                     __config: {title: weight < 0 ? tt('voting_jsx.confirm_flag') : null},
                 },
                 confirm,
+                successCallback: () => dispatch(user.actions.getAccount())                   
             }))
         },
     })
