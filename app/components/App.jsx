@@ -236,6 +236,7 @@ class App extends React.Component {
                     {children}
                     <Footer />
                     <ScrollButton />
+                    <MobileAppButton />
                 </div>
                 <Dialogs />
                 <Modals />
