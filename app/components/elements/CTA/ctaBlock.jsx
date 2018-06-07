@@ -21,7 +21,7 @@ class CTABlock extends Component {
         super(props);
     }
 
-    componentWillMount(){
+    componentWillMount() {
         this.setState({loading: true} )
     }
 
@@ -35,33 +35,31 @@ class CTABlock extends Component {
         let {user, post, payout, visible, special, currency} = this.props
         let textBlock;
 
-        if(special){
+        if (special) {
             textBlock = <p className='left cta-block-text-special'>
             {ctainfo.specialStartText} <b>{user}</b> {special.text}
            <a href={'/start'} onClick={ () => popupClickUrl()}> {ctainfo.specialEndText}</a>
            </p>
-        }  else{
-            textBlock = 
-            <div>
-            <p className='left cta-block-text-regular'> Сообщество <b>Golos.io</b> {ctainfo.regularStartText} <b>{user}</b> заработал более &nbsp; </p> 
-                <div className='cta-block-text-regular'>
-                    <LocalizedCurrency amount={payout} rounding={true} noSymbol={true}/>
-                </div> 
-            <p className='left cta-block-text-regular'>
-                &nbsp;{currency}.<a href={'/start'} onClick={ () => popupClickUrl()}> {ctainfo.regularEndText}</a>
-            </p>
-            </div>
-        }            
+        } else {
+            textBlock =
+                <div>
+                    <p className='left cta-block-text-regular'>
+                        Сообщество <b>Golos.io</b> {ctainfo.regularStartText} <b>{user}</b> заработал более&nbsp;
+                        <LocalizedCurrency amount={payout} rounding={true} noSymbol={true} />
+                        &nbsp;{currency}.<a href={'/start'} onClick={ () => popupClickUrl()}> {ctainfo.regularEndText}</a>
+                    </p>
+                </div>
+        }
 
         let ctablock = <div className='ctablock'>
             <div className='row'>
-                <div className=' column large-1 medium-1 small-1'>
+                <div className=' column large-1 medium-1 small-2'>
                     <Userpic account={user}/>
                 </div>
-                <div className='column large-8 medium-8 small-8'>
-                        {textBlock}
+                <div className='column large-8 medium-8 small-6'>
+                    {textBlock}
                 </div>
-                <div className='column large-3 medium-3 small-3'>
+                <div className='column large-3 medium-3 small-4'>
                     <a href="/create_account" onClick={ () => popupClickButton()} className="button">Создать аккаунт</a>
                 </div>
             </div>
@@ -81,7 +79,7 @@ export default connect((state, ownProps) => {
     const post = state
         .global
         .getIn(['content', ownProps.post])
-    if (!post) 
+    if (!post)
         return ownProps
 
     let current_account = state
@@ -102,27 +100,27 @@ export default connect((state, ownProps) => {
             }
         }
     }
-    
+
     let showMinCurrency, currency, currentCurrency;
-    
+
 
     if(process.env.BROWSER)
         currentCurrency = localStorage.getItem('xchange.picked')
 
-    
+
     if (currentCurrency)
         if(currentCurrency == 'RUB'){
             showMinCurrency = ctainfo.minRubValueToShow
             currency = ctainfo.rub
         }else if(currentCurrency == 'USD'){
-            showMinCurrency = ctainfo.minUsdValueToShow 
+            showMinCurrency = ctainfo.minUsdValueToShow
             currency = ctainfo.usd
         }else {
-            showMinCurrency = ctainfo.minRubValueToShow 
+            showMinCurrency = ctainfo.minRubValueToShow
             currency = currentCurrency
         }
 
-        
+
     let special = isSpecialPost(ctainfo.specialLinks, link)
 
     let pending_payout = parsePayoutAmount(post.get('pending_payout_value'))
