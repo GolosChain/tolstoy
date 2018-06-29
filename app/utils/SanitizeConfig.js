@@ -42,6 +42,14 @@ const iframeWhitelist = [
             return src;
         }
     }
+    ,
+    { 
+        re: /^(https?:)?\/\/widget.letitplay.io\/*/i,
+        fn: (src) => {
+            if(!src) return null;
+            return src;
+        }
+    }
 ];
 export const noImageText = '(Image not shown due to low ratings)'
 export const allowedTags = `
