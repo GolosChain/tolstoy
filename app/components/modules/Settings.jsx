@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import user from 'app/redux/User';
 import g from 'app/redux/GlobalReducer';
 import tt from 'counterpart';
-import { CURRENCIES, DEFAULT_CURRENCY, CURRENCY_COOKIE_KEY, LANGUAGES, DEFAULT_LANGUAGE, LOCALE_COOKIE_KEY, THEMES, DEFAULT_THEME, USER_GENDER, FRACTION_DIGITS, FRACTION_DIGITS_MARKET, MIN_VESTING_SHARES } from 'app/client_config'
+import { CURRENCIES, DEFAULT_CURRENCY, CURRENCY_COOKIE_KEY, LANGUAGES, DEFAULT_LANGUAGE, LOCALE_COOKIE_KEY, THEMES, DEFAULT_THEME, USER_GENDER, FRACTION_DIGITS, FRACTION_DIGITS_MARKET, MIN_VOICE_POWER } from 'app/client_config'
 import transaction from 'app/redux/Transaction'
 import o2j from 'shared/clash/object2json'
 import LoadingIndicator from 'app/components/elements/LoadingIndicator'
@@ -62,7 +62,7 @@ class Settings extends React.Component {
         if(process.env.BROWSER){
             rounding = localStorage.getItem('xchange.rounding')
             if(!rounding){
-                if(vesting_shares > MIN_VESTING_SHARES)
+                if(vesting_shares > MIN_VOICE_POWER)
                     rounding = FRACTION_DIGITS
                 else 
                     rounding = FRACTION_DIGITS_MARKET

@@ -115,4 +115,6 @@ export const SMS_SERVICES = {
   '380':   '+380931777772'
 }
 
+export const MIN_VOICE_POWER = 3;
+
 export const ANDROID_APP_URL = 'https://play.google.com/store/apps/details?id=io.golos.golos'
