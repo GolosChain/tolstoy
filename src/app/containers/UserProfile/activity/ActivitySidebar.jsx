@@ -17,7 +17,7 @@ class ActivitySidebar extends Component {
 
 export default connect(
     // mapStateToProps
-    (state, ownProps) => {},
+    (state, ownProps) => ({}),
     // mapDispatchToProps
     dispatch => ({})
 )(ActivitySidebar);
