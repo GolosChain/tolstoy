@@ -29,7 +29,7 @@ export default function resolveRoute(path)
     if (path === '/about') {
         return {page: 'Landing', hideSubMenu: true};
     }
-    if (path === '/faq.html') {
+    if (path === '/faq') {
         return {page: 'Faq'};
     }
     if (path === '/login.html') {

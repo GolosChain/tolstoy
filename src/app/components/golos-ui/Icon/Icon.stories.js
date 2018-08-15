@@ -9,5 +9,9 @@ files.keys().forEach(files);
 const names = files.keys().map(file => file.match(/\/(.*)\.svg$/)[1]);
 
 storiesOf('Icon', module).add('default', () => (
-    <div>{names.map(name => <Icon name={name} />)}</div>
+    <div>
+        {names.map(name => (
+            <Icon name={name} />
+        ))}
+    </div>
 ));
