@@ -6,10 +6,10 @@ import Container from '../Container/Container';
 const Wrapper = Container.extend.attrs({
     column: 1,
 })`
-    padding: 20px 64px 40px;
+    padding: 60px 64px 40px;
 
     @media (max-width: 1200px) {
-        padding: 30px 16px 16px;
+        padding: 40px 16px 16px;
     }
 `;
 

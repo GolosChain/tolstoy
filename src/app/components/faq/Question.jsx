@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import Icon from '../golos-ui/Icon/Icon';
+import Flex from '../Flex/Flex';
 
 const Wrapper = styled.div`
     position: relative;
@@ -40,19 +42,16 @@ const Answer = styled.div`
     overflow: hidden;
 `;
 
-const Switcher = styled.div`
+const Switcher = Flex.extend`
     position: absolute;
-    width: 30px;
-    height: 30px;
-    top: 18px; 
+    top: 18px;
     right: 12px;
     cursor: pointer;
-    background: url('/images/new/faq/${props =>
-        props.showAnswer
-            ? 'chevron-up.png'
-            : 'chevron-down.png'}') no-repeat center;
-    background-size: 12px 7px;
-    
+    width: 30px;
+    height: 30px;
+    transform: rotate(${props => props.showAnswer ? '0' : '180'}deg);
+    color: #${props => props.showAnswer ? '212121': 'bbbaba'}
+
     @media (max-width: 1200px) {
         top: 5px;
         right: 6px;
@@ -63,7 +62,7 @@ export default class Question extends PureComponent {
     static propTypes = {
         question: PropTypes.shape({
             title: PropTypes.string.isRequired,
-            answer: PropTypes.string.isRequired
+            answer: PropTypes.string.isRequired,
         }).isRequired,
     };
 
@@ -98,9 +97,13 @@ export default class Question extends PureComponent {
         return (
             <Wrapper>
                 <Switcher
+                    justify="center"
+                    align="center"
                     showAnswer={showAnswer}
                     onClick={this.changeAnswerState}
-                />
+                >
+                    <Icon name="chevron-top" height="7" width="12"/>
+                </Switcher>
                 <Title>{question.title}</Title>
                 <Answer
                     showAnswer={showAnswer}
