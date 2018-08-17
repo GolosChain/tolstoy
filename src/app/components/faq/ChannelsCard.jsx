@@ -50,11 +50,7 @@ const Text = styled.p`
     }
 `;
 
-const CustomIcon = Icon.extend.attrs({
-    width: props => props.width,
-    height: props => props.height,
-    name: props => props.name,
-})`
+const CustomIcon = Icon.extend`
     min-width: ${props => props.width}px;
 `;
 

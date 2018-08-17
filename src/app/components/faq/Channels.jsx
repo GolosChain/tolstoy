@@ -4,7 +4,14 @@ import Flex from '../Flex/Flex';
 import ChannelsCard from './ChannelsCard';
 import PropTypes from 'prop-types';
 
+const Wrapper = Flex.extend.attrs({
+    justify: 'center',
+})`
+    background-color: #f9f9f9;
+`;
+
 const ChannelsList = styled.div`
+    max-width: 1200px;
     background-color: #f8f8f8;
     width: 100%;
     padding: 60px 24px;
@@ -39,14 +46,18 @@ export default class Channels extends PureComponent {
     render() {
         const { channels } = this.props;
         return (
-            <ChannelsList>
-                <Title>Официальные каналы</Title>
-                <CardsWrapper>
-                    {channels.map((channel, index) => {
-                        return <ChannelsCard key={index} channel={channel} />;
-                    })}
-                </CardsWrapper>
-            </ChannelsList>
+            <Wrapper justify="center">
+                <ChannelsList>
+                    <Title>Официальные каналы</Title>
+                    <CardsWrapper>
+                        {channels.map((channel, index) => {
+                            return (
+                                <ChannelsCard key={index} channel={channel} />
+                            );
+                        })}
+                    </CardsWrapper>
+                </ChannelsList>
+            </Wrapper>
         );
     }
 }

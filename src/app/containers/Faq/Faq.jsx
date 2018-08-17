@@ -11,6 +11,7 @@ const Wrapper = styled.div`
 `;
 
 const FaqContainer = Container.extend`
+    max-width: 100vw;
     @media (max-width: 1200px) {
         margin: 0;
     }

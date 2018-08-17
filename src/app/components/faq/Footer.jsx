@@ -5,6 +5,7 @@ import Flex from '../Flex/Flex';
 const Wrapper = Flex.extend`
     background: #ffffff;
     padding: 20px 64px;
+    max-width: 1200px;
 
     @media (max-width: 830px) {
         padding: 0;
@@ -51,14 +52,20 @@ const Image = styled.div`
 export default class Footer extends PureComponent {
     render() {
         return (
-            <Wrapper justify="space-between" align="center">
-                <Text>
-                    Мы НИКОГДА не попросим ваши приватные ключи или деньги. Если
-                    кто-то представляется членами команды Golos.io и просит
-                    такую информацию, напишите нам на почту pr@golos.io.
-                </Text>
-                <Image />
-            </Wrapper>
+            <Flex justify="center">
+                <Wrapper justify="space-between" align="center">
+                    <Text>
+                        Мы никогда не попросим ваши приватные ключи или деньги.
+                        Если кто-то представляется членами команды Golos.io и
+                        просит такую информацию, напишите нам на почту&nbsp;
+                        <a href="mailto:pr@golos.io" target="_blank">
+                            pr@golos.io
+                        </a>
+                        .
+                    </Text>
+                    <Image />
+                </Wrapper>
+            </Flex>
         );
     }
 }
