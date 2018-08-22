@@ -15,6 +15,8 @@ import keyCodes from 'app/utils/keyCodes';
 
 const Root = styled.div`
     ${is('grid')`
+        display: flex;
+        flex-wrap: wrap;
         position: relative;
         margin: 0 -8px;
     `};
@@ -28,8 +30,9 @@ const EntryWrapper = styled.div`
     margin-bottom: 16px;
 
     ${is('grid')`
-        display: inline-block;
-        width: 50%;
+        flex-basis: 317px;
+        flex-grow: 1;
+        min-width: 280px;
         vertical-align: top;
         padding: 0 8px;
     
