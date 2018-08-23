@@ -119,6 +119,15 @@ const Footer = styled.div`
     & > * {
         pointer-events: initial;
     }
+
+    @media (min-width: 890px) and (max-width: 1000px), (max-width: 420px) {
+        flex-direction: column;
+
+        & > div:first-child {
+            width: 100%;
+            justify-content: space-between;
+        }
+    }
 `;
 
 const Filler = styled.div`
@@ -128,7 +137,7 @@ const Filler = styled.div`
 const Root = styled.div`
     position: relative;
     border-radius: 8px;
-    background: #fff;
+    background: #ffffff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
 `;
 
@@ -146,6 +155,57 @@ const IconEdit = Icon.extend`
 
     &:hover {
         color: #333;
+    }
+`;
+
+const CommentButton = Button.extend`
+    @media (min-width: 890px) and (max-width: 1000px), (max-width: 420px) {
+        display: none;
+    }
+`;
+
+const CommentButtonMobile = styled.div`
+    display: none;
+    justify-content: space-between;
+    width: 100%;
+    height: 50px;
+    margin-top: 15px;
+    border-top: 1px solid #e9e9e9;
+    padding-top: 11px;
+    
+    & div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50%;
+    }
+    
+    @media (min-width: 890px) and (max-width: 1000px), (max-width: 420px) {
+        display: flex;
+    }
+`;
+
+const ReplyTextMobile = styled.div`
+    position: relative;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    font-weight: bold;	
+    line-height: 18px;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, .15);
+    transition: .2s;
+    
+    &:hover {
+    	text-shadow: 0 2px 4px rgba(0, 0, 0, .5);
+    }
+    
+    &::after {
+        content: '';
+        position: absolute;
+        left: -1px;
+        height: 37px;
+        border: 1px solid #e1e1e1;
     }
 `;
 
@@ -238,7 +298,9 @@ class CommentCard extends PureComponent {
 
         if (this._data.parent_author) {
             title = this._data.root_title;
-            parentLink = `/${this._data.category}/@${this._data.parent_author}/${this._data.parent_permlink}`;
+            parentLink = `/${this._data.category}/@${this._data.parent_author}/${
+                this._data.parent_permlink
+            }`;
         }
 
         const showEditButton = myAccountName === this._data.author;
@@ -288,9 +350,17 @@ class CommentCard extends PureComponent {
                 {allowInlineReply && this._data.author !== myAccountName ? (
                     <Fragment>
                         <Filler />
-                        <Button light onClick={this._onReplyClick}>
+                        <CommentButton light onClick={this._onReplyClick}>
                             <Icon name="comment" size={18} /> Ответить
-                        </Button>
+                        </CommentButton>
+                        <CommentButtonMobile>
+                            <div>
+                                <Icon name="comment" size={18} />
+                            </div>
+                            <ReplyTextMobile onClick={this._onReplyClick}>
+                                Ответить
+                            </ReplyTextMobile>
+                        </CommentButtonMobile>
                     </Fragment>
                 ) : null}
             </Footer>
