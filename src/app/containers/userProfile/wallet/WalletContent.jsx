@@ -60,7 +60,7 @@ export const DIRECTION = {
 };
 
 const CardStyled = styled(Card)`
-    max-width: 618px;
+    
 `;
 
 const Content = styled.div`
