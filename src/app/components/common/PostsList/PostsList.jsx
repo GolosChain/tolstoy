@@ -208,6 +208,16 @@ export default class PostsList extends PureComponent {
         { leading: false, trailing: true }
     );
 
+    _onResize = () => {
+        const windowSizeLessThanContainer = document.documentElement.clientWidth < 1200;
+        if (
+            windowSizeLessThanContainer &&
+            this.props.layout !== 'grid'
+        ) {
+            this.props.changeProfileLayout('grid');
+        }
+    };
+
     _onEntryClick = async ({ permLink, url }) => {
         window.removeEventListener('popstate', this._onPopState);
         window.removeEventListener('keydown', this._onKeyDown);

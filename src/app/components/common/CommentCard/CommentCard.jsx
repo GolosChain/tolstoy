@@ -134,12 +134,17 @@ const Footer = styled.div`
         pointer-events: initial;
     }
 
-    ${isNot('isCommentOpen')`
+  ${isNot('isCommentOpen')`
         display: none;
-    `};
+   `};
 
     @media (min-width: 890px) and (max-width: 1087px), (max-width: 639px) {
         flex-direction: column;
+
+        & > div:first-child {
+            width: 100%;
+            justify-content: space-between;
+        }
     }
 `;
 
