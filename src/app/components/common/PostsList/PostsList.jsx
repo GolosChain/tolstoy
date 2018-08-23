@@ -12,6 +12,8 @@ import PostOverlay from '../PostOverlay';
 import { getStoreState } from 'app/clientRender';
 import DialogManager from 'app/components/elements/common/DialogManager';
 import keyCodes from 'app/utils/keyCodes';
+import { connect } from 'react-redux';
+import { changeProfileLayout } from '../../../redux/actions/ui';
 
 const Root = styled.div`
     ${is('grid')`
@@ -38,7 +40,7 @@ const EntryWrapper = styled.div`
     `};
 `;
 
-export default class PostsList extends PureComponent {
+class PostsList extends PureComponent {
     static propTypes = {
         pageAccountName: PropTypes.string.isRequired,
         content: PropTypes.instanceOf(immutable.Map),
@@ -59,13 +61,16 @@ export default class PostsList extends PureComponent {
 
     componentDidMount() {
         window.addEventListener('scroll', this._onScroll);
+        window.addEventListener('resize', this._onResize);
         this._initialUrl = location.pathname + location.search + location.hash;
+        console.log(this.entryWrapper.clientWidth);
     }
 
     componentWillUnmount() {
         window.removeEventListener('popstate', this._onPopState);
         window.removeEventListener('keydown', this._onKeyDown);
         window.removeEventListener('scroll', this._onScroll);
+        window.removeEventListener('resize', this._onResize);
         this._onScroll.cancel();
     }
 
@@ -88,10 +93,7 @@ export default class PostsList extends PureComponent {
         return (
             <Root innerRef={this._onRef} grid={isGrid}>
                 {posts.map(permLink => (
-                    <EntryWrapper
-                        key={permLink}
-                        grid={isGrid}
-                    >
+                    <EntryWrapper key={permLink} grid={isGrid} innerRef={ref => (this.entryWrapper = ref)}>
                         <EntryComponent
                             permLink={permLink}
                             grid={isGrid}
@@ -182,6 +184,24 @@ export default class PostsList extends PureComponent {
         { leading: false, tailing: true }
     );
 
+    _onResize = () => {
+        const windowSizeLessThanContainer = document.documentElement.clientWidth < 1200;
+        if (
+            windowSizeLessThanContainer &&
+            this.props.layout === 'grid' &&
+            this.entryWrapper.clientWidth > 380
+        ) {
+            this.props.changeProfileLayout('list');
+        }
+        if (
+            windowSizeLessThanContainer &&
+            this.props.layout === 'list' &&
+            this.entryWrapper.clientWidth < 380
+        ) {
+            this.props.changeProfileLayout('grid');
+        }
+    };
+
     _onEntryClick = async ({ permLink, url }) => {
         const state = getStoreState();
 
@@ -233,3 +253,9 @@ export default class PostsList extends PureComponent {
     }
 }
 
+export default connect(
+    undefined,
+    {
+        changeProfileLayout
+    }
+)(PostsList);
