@@ -34,7 +34,6 @@ const EntryWrapper = styled.div`
     ${is('grid')`
         flex-basis: 317px;
         flex-grow: 1;
-        min-width: 280px;
         vertical-align: top;
         padding: 0 8px;
     `};
@@ -63,7 +62,6 @@ class PostsList extends PureComponent {
         window.addEventListener('scroll', this._onScroll);
         window.addEventListener('resize', this._onResize);
         this._initialUrl = location.pathname + location.search + location.hash;
-        console.log(this.entryWrapper.clientWidth);
     }
 
     componentWillUnmount() {
@@ -93,7 +91,7 @@ class PostsList extends PureComponent {
         return (
             <Root innerRef={this._onRef} grid={isGrid}>
                 {posts.map(permLink => (
-                    <EntryWrapper key={permLink} grid={isGrid} innerRef={ref => (this.entryWrapper = ref)}>
+                    <EntryWrapper key={permLink} grid={isGrid}>
                         <EntryComponent
                             permLink={permLink}
                             grid={isGrid}
@@ -188,15 +186,7 @@ class PostsList extends PureComponent {
         const windowSizeLessThanContainer = document.documentElement.clientWidth < 1200;
         if (
             windowSizeLessThanContainer &&
-            this.props.layout === 'grid' &&
-            this.entryWrapper.clientWidth > 380
-        ) {
-            this.props.changeProfileLayout('list');
-        }
-        if (
-            windowSizeLessThanContainer &&
-            this.props.layout === 'list' &&
-            this.entryWrapper.clientWidth < 380
+            this.props.layout !== 'grid'
         ) {
             this.props.changeProfileLayout('grid');
         }
