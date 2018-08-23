@@ -646,7 +646,9 @@ class WalletContent extends Component {
                             <MemoIcon name="note" data-tooltip={'Пометка'} />
                             <MemoCut height={50}>
                                 <MemoCentrer>
-                                    <MemoText>{item.memo}</MemoText>
+                                    <MemoText>
+                                        <Linkify>{item.memo}</Linkify>
+                                    </MemoText>
                                 </MemoCentrer>
                             </MemoCut>
                         </Memo>
