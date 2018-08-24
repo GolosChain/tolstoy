@@ -175,9 +175,18 @@ const CommentButtonMobile = styled.div`
     
     & div {
         display: flex;
-        justify-content: center;
         align-items: center;
         width: 50%;
+    }
+    
+    & div:first-child {
+        justify-content: flex-end;
+        padding-right: 11px;
+    }
+    
+    & div:last-child {
+        justify-content: flex-start;
+        padding-left: 7px;
     }
     
     @media (min-width: 890px) and (max-width: 1000px), (max-width: 420px) {
