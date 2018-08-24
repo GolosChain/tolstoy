@@ -66,10 +66,6 @@ const IconWrap = styled.div`
     &:hover {
         color: #393636;
     }
-    
-    @media (max-width: 1200px) {
-        display: none;
-    }
 `;
 
 const SimpleIcon = styled(Icon)`
@@ -78,6 +74,12 @@ const SimpleIcon = styled(Icon)`
 `;
 
 class UserNavigation extends PureComponent {
+    constructor() {
+        super();
+        this.state = {
+            screenLessThenMainContainer: false
+        }
+    }
     static propTypes = {
         accountName: PropTypes.string,
         isOwner: PropTypes.bool,
@@ -98,6 +100,15 @@ class UserNavigation extends PureComponent {
     componentWillUnmount() {
         window.removeEventListener('resize', this._checkScreenSizeLazy);
         this._checkScreenSizeLazy.cancel();
+    }
+
+    componentDidMount() {
+        this._checkScreenSize();
+        window.addEventListener('resize', this._checkScreenSize);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this._checkScreenSize);
     }
 
     render() {
