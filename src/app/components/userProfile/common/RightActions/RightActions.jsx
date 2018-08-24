@@ -42,7 +42,9 @@ const Action = styled.div`
 
     ${is('last')`
         border-bottom: none;
-    `} &:hover {
+    `}
+
+    &:hover {
         color: #000;
     }
 `;
