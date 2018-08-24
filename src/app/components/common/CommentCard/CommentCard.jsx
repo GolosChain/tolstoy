@@ -112,7 +112,7 @@ const Footer = styled.div`
     display: flex;
     flex-shrink: 0;
     align-items: center;
-    padding: 12px 18px;
+    justify-content: space-between;
     z-index: 1;
     pointer-events: none;
 
@@ -158,25 +158,15 @@ const IconEdit = Icon.extend`
     }
 `;
 
-const CommentButton = Button.extend`
-    @media (min-width: 890px) and (max-width: 1000px), (max-width: 420px) {
-        display: none;
-    }
-`;
-
-const CommentButtonMobile = styled.div`
-    display: none;
+const CommentButton = styled.div`
+    display: flex;
     justify-content: space-between;
-    width: 100%;
     height: 50px;
-    margin-top: 15px;
-    border-top: 1px solid #e9e9e9;
-    padding-top: 11px;
+    padding: 0 18px;
     
     & div {
         display: flex;
         align-items: center;
-        width: 50%;
     }
     
     & div:first-child {
@@ -188,13 +178,9 @@ const CommentButtonMobile = styled.div`
         justify-content: flex-start;
         padding-left: 7px;
     }
-    
-    @media (min-width: 890px) and (max-width: 1000px), (max-width: 420px) {
-        display: flex;
-    }
 `;
 
-const ReplyTextMobile = styled.div`
+const ReplyComment = styled.div`
     position: relative;
     font-family: 'Open Sans', sans-serif;
     font-size: 12px;
@@ -213,8 +199,9 @@ const ReplyTextMobile = styled.div`
         content: '';
         position: absolute;
         left: -1px;
-        height: 37px;
-        border: 1px solid #e1e1e1;
+        width: 1px;
+        height: 26px;
+        background-color: #e1e1e1;
     }
 `;
 
@@ -359,17 +346,14 @@ class CommentCard extends PureComponent {
                 {allowInlineReply && this._data.author !== myAccountName ? (
                     <Fragment>
                         <Filler />
-                        <CommentButton light onClick={this._onReplyClick}>
-                            <Icon name="comment" size={18} /> Ответить
-                        </CommentButton>
-                        <CommentButtonMobile>
+                        <CommentButton>
                             <div>
                                 <Icon name="comment" size={18} />
                             </div>
-                            <ReplyTextMobile onClick={this._onReplyClick}>
+                            <ReplyComment onClick={this._onReplyClick}>
                                 Ответить
-                            </ReplyTextMobile>
-                        </CommentButtonMobile>
+                            </ReplyComment>
+                        </CommentButton>
                     </Fragment>
                 ) : null}
             </Footer>

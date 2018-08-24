@@ -36,6 +36,10 @@ const EntryWrapper = styled.div`
         flex-grow: 1;
         vertical-align: top;
         padding: 0 8px;
+        
+        @media (max-width: 890px) {
+            max-width: 100%;
+        }
     `};
 `;
 
