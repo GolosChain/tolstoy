@@ -164,8 +164,7 @@ const VotePanelStyled = styled(VotePanel)`
     padding: 12px 18px;
 
     ${is('grid')`
-        padding: 0;
-        padding-bottom: 20px;
+        padding: 20px 0;
         justify-content: space-around;
     `};
 `;
@@ -219,7 +218,7 @@ const Root = styled.div`
     &.PostCard_image.PostCard_grid {
         ${VotePanelStyled} {
             opacity: 0;
-            transition: opacity 0.25s;        
+            transition: opacity 0.25s;
         }
 
         &:hover ${VotePanelStyled} {
@@ -250,7 +249,14 @@ const Root = styled.div`
 
 const ReplyCounterBlock = styled.div`
     display: flex;
+    justify-content: flex-end;
     align-items: center;
+    padding-right: 11px;
+    
+    ${is('grid')`
+        height: 100%;
+        width: 50%;
+    `};
 `;
 
 const ReplyCount = styled.div`
@@ -264,16 +270,29 @@ const ReplyCount = styled.div`
 const Splitter = styled.div`
     width: 1px;
     height: 26px;
-    margin: 0 10px;
     background: #e1e1e1;
 `;
 
 const ReplyLink = styled(Link)`
+    display: flex;
+    align-items: center;
+    padding-left: 7px;
+    cursor: pointer;
     font-size: 12px;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 0.8px;
     color: #393636 !important;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, .15);
+    
+    &:hover {
+        text-shadow: 0 2px 4px rgba(0, 0, 0, .5);
+    }
+    
+    ${is('grid')`
+        height: 100%;
+        width: 50%;
+    `};
 `;
 
 const ReplyIcon = styled(Icon)`
@@ -287,15 +306,13 @@ const ReplyBlock = styled.div`
     display: flex;
     padding: 0 18px;
     align-items: center;
-    
+
     ${is('grid')`
         width: 100%;
         height: 56px;
         justify-content: center;
         border-top: 1px solid #e9e9e9;
-    `}
-
-    ${is('whiteTheme')`
+    `} ${is('whiteTheme')`
         color: #fff;
         border-top-color: rgba(255, 255, 255, 0.3);
         
@@ -304,7 +321,12 @@ const ReplyBlock = styled.div`
         }
         
         ${ReplyLink} {
-            color: #fff !important;
+            color: #ffffff !important;
+            text-shadow: 0 2px 12px rgba(255, 255, 255, .15);
+    
+            &:hover {
+                text-shadow: 0 2px 4px rgba(255, 255, 255, .5);
+            }
         }
         
         ${Splitter} {
@@ -529,12 +551,14 @@ class PostCard extends PureComponent {
                 />
                 {grid ? null : <Filler />}
                 <ReplyBlock whiteTheme={withImage} grid={grid}>
-                    <ReplyCounterBlock data-tooltip="Количество комментариев">
+                    <ReplyCounterBlock data-tooltip="Количество комментариев" grid={grid}>
                         <ReplyIcon name="reply" />
                         <ReplyCount>{data.get('children')}</ReplyCount>
                     </ReplyCounterBlock>
                     <Splitter />
-                    <ReplyLink to={`${p.link}#comments`}>Ответить</ReplyLink>
+                    <ReplyLink to={`${p.link}#comments`} grid={grid}>
+                        Ответить
+                    </ReplyLink>
                 </ReplyBlock>
             </Footer>
         );
