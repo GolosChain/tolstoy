@@ -12,8 +12,6 @@ import PostOverlay from '../PostOverlay';
 import { getStoreState } from 'app/clientRender';
 import DialogManager from 'app/components/elements/common/DialogManager';
 import keyCodes from 'app/utils/keyCodes';
-import { connect } from 'react-redux';
-import { changeProfileLayout } from '../../../redux/actions/ui';
 
 const Root = styled.div`
     ${is('grid')`
@@ -43,7 +41,7 @@ const EntryWrapper = styled.div`
     `};
 `;
 
-class PostsList extends PureComponent {
+export default class PostsList extends PureComponent {
     static propTypes = {
         pageAccountName: PropTypes.string.isRequired,
         content: PropTypes.instanceOf(immutable.Map),
@@ -64,7 +62,6 @@ class PostsList extends PureComponent {
 
     componentDidMount() {
         window.addEventListener('scroll', this._onScroll);
-        window.addEventListener('resize', this._onResize);
         this._initialUrl = location.pathname + location.search + location.hash;
     }
 
@@ -72,7 +69,6 @@ class PostsList extends PureComponent {
         window.removeEventListener('popstate', this._onPopState);
         window.removeEventListener('keydown', this._onKeyDown);
         window.removeEventListener('scroll', this._onScroll);
-        window.removeEventListener('resize', this._onResize);
         this._onScroll.cancel();
     }
 
@@ -186,16 +182,6 @@ class PostsList extends PureComponent {
         { leading: false, tailing: true }
     );
 
-    _onResize = () => {
-        const windowSizeLessThanContainer = document.documentElement.clientWidth < 1200;
-        if (
-            windowSizeLessThanContainer &&
-            this.props.layout !== 'grid'
-        ) {
-            this.props.changeProfileLayout('grid');
-        }
-    };
-
     _onEntryClick = async ({ permLink, url }) => {
         const state = getStoreState();
 
@@ -246,10 +232,3 @@ class PostsList extends PureComponent {
         }
     }
 }
-
-export default connect(
-    undefined,
-    {
-        changeProfileLayout
-    }
-)(PostsList);
