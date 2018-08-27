@@ -45,7 +45,7 @@ export default class CommentFooter extends React.PureComponent {
             >
                 <div className="CommentFooter__line">
                     <div className="CommentFooter__buttons">
-                        <div className="CommentFooter__button">
+                        <div className="CommentFooter__button-cancel">
                             {temporaryErrorText ? (
                                 <Hint error>{temporaryErrorText}</Hint>
                             ) : null}
