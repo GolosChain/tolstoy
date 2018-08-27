@@ -277,12 +277,12 @@ const ReplyLink = styled(Link)`
     display: flex;
     align-items: center;
     padding-left: 7px;
-    cursor: pointer;
     font-size: 12px;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 0.8px;
     color: #393636 !important;
+    height: 100%;
     text-shadow: 0 2px 12px rgba(0, 0, 0, .15);
     
     &:hover {
@@ -290,7 +290,6 @@ const ReplyLink = styled(Link)`
     }
     
     ${is('grid')`
-        height: 100%;
         width: 50%;
     `};
 `;
@@ -306,10 +305,11 @@ const ReplyBlock = styled.div`
     display: flex;
     padding: 0 18px;
     align-items: center;
+    height: 56px;
+    cursor: pointer;
 
     ${is('grid')`
         width: 100%;
-        height: 56px;
         justify-content: center;
         border-top: 1px solid #e9e9e9;
     `} ${is('whiteTheme')`

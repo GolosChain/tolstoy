@@ -178,6 +178,15 @@ const CommentButton = styled.div`
         justify-content: flex-start;
         padding-left: 7px;
     }
+    
+    @media (min-width: 890px) and (max-width: 1000px), (max-width: 420px) {
+        width: 100%;
+        padding: 0;
+        
+        & div {
+            width: 50%;
+        }
+    }
 `;
 
 const ReplyComment = styled.div`
