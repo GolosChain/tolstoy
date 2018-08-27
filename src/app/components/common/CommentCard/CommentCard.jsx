@@ -169,16 +169,6 @@ const CommentButton = styled.div`
         align-items: center;
     }
     
-    & div:first-child {
-        justify-content: flex-end;
-        padding-right: 11px;
-    }
-    
-    & div:last-child {
-        justify-content: flex-start;
-        padding-left: 7px;
-    }
-    
     @media (min-width: 890px) and (max-width: 1000px), (max-width: 420px) {
         width: 100%;
         padding: 0;
@@ -189,8 +179,16 @@ const CommentButton = styled.div`
     }
 `;
 
+const CommentIconWrapper = styled.div`
+    justify-content: flex-end;
+    padding-right: 11px;
+    cursor: pointer;
+`;
+
 const ReplyComment = styled.div`
     position: relative;
+    padding-left: 7px;
+    justify-content: flex-start;
     font-family: 'Open Sans', sans-serif;
     font-size: 12px;
     font-weight: bold;	
@@ -212,6 +210,15 @@ const ReplyComment = styled.div`
         height: 26px;
         background-color: #e1e1e1;
     }
+`;
+
+const CountCommentsChildren = styled.span`	
+    padding-left: 5px;
+    line-height: 18px;
+    font-family: 'Open Sans', sans-serif;	
+    font-size: 16px;	
+    font-weight: 500;	
+    color: #959595;
 `;
 
 class CommentCard extends PureComponent {
@@ -356,9 +363,10 @@ class CommentCard extends PureComponent {
                     <Fragment>
                         <Filler />
                         <CommentButton>
-                            <div>
+                            <CommentIconWrapper>
                                 <Icon name="comment" size={18} />
-                            </div>
+                                <CountCommentsChildren>{data.get('children')}</CountCommentsChildren>
+                            </CommentIconWrapper>
                             <ReplyComment onClick={this._onReplyClick}>
                                 Ответить
                             </ReplyComment>
