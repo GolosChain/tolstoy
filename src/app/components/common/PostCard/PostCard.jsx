@@ -206,8 +206,17 @@ const Filler = styled.div`
 const Root = styled.div`
     position: relative;
     border-radius: 8px;
-    background: #fff;
+    background: #ffffff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
+    
+    ${PostImage}:after {
+        background-color: rgba(0, 0, 0, 0);
+        transition: background-color 0.15s;
+    }
+
+    &:hover ${PostImage}:after {
+        background-color: rgba(0, 0, 0, 0.3);
+    }
 
     ${is('grid')`
         display: flex;
@@ -223,15 +232,6 @@ const Root = styled.div`
 
         &:hover ${VotePanelStyled} {
             opacity: 1;
-        }
-
-        ${PostImage}:after {
-            background-color: rgba(0, 0, 0, 0);
-            transition: background-color 0.15s;
-        }
-
-        &:hover ${PostImage}:after {
-            background-color: rgba(0, 0, 0, 0.2);
         }
 
         &:after {
@@ -252,7 +252,7 @@ const ReplyCounterBlock = styled.div`
     justify-content: flex-end;
     align-items: center;
     padding-right: 11px;
-    
+
     ${is('grid')`
         height: 100%;
         width: 50%;
@@ -283,12 +283,12 @@ const ReplyLink = styled(Link)`
     letter-spacing: 0.8px;
     color: #393636 !important;
     height: 100%;
-    text-shadow: 0 2px 12px rgba(0, 0, 0, .15);
-    
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+
     &:hover {
-        text-shadow: 0 2px 4px rgba(0, 0, 0, .5);
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     }
-    
+
     ${is('grid')`
         width: 50%;
     `};
@@ -310,14 +310,15 @@ const ReplyBlock = styled.div`
 
     ${is('grid')`
         width: 100%;
+        padding: 0;
         justify-content: center;
         border-top: 1px solid #e9e9e9;
     `} ${is('whiteTheme')`
-        color: #fff;
+        color: #ffffff;
         border-top-color: rgba(255, 255, 255, 0.3);
         
         ${ReplyCount} {
-            color: #fff;
+            color: #ffffff;
         }
         
         ${ReplyLink} {
