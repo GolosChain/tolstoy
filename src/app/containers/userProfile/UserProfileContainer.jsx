@@ -28,7 +28,7 @@ const Main = styled.div`
 const SidebarLeft = styled.div`
     flex-basis: 273px;
     flex-shrink: 0;
-    
+
     @media (max-width: 890px) {
         order: 2;
     }
@@ -40,7 +40,6 @@ const Content = styled.div`
     margin: 0 18px;
     min-width: 280px;
     max-width: 618px;
-    
 
     &:first-child {
         margin-left: 0;
@@ -53,10 +52,8 @@ const Content = styled.div`
     ${is('center')`
         flex-shrink: 0;
         flex-grow: 0;
-    `}
-    
-    @media (max-width: 890px) {
-        order: 3;
+    `} @media (max-width: 890px) {
+        order: 4;
         max-width: none;
     }
 `;
@@ -64,10 +61,25 @@ const Content = styled.div`
 const SidebarRight = styled.div`
     width: 273px;
     flex-shrink: 0;
-    
+
     @media (max-width: 890px) {
         width: 100%;
         order: 1;
+    }
+`;
+
+const BigUserNavigation = styled(UserNavigation)`
+    @media (max-width: 890px) {
+        display: none;
+    }
+`;
+
+const SmallUserNavigation = styled(UserNavigation)`
+    display: none;
+
+    @media (max-width: 890px) {
+        display: block;
+        order: 3;
     }
 `;
 
@@ -141,7 +153,7 @@ class UserProfileContainer extends Component {
                     updateAccount={updateAccount}
                     notify={notify}
                 />
-                <UserNavigation
+                <BigUserNavigation
                     accountName={currentAccount.get('name')}
                     isOwner={isOwner}
                     showLayout={!route || route === 'blog' || route === 'favorites'}
@@ -157,6 +169,11 @@ class UserProfileContainer extends Component {
                                 />
                             </SidebarLeft>
                         )}
+                        <SmallUserNavigation
+                            accountName={currentAccount.get('name')}
+                            isOwner={isOwner}
+                            showLayout={!route || route === 'blog' || route === 'favorites'}
+                        />
                         <Content center={route === 'settings'}>{this.props.content}</Content>
                         {this.props.sidebarRight && (
                             <SidebarRight>{this.props.sidebarRight}</SidebarRight>
@@ -299,7 +316,7 @@ export default {
                     type: FAVORITES_LOAD,
                     payload: {},
                 });
-            }
+            },
         })
     )(UserProfileContainer),
 };
