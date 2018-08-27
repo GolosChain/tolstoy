@@ -77,8 +77,8 @@ class UserNavigation extends PureComponent {
     constructor() {
         super();
         this.state = {
-            screenLessThenMainContainer: false
-        }
+            screenLessThenMainContainer: false,
+        };
     }
     static propTypes = {
         accountName: PropTypes.string,
