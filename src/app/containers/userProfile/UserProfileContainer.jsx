@@ -20,15 +20,23 @@ import UserNavigation from 'src/app/components/userProfile/common/UserNavigation
 import UserCardAbout from 'src/app/components/userProfile/common/UserCardAbout';
 import { FAVORITES_LOAD } from 'src/app/redux/constants/favorites';
 
-const Main = styled.div`
+const Main = styled(Container).attrs({
+    align: 'flex-start',
+    justify: 'center',
+    small: 1,
+})`
     background-color: #f9f9f9;
     padding: 20px 0;
+
+    @media (max-width: 890px) {
+        padding-top: 0;
+    }
 `;
 
 const SidebarLeft = styled.div`
     flex-basis: 273px;
     flex-shrink: 0;
-    
+
     @media (max-width: 890px) {
         order: 2;
     }
@@ -40,7 +48,6 @@ const Content = styled.div`
     margin: 0 18px;
     min-width: 280px;
     max-width: 618px;
-    
 
     &:first-child {
         margin-left: 0;
@@ -53,10 +60,8 @@ const Content = styled.div`
     ${is('center')`
         flex-shrink: 0;
         flex-grow: 0;
-    `}
-    
-    @media (max-width: 890px) {
-        order: 3;
+    `} @media (max-width: 890px) {
+        order: 4;
         max-width: none;
     }
 `;
@@ -64,15 +69,30 @@ const Content = styled.div`
 const SidebarRight = styled.div`
     width: 273px;
     flex-shrink: 0;
-    
+
     @media (max-width: 890px) {
         width: 100%;
         order: 1;
     }
 `;
 
-export default class UserProfileContainer extends Component {
+const BigUserNavigation = styled(UserNavigation)`
+    @media (max-width: 890px) {
+        display: none;
+    }
+`;
 
+const SmallUserNavigation = styled(UserNavigation)`
+    display: none;
+
+    @media (max-width: 890px) {
+        display: block;
+        order: 3;
+        margin-bottom: 16px;
+    }
+`;
+
+export default class UserProfileContainer extends Component {
     static propTypes = {
         isOwner: PropTypes.bool,
         params: PropTypes.object,
@@ -142,27 +162,30 @@ export default class UserProfileContainer extends Component {
                     updateAccount={updateAccount}
                     notify={notify}
                 />
-                <UserNavigation
+                <BigUserNavigation
                     accountName={currentAccount.get('name')}
                     isOwner={isOwner}
                     showLayout={!route || route === 'blog' || route === 'favorites'}
                 />
                 <Main>
-                    <Container align="flex-start" justify="center" small>
-                        {route !== 'settings' && (
-                            <SidebarLeft>
-                                <UserCardAbout
-                                    account={currentAccount}
-                                    followerCount={followerCount}
-                                    followingCount={followingCount}
-                                />
-                            </SidebarLeft>
-                        )}
-                        <Content center={route === 'settings'}>{this.props.content}</Content>
-                        {this.props.sidebarRight && (
-                            <SidebarRight>{this.props.sidebarRight}</SidebarRight>
-                        )}
-                    </Container>
+                    {route !== 'settings' && (
+                        <SidebarLeft>
+                            <UserCardAbout
+                                account={currentAccount}
+                                followerCount={followerCount}
+                                followingCount={followingCount}
+                            />
+                        </SidebarLeft>
+                    )}
+                    <SmallUserNavigation
+                        accountName={currentAccount.get('name')}
+                        isOwner={isOwner}
+                        showLayout={!route || route === 'blog' || route === 'favorites'}
+                    />
+                    <Content center={route === 'settings'}>{this.props.content}</Content>
+                    {this.props.sidebarRight && (
+                        <SidebarRight>{this.props.sidebarRight}</SidebarRight>
+                    )}
                 </Main>
             </Fragment>
         );
@@ -300,7 +323,7 @@ module.exports = {
                     type: FAVORITES_LOAD,
                     payload: {},
                 });
-            }
+            },
         })
     )(UserProfileContainer),
 };

@@ -10,10 +10,10 @@ import Icon from 'golos-ui/Icon';
 
 import Container from 'src/app/components/common/Container';
 import { changeProfileLayout } from 'src/app/redux/actions/ui';
+import * as ReactDOM from 'react-dom';
 
 const Wrapper = styled.div`
     position: relative;
-    flex-wrap: wrap;
     min-height: 50px;
     background-color: #fff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
@@ -85,8 +85,8 @@ class UserNavigation extends PureComponent {
     constructor() {
         super();
         this.state = {
-            screenLessThenMainContainer: false
-        }
+            screenLessThenMainContainer: false,
+        };
     }
     static propTypes = {
         accountName: PropTypes.string,
@@ -95,6 +95,17 @@ class UserNavigation extends PureComponent {
         layout: PropTypes.oneOf(['list', 'grid']).isRequired,
         changeProfileLayout: PropTypes.func,
     };
+
+    componentDidUpdate() {
+        for (let key in this.itemsRef) {
+            let item = this.itemsRef[key];
+            if (!item) {
+                continue;
+            }
+            console.log(ReactDOM.findDOMNode(item).clientWidth);
+        }
+        console.log('____');
+    }
 
     componentDidMount() {
         this._checkScreenSize();
@@ -105,8 +116,10 @@ class UserNavigation extends PureComponent {
         window.removeEventListener('resize', this._checkScreenSize);
     }
 
+    itemsRef = {};
+
     render() {
-        const { accountName, isOwner } = this.props;
+        const { accountName, isOwner, className } = this.props;
         const indexTabLink = { value: tt('g.blog'), to: `/@${accountName}` };
 
         const tabLinks = [];
@@ -136,15 +149,14 @@ class UserNavigation extends PureComponent {
                 value: tt('g.author_rewards'),
             },
         ];
-
         return (
-            <Wrapper innerRef={ref => this.wrapper = ref}>
-                <Container align="center" wrap="wrap">
+            <Wrapper className={className} innerRef={ref => (this.wrapper = ref)}>
+                <Container align="center" wrap="wrap" ref={ref => (this.container = ref)}>
                     <TabLinkIndex key={indexTabLink.to} to={indexTabLink.to}>
                         {indexTabLink.value}
                     </TabLinkIndex>
                     {tabLinks.map(({ value, to }) => (
-                        <TabLink key={to} to={to}>
+                        <TabLink key={to} to={to} ref={ref => (this.itemsRef[to] = ref)}>
                             {value}
                         </TabLink>
                     ))}
@@ -162,12 +174,7 @@ class UserNavigation extends PureComponent {
     }
 
     _renderRightIcons() {
-        const {
-            accountName,
-            isOwner,
-            layout,
-            showLayout
-        } = this.props;
+        const { accountName, isOwner, layout, showLayout } = this.props;
 
         const icons = [];
 
@@ -178,6 +185,7 @@ class UserNavigation extends PureComponent {
                     active={layout === 'list'}
                     data-tooltip="Список"
                     onClick={this._onListClick}
+                    ref={ref => (this.itemsRef['list'] = ref)}
                 >
                     <SimpleIcon name="layout_list" />
                 </IconWrap>,
@@ -186,6 +194,7 @@ class UserNavigation extends PureComponent {
                     active={layout === 'grid'}
                     data-tooltip="Сетка"
                     onClick={this._onGridClick}
+                    ref={ref => (this.itemsRef['grid'] = ref)}
                 >
                     <SimpleIcon name="layout_grid" />
                 </IconWrap>
@@ -198,6 +207,7 @@ class UserNavigation extends PureComponent {
                     key="settings"
                     to={`/@${accountName}/settings`}
                     data-tooltip={tt('g.settings')}
+                    ref={ref => (this.itemsRef['settings'] = ref)}
                 >
                     <SettingsIcon name="setting" size="24" />
                 </IconLink>
@@ -219,16 +229,22 @@ class UserNavigation extends PureComponent {
 
     _checkScreenSize = () => {
         const wrapperWidth = this.wrapper.clientWidth;
-        if (wrapperWidth <= this.props.MAIN_CONTAINER_WIDTH_POINT && !this.state.screenLessThenMainContainer) {
-            this.setState({screenLessThenMainContainer: true})
+        if (
+            wrapperWidth <= this.props.MAIN_CONTAINER_WIDTH_POINT &&
+            !this.state.screenLessThenMainContainer
+        ) {
+            this.setState({ screenLessThenMainContainer: true });
         }
         if (wrapperWidth <= this.props.MAIN_CONTAINER_WIDTH_POINT && this.props.layout !== 'grid') {
-            this.props.changeProfileLayout('grid')
+            this.props.changeProfileLayout('grid');
         }
-        if (wrapperWidth > this.props.MAIN_CONTAINER_WIDTH_POINT && this.state.screenLessThenMainContainer) {
-            this.setState({screenLessThenMainContainer: false})
+        if (
+            wrapperWidth > this.props.MAIN_CONTAINER_WIDTH_POINT &&
+            this.state.screenLessThenMainContainer
+        ) {
+            this.setState({ screenLessThenMainContainer: false });
         }
-    }
+    };
 }
 
 export default connect(
@@ -236,7 +252,7 @@ export default connect(
         const MAIN_CONTAINER_WIDTH_POINT = 1199;
         return {
             MAIN_CONTAINER_WIDTH_POINT,
-            layout: (state.ui.profile && state.ui.profile.get('layout')) || 'list'
+            layout: (state.ui.profile && state.ui.profile.get('layout')) || 'list',
         };
     },
     {
