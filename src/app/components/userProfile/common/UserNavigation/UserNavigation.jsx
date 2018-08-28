@@ -18,6 +18,7 @@ const Wrapper = styled.div`
     background-color: #fff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
     z-index: 1;
+    overflow-x: hidden;
 `;
 
 const TabLink = styled(StyledTabLink)`
@@ -76,9 +77,45 @@ const IconWrap = styled.div`
     }
 `;
 
-const SimpleIcon = Icon.extend`
+const SimpleIcon = styled(Icon)`
     width: 20px;
     height: 20px;
+`;
+
+const ArrowContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 10px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    cursor: pointer;
+    z-index: 1;
+`;
+
+const LeftArrowContainer = styled(ArrowContainer)`
+    left: 20px;
+`;
+
+const RightArrowContianer = styled(ArrowContainer)`
+    right: 20px;
+`;
+
+const ArrowIcon = styled(Icon)`
+    width: 8px;
+    height: 14px;
+`;
+ArrowIcon.defaultProps = {
+    name: 'chevron',
+};
+
+const LeftArrow = styled(ArrowIcon)`
+    transform: rotate(-90deg);
+`;
+
+const RightArrow = styled(ArrowIcon)`
+    transform: rotate(90deg);
 `;
 
 class UserNavigation extends PureComponent {
@@ -86,7 +123,11 @@ class UserNavigation extends PureComponent {
         super();
         this.state = {
             screenLessThenMainContainer: false,
+            currentOffsetIndex: 1,
         };
+        this._setStyleForIconsNavigation = this._setStyleForIconsNavigation.bind(this);
+        this.showNextIcon = this.showNextIcon.bind(this);
+        this.showPrevIcon = this.showPrevIcon.bind(this);
     }
     static propTypes = {
         accountName: PropTypes.string,
@@ -97,14 +138,7 @@ class UserNavigation extends PureComponent {
     };
 
     componentDidUpdate() {
-        for (let key in this.itemsRef) {
-            let item = this.itemsRef[key];
-            if (!item) {
-                continue;
-            }
-            console.log(ReactDOM.findDOMNode(item).clientWidth);
-        }
-        console.log('____');
+        this._setStyleForIconsNavigation();
     }
 
     componentDidMount() {
@@ -116,13 +150,27 @@ class UserNavigation extends PureComponent {
         window.removeEventListener('resize', this._checkScreenSize);
     }
 
-    itemsRef = {};
+    showNextIcon(e) {
+        e.stopPropagation();
+        this.setState({
+            currentOffsetIndex: this.state.currentOffsetIndex + 1,
+        });
+    }
+
+    showPrevIcon(e) {
+        e.stopPropagation();
+        this.setState({
+            currentOffsetIndex: this.state.currentOffsetIndex - 1,
+        });
+    }
 
     render() {
         const { accountName, isOwner, className } = this.props;
         const indexTabLink = { value: tt('g.posts'), to: `/@${accountName}` };
 
         const tabLinks = [];
+
+        tabLinks.push({ value: tt('g.blog'), to: `/@${accountName}` });
 
         tabLinks.push({ value: tt('g.comments'), to: `/@${accountName}/comments` });
 
@@ -151,14 +199,16 @@ class UserNavigation extends PureComponent {
         ];
         return (
             <Wrapper className={className} innerRef={ref => (this.wrapper = ref)}>
-                <Container align="center" wrap="wrap" ref={ref => (this.container = ref)}>
-                    <TabLinkIndex key={indexTabLink.to} to={indexTabLink.to}>
-                        {indexTabLink.value}
-                    </TabLinkIndex>
+                {this.state.currentOffsetIndex > 0 && (
+                    <LeftArrowContainer onClick={this.showPrevIcon}>
+                        <LeftArrow />
+                    </LeftArrowContainer>
+                )}
+                <Container align="center" ref={ref => (this.container = ref)}>
                     {tabLinks.map(({ value, to }) => (
-                        <TabLink key={to} to={to} ref={ref => (this.itemsRef[to] = ref)}>
+                        <TabLinkIndex key={to} to={to}>
                             {value}
-                        </TabLink>
+                        </TabLinkIndex>
                     ))}
                     {/*<LinkWithDropdown*/}
                     {/*closeOnClickOutside*/}
@@ -169,6 +219,12 @@ class UserNavigation extends PureComponent {
                     {/*</LinkWithDropdown>*/}
                     {this._renderRightIcons()}
                 </Container>
+                <RightArrowContianer
+                    ref={ref => (this.rightArrow = ref)}
+                    onClick={this.showNextIcon}
+                >
+                    <RightArrow />
+                </RightArrowContianer>
             </Wrapper>
         );
     }
@@ -181,23 +237,13 @@ class UserNavigation extends PureComponent {
         if (showLayout && !this.state.screenLessThenMainContainer) {
             if (layout === 'list') {
                 icons.push(
-                    <IconWrap
-                        key="l-grid"
-                        data-tooltip="Сетка"
-                        onClick={this._onGridClick}
-                        ref={ref => (this.itemsRef['grid'] = ref)}
-                    >
+                    <IconWrap key="l-grid" data-tooltip="Сетка" onClick={this._onGridClick}>
                         <SimpleIcon name="layout_grid" />
                     </IconWrap>
                 );
             } else {
                 icons.push(
-                    <IconWrap
-                        key="l-list"
-                        data-tooltip="Список"
-                        onClick={this._onListClick}
-                        ref={ref => (this.itemsRef['list'] = ref)}
-                    >
+                    <IconWrap key="l-list" data-tooltip="Список" onClick={this._onListClick}>
                         <SimpleIcon name="layout_list" />
                     </IconWrap>
                 );
@@ -210,7 +256,6 @@ class UserNavigation extends PureComponent {
                     key="settings"
                     to={`/@${accountName}/settings`}
                     data-tooltip={tt('g.settings')}
-                    ref={ref => (this.itemsRef['settings'] = ref)}
                 >
                     <SettingsIcon name="setting" size="24" />
                 </IconLink>
@@ -219,6 +264,49 @@ class UserNavigation extends PureComponent {
 
         if (icons.length) {
             return <RightIcons>{icons}</RightIcons>;
+        }
+    }
+
+    _setStyleForIconsNavigation() {
+        try {
+            let container = ReactDOM.findDOMNode(this.container);
+            let rightArrow = ReactDOM.findDOMNode(this.rightArrow);
+            let children = container.children;
+            let currentOffsetIndex = this.state.currentOffsetIndex;
+            let currentOffset = children[currentOffsetIndex];
+
+            const RIGHT_PADDING = 20;
+            const LEFT_PADDING = currentOffsetIndex > 0 ? 10 : 0;
+
+            if (container.lastChild.offsetLeft + container.lastChild.clientWidth) {
+            }
+
+            rightArrow.style.display = 'none';
+            for (let i = 0; i < children.length; i++) {
+                let child = children[i];
+
+                if (i === 0) {
+                    child.style.marginLeft =
+                        child.offsetLeft - currentOffset.offsetLeft + LEFT_PADDING + 'px';
+                }
+
+                if (i < currentOffsetIndex) {
+                    child.style.opacity = 0;
+                    continue;
+                }
+
+                if (
+                    child.offsetLeft + child.clientWidth - currentOffset.offsetLeft >
+                    container.clientWidth - (i < children.length - 1 ? RIGHT_PADDING : 0)
+                ) {
+                    child.style.opacity = 0;
+                    rightArrow.style.display = 'flex';
+                } else {
+                    child.style.opacity = 1;
+                }
+            }
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -247,6 +335,8 @@ class UserNavigation extends PureComponent {
         ) {
             this.setState({ screenLessThenMainContainer: false });
         }
+
+        this._setStyleForIconsNavigation();
     };
 }
 
