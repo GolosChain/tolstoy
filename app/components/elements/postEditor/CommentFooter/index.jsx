@@ -46,13 +46,14 @@ export default class CommentFooter extends React.PureComponent {
                 <div className="CommentFooter__line">
                     <div className="CommentFooter__buttons">
                         <div className="CommentFooter__button-cancel">
-                            {temporaryErrorText ? (
-                                <Hint error>{temporaryErrorText}</Hint>
-                            ) : null}
-                            <Button small primary disabled={postDisabled} onClick={this.props.onPostClick}>
-                                {editMode
-                                    ? tt('g.update')
-                                    : tt('g.reply')}
+                            {temporaryErrorText ? <Hint error>{temporaryErrorText}</Hint> : null}
+                            <Button
+                                small
+                                primary
+                                disabled={postDisabled}
+                                onClick={this.props.onPostClick}
+                            >
+                                {editMode ? tt('g.update') : tt('g.reply')}
                             </Button>
                         </div>
                         <div className="CommentFooter__button">

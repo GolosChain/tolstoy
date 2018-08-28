@@ -1,17 +1,28 @@
-
 .CommentFooter {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 
-  &__buttons {
-    display: flex;
-    align-items: center;
-  }
+    &__buttons {
+        display: flex;
+        align-items: center;
 
-  &__button {
-    position: relative;
-  }
+        @media (min-width: 890px) and (max-width: 1000px), (max-width: 420px) {
+            justify-content: space-between;
 
-  &__button-cancel {
-    margin-right: 8px;
-  }
+            & div {
+                flex-grow: 1;
+            }
+        }
+    }
+
+    &__buttons div button {
+        width: 100%;
+    }
+
+    &__button {
+        position: relative;
+    }
+
+    &__button-cancel {
+        margin-right: 8px;
+    }
 }
