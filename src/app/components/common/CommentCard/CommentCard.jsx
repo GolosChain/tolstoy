@@ -163,16 +163,16 @@ const CommentButton = styled.div`
     justify-content: space-between;
     height: 50px;
     padding: 0 18px;
-    
+
     & div {
         display: flex;
         align-items: center;
     }
-    
+
     @media (min-width: 890px) and (max-width: 1000px), (max-width: 420px) {
         width: 100%;
         padding: 0;
-        
+
         & div {
             width: 50%;
         }
@@ -191,17 +191,17 @@ const ReplyComment = styled.div`
     justify-content: flex-start;
     font-family: 'Open Sans', sans-serif;
     font-size: 12px;
-    font-weight: bold;	
+    font-weight: bold;
     line-height: 18px;
     text-transform: uppercase;
     cursor: pointer;
-    text-shadow: 0 2px 12px rgba(0, 0, 0, .15);
-    transition: .2s;
-    
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    transition: 0.2s;
+
     &:hover {
-    	text-shadow: 0 2px 4px rgba(0, 0, 0, .5);
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     }
-    
+
     &::after {
         content: '';
         position: absolute;
@@ -212,12 +212,12 @@ const ReplyComment = styled.div`
     }
 `;
 
-const CountCommentsChildren = styled.span`	
+const CountCommentsChildren = styled.span`
     padding-left: 5px;
     line-height: 18px;
-    font-family: 'Open Sans', sans-serif;	
-    font-size: 16px;	
-    font-weight: 500;	
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
     color: #959595;
 `;
 
@@ -365,11 +365,11 @@ class CommentCard extends PureComponent {
                         <CommentButton>
                             <CommentIconWrapper>
                                 <Icon name="comment" size={18} />
-                                <CountCommentsChildren>{data.get('children')}</CountCommentsChildren>
+                                <CountCommentsChildren>
+                                    {data.get('children')}
+                                </CountCommentsChildren>
                             </CommentIconWrapper>
-                            <ReplyComment onClick={this._onReplyClick}>
-                                Ответить
-                            </ReplyComment>
+                            <ReplyComment onClick={this._onReplyClick}>Ответить</ReplyComment>
                         </CommentButton>
                     </Fragment>
                 ) : null}

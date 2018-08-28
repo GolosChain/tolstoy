@@ -25,12 +25,15 @@ const Main = styled(Container).attrs({
     justify: 'center',
     small: 1,
 })`
-    background-color: #f9f9f9;
     padding: 20px 0;
 
     @media (max-width: 890px) {
         padding-top: 0;
     }
+`;
+
+const MainWrapper = styled.div`
+    background-color: #f9f9f9;
 `;
 
 const SidebarLeft = styled.div`
@@ -167,6 +170,7 @@ export default class UserProfileContainer extends Component {
                     isOwner={isOwner}
                     showLayout={!route || route === 'blog' || route === 'favorites'}
                 />
+                <MainWrapper>
                 <Main>
                     {route !== 'settings' && (
                         <SidebarLeft>
@@ -187,6 +191,7 @@ export default class UserProfileContainer extends Component {
                         <SidebarRight>{this.props.sidebarRight}</SidebarRight>
                     )}
                 </Main>
+                </MainWrapper>
             </Fragment>
         );
     }

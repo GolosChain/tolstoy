@@ -28,6 +28,7 @@ const HeaderLine = styled.div`
     display: flex;
     position: relative;
     align-items: center;
+    max-width: 100%;
     padding: 2px 18px;
     z-index: 1;
     pointer-events: none;
@@ -209,6 +210,15 @@ const Root = styled.div`
     background: #ffffff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
     
+    ${PostImage}:after {
+        background-color: rgba(0, 0, 0, 0);
+        transition: background-color 0.15s;
+    }
+
+    &:hover ${PostImage}:after {
+        background-color: rgba(0, 0, 0, 0.3);
+    }
+
     ${PostImage}:after {
         background-color: rgba(0, 0, 0, 0);
         transition: background-color 0.15s;
