@@ -158,64 +158,67 @@ const IconEdit = Icon.extend`
     }
 `;
 
-const CommentButton = Button.extend`
-    @media (min-width: 890px) and (max-width: 1000px), (max-width: 420px) {
-        display: none;
-    }
-`;
-
-const CommentButtonMobile = styled.div`
-    display: none;
+const CommentButton = styled.div`
+    display: flex;
     justify-content: space-between;
-    width: 100%;
     height: 50px;
-    margin-top: 15px;
-    border-top: 1px solid #e9e9e9;
-    padding-top: 11px;
-    
+    padding: 0 18px;
+
     & div {
         display: flex;
         align-items: center;
-        width: 50%;
     }
-    
-    & div:first-child {
-        justify-content: flex-end;
-        padding-right: 11px;
-    }
-    
-    & div:last-child {
-        justify-content: flex-start;
-        padding-left: 7px;
-    }
-    
+
     @media (min-width: 890px) and (max-width: 1000px), (max-width: 420px) {
-        display: flex;
+        width: 100%;
+        padding: 0;
+
+        & div {
+            width: 50%;
+        }
     }
 `;
 
-const ReplyTextMobile = styled.div`
+const CommentIconWrapper = styled.div`
+    justify-content: flex-end;
+    padding-right: 11px;
+    cursor: pointer;
+`;
+
+const ReplyComment = styled.div`
     position: relative;
+    padding-left: 7px;
+    justify-content: flex-start;
     font-family: 'Open Sans', sans-serif;
     font-size: 12px;
-    font-weight: bold;	
+    font-weight: bold;
     line-height: 18px;
     text-transform: uppercase;
     cursor: pointer;
-    text-shadow: 0 2px 12px rgba(0, 0, 0, .15);
-    transition: .2s;
-    
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    transition: 0.2s;
+
     &:hover {
-    	text-shadow: 0 2px 4px rgba(0, 0, 0, .5);
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     }
-    
+
     &::after {
         content: '';
         position: absolute;
         left: -1px;
-        height: 37px;
-        border: 1px solid #e1e1e1;
+        width: 1px;
+        height: 26px;
+        background-color: #e1e1e1;
     }
+`;
+
+const CountCommentsChildren = styled.span`
+    padding-left: 5px;
+    line-height: 18px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: #959595;
 `;
 
 class CommentCard extends PureComponent {
@@ -359,17 +362,15 @@ class CommentCard extends PureComponent {
                 {allowInlineReply && this._data.author !== myAccountName ? (
                     <Fragment>
                         <Filler />
-                        <CommentButton light onClick={this._onReplyClick}>
-                            <Icon name="comment" size={18} /> Ответить
-                        </CommentButton>
-                        <CommentButtonMobile>
-                            <div>
+                        <CommentButton>
+                            <CommentIconWrapper>
                                 <Icon name="comment" size={18} />
-                            </div>
-                            <ReplyTextMobile onClick={this._onReplyClick}>
-                                Ответить
-                            </ReplyTextMobile>
-                        </CommentButtonMobile>
+                                <CountCommentsChildren>
+                                    {data.get('children')}
+                                </CountCommentsChildren>
+                            </CommentIconWrapper>
+                            <ReplyComment onClick={this._onReplyClick}>Ответить</ReplyComment>
+                        </CommentButton>
                     </Fragment>
                 ) : null}
             </Footer>

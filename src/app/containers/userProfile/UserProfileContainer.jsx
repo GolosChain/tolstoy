@@ -20,9 +20,20 @@ import UserNavigation from 'src/app/components/userProfile/common/UserNavigation
 import UserCardAbout from 'src/app/components/userProfile/common/UserCardAbout';
 import { FAVORITES_LOAD } from 'src/app/redux/constants/favorites';
 
-const Main = styled.div`
-    background-color: #f9f9f9;
+const Main = styled(Container).attrs({
+    align: 'flex-start',
+    justify: 'center',
+    small: 1,
+})`
     padding: 20px 0;
+
+    @media (max-width: 890px) {
+        padding-top: 0;
+    }
+`;
+
+const MainWrapper = styled.div`
+    background-color: #f9f9f9;
 `;
 
 const SidebarLeft = styled.div`
@@ -80,6 +91,7 @@ const SmallUserNavigation = styled(UserNavigation)`
     @media (max-width: 890px) {
         display: block;
         order: 3;
+        margin-bottom: 16px;
     }
 `;
 
@@ -158,28 +170,28 @@ export default class UserProfileContainer extends Component {
                     isOwner={isOwner}
                     showLayout={!route || route === 'blog' || route === 'favorites'}
                 />
+                <MainWrapper>
                 <Main>
-                    <Container align="flex-start" justify="center" small>
-                        {route !== 'settings' && (
-                            <SidebarLeft>
-                                <UserCardAbout
-                                    account={currentAccount}
-                                    followerCount={followerCount}
-                                    followingCount={followingCount}
-                                />
-                            </SidebarLeft>
-                        )}
-                        <SmallUserNavigation
-                            accountName={currentAccount.get('name')}
-                            isOwner={isOwner}
-                            showLayout={!route || route === 'blog' || route === 'favorites'}
-                        />
-                        <Content center={route === 'settings'}>{this.props.content}</Content>
-                        {this.props.sidebarRight && (
-                            <SidebarRight>{this.props.sidebarRight}</SidebarRight>
-                        )}
-                    </Container>
+                    {route !== 'settings' && (
+                        <SidebarLeft>
+                            <UserCardAbout
+                                account={currentAccount}
+                                followerCount={followerCount}
+                                followingCount={followingCount}
+                            />
+                        </SidebarLeft>
+                    )}
+                    <SmallUserNavigation
+                        accountName={currentAccount.get('name')}
+                        isOwner={isOwner}
+                        showLayout={!route || route === 'blog' || route === 'favorites'}
+                    />
+                    <Content center={route === 'settings'}>{this.props.content}</Content>
+                    {this.props.sidebarRight && (
+                        <SidebarRight>{this.props.sidebarRight}</SidebarRight>
+                    )}
                 </Main>
+                </MainWrapper>
             </Fragment>
         );
     }

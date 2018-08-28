@@ -28,6 +28,7 @@ const HeaderLine = styled.div`
     display: flex;
     position: relative;
     align-items: center;
+    max-width: 100%;
     padding: 2px 18px;
     z-index: 1;
     pointer-events: none;
