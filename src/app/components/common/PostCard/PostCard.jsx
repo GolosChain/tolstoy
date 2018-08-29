@@ -242,7 +242,6 @@ const Root = styled.div`
     }
 `;
 
-
 class PostCard extends PureComponent {
     static propTypes = {
         permLink: PropTypes.string,
