@@ -1,0 +1,82 @@
+[
+  {
+    "inscription": "основной сайт",
+    "thumbnail": "ic_monitor",
+    "link": "/",
+    "width": "34",
+    "height": "31",
+    "showOnMobile": false
+  },
+  {
+    "inscription": "канал техподдержки",
+    "thumbnail": "ic_support_ru",
+    "link": "https://t.me/golos_support",
+    "width": "30",
+    "height": "33",
+    "showOnMobile": true
+  },
+  {
+    "inscription": "Новости и анонсы Golos.io",
+    "thumbnail": "ic_newspaper",
+    "link": "/@golosio",
+    "width": "26",
+    "height": "26",
+    "showOnMobile": false
+  },
+  {
+    "inscription": "Facebook",
+    "thumbnail": "ic_facebook",
+    "link": "https://www.facebook.com/www.golos.io/\n",
+    "width": "14",
+    "height": "30",
+    "showOnMobile": false
+  },
+  {
+    "inscription": "github",
+    "thumbnail": "ic_github",
+    "link": "https://github.com/GolosChain/tolstoy",
+    "width": "32",
+    "height": "31",
+    "showOnMobile": false
+  },
+  {
+    "inscription": "Официальное зеркало",
+    "thumbnail": "ic_mirror",
+    "link": "https://www.golos.blog",
+    "width": "30",
+    "height": "30",
+    "showOnMobile": false
+  },
+  {
+    "inscription": "ENG support channel",
+    "thumbnail": "ic_support_eng",
+    "link": "https://t.me/golos_eng",
+    "width": "30",
+    "height": "31",
+    "showOnMobile": true
+  },
+  {
+    "inscription": "Лучшее на Golos.io",
+    "thumbnail": "ic_like",
+    "link": "https://t.me/golos_best",
+    "width": "28",
+    "height": "28",
+    "showOnMobile": false
+  },
+  {
+    "inscription": "Вконтакте",
+    "thumbnail": "ic_vk",
+    "link": "https://vk.com/goloschain",
+    "width": "30",
+    "height": "20",
+    "showOnMobile": false
+  },
+  {
+    "inscription": "контакты для СМИ",
+    "thumbnail": "ic_mail",
+    "link": "mailto:pr@golos.io",
+    "width": "28",
+    "height": "19",
+    "showOnMobile": true
+  }
+]

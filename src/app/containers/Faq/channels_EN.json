@@ -1,0 +1,74 @@
+[
+  {
+    "inscription": "Main website",
+    "thumbnail": "ic_monitor",
+    "link": "/",
+    "width": "34",
+    "height": "31",
+    "showOnMobile": false
+  },
+  {
+    "inscription": "Golos.io news and updates",
+    "thumbnail": "ic_newspaper",
+    "link": "/@golosio",
+    "width": "26",
+    "height": "26",
+    "showOnMobile": false
+  },
+  {
+    "inscription": "Facebook",
+    "thumbnail": "ic_facebook",
+    "link": "https://www.facebook.com/www.golos.io/\n",
+    "width": "14",
+    "height": "30",
+    "showOnMobile": false
+  },
+  {
+    "inscription": "github",
+    "thumbnail": "ic_github",
+    "link": "https://github.com/GolosChain/tolstoy",
+    "width": "32",
+    "height": "31",
+    "showOnMobile": false
+  },
+  {
+    "inscription": "Official mirror website",
+    "thumbnail": "ic_mirror",
+    "link": "https://www.golos.blog",
+    "width": "30",
+    "height": "30",
+    "showOnMobile": false
+  },
+  {
+    "inscription": "ENG support channel",
+    "thumbnail": "ic_support_eng",
+    "link": "https://t.me/golos_eng",
+    "width": "30",
+    "height": "31",
+    "showOnMobile": true
+  },
+  {
+    "inscription": "Best of Golos.io",
+    "thumbnail": "ic_like",
+    "link": "https://t.me/golos_best",
+    "width": "28",
+    "height": "28",
+    "showOnMobile": false
+  },
+  {
+    "inscription": "Vkontakte",
+    "thumbnail": "ic_vk",
+    "link": "https://vk.com/goloschain",
+    "width": "30",
+    "height": "20",
+    "showOnMobile": false
+  },
+  {
+    "inscription": "Partnership, press and media enquiries",
+    "thumbnail": "ic_mail",
+    "link": "mailto:pr@golos.io",
+    "width": "28",
+    "height": "19",
+    "showOnMobile": true
+  }
+]

@@ -1,7 +1,7 @@
 import Flex from './../Flex';
 
 const Container = Flex.extend.attrs({
-    auto: true
+    auto: 1
 })`
     max-width: 1200px;
     margin: 0 auto;
