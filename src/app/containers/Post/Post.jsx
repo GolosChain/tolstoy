@@ -3,9 +3,11 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Container from 'src/app/components/common/Container/Container';
 import SidePanel from 'src/app/containers/Post/SidePanel';
+import { currentPostSelector } from '../../redux/selectors/post/post';
+import Content from '../../components/post/Content';
 
 const Wrapper = Container.extend``;
-const Content = styled.div``;
+const ContentWrapper = styled(Content)``;
 const ActivePanel = styled.div``;
 const AboutPanel = styled.div``;
 const SidePanelWrapper = styled(SidePanel)`
@@ -19,14 +21,11 @@ const SidePanelWrapper = styled(SidePanel)`
 `;
 
 class Post extends Component {
-    constructor() {
-        super();
-    }
-
     render() {
+        const { post } = this.props;
         return (
             <Wrapper>
-                <Content>test</Content>
+                <ContentWrapper post={post} />
                 <ActivePanel />
                 <AboutPanel />
                 <SidePanelWrapper />
@@ -36,7 +35,9 @@ class Post extends Component {
 }
 
 const mapStateToProps = (state, props) => {
-    return {};
+    return {
+        post: currentPostSelector(state, props),
+    };
 };
 
 const mapDispatchToProps = (dispatch, props) => {
