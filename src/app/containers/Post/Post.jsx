@@ -10,8 +10,12 @@ const ActivePanel = styled.div``;
 const AboutPanel = styled.div``;
 const SidePanelWrapper = styled(SidePanel)`
     position: fixed;
-    top: 500px;
+    bottom: 30px;
     left: calc(50% - 684px);
+
+    @media (max-width: 1407px) {
+        display: none;
+    }
 `;
 
 class Post extends Component {
