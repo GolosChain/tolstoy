@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import is from 'styled-is';
 
 const Tag = styled.div`
+    display: table-cell;
     height: 28px;
     padding: 0 12px;
     margin-right: 14px;
