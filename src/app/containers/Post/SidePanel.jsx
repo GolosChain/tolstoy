@@ -52,24 +52,22 @@ const ActionButton = styled.div`
     display: flex;
     align-items center;
     flex-direction: column;
-    
-    svg {
-        padding: 5px;
-        width: 34px;
-        height: 34px;
-        cursor: pointer;
-        transition: transform 0.15s;
-        
-        &:hover {
-            transform: scale(1.15);
-        }
+`;
+
+const ActionIcon = Icon.extend`
+    padding: 5px;
+    cursor: pointer;
+    transition: transform 0.15s;
+
+    &:hover {
+        transform: scale(1.15);
     }
 `;
 
 const ActionBlock = ({ iconName, count }) => {
     return (
         <ActionButton>
-            <Icon name={iconName} />
+            <ActionIcon width="34" height="34" name={iconName} />
             <CountOf>{count}</CountOf>
         </ActionButton>
     );
@@ -88,8 +86,10 @@ class SidePanel extends Component {
         const { className } = this.props;
         return (
             <Wrapper className={className}>
-                {actionsData.map(action => {
-                    return <ActionBlock iconName={action.iconName} count={action.count} />;
+                {actionsData.map((action, index) => {
+                    return (
+                        <ActionBlock key={index} iconName={action.iconName} count={action.count} />
+                    );
                 })}
             </Wrapper>
         );
