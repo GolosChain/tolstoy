@@ -19,6 +19,7 @@ import { confirmVote } from 'src/app/helpers/votes';
 import { toggleFavoriteAction } from 'src/app/redux/actions/favorites';
 import { togglePinAction } from 'src/app/redux/actions/pinnedPosts';
 import ReplyBlock from '../ReplyBlock';
+import Tag from 'golos-ui/Tag';
 
 const Header = styled.div`
     padding: 10px 0 6px;
@@ -63,20 +64,6 @@ const AuthorName = styled(Link)`
 const PostDate = styled.div`
     font-size: 13px;
     color: #959595;
-    cursor: default;
-`;
-const Category = styled.div`
-    height: 28px;
-    padding: 0 12px;
-    margin-right: 14px;
-    border-radius: 6px;
-    line-height: 26px;
-    font-size: 14px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: #fff;
-    background: #789821;
     cursor: default;
 `;
 const Toolbar = styled.div`
@@ -347,7 +334,7 @@ class PostCard extends PureComponent {
                         </PostDesc>
                     </AuthorBlock>
                     <Filler />
-                    {grid ? null : <Category>{category}</Category>}
+                    {grid ? null : <Tag category>{category}</Tag>}
                     <Toolbar>
                         {this._renderPinButton(withImage)}
                         {this._renderFavoriteButton(withImage)}
@@ -355,7 +342,7 @@ class PostCard extends PureComponent {
                 </HeaderLine>
                 {grid ? (
                     <HeaderLine>
-                        <Category>{category}</Category>
+                        <Tag category>{category}</Tag>
                         <Filler />
                     </HeaderLine>
                 ) : null}
