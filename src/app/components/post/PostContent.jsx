@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import MarkdownViewer from '../../../../app/components/cards/MarkdownViewer';
 import { parsePayoutAmount } from '../../../../app/utils/ParsersAndFormatters';
 import Tag from '../golos-ui/Tag/Tag';
+import PostHeader from './PostHeader';
 
 const Wrapper = styled.div`
     padding: 40px 70px 30px;
@@ -11,7 +12,6 @@ const Wrapper = styled.div`
     border-radius: 8px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5), 0 2px 12px 0 rgba(0, 0, 0, 0.06);
 `;
-const Header = styled.div``;
 
 const Body = styled.div`
     margin-top: 27px;
@@ -41,20 +41,20 @@ const Tags = styled.div`
 class PostContent extends Component {
     static propTypes = {
         post: PropTypes.object.isRequired,
+        userName: PropTypes.string.isRequired,
     };
 
     render() {
-        const { className, post } = this.props;
+        const { className, post, userName } = this.props;
         const formId = `postFull-${post}`;
         const tags = JSON.parse(post.get('json_metadata')).tags;
-        console.log(tags);
         const payout =
             parsePayoutAmount(post.get('pending_payout_value')) +
             parsePayoutAmount(post.get('total_payout_value'));
         // console.log(post);
         return (
             <Wrapper className={className}>
-                <Header />
+                <PostHeader post={post} userName={userName} />
                 <Body>
                     <Tag category>{post.get('category')}</Tag>
                     <PostTitle>{post.get('title')}</PostTitle>
