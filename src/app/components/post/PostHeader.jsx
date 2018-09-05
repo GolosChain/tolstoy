@@ -6,6 +6,7 @@ import TimeAgoWrapper from '../../../../app/components/elements/TimeAgoWrapper';
 import is from 'styled-is';
 import Icon from 'golos-ui/Icon';
 import tt from 'counterpart';
+import { Link } from 'react-router';
 
 const Wrapper = styled.div`
     display: flex;
@@ -27,10 +28,12 @@ const InfoBlock = styled.div`
     line-height: 18px;
 `;
 
-const AuthorName = styled.div`
+const AuthorName = styled(Link)`
+    display: block;
     font-size: 15px;
     font-weight: 500;
     color: #333;
+    text-decoration: none;
 `;
 
 const ChangeFollow = styled.div`
@@ -95,7 +98,7 @@ class PostHeader extends Component {
                     <Userpic account={post.get('author')} size={50} />
                 </Avatar>
                 <InfoBlock>
-                    <AuthorName>{post.get('author')}</AuthorName>
+                    <AuthorName to={`/@${post.get('author')}`}>{post.get('author')}</AuthorName>
                     <TimeAgoWrapper date={post.get('created')} />
                 </InfoBlock>
                 {userName !== post.get('author') && (
