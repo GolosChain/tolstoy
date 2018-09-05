@@ -7,6 +7,7 @@ import { currentPostIsFavorite, currentPostSelector } from '../../redux/selector
 import PostContent from '../../components/post/PostContent';
 import { currentUserSelector } from '../../redux/selectors/common';
 import { toggleFavoriteAction } from '../../redux/actions/favorites';
+import transaction from '../../../../app/redux/Transaction';
 
 const Wrapper = styled.div`
     width: 100%;
@@ -32,7 +33,7 @@ const SidePanelWrapper = styled(SidePanel)`
 
 class PostContainer extends Component {
     render() {
-        const { post, user, isFavorite } = this.props;
+        const { post, user, isFavorite, isFollow } = this.props;
         return (
             <Wrapper>
                 <Content>
@@ -41,6 +42,8 @@ class PostContainer extends Component {
                         userName={user.get('username')}
                         isFavorite={isFavorite}
                         onFavoriteClick={this._onFavoriteClick}
+                        isFollow={isFollow}
+                        changeFollow={this._changeFollow}
                     />
                     <ActivePanel />
                     <AboutPanel />
@@ -55,6 +58,16 @@ class PostContainer extends Component {
 
         this.props.toggleFavorite(post.get('author') + '/' + post.get('permlink'), !isFavorite);
     };
+
+    _changeFollow = () => {
+        const { updateFollow, user, post } = this.props;
+        const follower = user.get('username');
+        const following = post.get('author');
+        const done = () => {
+            console.log('done');
+        };
+        updateFollow(follower, following, done);
+    };
 }
 
 const mapStateToProps = (state, props) => {
@@ -62,6 +75,7 @@ const mapStateToProps = (state, props) => {
         post: currentPostSelector(state, props),
         user: currentUserSelector(state),
         isFavorite: currentPostIsFavorite(state, props),
+        isFollow: true,
     };
 };
 
@@ -69,6 +83,21 @@ const mapDispatchToProps = (dispatch, props) => {
     return {
         toggleFavorite: (link, isAdd) => {
             dispatch(toggleFavoriteAction({ link, isAdd }));
+        },
+        updateFollow: (follower, following, done) => {
+            const json = ['follow', { follower, following, what: ['blog'] }];
+            dispatch(
+                transaction.actions.broadcastOperation({
+                    type: 'custom_json',
+                    operation: {
+                        id: 'follow',
+                        required_posting_auths: [follower],
+                        json: JSON.stringify(json),
+                    },
+                    successCallback: done,
+                    errorCallback: done,
+                })
+            );
         },
     };
 };

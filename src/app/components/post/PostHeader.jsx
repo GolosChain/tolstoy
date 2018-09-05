@@ -5,6 +5,7 @@ import Userpic from '../../../../app/components/elements/Userpic';
 import TimeAgoWrapper from '../../../../app/components/elements/TimeAgoWrapper';
 import is from 'styled-is';
 import Icon from 'golos-ui/Icon';
+import tt from 'counterpart';
 
 const Wrapper = styled.div`
     display: flex;
@@ -35,11 +36,15 @@ const AuthorName = styled.div`
 const ChangeFollow = styled.div`
     width: 34px;
     height: 34px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: 50%;
-    background-color: blue;
+    background-color: #2879ff;
+    cursor: pointer;
 
     ${is('isFollowed')`
-        background-color: green;
+        background-color: transparent;
     `};
 `;
 
@@ -66,12 +71,24 @@ class PostHeader extends Component {
         userName: PropTypes.string,
         isFavorite: PropTypes.bool.isRequired,
         onFavoriteClick: PropTypes.func.isRequired,
+        changeFollow: PropTypes.func.isRequired,
+        isFollow: PropTypes.bool,
     };
 
-    static defaultProps = {};
+    static defaultProps = {
+        isFollow: false,
+    };
 
     render() {
-        const { userName, post, isFavorite, onFavoriteClick, className } = this.props;
+        const {
+            userName,
+            post,
+            isFavorite,
+            onFavoriteClick,
+            isFollow,
+            changeFollow,
+            className,
+        } = this.props;
         return (
             <Wrapper className={className}>
                 <Avatar>
@@ -81,7 +98,20 @@ class PostHeader extends Component {
                     <AuthorName>{post.get('author')}</AuthorName>
                     <TimeAgoWrapper date={post.get('created')} />
                 </InfoBlock>
-                {userName !== post.get('author') && <ChangeFollow isFollowed={true} />}
+                {userName !== post.get('author') && (
+                    <ChangeFollow
+                        onClick={changeFollow}
+                        isFollowed={isFollow}
+                        data-tooltip={isFollow ? tt('g.unfollow') : tt('g.follow')}
+                    >
+                        <Icon
+                            name="check"
+                            width={14}
+                            height={10}
+                            color={isFollow ? '#959595' : 'white'}
+                        />
+                    </ChangeFollow>
+                )}
                 <IconWrapper
                     data-tooltip={isFavorite ? 'Убрать из избранного' : 'В избранное'}
                     onClick={onFavoriteClick}
