@@ -10,7 +10,6 @@ const footerBottom = 30;
 const headerHeight = 121;
 const footerHeight = 403;
 
-
 const Wrapper = styled.div`
     position: fixed;
     bottom: ${footerBottom}px;
@@ -28,7 +27,9 @@ const Wrapper = styled.div`
         opacity: 0;
         transition: visibility 0s linear .3s, opacity .3s;
         visibility: hidden;
-    `} & > div {
+    `};
+
+    & > div {
         padding: 10px 0;
     }
 
