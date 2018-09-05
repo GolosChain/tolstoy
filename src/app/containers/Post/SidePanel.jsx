@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Icon from '../../components/golos-ui/Icon/Icon';
+import {isNot} from 'styled-is';
 
 const Wrapper = styled.div`
     width: 64px;
@@ -11,6 +12,10 @@ const Wrapper = styled.div`
     border-radius: 32px;
     background-color: #ffffff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.6);
+    
+    ${isNot('showPanel')`
+        visibility: hidden;
+    `}
 
     & > div {
         padding: 10px 0;
@@ -55,18 +60,24 @@ class SidePanel extends Component {
 
     static defaultProps = {};
 
-    constructor() {
-        super();
-    }
+    state = {
+        showPanel: true
+    };
 
     componentDidMount() {
-        window.addEventListener('scroll', () => {console.log(this.wrapperRef.offsetTop);});
+        window.addEventListener('scroll', () => {
+            console.log(this.wrapperRef.offsetTop);
+        });
     }
 
     render() {
         const { className, actionsData } = this.props;
         return (
-            <Wrapper className={className} innerRef={this._setWrapperRef}>
+            <Wrapper
+                className={className}
+                innerRef={this._setWrapperRef}
+                showPanel={this.state.showPanel}
+            >
                 {actionsData.map((action, index) => {
                     return (
                         <ActionBlock key={index} iconName={action.iconName} count={action.count} />
@@ -77,8 +88,8 @@ class SidePanel extends Component {
     }
 
     _setWrapperRef = ref => {
-        this.wrapperRef = ref
-    }
+        this.wrapperRef = ref;
+    };
 }
 
 const mapStateToProps = (state, props) => {
@@ -110,7 +121,7 @@ const mapStateToProps = (state, props) => {
         },
     ];
     return {
-        actionsData
+        actionsData,
     };
 };
 
