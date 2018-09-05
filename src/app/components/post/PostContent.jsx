@@ -13,8 +13,8 @@ const Wrapper = styled.div`
 `;
 const Header = styled.div``;
 
-const Post = styled.div`
-    margin: 27px 0 30px;
+const Body = styled.div`
+    margin-top: 27px;
 `;
 
 const PostTitle = styled.div`
@@ -29,7 +29,14 @@ const PostTitle = styled.div`
 const PostBody = styled.div`
     padding: 12px 0 14px;
 `;
-const TagsWrapper = styled.div``;
+const Tags = styled.div`
+    margin-top: -10px;
+    display: flex;
+    flex-wrap: wrap;
+    & > div {
+        margin: 10px 10px 0 0;
+    }
+`;
 
 class PostContent extends Component {
     static propTypes = {
@@ -39,6 +46,8 @@ class PostContent extends Component {
     render() {
         const { className, post } = this.props;
         const formId = `postFull-${post}`;
+        const tags = JSON.parse(post.get('json_metadata')).tags;
+        console.log(tags);
         const payout =
             parsePayoutAmount(post.get('pending_payout_value')) +
             parsePayoutAmount(post.get('total_payout_value'));
@@ -46,7 +55,7 @@ class PostContent extends Component {
         return (
             <Wrapper className={className}>
                 <Header />
-                <Post>
+                <Body>
                     <Tag category>{post.get('category')}</Tag>
                     <PostTitle>{post.get('title')}</PostTitle>
                     <PostBody>
@@ -60,8 +69,14 @@ class PostContent extends Component {
                             timeCteated={new Date(post.get('created'))}
                         />
                     </PostBody>
-                </Post>
-                <TagsWrapper />
+                </Body>
+                <Tags>
+                    {tags.map((tag, index) => (
+                        <Tag category={index === 0} key={index}>
+                            {tag}
+                        </Tag>
+                    ))}
+                </Tags>
             </Wrapper>
         );
     }
