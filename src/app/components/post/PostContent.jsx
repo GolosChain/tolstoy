@@ -44,10 +44,24 @@ class PostContent extends Component {
         userName: PropTypes.string,
         isFavorite: PropTypes.bool.isRequired,
         onFavoriteClick: PropTypes.func.isRequired,
+        changeFollow: PropTypes.func.isRequired,
+        isFollow: PropTypes.bool,
+    };
+
+    static defaultProps = {
+        isFollow: false,
     };
 
     render() {
-        const { post, userName, isFavorite, onFavoriteClick, className } = this.props;
+        const {
+            post,
+            userName,
+            isFavorite,
+            onFavoriteClick,
+            isFollow,
+            changeFollow,
+            className,
+        } = this.props;
         const formId = `postFull-${post}`;
         const tags = JSON.parse(post.get('json_metadata')).tags;
         const payout =
@@ -61,6 +75,8 @@ class PostContent extends Component {
                     userName={userName}
                     isFavorite={isFavorite}
                     onFavoriteClick={onFavoriteClick}
+                    isFollow={isFollow}
+                    changeFollow={changeFollow}
                 />
                 <Body>
                     <Tag category>{post.get('category')}</Tag>
