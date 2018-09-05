@@ -7,8 +7,8 @@ import { currentPostIsFavorite, currentPostSelector } from '../../redux/selector
 import PostContent from '../../components/post/PostContent';
 import { currentUserSelector } from '../../redux/selectors/common';
 import { toggleFavoriteAction } from '../../redux/actions/favorites';
+import ActivePanel from './ActivePanel';
 import transaction from '../../../../app/redux/Transaction';
-
 const Wrapper = styled.div`
     width: 100%;
     height: 100%;
@@ -17,9 +17,10 @@ const Wrapper = styled.div`
 const Content = Container.extend`
     padding-top: 22px;
     padding-bottom: 17px;
+    display: flex;
+    flex-direction: column;
 `;
 const ContentWrapper = styled(PostContent)``;
-const ActivePanel = styled.div``;
 const AboutPanel = styled.div``;
 
 class PostContainer extends Component {
@@ -36,7 +37,11 @@ class PostContainer extends Component {
                         isFollow={isFollow}
                         changeFollow={this._changeFollow}
                     />
-                    <ActivePanel />
+                    <ActivePanel
+                        post={post}
+                        userName={user.get('username')}
+                        onVoteChange={this._onVoteChange}
+                    />
                     <AboutPanel />
                     <SidePanel post={post} />
                 </Content>
@@ -49,6 +54,8 @@ class PostContainer extends Component {
 
         this.props.toggleFavorite(post.get('author') + '/' + post.get('permlink'), !isFavorite);
     };
+
+    _onVoteChange = async percent => {};
 
     _changeFollow = () => {
         const { updateFollow, user, post } = this.props;
