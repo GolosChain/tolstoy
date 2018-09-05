@@ -44,7 +44,7 @@ class PostContainer extends Component {
                     />
                     <ActivePanel />
                     <AboutPanel />
-                    <SidePanelWrapper />
+                    <SidePanelWrapper post={post}/>
                 </Content>
             </Wrapper>
         );
