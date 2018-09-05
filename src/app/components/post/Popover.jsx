@@ -1,25 +1,20 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import is from 'styled-is';
 import throttle from 'lodash/throttle';
 
 const Container = styled.div`
-    width: 500px;
+    width: 1px;
+    min-width: 100px;
     max-width: calc(100vw - ${({ screenMargin }) => screenMargin * 3}px);
-    height: 200px;
+    height: 1px;
+    min-height: 100px;
     position: absolute;
-    top: 100%;
     left: 50%;
-    display: flex;
-    flex-direction: column;
-    ${is('up')`
-        justify-content: revert;
-    `};
+    ${({ up }) => (up ? 'padding-bottom: 10px;' : 'padding-top: 10px;')};
+    ${({ up }) => (up ? 'bottom: 100%;' : 'top: 100%;')};
 
-    padding-top: 10px;
     transform: translateX(-50%);
-
     ${({ margin, screenMargin }) =>
         margin !== 0 &&
         `
@@ -31,7 +26,7 @@ const Decoration = styled.div`
     width: 14px;
     height: 14px;
     position: absolute;
-    top: 4px;
+    ${({ up }) => (up ? 'bottom: 4px;' : 'top: 4px;')};
     left: 50%;
     transform: translateX(-50%) rotate(45deg);
     background-color: white;
@@ -85,7 +80,7 @@ class Popover extends Component {
     }
 
     render() {
-        const { screenMargin, up, className } = this.props;
+        const { screenMargin, up, children, className } = this.props;
         const { margin } = this.state;
         return (
             <Container
@@ -95,9 +90,9 @@ class Popover extends Component {
                 screenMargin={screenMargin}
                 up={up}
             >
-                <Decoration margin={margin} screenMargin={screenMargin} />
+                <Decoration margin={margin} screenMargin={screenMargin} up={up} />
                 <ContentWrapper>
-                    <Content />
+                    <Content>{children}</Content>
                 </ContentWrapper>
             </Container>
         );
