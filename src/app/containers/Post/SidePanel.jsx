@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import throttle from 'lodash/throttle';
 import Icon from '../../components/golos-ui/Icon/Icon';
-import { isNot } from 'styled-is';
+import is, { isNot } from 'styled-is';
 
 const footerBottom = 30;
 const headerHeight = 121;
@@ -39,11 +39,14 @@ const Wrapper = styled.div`
 `;
 
 const CountOf = styled.div`
-    padding-top: 5px;
     color: #959595;
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
     line-height: 23px;
+    
+    ${is('count')`
+        padding-top: 5px;
+    `}
 `;
 
 const ActionButton = styled.div`
@@ -65,8 +68,8 @@ const ActionIcon = Icon.extend`
 const ActionBlock = ({ iconName, count }) => {
     return (
         <ActionButton>
-            <ActionIcon width="34" height="34" name={iconName} />
-            <CountOf>{count}</CountOf>
+            <ActionIcon width="30" height="30" name={iconName} />
+            <CountOf count={count}>{count}</CountOf>
         </ActionButton>
     );
 };
