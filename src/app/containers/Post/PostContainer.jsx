@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Container from 'src/app/components/common/Container/Container';
@@ -28,7 +28,7 @@ const SidePanelWrapper = styled(SidePanel)`
     }
 `;
 
-class Post extends Component {
+class PostContainer extends Component {
     render() {
         const { post } = this.props;
         return (
@@ -57,4 +57,4 @@ const mapDispatchToProps = (dispatch, props) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Post);
+)(PostContainer);
