@@ -5,6 +5,7 @@ import Container from 'src/app/components/common/Container/Container';
 import SidePanel from 'src/app/containers/Post/SidePanel';
 import { currentPostSelector } from '../../redux/selectors/post/post';
 import PostContent from '../../components/post/PostContent';
+import { currentUserSelector } from '../../redux/selectors/common';
 
 const Wrapper = styled.div`
     width: 100%;
@@ -30,11 +31,11 @@ const SidePanelWrapper = styled(SidePanel)`
 
 class PostContainer extends Component {
     render() {
-        const { post } = this.props;
+        const { post, user } = this.props;
         return (
             <Wrapper>
                 <Content>
-                    <ContentWrapper post={post} />
+                    <ContentWrapper post={post} userName={user.get('username')} />
                     <ActivePanel />
                     <AboutPanel />
                     <SidePanelWrapper />
@@ -47,6 +48,7 @@ class PostContainer extends Component {
 const mapStateToProps = (state, props) => {
     return {
         post: currentPostSelector(state, props),
+        user: currentUserSelector(state),
     };
 };
 
