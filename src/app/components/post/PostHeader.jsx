@@ -7,6 +7,7 @@ import is from 'styled-is';
 import Icon from 'golos-ui/Icon';
 import tt from 'counterpart';
 import { Link } from 'react-router';
+import Popover from './Popover';
 
 const Wrapper = styled.div`
     display: flex;
@@ -17,6 +18,9 @@ const Wrapper = styled.div`
 `;
 
 const Avatar = styled.div`
+    position: relative;
+    display: flex;
+    align-items: center;
     cursor: pointer;
 `;
 
@@ -96,6 +100,7 @@ class PostHeader extends Component {
             <Wrapper className={className}>
                 <Avatar>
                     <Userpic account={post.get('author')} size={50} />
+                    <Popover />
                 </Avatar>
                 <InfoBlock>
                     <AuthorName to={`/@${post.get('author')}`}>{post.get('author')}</AuthorName>
