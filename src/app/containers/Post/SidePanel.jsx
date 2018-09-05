@@ -65,9 +65,13 @@ class SidePanel extends Component {
     };
 
     componentDidMount() {
-        window.addEventListener('scroll', () => {
-            console.log(this.wrapperRef.offsetTop);
-        });
+        window.addEventListener('scroll', this._scrollScreen);
+        window.addEventListener('resize', this._resizeScreen);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this._scrollScreen);
+        window.removeEventListener('resize', this._resizeScreen);
     }
 
     render() {
@@ -90,13 +94,25 @@ class SidePanel extends Component {
     _setWrapperRef = ref => {
         this.wrapperRef = ref;
     };
+
+    _scrollScreen = () => {
+        console.log(this.wrapperRef.offsetTop);
+    };
+
+    _resizeScreen = () => {
+        if ((this.wrapperRef.offsetTop <= 151) && this.state.showPanel) {
+            this.setState({showPanel: false});
+        }
+        if ((this.wrapperRef.offsetTop >= 151) && !this.state.showPanel) {
+            this.setState({showPanel: true});
+        }
+    }
 }
 
 const mapStateToProps = (state, props) => {
     const url = props.post.get('url');
     //state.global.getIn(['content', props.permLink])
     const content = state.global.getIn(['content', url.replace(/.+@(.+)/, '$1')]);
-    console.log();
 
     const actionsData = [
         {
