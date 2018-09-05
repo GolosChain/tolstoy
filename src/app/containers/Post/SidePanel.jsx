@@ -43,10 +43,10 @@ const CountOf = styled.div`
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
     line-height: 23px;
-    
+
     ${is('count')`
         padding-top: 5px;
-    `}
+    `};
 `;
 
 const ActionButton = styled.div`

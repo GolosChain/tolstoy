@@ -6,7 +6,7 @@ import VotePanel from '../../components/common/VotePanel/VotePanel';
 import Icon from '../../components/golos-ui/Icon/Icon';
 import ReplyBlock from '../../components/common/ReplyBlock/ReplyBlock';
 import extractContent from 'app/utils/ExtractContent';
-import {immutableAccessor} from '../../../../app/utils/Accessors';
+import { immutableAccessor } from '../../../../app/utils/Accessors';
 
 const Wrapper = styled.div`
     width: 100%;
@@ -34,7 +34,7 @@ const Repost = styled.div`
     padding: 0 21px 0 14px;
     display: flex;
     align-items: center;
-    
+
     svg {
         padding: 4px;
         cursor: pointer;
@@ -43,11 +43,11 @@ const Repost = styled.div`
 
 const CountOf = styled.div`
     padding-left: 7px;
-    color: #757575;	
-    font-family: Roboto, sans-serif;	
-    font-size: 18px;	
-    font-weight: 300;	
-    letter-spacing: 1.8px;	
+    color: #757575;
+    font-family: Roboto, sans-serif;
+    font-size: 18px;
+    font-weight: 300;
+    letter-spacing: 1.8px;
     line-height: 23px;
 `;
 
@@ -57,7 +57,7 @@ const SharingTriangle = Repost.extend`
 
 const DotsMore = Repost.extend`
     padding-left: 13px;
-    
+
     svg {
         padding: 12px 4px;
     }
@@ -85,18 +85,18 @@ class ActivePanel extends Component {
                         whiteTheme={false}
                         onChange={onVoteChange}
                     />
-                    <Divider/>
+                    <Divider />
                     <Repost>
-                        <Icon width="30" height="27" name="repost-right"/>
+                        <Icon width="30" height="27" name="repost-right" />
                         <CountOf>20</CountOf>
                     </Repost>
-                    <Divider/>
+                    <Divider />
                     <SharingTriangle>
-                        <Icon width="26" height="26" name="sharing_triangle"/>
+                        <Icon width="26" height="26" name="sharing_triangle" />
                     </SharingTriangle>
-                    <Divider/>
+                    <Divider />
                     <DotsMore>
-                        <Icon width="32" height="32" name="dots-more_normal"/>
+                        <Icon width="32" height="32" name="dots-more_normal" />
                     </DotsMore>
                 </HoldingBlock>
                 <HoldingBlock>
