@@ -52,29 +52,26 @@ const IconWrapper = styled.div`
     height: 32px;
     color: ${({ color }) => color || '#393636'};
 
-    ${is('enabled')`
-        cursor: pointer;
-        transition: transform 0.15s;
+    cursor: pointer;
+    transition: transform 0.15s;
 
-        &:hover {
-            transform: scale(1.15);
-        }
-    `};
+    &:hover {
+        transform: scale(1.15);
+    }
 `;
 
 class PostHeader extends Component {
     static propTypes = {
         post: PropTypes.object.isRequired,
-        userName: PropTypes.string.isRequired,
-        isFavorite: PropTypes.bool,
+        userName: PropTypes.string,
+        isFavorite: PropTypes.bool.isRequired,
+        onFavoriteClick: PropTypes.func.isRequired,
     };
 
-    static defaultProps = {
-        isFavorite: true,
-    };
+    static defaultProps = {};
 
     render() {
-        const { userName, post, isFavorite, className } = this.props;
+        const { userName, post, isFavorite, onFavoriteClick, className } = this.props;
         return (
             <Wrapper className={className}>
                 <Avatar>
@@ -87,7 +84,7 @@ class PostHeader extends Component {
                 {userName !== post.get('author') && <ChangeFollow isFollowed={true} />}
                 <IconWrapper
                     data-tooltip={isFavorite ? 'Убрать из избранного' : 'В избранное'}
-                    enabled
+                    onClick={onFavoriteClick}
                 >
                     <Icon name={isFavorite ? 'star_filled' : 'star'} width={20} height={20} />
                 </IconWrapper>
