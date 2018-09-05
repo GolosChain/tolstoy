@@ -4,10 +4,18 @@ import styled from 'styled-components';
 import Container from 'src/app/components/common/Container/Container';
 import SidePanel from 'src/app/containers/Post/SidePanel';
 import { currentPostSelector } from '../../redux/selectors/post/post';
-import Content from '../../components/post/Content';
+import PostContent from '../../components/post/PostContent';
 
-const Wrapper = Container.extend``;
-const ContentWrapper = styled(Content)``;
+const Wrapper = styled.div`
+    width: 100%;
+    height: 100%;
+    background-color: #f9f9f9;
+`;
+const Content = Container.extend`
+    padding-top: 22px;
+    padding-bottom: 17px;
+`;
+const ContentWrapper = styled(PostContent)``;
 const ActivePanel = styled.div``;
 const AboutPanel = styled.div``;
 const SidePanelWrapper = styled(SidePanel)`
@@ -25,10 +33,12 @@ class Post extends Component {
         const { post } = this.props;
         return (
             <Wrapper>
-                <ContentWrapper post={post} />
-                <ActivePanel />
-                <AboutPanel />
-                <SidePanelWrapper />
+                <Content>
+                    <ContentWrapper post={post} />
+                    <ActivePanel />
+                    <AboutPanel />
+                    <SidePanelWrapper />
+                </Content>
             </Wrapper>
         );
     }
