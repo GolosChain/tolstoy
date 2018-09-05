@@ -5,10 +5,15 @@ import MarkdownViewer from '../../../../app/components/cards/MarkdownViewer';
 import { parsePayoutAmount } from '../../../../app/utils/ParsersAndFormatters';
 import Tag from '../golos-ui/Tag/Tag';
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+    padding: 40px 70px 30px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5), 0 2px 12px 0 rgba(0, 0, 0, 0.06);
+`;
 const Header = styled.div``;
 
-const PostWrapper = styled.div`
+const Post = styled.div`
     margin: 27px 0 30px;
 `;
 
@@ -26,7 +31,7 @@ const PostBody = styled.div`
 `;
 const TagsWrapper = styled.div``;
 
-class Content extends Component {
+class PostContent extends Component {
     static propTypes = {
         post: PropTypes.object.isRequired,
     };
@@ -41,7 +46,7 @@ class Content extends Component {
         return (
             <Wrapper className={className}>
                 <Header />
-                <PostWrapper>
+                <Post>
                     <Tag category>{post.get('category')}</Tag>
                     <PostTitle>{post.get('title')}</PostTitle>
                     <PostBody>
@@ -55,11 +60,11 @@ class Content extends Component {
                             timeCteated={new Date(post.get('created'))}
                         />
                     </PostBody>
-                </PostWrapper>
+                </Post>
                 <TagsWrapper />
             </Wrapper>
         );
     }
 }
 
-export default Content;
+export default PostContent;
