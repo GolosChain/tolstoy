@@ -2,23 +2,38 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import throttle from 'lodash/throttle';
 import Icon from '../../components/golos-ui/Icon/Icon';
-import {isNot} from 'styled-is';
+import { isNot } from 'styled-is';
+
+const footerBottom = 30;
+const headerHeight = 121;
+const footerHeight = 403;
+
 
 const Wrapper = styled.div`
+    position: fixed;
+    bottom: ${footerBottom}px;
+    left: calc(50% - 684px);
     width: 64px;
     min-height: 50px;
     padding: 15px 22px;
     border-radius: 32px;
     background-color: #ffffff;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.6);
-    
-    ${isNot('showPanel')`
-        visibility: hidden;
-    `}
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
+    opacity: 1;
+    transition: visibility 0s linear 0s, opacity 0.3s;
 
-    & > div {
+    ${isNot('showPanel')`
+        opacity: 0;
+        transition: visibility 0s linear .3s, opacity .3s;
+        visibility: hidden;
+    `} & > div {
         padding: 10px 0;
+    }
+
+    @media (max-width: 1407px) {
+        display: none;
     }
 `;
 
@@ -61,17 +76,19 @@ class SidePanel extends Component {
     static defaultProps = {};
 
     state = {
-        showPanel: true
+        showPanel: true,
     };
 
     componentDidMount() {
-        window.addEventListener('scroll', this._scrollScreen);
-        window.addEventListener('resize', this._resizeScreen);
+        this._scrollScreenLazy();
+        this._resizeScreenLazy();
+        window.addEventListener('scroll', this._scrollScreenLazy);
+        window.addEventListener('resize', this._resizeScreenLazy);
     }
 
     componentWillUnmount() {
-        window.removeEventListener('scroll', this._scrollScreen);
-        window.removeEventListener('resize', this._resizeScreen);
+        window.removeEventListener('scroll', this._scrollScreenLazy);
+        window.removeEventListener('resize', this._resizeScreenLazy);
     }
 
     render() {
@@ -96,23 +113,40 @@ class SidePanel extends Component {
     };
 
     _scrollScreen = () => {
-        console.log(this.wrapperRef.offsetTop);
+        const documentElem = document.documentElement;
+        const bottomBorder = documentElem.scrollHeight - (footerHeight + footerBottom);
+        const offsetBottomOfScreen = documentElem.scrollTop + documentElem.clientHeight;
+        if (bottomBorder <= offsetBottomOfScreen && this.state.showPanel) {
+            this.setState({
+                showPanel: false,
+            });
+        }
+        if (bottomBorder > offsetBottomOfScreen && !this.state.showPanel) {
+            this.setState({
+                showPanel: true,
+            });
+        }
     };
 
     _resizeScreen = () => {
-        if ((this.wrapperRef.offsetTop <= 151) && this.state.showPanel) {
-            this.setState({showPanel: false});
+        const wrapperOffsetTop = this.wrapperRef.offsetTop;
+        if (wrapperOffsetTop <= headerHeight + footerBottom && this.state.showPanel) {
+            this.setState({ showPanel: false });
         }
-        if ((this.wrapperRef.offsetTop >= 151) && !this.state.showPanel) {
-            this.setState({showPanel: true});
+        if (wrapperOffsetTop > headerHeight + footerBottom && !this.state.showPanel) {
+            this.setState({ showPanel: true });
         }
-    }
+    };
+
+    _scrollScreenLazy = throttle(this._scrollScreen, 100, { leading: true });
+
+    _resizeScreenLazy = throttle(this._resizeScreen, 100, { leading: true });
 }
 
 const mapStateToProps = (state, props) => {
-    const url = props.post.get('url');
-    //state.global.getIn(['content', props.permLink])
-    const content = state.global.getIn(['content', url.replace(/.+@(.+)/, '$1')]);
+    /*const url = props.post.get('url');
+    state.global.getIn(['content', props.permLink])
+    const content = state.global.getIn(['content', url.replace(/.+@(.+)/, '$1')]);*/
 
     const actionsData = [
         {
