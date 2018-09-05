@@ -57,7 +57,6 @@ class PostContainer extends Component {
 
     _onVoteChange = async percent => {};
 
-
     _changeFollow = () => {
         const { updateFollow, user, post } = this.props;
         const follower = user.get('username');
