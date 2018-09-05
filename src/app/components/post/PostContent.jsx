@@ -41,11 +41,13 @@ const Tags = styled.div`
 class PostContent extends Component {
     static propTypes = {
         post: PropTypes.object.isRequired,
-        userName: PropTypes.string.isRequired,
+        userName: PropTypes.string,
+        isFavorite: PropTypes.bool.isRequired,
+        onFavoriteClick: PropTypes.func.isRequired,
     };
 
     render() {
-        const { className, post, userName } = this.props;
+        const { post, userName, isFavorite, onFavoriteClick, className } = this.props;
         const formId = `postFull-${post}`;
         const tags = JSON.parse(post.get('json_metadata')).tags;
         const payout =
@@ -54,7 +56,12 @@ class PostContent extends Component {
         // console.log(post);
         return (
             <Wrapper className={className}>
-                <PostHeader post={post} userName={userName} />
+                <PostHeader
+                    post={post}
+                    userName={userName}
+                    isFavorite={isFavorite}
+                    onFavoriteClick={onFavoriteClick}
+                />
                 <Body>
                     <Tag category>{post.get('category')}</Tag>
                     <PostTitle>{post.get('title')}</PostTitle>
