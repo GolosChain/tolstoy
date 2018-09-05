@@ -4,36 +4,13 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Icon from '../../components/golos-ui/Icon/Icon';
 
-const actionsData = [
-    {
-        iconName: 'like',
-        count: 20,
-    },
-    {
-        iconName: 'dislike',
-        count: 18,
-    },
-    {
-        iconName: 'repost-right',
-        count: 20,
-    },
-    {
-        iconName: 'sharing_triangle',
-        count: null,
-    },
-    {
-        iconName: 'star',
-        count: null,
-    },
-];
-
 const Wrapper = styled.div`
     width: 64px;
     min-height: 50px;
     padding: 15px 22px;
     border-radius: 32px;
     background-color: #ffffff;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.6);
 
     & > div {
         padding: 10px 0;
@@ -82,10 +59,14 @@ class SidePanel extends Component {
         super();
     }
 
+    componentDidMount() {
+        window.addEventListener('scroll', () => {console.log(this.wrapperRef.offsetTop);});
+    }
+
     render() {
-        const { className } = this.props;
+        const { className, actionsData } = this.props;
         return (
-            <Wrapper className={className}>
+            <Wrapper className={className} innerRef={this._setWrapperRef}>
                 {actionsData.map((action, index) => {
                     return (
                         <ActionBlock key={index} iconName={action.iconName} count={action.count} />
@@ -94,10 +75,43 @@ class SidePanel extends Component {
             </Wrapper>
         );
     }
+
+    _setWrapperRef = ref => {
+        this.wrapperRef = ref
+    }
 }
 
 const mapStateToProps = (state, props) => {
-    return {};
+    const url = props.post.get('url');
+    //state.global.getIn(['content', props.permLink])
+    const content = state.global.getIn(['content', url.replace(/.+@(.+)/, '$1')]);
+    console.log();
+
+    const actionsData = [
+        {
+            iconName: 'like',
+            count: 20,
+        },
+        {
+            iconName: 'dislike',
+            count: 18,
+        },
+        {
+            iconName: 'repost-right',
+            count: 20,
+        },
+        {
+            iconName: 'sharing_triangle',
+            count: null,
+        },
+        {
+            iconName: 'star',
+            count: null,
+        },
+    ];
+    return {
+        actionsData
+    };
 };
 
 const mapDispatchToProps = (dispatch, props) => {
