@@ -7,7 +7,7 @@ import is from 'styled-is';
 import Icon from 'golos-ui/Icon';
 import tt from 'counterpart';
 import { Link } from 'react-router';
-import Popover from './Popover';
+import Tooltip from './Popover';
 
 const Wrapper = styled.div`
     display: flex;
@@ -100,7 +100,7 @@ class PostHeader extends Component {
             <Wrapper className={className}>
                 <Avatar>
                     <Userpic account={post.get('author')} size={50} />
-                    <Popover />
+                    <Tooltip />
                 </Avatar>
                 <InfoBlock>
                     <AuthorName to={`/@${post.get('author')}`}>{post.get('author')}</AuthorName>
