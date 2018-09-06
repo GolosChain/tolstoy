@@ -73,15 +73,14 @@ class ActivePanel extends Component {
     };
 
     render() {
-        const { post, onVoteChange, userName } = this.props;
-        const postInfo = extractContent(immutableAccessor, post);
+        const { post, onVoteChange, username } = this.props;
 
         return (
             <Wrapper>
                 <HoldingBlock>
                     <VotePanelStyled
-                        data={post}
-                        me={userName}
+                        data={post.data}
+                        me={username}
                         whiteTheme={false}
                         onChange={onVoteChange}
                     />
@@ -102,8 +101,8 @@ class ActivePanel extends Component {
                 <HoldingBlock>
                     <ReplyBlock
                         withImage={false}
-                        count={post.get('children')}
-                        link={postInfo.link}
+                        count={post.children}
+                        link={post.link}
                         text="Ответить"
                     />
                 </HoldingBlock>
