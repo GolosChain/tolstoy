@@ -55,7 +55,7 @@ const Content = styled.div`
     position: relative;
 `;
 
-class Popover extends Component {
+class Tooltip extends Component {
     static propTypes = {
         screenMargin: PropTypes.number,
         up: PropTypes.bool,
@@ -120,4 +120,4 @@ class Popover extends Component {
     });
 }
 
-export default Popover;
+export default Tooltip;
