@@ -140,6 +140,7 @@ class SidePanel extends Component {
         if (wrapperOffsetTop > headerHeight + footerBottom && !this.state.showPanel) {
             this.setState({ showPanel: true });
         }
+        this._scrollScreenLazy();
     };
 
     _scrollScreenLazy = throttle(this._scrollScreen, 100, { leading: true });
