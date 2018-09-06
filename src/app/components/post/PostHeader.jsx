@@ -75,51 +75,51 @@ const IconWrapper = styled.div`
 
 class PostHeader extends Component {
     static propTypes = {
-        post: PropTypes.object.isRequired,
-        userName: PropTypes.string,
-        isFavorite: PropTypes.bool.isRequired,
+        post: PropTypes.shape({
+            author: PropTypes.string.isRequired,
+            created: PropTypes.string.isRequired,
+            isFavorite: PropTypes.bool.isRequired,
+        }).isRequired,
+        username: PropTypes.string,
+        author: PropTypes.shape({
+            isFollow: PropTypes.bool,
+        }).isRequired,
         onFavoriteClick: PropTypes.func.isRequired,
         changeFollow: PropTypes.func.isRequired,
-        isFollow: PropTypes.bool,
     };
 
     static defaultProps = {
-        isFollow: false,
+        author: {
+            isFollow: false,
+        },
     };
 
     render() {
-        const {
-            userName,
-            post,
-            isFavorite,
-            onFavoriteClick,
-            isFollow,
-            changeFollow,
-            className,
-        } = this.props;
+        const { username, post, author, onFavoriteClick, changeFollow, className } = this.props;
+        const { created, isFavorite, author: authorName } = post;
         return (
             <Wrapper className={className}>
                 <Avatar onClick={this._openPopover}>
-                    <Userpic account={post.get('author')} size={50} />
+                    <Userpic account={authorName} size={50} />
                     <Tooltip ref={ref => (this.tooltip = ref)}>
                         <Popover close={this._closePopover} />
                     </Tooltip>
                 </Avatar>
                 <InfoBlock>
-                    <AuthorName to={`/@${post.get('author')}`}>{post.get('author')}</AuthorName>
-                    <TimeAgoWrapper date={post.get('created')} />
+                    <AuthorName to={`/@${authorName}`}>{authorName}</AuthorName>
+                    <TimeAgoWrapper date={created} />
                 </InfoBlock>
-                {userName !== post.get('author') && (
+                {username !== authorName && (
                     <ChangeFollow
                         onClick={changeFollow}
-                        isFollowed={isFollow}
-                        data-tooltip={isFollow ? tt('g.unfollow') : tt('g.follow')}
+                        isFollowed={author.isFollow}
+                        data-tooltip={author.isFollow ? tt('g.unfollow') : tt('g.follow')}
                     >
                         <Icon
                             name="check"
                             width={14}
                             height={10}
-                            color={isFollow ? '#959595' : 'white'}
+                            color={author.isFollow ? '#959595' : 'white'}
                         />
                     </ChangeFollow>
                 )}

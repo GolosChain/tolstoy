@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Container from 'src/app/components/common/Container/Container';
 import SidePanel from 'src/app/containers/Post/SidePanel';
-import { currentPostIsFavorite, currentPostSelector } from '../../redux/selectors/post/post';
+import { currentPostSelector } from '../../redux/selectors/post/post';
 import PostContent from '../../components/post/PostContent';
 import { currentUserSelector } from '../../redux/selectors/common';
 import { toggleFavoriteAction } from '../../redux/actions/favorites';
@@ -25,21 +25,20 @@ const AboutPanel = styled.div``;
 
 class PostContainer extends Component {
     render() {
-        const { post, user, isFavorite, isFollow } = this.props;
+        const { post, username, author } = this.props;
         return (
             <Wrapper>
                 <Content>
                     <ContentWrapper
                         post={post}
-                        userName={user.get('username')}
-                        isFavorite={isFavorite}
+                        username={username}
+                        author={author}
                         onFavoriteClick={this._onFavoriteClick}
-                        isFollow={isFollow}
                         changeFollow={this._changeFollow}
                     />
                     <ActivePanel
                         post={post}
-                        userName={user.get('username')}
+                        username={username}
                         onVoteChange={this._onVoteChange}
                     />
                     <AboutPanel />
@@ -71,9 +70,10 @@ class PostContainer extends Component {
 const mapStateToProps = (state, props) => {
     return {
         post: currentPostSelector(state, props),
-        user: currentUserSelector(state),
-        isFavorite: currentPostIsFavorite(state, props),
-        isFollow: true,
+        username: currentUserSelector(state).get('username'),
+        author: {
+            isFollow: true,
+        },
     };
 };
 
