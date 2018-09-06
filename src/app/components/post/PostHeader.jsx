@@ -7,7 +7,7 @@ import is from 'styled-is';
 import Icon from 'golos-ui/Icon';
 import tt from 'counterpart';
 import { Link } from 'react-router';
-import Tooltip from './Popover';
+import Tooltip from './Tooltip';
 
 const Wrapper = styled.div`
     display: flex;
