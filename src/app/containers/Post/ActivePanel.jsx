@@ -95,7 +95,7 @@ class ActivePanel extends Component {
                     </SharingTriangle>
                     <Divider />
                     <DotsMore>
-                        <Icon width="32" height="32" name="dots-more_normal" />
+                        <Icon width="32" height="32" name="dots-more_normal"/>
                     </DotsMore>
                 </HoldingBlock>
                 <HoldingBlock>
