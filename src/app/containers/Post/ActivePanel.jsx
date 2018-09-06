@@ -7,6 +7,7 @@ import Icon from '../../components/golos-ui/Icon/Icon';
 import ReplyBlock from '../../components/common/ReplyBlock/ReplyBlock';
 import extractContent from 'app/utils/ExtractContent';
 import { immutableAccessor } from '../../../../app/utils/Accessors';
+import Tooltip from '../../components/post/Tooltip';
 
 const Wrapper = styled.div`
     width: 100%;
@@ -56,11 +57,27 @@ const SharingTriangle = Repost.extend`
 `;
 
 const DotsMore = Repost.extend`
-    padding-left: 13px;
+    position: relative;
+    padding: 0 13px;
 
     svg {
         padding: 12px 4px;
     }
+`;
+
+const MoreFunctions = styled.div`
+    
+`;
+
+const MoreFunction = styled.div`
+    display: flex;
+`;
+
+const MoreFunctionText = styled.div`
+    color: #333333;	
+    font-family: Roboto, sans-serif;	
+    font-size: 14px;	
+    line-height: 44px;
 `;
 
 class ActivePanel extends Component {
@@ -70,6 +87,7 @@ class ActivePanel extends Component {
 
     state = {
         showPanel: true,
+        activeDotsMore: false,
     };
 
     render() {
@@ -95,7 +113,26 @@ class ActivePanel extends Component {
                     </SharingTriangle>
                     <Divider />
                     <DotsMore>
-                        <Icon width="32" height="32" name="dots-more_normal"/>
+                        <Icon
+                            width="32"
+                            height="32"
+                            name={
+                                this.state.activeDotsMore ? 'dots-more_pressed' : 'dots-more_normal'
+                            }
+                            onClick={this._openPopover}
+                        />
+                        <Tooltip
+                            ref={ref => (this.tooltip = ref)}
+                            up={true}
+                            changedIsOpen={this.toggleDots}
+                        >
+                            <MoreFunctions>
+                                <MoreFunction>
+                                    <Icon name="pin"/>
+                                    <MoreFunctionText>Закрепить пост</MoreFunctionText>
+                                </MoreFunction>
+                            </MoreFunctions>
+                        </Tooltip>
                     </DotsMore>
                 </HoldingBlock>
                 <HoldingBlock>
@@ -109,6 +146,15 @@ class ActivePanel extends Component {
             </Wrapper>
         );
     }
+
+    _openPopover = e => {
+        e.stopPropagation();
+        this.tooltip.open();
+    };
+
+    toggleDots = () => {
+        this.setState({ activeDotsMore: !this.state.activeDotsMore });
+    };
 }
 
 const mapStateToProps = (state, props) => {
