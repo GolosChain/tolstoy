@@ -26,7 +26,6 @@ const Container = styled.div`
             transform: translateX(calc(-50% - ${margin}px + ${screenMargin}px));
         `};
     cursor: default;
-
     ${isNot('isOpen')`
         min-height: 0;
         height: 0;
@@ -129,8 +128,8 @@ class Tooltip extends Component {
     };
 
     _checkClickOutside = e => {
-        e.stopPropagation();
         if (this.state.isOpen && !this.container.contains(event.target)) {
+            e.stopPropagation();
             this.close();
         }
     };
