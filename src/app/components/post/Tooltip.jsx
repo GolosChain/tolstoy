@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import throttle from 'lodash/throttle';
+import is, { isNot } from 'styled-is';
 
 const Container = styled.div`
     width: 1px;
@@ -11,8 +12,12 @@ const Container = styled.div`
     min-height: 100px;
     position: absolute;
     left: 50%;
-    ${({ up }) => (up ? 'padding-bottom: 10px;' : 'padding-top: 10px;')};
-    ${({ up }) => (up ? 'bottom: 100%;' : 'top: 100%;')};
+    padding-top: 10px;
+    top: 100%;
+    ${is('up')`
+        padding-bottom: 10px;
+        bottom: 100%;
+    `};
 
     transform: translateX(-50%);
     ${({ margin, screenMargin }) =>
@@ -20,6 +25,15 @@ const Container = styled.div`
         `
             transform: translateX(calc(-50% - ${margin}px + ${screenMargin}px));
         `};
+    cursor: default;
+
+    ${isNot('isOpen')`
+        min-height: 0;
+        height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        overflow: hidden;
+    `};
 `;
 
 const Decoration = styled.div`
@@ -68,20 +82,23 @@ class Tooltip extends Component {
 
     state = {
         margin: 0,
+        isOpen: false,
     };
 
     componentDidMount() {
         this._checkContainerBoundingClientRect();
         window.addEventListener('resize', this._checkScreenSizeLazy);
+        window.addEventListener('click', this._checkClickOutside);
     }
 
     componentWillUnmount() {
         window.removeEventListener('resize', this._checkScreenSizeLazy);
+        window.removeEventListener('click', this._checkClickOutside);
     }
 
     render() {
         const { screenMargin, up, children, className } = this.props;
-        const { margin } = this.state;
+        const { margin, isOpen } = this.state;
         return (
             <Container
                 className={className}
@@ -89,6 +106,7 @@ class Tooltip extends Component {
                 margin={margin}
                 screenMargin={screenMargin}
                 up={up}
+                isOpen={isOpen}
             >
                 <Decoration margin={margin} screenMargin={screenMargin} up={up} />
                 <ContentWrapper>
@@ -97,6 +115,25 @@ class Tooltip extends Component {
             </Container>
         );
     }
+
+    open = () => {
+        this.setState({
+            isOpen: true,
+        });
+    };
+
+    close = () => {
+        this.setState({
+            isOpen: false,
+        });
+    };
+
+    _checkClickOutside = e => {
+        e.stopPropagation();
+        if (this.state.isOpen && !this.container.contains(event.target)) {
+            this.close();
+        }
+    };
 
     _checkContainerBoundingClientRect = () => {
         const { margin } = this.state;
