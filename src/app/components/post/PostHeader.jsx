@@ -98,9 +98,9 @@ class PostHeader extends Component {
         } = this.props;
         return (
             <Wrapper className={className}>
-                <Avatar>
+                <Avatar onClick={this._openPopover}>
                     <Userpic account={post.get('author')} size={50} />
-                    <Tooltip />
+                    <Tooltip ref={ref => (this.tooltip = ref)} />
                 </Avatar>
                 <InfoBlock>
                     <AuthorName to={`/@${post.get('author')}`}>{post.get('author')}</AuthorName>
@@ -129,6 +129,11 @@ class PostHeader extends Component {
             </Wrapper>
         );
     }
+
+    _openPopover = e => {
+        e.stopPropagation();
+        this.tooltip.open();
+    };
 }
 
 export default PostHeader;
