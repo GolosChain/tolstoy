@@ -4,11 +4,23 @@ import PropTypes from 'prop-types';
 import is from 'styled-is';
 import Icon from 'golos-ui/Icon';
 
+const Block = styled.div`
+    width: 100%;
+    border-bottom: 2px solid #e1e1e1;
+    padding-bottom: 21px;
+    padding-top: 17px;
+`;
+
 const Wrapper = styled.div`
     width: 300px;
     max-width: 100%;
-    height: 100px;
     position: relative;
+    padding: 8px 20px 20px;
+
+    & ${Block}:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
 `;
 
 const CloseButton = styled.div`
@@ -45,6 +57,9 @@ class Popover extends Component {
                 <CloseButton onClick={this._closePopover}>
                     <Icon name="cross" width={16} height={16} />
                 </CloseButton>
+                <Block>header</Block>
+                <Block>Posts</Block>
+                <Block>buttons</Block>
             </Wrapper>
         );
     }
