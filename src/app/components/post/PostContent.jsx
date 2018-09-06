@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import MarkdownViewer from '../../../../app/components/cards/MarkdownViewer';
-import { parsePayoutAmount } from '../../../../app/utils/ParsersAndFormatters';
 import Tag from '../golos-ui/Tag/Tag';
 import PostHeader from './PostHeader';
 
@@ -40,56 +39,57 @@ const Tags = styled.div`
 
 class PostContent extends Component {
     static propTypes = {
-        post: PropTypes.object.isRequired,
-        userName: PropTypes.string,
-        isFavorite: PropTypes.bool.isRequired,
+        username: PropTypes.string,
+        post: PropTypes.shape({
+            tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+            payout: PropTypes.number.isRequired,
+            category: PropTypes.string.isRequired,
+            title: PropTypes.string.isRequired,
+            body: PropTypes.string.isRequired,
+            created: PropTypes.any.isRequired,
+            pictures: PropTypes.bool.isRequired,
+            jsonMetadata: PropTypes.string,
+            author: PropTypes.string.isRequired,
+            isFavorite: PropTypes.bool.isRequired,
+        }).isRequired,
+        author: PropTypes.shape({
+            isFollow: PropTypes.bool,
+        }).isRequired,
         onFavoriteClick: PropTypes.func.isRequired,
         changeFollow: PropTypes.func.isRequired,
-        isFollow: PropTypes.bool,
     };
 
     static defaultProps = {
-        isFollow: false,
+        author: {
+            isFollow: false,
+        },
     };
 
     render() {
-        const {
-            post,
-            userName,
-            isFavorite,
-            onFavoriteClick,
-            isFollow,
-            changeFollow,
-            className,
-        } = this.props;
-        const formId = `postFull-${post}`;
-        const tags = JSON.parse(post.get('json_metadata')).tags;
-        const payout =
-            parsePayoutAmount(post.get('pending_payout_value')) +
-            parsePayoutAmount(post.get('total_payout_value'));
-        // console.log(post);
+        const { post, username, author, onFavoriteClick, changeFollow, className } = this.props;
+        const { tags, payout, data, category, title, body, jsonMetadata, pictures } = post;
+        const formId = `postFull-${data}`;
         return (
             <Wrapper className={className}>
                 <PostHeader
                     post={post}
-                    userName={userName}
-                    isFavorite={isFavorite}
+                    username={username}
+                    author={author}
                     onFavoriteClick={onFavoriteClick}
-                    isFollow={isFollow}
                     changeFollow={changeFollow}
                 />
                 <Body>
-                    <Tag category>{post.get('category')}</Tag>
-                    <PostTitle>{post.get('title')}</PostTitle>
+                    <Tag category>{category}</Tag>
+                    <PostTitle>{title}</PostTitle>
                     <PostBody>
                         <MarkdownViewer
                             formId={formId + '-viewer'}
-                            text={post.get('body')}
-                            jsonMetadata={post.get('json_metadata')}
+                            text={body}
+                            jsonMetadata={jsonMetadata}
                             large
                             highQualityPost={payout > 10}
-                            noImage={!post.getIn(['stats', 'pictures'])}
-                            timeCteated={new Date(post.get('created'))}
+                            noImage={!pictures}
+                            timeCteated={new Date(post.created)}
                         />
                     </PostBody>
                 </Body>
