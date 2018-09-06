@@ -5,11 +5,7 @@ import throttle from 'lodash/throttle';
 import is, { isNot } from 'styled-is';
 
 const Container = styled.div`
-    width: 1px;
-    min-width: 100px;
     max-width: calc(100vw - ${({ screenMargin }) => screenMargin * 3}px);
-    height: 1px;
-    min-height: 100px;
     position: absolute;
     left: 50%;
     padding-top: 10px;
@@ -27,7 +23,6 @@ const Container = styled.div`
         `};
     cursor: default;
     ${isNot('isOpen')`
-        min-height: 0;
         height: 0;
         padding-top: 0;
         padding-bottom: 0;
@@ -53,8 +48,6 @@ const Decoration = styled.div`
 `;
 
 const ContentWrapper = styled.div`
-    width: 100%;
-    height: 100%;
     background-color: white;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5), 0 2px 12px 0 rgba(0, 0, 0, 0.15);
     border-radius: 5px;
@@ -62,8 +55,6 @@ const ContentWrapper = styled.div`
 `;
 
 const Content = styled.div`
-    width: 100%;
-    height: 100%;
     background-color: white;
     position: relative;
 `;

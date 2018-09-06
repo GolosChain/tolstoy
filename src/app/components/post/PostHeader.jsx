@@ -8,6 +8,7 @@ import Icon from 'golos-ui/Icon';
 import tt from 'counterpart';
 import { Link } from 'react-router';
 import Tooltip from './Tooltip';
+import Popover from './Popover';
 
 const Wrapper = styled.div`
     display: flex;
@@ -100,7 +101,9 @@ class PostHeader extends Component {
             <Wrapper className={className}>
                 <Avatar onClick={this._openPopover}>
                     <Userpic account={post.get('author')} size={50} />
-                    <Tooltip ref={ref => (this.tooltip = ref)} />
+                    <Tooltip ref={ref => (this.tooltip = ref)}>
+                        <Popover close={this._closePopover} />
+                    </Tooltip>
                 </Avatar>
                 <InfoBlock>
                     <AuthorName to={`/@${post.get('author')}`}>{post.get('author')}</AuthorName>
@@ -133,6 +136,10 @@ class PostHeader extends Component {
     _openPopover = e => {
         e.stopPropagation();
         this.tooltip.open();
+    };
+
+    _closePopover = () => {
+        this.tooltip.close();
     };
 }
 
