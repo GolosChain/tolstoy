@@ -9,6 +9,7 @@ import { currentUserSelector } from '../../redux/selectors/common';
 import { toggleFavoriteAction } from '../../redux/actions/favorites';
 import ActivePanel from './ActivePanel';
 import transaction from '../../../../app/redux/Transaction';
+import AboutPanel from './AboutPanel';
 const Wrapper = styled.div`
     width: 100%;
     height: 100%;
@@ -21,7 +22,6 @@ const Content = Container.extend`
     flex-direction: column;
 `;
 const ContentWrapper = styled(PostContent)``;
-const AboutPanel = styled.div``;
 
 class PostContainer extends Component {
     render() {
@@ -41,7 +41,7 @@ class PostContainer extends Component {
                         username={username}
                         onVoteChange={this._onVoteChange}
                     />
-                    <AboutPanel />
+                    <AboutPanel post={post} author={author} />
                     <SidePanel post={post} />
                 </Content>
             </Wrapper>
