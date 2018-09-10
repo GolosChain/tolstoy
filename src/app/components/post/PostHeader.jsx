@@ -82,7 +82,12 @@ class PostHeader extends Component {
         }).isRequired,
         username: PropTypes.string,
         author: PropTypes.shape({
-            isFollow: PropTypes.bool,
+            name: PropTypes.string,
+            about: PropTypes.string,
+            account: PropTypes.string.isRequired,
+            isFollow: PropTypes.bool.isRequired,
+            followerCount: PropTypes.number.isRequired,
+            pinnedPosts: PropTypes.array.isRequired,
         }).isRequired,
         onFavoriteClick: PropTypes.func.isRequired,
         changeFollow: PropTypes.func.isRequired,
@@ -102,7 +107,7 @@ class PostHeader extends Component {
                 <Avatar onClick={this._openPopover}>
                     <Userpic account={authorName} size={50} />
                     <Tooltip ref={ref => (this.tooltip = ref)}>
-                        <Popover close={this._closePopover} />
+                        <Popover close={this._closePopover} author={author} />
                     </Tooltip>
                 </Avatar>
                 <InfoBlock>

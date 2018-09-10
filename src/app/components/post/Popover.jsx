@@ -11,7 +11,7 @@ const Block = styled.div`
     padding-top: 17px;
 `;
 
-const Wrapper = styled.div`
+const Wrapper = styled.section`
     width: 300px;
     max-width: 100%;
     position: relative;
@@ -46,9 +46,16 @@ const CloseButton = styled.div`
 class Popover extends Component {
     static propTypes = {
         close: PropTypes.func.isRequired,
+        username: PropTypes.string,
+        author: PropTypes.shape({
+            name: PropTypes.string,
+            about: PropTypes.string,
+            account: PropTypes.string.isRequired,
+            isFollow: PropTypes.bool.isRequired,
+            followerCount: PropTypes.number.isRequired,
+            pinnedPosts: PropTypes.array.isRequired,
+        }).isRequired,
     };
-
-    static defaultProps = {};
 
     render() {
         const { className } = this.props;
