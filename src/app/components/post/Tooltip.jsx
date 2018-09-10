@@ -71,6 +71,7 @@ class Tooltip extends Component {
     static defaultProps = {
         screenMargin: 20,
         up: false,
+        changedIsOpen: () => {},
     };
 
     state = {
@@ -112,14 +113,14 @@ class Tooltip extends Component {
     open = () => {
         if (!this.state.isOpen) {
             this.props.changedIsOpen();
-            this.setState({isOpen: true});
+            this.setState({ isOpen: true });
         }
     };
 
     close = () => {
         if (this.state.isOpen) {
             this.props.changedIsOpen();
-            this.setState({isOpen: false});
+            this.setState({ isOpen: false });
         }
     };
 
