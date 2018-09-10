@@ -10,8 +10,10 @@ const Container = styled.div`
     left: 50%;
     padding-top: 10px;
     top: 100%;
+
     ${is('up')`
         padding-bottom: 10px;
+        top: auto;
         bottom: 100%;
     `};
 
@@ -63,11 +65,13 @@ class Tooltip extends Component {
     static propTypes = {
         screenMargin: PropTypes.number,
         up: PropTypes.bool,
+        changedIsOpen: PropTypes.func,
     };
 
     static defaultProps = {
         screenMargin: 20,
         up: false,
+        changedIsOpen: () => {},
     };
 
     state = {
@@ -107,15 +111,17 @@ class Tooltip extends Component {
     }
 
     open = () => {
-        this.setState({
-            isOpen: true,
-        });
+        if (!this.state.isOpen) {
+            this.props.changedIsOpen();
+            this.setState({ isOpen: true });
+        }
     };
 
     close = () => {
-        this.setState({
-            isOpen: false,
-        });
+        if (this.state.isOpen) {
+            this.props.changedIsOpen();
+            this.setState({ isOpen: false });
+        }
     };
 
     _checkClickOutside = e => {

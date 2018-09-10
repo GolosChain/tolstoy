@@ -7,6 +7,7 @@ import Icon from '../../components/golos-ui/Icon/Icon';
 import ReplyBlock from '../../components/common/ReplyBlock/ReplyBlock';
 import extractContent from 'app/utils/ExtractContent';
 import { immutableAccessor } from '../../../../app/utils/Accessors';
+import Tooltip from '../../components/post/Tooltip';
 
 const Wrapper = styled.div`
     width: 100%;
@@ -37,7 +38,6 @@ const Repost = styled.div`
 
     svg {
         padding: 4px;
-        cursor: pointer;
     }
 `;
 
@@ -56,11 +56,37 @@ const SharingTriangle = Repost.extend`
 `;
 
 const DotsMore = Repost.extend`
-    padding-left: 13px;
+    position: relative;
+    padding: 0 13px;
 
     svg {
         padding: 12px 4px;
     }
+`;
+
+const MoreFunctions = styled.div`
+    padding: 30px;
+`;
+
+const MoreFunction = styled.div`
+    display: flex;
+    align-items: center;
+
+    svg {
+        min-width: 20px;
+        min-height: 20px;
+        padding: 0;
+    }
+`;
+
+const MoreFunctionText = styled.div`
+    margin-left: 25px;
+    color: #333333;
+    font-family: Roboto, sans-serif;
+    font-size: 14px;
+    line-height: 44px;
+    white-space: nowrap;
+    cursor: pointer;
 `;
 
 class ActivePanel extends Component {
@@ -70,10 +96,11 @@ class ActivePanel extends Component {
 
     state = {
         showPanel: true,
+        activeDotsMore: false,
     };
 
     render() {
-        const { post, onVoteChange, username } = this.props;
+        const { post, onVoteChange, username, tooltipActions } = this.props;
 
         return (
             <Wrapper>
@@ -95,7 +122,30 @@ class ActivePanel extends Component {
                     </SharingTriangle>
                     <Divider />
                     <DotsMore>
-                        <Icon width="32" height="32" name="dots-more_normal" />
+                        <Icon
+                            width="32"
+                            height="32"
+                            name={
+                                this.state.activeDotsMore ? 'dots-more_pressed' : 'dots-more_normal'
+                            }
+                            onClick={this._openPopover}
+                        />
+                        <Tooltip
+                            ref={ref => (this.tooltip = ref)}
+                            up={true}
+                            changedIsOpen={this.toggleDots}
+                        >
+                            <MoreFunctions>
+                                {tooltipActions.map((action, index) => {
+                                    return (
+                                        <MoreFunction key={index}>
+                                            <Icon width="20" height="20" name={action.icon} />
+                                            <MoreFunctionText>{action.name}</MoreFunctionText>
+                                        </MoreFunction>
+                                    );
+                                })}
+                            </MoreFunctions>
+                        </Tooltip>
                     </DotsMore>
                 </HoldingBlock>
                 <HoldingBlock>
@@ -109,10 +159,24 @@ class ActivePanel extends Component {
             </Wrapper>
         );
     }
+
+    _openPopover = e => {
+        e.stopPropagation();
+        this.tooltip.open();
+    };
+
+    toggleDots = () => {
+        this.setState({ activeDotsMore: !this.state.activeDotsMore });
+    };
 }
 
 const mapStateToProps = (state, props) => {
-    return {};
+    const tooltipActions = [
+        { name: 'Закрепить пост', icon: 'pin' },
+        { name: 'Продвинуть пост', icon: 'brilliant' },
+        { name: 'Пожаловаться на пост', icon: 'complain_normal' },
+    ];
+    return { tooltipActions };
 };
 
 const mapDispatchToProps = (dispatch, props) => {
