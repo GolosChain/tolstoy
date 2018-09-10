@@ -37,11 +37,11 @@ Icon.propTypes = {
         PropTypes.number,
         PropTypes.string,
     ]),
-}
+};
 
 Icon.defaultProps = {
     height: '24',
     width: '24',
-}
+};
 
 export default styled(Icon)``;
