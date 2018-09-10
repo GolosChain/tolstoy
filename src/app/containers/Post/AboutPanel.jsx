@@ -5,14 +5,14 @@ import styled from 'styled-components';
 import Userpic from '../../../../app/components/elements/Userpic';
 import { Link } from 'react-router';
 import Icon from '../../components/golos-ui/Icon/Icon';
-import Button from '../../components/post/Button';
+import Button from '../../components/golos-ui/Button/Button';
 
 const Wrapper = styled.div`
     display: flex;
     padding: 20px;
     border-radius: 8px;
     background-color: #ffffff;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .06);
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
 `;
 
 const AvatarBlock = styled.div`
@@ -30,17 +30,17 @@ const RealName = styled(Link)`
     display: block;
     padding-bottom: 6px;
     margin-top: -6px;
-    color: #393636;	
-    font-family: 'Open Sans', sans-serif;	
-    font-size: 24px;	
-    font-weight: bold;	
+    color: #393636;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 24px;
+    font-weight: bold;
     line-height: 30px;
 `;
 
 const UserName = styled.div`
-    color: #959595;	
+    color: #959595;
     font-family: 'Open Sans', sans-serif;
-    font-size: 12px;	
+    font-size: 12px;
     line-height: 18px;
 `;
 
@@ -61,8 +61,8 @@ const CakeBlock = styled.div`
 const CakeText = styled.div`
     padding-top: 14px;
     color: #959595;
-    font-family: 'Open Sans', sans-serif;;	
-    font-size: 16px;	
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
     letter-spacing: -0.26px;
     line-height: 24px;
 `;
@@ -73,6 +73,10 @@ const ButtonBlock = styled.div`
     align-items: flex-end;
     flex-direction: column;
     flex-grow: 1;
+`;
+
+const ButtonInPanel = Button.extend`
+    width: 167px;
 `;
 
 class AboutPanel extends Component {
@@ -94,22 +98,18 @@ class AboutPanel extends Component {
                     <Divider />
                 </AvatarBlock>
                 <CakeBlock>
-                    <Icon width="36" height="34" name="cake"/>
-                    <CakeText>
-                        На Golos с сентября 2018
-                    </CakeText>
+                    <Icon width="36" height="34" name="cake" />
+                    <CakeText>На Golos с сентября 2018</CakeText>
                 </CakeBlock>
                 <ButtonBlock>
-                    <Button text="отблагодарить"
-                            buttonWidth={167}
-                            icon="coins_plus"
-                            iconWidth={17}
-                            iconHeight={15}/>
-                    <Button text="отписаться"
-                            buttonWidth={167}
-                            icon="cross"
-                            iconWidth={10}
-                            iconHeight={10}/>
+                    <ButtonInPanel light>
+                        <Icon width="17" height="15" name="coins_plus" useMinSizes={true} />
+                        отблагодарить
+                    </ButtonInPanel>
+                    <ButtonInPanel light>
+                        <Icon width="10" height="10" name="cross" useMinSizes={true} />
+                        отписаться
+                    </ButtonInPanel>
                 </ButtonBlock>
             </Wrapper>
         );
