@@ -38,7 +38,6 @@ const Repost = styled.div`
 
     svg {
         padding: 4px;
-        cursor: pointer;
     }
 `;
 
@@ -72,21 +71,22 @@ const MoreFunctions = styled.div`
 const MoreFunction = styled.div`
     display: flex;
     align-items: center;
-    
+
     svg {
         min-width: 20px;
         min-height: 20px;
-        padding: 0;  
+        padding: 0;
     }
 `;
 
 const MoreFunctionText = styled.div`
     margin-left: 25px;
-    color: #333333;	
-    font-family: Roboto, sans-serif;	
-    font-size: 14px;	
+    color: #333333;
+    font-family: Roboto, sans-serif;
+    font-size: 14px;
     line-height: 44px;
     white-space: nowrap;
+    cursor: pointer;
 `;
 
 class ActivePanel extends Component {
@@ -100,7 +100,7 @@ class ActivePanel extends Component {
     };
 
     render() {
-        const { post, onVoteChange, username } = this.props;
+        const { post, onVoteChange, username, tooltipActions } = this.props;
 
         return (
             <Wrapper>
@@ -136,18 +136,14 @@ class ActivePanel extends Component {
                             changedIsOpen={this.toggleDots}
                         >
                             <MoreFunctions>
-                                <MoreFunction>
-                                    <Icon width="20" height="20" name="pin"/>
-                                    <MoreFunctionText>Закрепить пост</MoreFunctionText>
-                                </MoreFunction>
-                                <MoreFunction>
-                                    <Icon width="20" height="20" name="pin"/>
-                                    <MoreFunctionText>Продвинуть пост</MoreFunctionText>
-                                </MoreFunction>
-                                <MoreFunction>
-                                    <Icon width="20" height="20" name="pin"/>
-                                    <MoreFunctionText>Пожаловаться на пост</MoreFunctionText>
-                                </MoreFunction>
+                                {tooltipActions.map((action, index) => {
+                                    return (
+                                        <MoreFunction key={index}>
+                                            <Icon width="20" height="20" name={action.icon} />
+                                            <MoreFunctionText>{action.name}</MoreFunctionText>
+                                        </MoreFunction>
+                                    );
+                                })}
                             </MoreFunctions>
                         </Tooltip>
                     </DotsMore>
@@ -175,7 +171,12 @@ class ActivePanel extends Component {
 }
 
 const mapStateToProps = (state, props) => {
-    return {};
+    const tooltipActions = [
+        { name: 'Закрепить пост', icon: 'pin' },
+        { name: 'Продвинуть пост', icon: 'brilliant' },
+        { name: 'Пожаловаться на пост', icon: 'complain_normal' },
+    ];
+    return { tooltipActions };
 };
 
 const mapDispatchToProps = (dispatch, props) => {
