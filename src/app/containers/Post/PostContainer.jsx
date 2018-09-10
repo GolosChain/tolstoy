@@ -41,7 +41,7 @@ class PostContainer extends Component {
                         username={username}
                         onVoteChange={this._onVoteChange}
                     />
-                    <AboutPanel post={post} />
+                    <AboutPanel post={post} author={author} />
                     <SidePanel post={post} />
                 </Content>
             </Wrapper>
