@@ -5,6 +5,8 @@ import is from 'styled-is';
 import Icon from 'golos-ui/Icon';
 import Userpic from 'app/components/elements/Userpic';
 import tt from 'counterpart';
+import { Link } from 'react-router';
+import Follow from '../common/Follow';
 
 const Block = styled.div`
     width: 100%;
@@ -45,7 +47,7 @@ const CloseButton = styled.div`
     }
 `;
 
-const Title = styled.div`
+const AuthorTitle = styled.div`
     display: flex;
     padding-right: 20px;
 `;
@@ -75,6 +77,37 @@ const About = styled.p`
 
 const Followers = styled.div``;
 
+const PinnedPost = styled.div`
+    display: flex;
+    margin-top: 20px;
+
+    & > svg {
+        min-width: 20px;
+    }
+`;
+
+const PostsTitle = styled.div`
+    color: #393636;
+    font: 14px 'Open Sans', sans-serif;
+    font-weight: 600;
+    line-height: 16px;
+    flex-shrink: 1;
+`;
+const PostTitle = styled(Link)`
+    margin-left: 12px;
+    color: #333333;
+    font: 16px Roboto;
+    font-weight: 500;
+    line-height: 24px;
+    text-decoration: none;
+
+    &:visited,
+    &:hover,
+    &:active {
+        color: #333333;
+    }
+`;
+
 class Popover extends Component {
     static propTypes = {
         close: PropTypes.func.isRequired,
@@ -90,26 +123,37 @@ class Popover extends Component {
     };
 
     render() {
-        const { author, className } = this.props;
+        const { author, username, className } = this.props;
         return (
             <Wrapper className={className}>
+                <Link />
                 <CloseButton onClick={this._closePopover}>
                     <Icon name="cross" width={16} height={16} />
                 </CloseButton>
                 <Block>
-                    <Title>
+                    <AuthorTitle>
                         <AuthorInfoBlock>
                             <AuthorName>{author.name}</AuthorName>
                             <AuthorAccount>@{author.account}</AuthorAccount>
                         </AuthorInfoBlock>
                         <Userpic size={50} account={author.account} />
-                    </Title>
+                    </AuthorTitle>
                     <About>{author.about}</About>
                     <Followers>
                         {tt('user_profile.follower_count', { count: author.followerCount })}
                     </Followers>
                 </Block>
-                <Block>Posts</Block>
+                {author.pinnedPosts.length > 0 && (
+                    <Block>
+                        <PostsTitle>ПОСТЫ АВТОРА</PostsTitle>
+                        {author.pinnedPosts.map(post => (
+                            <PinnedPost key={post.url}>
+                                <Icon name="pin" size="20px" />
+                                <PostTitle to={post.url}>{post.title}</PostTitle>
+                            </PinnedPost>
+                        ))}
+                    </Block>
+                )}
                 <Block>buttons</Block>
             </Wrapper>
         );
