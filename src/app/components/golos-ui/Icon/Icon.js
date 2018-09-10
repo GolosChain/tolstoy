@@ -7,29 +7,41 @@ if (process.env.BROWSER) {
     files.keys().forEach(files);
 }
 
-const Icon = ({ name, size, height, width, useMinSizes, ...props }) => {
+const Svg = styled.svg`
+    min-width: ${({width}) => width}; 
+    min-height: ${({height}) => height}; 
+`;
+
+const Icon = ({ name, size, height, width, ...props }) => {
     props.height = size || height;
     props.width = size || width;
 
     return (
-        <svg {...props} style={useMinSizes ? { minWidth: width, minHeight: height } : {}}>
+        <Svg { ...props }>
             <use xlinkHref={`#${name}`} />
-        </svg>
+        </Svg>
     );
 };
 
 Icon.propTypes = {
     name: PropTypes.string,
-    size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    useMinSizes: PropTypes.bool,
-};
+    size: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string,
+    ]),
+    height: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string,
+    ]),
+    width: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string,
+    ]),
+}
 
 Icon.defaultProps = {
     height: '24',
     width: '24',
-    useMinSizes: false,
-};
+}
 
 export default styled(Icon)``;

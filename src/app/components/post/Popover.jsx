@@ -80,10 +80,6 @@ const Followers = styled.div``;
 const PinnedPost = styled.div`
     display: flex;
     margin-top: 20px;
-
-    & > svg {
-        min-width: 20px;
-    }
 `;
 
 const PostsTitle = styled.div`
