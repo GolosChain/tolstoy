@@ -45,9 +45,11 @@ export const currentPostSelector = createDeepEqualSelector(
 export const authorSelector = createDeepEqualSelector(
     [globalSelector('accounts'), currentPostSelector],
     (accounts, post) => {
-        const account = accounts[post.author];
-        const jsonData = normalizeProfile(account);
-
+        const account = accounts.get(post.author);
+        const jsonData = normalizeProfile({
+            json_metadata: account.get('json_metadata'),
+            name: post.author,
+        });
         return {
             name: jsonData.name || post.author,
             account: post.author,

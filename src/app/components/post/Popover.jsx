@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import is from 'styled-is';
 import Icon from 'golos-ui/Icon';
+import Userpic from 'app/components/elements/Userpic';
+import tt from 'counterpart';
 
 const Block = styled.div`
     width: 100%;
@@ -43,6 +45,36 @@ const CloseButton = styled.div`
     }
 `;
 
+const Title = styled.div`
+    display: flex;
+    padding-right: 20px;
+`;
+
+const AuthorInfoBlock = styled.div`
+    margin-right: auto;
+`;
+
+const AuthorName = styled.div`
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+`;
+
+const AuthorAccount = styled.div`
+    color: #959595;
+    font: 13px Roboto, sans-serif;
+    letter-spacing: 0.4px;
+`;
+
+const About = styled.p`
+    color: #959595;
+    font: 16px 'Open Sans', sans-serif;
+    letter-spacing: -0.26px;
+    line-height: 24px;
+`;
+
+const Followers = styled.div``;
+
 class Popover extends Component {
     static propTypes = {
         close: PropTypes.func.isRequired,
@@ -58,13 +90,25 @@ class Popover extends Component {
     };
 
     render() {
-        const { className } = this.props;
+        const { author, className } = this.props;
         return (
             <Wrapper className={className}>
                 <CloseButton onClick={this._closePopover}>
                     <Icon name="cross" width={16} height={16} />
                 </CloseButton>
-                <Block>header</Block>
+                <Block>
+                    <Title>
+                        <AuthorInfoBlock>
+                            <AuthorName>{author.name}</AuthorName>
+                            <AuthorAccount>@{author.account}</AuthorAccount>
+                        </AuthorInfoBlock>
+                        <Userpic size={50} account={author.account} />
+                    </Title>
+                    <About>{author.about}</About>
+                    <Followers>
+                        {tt('user_profile.follower_count', { count: author.followerCount })}
+                    </Followers>
+                </Block>
                 <Block>Posts</Block>
                 <Block>buttons</Block>
             </Wrapper>
