@@ -66,18 +66,27 @@ const DotsMore = Repost.extend`
 `;
 
 const MoreFunctions = styled.div`
-    
+    padding: 30px;
 `;
 
 const MoreFunction = styled.div`
     display: flex;
+    align-items: center;
+    
+    svg {
+        min-width: 20px;
+        min-height: 20px;
+        padding: 0;  
+    }
 `;
 
 const MoreFunctionText = styled.div`
+    margin-left: 25px;
     color: #333333;	
     font-family: Roboto, sans-serif;	
     font-size: 14px;	
     line-height: 44px;
+    white-space: nowrap;
 `;
 
 class ActivePanel extends Component {
@@ -128,8 +137,16 @@ class ActivePanel extends Component {
                         >
                             <MoreFunctions>
                                 <MoreFunction>
-                                    <Icon name="pin"/>
+                                    <Icon width="20" height="20" name="pin"/>
                                     <MoreFunctionText>Закрепить пост</MoreFunctionText>
+                                </MoreFunction>
+                                <MoreFunction>
+                                    <Icon width="20" height="20" name="pin"/>
+                                    <MoreFunctionText>Продвинуть пост</MoreFunctionText>
+                                </MoreFunction>
+                                <MoreFunction>
+                                    <Icon width="20" height="20" name="pin"/>
+                                    <MoreFunctionText>Пожаловаться на пост</MoreFunctionText>
                                 </MoreFunction>
                             </MoreFunctions>
                         </Tooltip>
