@@ -58,7 +58,8 @@ export const authorSelector = createDeepEqualSelector(
             followerCount: 0,
             pinnedPosts: [
                 {
-                    title: 'Test pinked post.',
+                    title:
+                        'Test pinked post.Test pinked post.Test pinked post.Test pinked post.Test pinked post.',
                     url:
                         '/vox-populi/@istfak/ru-obzor-tega-istoriya-2608-809-istfak-vsem-spasibo-prodolzhaem-rabotu',
                 },
