@@ -56,7 +56,13 @@ export const authorSelector = createDeepEqualSelector(
             about: jsonData.about,
             isFollow: true,
             followerCount: 0,
-            pinnedPosts: [],
+            pinnedPosts: [
+                {
+                    title: 'Test pinked post.',
+                    url:
+                        '/vox-populi/@istfak/ru-obzor-tega-istoriya-2608-809-istfak-vsem-spasibo-prodolzhaem-rabotu',
+                },
+            ],
         };
     }
 );
