@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Container from 'src/app/components/common/Container/Container';
 import SidePanel from 'src/app/containers/Post/SidePanel';
-import { currentPostSelector } from '../../redux/selectors/post/post';
+import { authorSelector, currentPostSelector } from '../../redux/selectors/post/post';
 import PostContent from '../../components/post/PostContent';
 import { currentUserSelector } from '../../redux/selectors/common';
 import { toggleFavoriteAction } from '../../redux/actions/favorites';
@@ -71,9 +71,7 @@ const mapStateToProps = (state, props) => {
     return {
         post: currentPostSelector(state, props),
         username: currentUserSelector(state).get('username'),
-        author: {
-            isFollow: true,
-        },
+        author: authorSelector(state, props),
     };
 };
 

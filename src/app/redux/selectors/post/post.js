@@ -5,6 +5,7 @@ import {
     routerParamSelector,
 } from '../common';
 import { parsePayoutAmount } from 'app/utils/ParsersAndFormatters';
+import normalizeProfile from 'app/utils/NormalizeProfile';
 
 export const currentPostIsFavoriteSelector = createDeepEqualSelector(
     [dataSelector('favorites'), (state, props) => props.permLink],
@@ -37,6 +38,23 @@ export const currentPostSelector = createDeepEqualSelector(
             children: post.get('children'),
             link: `/@${post.get('author')}/${post.get('permlink')}`,
             data: post,
+        };
+    }
+);
+
+export const authorSelector = createDeepEqualSelector(
+    [globalSelector('accounts'), currentPostSelector],
+    (accounts, post) => {
+        const account = accounts[post.author];
+        const jsonData = normalizeProfile(account);
+
+        return {
+            name: jsonData.name,
+            account: post.author,
+            about: jsonData.about,
+            isFollow: true,
+            followerCount: 0,
+            pinnedPosts: [],
         };
     }
 );
