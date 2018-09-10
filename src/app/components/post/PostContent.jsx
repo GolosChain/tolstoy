@@ -5,7 +5,7 @@ import MarkdownViewer from '../../../../app/components/cards/MarkdownViewer';
 import Tag from '../golos-ui/Tag/Tag';
 import PostHeader from './PostHeader';
 
-const Wrapper = styled.div`
+const Wrapper = styled.section`
     padding: 40px 70px 30px;
     background-color: white;
     border-radius: 8px;
@@ -16,7 +16,7 @@ const Body = styled.div`
     margin-top: 27px;
 `;
 
-const PostTitle = styled.div`
+const PostTitle = styled.h1`
     margin-top: 20px;
     color: #333333;
     font: 34px 'Open Sans', sans-serif;
@@ -53,7 +53,12 @@ class PostContent extends Component {
             isFavorite: PropTypes.bool.isRequired,
         }).isRequired,
         author: PropTypes.shape({
-            isFollow: PropTypes.bool,
+            name: PropTypes.string,
+            about: PropTypes.string,
+            account: PropTypes.string.isRequired,
+            isFollow: PropTypes.bool.isRequired,
+            followerCount: PropTypes.number.isRequired,
+            pinnedPosts: PropTypes.array.isRequired,
         }).isRequired,
         onFavoriteClick: PropTypes.func.isRequired,
         changeFollow: PropTypes.func.isRequired,
