@@ -49,7 +49,7 @@ export const authorSelector = createDeepEqualSelector(
         const jsonData = normalizeProfile(account);
 
         return {
-            name: jsonData.name,
+            name: jsonData.name || post.author,
             account: post.author,
             about: jsonData.about,
             isFollow: true,
