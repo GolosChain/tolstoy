@@ -41,7 +41,7 @@ const ReplyLink = styled(Link)`
     letter-spacing: 0.8px;
     color: #393636 !important;
     cursor: pointer;
-
+    
     ${isNot('showText')`
         @media (min-width: 890px) and (max-width: 1200px), (max-width: 639px) {
             display: none;
@@ -95,7 +95,7 @@ export default function ReplyBlock({ withImage, grid, count, link, text, classNa
                 <ReplyCount>{count}</ReplyCount>
             </ReplyCounterBlock>
             <Splitter />
-            <ReplyLink to={`${link}#comments`} whiteTheme={withImage} showText={showText}>
+            <ReplyLink to={`${link}#comments`} showText={showText}>
                 {text}
             </ReplyLink>
         </Root>
