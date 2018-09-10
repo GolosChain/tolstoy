@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Userpic from '../../../../app/components/elements/Userpic';
@@ -85,7 +84,7 @@ class AboutPanel extends Component {
     static defaultProps = {};
 
     render() {
-        const { post, author } = this.props;
+        const { author } = this.props;
         const accountUsername = author.account;
         return (
             <Wrapper>
@@ -103,11 +102,11 @@ class AboutPanel extends Component {
                 </CakeBlock>
                 <ButtonBlock>
                     <ButtonInPanel light>
-                        <Icon width="17" height="15" name="coins_plus" useMinSizes={true} />
+                        <Icon width="17" height="15" name="coins_plus" />
                         отблагодарить
                     </ButtonInPanel>
                     <ButtonInPanel light>
-                        <Icon width="10" height="10" name="cross" useMinSizes={true} />
+                        <Icon width="10" height="10" name="cross" />
                         отписаться
                     </ButtonInPanel>
                 </ButtonBlock>
@@ -116,15 +115,4 @@ class AboutPanel extends Component {
     }
 }
 
-const mapStateToProps = (state, props) => {
-    return {};
-};
-
-const mapDispatchToProps = (dispatch, props) => {
-    return {};
-};
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(AboutPanel);
+export default AboutPanel;
