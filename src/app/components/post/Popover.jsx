@@ -6,7 +6,7 @@ import Icon from 'golos-ui/Icon';
 import Userpic from 'app/components/elements/Userpic';
 import tt from 'counterpart';
 import { Link } from 'react-router';
-import Follow from '../common/Follow';
+import Button from 'golos-ui/Button';
 
 const Block = styled.div`
     width: 100%;
@@ -15,8 +15,12 @@ const Block = styled.div`
     padding-top: 17px;
 `;
 
+const ButtonsBlock = Block.extend`
+    display: flex;
+`;
+
 const Wrapper = styled.section`
-    width: 300px;
+    width: 330px;
     max-width: 100%;
     position: relative;
     padding: 8px 20px 20px;
@@ -104,10 +108,26 @@ const PostTitle = styled(Link)`
     }
 `;
 
+const CustomButton = styled(Button)`
+    height: 30px;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 23px;
+`;
+
+const BlockButton = styled.div`
+    color: #959595;
+    font: 12px 'Open Sans', sans-serif;
+    font-weight: bold;
+    line-height: 23px;
+    text-align: right;
+    text-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5), 0 2px 12px 0 rgba(0, 0, 0, 0.15);
+    text-transform: uppercase;
+`;
+
 class Popover extends Component {
     static propTypes = {
         close: PropTypes.func.isRequired,
-        username: PropTypes.string,
         author: PropTypes.shape({
             name: PropTypes.string,
             about: PropTypes.string,
@@ -119,7 +139,7 @@ class Popover extends Component {
     };
 
     render() {
-        const { author, username, className } = this.props;
+        const { author, className } = this.props;
         return (
             <Wrapper className={className}>
                 <Link />
@@ -150,7 +170,13 @@ class Popover extends Component {
                         ))}
                     </Block>
                 )}
-                <Block>buttons</Block>
+                <ButtonsBlock>
+                    <CustomButton>
+                        <Icon name="subscribe" height="8" width="11" />
+                        Подписаться
+                    </CustomButton>
+                    <BlockButton>заблокировать</BlockButton>
+                </ButtonsBlock>
             </Wrapper>
         );
     }
