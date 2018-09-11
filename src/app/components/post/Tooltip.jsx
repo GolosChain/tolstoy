@@ -30,6 +30,7 @@ const Container = styled.div`
         padding-bottom: 0;
         overflow: hidden;
     `};
+    z-index: 1;
 `;
 
 const Decoration = styled.div`
