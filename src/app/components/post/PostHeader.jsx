@@ -88,9 +88,10 @@ class PostHeader extends Component {
             isFollow: PropTypes.bool.isRequired,
             followerCount: PropTypes.number.isRequired,
             pinnedPosts: PropTypes.array.isRequired,
+            follow: PropTypes.func.isRequired,
+            unfollow: PropTypes.func.isRequired,
         }).isRequired,
         onFavoriteClick: PropTypes.func.isRequired,
-        changeFollow: PropTypes.func.isRequired,
     };
 
     static defaultProps = {
@@ -100,8 +101,9 @@ class PostHeader extends Component {
     };
 
     render() {
-        const { username, post, author, onFavoriteClick, changeFollow, className } = this.props;
+        const { username, post, author, onFavoriteClick, className } = this.props;
         const { created, isFavorite, author: authorName } = post;
+        const { isFollow, follow, unfollow } = author;
         return (
             <Wrapper className={className}>
                 <Avatar onClick={this._openPopover}>
@@ -116,15 +118,15 @@ class PostHeader extends Component {
                 </InfoBlock>
                 {username !== authorName && (
                     <ChangeFollow
-                        onClick={changeFollow}
-                        isFollowed={author.isFollow}
-                        data-tooltip={author.isFollow ? tt('g.unfollow') : tt('g.follow')}
+                        onClick={isFollow ? unfollow : follow}
+                        isFollowed={isFollow}
+                        data-tooltip={isFollow ? tt('g.unfollow') : tt('g.follow')}
                     >
                         <Icon
                             name="check"
                             width={14}
                             height={10}
-                            color={author.isFollow ? '#959595' : 'white'}
+                            color={isFollow ? '#959595' : 'white'}
                         />
                     </ChangeFollow>
                 )}
