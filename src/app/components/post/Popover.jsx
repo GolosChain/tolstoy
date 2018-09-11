@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import is from 'styled-is';
 import Icon from 'golos-ui/Icon';
 import Userpic from 'app/components/elements/Userpic';
 import tt from 'counterpart';
@@ -13,6 +12,11 @@ const Block = styled.div`
     border-bottom: 2px solid #e1e1e1;
     padding-bottom: 21px;
     padding-top: 17px;
+
+    &:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
 `;
 
 const ButtonsBlock = Block.extend`
@@ -60,10 +64,12 @@ const AuthorInfoBlock = styled.div`
     margin-right: auto;
 `;
 
-const AuthorName = styled.div`
+const AuthorName = styled(Link)`
+    display: block;
     font-size: 15px;
     font-weight: 500;
     color: #333;
+    text-decoration: none;
 `;
 
 const AuthorAccount = styled.div`
@@ -116,6 +122,10 @@ const CustomButton = styled(Button)`
 `;
 
 const BlockButton = styled.div`
+    display: flex;
+    align-items: center;
+    margin-left: 15px;
+    padding: 0 10px;
     color: #959595;
     font: 12px 'Open Sans', sans-serif;
     font-weight: bold;
@@ -123,6 +133,11 @@ const BlockButton = styled.div`
     text-align: right;
     text-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5), 0 2px 12px 0 rgba(0, 0, 0, 0.15);
     text-transform: uppercase;
+    cursor: pointer;
+
+    &:hover {
+        color: #7a7a7a;
+    }
 `;
 
 class Popover extends Component {
@@ -149,7 +164,7 @@ class Popover extends Component {
                 <Block>
                     <AuthorTitle>
                         <AuthorInfoBlock>
-                            <AuthorName>{author.name}</AuthorName>
+                            <AuthorName to={`/@${author.account}`}>{author.name}</AuthorName>
                             <AuthorAccount>@{author.account}</AuthorAccount>
                         </AuthorInfoBlock>
                         <Userpic size={50} account={author.account} />
