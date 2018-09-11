@@ -59,9 +59,10 @@ class PostContent extends Component {
             isFollow: PropTypes.bool.isRequired,
             followerCount: PropTypes.number.isRequired,
             pinnedPosts: PropTypes.array.isRequired,
+            follow: PropTypes.func.isRequired,
+            unfollow: PropTypes.func.isRequired,
         }).isRequired,
         onFavoriteClick: PropTypes.func.isRequired,
-        changeFollow: PropTypes.func.isRequired,
     };
 
     static defaultProps = {
@@ -71,7 +72,7 @@ class PostContent extends Component {
     };
 
     render() {
-        const { post, username, author, onFavoriteClick, changeFollow, className } = this.props;
+        const { post, username, author, onFavoriteClick, className } = this.props;
         const { tags, payout, data, category, title, body, jsonMetadata, pictures } = post;
         const formId = `postFull-${data}`;
         return (
@@ -81,7 +82,6 @@ class PostContent extends Component {
                     username={username}
                     author={author}
                     onFavoriteClick={onFavoriteClick}
-                    changeFollow={changeFollow}
                 />
                 <Body>
                     <Tag category>{category}</Tag>
