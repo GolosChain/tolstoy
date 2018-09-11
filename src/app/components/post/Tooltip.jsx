@@ -10,6 +10,7 @@ const Container = styled.div`
     left: 50%;
     padding-top: 10px;
     top: 100%;
+    z-index: 1;
 
     ${is('up')`
         padding-bottom: 10px;
