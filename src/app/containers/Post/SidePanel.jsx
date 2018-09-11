@@ -48,7 +48,9 @@ const Wrapper = styled.div`
 
     ${isNot('fixedOnScreen')`
         position: absolute;
-    `} ${isNot('showPanel')`
+    `};
+     
+     ${isNot('showPanel')`
         opacity: 0;
         transition: visibility 0s linear .3s, opacity .3s;
         visibility: hidden;
