@@ -10,17 +10,21 @@ import { toggleFavoriteAction } from '../../redux/actions/favorites';
 import ActivePanel from './ActivePanel';
 import transaction from '../../../../app/redux/Transaction';
 import AboutPanel from './AboutPanel';
+
 const Wrapper = styled.div`
     width: 100%;
     height: 100%;
     background-color: #f9f9f9;
 `;
+
 const Content = Container.extend`
+    position: relative;
     padding-top: 22px;
     padding-bottom: 17px;
     display: flex;
     flex-direction: column;
 `;
+
 const ContentWrapper = styled(PostContent)``;
 
 class PostContainer extends Component {
@@ -42,7 +46,7 @@ class PostContainer extends Component {
                         onVoteChange={this._onVoteChange}
                     />
                     <AboutPanel post={post} author={author} />
-                    <SidePanel post={post} />
+                    <SidePanel />
                 </Content>
             </Wrapper>
         );
