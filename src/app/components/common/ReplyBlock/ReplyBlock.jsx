@@ -28,7 +28,7 @@ const Splitter = styled.div`
     background: #e1e1e1;
 `;
 
-const ReplyLink = styled(Link)`
+const ReplyLink = styled(({ showText, ...rest }) => <Link {...rest} />)`
     height: 100%;
     min-height: 50px;
     padding: 0 18px 0 10px;
