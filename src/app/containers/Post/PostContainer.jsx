@@ -19,6 +19,7 @@ const Wrapper = styled.div`
 `;
 
 const Content = Container.extend`
+    position: relative;
     padding-top: 22px;
     padding-bottom: 17px;
     display: flex;
@@ -68,7 +69,7 @@ class PostContainer extends Component {
                         onVoteChange={this._onVoteChange}
                     />
                     <AboutPanel post={post} author={author} />
-                    <SidePanel post={post} />
+                    <SidePanel />
                 </Content>
             </Wrapper>
         );
