@@ -109,7 +109,7 @@ const TitleLink = styled(Link)`
     text-overflow: ellipsis;
 `;
 
-const PostBody = styled(Link)`
+const PostBody = styled(({ isCommentOpen, ...props }) => <Link {...props} />)`
     display: block;
     padding: 0 18px;
     font-family: ${a => a.theme.fontFamily};
@@ -333,7 +333,8 @@ class CommentCard extends PureComponent {
                     ) : (
                         <ReLinkWrapper>
                             <TitleIcon name="comment" />
-                            {tt('g.re2')}:&nbsp;
+                            {tt('g.re2')}
+                            :&nbsp;
                             <TitleLink to={parentLink} onClick={this._onTitleClick}>
                                 {title}
                             </TitleLink>
@@ -359,7 +360,8 @@ class CommentCard extends PureComponent {
             <Title isCommentOpen={isCommentOpen}>
                 <ReLinkWrapper>
                     <TitleIcon name="comment" />
-                    {tt('g.re2')}:&nbsp;
+                    {tt('g.re2')}
+                    :&nbsp;
                     <TitleLink to={parentLink} onClick={this._onTitleClick}>
                         {title}
                     </TitleLink>
