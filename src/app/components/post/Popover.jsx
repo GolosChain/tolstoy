@@ -150,11 +150,23 @@ class Popover extends Component {
             isFollow: PropTypes.bool.isRequired,
             followerCount: PropTypes.number.isRequired,
             pinnedPosts: PropTypes.array.isRequired,
+            follow: PropTypes.func.isRequired,
+            unfollow: PropTypes.func.isRequired,
         }).isRequired,
     };
 
     render() {
         const { author, className } = this.props;
+        const {
+            account,
+            name,
+            about,
+            followerCount,
+            pinnedPosts,
+            isFollow,
+            follow,
+            unfollow,
+        } = author;
         return (
             <Wrapper className={className}>
                 <Link />
@@ -164,20 +176,20 @@ class Popover extends Component {
                 <Block>
                     <AuthorTitle>
                         <AuthorInfoBlock>
-                            <AuthorName to={`/@${author.account}`}>{author.name}</AuthorName>
-                            <AuthorAccount>@{author.account}</AuthorAccount>
+                            <AuthorName to={`/@${account}`}>{name}</AuthorName>
+                            <AuthorAccount>@{account}</AuthorAccount>
                         </AuthorInfoBlock>
-                        <Userpic size={50} account={author.account} />
+                        <Userpic size={50} account={account} />
                     </AuthorTitle>
-                    <About>{author.about}</About>
+                    <About>{about}</About>
                     <Followers>
-                        {tt('user_profile.follower_count', { count: author.followerCount })}
+                        {tt('user_profile.follower_count', { count: followerCount })}
                     </Followers>
                 </Block>
-                {author.pinnedPosts.length > 0 && (
+                {pinnedPosts.length > 0 && (
                     <Block>
                         <PostsTitle>ПОСТЫ АВТОРА</PostsTitle>
-                        {author.pinnedPosts.map(post => (
+                        {pinnedPosts.map(post => (
                             <PinnedPost key={post.url}>
                                 <Icon name="pin" size="20px" />
                                 <PostTitle to={post.url}>{post.title}</PostTitle>
@@ -186,9 +198,9 @@ class Popover extends Component {
                     </Block>
                 )}
                 <ButtonsBlock>
-                    <CustomButton>
+                    <CustomButton onClick={isFollow ? unfollow : follow}>
                         <Icon name="subscribe" height="8" width="11" />
-                        Подписаться
+                        {isFollow ? tt('g.follow') : tt('g.unfollow')}
                     </CustomButton>
                     <BlockButton>заблокировать</BlockButton>
                 </ButtonsBlock>
