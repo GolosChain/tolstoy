@@ -117,7 +117,6 @@ class SidePanel extends Component {
     };
 
     _scrollScreen = () => {
-        /*console.log(this.wrapperRef.getBoundingClientRect());*/
         const documentElem = document.documentElement;
         const bottomBorder = documentElem.scrollHeight - (footerHeight + footerBottom);
         const offsetBottomOfScreen = documentElem.scrollTop + documentElem.clientHeight;
