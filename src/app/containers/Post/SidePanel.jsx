@@ -6,13 +6,36 @@ import throttle from 'lodash/throttle';
 import Icon from '../../components/golos-ui/Icon/Icon';
 import is, { isNot } from 'styled-is';
 
-const footerBottom = 30;
-const headerHeight = 121;
-const footerHeight = 403;
+const actionsData = [
+    {
+        iconName: 'like',
+        count: 20,
+    },
+    {
+        iconName: 'dislike',
+        count: 18,
+    },
+    {
+        iconName: 'repost-right',
+        count: 20,
+    },
+    {
+        iconName: 'sharing_triangle',
+        count: null,
+    },
+    {
+        iconName: 'star',
+        count: null,
+    },
+];
+
+const PADDING_FROM_HEADER = 22;
+const HEADER_HEIGHT = 121;
+const FOOTER_HEIGHT = 403;
 
 const Wrapper = styled.div`
     position: fixed;
-    bottom: ${footerBottom}px;
+    bottom: 30px;
     left: calc(50% - 684px);
     width: 64px;
     min-height: 50px;
@@ -23,7 +46,9 @@ const Wrapper = styled.div`
     opacity: 1;
     transition: visibility 0s linear 0s, opacity 0.3s;
 
-    ${isNot('showPanel')`
+    ${isNot('fixedOnScreen')`
+        position: absolute;
+    `} ${isNot('showPanel')`
         opacity: 0;
         transition: visibility 0s linear .3s, opacity .3s;
         visibility: hidden;
@@ -34,7 +59,9 @@ const Wrapper = styled.div`
     }
 
     @media (max-width: 1407px) {
-        display: none;
+        opacity: 0;
+        transition: visibility 0s linear 0.3s, opacity 0.3s;
+        visibility: hidden;
     }
 `;
 
@@ -55,7 +82,8 @@ const ActionButton = styled.div`
     flex-direction: column;
 `;
 
-const ActionIcon = Icon.extend`
+const ActionIconWrapper = styled.div`
+    display: flex;
     padding: 5px;
     cursor: pointer;
     transition: transform 0.15s;
@@ -68,7 +96,9 @@ const ActionIcon = Icon.extend`
 const ActionBlock = ({ iconName, count }) => {
     return (
         <ActionButton>
-            <ActionIcon width="30" height="30" name={iconName} />
+            <ActionIconWrapper>
+                <Icon width="20" height="20" name={iconName} />
+            </ActionIconWrapper>
             <CountOf count={count}>{count}</CountOf>
         </ActionButton>
     );
@@ -81,10 +111,10 @@ class SidePanel extends Component {
 
     state = {
         showPanel: true,
+        fixedOnScreen: true,
     };
 
     componentDidMount() {
-        this._scrollScreenLazy();
         this._resizeScreenLazy();
         window.addEventListener('scroll', this._scrollScreenLazy);
         window.addEventListener('resize', this._resizeScreenLazy);
@@ -96,12 +126,12 @@ class SidePanel extends Component {
     }
 
     render() {
-        const { className, actionsData } = this.props;
+        const { showPanel, fixedOnScreen } = this.state;
         return (
             <Wrapper
-                className={className}
                 innerRef={this._setWrapperRef}
-                showPanel={this.state.showPanel}
+                showPanel={showPanel}
+                fixedOnScreen={fixedOnScreen}
             >
                 {actionsData.map((action, index) => {
                     return (
@@ -118,66 +148,34 @@ class SidePanel extends Component {
 
     _scrollScreen = () => {
         const documentElem = document.documentElement;
-        const bottomBorder = documentElem.scrollHeight - (footerHeight + footerBottom);
+        const bottomBorder = documentElem.scrollHeight - FOOTER_HEIGHT;
         const offsetBottomOfScreen = documentElem.scrollTop + documentElem.clientHeight;
-        if (bottomBorder <= offsetBottomOfScreen && this.state.showPanel) {
-            this.setState({
-                showPanel: false,
-            });
+        if (bottomBorder <= offsetBottomOfScreen && this.state.fixedOnScreen) {
+            this.setState({ fixedOnScreen: false });
         }
-        if (bottomBorder > offsetBottomOfScreen && !this.state.showPanel) {
-            this.setState({
-                showPanel: true,
-            });
+        if (bottomBorder > offsetBottomOfScreen && !this.state.fixedOnScreen) {
+            this.setState({ fixedOnScreen: true });
         }
     };
 
     _resizeScreen = () => {
         const wrapperOffsetTop = this.wrapperRef.offsetTop;
-        if (wrapperOffsetTop <= headerHeight + footerBottom && this.state.showPanel) {
+        if (wrapperOffsetTop <= HEADER_HEIGHT + PADDING_FROM_HEADER && this.state.showPanel) {
             this.setState({ showPanel: false });
         }
-        if (wrapperOffsetTop > headerHeight + footerBottom && !this.state.showPanel) {
+        if (wrapperOffsetTop > HEADER_HEIGHT + PADDING_FROM_HEADER && !this.state.showPanel) {
             this.setState({ showPanel: true });
         }
         this._scrollScreenLazy();
     };
 
-    _scrollScreenLazy = throttle(this._scrollScreen, 100, { leading: true });
+    _scrollScreenLazy = throttle(this._scrollScreen, 30, { leading: true });
 
-    _resizeScreenLazy = throttle(this._resizeScreen, 100, { leading: true });
+    _resizeScreenLazy = throttle(this._resizeScreen, 30, { leading: true });
 }
 
 const mapStateToProps = (state, props) => {
-    /*const url = props.post.get('url');
-    state.global.getIn(['content', props.permLink])
-    const content = state.global.getIn(['content', url.replace(/.+@(.+)/, '$1')]);*/
-
-    const actionsData = [
-        {
-            iconName: 'like',
-            count: 20,
-        },
-        {
-            iconName: 'dislike',
-            count: 18,
-        },
-        {
-            iconName: 'repost-right',
-            count: 20,
-        },
-        {
-            iconName: 'sharing_triangle',
-            count: null,
-        },
-        {
-            iconName: 'star',
-            count: null,
-        },
-    ];
-    return {
-        actionsData,
-    };
+    return {};
 };
 
 const mapDispatchToProps = (dispatch, props) => {
