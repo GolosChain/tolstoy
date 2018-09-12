@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import Icon from 'golos-ui/Icon';
+import Icon from '../golos-ui/Icon';
 import Userpic from 'app/components/elements/Userpic';
 import tt from 'counterpart';
 import { Link } from 'react-router';
-import Button from 'golos-ui/Button';
 import ToggleFollowButton from '../common/ToggleFollowButton';
+import Button from '../golos-ui/Button';
 
 const Block = styled.div`
     width: 100%;
@@ -116,13 +116,6 @@ const PostTitle = styled(Link)`
     }
 `;
 
-const CustomButton = styled(Button)`
-    height: 30px;
-    font-size: 12px;
-    font-weight: bold;
-    line-height: 23px;
-`;
-
 const BlockButton = styled.div`
     display: flex;
     align-items: center;
@@ -202,6 +195,7 @@ class Popover extends Component {
                     <ToggleFollowButton
                         isFollow={isFollow}
                         buttonWidth={150}
+                        buttonHeight={30}
                         followFunc={follow}
                         unfollowFunc={unfollow}
                     />
