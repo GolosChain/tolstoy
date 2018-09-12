@@ -36,7 +36,6 @@ const Repost = styled.div`
 
     & > svg {
         padding: 4px;
-        cursor: pointer;
     }
 `;
 
@@ -70,6 +69,12 @@ const MoreFunctions = styled.div`
 const MoreFunction = styled.div`
     display: flex;
     align-items: center;
+    color: #333333;
+    cursor: pointer;
+    
+    &:hover {
+        color: #2879ff;
+    }
 
     svg {
         min-width: 20px;
@@ -80,7 +85,6 @@ const MoreFunction = styled.div`
 
 const MoreFunctionText = styled.div`
     margin-left: 25px;
-    color: #333333;
     font-family: Roboto, sans-serif;
     font-size: 14px;
     line-height: 44px;

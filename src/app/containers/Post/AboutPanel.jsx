@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Userpic from '../../../../app/components/elements/Userpic';
+import tt from 'counterpart';
 import { Link } from 'react-router';
 import Icon from '../../components/golos-ui/Icon/Icon';
 import Button from '../../components/golos-ui/Button/Button';
@@ -115,12 +116,12 @@ class AboutPanel extends Component {
                     {author.isFollow ? (
                         <ButtonInPanel light>
                             <Icon width="10" height="10" name="cross" />
-                            отписаться
+                            {tt('g.unfollow')}
                         </ButtonInPanel>
                     ) : (
                         <ButtonInPanel>
                             <Icon width="11" height="8" name="subscribe" />
-                            Подписаться
+                            {tt('g.follow')}
                         </ButtonInPanel>
                     )}
                 </ButtonBlock>
