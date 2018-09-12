@@ -82,14 +82,11 @@ class AboutPanel extends Component {
     static propTypes = {
         author: PropTypes.shape({
             name: PropTypes.string,
-            about: PropTypes.string,
             account: PropTypes.string.isRequired,
             isFollow: PropTypes.bool.isRequired,
-            followerCount: PropTypes.number.isRequired,
-            pinnedPosts: PropTypes.array.isRequired,
             follow: PropTypes.func.isRequired,
             unfollow: PropTypes.func.isRequired,
-        }).isRequired
+        }).isRequired,
     };
 
     render() {

@@ -84,11 +84,11 @@ const ActionBlock = ({ iconName, count }) => {
 
 class SidePanel extends Component {
     static propTypes = {
-        actionsData: PropTypes.arrayOf(
+        sidePanelActions: PropTypes.arrayOf(
             PropTypes.shape({
                 iconName: PropTypes.string.isRequired,
-                count: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]).isRequired,
-                actionOnClick: PropTypes.func,
+                count: PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(null)]),
+                actionOnClick: PropTypes.func.isRequired,
             })
         ).isRequired,
     };
@@ -110,7 +110,7 @@ class SidePanel extends Component {
     }
 
     render() {
-        const { actionsData } = this.props;
+        const { sidePanelActions } = this.props;
         const { showPanel, fixedOnScreen } = this.state;
         return (
             <Wrapper
@@ -118,7 +118,7 @@ class SidePanel extends Component {
                 showPanel={showPanel}
                 fixedOnScreen={fixedOnScreen}
             >
-                {actionsData.map((action, index) => {
+                {sidePanelActions.map((action, index) => {
                     return (
                         <ActionBlock key={index} iconName={action.iconName} count={action.count} />
                     );

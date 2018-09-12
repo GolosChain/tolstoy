@@ -5,8 +5,7 @@ import PropTypes from 'prop-types';
 import VotePanel from '../../components/common/VotePanel/VotePanel';
 import Icon from '../../components/golos-ui/Icon/Icon';
 import ReplyBlock from '../../components/common/ReplyBlock/ReplyBlock';
-import extractContent from 'app/utils/ExtractContent';
-import { immutableAccessor } from '../../../../app/utils/Accessors';
+import { Map } from 'immutable';
 import Tooltip from '../../components/post/Tooltip';
 
 const Wrapper = styled.div`
@@ -94,17 +93,17 @@ class ActivePanel extends Component {
     static propTypes = {
         username: PropTypes.string,
         post: PropTypes.shape({
-            tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-            payout: PropTypes.number.isRequired,
-            category: PropTypes.string.isRequired,
-            title: PropTypes.string.isRequired,
-            body: PropTypes.string.isRequired,
-            created: PropTypes.any.isRequired,
-            pictures: PropTypes.bool.isRequired,
-            jsonMetadata: PropTypes.string,
-            author: PropTypes.string.isRequired,
-            isFavorite: PropTypes.bool.isRequired,
+            data: PropTypes.instanceOf(Map),
+            children: PropTypes.number,
+            link: PropTypes.string.isRequired,
         }).isRequired,
+        activePanelActions: PropTypes.arrayOf(
+            PropTypes.shape({
+                iconName: PropTypes.string.isRequired,
+                text: PropTypes.string.isRequired,
+                actionOnClick: PropTypes.func.isRequired,
+            })
+        ).isRequired,
         onVoteChange: PropTypes.func.isRequired,
     };
 
@@ -114,7 +113,7 @@ class ActivePanel extends Component {
     };
 
     render() {
-        const { post, onVoteChange, username, tooltipActions } = this.props;
+        const { post, onVoteChange, username, activePanelActions } = this.props;
 
         return (
             <Wrapper>
@@ -150,11 +149,11 @@ class ActivePanel extends Component {
                             changedIsOpen={this.toggleDots}
                         >
                             <MoreFunctions>
-                                {tooltipActions.map((action, index) => {
+                                {activePanelActions.map((action, index) => {
                                     return (
                                         <MoreFunction key={index}>
-                                            <Icon width="20" height="20" name={action.icon} />
-                                            <MoreFunctionText>{action.name}</MoreFunctionText>
+                                            <Icon width="20" height="20" name={action.iconName} />
+                                            <MoreFunctionText>{action.text}</MoreFunctionText>
                                         </MoreFunction>
                                     );
                                 })}
@@ -184,20 +183,4 @@ class ActivePanel extends Component {
     };
 }
 
-const mapStateToProps = (state, props) => {
-    const tooltipActions = [
-        { name: 'Закрепить пост', icon: 'pin' },
-        { name: 'Продвинуть пост', icon: 'brilliant' },
-        { name: 'Пожаловаться на пост', icon: 'complain_normal' },
-    ];
-    return { tooltipActions };
-};
-
-const mapDispatchToProps = (dispatch, props) => {
-    return {};
-};
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ActivePanel);
+export default ActivePanel;

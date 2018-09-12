@@ -72,21 +72,44 @@ export const sidePanelSelector = createDeepEqualSelector([currentPostSelector], 
     {
         iconName: 'like',
         count: post.data.get('net_votes'),
+        actionOnClick: () => {},
     },
     {
         iconName: 'dislike',
         count: 18,
+        actionOnClick: () => {},
     },
     {
         iconName: 'repost-right',
         count: 20,
+        actionOnClick: () => {},
     },
     {
         iconName: 'sharing_triangle',
-        count: false,
+        count: null,
+        actionOnClick: () => {},
     },
     {
         iconName: 'star',
-        count: false,
+        count: null,
+        actionOnClick: () => {},
+    },
+]);
+
+export const activePanelTooltipSelector = createDeepEqualSelector([], () => [
+    {
+        iconName: 'pin',
+        text: 'Закрепить пост',
+        actionOnClick: () => {},
+    },
+    {
+        iconName: 'brilliant',
+        text: 'Продвинуть пост',
+        actionOnClick: () => {},
+    },
+    {
+        iconName: 'complain_normal',
+        text: 'Пожаловаться на пост',
+        actionOnClick: () => {},
     },
 ]);
