@@ -9,7 +9,7 @@ import normalizeProfile from 'app/utils/NormalizeProfile';
 
 export const currentPostIsFavoriteSelector = createDeepEqualSelector(
     [dataSelector('favorites'), (state, props) => props.permLink],
-    (favorites, permLink) => favorites.set.has(permLink)
+    (favorites, permLink) => favorites.set.includes(permLink)
 );
 
 export const currentPostSelector = createDeepEqualSelector(
