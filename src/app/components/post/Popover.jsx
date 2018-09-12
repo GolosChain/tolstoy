@@ -21,6 +21,7 @@ const Block = styled.div`
 
 const ButtonsBlock = Block.extend`
     display: flex;
+    justify-content: space-between;
 `;
 
 const Wrapper = styled.section`
@@ -124,7 +125,6 @@ const CustomButton = styled(Button)`
 const BlockButton = styled.div`
     display: flex;
     align-items: center;
-    margin-left: 15px;
     padding: 0 10px;
     color: #959595;
     font: 12px 'Open Sans', sans-serif;
@@ -198,10 +198,17 @@ class Popover extends Component {
                     </Block>
                 )}
                 <ButtonsBlock>
-                    <CustomButton onClick={isFollow ? unfollow : follow}>
-                        <Icon name="subscribe" height="8" width="11" />
-                        {isFollow ? tt('g.follow') : tt('g.unfollow')}
-                    </CustomButton>
+                    {isFollow ? (
+                        <CustomButton onClick={unfollow}>
+                            <Icon name="cross" height="8" width="8" />
+                            {tt('g.unfollow')}
+                        </CustomButton>
+                    ) : (
+                        <CustomButton onClick={follow}>
+                            <Icon name="subscribe" height="8" width="11" />
+                            {tt('g.follow')}
+                        </CustomButton>
+                    )}
                     <BlockButton>заблокировать</BlockButton>
                 </ButtonsBlock>
             </Wrapper>
