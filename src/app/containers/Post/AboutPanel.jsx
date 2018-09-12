@@ -86,6 +86,7 @@ class AboutPanel extends Component {
     render() {
         const { author } = this.props;
         const accountUsername = author.account;
+
         return (
             <Wrapper>
                 <AvatarBlock>
@@ -105,10 +106,17 @@ class AboutPanel extends Component {
                         <Icon width="17" height="15" name="coins_plus" />
                         отблагодарить
                     </ButtonInPanel>
-                    <ButtonInPanel light>
-                        <Icon width="10" height="10" name="cross" />
-                        отписаться
-                    </ButtonInPanel>
+                    {author.isFollow ? (
+                        <ButtonInPanel light>
+                            <Icon width="10" height="10" name="cross" />
+                            отписаться
+                        </ButtonInPanel>
+                    ) : (
+                        <ButtonInPanel>
+                            <Icon width="11" height="8" name="subscribe" />
+                            Подписаться
+                        </ButtonInPanel>
+                    )}
                 </ButtonBlock>
             </Wrapper>
         );
