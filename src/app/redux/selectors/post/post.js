@@ -83,10 +83,10 @@ export const sidePanelSelector = createDeepEqualSelector([currentPostSelector], 
     },
     {
         iconName: 'sharing_triangle',
-        count: null,
+        count: false,
     },
     {
         iconName: 'star',
-        count: null,
+        count: false,
     },
 ]);
