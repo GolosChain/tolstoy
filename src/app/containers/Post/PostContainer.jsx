@@ -54,7 +54,7 @@ class PostContainer extends Component {
     };
 
     render() {
-        const { post, username, author, sidePanelData, activePanelData } = this.props;
+        const { post, username, author, sidePanelData, activePanelTooltipData } = this.props;
         author.follow = this.follow;
         author.unfollow = this.unfollow;
         author.ignore = this.ignore;
@@ -71,7 +71,7 @@ class PostContainer extends Component {
                     <ActivePanel
                         post={post}
                         username={username}
-                        activePanelActions={activePanelData}
+                        activePanelTooltipActions={activePanelTooltipData}
                         onVoteChange={this._onVoteChange}
                     />
                     <AboutPanel author={author} />
@@ -106,7 +106,7 @@ const mapStateToProps = (state, props) => {
         username: currentUserSelector(state).get('username'),
         author: authorSelector(state, props),
         sidePanelData: sidePanelSelector(state, props),
-        activePanelData: activePanelTooltipSelector(state, props),
+        activePanelTooltipData: activePanelTooltipSelector(state, props),
     };
 };
 

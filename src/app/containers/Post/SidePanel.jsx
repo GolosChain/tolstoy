@@ -87,8 +87,7 @@ class SidePanel extends Component {
         sidePanelActions: PropTypes.arrayOf(
             PropTypes.shape({
                 iconName: PropTypes.string.isRequired,
-                count: PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(null)]),
-                actionOnClick: PropTypes.func.isRequired,
+                count: PropTypes.number,
             })
         ).isRequired,
     };
