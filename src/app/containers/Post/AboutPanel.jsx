@@ -116,6 +116,7 @@ class AboutPanel extends Component {
                     <ToggleFollowButton
                         isFollow={author.isFollow}
                         buttonWidth={167}
+                        buttonHeight={34}
                         followFunc={author.follow}
                         unfollowFunc={author.unfollow}
                     />
