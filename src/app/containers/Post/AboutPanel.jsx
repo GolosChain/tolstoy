@@ -79,9 +79,15 @@ const ButtonInPanel = Button.extend`
 `;
 
 class AboutPanel extends Component {
-    static propTypes = {};
-
-    static defaultProps = {};
+    static propTypes = {
+        author: PropTypes.shape({
+            name: PropTypes.string,
+            account: PropTypes.string.isRequired,
+            isFollow: PropTypes.bool.isRequired,
+            follow: PropTypes.func.isRequired,
+            unfollow: PropTypes.func.isRequired,
+        }).isRequired,
+    };
 
     render() {
         const { author } = this.props;

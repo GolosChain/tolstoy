@@ -90,3 +90,18 @@ export const sidePanelSelector = createDeepEqualSelector([currentPostSelector], 
         count: null,
     },
 ]);
+
+export const activePanelTooltipSelector = createDeepEqualSelector([], () => [
+    {
+        iconName: 'pin',
+        text: 'Закрепить пост',
+    },
+    {
+        iconName: 'brilliant',
+        text: 'Продвинуть пост',
+    },
+    {
+        iconName: 'complain_normal',
+        text: 'Пожаловаться на пост',
+    },
+]);
