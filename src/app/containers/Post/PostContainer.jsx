@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Container from 'src/app/components/common/Container/Container';
 import SidePanel from 'src/app/containers/Post/SidePanel';
 import {
+    activePanelTooltipSelector,
     authorSelector,
     currentPostSelector,
     sidePanelSelector,
@@ -53,7 +54,7 @@ class PostContainer extends Component {
     };
 
     render() {
-        const { post, username, author, actionsData } = this.props;
+        const { post, username, author, sidePanelData, activePanelTooltipData } = this.props;
         if (!post) return null;
         author.follow = this.follow;
         author.unfollow = this.unfollow;
@@ -71,10 +72,11 @@ class PostContainer extends Component {
                     <ActivePanel
                         post={post}
                         username={username}
+                        activePanelTooltipActions={activePanelTooltipData}
                         onVoteChange={this._onVoteChange}
                     />
-                    <AboutPanel post={post} author={author} />
-                    <SidePanel actionsData={actionsData} />
+                    <AboutPanel author={author} />
+                    <SidePanel sidePanelActions={sidePanelData} />
                 </Content>
             </Wrapper>
         );
@@ -96,7 +98,8 @@ const mapStateToProps = (state, props) => {
         post,
         username: !!post && currentUserSelector(state).get('username'),
         author: !!post && authorSelector(state, props),
-        actionsData: !!post && sidePanelSelector(state, props),
+        sidePanelData: !!post && sidePanelSelector(state, props),
+        activePanelTooltipData: activePanelTooltipSelector(state, props),
     };
 };
 
