@@ -199,7 +199,7 @@ class Popover extends Component {
                 )}
                 <ButtonsBlock>
                     {isFollow ? (
-                        <CustomButton onClick={unfollow}>
+                        <CustomButton light onClick={unfollow}>
                             <Icon name="cross" height="8" width="8" />
                             {tt('g.unfollow')}
                         </CustomButton>
