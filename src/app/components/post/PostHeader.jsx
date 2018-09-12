@@ -106,8 +106,8 @@ class PostHeader extends Component {
         const { isFollow, follow, unfollow } = author;
         return (
             <Wrapper className={className}>
-                <Avatar onClick={this._openPopover}>
-                    <Userpic account={authorName} size={50} />
+                <Avatar>
+                    <Userpic account={authorName} size={50} onClick={this._openPopover}/>
                     <Tooltip ref={ref => (this.tooltip = ref)}>
                         <Popover close={this._closePopover} author={author} />
                     </Tooltip>
