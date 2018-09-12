@@ -5,8 +5,9 @@ import PropTypes from 'prop-types';
 import throttle from 'lodash/throttle';
 import Icon from '../../components/golos-ui/Icon/Icon';
 import is, { isNot } from 'styled-is';
+import { sidePanelSelector } from '../../redux/selectors/post/post';
 
-const actionsData = [
+/*const actionsData = [
     {
         iconName: 'like',
         count: 20,
@@ -27,7 +28,7 @@ const actionsData = [
         iconName: 'star',
         count: null,
     },
-];
+];*/
 
 const PADDING_FROM_HEADER = 22;
 const HEADER_HEIGHT = 121;
@@ -49,8 +50,8 @@ const Wrapper = styled.div`
     ${isNot('fixedOnScreen')`
         position: absolute;
     `};
-     
-     ${isNot('showPanel')`
+
+    ${isNot('showPanel')`
         opacity: 0;
         transition: visibility 0s linear .3s, opacity .3s;
         visibility: hidden;
@@ -128,6 +129,7 @@ class SidePanel extends Component {
     }
 
     render() {
+        const { actionsData } = this.props;
         const { showPanel, fixedOnScreen } = this.state;
         return (
             <Wrapper
@@ -171,13 +173,15 @@ class SidePanel extends Component {
         this._scrollScreenLazy();
     };
 
-    _scrollScreenLazy = throttle(this._scrollScreen, 30, { leading: true });
+    _scrollScreenLazy = throttle(this._scrollScreen, 25, { leading: true });
 
-    _resizeScreenLazy = throttle(this._resizeScreen, 30, { leading: true });
+    _resizeScreenLazy = throttle(this._resizeScreen, 25, { leading: true });
 }
 
 const mapStateToProps = (state, props) => {
-    return {};
+    return {
+        ...sidePanelSelector(state, props),
+    };
 };
 
 const mapDispatchToProps = (dispatch, props) => {
