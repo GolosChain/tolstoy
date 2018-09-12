@@ -84,12 +84,12 @@ class Tooltip extends Component {
     componentDidMount() {
         this._checkContainerBoundingClientRect();
         window.addEventListener('resize', this._checkScreenSizeLazy);
-        window.addEventListener('click', this._checkClickOutside);
+        window.addEventListener('click', this._checkClick);
     }
 
     componentWillUnmount() {
         window.removeEventListener('resize', this._checkScreenSizeLazy);
-        window.removeEventListener('click', this._checkClickOutside);
+        window.removeEventListener('click', this._checkClick);
     }
 
     render() {
@@ -126,8 +126,8 @@ class Tooltip extends Component {
         }
     };
 
-    _checkClickOutside = e => {
-        if (this.state.isOpen && !this.container.contains(event.target)) {
+    _checkClick = e => {
+        if (this.state.isOpen) {
             e.stopPropagation();
             this.close();
         }
