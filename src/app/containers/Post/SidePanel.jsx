@@ -1,34 +1,9 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import throttle from 'lodash/throttle';
 import Icon from '../../components/golos-ui/Icon/Icon';
 import is, { isNot } from 'styled-is';
-import { sidePanelSelector } from '../../redux/selectors/post/post';
-
-/*const actionsData = [
-    {
-        iconName: 'like',
-        count: 20,
-    },
-    {
-        iconName: 'dislike',
-        count: 18,
-    },
-    {
-        iconName: 'repost-right',
-        count: 20,
-    },
-    {
-        iconName: 'sharing_triangle',
-        count: null,
-    },
-    {
-        iconName: 'star',
-        count: null,
-    },
-];*/
 
 const PADDING_FROM_HEADER = 22;
 const HEADER_HEIGHT = 121;
@@ -178,17 +153,4 @@ class SidePanel extends Component {
     _resizeScreenLazy = throttle(this._resizeScreen, 25, { leading: true });
 }
 
-const mapStateToProps = (state, props) => {
-    return {
-        ...sidePanelSelector(state, props),
-    };
-};
-
-const mapDispatchToProps = (dispatch, props) => {
-    return {};
-};
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(SidePanel);
+export default SidePanel;

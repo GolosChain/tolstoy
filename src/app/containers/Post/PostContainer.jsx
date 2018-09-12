@@ -3,7 +3,11 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Container from 'src/app/components/common/Container/Container';
 import SidePanel from 'src/app/containers/Post/SidePanel';
-import { authorSelector, currentPostSelector } from '../../redux/selectors/post/post';
+import {
+    authorSelector,
+    currentPostSelector,
+    sidePanelSelector,
+} from '../../redux/selectors/post/post';
 import PostContent from '../../components/post/PostContent';
 import { currentUserSelector } from '../../redux/selectors/common';
 import { toggleFavoriteAction } from '../../redux/actions/favorites';
@@ -49,7 +53,7 @@ class PostContainer extends Component {
     };
 
     render() {
-        const { post, username, author, ...props } = this.props;
+        const { post, username, author, actionsData } = this.props;
         author.follow = this.follow;
         author.unfollow = this.unfollow;
         author.ignore = this.ignore;
@@ -69,7 +73,7 @@ class PostContainer extends Component {
                         onVoteChange={this._onVoteChange}
                     />
                     <AboutPanel post={post} author={author} />
-                    <SidePanel {...props} />
+                    <SidePanel actionsData={actionsData} />
                 </Content>
             </Wrapper>
         );
@@ -99,6 +103,7 @@ const mapStateToProps = (state, props) => {
         post: currentPostSelector(state, props),
         username: currentUserSelector(state).get('username'),
         author: authorSelector(state, props),
+        actionsData: sidePanelSelector(state, props),
     };
 };
 
