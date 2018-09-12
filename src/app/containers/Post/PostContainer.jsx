@@ -49,7 +49,7 @@ class PostContainer extends Component {
     };
 
     render() {
-        const { post, username, author } = this.props;
+        const { post, username, author, ...props } = this.props;
         author.follow = this.follow;
         author.unfollow = this.unfollow;
         author.ignore = this.ignore;
@@ -69,24 +69,24 @@ class PostContainer extends Component {
                         onVoteChange={this._onVoteChange}
                     />
                     <AboutPanel post={post} author={author} />
-                    <SidePanel />
+                    <SidePanel {...props} />
                 </Content>
             </Wrapper>
         );
     }
 
     _onFavoriteClick = () => {
-        const { isFavorite, post } = this.props;
+        const { isFavorite, post, author } = this.props;
 
-        this.props.toggleFavorite(post.get('author') + '/' + post.get('permlink'), !isFavorite);
+        this.props.toggleFavorite(author.account + '/' + post.permlink, !isFavorite);
     };
 
     _onVoteChange = async percent => {};
 
     _changeFollow = () => {
-        const { updateFollow, user, post } = this.props;
-        const follower = user.get('username');
-        const following = post.get('author');
+        const { updateFollow, username, author } = this.props;
+        const follower = username;
+        const following = author.account;
         const done = () => {
             console.log('done');
         };
