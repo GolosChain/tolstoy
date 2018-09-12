@@ -21,6 +21,7 @@ export const currentPostSelector = createDeepEqualSelector(
     ],
     (content, username, slug, isFavorite) => {
         const post = content.get(`${username}/${slug}`);
+        if (!post) return null;
         return {
             created: post.get('created'),
             isFavorite: isFavorite,

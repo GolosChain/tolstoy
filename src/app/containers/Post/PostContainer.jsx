@@ -55,6 +55,7 @@ class PostContainer extends Component {
 
     render() {
         const { post, username, author, sidePanelData, activePanelTooltipData } = this.props;
+        if (!post) return null;
         author.follow = this.follow;
         author.unfollow = this.unfollow;
         author.ignore = this.ignore;
@@ -89,23 +90,15 @@ class PostContainer extends Component {
 
     _onVoteChange = async percent => {};
 
-    _changeFollow = () => {
-        const { updateFollow, username, author } = this.props;
-        const follower = username;
-        const following = author.account;
-        const done = () => {
-            console.log('done');
-        };
-        updateFollow(follower, following, done);
-    };
 }
 
 const mapStateToProps = (state, props) => {
+    const post = currentPostSelector(state, props);
     return {
-        post: currentPostSelector(state, props),
-        username: currentUserSelector(state).get('username'),
-        author: authorSelector(state, props),
-        sidePanelData: sidePanelSelector(state, props),
+        post,
+        username: !!post && currentUserSelector(state).get('username'),
+        author: !!post && authorSelector(state, props),
+        actionsData: !!post && sidePanelSelector(state, props),
         activePanelTooltipData: activePanelTooltipSelector(state, props),
     };
 };
