@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import VotePanel from '../../components/common/VotePanel/VotePanel';
@@ -97,11 +96,10 @@ class ActivePanel extends Component {
             children: PropTypes.number,
             link: PropTypes.string.isRequired,
         }).isRequired,
-        activePanelActions: PropTypes.arrayOf(
+        activePanelTooltipActions: PropTypes.arrayOf(
             PropTypes.shape({
                 iconName: PropTypes.string.isRequired,
                 text: PropTypes.string.isRequired,
-                actionOnClick: PropTypes.func.isRequired,
             })
         ).isRequired,
         onVoteChange: PropTypes.func.isRequired,
@@ -113,7 +111,7 @@ class ActivePanel extends Component {
     };
 
     render() {
-        const { post, onVoteChange, username, activePanelActions } = this.props;
+        const { post, onVoteChange, username, activePanelTooltipActions } = this.props;
 
         return (
             <Wrapper>
@@ -149,7 +147,7 @@ class ActivePanel extends Component {
                             changedIsOpen={this.toggleDots}
                         >
                             <MoreFunctions>
-                                {activePanelActions.map((action, index) => {
+                                {activePanelTooltipActions.map((action, index) => {
                                     return (
                                         <MoreFunction key={index}>
                                             <Icon width="20" height="20" name={action.iconName} />
