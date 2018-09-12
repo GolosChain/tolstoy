@@ -94,11 +94,11 @@ class PostContainer extends Component {
 
 const mapStateToProps = (state, props) => {
     const post = currentPostSelector(state, props);
-    return {
+    return !!post && {
         post,
-        username: !!post && currentUserSelector(state).get('username'),
-        author: !!post && authorSelector(state, props),
-        actionsData: !!post && sidePanelSelector(state, props),
+        username: currentUserSelector(state).get('username'),
+        author: authorSelector(state, props),
+        sidePanelData: sidePanelSelector(state, props),
         activePanelTooltipData: activePanelTooltipSelector(state, props),
     };
 };

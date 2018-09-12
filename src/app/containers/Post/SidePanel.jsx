@@ -56,7 +56,7 @@ const CountOf = styled.div`
 
 const ActionButton = styled.div`
     display: flex;
-    align-items center;
+    align-items: center;
     flex-direction: column;
 `;
 
