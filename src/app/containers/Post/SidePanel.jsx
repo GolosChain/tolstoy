@@ -83,9 +83,15 @@ const ActionBlock = ({ iconName, count }) => {
 };
 
 class SidePanel extends Component {
-    static propTypes = {};
-
-    static defaultProps = {};
+    static propTypes = {
+        actionsData: PropTypes.arrayOf(
+            PropTypes.shape({
+                iconName: PropTypes.string.isRequired,
+                count: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]).isRequired,
+                actionOnClick: PropTypes.func,
+            })
+        ).isRequired,
+    };
 
     state = {
         showPanel: true,

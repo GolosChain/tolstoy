@@ -36,8 +36,9 @@ const Repost = styled.div`
     display: flex;
     align-items: center;
 
-    svg {
+    & > svg {
         padding: 4px;
+        cursor: pointer;
     }
 `;
 
@@ -65,7 +66,7 @@ const DotsMore = Repost.extend`
 `;
 
 const MoreFunctions = styled.div`
-    padding: 30px;
+    padding: 20px 30px;
 `;
 
 const MoreFunction = styled.div`
@@ -90,9 +91,22 @@ const MoreFunctionText = styled.div`
 `;
 
 class ActivePanel extends Component {
-    static propTypes = {};
-
-    static defaultProps = {};
+    static propTypes = {
+        username: PropTypes.string,
+        post: PropTypes.shape({
+            tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+            payout: PropTypes.number.isRequired,
+            category: PropTypes.string.isRequired,
+            title: PropTypes.string.isRequired,
+            body: PropTypes.string.isRequired,
+            created: PropTypes.any.isRequired,
+            pictures: PropTypes.bool.isRequired,
+            jsonMetadata: PropTypes.string,
+            author: PropTypes.string.isRequired,
+            isFavorite: PropTypes.bool.isRequired,
+        }).isRequired,
+        onVoteChange: PropTypes.func.isRequired,
+    };
 
     state = {
         showPanel: true,
