@@ -68,33 +68,25 @@ export const authorSelector = createDeepEqualSelector(
     }
 );
 
-export const sidePanelSelector = createDeepEqualSelector(
-    [currentPostSelector],
-    (post) => {
-        const actionsData = [
-            {
-                iconName: 'like',
-                count: post.data.get('net_votes'),
-            },
-            {
-                iconName: 'dislike',
-                count: 18,
-            },
-            {
-                iconName: 'repost-right',
-                count: 20,
-            },
-            {
-                iconName: 'sharing_triangle',
-                count: null,
-            },
-            {
-                iconName: 'star',
-                count: null,
-            },
-        ];
-
-    return {
-        actionsData,
-    };
-});
+export const sidePanelSelector = createDeepEqualSelector([currentPostSelector], post => [
+    {
+        iconName: 'like',
+        count: post.data.get('net_votes'),
+    },
+    {
+        iconName: 'dislike',
+        count: 18,
+    },
+    {
+        iconName: 'repost-right',
+        count: 20,
+    },
+    {
+        iconName: 'sharing_triangle',
+        count: null,
+    },
+    {
+        iconName: 'star',
+        count: null,
+    },
+]);
