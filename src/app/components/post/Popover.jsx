@@ -6,6 +6,7 @@ import Userpic from 'app/components/elements/Userpic';
 import tt from 'counterpart';
 import { Link } from 'react-router';
 import Button from 'golos-ui/Button';
+import ToggleFollowButton from '../common/ToggleFollowButton';
 
 const Block = styled.div`
     width: 100%;
@@ -198,17 +199,12 @@ class Popover extends Component {
                     </Block>
                 )}
                 <ButtonsBlock>
-                    {isFollow ? (
-                        <CustomButton light onClick={unfollow}>
-                            <Icon name="cross" height="8" width="8" />
-                            {tt('g.unfollow')}
-                        </CustomButton>
-                    ) : (
-                        <CustomButton onClick={follow}>
-                            <Icon name="subscribe" height="8" width="11" />
-                            {tt('g.follow')}
-                        </CustomButton>
-                    )}
+                    <ToggleFollowButton
+                        isFollow={isFollow}
+                        buttonWidth={150}
+                        followFunc={follow}
+                        unfollowFunc={unfollow}
+                    />
                     <BlockButton>заблокировать</BlockButton>
                 </ButtonsBlock>
             </Wrapper>

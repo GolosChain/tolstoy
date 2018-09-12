@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Userpic from '../../../../app/components/elements/Userpic';
-import tt from 'counterpart';
 import { Link } from 'react-router';
 import Icon from '../../components/golos-ui/Icon/Icon';
 import Button from '../../components/golos-ui/Button/Button';
+import ToggleFollowButton from '../../components/common/ToggleFollowButton';
 
 const Wrapper = styled.div`
     display: flex;
@@ -113,17 +113,12 @@ class AboutPanel extends Component {
                         <Icon width="17" height="15" name="coins_plus" />
                         отблагодарить
                     </ButtonInPanel>
-                    {author.isFollow ? (
-                        <ButtonInPanel light>
-                            <Icon width="10" height="10" name="cross" />
-                            {tt('g.unfollow')}
-                        </ButtonInPanel>
-                    ) : (
-                        <ButtonInPanel>
-                            <Icon width="11" height="8" name="subscribe" />
-                            {tt('g.follow')}
-                        </ButtonInPanel>
-                    )}
+                    <ToggleFollowButton
+                        isFollow={author.isFollow}
+                        buttonWidth={167}
+                        followFunc={author.follow}
+                        unfollowFunc={author.unfollow}
+                    />
                 </ButtonBlock>
             </Wrapper>
         );
