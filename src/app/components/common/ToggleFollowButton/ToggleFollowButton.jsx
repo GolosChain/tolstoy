@@ -5,8 +5,8 @@ import Button from '../../golos-ui/Button/Button';
 import PropTypes from 'prop-types';
 
 const ButtonBlock = Button.extend`
-    width: 100%;
-    height: 100%;
+    min-width: 100%;
+    min-height: 100%;
     font-size: 12px;
     font-weight: bold;
     line-height: 23px;
