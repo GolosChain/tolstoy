@@ -54,7 +54,6 @@ class Post extends React.Component {
     };
 
     render() {
-        console.log(this.props);
         const LIQUID_TOKEN = tt('token_names.LIQUID_TOKEN');
 
         const { current_user, ignoring, content } = this.props;

@@ -51,6 +51,7 @@ class PostContent extends Component {
             jsonMetadata: PropTypes.string,
             author: PropTypes.string.isRequired,
             isFavorite: PropTypes.bool.isRequired,
+            toggleFavorite: PropTypes.func.isRequired,
         }).isRequired,
         author: PropTypes.shape({
             name: PropTypes.string,
@@ -62,7 +63,6 @@ class PostContent extends Component {
             follow: PropTypes.func.isRequired,
             unfollow: PropTypes.func.isRequired,
         }).isRequired,
-        onFavoriteClick: PropTypes.func.isRequired,
     };
 
     static defaultProps = {
@@ -72,17 +72,12 @@ class PostContent extends Component {
     };
 
     render() {
-        const { post, username, author, onFavoriteClick, className } = this.props;
+        const { post, username, author, className } = this.props;
         const { tags, payout, data, category, title, body, jsonMetadata, pictures } = post;
         const formId = `postFull-${data}`;
         return (
             <Wrapper className={className}>
-                <PostHeader
-                    post={post}
-                    username={username}
-                    author={author}
-                    onFavoriteClick={onFavoriteClick}
-                />
+                <PostHeader post={post} username={username} author={author} />
                 <Body>
                     <Tag category>{category}</Tag>
                     <PostTitle>{title}</PostTitle>

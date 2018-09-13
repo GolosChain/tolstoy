@@ -16,6 +16,7 @@ import ActivePanel from './ActivePanel';
 import transaction from '../../../../app/redux/Transaction';
 import AboutPanel from './AboutPanel';
 import tt from 'counterpart';
+import { USER_FOLLOW_DATA_LOAD } from '../../redux/constants/followers';
 
 const Wrapper = styled.div`
     width: 100%;
@@ -36,22 +37,9 @@ const ContentWrapper = styled(PostContent)``;
 class PostContainer extends Component {
     constructor(props) {
         super(props);
-        this.initEvents(props);
+        this._initEvents(props);
+        props.loadUserFollowData(props.author.account);
     }
-
-    initEvents = props => {
-        const { updateFollow, username, author } = props;
-        const upd = type => {
-            const done = () => {
-                console.log('done');
-            };
-            updateFollow(username, author.account, type, done);
-        };
-        this.follow = upd.bind(null, 'blog', tt('g.confirm_follow'));
-        this.unfollow = upd.bind(null, null, tt('g.confirm_unfollow'));
-        this.ignore = upd.bind(null, 'ignore', tt('g.confirm_ignore'));
-        this.unignore = upd.bind(null, null, tt('g.confirm_unignore'));
-    };
 
     render() {
         const { post, username, author, sidePanelData, activePanelTooltipData } = this.props;
@@ -60,15 +48,11 @@ class PostContainer extends Component {
         author.unfollow = this.unfollow;
         author.ignore = this.ignore;
         author.unignore = this.unignore;
+        post.toggleFavorite = this.toggleFavorite;
         return (
             <Wrapper>
                 <Content>
-                    <ContentWrapper
-                        post={post}
-                        username={username}
-                        author={author}
-                        onFavoriteClick={this._onFavoriteClick}
-                    />
+                    <ContentWrapper post={post} username={username} author={author} />
                     <ActivePanel
                         post={post}
                         username={username}
@@ -82,25 +66,39 @@ class PostContainer extends Component {
         );
     }
 
-    _onFavoriteClick = () => {
-        const { isFavorite, post, author } = this.props;
-
-        this.props.toggleFavorite(author.account + '/' + post.permlink, !isFavorite);
+    _initEvents = props => {
+        const { updateFollow, username, author } = props;
+        const upd = type => {
+            const done = () => {
+                console.log('done');
+            };
+            updateFollow(username, author.account, type, done);
+        };
+        this.follow = upd.bind(null, 'blog', tt('g.confirm_follow'));
+        this.unfollow = upd.bind(null, null, tt('g.confirm_unfollow'));
+        this.ignore = upd.bind(null, 'ignore', tt('g.confirm_ignore'));
+        this.unignore = upd.bind(null, null, tt('g.confirm_unignore'));
     };
 
     _onVoteChange = async percent => {};
 
+    toggleFavorite = () => {
+        const { post } = this.props;
+        this.props.toggleFavorite(post.author + '/' + post.permLink, !post.isFavorite);
+    };
 }
 
 const mapStateToProps = (state, props) => {
     const post = currentPostSelector(state, props);
-    return !!post && {
-        post,
-        username: currentUserSelector(state).get('username'),
-        author: authorSelector(state, props),
-        sidePanelData: sidePanelSelector(state, props),
-        activePanelTooltipData: activePanelTooltipSelector(state, props),
-    };
+    return (
+        !!post && {
+            post,
+            username: currentUserSelector(state).get('username'),
+            author: authorSelector(state, props),
+            sidePanelData: sidePanelSelector(state, props),
+            activePanelTooltipData: activePanelTooltipSelector(state, props),
+        }
+    );
 };
 
 const mapDispatchToProps = dispatch => {
@@ -122,6 +120,14 @@ const mapDispatchToProps = dispatch => {
                     errorCallback: done,
                 })
             );
+        },
+        loadUserFollowData: username => {
+            dispatch({
+                type: USER_FOLLOW_DATA_LOAD,
+                payload: {
+                    username,
+                },
+            });
         },
     };
 };

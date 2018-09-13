@@ -1,11 +1,13 @@
 import {
     createDeepEqualSelector,
+    currentUserSelector,
     dataSelector,
     globalSelector,
     routerParamSelector,
 } from '../common';
 import { parsePayoutAmount } from 'app/utils/ParsersAndFormatters';
 import normalizeProfile from 'app/utils/NormalizeProfile';
+import { Set } from 'immutable';
 
 export const currentPostIsFavoriteSelector = createDeepEqualSelector(
     [dataSelector('favorites'), (state, props) => props.permLink],
@@ -43,28 +45,37 @@ export const currentPostSelector = createDeepEqualSelector(
     }
 );
 
+const followingSelector = createDeepEqualSelector(
+    [globalSelector('follow'), currentUserSelector],
+    (follow, user) => {
+        return follow
+            .getIn(['getFollowingAsync', user.get('username'), 'blog_result'], Set())
+            .toJS();
+    }
+);
+
 export const authorSelector = createDeepEqualSelector(
-    [globalSelector('accounts'), currentPostSelector],
-    (accounts, post) => {
-        const account = accounts.get(post.author);
+    [
+        globalSelector('accounts'),
+        globalSelector('follow_count'),
+        followingSelector,
+        currentPostSelector,
+    ],
+    (accounts, followCount, following, post) => {
+        const authorAccountName = post.author;
+        const authorData = accounts.get(authorAccountName);
         const jsonData = normalizeProfile({
-            json_metadata: account.get('json_metadata'),
-            name: post.author,
+            json_metadata: authorData.get('json_metadata'),
+            name: authorAccountName,
         });
         return {
-            name: jsonData.name || post.author,
-            account: post.author,
+            name: jsonData.name || authorAccountName,
+            account: authorAccountName,
             about: jsonData.about,
-            isFollow: true,
-            followerCount: 0,
-            pinnedPosts: [
-                {
-                    title:
-                        'Test pinked post.Test pinked post.Test pinked post.Test pinked post.Test pinked post.',
-                    url:
-                        '/vox-populi/@istfak/ru-obzor-tega-istoriya-2608-809-istfak-vsem-spasibo-prodolzhaem-rabotu',
-                },
-            ],
+            isFollow: following.includes(authorAccountName),
+            followerCount:
+                (followCount && followCount.getIn([authorAccountName, 'follower_count'])) || 0,
+            pinnedPosts: jsonData.pinnedPosts || [],
         };
     }
 );

@@ -107,6 +107,10 @@ const BodyLink = styled(Link)`
         border-bottom: 2px solid #f3f3f3;
     `};
 
+    ${is('half')`
+        width: 50%;
+    `};
+
     ${is('grid')`
         flex-shrink: 1;
         flex-grow: 1;
