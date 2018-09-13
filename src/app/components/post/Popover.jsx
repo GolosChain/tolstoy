@@ -6,6 +6,7 @@ import Userpic from 'app/components/elements/Userpic';
 import tt from 'counterpart';
 import { Link } from 'react-router';
 import ToggleFollowButton from '../common/ToggleFollowButton';
+import ToggleMuteButton from '../common/ToggleMuteButton';
 
 const Block = styled.div`
     width: 100%;
@@ -25,7 +26,6 @@ const ButtonsBlock = Block.extend`
 `;
 
 const Wrapper = styled.section`
-    width: 330px;
     max-width: 100%;
     position: relative;
     padding: 8px 20px 20px;
@@ -115,27 +115,15 @@ const PostTitle = styled(Link)`
     }
 `;
 
-const BlockButton = styled.div`
-    display: flex;
-    align-items: center;
-    padding: 0 10px;
-    color: #959595;
-    font: 12px 'Open Sans', sans-serif;
-    font-weight: bold;
-    line-height: 23px;
-    text-align: right;
-    text-shadow: 0 2px 12px rgba(0, 0, 0, .15);
-    text-transform: uppercase;
-    cursor: pointer;
-
-    &:hover {
-        color: #7a7a7a;
-    }
+const ToggleFollowButtonWrapper = styled(ToggleFollowButton)`
+    min-width: 150px;
+    min-height: 30px;
 `;
 
-const ToggleFollowButtonWrapper = styled(ToggleFollowButton)`
-    width: 150px;
-    height: 30px;
+const ToggleMuteButtonWrapper = styled(ToggleMuteButton)`
+    min-width: 150px;
+    min-height: 30px;
+    margin-left: 10px;
 `;
 
 class Popover extends Component {
@@ -201,7 +189,11 @@ class Popover extends Component {
                         followFunc={follow}
                         unfollowFunc={unfollow}
                     />
-                    <BlockButton>заблокировать</BlockButton>
+                    <ToggleMuteButtonWrapper
+                        isMute={false}
+                        followFunc={() => {}}
+                        unfollowFunc={() => {}}
+                    />
                 </ButtonsBlock>
             </Wrapper>
         );

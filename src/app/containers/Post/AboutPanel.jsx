@@ -76,12 +76,12 @@ const ButtonsBlock = styled.div`
 `;
 
 const ButtonInPanel = Button.extend`
-    width: 167px;
+    min-width: 167px;
 `;
 
 const ToggleFollowButtonWrapper = styled(ToggleFollowButton)`
-    width: 167px;
-    height: 34px;
+    min-width: 167px;
+    min-height: 34px;
 `;
 
 class AboutPanel extends Component {
