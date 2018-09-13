@@ -79,6 +79,7 @@ class PostHeader extends Component {
             author: PropTypes.string.isRequired,
             created: PropTypes.string.isRequired,
             isFavorite: PropTypes.bool.isRequired,
+            toggleFavorite: PropTypes.func.isRequired,
         }).isRequired,
         username: PropTypes.string,
         author: PropTypes.shape({
@@ -91,7 +92,6 @@ class PostHeader extends Component {
             follow: PropTypes.func.isRequired,
             unfollow: PropTypes.func.isRequired,
         }).isRequired,
-        onFavoriteClick: PropTypes.func.isRequired,
     };
 
     static defaultProps = {
@@ -101,13 +101,13 @@ class PostHeader extends Component {
     };
 
     render() {
-        const { username, post, author, onFavoriteClick, className } = this.props;
+        const { username, post, author, className } = this.props;
         const { created, isFavorite, author: authorName } = post;
         const { isFollow, follow, unfollow } = author;
         return (
             <Wrapper className={className}>
                 <Avatar>
-                    <Userpic account={authorName} size={50} onClick={this._openPopover}/>
+                    <Userpic account={authorName} size={50} onClick={this._openPopover} />
                     <Tooltip ref={ref => (this.tooltip = ref)}>
                         <Popover close={this._closePopover} author={author} />
                     </Tooltip>
@@ -132,7 +132,7 @@ class PostHeader extends Component {
                 )}
                 <IconWrapper
                     data-tooltip={isFavorite ? 'Убрать из избранного' : 'В избранное'}
-                    onClick={onFavoriteClick}
+                    onClick={post.toggleFavorite}
                 >
                     <Icon name={isFavorite ? 'star_filled' : 'star'} width={20} height={20} />
                 </IconWrapper>

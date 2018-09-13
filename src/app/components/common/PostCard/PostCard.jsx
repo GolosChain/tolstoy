@@ -516,7 +516,9 @@ export default connect(
         return {
             myAccount: myAccountName,
             data: state.global.getIn(['content', props.permLink]),
-            isFavorite: state.data.favorites.set ? state.data.favorites.set.includes(props.permLink) : false, // TODO: refactoring to immutable
+            isFavorite: state.data.favorites.set
+                ? state.data.favorites.set.includes(props.permLink)
+                : false, // TODO: refactoring to immutable
             pinDisabled: props.pageAccountName !== myAccountName,
             isPinned,
         };
