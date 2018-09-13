@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import tt from 'counterpart';
-import Icon from '../../golos-ui/Icon/Icon';
-import Button from '../../golos-ui/Button/Button';
+import Icon from '../../golos-ui/Icon';
+import Button from '../../golos-ui/Button';
 import PropTypes from 'prop-types';
 
 const ButtonBlock = Button.extend`

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import is from 'styled-is';
 import PropTypes from 'prop-types';
 import Icon from '../golos-ui/Icon';
 import Userpic from 'app/components/elements/Userpic';
@@ -118,6 +119,10 @@ const PostTitle = styled(Link)`
 const ToggleFollowButtonWrapper = styled(ToggleFollowButton)`
     min-width: 150px;
     min-height: 30px;
+    
+    ${is('isMute')`
+        visibility: hidden;
+    `}
 `;
 
 const ToggleMuteButtonWrapper = styled(ToggleMuteButton)`
@@ -189,6 +194,7 @@ class Popover extends Component {
                         isFollow={isFollow}
                         followFunc={follow}
                         unfollowFunc={unfollow}
+                        isMute={false}
                     />
                     <ToggleMuteButtonWrapper
                         isMute={false}

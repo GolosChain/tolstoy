@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import tt from 'counterpart';
 import styled from 'styled-components';
-import Button from '../../golos-ui/Button/Button';
+import Button from '../../golos-ui/Button';
 import PropTypes from 'prop-types';
 
 const MuteButton = styled.div`
