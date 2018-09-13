@@ -35,6 +35,7 @@ const Repost = styled.div`
     align-items: center;
 
     & > svg {
+        cursor: pointer;
         padding: 4px;
     }
 `;
