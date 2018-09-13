@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import Userpic from '../../../../app/components/elements/Userpic';
 import TimeAgoWrapper from '../../../../app/components/elements/TimeAgoWrapper';
 import is from 'styled-is';
-import Icon from 'golos-ui/Icon';
 import tt from 'counterpart';
 import { Link } from 'react-router';
 import Tooltip from './Tooltip';
 import Popover from './Popover';
+import Icon from '../golos-ui/Icon';
 
 const Wrapper = styled.div`
     display: flex;
@@ -48,11 +48,24 @@ const ChangeFollow = styled.div`
     justify-content: center;
     align-items: center;
     border-radius: 50%;
+    color: #ffffff;
     background-color: #2879ff;
     cursor: pointer;
 
-    ${is('isFollowed')`
+    &:hover {
+        background-color: #1d69e8;
+    }
+
+    ${is('isFollow')`
         background-color: transparent;
+        border: 1px solid #e1e1e1;
+        color: #393636;
+        
+        &:hover {
+            color: #2879ff;
+            background-color: transparent;
+            border: 1px solid rgba(40, 121, 255, .3);
+        }
     `};
 `;
 
@@ -119,15 +132,14 @@ class PostHeader extends Component {
                 {username !== authorName && (
                     <ChangeFollow
                         onClick={isFollow ? unfollow : follow}
-                        isFollowed={isFollow}
+                        isFollow={isFollow}
                         data-tooltip={isFollow ? tt('g.unfollow') : tt('g.follow')}
                     >
-                        <Icon
-                            name="check"
-                            width={14}
-                            height={10}
-                            color={isFollow ? '#959595' : 'white'}
-                        />
+                        {isFollow ? (
+                            <Icon name="cross" width={12} height={12}/>
+                        ) : (
+                            <Icon name="check" width={14} height={10}/>
+                        )}
                     </ChangeFollow>
                 )}
                 <IconWrapper

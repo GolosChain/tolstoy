@@ -153,6 +153,7 @@ class Popover extends Component {
             follow,
             unfollow,
         } = author;
+
         return (
             <Wrapper className={className}>
                 <Link />
