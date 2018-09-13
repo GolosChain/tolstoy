@@ -6,7 +6,6 @@ import Userpic from 'app/components/elements/Userpic';
 import tt from 'counterpart';
 import { Link } from 'react-router';
 import ToggleFollowButton from '../common/ToggleFollowButton';
-import Button from '../golos-ui/Button';
 
 const Block = styled.div`
     width: 100%;
@@ -125,13 +124,18 @@ const BlockButton = styled.div`
     font-weight: bold;
     line-height: 23px;
     text-align: right;
-    text-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5), 0 2px 12px 0 rgba(0, 0, 0, 0.15);
+    text-shadow: 0 2px 12px rgba(0, 0, 0, .15);
     text-transform: uppercase;
     cursor: pointer;
 
     &:hover {
         color: #7a7a7a;
     }
+`;
+
+const ToggleFollowButtonWrapper = styled(ToggleFollowButton)`
+    width: 150px;
+    height: 30px;
 `;
 
 class Popover extends Component {
@@ -192,10 +196,8 @@ class Popover extends Component {
                     </Block>
                 )}
                 <ButtonsBlock>
-                    <ToggleFollowButton
+                    <ToggleFollowButtonWrapper
                         isFollow={isFollow}
-                        buttonWidth={150}
-                        buttonHeight={30}
                         followFunc={follow}
                         unfollowFunc={unfollow}
                     />

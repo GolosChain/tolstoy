@@ -67,7 +67,7 @@ const CakeText = styled.div`
     line-height: 24px;
 `;
 
-const ButtonBlock = styled.div`
+const ButtonsBlock = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
@@ -77,6 +77,11 @@ const ButtonBlock = styled.div`
 
 const ButtonInPanel = Button.extend`
     width: 167px;
+`;
+
+const ToggleFollowButtonWrapper = styled(ToggleFollowButton)`
+    width: 167px;
+    height: 34px;
 `;
 
 class AboutPanel extends Component {
@@ -108,19 +113,17 @@ class AboutPanel extends Component {
                     <Icon width="36" height="34" name="cake" />
                     <CakeText>На Golos с сентября 2018</CakeText>
                 </CakeBlock>
-                <ButtonBlock>
+                <ButtonsBlock>
                     <ButtonInPanel light>
                         <Icon width="17" height="15" name="coins_plus" />
                         отблагодарить
                     </ButtonInPanel>
-                    <ToggleFollowButton
+                    <ToggleFollowButtonWrapper
                         isFollow={author.isFollow}
-                        buttonWidth={167}
-                        buttonHeight={34}
                         followFunc={author.follow}
                         unfollowFunc={author.unfollow}
                     />
-                </ButtonBlock>
+                </ButtonsBlock>
             </Wrapper>
         );
     }
