@@ -9,24 +9,21 @@ import { parsePayoutAmount } from 'app/utils/ParsersAndFormatters';
 import normalizeProfile from 'app/utils/NormalizeProfile';
 import { Set } from 'immutable';
 
-export const currentPostIsFavoriteSelector = createDeepEqualSelector(
-    [dataSelector('favorites'), (state, props) => props.permLink],
-    (favorites, permLink) => favorites.set.includes(permLink)
-);
-
 export const currentPostSelector = createDeepEqualSelector(
     [
         globalSelector('content'),
         routerParamSelector('username'),
         routerParamSelector('slug'),
-        currentPostIsFavoriteSelector,
+        dataSelector('favorites')
     ],
-    (content, username, slug, isFavorite) => {
+    (content, username, slug, favorites) => {
         const post = content.get(`${username}/${slug}`);
         if (!post) return null;
+        const author = post.get('author');
+        const permLink = post.get('permlink');
         return {
             created: post.get('created'),
-            isFavorite: isFavorite,
+            isFavorite: favorites.set.includes( author + '/' + permLink),
             tags: JSON.parse(post.get('json_metadata')).tags,
             payout:
                 parsePayoutAmount(post.get('pending_payout_value')) +
@@ -36,10 +33,10 @@ export const currentPostSelector = createDeepEqualSelector(
             body: post.get('body'),
             jsonMetadata: post.get('json_metadata'),
             pictures: post.getIn(['stats', 'pictures']),
-            author: post.get('author'),
-            permlink: post.get('permlink'),
+            author,
+            permLink,
             children: post.get('children'),
-            link: `/@${post.get('author')}/${post.get('permlink')}`,
+            link: `/@${author}/${permLink}`,
             data: post,
         };
     }

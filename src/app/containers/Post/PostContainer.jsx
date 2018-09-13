@@ -17,6 +17,7 @@ import transaction from '../../../../app/redux/Transaction';
 import AboutPanel from './AboutPanel';
 import tt from 'counterpart';
 import { USER_FOLLOW_DATA_LOAD } from '../../redux/constants/followers';
+import {FAVORITES_LOAD} from '../../redux/constants/favorites';
 
 const Wrapper = styled.div`
     width: 100%;
@@ -39,6 +40,7 @@ class PostContainer extends Component {
         super(props);
         this._initEvents(props);
         props.loadUserFollowData(props.author.account);
+        props.loadFavorites();
     }
 
     render() {
@@ -127,6 +129,12 @@ const mapDispatchToProps = dispatch => {
                 payload: {
                     username,
                 },
+            });
+        },
+        loadFavorites() {
+            dispatch({
+                type: FAVORITES_LOAD,
+                payload: {},
             });
         },
     };
