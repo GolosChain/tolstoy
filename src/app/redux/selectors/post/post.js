@@ -14,7 +14,7 @@ export const currentPostSelector = createDeepEqualSelector(
         globalSelector('content'),
         routerParamSelector('username'),
         routerParamSelector('slug'),
-        dataSelector('favorites')
+        dataSelector('favorites'),
     ],
     (content, username, slug, favorites) => {
         const post = content.get(`${username}/${slug}`);
@@ -23,7 +23,7 @@ export const currentPostSelector = createDeepEqualSelector(
         const permLink = post.get('permlink');
         return {
             created: post.get('created'),
-            isFavorite: favorites.set.includes( author + '/' + permLink),
+            isFavorite: favorites.set.includes(author + '/' + permLink),
             tags: JSON.parse(post.get('json_metadata')).tags,
             payout:
                 parsePayoutAmount(post.get('pending_payout_value')) +
@@ -65,6 +65,7 @@ export const authorSelector = createDeepEqualSelector(
             json_metadata: authorData.get('json_metadata'),
             name: authorAccountName,
         });
+
         return {
             name: jsonData.name || authorAccountName,
             account: authorAccountName,
@@ -72,10 +73,18 @@ export const authorSelector = createDeepEqualSelector(
             isFollow: following.includes(authorAccountName),
             followerCount:
                 (followCount && followCount.getIn([authorAccountName, 'follower_count'])) || 0,
-            pinnedPosts: jsonData.pinnedPosts || [],
+            pinnedPosts: extractPinnedPostData(authorData.get('json_metadata')),
         };
     }
 );
+
+const extractPinnedPostData = metadata => {
+    try {
+        return JSON.parse(metadata).pinnedPosts || [];
+    } catch (error) {
+        return [];
+    }
+};
 
 export const sidePanelSelector = createDeepEqualSelector([currentPostSelector], post => [
     {
