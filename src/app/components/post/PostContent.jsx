@@ -1,20 +1,15 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import MarkdownViewer from '../../../../app/components/cards/MarkdownViewer';
 import Tag from '../golos-ui/Tag/Tag';
 import PostHeader from './PostHeader';
-import { connect } from 'react-redux';
-import { currentPostSelector } from '../../redux/selectors/post/post';
 
 const Wrapper = styled.section`
     padding: 40px 70px 30px;
     background-color: white;
     border-radius: 8px;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
-
-    @media (max-width: 576px) {
-        padding: 15px 16px;
-    }
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5), 0 2px 12px 0 rgba(0, 0, 0, 0.06);
 `;
 
 const Body = styled.div`
@@ -28,58 +23,61 @@ const PostTitle = styled.h1`
     font-weight: bold;
     letter-spacing: 0.37px;
     line-height: 41px;
-
-    @media (max-width: 576px) {
-        font-size: 30px;
-    }
 `;
 
 const PostBody = styled.div`
     padding: 12px 0 14px;
-
-    p {
-        color: #959595;
-        font-family: 'Open Sans', sans-serif;
-        font-size: 18px;
-        letter-spacing: -0.29px;
-        line-height: 26px;
-    }
-
-    @media (max-width: 576px) {
-        font-size: 16px;
-        letter-spacing: -0.26px;
-        line-height: 24px;
-    }
 `;
-
 const Tags = styled.div`
     margin-top: -10px;
     display: flex;
     flex-wrap: wrap;
-
     & > div {
         margin: 10px 10px 0 0;
     }
 `;
 
 class PostContent extends Component {
+    static propTypes = {
+        username: PropTypes.string,
+        post: PropTypes.shape({
+            tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+            payout: PropTypes.number.isRequired,
+            category: PropTypes.string.isRequired,
+            title: PropTypes.string.isRequired,
+            body: PropTypes.string.isRequired,
+            created: PropTypes.any.isRequired,
+            pictures: PropTypes.bool.isRequired,
+            jsonMetadata: PropTypes.string,
+            author: PropTypes.string.isRequired,
+            isFavorite: PropTypes.bool.isRequired,
+            toggleFavorite: PropTypes.func.isRequired,
+        }).isRequired,
+        author: PropTypes.shape({
+            name: PropTypes.string,
+            about: PropTypes.string,
+            account: PropTypes.string.isRequired,
+            isFollow: PropTypes.bool.isRequired,
+            followerCount: PropTypes.number.isRequired,
+            pinnedPosts: PropTypes.array.isRequired,
+            follow: PropTypes.func.isRequired,
+            unfollow: PropTypes.func.isRequired,
+        }).isRequired,
+    };
+
+    static defaultProps = {
+        author: {
+            isFollow: false,
+        },
+    };
+
     render() {
-        const {
-            tags,
-            payout,
-            permLink,
-            category,
-            title,
-            body,
-            jsonMetadata,
-            pictures,
-            created,
-            className,
-        } = this.props;
-        const formId = `postFull-${permLink}`;
+        const { post, username, author, className } = this.props;
+        const { tags, payout, data, category, title, body, jsonMetadata, pictures } = post;
+        const formId = `postFull-${data}`;
         return (
             <Wrapper className={className}>
-                <PostHeader />
+                <PostHeader post={post} username={username} author={author} />
                 <Body>
                     <Tag category>{category}</Tag>
                     <PostTitle>{title}</PostTitle>
@@ -91,7 +89,7 @@ class PostContent extends Component {
                             large
                             highQualityPost={payout > 10}
                             noImage={!pictures}
-                            timeCteated={new Date(created)}
+                            timeCteated={new Date(post.created)}
                         />
                     </PostBody>
                 </Body>
@@ -107,20 +105,4 @@ class PostContent extends Component {
     }
 }
 
-const mapStateToProps = (state, props) => {
-    const post = currentPostSelector(state, props);
-    return {
-        tags: post.tags,
-        payout: post.payout,
-        data: post.data,
-        category: post.category,
-        title: post.title,
-        body: post.body,
-        jsonMetadata: post.jsonMetadata,
-        pictures: post.pictures,
-        created: post.created,
-        permLink: post.permLink,
-    };
-};
-
-export default connect(mapStateToProps)(PostContent);
+export default PostContent;

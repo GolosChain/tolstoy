@@ -3,75 +3,47 @@ import {
     currentUserSelector,
     dataSelector,
     globalSelector,
+    routerParamSelector,
 } from '../common';
-import { detransliterate, parsePayoutAmount } from 'app/utils/ParsersAndFormatters';
+import { parsePayoutAmount } from 'app/utils/ParsersAndFormatters';
 import normalizeProfile from 'app/utils/NormalizeProfile';
 import { Set } from 'immutable';
-import { calcVotesStats } from '../../../../../app/utils/StateFunctions';
 
-const pathnameSelector = state => {
-    return state.routing.locationBeforeTransitions.pathname;
-};
-
-const postUrlFromPathnameSelector = createDeepEqualSelector([pathnameSelector], pathname =>
-    pathname.substr(pathname.indexOf('@') + 1)
+export const currentPostIsFavoriteSelector = createDeepEqualSelector(
+    [dataSelector('favorites'), (state, props) => props.permLink],
+    (favorites, permLink) => favorites.set.includes(permLink)
 );
 
-export const postSelector = createDeepEqualSelector(
-    [globalSelector('content'), postUrlFromPathnameSelector],
-    (content, url) => content.get(url)
-);
-
-export const votesSummarySelector = createDeepEqualSelector(
-    [postSelector, currentUserSelector],
-    (post, currentUser) => {
-        return calcVotesStats(post.get('active_votes').toJS(), currentUser);
-    }
-);
-
-export const repostSelector = createDeepEqualSelector([], () => 0);
-export const currentUsernameSelector = createDeepEqualSelector([currentUserSelector], user =>
-    user.get('username')
-);
 export const currentPostSelector = createDeepEqualSelector(
-    [postSelector, dataSelector('favorites'), currentUsernameSelector],
-    (post, favorites, username) => {
+    [
+        globalSelector('content'),
+        routerParamSelector('username'),
+        routerParamSelector('slug'),
+        currentPostIsFavoriteSelector,
+    ],
+    (content, username, slug, isFavorite) => {
+        const post = content.get(`${username}/${slug}`);
         if (!post) return null;
-        const author = post.get('author');
-        const permLink = post.get('permlink');
-        const myVote = getMyVote(post, username);
         return {
             created: post.get('created'),
-            isFavorite: favorites.set.includes(author + '/' + permLink),
-            tags: JSON.parse(post.get('json_metadata')).tags.map(tag => detransliterate(tag)),
+            isFavorite: isFavorite,
+            tags: JSON.parse(post.get('json_metadata')).tags,
             payout:
                 parsePayoutAmount(post.get('pending_payout_value')) +
                 parsePayoutAmount(post.get('total_payout_value')),
-            category: detransliterate(post.get('category')),
+            category: post.get('category'),
             title: post.get('title'),
             body: post.get('body'),
             jsonMetadata: post.get('json_metadata'),
             pictures: post.getIn(['stats', 'pictures']),
-            author,
-            permLink,
+            author: post.get('author'),
+            permlink: post.get('permlink'),
             children: post.get('children'),
-            link: `/@${author}/${permLink}`,
-            myVote,
+            link: `/@${post.get('author')}/${post.get('permlink')}`,
+            data: post,
         };
     }
 );
-
-function getMyVote(post, username) {
-    const votes = post.get('active_votes');
-    for (let vote of votes) {
-        if (vote.get('voter') === username) {
-            const myVote = vote.toJS();
-            myVote.weight = parseInt(myVote.weight || 0, 10);
-            return myVote;
-        }
-    }
-    return 0;
-}
 
 const followingSelector = createDeepEqualSelector(
     [globalSelector('follow'), currentUserSelector],
@@ -82,59 +54,66 @@ const followingSelector = createDeepEqualSelector(
     }
 );
 
-const mutingSelector = createDeepEqualSelector(
-    [globalSelector('follow'), currentUserSelector],
-    (follow, user) => {
-        return follow
-            .getIn(['getFollowingAsync', user.get('username'), 'ignore_result'], Set())
-            .toJS();
-    }
-);
-
 export const authorSelector = createDeepEqualSelector(
     [
         globalSelector('accounts'),
         globalSelector('follow_count'),
         followingSelector,
-        mutingSelector,
         currentPostSelector,
-        globalSelector('content'),
     ],
-    (accounts, followCount, following, muting, post, content) => {
+    (accounts, followCount, following, post) => {
         const authorAccountName = post.author;
         const authorData = accounts.get(authorAccountName);
         const jsonData = normalizeProfile({
             json_metadata: authorData.get('json_metadata'),
             name: authorAccountName,
         });
-        const pinnedPostsUrls = extractPinnedPostData(authorData.get('json_metadata'));
         return {
             name: jsonData.name || authorAccountName,
             account: authorAccountName,
             about: jsonData.about,
             isFollow: following.includes(authorAccountName),
-            isMute: muting.includes(authorAccountName),
             followerCount:
                 (followCount && followCount.getIn([authorAccountName, 'follower_count'])) || 0,
-            pinnedPostsUrls,
-            pinnedPosts: pinnedPostsUrls
-                .map(url => content.get(url))
-                .filter(post => !!post)
-                .map(post => {
-                    return {
-                        title: post.get('title'),
-                        url: post.get('url'),
-                    };
-                }),
-            created: authorData.get('created'),
+            pinnedPosts: jsonData.pinnedPosts || [],
         };
     }
 );
 
-const extractPinnedPostData = metadata => {
-    try {
-        return JSON.parse(metadata).pinnedPosts || [];
-    } catch (error) {
-        return [];
-    }
-};
+export const sidePanelSelector = createDeepEqualSelector([currentPostSelector], post => [
+    {
+        iconName: 'like',
+        count: post.data.get('net_votes'),
+    },
+    {
+        iconName: 'dislike',
+        count: 18,
+    },
+    {
+        iconName: 'repost-right',
+        count: 20,
+    },
+    {
+        iconName: 'sharing_triangle',
+        count: null,
+    },
+    {
+        iconName: 'star',
+        count: null,
+    },
+]);
+
+export const activePanelTooltipSelector = createDeepEqualSelector([], () => [
+    {
+        iconName: 'pin',
+        text: 'Закрепить пост',
+    },
+    {
+        iconName: 'brilliant',
+        text: 'Продвинуть пост',
+    },
+    {
+        iconName: 'complain_normal',
+        text: 'Пожаловаться на пост',
+    },
+]);
