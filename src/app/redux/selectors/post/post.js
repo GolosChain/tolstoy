@@ -113,13 +113,16 @@ export const activePanelTooltipSelector = createDeepEqualSelector([], () => [
     {
         iconName: 'pin',
         text: 'Закрепить пост',
+        mouseOverIcon: '',
     },
     {
         iconName: 'brilliant',
         text: 'Продвинуть пост',
+        mouseOverIcon: '',
     },
     {
         iconName: 'complain_normal',
         text: 'Пожаловаться на пост',
+        mouseOverIcon: 'complain_pressed',
     },
 ]);

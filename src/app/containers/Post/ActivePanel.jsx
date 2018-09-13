@@ -37,6 +37,11 @@ const Repost = styled.div`
     & > svg {
         cursor: pointer;
         padding: 4px;
+        transition: 0.2s;
+
+        &:hover {
+            transform: scale(1.15);
+        }
     }
 `;
 
@@ -72,7 +77,7 @@ const MoreFunction = styled.div`
     align-items: center;
     color: #333333;
     cursor: pointer;
-    
+
     &:hover {
         color: #2879ff;
     }
@@ -105,6 +110,7 @@ class ActivePanel extends Component {
             PropTypes.shape({
                 iconName: PropTypes.string.isRequired,
                 text: PropTypes.string.isRequired,
+                mouseOverIcon: PropTypes.string.isRequired
             })
         ).isRequired,
         onVoteChange: PropTypes.func.isRequired,
@@ -113,9 +119,14 @@ class ActivePanel extends Component {
     state = {
         showPanel: true,
         activeDotsMore: false,
+        hoverTooltipIcon: {
+            index: '',
+            mouseOverIcon: '',
+        },
     };
 
     render() {
+        const { hoverTooltipIcon } = this.state;
         const { post, onVoteChange, username, activePanelTooltipActions } = this.props;
 
         return (
@@ -154,8 +165,25 @@ class ActivePanel extends Component {
                             <MoreFunctions>
                                 {activePanelTooltipActions.map((action, index) => {
                                     return (
-                                        <MoreFunction key={index}>
-                                            <Icon width="20" height="20" name={action.iconName} />
+                                        <MoreFunction
+                                            key={index}
+                                            onMouseOver={this.swapIcon.bind(
+                                                this,
+                                                index,
+                                                action.mouseOverIcon
+                                            )}
+                                            onMouseOut={this.swapIcon.bind(this, index, '')}
+                                        >
+                                            <Icon
+                                                width="20"
+                                                height="20"
+                                                name={
+                                                    hoverTooltipIcon.mouseOverIcon &&
+                                                    index === hoverTooltipIcon.index
+                                                        ? hoverTooltipIcon.mouseOverIcon
+                                                        : action.iconName
+                                                }
+                                            />
                                             <MoreFunctionText>{action.text}</MoreFunctionText>
                                         </MoreFunction>
                                     );
@@ -184,6 +212,15 @@ class ActivePanel extends Component {
     toggleDots = () => {
         this.setState({ activeDotsMore: !this.state.activeDotsMore });
     };
+
+    swapIcon(index, mouseOverIcon) {
+        this.setState({
+            hoverTooltipIcon: {
+                index,
+                mouseOverIcon,
+            },
+        });
+    }
 }
 
 export default ActivePanel;
