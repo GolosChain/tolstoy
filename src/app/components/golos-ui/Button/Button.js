@@ -55,17 +55,21 @@ export const BaseButton = styled.button`
 
     ${is('auto')`
         width: 100%;
-    `} 
-    
+    `};
+
     ${is('light')`
         color: #393636;
-        background: #fff;
-        border: 1px solid rgba(57,54,54,0.30);
-        &:focus,
-        &:hover {
+        background: #ffffff;
+        border: 1px solid rgba(57, 54, 54, .3);
+        &:focus {
             color: #393636;
-            background: #fff;
-            border: 1px solid ${darken(0.05, 'rgba(57,54,54,0.30)')};
+            background: #ffffff;
+            border: 1px solid ${darken(0.05, 'rgba(57, 54, 54, .3)')};
+        }
+        &:hover {
+            color: #2879ff;
+            background: #ffffff;
+            border: 1px solid rgba(40, 121, 255, .3);
         }
     `};
 `;

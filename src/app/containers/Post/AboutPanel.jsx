@@ -5,6 +5,7 @@ import Userpic from '../../../../app/components/elements/Userpic';
 import { Link } from 'react-router';
 import Icon from '../../components/golos-ui/Icon/Icon';
 import Button from '../../components/golos-ui/Button/Button';
+import ToggleFollowButton from '../../components/common/ToggleFollowButton';
 
 const Wrapper = styled.div`
     display: flex;
@@ -66,7 +67,7 @@ const CakeText = styled.div`
     line-height: 24px;
 `;
 
-const ButtonBlock = styled.div`
+const ButtonsBlock = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
@@ -75,7 +76,12 @@ const ButtonBlock = styled.div`
 `;
 
 const ButtonInPanel = Button.extend`
-    width: 167px;
+    min-width: 167px;
+`;
+
+const ToggleFollowButtonWrapper = styled(ToggleFollowButton)`
+    min-width: 167px;
+    min-height: 34px;
 `;
 
 class AboutPanel extends Component {
@@ -107,23 +113,17 @@ class AboutPanel extends Component {
                     <Icon width="36" height="34" name="cake" />
                     <CakeText>На Golos с сентября 2018</CakeText>
                 </CakeBlock>
-                <ButtonBlock>
+                <ButtonsBlock>
                     <ButtonInPanel light>
                         <Icon width="17" height="15" name="coins_plus" />
                         отблагодарить
                     </ButtonInPanel>
-                    {author.isFollow ? (
-                        <ButtonInPanel light>
-                            <Icon width="10" height="10" name="cross" />
-                            отписаться
-                        </ButtonInPanel>
-                    ) : (
-                        <ButtonInPanel>
-                            <Icon width="11" height="8" name="subscribe" />
-                            Подписаться
-                        </ButtonInPanel>
-                    )}
-                </ButtonBlock>
+                    <ToggleFollowButtonWrapper
+                        isFollow={author.isFollow}
+                        followFunc={author.follow}
+                        unfollowFunc={author.unfollow}
+                    />
+                </ButtonsBlock>
             </Wrapper>
         );
     }
