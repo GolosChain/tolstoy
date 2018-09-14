@@ -17,7 +17,7 @@ const postUrlFromPathnameSelector = createDeepEqualSelector([pathnameSelector], 
     pathname.substr(pathname.indexOf('@') + 1)
 );
 
-const postSelector = createDeepEqualSelector(
+export const postSelector = createDeepEqualSelector(
     [globalSelector('content'), postUrlFromPathnameSelector],
     (content, url) => content.get(url)
 );
@@ -53,7 +53,6 @@ export const currentPostSelector = createDeepEqualSelector(
             permLink,
             children: post.get('children'),
             link: `/@${author}/${permLink}`,
-            data: post,
         };
     }
 );
@@ -111,18 +110,3 @@ const extractPinnedPostData = metadata => {
         return [];
     }
 };
-
-export const activePanelTooltipSelector = createDeepEqualSelector([], () => [
-    {
-        iconName: 'pin',
-        text: 'Закрепить пост',
-    },
-    {
-        iconName: 'brilliant',
-        text: 'Продвинуть пост',
-    },
-    {
-        iconName: 'complain_normal',
-        text: 'Пожаловаться на пост',
-    },
-]);
