@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import throttle from 'lodash/throttle';
 import Icon from '../../components/golos-ui/Icon/Icon';
 import is, { isNot } from 'styled-is';
+import connect from 'react-redux/es/connect/connect';
+import { repostSelector, votesSummarySelector } from '../../redux/selectors/post/post';
 
 const PADDING_FROM_HEADER = 22;
 const HEADER_HEIGHT = 121;
@@ -71,7 +73,7 @@ const ActionIconWrapper = styled.div`
     }
 `;
 
-const ActionBlock = ({ iconName, count }) => {
+const ActionBlock = ({ iconName, count = null }) => {
     return (
         <ActionButton>
             <ActionIconWrapper>
@@ -109,7 +111,7 @@ class SidePanel extends Component {
     }
 
     render() {
-        const { sidePanelActions } = this.props;
+        const { votesSummary, repost } = this.props;
         const { showPanel, fixedOnScreen } = this.state;
         return (
             <Wrapper
@@ -117,11 +119,11 @@ class SidePanel extends Component {
                 showPanel={showPanel}
                 fixedOnScreen={fixedOnScreen}
             >
-                {sidePanelActions.map((action, index) => {
-                    return (
-                        <ActionBlock key={index} iconName={action.iconName} count={action.count} />
-                    );
-                })}
+                <ActionBlock iconName="like" count={votesSummary.likes} />
+                <ActionBlock iconName="dislike" count={votesSummary.dislikes} />
+                <ActionBlock iconName="repost-right" count={repost} />
+                <ActionBlock iconName="sharing_triangle" />
+                <ActionBlock iconName="star" />
             </Wrapper>
         );
     }
@@ -158,4 +160,18 @@ class SidePanel extends Component {
     _resizeScreenLazy = throttle(this._resizeScreen, 25, { leading: true });
 }
 
-export default SidePanel;
+const mapStateToProps = (state, props) => {
+    return {
+        votesSummary: votesSummarySelector(state, props),
+        repost: repostSelector(state, props),
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {};
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(SidePanel);

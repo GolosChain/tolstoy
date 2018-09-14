@@ -3,28 +3,37 @@ import {
     currentUserSelector,
     dataSelector,
     globalSelector,
-    routerParamSelector,
 } from '../common';
 import { detransliterate, parsePayoutAmount } from 'app/utils/ParsersAndFormatters';
 import normalizeProfile from 'app/utils/NormalizeProfile';
 import { Set } from 'immutable';
 import { calcVotesStats } from '../../../../../app/utils/StateFunctions';
 
-const postSelector = createDeepEqualSelector(
-    [globalSelector('content'), routerParamSelector('username'), routerParamSelector('slug')],
-    (content, username, slug) => content.get(`${username}/${slug}`)
+const pathnameSelector = state => {
+    return state.routing.locationBeforeTransitions.pathname;
+};
+
+const postUrlFromPathnameSelector = createDeepEqualSelector([pathnameSelector], pathname =>
+    pathname.substr(pathname.indexOf('@') + 1)
 );
 
-const votesSummarySelector = createDeepEqualSelector(
+const postSelector = createDeepEqualSelector(
+    [globalSelector('content'), postUrlFromPathnameSelector],
+    (content, url) => content.get(url)
+);
+
+export const votesSummarySelector = createDeepEqualSelector(
     [postSelector, currentUserSelector],
     (post, currentUser) => {
         return calcVotesStats(post.get('active_votes').toJS(), currentUser);
     }
 );
 
+export const repostSelector = createDeepEqualSelector([], () => 0);
+
 export const currentPostSelector = createDeepEqualSelector(
-    [postSelector, dataSelector('favorites'), votesSummarySelector],
-    (post, favorites, votesSummary) => {
+    [postSelector, dataSelector('favorites')],
+    (post, favorites) => {
         if (!post) return null;
         const author = post.get('author');
         const permLink = post.get('permlink');
@@ -44,7 +53,6 @@ export const currentPostSelector = createDeepEqualSelector(
             permLink,
             children: post.get('children'),
             link: `/@${author}/${permLink}`,
-            votesSummary,
             data: post,
         };
     }
@@ -103,29 +111,6 @@ const extractPinnedPostData = metadata => {
         return [];
     }
 };
-
-export const sidePanelSelector = createDeepEqualSelector([currentPostSelector], post => [
-    {
-        iconName: 'like',
-        count: post.data.get('net_votes'),
-    },
-    {
-        iconName: 'dislike',
-        count: 18,
-    },
-    {
-        iconName: 'repost-right',
-        count: 20,
-    },
-    {
-        iconName: 'sharing_triangle',
-        count: null,
-    },
-    {
-        iconName: 'star',
-        count: null,
-    },
-]);
 
 export const activePanelTooltipSelector = createDeepEqualSelector([], () => [
     {
