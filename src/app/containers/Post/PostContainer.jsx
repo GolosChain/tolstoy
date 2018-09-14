@@ -3,11 +3,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Container from 'src/app/components/common/Container/Container';
 import SidePanel from 'src/app/containers/Post/SidePanel';
-import {
-    activePanelTooltipSelector,
-    authorSelector,
-    currentPostSelector,
-} from '../../redux/selectors/post/post';
+import { authorSelector, currentPostSelector } from '../../redux/selectors/post/post';
 import PostContent from '../../components/post/PostContent';
 import { currentUserSelector } from '../../redux/selectors/common';
 import { toggleFavoriteAction } from '../../redux/actions/favorites';
@@ -42,10 +38,6 @@ class PostContainer extends Component {
         props.loadFavorites();
     }
 
-    componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
-    }
-
     componentDidMount() {
         if (this.props.author.pinnedPostsUrls) {
             this.props.getPostContent(this.props.author.pinnedPostsUrls);
@@ -53,7 +45,7 @@ class PostContainer extends Component {
     }
 
     render() {
-        const { post, username, author, activePanelTooltipData } = this.props;
+        const { post, username, author } = this.props;
         if (!post) return null;
         author.follow = this.follow;
         author.unfollow = this.unfollow;
@@ -64,12 +56,7 @@ class PostContainer extends Component {
             <Wrapper>
                 <Content>
                     <ContentWrapper post={post} username={username} author={author} />
-                    <ActivePanel
-                        post={post}
-                        username={username}
-                        activePanelTooltipActions={activePanelTooltipData}
-                        onVoteChange={this._onVoteChange}
-                    />
+                    <ActivePanel post={post} username={username} />
                     <AboutPanel author={author} />
                     <SidePanel />
                 </Content>
@@ -91,8 +78,6 @@ class PostContainer extends Component {
         this.unignore = upd.bind(null, null, tt('g.confirm_unignore'));
     };
 
-    _onVoteChange = async percent => {};
-
     toggleFavorite = () => {
         const { post } = this.props;
         this.props.toggleFavorite(post.author + '/' + post.permLink, !post.isFavorite);
@@ -106,7 +91,6 @@ const mapStateToProps = (state, props) => {
             post,
             username: currentUserSelector(state).get('username'),
             author: authorSelector(state, props),
-            activePanelTooltipData: activePanelTooltipSelector(state, props),
         }
     );
 };

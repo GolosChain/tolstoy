@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import throttle from 'lodash/throttle';
 import Icon from '../../components/golos-ui/Icon/Icon';
 import is, { isNot } from 'styled-is';
@@ -89,15 +88,6 @@ const ActionBlock = ({ iconName, count = null }) => {
 };
 
 class SidePanel extends Component {
-    static propTypes = {
-        sidePanelActions: PropTypes.arrayOf(
-            PropTypes.shape({
-                iconName: PropTypes.string.isRequired,
-                count: PropTypes.number,
-            })
-        ).isRequired,
-    };
-
     state = {
         showPanel: true,
         fixedOnScreen: true,

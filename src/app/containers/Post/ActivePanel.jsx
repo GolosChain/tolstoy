@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import VotePanel from '../../components/common/VotePanel/VotePanel';
 import Icon from '../../components/golos-ui/Icon/Icon';
 import ReplyBlock from '../../components/common/ReplyBlock/ReplyBlock';
-import { Map } from 'immutable';
 import Tooltip from '../../components/post/Tooltip';
+import connect from 'react-redux/es/connect/connect';
+import { postSelector } from '../../redux/selectors/post/post';
+import { currentUserSelector } from '../../redux/selectors/common';
 
 const Wrapper = styled.div`
     width: 100%;
@@ -25,7 +26,7 @@ const Divider = styled.div`
     background: #e1e1e1;
 `;
 
-const VotePanelStyled = styled(VotePanel)`
+const VotePanelWrapper = styled(VotePanel)`
     padding: 12px 22px 12px 0;
 `;
 
@@ -68,11 +69,11 @@ const DotsMore = Repost.extend`
     }
 `;
 
-const MoreFunctions = styled.div`
+const ActionsBlock = styled.div`
     padding: 20px 30px;
 `;
 
-const MoreFunction = styled.div`
+const Action = styled.div`
     display: flex;
     align-items: center;
     color: #333333;
@@ -89,7 +90,7 @@ const MoreFunction = styled.div`
     }
 `;
 
-const MoreFunctionText = styled.div`
+const ActionText = styled.div`
     margin-left: 25px;
     font-family: Roboto, sans-serif;
     font-size: 14px;
@@ -98,39 +99,29 @@ const MoreFunctionText = styled.div`
     cursor: pointer;
 `;
 
-class ActivePanel extends Component {
-    static propTypes = {
-        username: PropTypes.string,
-        post: PropTypes.shape({
-            data: PropTypes.instanceOf(Map),
-            children: PropTypes.number,
-            link: PropTypes.string.isRequired,
-        }).isRequired,
-        activePanelTooltipActions: PropTypes.arrayOf(
-            PropTypes.shape({
-                iconName: PropTypes.string.isRequired,
-                text: PropTypes.string.isRequired,
-            })
-        ).isRequired,
-        onVoteChange: PropTypes.func.isRequired,
-    };
+const ActionIcon = styled(Icon)``;
+ActionIcon.defaultProps = {
+    width: 20,
+    height: 20,
+};
 
+class ActivePanel extends Component {
     state = {
         showPanel: true,
         activeDotsMore: false,
     };
 
     render() {
-        const { post, onVoteChange, username, activePanelTooltipActions } = this.props;
+        const { data, username } = this.props;
 
         return (
             <Wrapper>
                 <HoldingBlock>
-                    <VotePanelStyled
-                        data={post.data}
+                    <VotePanelWrapper
+                        data={data}
                         me={username}
                         whiteTheme={false}
-                        onChange={onVoteChange}
+                        onChange={this._voteChange}
                     />
                     <Divider />
                     <Repost>
@@ -156,33 +147,50 @@ class ActivePanel extends Component {
                             up={true}
                             changedIsOpen={this.toggleDots}
                         >
-                            <MoreFunctions>
-                                {activePanelTooltipActions.map((action, index) => {
-                                    return (
-                                        <MoreFunction
-                                            key={index}
-                                            onClick={this.tooltipAction.bind(this, action.iconName)}
-                                        >
-                                            <Icon width="20" height="20" name={action.iconName} />
-                                            <MoreFunctionText>{action.text}</MoreFunctionText>
-                                        </MoreFunction>
-                                    );
-                                })}
-                            </MoreFunctions>
+                            <ActionsBlock>
+                                <Action onClick={this._pinPost}>
+                                    <ActionIcon name="pin" />
+                                    <ActionText>Закрепить пост</ActionText>
+                                </Action>
+                                <Action onClick={this._promotePost}>
+                                    <ActionIcon name="brilliant" />
+                                    <ActionText>Продвинуть пост</ActionText>
+                                </Action>
+                                <Action onClick={this._flagPost}>
+                                    <ActionIcon name="complain_normal" />
+                                    <ActionText>Пожаловаться на пост</ActionText>
+                                </Action>
+                            </ActionsBlock>
                         </Tooltip>
                     </DotsMore>
                 </HoldingBlock>
                 <HoldingBlock>
                     <ReplyBlock
                         withImage={false}
-                        count={post.children}
-                        link={post.link}
+                        count={data.get('children')}
+                        link={data.get('link')}
                         text="Ответить"
                     />
                 </HoldingBlock>
             </Wrapper>
         );
     }
+
+    _voteChange = param => {
+        console.log(param);
+    };
+
+    _pinPost = () => {
+        this._closePopover();
+    };
+
+    _promotePost = () => {
+        this._closePopover();
+    };
+
+    _flagPost = () => {
+        this._closePopover();
+    };
 
     _openPopover = () => {
         this.tooltip.open();
@@ -195,10 +203,20 @@ class ActivePanel extends Component {
     toggleDots = () => {
         this.setState({ activeDotsMore: !this.state.activeDotsMore });
     };
-
-    tooltipAction(actionName, e) {
-        this._closePopover(e);
-    }
 }
 
-export default ActivePanel;
+const mapStateToProps = (state, props) => {
+    return {
+        data: postSelector(state, props),
+        username: currentUserSelector(state).get('username'),
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {};
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ActivePanel);
