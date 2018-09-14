@@ -159,7 +159,10 @@ class ActivePanel extends Component {
                             <MoreFunctions>
                                 {activePanelTooltipActions.map((action, index) => {
                                     return (
-                                        <MoreFunction key={index} onClick={this.tooltipAction.bind(this, action.iconName)}>
+                                        <MoreFunction
+                                            key={index}
+                                            onClick={this.tooltipAction.bind(this, action.iconName)}
+                                        >
                                             <Icon width="20" height="20" name={action.iconName} />
                                             <MoreFunctionText>{action.text}</MoreFunctionText>
                                         </MoreFunction>

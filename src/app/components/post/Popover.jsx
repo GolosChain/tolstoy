@@ -68,7 +68,7 @@ const AuthorInfoBlock = styled.div`
 
 const AuthorName = styled.div`
     color: #393636;
-    font-family: 'Open Sans',sans-serif;
+    font-family: 'Open Sans', sans-serif;
     font-size: 24px;
     font-weight: bold;
     line-height: 25px;
@@ -124,10 +124,10 @@ const PostTitle = styled(Link)`
 const ToggleFollowButtonWrapper = styled(ToggleFollowButton)`
     min-width: 150px;
     min-height: 30px;
-    
+
     ${is('isMute')`
         visibility: hidden;
-    `}
+    `};
 `;
 
 const ToggleMuteButtonWrapper = styled(ToggleMuteButton)`
@@ -153,14 +153,7 @@ class Popover extends Component {
 
     render() {
         const { author, className } = this.props;
-        const {
-            account,
-            name,
-            about,
-            followerCount,
-            pinnedPosts,
-            isFollow,
-        } = author;
+        const { account, name, about, followerCount, pinnedPosts, isFollow } = author;
 
         return (
             <Wrapper className={className}>

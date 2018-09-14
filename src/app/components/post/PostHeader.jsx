@@ -136,9 +136,9 @@ class PostHeader extends Component {
                         data-tooltip={isFollow ? tt('g.unfollow') : tt('g.follow')}
                     >
                         {isFollow ? (
-                            <Icon name="cross" width={12} height={12}/>
+                            <Icon name="cross" width={12} height={12} />
                         ) : (
-                            <Icon name="check" width={14} height={10}/>
+                            <Icon name="check" width={14} height={10} />
                         )}
                     </ChangeFollow>
                 )}
