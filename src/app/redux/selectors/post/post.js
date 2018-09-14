@@ -57,15 +57,16 @@ export const authorSelector = createDeepEqualSelector(
         globalSelector('follow_count'),
         followingSelector,
         currentPostSelector,
+        globalSelector('content'),
     ],
-    (accounts, followCount, following, post) => {
+    (accounts, followCount, following, post, content) => {
         const authorAccountName = post.author;
         const authorData = accounts.get(authorAccountName);
         const jsonData = normalizeProfile({
             json_metadata: authorData.get('json_metadata'),
             name: authorAccountName,
         });
-
+        const pinnedPostsUrls = extractPinnedPostData(authorData.get('json_metadata'));
         return {
             name: jsonData.name || authorAccountName,
             account: authorAccountName,
@@ -73,7 +74,13 @@ export const authorSelector = createDeepEqualSelector(
             isFollow: following.includes(authorAccountName),
             followerCount:
                 (followCount && followCount.getIn([authorAccountName, 'follower_count'])) || 0,
-            pinnedPosts: extractPinnedPostData(authorData.get('json_metadata')),
+            pinnedPostsUrls,
+            pinnedPosts: pinnedPostsUrls.map(url => content.get(url)).filter(post => !!post).map(post => {
+                return {
+                    title: post.get('title'),
+                    url: post.get('url')
+                }
+            }),
         };
     }
 );

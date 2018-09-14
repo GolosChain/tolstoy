@@ -16,8 +16,8 @@ import ActivePanel from './ActivePanel';
 import transaction from '../../../../app/redux/Transaction';
 import AboutPanel from './AboutPanel';
 import tt from 'counterpart';
-import { USER_FOLLOW_DATA_LOAD } from '../../redux/constants/followers';
-import {FAVORITES_LOAD} from '../../redux/constants/favorites';
+import { USER_FOLLOW_DATA_LOAD, USER_PINNED_POSTS_LOAD } from '../../redux/constants/followers';
+import { FAVORITES_LOAD } from '../../redux/constants/favorites';
 
 const Wrapper = styled.div`
     width: 100%;
@@ -41,6 +41,16 @@ class PostContainer extends Component {
         this._initEvents(props);
         props.loadUserFollowData(props.author.account);
         props.loadFavorites();
+    }
+
+    componentWillReceiveProps(nextProps) {
+        console.log(nextProps);
+    }
+
+    componentDidMount() {
+        if (this.props.author.pinnedPostsUrls) {
+            this.props.getPostContent(this.props.author.pinnedPostsUrls);
+        }
     }
 
     render() {
@@ -131,10 +141,18 @@ const mapDispatchToProps = dispatch => {
                 },
             });
         },
-        loadFavorites() {
+        loadFavorites: () => {
             dispatch({
                 type: FAVORITES_LOAD,
                 payload: {},
+            });
+        },
+        getPostContent: urls => {
+            dispatch({
+                type: USER_PINNED_POSTS_LOAD,
+                payload: {
+                    urls,
+                },
             });
         },
     };
