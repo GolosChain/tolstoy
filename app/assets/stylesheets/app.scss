@@ -82,6 +82,18 @@ a {
   border-width: 2px;
 }
 
+.button.light {
+  border-color: rgba(57,54,54,0.3);	
+  border-width: 1px;
+  color: #393636;
+  background-color: #FFFFFF;
+}
+
+.button.bold {
+  letter-spacing: 1.4px;
+  font-weight: bold;
+}
+
 @keyframes loading {
   0% {
     transform: rotate(0deg);
