@@ -66,18 +66,23 @@ const AuthorInfoBlock = styled.div`
     margin-right: auto;
 `;
 
-const AuthorName = styled(Link)`
-    display: block;
-    font-size: 15px;
-    font-weight: 500;
-    color: #333;
-    text-decoration: none;
+const AuthorName = styled.div`
+    color: #393636;
+    font-family: 'Open Sans',sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 25px;
 `;
 
-const AuthorAccount = styled.div`
+const AuthorAccount = styled(Link)`
+    display: inline-block;
+    padding: 0 10px;
+    margin-left: -10px;
     color: #959595;
     font: 13px Roboto, sans-serif;
     letter-spacing: 0.4px;
+    text-decoration: none;
+    line-height: 25px;
 `;
 
 const About = styled.p`
@@ -168,8 +173,8 @@ class Popover extends Component {
                 <Block>
                     <AuthorTitle>
                         <AuthorInfoBlock>
-                            <AuthorName to={`/@${account}`}>{name}</AuthorName>
-                            <AuthorAccount>@{account}</AuthorAccount>
+                            <AuthorName>{name}</AuthorName>
+                            <AuthorAccount to={`/@${account}`}>@{account}</AuthorAccount>
                         </AuthorInfoBlock>
                         <Userpic size={50} account={account} />
                     </AuthorTitle>
