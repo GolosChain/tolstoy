@@ -159,7 +159,7 @@ class ActivePanel extends Component {
                             <MoreFunctions>
                                 {activePanelTooltipActions.map((action, index) => {
                                     return (
-                                        <MoreFunction key={index}>
+                                        <MoreFunction key={index} onClick={this.tooltipAction.bind(this, action.iconName)}>
                                             <Icon width="20" height="20" name={action.iconName} />
                                             <MoreFunctionText>{action.text}</MoreFunctionText>
                                         </MoreFunction>
@@ -186,9 +186,18 @@ class ActivePanel extends Component {
         this.tooltip.open();
     };
 
+    _closePopover = e => {
+        e.stopPropagation();
+        this.tooltip.close();
+    };
+
     toggleDots = () => {
         this.setState({ activeDotsMore: !this.state.activeDotsMore });
     };
+
+    tooltipAction(actionName, e) {
+        this._closePopover(e);
+    }
 }
 
 export default ActivePanel;
