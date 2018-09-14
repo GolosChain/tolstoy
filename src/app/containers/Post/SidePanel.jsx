@@ -43,7 +43,7 @@ const Wrapper = styled.div`
         transition: visibility 0s linear 0.3s, opacity 0.3s;
         visibility: hidden;
     }
-    
+
     @media (max-width: 1200px) {
         display: none;
     }
