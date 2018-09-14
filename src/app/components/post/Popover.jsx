@@ -160,8 +160,6 @@ class Popover extends Component {
             followerCount,
             pinnedPosts,
             isFollow,
-            follow,
-            unfollow,
         } = author;
 
         return (
@@ -197,22 +195,41 @@ class Popover extends Component {
                 <ButtonsBlock>
                     <ToggleFollowButtonWrapper
                         isFollow={isFollow}
-                        followFunc={follow}
-                        unfollowFunc={unfollow}
+                        followUser={this._followUser}
+                        unfollowUser={this._unfollowUser}
                         isMute={false}
                     />
                     <ToggleMuteButtonWrapper
                         isMute={false}
-                        followFunc={() => {}}
-                        unfollowFunc={() => {}}
+                        muteUser={this._muteUser}
+                        unMuteUser={this._unmuteUser}
                     />
                 </ButtonsBlock>
             </Wrapper>
         );
     }
 
-    _closePopover = e => {
-        e.stopPropagation();
+    _followUser = () => {
+        this.props.author.follow();
+        this._closePopover();
+    };
+
+    _unfollowUser = () => {
+        this.props.author.unfollow();
+        this._closePopover();
+    };
+
+    _muteUser = () => {
+        // this.props.author.mute(); add mute function
+        this._closePopover();
+    };
+
+    _unmuteUser = () => {
+        // this.props.author.unmute(); add unmute function
+        this._closePopover();
+    };
+
+    _closePopover = () => {
         this.props.close();
     };
 }

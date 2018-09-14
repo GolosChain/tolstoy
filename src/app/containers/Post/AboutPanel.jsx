@@ -120,8 +120,8 @@ class AboutPanel extends Component {
                     </ButtonInPanel>
                     <ToggleFollowButtonWrapper
                         isFollow={author.isFollow}
-                        followFunc={author.follow}
-                        unfollowFunc={author.unfollow}
+                        followUser={author.follow}
+                        unfollowUser={author.unfollow}
                     />
                 </ButtonsBlock>
             </Wrapper>
