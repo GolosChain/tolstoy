@@ -37,6 +37,11 @@ const Repost = styled.div`
     & > svg {
         cursor: pointer;
         padding: 4px;
+        transition: 0.2s;
+
+        &:hover {
+            transform: scale(1.15);
+        }
     }
 `;
 
@@ -72,7 +77,7 @@ const MoreFunction = styled.div`
     align-items: center;
     color: #333333;
     cursor: pointer;
-    
+
     &:hover {
         color: #2879ff;
     }

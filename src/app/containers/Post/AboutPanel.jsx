@@ -26,22 +26,22 @@ const NamesWrapper = styled.div`
     padding: 0 20px 0 10px;
 `;
 
-const RealName = styled(Link)`
-    display: block;
-    padding-bottom: 6px;
-    margin-top: -6px;
+const RealName = styled.div`
     color: #393636;
     font-family: 'Open Sans', sans-serif;
     font-size: 24px;
     font-weight: bold;
-    line-height: 30px;
+    line-height: 25px;
 `;
 
-const UserName = styled.div`
+const UserName = styled(Link)`
+    display: inline-block;
+    padding: 0 10px;
+    margin-left: -10px;
     color: #959595;
     font-family: 'Open Sans', sans-serif;
     font-size: 12px;
-    line-height: 18px;
+    line-height: 25px;
 `;
 
 const Divider = styled.div`
@@ -104,8 +104,8 @@ class AboutPanel extends Component {
                 <AvatarBlock>
                     <Userpic account={accountUsername} size={50} />
                     <NamesWrapper>
-                        <RealName to={`/@${accountUsername}`}>{author.name}</RealName>
-                        <UserName>@{accountUsername}</UserName>
+                        <RealName>{author.name}</RealName>
+                        <UserName to={`/@${accountUsername}`}>@{accountUsername}</UserName>
                     </NamesWrapper>
                     <Divider />
                 </AvatarBlock>
