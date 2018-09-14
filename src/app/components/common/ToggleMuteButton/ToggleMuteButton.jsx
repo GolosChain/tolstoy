@@ -15,7 +15,7 @@ const MuteButton = styled.div`
     font: 12px 'Open Sans', sans-serif;
     font-weight: bold;
     line-height: 23px;
-    text-shadow: 0 2px 12px rgba(0, 0, 0, .15);
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
     text-transform: uppercase;
     cursor: pointer;
 
@@ -40,9 +40,7 @@ const ToggleMuteButton = ({ isMute, muteUser, unmuteUser, className }) => {
                     {tt('g.unmute')}
                 </UnmuteButton>
             ) : (
-                <MuteButton onClick={muteUser}>
-                    {tt('g.mute')}
-                </MuteButton>
+                <MuteButton onClick={muteUser}>{tt('g.mute')}</MuteButton>
             )}
         </div>
     );

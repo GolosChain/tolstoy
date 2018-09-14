@@ -12,16 +12,16 @@ const ButtonBlock = Button.extend`
     line-height: 23px;
 `;
 
-const ToggleFollowButton = ({ isFollow, followFunc, unfollowFunc, className }) => {
+const ToggleFollowButton = ({ isFollow, followUser, unfollowUser, className }) => {
     return (
         <div className={className}>
             {isFollow ? (
-                <ButtonBlock light onClick={unfollowFunc}>
+                <ButtonBlock light onClick={unfollowUser}>
                     <Icon width="10" height="10" name="cross" />
                     {tt('g.unfollow')}
                 </ButtonBlock>
             ) : (
-                <ButtonBlock onClick={followFunc}>
+                <ButtonBlock onClick={followUser}>
                     <Icon width="11" height="8" name="subscribe" />
                     {tt('g.follow')}
                 </ButtonBlock>
@@ -32,8 +32,8 @@ const ToggleFollowButton = ({ isFollow, followFunc, unfollowFunc, className }) =
 
 ToggleFollowButton.propTypes = {
     isFollow: PropTypes.bool.isRequired,
-    followFunc: PropTypes.func.isRequired,
-    unfollowFunc: PropTypes.func.isRequired,
+    followUser: PropTypes.func.isRequired,
+    unfollowUser: PropTypes.func.isRequired,
 };
 
 export default ToggleFollowButton;
