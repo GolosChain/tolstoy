@@ -13,6 +13,7 @@ const Container = styled.div`
     z-index: 1;
 
     ${is('up')`
+        padding-top: 0;
         padding-bottom: 10px;
         top: auto;
         bottom: 100%;
@@ -113,9 +114,11 @@ class Tooltip extends Component {
     }
 
     open = () => {
+        this.props.changedIsOpen();
         if (!this.state.isOpen) {
-            this.props.changedIsOpen();
             this.setState({ isOpen: true });
+        } else {
+            this.setState({ isOpen: false });
         }
     };
 
@@ -128,6 +131,7 @@ class Tooltip extends Component {
 
     _checkClick = e => {
         if (this.state.isOpen) {
+            console.log(!this.container.contains(e.target));
             e.stopPropagation();
             this.close();
         }
