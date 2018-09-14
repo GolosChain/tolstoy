@@ -102,6 +102,10 @@ class Footer extends React.Component {
                             url: '/welcome',
                         },
                         {
+                            name: tt('navigation.faq'),
+                            url: '/faq',
+                        },
+                        {
                             name: tt('g.golos_fest'),
                             url: '/@golosio',
                         },
@@ -109,10 +113,6 @@ class Footer extends React.Component {
                         {
                             name: tt('g.team'),
                             url: '/about#team',
-                        },
-                        {
-                            name: tt('navigation.faq'),
-                            url: '/faq',
                         },
                     ],
                     [
