@@ -7,7 +7,6 @@ import {
     activePanelTooltipSelector,
     authorSelector,
     currentPostSelector,
-    sidePanelSelector,
 } from '../../redux/selectors/post/post';
 import PostContent from '../../components/post/PostContent';
 import { currentUserSelector } from '../../redux/selectors/common';
@@ -54,7 +53,7 @@ class PostContainer extends Component {
     }
 
     render() {
-        const { post, username, author, sidePanelData, activePanelTooltipData } = this.props;
+        const { post, username, author, activePanelTooltipData } = this.props;
         if (!post) return null;
         author.follow = this.follow;
         author.unfollow = this.unfollow;
@@ -72,7 +71,7 @@ class PostContainer extends Component {
                         onVoteChange={this._onVoteChange}
                     />
                     <AboutPanel author={author} />
-                    <SidePanel sidePanelActions={sidePanelData} />
+                    <SidePanel />
                 </Content>
             </Wrapper>
         );
@@ -107,7 +106,6 @@ const mapStateToProps = (state, props) => {
             post,
             username: currentUserSelector(state).get('username'),
             author: authorSelector(state, props),
-            sidePanelData: sidePanelSelector(state, props),
             activePanelTooltipData: activePanelTooltipSelector(state, props),
         }
     );
