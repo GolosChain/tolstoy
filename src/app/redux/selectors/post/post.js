@@ -8,16 +8,23 @@ import {
 import { detransliterate, parsePayoutAmount } from 'app/utils/ParsersAndFormatters';
 import normalizeProfile from 'app/utils/NormalizeProfile';
 import { Set } from 'immutable';
+import { calcVotesStats } from '../../../../../app/utils/StateFunctions';
+
+const postSelector = createDeepEqualSelector(
+    [globalSelector('content'), routerParamSelector('username'), routerParamSelector('slug')],
+    (content, username, slug) => content.get(`${username}/${slug}`)
+);
+
+const votesSummarySelector = createDeepEqualSelector(
+    [postSelector, currentUserSelector],
+    (post, currentUser) => {
+        return calcVotesStats(post.get('active_votes').toJS(), currentUser);
+    }
+);
 
 export const currentPostSelector = createDeepEqualSelector(
-    [
-        globalSelector('content'),
-        routerParamSelector('username'),
-        routerParamSelector('slug'),
-        dataSelector('favorites'),
-    ],
-    (content, username, slug, favorites) => {
-        const post = content.get(`${username}/${slug}`);
+    [postSelector, dataSelector('favorites'), votesSummarySelector],
+    (post, favorites, votesSummary) => {
         if (!post) return null;
         const author = post.get('author');
         const permLink = post.get('permlink');
@@ -37,6 +44,7 @@ export const currentPostSelector = createDeepEqualSelector(
             permLink,
             children: post.get('children'),
             link: `/@${author}/${permLink}`,
+            votesSummary,
             data: post,
         };
     }
