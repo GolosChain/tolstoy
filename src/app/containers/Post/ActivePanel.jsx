@@ -181,13 +181,11 @@ class ActivePanel extends Component {
         );
     }
 
-    _openPopover = e => {
-        e.stopPropagation();
+    _openPopover = () => {
         this.tooltip.open();
     };
 
-    _closePopover = e => {
-        e.stopPropagation();
+    _closePopover = () => {
         this.tooltip.close();
     };
 

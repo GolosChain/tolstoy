@@ -8,13 +8,14 @@ const Container = styled.div`
     max-width: calc(100vw - ${({ screenMargin }) => screenMargin * 3}px);
     position: absolute;
     left: 50%;
-    padding-top: 10px;
+    margin-top: 10px;
     top: 100%;
     z-index: 1;
 
     ${is('up')`
-        padding-top: 0;
-        padding-bottom: 10px;
+
+        margin-top: 0;
+        margin-bottom: 10px;
         top: auto;
         bottom: 100%;
     `};
@@ -39,11 +40,11 @@ const Decoration = styled.div`
     width: 14px;
     height: 14px;
     position: absolute;
-    ${({ up }) => (up ? 'bottom: 4px;' : 'top: 4px;')};
+    ${({ up }) => (up ? 'bottom: -7px;' : 'top: -7px;')};
     left: 50%;
     transform: translateX(-50%) rotate(45deg);
     background-color: white;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5), 0 2px 12px 0 rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
 
     ${({ margin, screenMargin }) =>
         margin !== 0 &&
@@ -54,7 +55,7 @@ const Decoration = styled.div`
 
 const ContentWrapper = styled.div`
     background-color: white;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5), 0 2px 12px 0 rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
     border-radius: 5px;
     overflow: hidden;
 `;
@@ -85,12 +86,12 @@ class Tooltip extends Component {
     componentDidMount() {
         this._checkContainerBoundingClientRect();
         window.addEventListener('resize', this._checkScreenSizeLazy);
-        window.addEventListener('click', this._checkClick);
+        window.addEventListener('click', this._checkClick, true);
     }
 
     componentWillUnmount() {
         window.removeEventListener('resize', this._checkScreenSizeLazy);
-        window.removeEventListener('click', this._checkClick);
+        window.removeEventListener('click', this._checkClick, true);
     }
 
     render() {
@@ -114,11 +115,9 @@ class Tooltip extends Component {
     }
 
     open = () => {
-        this.props.changedIsOpen();
         if (!this.state.isOpen) {
+            this.props.changedIsOpen();
             this.setState({ isOpen: true });
-        } else {
-            this.setState({ isOpen: false });
         }
     };
 
@@ -130,9 +129,7 @@ class Tooltip extends Component {
     };
 
     _checkClick = e => {
-        if (this.state.isOpen) {
-            console.log(!this.container.contains(e.target));
-            e.stopPropagation();
+        if (this.state.isOpen && !this.container.contains(e.target)) {
             this.close();
         }
     };

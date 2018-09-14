@@ -152,8 +152,7 @@ class PostHeader extends Component {
         );
     }
 
-    _openPopover = e => {
-        e.stopPropagation();
+    _openPopover = () => {
         this.tooltip.open();
     };
 
