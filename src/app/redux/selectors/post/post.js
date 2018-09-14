@@ -5,7 +5,7 @@ import {
     globalSelector,
     routerParamSelector,
 } from '../common';
-import { parsePayoutAmount } from 'app/utils/ParsersAndFormatters';
+import { detransliterate, parsePayoutAmount } from 'app/utils/ParsersAndFormatters';
 import normalizeProfile from 'app/utils/NormalizeProfile';
 import { Set } from 'immutable';
 
@@ -24,11 +24,11 @@ export const currentPostSelector = createDeepEqualSelector(
         return {
             created: post.get('created'),
             isFavorite: favorites.set.includes(author + '/' + permLink),
-            tags: JSON.parse(post.get('json_metadata')).tags,
+            tags: JSON.parse(post.get('json_metadata')).tags.map(tag => detransliterate(tag)),
             payout:
                 parsePayoutAmount(post.get('pending_payout_value')) +
                 parsePayoutAmount(post.get('total_payout_value')),
-            category: post.get('category'),
+            category: detransliterate(post.get('category')),
             title: post.get('title'),
             body: post.get('body'),
             jsonMetadata: post.get('json_metadata'),
@@ -75,12 +75,15 @@ export const authorSelector = createDeepEqualSelector(
             followerCount:
                 (followCount && followCount.getIn([authorAccountName, 'follower_count'])) || 0,
             pinnedPostsUrls,
-            pinnedPosts: pinnedPostsUrls.map(url => content.get(url)).filter(post => !!post).map(post => {
-                return {
-                    title: post.get('title'),
-                    url: post.get('url')
-                }
-            }),
+            pinnedPosts: pinnedPostsUrls
+                .map(url => content.get(url))
+                .filter(post => !!post)
+                .map(post => {
+                    return {
+                        title: post.get('title'),
+                        url: post.get('url'),
+                    };
+                }),
         };
     }
 );

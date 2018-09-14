@@ -1,4 +1,4 @@
-import { fork, takeEvery } from 'redux-saga/effects';
+import { fork, call, takeEvery } from 'redux-saga/effects';
 import { USER_FOLLOW_DATA_LOAD, USER_PINNED_POSTS_LOAD } from '../constants/followers';
 import { fetchFollowCount } from 'app/redux/sagas/follow';
 import { getContent } from 'app/redux/sagas/shared';
@@ -24,6 +24,6 @@ function* loadUserPinnedPosts({ payload }) {
     const { urls } = payload;
     for (let i = 0; i < urls.length; i++) {
         let params = urls[i].split('/');
-        yield fork(getContent, {author: params[0], permlink: params[1]});
+        yield fork(getContent, { author: params[0], permlink: params[1] });
     }
 }
