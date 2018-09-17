@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Userpic from '../../../../app/components/elements/Userpic';
 import { Link } from 'react-router';
 import { Map } from 'immutable';
+import tt from 'counterpart';
 import Icon from '../../components/golos-ui/Icon/Icon';
 import Button from '../../components/golos-ui/Button/Button';
 import ToggleFollowButton from '../../components/common/ToggleFollowButton';
@@ -70,6 +71,10 @@ const CakeBlock = styled.div`
     align-items: center;
     flex-direction: column;
     flex-grow: 2;
+    
+    @media (max-width: 768px) {
+        display: none;
+    }
 `;
 
 const CakeText = styled.div`
@@ -108,13 +113,18 @@ const ToggleFollowButtonWrapper = styled(ToggleFollowButton)`
     }
 `;
 
-const AboutText = styled.p`
+const AboutTextMobile = styled.p`
+    display: none;
     margin: 20px 0 0 0;
     color: #959595;
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
     letter-spacing: -0.26px;
     line-height: 24px;
+    
+    @media (max-width: 768px) {
+        display: block
+    }
 `;
 
 class AboutPanel extends Component {
@@ -128,7 +138,6 @@ class AboutPanel extends Component {
             unfollow: PropTypes.func.isRequired,
         }).isRequired,
         accounts: PropTypes.instanceOf(Map),
-        isiPadScreen: PropTypes.bool.isRequired,
     };
 
     render() {
@@ -146,16 +155,13 @@ class AboutPanel extends Component {
                     </NamesWrapper>
                     <Divider />
                 </AvatarBlock>
-                {isiPadScreen ? (
-                    <AboutText>{author.about}</AboutText>
-                ) : (
-                    <CakeBlock>
-                        <Icon width="36" height="34" name="cake" />
-                        <CakeText>
-                            На Golos с <JoinedToGolos date={accountData.created} />
-                        </CakeText>
-                    </CakeBlock>
-                )}
+                <AboutTextMobile>{author.about}</AboutTextMobile>
+                <CakeBlock>
+                    <Icon width="36" height="34" name="cake" />
+                    <CakeText>
+                        {tt('on_golos_from')} <JoinedToGolos date={accountData.created} />
+                    </CakeText>
+                </CakeBlock>
                 <ButtonsBlock>
                     <ButtonInPanel light>
                         <Icon width="17" height="15" name="coins_plus" />
