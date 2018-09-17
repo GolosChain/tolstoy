@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Userpic from '../../../../app/components/elements/Userpic';
@@ -6,7 +7,7 @@ import { Link } from 'react-router';
 import tt from 'counterpart';
 import Icon from '../../components/golos-ui/Icon/Icon';
 import Button from '../../components/golos-ui/Button/Button';
-import FollowButton from '../../components/common/FollowButton';
+import ToggleFollowButton from '../../components/common/ToggleFollowButton';
 import { authorSelector } from '../../redux/selectors/post/post';
 import JoinedToGolos from '../../components/common/JoinedToGolos';
 
@@ -22,7 +23,7 @@ const Wrapper = styled.div`
     }
 `;
 
-const Avatar = styled.div`
+const AvatarBlock = styled.div`
     display: flex;
     align-items: center;
     flex-grow: 1;
@@ -33,11 +34,11 @@ const Avatar = styled.div`
     }
 `;
 
-const Names = styled.div`
+const NamesWrapper = styled.div`
     padding: 0 20px 0 10px;
 `;
 
-const Name = styled.div`
+const RealName = styled.div`
     color: #393636;
     font-family: 'Open Sans', sans-serif;
     font-size: 24px;
@@ -45,7 +46,7 @@ const Name = styled.div`
     line-height: 25px;
 `;
 
-const Account = styled(Link)`
+const UserName = styled(Link)`
     display: inline-block;
     padding: 0 10px;
     margin-left: -10px;
@@ -65,7 +66,7 @@ const Divider = styled.div`
     }
 `;
 
-const Cake = styled.div`
+const CakeBlock = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -86,7 +87,7 @@ const CakeText = styled.div`
     line-height: 24px;
 `;
 
-const Buttons = styled.div`
+const ButtonsBlock = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
@@ -96,7 +97,6 @@ const Buttons = styled.div`
 
 const ButtonInPanel = Button.extend`
     min-width: 167px;
-    text-transform: lowercase;
 
     @media (max-width: 768px) {
         width: 100%;
@@ -104,7 +104,7 @@ const ButtonInPanel = Button.extend`
     }
 `;
 
-const Follow = styled(FollowButton)`
+const ToggleFollowButtonWrapper = styled(ToggleFollowButton)`
     min-width: 167px;
     min-height: 34px;
 
@@ -114,7 +114,7 @@ const Follow = styled(FollowButton)`
     }
 `;
 
-const AboutMobile = styled.p`
+const AboutTextMobile = styled.p`
     display: none;
     margin: 20px 0 0 0;
     color: #959595;
@@ -129,32 +129,41 @@ const AboutMobile = styled.p`
 `;
 
 class AboutPanel extends Component {
+    static propTypes = {
+        follow: PropTypes.func.isRequired,
+        unfollow: PropTypes.func.isRequired,
+    };
+
     render() {
-        const { name, account, created, about } = this.props;
+        const { name, account, isFollow, follow, unfollow, created, about } = this.props;
         return (
             <Wrapper>
-                <Avatar>
+                <AvatarBlock>
                     <Userpic account={account} size={50} />
-                    <Names>
-                        <Name>{name}</Name>
-                        <Account to={`/@${account}`}>@{account}</Account>
-                    </Names>
+                    <NamesWrapper>
+                        <RealName>{name}</RealName>
+                        <UserName to={`/@${account}`}>@{account}</UserName>
+                    </NamesWrapper>
                     <Divider />
-                </Avatar>
-                <AboutMobile>{about}</AboutMobile>
-                <Cake>
+                </AvatarBlock>
+                <AboutTextMobile>{about}</AboutTextMobile>
+                <CakeBlock>
                     <Icon width="36" height="34" name="cake" />
                     <CakeText>
                         {tt('on_golos_from')} <JoinedToGolos date={created} />
                     </CakeText>
-                </Cake>
-                <Buttons>
+                </CakeBlock>
+                <ButtonsBlock>
                     <ButtonInPanel light>
                         <Icon width="17" height="15" name="coins_plus" />
-                        {tt('g.donate')}
+                        отблагодарить
                     </ButtonInPanel>
-                    <Follow following={account} />
-                </Buttons>
+                    <ToggleFollowButtonWrapper
+                        isFollow={isFollow}
+                        followUser={follow}
+                        unfollowUser={unfollow}
+                    />
+                </ButtonsBlock>
             </Wrapper>
         );
     }
@@ -165,6 +174,7 @@ const mapStateToProps = (state, props) => {
     return {
         name: author.name,
         account: author.account,
+        isFollow: author.isFollow,
         created: author.created,
         about: author.about,
     };
