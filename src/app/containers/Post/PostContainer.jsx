@@ -56,8 +56,8 @@ class PostContainer extends Component {
             <Wrapper>
                 <Content>
                     <ContentWrapper post={post} username={username} author={author} />
-                    <ActivePanel post={post} username={username} />
-                    <AboutPanel author={author} />
+                    <ActivePanel />
+                    <AboutPanel follow={this.follow} unfollow={this.unfollow} />
                     <SidePanel />
                 </Content>
             </Wrapper>
