@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 import MarkdownViewer from '../../../../app/components/cards/MarkdownViewer';
 import Tag from '../golos-ui/Tag/Tag';
 import PostHeader from './PostHeader';
+import { connect } from 'react-redux';
+import { authorSelector, currentPostSelector } from '../../redux/selectors/post/post';
+import { currentUserSelector } from '../../redux/selectors/common';
 
 const Wrapper = styled.section`
     padding: 40px 70px 30px;
@@ -59,7 +62,6 @@ class PostContent extends Component {
             jsonMetadata: PropTypes.string,
             author: PropTypes.string.isRequired,
             isFavorite: PropTypes.bool.isRequired,
-            toggleFavorite: PropTypes.func.isRequired,
         }).isRequired,
         author: PropTypes.shape({
             name: PropTypes.string,
@@ -113,4 +115,22 @@ class PostContent extends Component {
     }
 }
 
-export default PostContent;
+const mapStateToProps = (state, props) => {
+    const post = currentPostSelector(state, props);
+    return (
+        !!post && {
+            post,
+            username: currentUserSelector(state).get('username'),
+            author: authorSelector(state, props),
+        }
+    );
+};
+
+const mapDispatchToProps = dispatch => {
+    return {};
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(PostContent);

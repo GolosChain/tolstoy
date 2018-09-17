@@ -6,7 +6,6 @@ import SidePanel from 'src/app/containers/Post/SidePanel';
 import { authorSelector, currentPostSelector } from '../../redux/selectors/post/post';
 import PostContent from '../../components/post/PostContent';
 import { currentUserSelector } from '../../redux/selectors/common';
-import { toggleFavoriteAction } from '../../redux/actions/favorites';
 import ActivePanel from './ActivePanel';
 import transaction from '../../../../app/redux/Transaction';
 import AboutPanel from './AboutPanel';
@@ -51,7 +50,6 @@ class PostContainer extends Component {
         author.unfollow = this.unfollow;
         author.ignore = this.ignore;
         author.unignore = this.unignore;
-        post.toggleFavorite = this.toggleFavorite;
         return (
             <Wrapper>
                 <Content>
@@ -77,11 +75,6 @@ class PostContainer extends Component {
         this.ignore = upd.bind(null, 'ignore', tt('g.confirm_ignore'));
         this.unignore = upd.bind(null, null, tt('g.confirm_unignore'));
     };
-
-    toggleFavorite = () => {
-        const { post } = this.props;
-        this.props.toggleFavorite(post.author + '/' + post.permLink, !post.isFavorite);
-    };
 }
 
 const mapStateToProps = (state, props) => {
@@ -97,9 +90,6 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        toggleFavorite: (link, isAdd) => {
-            dispatch(toggleFavoriteAction({ link, isAdd }));
-        },
         updateFollow: (follower, following, done) => {
             const json = ['follow', { follower, following, what: ['blog'] }];
             dispatch(

@@ -8,6 +8,10 @@ import tt from 'counterpart';
 import { Link } from 'react-router';
 import ToggleFollowButton from '../common/ToggleFollowButton';
 import ToggleMuteButton from '../common/ToggleMuteButton';
+import { authorSelector, currentPostSelector } from '../../redux/selectors/post/post';
+import { currentUserSelector } from '../../redux/selectors/common';
+import { toggleFavoriteAction } from '../../redux/actions/favorites';
+import connect from 'react-redux/es/connect/connect';
 
 const Block = styled.div`
     width: 100%;
@@ -139,21 +143,20 @@ const ToggleMuteButtonWrapper = styled(ToggleMuteButton)`
 class Popover extends Component {
     static propTypes = {
         close: PropTypes.func.isRequired,
-        author: PropTypes.shape({
-            name: PropTypes.string,
-            about: PropTypes.string,
-            account: PropTypes.string.isRequired,
-            isFollow: PropTypes.bool.isRequired,
-            followerCount: PropTypes.number.isRequired,
-            pinnedPosts: PropTypes.array.isRequired,
-            follow: PropTypes.func.isRequired,
-            unfollow: PropTypes.func.isRequired,
-        }).isRequired,
+        follow: PropTypes.func.isRequired,
+        unfollow: PropTypes.func.isRequired,
     };
 
     render() {
-        const { author, className } = this.props;
-        const { account, name, about, followerCount, pinnedPosts, isFollow } = author;
+        const {
+            account,
+            name,
+            about,
+            followerCount,
+            pinnedPosts,
+            isFollow,
+            className,
+        } = this.props;
 
         return (
             <Wrapper className={className}>
@@ -227,4 +230,27 @@ class Popover extends Component {
     };
 }
 
-export default Popover;
+const mapStateToProps = (state, props) => {
+    const author = authorSelector(state, props);
+    return {
+        account: author.account,
+        name: author.name,
+        about: author.about,
+        followerCount: author.followerCount,
+        pinnedPosts: author.pinnedPosts,
+        isFollow: author.isFollow,
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        toggleFavorite: (link, isAdd) => {
+            dispatch(toggleFavoriteAction({ link, isAdd }));
+        },
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Popover);

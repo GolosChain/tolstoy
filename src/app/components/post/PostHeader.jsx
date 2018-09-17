@@ -3,12 +3,15 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Userpic from '../../../../app/components/elements/Userpic';
 import TimeAgoWrapper from '../../../../app/components/elements/TimeAgoWrapper';
-import is from 'styled-is';
 import tt from 'counterpart';
 import { Link } from 'react-router';
 import Tooltip from './Tooltip';
 import Popover from './Popover';
 import Icon from '../golos-ui/Icon';
+import { connect } from 'react-redux';
+import { authorSelector, currentPostSelector } from '../../redux/selectors/post/post';
+import { currentUserSelector } from '../../redux/selectors/common';
+import { toggleFavoriteAction } from '../../redux/actions/favorites';
 
 const Wrapper = styled.div`
     display: flex;
@@ -41,32 +44,35 @@ const AuthorName = styled(Link)`
     text-decoration: none;
 `;
 
-const ChangeFollow = styled.div`
+const Follow = styled.div`
     width: 34px;
     height: 34px;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 50%;
+    cursor: pointer;
+`;
+
+const Followed = Follow.extend`
+    color: #393636;
+    background-color: transparent;
+    border: 1px solid #e1e1e1;
+
+    &:hover {
+        color: #2879ff;
+        background-color: transparent;
+        border: 1px solid rgba(40, 121, 255, 0.3);
+    }
+`;
+
+const NoFollowed = Follow.extend`
     color: #ffffff;
     background-color: #2879ff;
-    cursor: pointer;
 
     &:hover {
         background-color: #1d69e8;
     }
-
-    ${is('isFollow')`
-        background-color: transparent;
-        border: 1px solid #e1e1e1;
-        color: #393636;
-        
-        &:hover {
-            color: #2879ff;
-            background-color: transparent;
-            border: 1px solid rgba(40, 121, 255, .3);
-        }
-    `};
 `;
 
 const IconWrapper = styled.div`
@@ -88,63 +94,46 @@ const IconWrapper = styled.div`
 
 class PostHeader extends Component {
     static propTypes = {
-        post: PropTypes.shape({
-            author: PropTypes.string.isRequired,
-            created: PropTypes.string.isRequired,
-            isFavorite: PropTypes.bool.isRequired,
-            toggleFavorite: PropTypes.func.isRequired,
-        }).isRequired,
-        username: PropTypes.string,
-        author: PropTypes.shape({
-            name: PropTypes.string,
-            about: PropTypes.string,
-            account: PropTypes.string.isRequired,
-            isFollow: PropTypes.bool.isRequired,
-            followerCount: PropTypes.number.isRequired,
-            pinnedPosts: PropTypes.array.isRequired,
-            follow: PropTypes.func.isRequired,
-            unfollow: PropTypes.func.isRequired,
-        }).isRequired,
-    };
-
-    static defaultProps = {
-        author: {
-            isFollow: false,
-        },
+        follow: PropTypes.func.isRequired,
+        unfollow: PropTypes.func.isRequired,
     };
 
     render() {
-        const { username, post, author, className } = this.props;
-        const { created, isFavorite, author: authorName } = post;
-        const { isFollow, follow, unfollow } = author;
+        const {
+            isMy,
+            created,
+            isFavorite,
+            author,
+            isFollow,
+            follow,
+            unfollow,
+            className,
+        } = this.props;
         return (
             <Wrapper className={className}>
                 <Avatar>
-                    <Userpic account={authorName} size={50} onClick={this._openPopover} />
+                    <Userpic account={author} size={50} onClick={this._openPopover} />
                     <Tooltip ref={ref => (this.tooltip = ref)}>
                         <Popover close={this._closePopover} author={author} />
                     </Tooltip>
                 </Avatar>
                 <InfoBlock>
-                    <AuthorName to={`/@${authorName}`}>{authorName}</AuthorName>
+                    <AuthorName to={`/@${author}`}>{author}</AuthorName>
                     <TimeAgoWrapper date={created} />
                 </InfoBlock>
-                {username !== authorName && (
-                    <ChangeFollow
-                        onClick={isFollow ? unfollow : follow}
-                        isFollow={isFollow}
-                        data-tooltip={isFollow ? tt('g.unfollow') : tt('g.follow')}
-                    >
-                        {isFollow ? (
+                {!isMy &&
+                    (isFollow ? (
+                        <Followed onClick={unfollow} data-tooltip={tt('g.unfollow')}>
                             <Icon name="cross" width={12} height={12} />
-                        ) : (
+                        </Followed>
+                    ) : (
+                        <NoFollowed onClick={follow} data-tooltip={tt('g.follow')}>
                             <Icon name="check" width={14} height={10} />
-                        )}
-                    </ChangeFollow>
-                )}
+                        </NoFollowed>
+                    ))}
                 <IconWrapper
                     data-tooltip={isFavorite ? 'Убрать из избранного' : 'В избранное'}
-                    onClick={post.toggleFavorite}
+                    onClick={this._toggleFavorite}
                 >
                     <Icon name={isFavorite ? 'star_filled' : 'star'} width={20} height={20} />
                 </IconWrapper>
@@ -159,6 +148,35 @@ class PostHeader extends Component {
     _closePopover = () => {
         this.tooltip.close();
     };
+
+    _toggleFavorite = () => {
+        const { author, permLink, isFavorite } = this.props;
+        this.props.toggleFavorite(author + '/' + permLink, !isFavorite);
+    };
 }
 
-export default PostHeader;
+const mapStateToProps = (state, props) => {
+    const post = currentPostSelector(state, props);
+    const author = authorSelector(state, props);
+    return {
+        isMy: currentUserSelector(state).get('username') === author.account,
+        created: post.created,
+        isFavorite: post.isFavorite,
+        author: author.account,
+        isFollow: author.isFollow,
+        permLink: post.permLink,
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        toggleFavorite: (link, isAdd) => {
+            dispatch(toggleFavoriteAction({ link, isAdd }));
+        },
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(PostHeader);
