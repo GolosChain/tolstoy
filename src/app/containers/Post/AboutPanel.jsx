@@ -72,7 +72,7 @@ const CakeBlock = styled.div`
     align-items: center;
     flex-direction: column;
     flex-grow: 2;
-    
+
     @media (max-width: 768px) {
         display: none;
     }
@@ -122,9 +122,9 @@ const AboutTextMobile = styled.p`
     font-size: 16px;
     letter-spacing: -0.26px;
     line-height: 24px;
-    
+
     @media (max-width: 768px) {
-        display: block
+        display: block;
     }
 `;
 
@@ -135,8 +135,7 @@ class AboutPanel extends Component {
     };
 
     render() {
-        const { name, account, isFollow, follow, unfollow } = this.props;
-        const accountData = accounts.get(accountUsername).toJS();
+        const { name, account, isFollow, follow, unfollow, created, about } = this.props;
         return (
             <Wrapper>
                 <AvatarBlock>
@@ -147,11 +146,11 @@ class AboutPanel extends Component {
                     </NamesWrapper>
                     <Divider />
                 </AvatarBlock>
-                <AboutTextMobile>{author.about}</AboutTextMobile>
+                <AboutTextMobile>{about}</AboutTextMobile>
                 <CakeBlock>
                     <Icon width="36" height="34" name="cake" />
                     <CakeText>
-                        {tt('on_golos_from')} <JoinedToGolos date={accountData.created} />
+                        {tt('on_golos_from')} <JoinedToGolos date={created} />
                     </CakeText>
                 </CakeBlock>
                 <ButtonsBlock>
@@ -176,6 +175,8 @@ const mapStateToProps = (state, props) => {
         name: author.name,
         account: author.account,
         isFollow: author.isFollow,
+        created: author.created,
+        about: author.about,
     };
 };
 
