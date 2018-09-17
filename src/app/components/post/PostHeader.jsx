@@ -19,6 +19,11 @@ const Wrapper = styled.div`
     justify-content: flex-start;
     padding-bottom: 25px;
     border-bottom: 2px solid #e1e1e1;
+
+    @media (max-width: 576px) {
+        justify-content: space-between;
+        padding-bottom: 15px;
+    }
 `;
 
 const Avatar = styled.div`
@@ -34,10 +39,17 @@ const InfoBlock = styled.div`
     font: 13px Roboto, sans-serif;
     letter-spacing: 0.4px;
     line-height: 18px;
+
+    span {
+        display: block;
+        margin-top: -5px;
+    }
 `;
 
 const AuthorName = styled(Link)`
-    display: block;
+    display: inline-block;
+    padding: 5px 10px;
+    margin: -5px 0 0 -10px;
     font-size: 15px;
     font-weight: 500;
     color: #333;
@@ -90,6 +102,15 @@ const IconWrapper = styled.div`
     &:hover {
         transform: scale(1.15);
     }
+
+    @media (max-width: 576px) {
+        margin-left: 0;
+    }
+`;
+
+const UserInfoWrapper = styled.div`
+    display: flex;
+    align-items: center;
 `;
 
 class PostHeader extends Component {
@@ -111,16 +132,18 @@ class PostHeader extends Component {
         } = this.props;
         return (
             <Wrapper className={className}>
-                <Avatar>
-                    <Userpic account={author} size={50} onClick={this._openPopover} />
-                    <Tooltip ref={ref => (this.tooltip = ref)}>
-                        <Popover close={this._closePopover} author={author} />
-                    </Tooltip>
-                </Avatar>
-                <InfoBlock>
-                    <AuthorName to={`/@${author}`}>{author}</AuthorName>
-                    <TimeAgoWrapper date={created} />
-                </InfoBlock>
+                <UserInfoWrapper>
+                    <Avatar>
+                        <Userpic account={author} size={50} onClick={this._openPopover} />
+                        <Tooltip ref={ref => (this.tooltip = ref)}>
+                            <Popover close={this._closePopover} author={author} />
+                        </Tooltip>
+                    </Avatar>
+                    <InfoBlock>
+                        <AuthorName to={`/@${author}`}>{author}</AuthorName>
+                        <TimeAgoWrapper date={created} />
+                    </InfoBlock>
+                </UserInfoWrapper>
                 {!isMy &&
                     (isFollow ? (
                         <Followed onClick={unfollow} data-tooltip={tt('g.unfollow')}>

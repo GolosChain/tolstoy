@@ -25,7 +25,7 @@ const Content = Container.extend`
     padding-bottom: 17px;
     display: flex;
     flex-direction: column;
-    
+
     @media (max-width: 576px) {
         margin: 0;
         padding-top: 0;

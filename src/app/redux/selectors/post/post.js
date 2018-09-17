@@ -99,6 +99,7 @@ export const authorSelector = createDeepEqualSelector(
                         url: post.get('url'),
                     };
                 }),
+            created: authorData.get('created'),
         };
     }
 );

@@ -6,6 +6,10 @@ export default class JoinedToGolos extends Component {
         const date = new Date(this.props.date);
         const joinMonth = tt('months_names')[date.getMonth()];
         const joinYear = date.getFullYear();
-        return <span>{joinMonth} {joinYear}</span>
+        return (
+            <span>
+                {joinMonth} {joinYear}
+            </span>
+        );
     }
 }

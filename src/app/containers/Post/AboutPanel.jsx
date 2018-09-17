@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Userpic from '../../../../app/components/elements/Userpic';
 import { Link } from 'react-router';
-import { Map } from 'immutable';
 import tt from 'counterpart';
 import Icon from '../../components/golos-ui/Icon/Icon';
 import Button from '../../components/golos-ui/Button/Button';
 import ToggleFollowButton from '../../components/common/ToggleFollowButton';
+import { authorSelector } from '../../redux/selectors/post/post';
 import JoinedToGolos from '../../components/common/JoinedToGolos';
 
 const Wrapper = styled.div`
@@ -71,7 +72,7 @@ const CakeBlock = styled.div`
     align-items: center;
     flex-direction: column;
     flex-grow: 2;
-    
+
     @media (max-width: 768px) {
         display: none;
     }
@@ -121,45 +122,35 @@ const AboutTextMobile = styled.p`
     font-size: 16px;
     letter-spacing: -0.26px;
     line-height: 24px;
-    
+
     @media (max-width: 768px) {
-        display: block
+        display: block;
     }
 `;
 
 class AboutPanel extends Component {
     static propTypes = {
-        author: PropTypes.shape({
-            name: PropTypes.string,
-            account: PropTypes.string.isRequired,
-            about: PropTypes.string.isRequired,
-            isFollow: PropTypes.bool.isRequired,
-            follow: PropTypes.func.isRequired,
-            unfollow: PropTypes.func.isRequired,
-        }).isRequired,
-        accounts: PropTypes.instanceOf(Map),
+        follow: PropTypes.func.isRequired,
+        unfollow: PropTypes.func.isRequired,
     };
 
     render() {
-        const { author, accounts, isiPadScreen } = this.props;
-        const accountUsername = author.account;
-        const accountData = accounts.get(accountUsername).toJS();
-
+        const { name, account, isFollow, follow, unfollow, created, about } = this.props;
         return (
             <Wrapper>
                 <AvatarBlock>
-                    <Userpic account={accountUsername} size={50} />
+                    <Userpic account={account} size={50} />
                     <NamesWrapper>
-                        <RealName>{author.name}</RealName>
-                        <UserName to={`/@${accountUsername}`}>@{accountUsername}</UserName>
+                        <RealName>{name}</RealName>
+                        <UserName to={`/@${account}`}>@{account}</UserName>
                     </NamesWrapper>
                     <Divider />
                 </AvatarBlock>
-                <AboutTextMobile>{author.about}</AboutTextMobile>
+                <AboutTextMobile>{about}</AboutTextMobile>
                 <CakeBlock>
                     <Icon width="36" height="34" name="cake" />
                     <CakeText>
-                        {tt('on_golos_from')} <JoinedToGolos date={accountData.created} />
+                        {tt('on_golos_from')} <JoinedToGolos date={created} />
                     </CakeText>
                 </CakeBlock>
                 <ButtonsBlock>
@@ -168,9 +159,9 @@ class AboutPanel extends Component {
                         отблагодарить
                     </ButtonInPanel>
                     <ToggleFollowButtonWrapper
-                        isFollow={author.isFollow}
-                        followUser={author.follow}
-                        unfollowUser={author.unfollow}
+                        isFollow={isFollow}
+                        followUser={follow}
+                        unfollowUser={unfollow}
                     />
                 </ButtonsBlock>
             </Wrapper>
@@ -178,4 +169,22 @@ class AboutPanel extends Component {
     }
 }
 
-export default AboutPanel;
+const mapStateToProps = (state, props) => {
+    const author = authorSelector(state, props);
+    return {
+        name: author.name,
+        account: author.account,
+        isFollow: author.isFollow,
+        created: author.created,
+        about: author.about,
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {};
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(AboutPanel);
