@@ -76,11 +76,11 @@ class Post extends React.Component {
                             <div className="column">
                                 <div className="PostFull">
                                     <p onClick={this.showAnywayClick}>{tt('promote_post_jsx.this_post_was_hidden_due_to_low_ratings')}.{' '}
-                                    <button style={{marginBottom: 0}} className="button hollow tiny float-right" onClick={this.showAnywayClick}>{tt('g.show')}</button></p>
+                                        <button style={{marginBottom: 0}} className="button hollow tiny float-right" onClick={this.showAnywayClick}>{tt('g.show')}</button></p>
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
                 )
             }
@@ -90,7 +90,7 @@ class Post extends React.Component {
 
         let sort_order = 'trending';
         if( this.props.location && this.props.location.query.sort )
-           sort_order = this.props.location.query.sort;
+            sort_order = this.props.location.query.sort;
 
         const commentLimit = 100;
         if (global['process'] !== undefined && replies.length > commentLimit) {
@@ -167,10 +167,10 @@ class Post extends React.Component {
                 </div>
             </center>
 
-          if(blockedUsers.includes(post.split("/")[0])) {
+        if(blockedUsers.includes(post.split("/")[0])) {
             return (<IllegalContentMessage />)
-          }
-          
+        }
+
         return (
             <div className="Post">
                 <div className="row">
@@ -179,15 +179,15 @@ class Post extends React.Component {
                     </div>
                 </div>
                 {!current_user && <div className="row">
-                <CTABlock post={post}/>
+                    <CTABlock post={post}/>
                     <div className="column">
                         <div className="Post__promo">
                             {tt('g.next_7_strings_sinngle_block.authors_get_paid_when_people_like_you_upvote_their_post')}.
                             <br /> {tt('g.next_7_strings_sinngle_block.if_you_enjoyed_what_you_read_earn_amount')}
                             <br />
-                            <a className="button sign-up" 
-                                href="/create_account"
-                                onClick={() => buttonClick()}
+                            <a className="button sign-up"
+                               href="/create_account"
+                               onClick={() => buttonClick()}
                             >{tt('g.next_7_strings_sinngle_block.sign_up_now_to_receive')}
                                 <span className="free-money">{tt('g.next_7_strings_sinngle_block.free_steem', {LIQUID_TOKEN})}</span>
                             </a>
@@ -198,15 +198,15 @@ class Post extends React.Component {
                     <div className="column large-12">
                         <div className="Post_comments__content">
                             {positiveComments.length ?
-                            (<div className="Post__comments_sort_order float-right">
-                                {tt('post_jsx.sort_order')}: &nbsp;
-                                <FoundationDropdownMenu menu={sort_menu} label={sort_label} dropdownPosition="bottom" dropdownAlignment="right" />
-                            </div>) : null}
+                                (<div className="Post__comments_sort_order float-right">
+                                    {tt('post_jsx.sort_order')}: &nbsp;
+                                    <FoundationDropdownMenu menu={sort_menu} label={sort_label} dropdownPosition="bottom" dropdownAlignment="right" />
+                                </div>) : null}
                             {positiveComments}
                             {negativeGroup}
                         </div>
                     </div>
-                </div>                
+                </div>
             </div>
         );
     }
@@ -215,16 +215,16 @@ class Post extends React.Component {
 const emptySet = Set()
 
 export default connect(state => {
-    const current_user = state.user.get('current')
-    let ignoring
-    if(current_user) {
-        const key = ['follow', 'getFollowingAsync', current_user.get('username'), 'ignore_result']
-        ignoring = state.global.getIn(key, emptySet)
+        const current_user = state.user.get('current')
+        let ignoring
+        if(current_user) {
+            const key = ['follow', 'getFollowingAsync', current_user.get('username'), 'ignore_result']
+            ignoring = state.global.getIn(key, emptySet)
+        }
+        return {
+            content: state.global.get('content'),
+            current_user,
+            ignoring,
+        }
     }
-    return {
-        content: state.global.get('content'),
-        current_user,
-        ignoring,
-    }
-}
 )(Post);

@@ -7,14 +7,19 @@ if (process.env.BROWSER) {
     files.keys().forEach(files);
 }
 
+const Svg = styled.svg`
+    min-width: ${({width}) => width}; 
+    min-height: ${({height}) => height}; 
+`;
+
 const Icon = ({ name, size, height, width, ...props }) => {
     props.height = size || height;
     props.width = size || width;
 
     return (
-        <svg { ...props }>
+        <Svg { ...props }>
             <use xlinkHref={`#${name}`} />
-        </svg>
+        </Svg>
     );
 };
 
@@ -32,11 +37,11 @@ Icon.propTypes = {
         PropTypes.number,
         PropTypes.string,
     ]),
-}
+};
 
 Icon.defaultProps = {
     height: '24',
     width: '24',
-}
+};
 
 export default styled(Icon)``;

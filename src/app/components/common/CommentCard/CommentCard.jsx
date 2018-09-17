@@ -109,7 +109,7 @@ const TitleLink = styled(Link)`
     text-overflow: ellipsis;
 `;
 
-const PostBody = styled(Link)`
+const PostBody = styled(({ isCommentOpen, ...props }) => <Link {...props} />)`
     display: block;
     padding: 0 18px;
     font-family: ${a => a.theme.fontFamily};
@@ -134,12 +134,17 @@ const Footer = styled.div`
         pointer-events: initial;
     }
 
-    ${isNot('isCommentOpen')`
+  ${isNot('isCommentOpen')`
         display: none;
-    `};
+   `};
 
     @media (min-width: 890px) and (max-width: 1087px), (max-width: 639px) {
         flex-direction: column;
+
+        & > div:first-child {
+            width: 100%;
+            justify-content: space-between;
+        }
     }
 `;
 
@@ -333,7 +338,8 @@ class CommentCard extends PureComponent {
                     ) : (
                         <ReLinkWrapper>
                             <TitleIcon name="comment" />
-                            {tt('g.re2')}:&nbsp;
+                            {tt('g.re2')}
+                            :&nbsp;
                             <TitleLink to={parentLink} onClick={this._onTitleClick}>
                                 {title}
                             </TitleLink>
@@ -359,7 +365,8 @@ class CommentCard extends PureComponent {
             <Title isCommentOpen={isCommentOpen}>
                 <ReLinkWrapper>
                     <TitleIcon name="comment" />
-                    {tt('g.re2')}:&nbsp;
+                    {tt('g.re2')}
+                    :&nbsp;
                     <TitleLink to={parentLink} onClick={this._onTitleClick}>
                         {title}
                     </TitleLink>
