@@ -25,6 +25,11 @@ const Content = Container.extend`
     padding-bottom: 17px;
     display: flex;
     flex-direction: column;
+    
+    @media (max-width: 576px) {
+        margin: 0;
+        padding-top: 0;
+    }
 `;
 
 const ContentWrapper = styled(PostContent)``;
@@ -44,7 +49,7 @@ class PostContainer extends Component {
     }
 
     render() {
-        const { post, username, author } = this.props;
+        const { post, username, author, accounts } = this.props;
         if (!post) return null;
         author.follow = this.follow;
         author.unfollow = this.unfollow;

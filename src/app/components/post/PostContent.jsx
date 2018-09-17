@@ -12,7 +12,11 @@ const Wrapper = styled.section`
     padding: 40px 70px 30px;
     background-color: white;
     border-radius: 8px;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5), 0 2px 12px 0 rgba(0, 0, 0, 0.06);
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .06);
+    
+    @media (max-width: 576px) {
+        padding: 15px 16px;
+    }
 `;
 
 const Body = styled.div`
@@ -30,19 +34,27 @@ const PostTitle = styled.h1`
 
 const PostBody = styled.div`
     padding: 12px 0 14px;
-
+    
     p {
-        color: #959595;
-        font-family: 'Open Sans', sans-serif;
-        font-size: 18px;
-        letter-spacing: -0.29px;
+        color: #959595;	
+        font-family: 'Open Sans', sans-serif;	
+        font-size: 18px;	
+        letter-spacing: -0.29px;	
         line-height: 26px;
     }
+    
+    @media (max-width: 576px) {
+        font-size: 16px;	
+        letter-spacing: -0.26px;	
+        line-height: 24px;
+    }
 `;
+
 const Tags = styled.div`
     margin-top: -10px;
     display: flex;
     flex-wrap: wrap;
+    
     & > div {
         margin: 10px 10px 0 0;
     }
