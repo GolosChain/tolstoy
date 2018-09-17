@@ -4,7 +4,7 @@ import VotePanel from '../../components/common/VotePanel/VotePanel';
 import Icon from '../../components/golos-ui/Icon/Icon';
 import ReplyBlock from '../../components/common/ReplyBlock/ReplyBlock';
 import Tooltip from '../../components/post/Tooltip';
-import connect from 'react-redux/es/connect/connect';
+import { connect } from 'react-redux';
 import { postSelector } from '../../redux/selectors/post/post';
 import { currentUserSelector } from '../../redux/selectors/common';
 

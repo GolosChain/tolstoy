@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import throttle from 'lodash/throttle';
 import Icon from '../../components/golos-ui/Icon/Icon';
 import is, { isNot } from 'styled-is';
-import connect from 'react-redux/es/connect/connect';
+import { connect } from 'react-redux';
 import { repostSelector, votesSummarySelector } from '../../redux/selectors/post/post';
 
 const PADDING_FROM_HEADER = 22;
