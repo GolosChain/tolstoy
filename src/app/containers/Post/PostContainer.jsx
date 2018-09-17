@@ -26,6 +26,11 @@ const Content = Container.extend`
     padding-bottom: 17px;
     display: flex;
     flex-direction: column;
+    
+    @media (max-width: 576px) {
+        margin: 0;
+        padding-top: 0;
+    }
 `;
 
 const ContentWrapper = styled(PostContent)``;
@@ -45,7 +50,7 @@ class PostContainer extends Component {
     }
 
     render() {
-        const { post, username, author } = this.props;
+        const { post, username, author, accounts } = this.props;
         if (!post) return null;
         author.follow = this.follow;
         author.unfollow = this.unfollow;
@@ -57,7 +62,7 @@ class PostContainer extends Component {
                 <Content>
                     <ContentWrapper post={post} username={username} author={author} />
                     <ActivePanel post={post} username={username} />
-                    <AboutPanel author={author} />
+                    <AboutPanel author={author} accounts={accounts} />
                     <SidePanel />
                 </Content>
             </Wrapper>
@@ -91,6 +96,7 @@ const mapStateToProps = (state, props) => {
             post,
             username: currentUserSelector(state).get('username'),
             author: authorSelector(state, props),
+            accounts: state.global.get('accounts'),
         }
     );
 };
