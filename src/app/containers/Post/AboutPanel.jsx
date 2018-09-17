@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Userpic from '../../../../app/components/elements/Userpic';
 import { Link } from 'react-router';
 import Icon from '../../components/golos-ui/Icon/Icon';
 import Button from '../../components/golos-ui/Button/Button';
 import ToggleFollowButton from '../../components/common/ToggleFollowButton';
+import { authorSelector } from '../../redux/selectors/post/post';
 
 const Wrapper = styled.div`
     display: flex;
@@ -86,26 +88,20 @@ const ToggleFollowButtonWrapper = styled(ToggleFollowButton)`
 
 class AboutPanel extends Component {
     static propTypes = {
-        author: PropTypes.shape({
-            name: PropTypes.string,
-            account: PropTypes.string.isRequired,
-            isFollow: PropTypes.bool.isRequired,
-            follow: PropTypes.func.isRequired,
-            unfollow: PropTypes.func.isRequired,
-        }).isRequired,
+        follow: PropTypes.func.isRequired,
+        unfollow: PropTypes.func.isRequired,
     };
 
     render() {
-        const { author } = this.props;
-        const accountUsername = author.account;
+        const { name, account, isFollow, follow, unfollow } = this.props;
 
         return (
             <Wrapper>
                 <AvatarBlock>
-                    <Userpic account={accountUsername} size={50} />
+                    <Userpic account={account} size={50} />
                     <NamesWrapper>
-                        <RealName>{author.name}</RealName>
-                        <UserName to={`/@${accountUsername}`}>@{accountUsername}</UserName>
+                        <RealName>{name}</RealName>
+                        <UserName to={`/@${account}`}>@{account}</UserName>
                     </NamesWrapper>
                     <Divider />
                 </AvatarBlock>
@@ -119,9 +115,9 @@ class AboutPanel extends Component {
                         отблагодарить
                     </ButtonInPanel>
                     <ToggleFollowButtonWrapper
-                        isFollow={author.isFollow}
-                        followUser={author.follow}
-                        unfollowUser={author.unfollow}
+                        isFollow={isFollow}
+                        followUser={follow}
+                        unfollowUser={unfollow}
                     />
                 </ButtonsBlock>
             </Wrapper>
@@ -129,4 +125,20 @@ class AboutPanel extends Component {
     }
 }
 
-export default AboutPanel;
+const mapStateToProps = (state, props) => {
+    const author = authorSelector(state, props);
+    return {
+        name: author.name,
+        account: author.account,
+        isFollow: author.isFollow,
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {};
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(AboutPanel);
