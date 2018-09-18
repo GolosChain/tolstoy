@@ -166,6 +166,11 @@
     "июля", "явгуста", "сентября", "октября", "ноября", "декабря"
   ],
   "on_golos_from": "На Golos с",
+  "active_panel_tooltip": {
+    "pin_post": "Закрепить пост",
+    "promote_post": "Продвинуть пост",
+    "complain_about_post": "Пожаловаться на пост"
+  },
   "enter_confirm_email_jsx": {
     "email_address": "Адрес электронной почты",
     "email_address_cannot_be_changed_at_this_moment_sorry_for_inconvenience": "Адрес электронной почты на данный момент не может быть изменен, извините за неудобства",
