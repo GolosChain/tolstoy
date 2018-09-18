@@ -119,14 +119,14 @@ export default class ActivityItem extends Component {
 
         const computed = notification.get('computed');
         const eventType = notification.get('eventType');
-        const props = {};
+        const interProps = {};
 
         if (
             ['vote', 'flag', 'reply', 'mention', 'repost', 'reward', 'curatorReward'].includes(
                 eventType
             )
         ) {
-            props.content = <Link to={computed.get('link')}>{computed.get('title')}</Link>;
+            interProps.content = <Link to={computed.get('link')}>{computed.get('title')}</Link>;
         }
 
         if (['reward'].includes(eventType)) {
@@ -137,18 +137,18 @@ export default class ActivityItem extends Component {
             if (golos) awards.push(`${golos} Голосов`);
             if (golosPower) awards.push(`${golosPower} Силы Голоса`);
             if (gbg) awards.push(`${gbg} GBG`);
-            props.amount = awards.join(', ');
+            interProps.amount = awards.join(', ');
         }
 
         if (['curatorReward'].includes(eventType)) {
-            props.amount = notification.get('curatorReward');
+            interProps.amount = notification.get('curatorReward');
         }
 
         if (['transfer'].includes(eventType)) {
-            props.amount = notification.get('amount');
+            interProps.amount = notification.get('amount');
         }
 
-        return props;
+        return interProps;
     }
 
     render() {
