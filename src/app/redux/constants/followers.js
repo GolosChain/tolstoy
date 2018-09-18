@@ -1,2 +1,1 @@
 export const USER_FOLLOW_DATA_LOAD = 'user/FOLLOW_DATA_LOAD';
-export const USER_PINNED_POSTS_LOAD = 'user/PINNED_POST_LOAD';

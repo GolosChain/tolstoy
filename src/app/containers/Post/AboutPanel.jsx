@@ -7,7 +7,7 @@ import { Link } from 'react-router';
 import tt from 'counterpart';
 import Icon from '../../components/golos-ui/Icon/Icon';
 import Button from '../../components/golos-ui/Button/Button';
-import ToggleFollowButton from '../../components/common/ToggleFollowButton';
+import FollowButton from '../../components/common/FollowButton';
 import { authorSelector } from '../../redux/selectors/post/post';
 import JoinedToGolos from '../../components/common/JoinedToGolos';
 
@@ -104,7 +104,7 @@ const ButtonInPanel = Button.extend`
     }
 `;
 
-const ToggleFollowButtonWrapper = styled(ToggleFollowButton)`
+const FollowButtonWrapper = styled(FollowButton)`
     min-width: 167px;
     min-height: 34px;
 
@@ -158,7 +158,7 @@ class AboutPanel extends Component {
                         <Icon width="17" height="15" name="coins_plus" />
                         отблагодарить
                     </ButtonInPanel>
-                    <ToggleFollowButtonWrapper
+                    <FollowButtonWrapper
                         isFollow={isFollow}
                         followUser={follow}
                         unfollowUser={unfollow}
