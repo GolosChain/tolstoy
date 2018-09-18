@@ -261,9 +261,15 @@ class WalletContent extends Component {
         const { pageAccount } = this.props;
         const { mainTab, limit } = this.state;
 
-        const transfers = pageAccount.get('transfer_history');
+        let transactions;
 
-        if (!transfers) {
+        if (mainTab === MAIN_TABS.REWARDS) {
+            transactions = pageAccount.get('rewards_history');
+        } else {
+            transactions = pageAccount.get('transfer_history');
+        }
+
+        if (!transactions) {
             return null;
         }
 
@@ -271,8 +277,8 @@ class WalletContent extends Component {
 
         this._hasMore = false;
 
-        for (let i = transfers.size - 1; i >= 0; --i) {
-            const item = transfers.get(i);
+        for (let i = transactions.size - 1; i >= 0; --i) {
+            const item = transactions.get(i);
 
             const operations = item.get(1);
             const stamp = new Date(operations.get('timestamp') + 'Z');
