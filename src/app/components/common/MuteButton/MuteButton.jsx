@@ -5,8 +5,8 @@ import Button from '../../golos-ui/Button';
 import PropTypes from 'prop-types';
 import { authorSelector } from '../../../redux/selectors/post/post';
 import { currentUserSelector } from '../../../redux/selectors/common';
-import transaction from '../../../../../app/redux/Transaction';
 import { connect } from 'react-redux';
+import { updateFollow } from '../../../redux/actions/follow';
 
 const Mute = styled.div`
     display: flex;
@@ -79,21 +79,8 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = (dispatch, { muting }) => {
     return {
-        updateFollow: (follower, action, done) => {
-            const what = action ? [action] : [];
-            const json = ['follow', { follower, following: muting, what }];
-            dispatch(
-                transaction.actions.broadcastOperation({
-                    type: 'custom_json',
-                    operation: {
-                        id: 'follow',
-                        required_posting_auths: [follower],
-                        json: JSON.stringify(json),
-                    },
-                    successCallback: done,
-                    errorCallback: done,
-                })
-            );
+        updateFollow: (follower, action) => {
+            dispatch(updateFollow(follower, muting, action));
         },
     };
 };

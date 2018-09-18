@@ -5,8 +5,8 @@ import Button from '../../golos-ui/Button';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { authorSelector } from '../../../redux/selectors/post/post';
-import transaction from '../../../../../app/redux/Transaction';
 import { currentUserSelector } from '../../../redux/selectors/common';
+import { updateFollow } from '../../../redux/actions/follow';
 
 const Wrapper = Button.extend`
     min-width: 100%;
@@ -61,21 +61,8 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = (dispatch, { following }) => {
     return {
-        updateFollow: (follower, action, done) => {
-            const what = action ? [action] : [];
-            const json = ['follow', { follower, following, what }];
-            dispatch(
-                transaction.actions.broadcastOperation({
-                    type: 'custom_json',
-                    operation: {
-                        id: 'follow',
-                        required_posting_auths: [follower],
-                        json: JSON.stringify(json),
-                    },
-                    successCallback: done,
-                    errorCallback: done,
-                })
-            );
+        updateFollow: (follower, action) => {
+            dispatch(updateFollow(follower, following, action));
         },
     };
 };
