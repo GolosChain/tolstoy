@@ -139,7 +139,9 @@ class ActivePanel extends Component {
                         <Icon
                             width="32"
                             height="32"
-                            name={this.state.activeDotsMore ? 'dots-more_pressed' : 'dots-more_normal'}
+                            name={
+                                this.state.activeDotsMore ? 'dots-more_pressed' : 'dots-more_normal'
+                            }
                             onClick={this._openPopover}
                         />
                         <Tooltip
@@ -154,11 +156,15 @@ class ActivePanel extends Component {
                                 </Action>
                                 <Action onClick={this._promotePost}>
                                     <ActionIcon name="brilliant" />
-                                    <ActionText>{tt('active_panel_tooltip.promote_post')}</ActionText>
+                                    <ActionText>
+                                        {tt('active_panel_tooltip.promote_post')}
+                                    </ActionText>
                                 </Action>
                                 <Action onClick={this._flagPost}>
                                     <ActionIcon name="complain_normal" />
-                                    <ActionText>{tt('active_panel_tooltip.complain_about_post')}</ActionText>
+                                    <ActionText>
+                                        {tt('active_panel_tooltip.complain_about_post')}
+                                    </ActionText>
                                 </Action>
                             </ActionsBlock>
                         </Tooltip>
