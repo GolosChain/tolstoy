@@ -96,7 +96,7 @@ const Buttons = styled.div`
 
 const ButtonInPanel = Button.extend`
     min-width: 167px;
-    text-transform: lowercase;
+    text-transform: uppercase;
 
     @media (max-width: 768px) {
         width: 100%;
