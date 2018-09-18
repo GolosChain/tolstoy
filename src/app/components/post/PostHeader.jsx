@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import Userpic from '../../../../app/components/elements/Userpic';
 import TimeAgoWrapper from '../../../../app/components/elements/TimeAgoWrapper';
 import tt from 'counterpart';
@@ -12,6 +11,7 @@ import { connect } from 'react-redux';
 import { authorSelector, currentPostSelector } from '../../redux/selectors/post/post';
 import { currentUserSelector } from '../../redux/selectors/common';
 import { toggleFavoriteAction } from '../../redux/actions/favorites';
+import { updateFollow } from '../../redux/actions/follow';
 
 const Wrapper = styled.div`
     display: flex;
@@ -114,22 +114,8 @@ const UserInfoWrapper = styled.div`
 `;
 
 class PostHeader extends Component {
-    static propTypes = {
-        follow: PropTypes.func.isRequired,
-        unfollow: PropTypes.func.isRequired,
-    };
-
     render() {
-        const {
-            isMy,
-            created,
-            isFavorite,
-            author,
-            isFollow,
-            follow,
-            unfollow,
-            className,
-        } = this.props;
+        const { isMy, created, isFavorite, author, isFollow, className } = this.props;
         return (
             <Wrapper className={className}>
                 <UserInfoWrapper>
@@ -146,11 +132,11 @@ class PostHeader extends Component {
                 </UserInfoWrapper>
                 {!isMy &&
                     (isFollow ? (
-                        <Followed onClick={unfollow} data-tooltip={tt('g.unfollow')}>
+                        <Followed onClick={this._unfollow} data-tooltip={tt('g.unfollow')}>
                             <Icon name="cross" width={12} height={12} />
                         </Followed>
                     ) : (
-                        <NoFollowed onClick={follow} data-tooltip={tt('g.follow')}>
+                        <NoFollowed onClick={this._follow} data-tooltip={tt('g.follow')}>
                             <Icon name="check" width={14} height={10} />
                         </NoFollowed>
                     ))}
@@ -176,13 +162,23 @@ class PostHeader extends Component {
         const { author, permLink, isFavorite } = this.props;
         this.props.toggleFavorite(author + '/' + permLink, !isFavorite);
     };
+
+    _follow = () => {
+        this.props.updateFollow(this.props.username, this.props.author, 'blog');
+    };
+
+    _unfollow = () => {
+        this.props.updateFollow(this.props.username, this.props.author, null);
+    };
 }
 
 const mapStateToProps = (state, props) => {
     const post = currentPostSelector(state, props);
     const author = authorSelector(state, props);
+    const username = currentUserSelector(state).get('username');
     return {
-        isMy: currentUserSelector(state).get('username') === author.account,
+        username,
+        isMy: username === author.account,
         created: post.created,
         isFavorite: post.isFavorite,
         author: author.account,
@@ -195,6 +191,9 @@ const mapDispatchToProps = dispatch => {
     return {
         toggleFavorite: (link, isAdd) => {
             dispatch(toggleFavoriteAction({ link, isAdd }));
+        },
+        updateFollow: (follower, following, action) => {
+            dispatch(updateFollow(follower, following, action));
         },
     };
 };
