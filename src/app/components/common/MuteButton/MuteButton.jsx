@@ -1,14 +1,34 @@
 import React, { Component } from 'react';
 import tt from 'counterpart';
-import Icon from '../../golos-ui/Icon';
+import styled from 'styled-components';
 import Button from '../../golos-ui/Button';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { authorSelector } from '../../../redux/selectors/post/post';
-import transaction from '../../../../../app/redux/Transaction';
 import { currentUserSelector } from '../../../redux/selectors/common';
+import transaction from '../../../../../app/redux/Transaction';
+import { connect } from 'react-redux';
 
-const Wrapper = Button.extend`
+const Mute = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 100%;
+    min-height: 100%;
+    padding: 0 10px;
+    color: #959595;
+    font: 12px 'Open Sans', sans-serif;
+    font-weight: bold;
+    line-height: 23px;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    text-transform: uppercase;
+    cursor: pointer;
+
+    &:hover {
+        color: #7a7a7a;
+    }
+`;
+
+const Unmute = Button.extend`
     min-width: 100%;
     min-height: 100%;
     font-size: 12px;
@@ -16,36 +36,34 @@ const Wrapper = Button.extend`
     line-height: 23px;
 `;
 
-class FollowButton extends Component {
+class MuteButton extends Component {
     static propTypes = {
-        following: PropTypes.string.isRequired,
+        muting: PropTypes.string.isRequired,
         onClick: PropTypes.func,
     };
+
     static defaultProps = {
         onClick: () => {},
     };
 
     render() {
-        const { isFollow, className } = this.props;
-        return isFollow ? (
-            <Wrapper light onClick={this._unfollow} className={className}>
-                <Icon width="10" height="10" name="cross" />
-                {tt('g.unfollow')}
-            </Wrapper>
+        const { isMute, className } = this.props;
+        return isMute ? (
+            <Unmute light onClick={this._unmute} className={className}>
+                {tt('g.unmute')}
+            </Unmute>
         ) : (
-            <Wrapper onClick={this._follow} className={className}>
-                <Icon width="11" height="8" name="subscribe" />
-                {tt('g.follow')}
-            </Wrapper>
+            <Mute onClick={this._mute} className={className}>
+                {tt('g.mute')}
+            </Mute>
         );
     }
 
-    _follow = e => {
-        this.props.updateFollow(this.props.username, 'blog');
+    _mute = e => {
+        this.props.updateFollow(this.props.username, 'ignore');
         this.props.onClick(e);
     };
-
-    _unfollow = e => {
+    _unmute = e => {
         this.props.updateFollow(this.props.username, null);
         this.props.onClick(e);
     };
@@ -54,16 +72,16 @@ class FollowButton extends Component {
 const mapStateToProps = (state, props) => {
     const author = authorSelector(state, props);
     return {
-        isFollow: author.isFollow,
+        isMute: author.isMute,
         username: currentUserSelector(state).get('username'),
     };
 };
 
-const mapDispatchToProps = (dispatch, { following }) => {
+const mapDispatchToProps = (dispatch, { muting }) => {
     return {
         updateFollow: (follower, action, done) => {
             const what = action ? [action] : [];
-            const json = ['follow', { follower, following, what }];
+            const json = ['follow', { follower, following: muting, what }];
             dispatch(
                 transaction.actions.broadcastOperation({
                     type: 'custom_json',
@@ -83,4 +101,4 @@ const mapDispatchToProps = (dispatch, { following }) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(FollowButton);
+)(MuteButton);

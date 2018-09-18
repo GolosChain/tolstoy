@@ -8,7 +8,6 @@ import PostContent from '../../components/post/PostContent';
 import { currentUserSelector } from '../../redux/selectors/common';
 import ActivePanel from './ActivePanel';
 import AboutPanel from './AboutPanel';
-import tt from 'counterpart';
 import { USER_FOLLOW_DATA_LOAD } from '../../redux/constants/followers';
 import { FAVORITES_LOAD } from '../../redux/constants/favorites';
 import { USER_PINNED_POSTS_LOAD } from '../../redux/constants/pinnedPosts';
@@ -37,7 +36,6 @@ const ContentWrapper = styled(PostContent)``;
 class PostContainer extends Component {
     constructor(props) {
         super(props);
-        this._initEvents(props);
         props.loadUserFollowData(props.author.account);
         props.loadFavorites();
     }
@@ -51,35 +49,17 @@ class PostContainer extends Component {
     render() {
         const { post, username, author } = this.props;
         if (!post) return null;
-        author.follow = this.follow;
-        author.unfollow = this.unfollow;
-        author.ignore = this.ignore;
-        author.unignore = this.unignore;
         return (
             <Wrapper>
                 <Content>
                     <ContentWrapper post={post} username={username} author={author} />
-                    <ActivePanel post={post} username={username} />
-                    <AboutPanel author={author} accounts={accounts} />
+                    <ActivePanel />
+                    <AboutPanel />
                     <SidePanel />
                 </Content>
             </Wrapper>
         );
     }
-
-    _initEvents = props => {
-        const { updateFollow, username, author } = props;
-        const upd = type => {
-            const done = () => {
-                console.log('done');
-            };
-            updateFollow(username, author.account, type, done);
-        };
-        this.follow = upd.bind(null, 'blog', tt('g.confirm_follow'));
-        this.unfollow = upd.bind(null, null, tt('g.confirm_unfollow'));
-        this.ignore = upd.bind(null, 'ignore', tt('g.confirm_ignore'));
-        this.unignore = upd.bind(null, null, tt('g.confirm_unignore'));
-    };
 }
 
 const mapStateToProps = (state, props) => {
@@ -89,7 +69,6 @@ const mapStateToProps = (state, props) => {
             post,
             username: currentUserSelector(state).get('username'),
             author: authorSelector(state, props),
-            accounts: state.global.get('accounts'),
         }
     );
 };
