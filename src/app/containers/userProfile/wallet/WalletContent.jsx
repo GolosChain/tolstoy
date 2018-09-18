@@ -85,8 +85,9 @@ const EmptySubText = styled.div`
 
 const LoaderWrapper = styled.div`
     display: flex;
-    padding: 20px 0;
+    align-items: center;
     justify-content: center;
+    height: 90px;
     opacity: 0;
     animation: fade-in 0.25s forwards;
     animation-delay: 0.25s;
