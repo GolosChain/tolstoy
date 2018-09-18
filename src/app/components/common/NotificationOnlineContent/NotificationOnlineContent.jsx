@@ -7,6 +7,7 @@ import { Map } from 'immutable';
 import tt from 'counterpart';
 import Interpolate from 'react-interpolate-component';
 import normalizeProfile from 'app/utils/NormalizeProfile';
+import { DEBT_TOKEN_SHORT } from 'app/client_config';
 
 import Avatar from 'src/app/components/common/Avatar';
 import Icon from 'golos-ui/Icon';
@@ -85,9 +86,9 @@ export default class NotificationOnlineContent extends PureComponent {
             interProps.amount = amount;
         } else if (['reward'].includes(type)) {
             const awards = [];
-            if (golos) awards.push(`${golos} Голосов`);
-            if (golosPower) awards.push(`${golosPower} Силы Голоса`);
-            if (gbg) awards.push(`${gbg} GBG`);
+            if (golos) awards.push(`${golos} ${tt('token_names.LIQUID_TOKEN_PLURALIZE', { count: golos})}`);
+            if (golosPower) awards.push(`${golosPower} ${tt('token_names.VESTING_TOKEN_PLURALIZE', { count: golosPower})}`);
+            if (gbg) awards.push(`${gbg} ${DEBT_TOKEN_SHORT}`);
 
             interProps.content = <Link to={link}>{title}</Link>;
             interProps.amount = awards.join(', ');

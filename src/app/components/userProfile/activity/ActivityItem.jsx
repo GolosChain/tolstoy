@@ -7,6 +7,7 @@ import { List } from 'immutable';
 import tt from 'counterpart';
 import Interpolate from 'react-interpolate-component';
 import normalizeProfile from 'app/utils/NormalizeProfile';
+import { DEBT_TOKEN_SHORT } from 'app/client_config';
 
 import Avatar from 'src/app/components/common/Avatar';
 import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
@@ -134,9 +135,9 @@ export default class ActivityItem extends Component {
             const golos = notification.getIn(['reward', 'golos'], null);
             const golosPower = notification.getIn(['reward', 'golosPower'], null);
             const gbg = notification.getIn(['reward', 'gbg'], null);
-            if (golos) awards.push(`${golos} Голосов`);
-            if (golosPower) awards.push(`${golosPower} Силы Голоса`);
-            if (gbg) awards.push(`${gbg} GBG`);
+            if (golos) awards.push(`${golos} ${tt('token_names.LIQUID_TOKEN_PLURALIZE', { count: golos})}`);
+            if (golosPower) awards.push(`${golosPower} ${tt('token_names.VESTING_TOKEN_PLURALIZE', { count: golosPower})}`);
+            if (gbg) awards.push(`${gbg} ${DEBT_TOKEN_SHORT}`);
             interProps.amount = awards.join(', ');
         }
 

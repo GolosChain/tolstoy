@@ -983,11 +983,21 @@
     "DEBT_TOKEN": "Золотой",
     "DEBT_TOKENS": "Золотые",
     "LIQUID_TOKEN": "Голос",
+    "LIQUID_TOKEN_PLURALIZE": {
+      "one": "Голос",
+      "other": "Голосов",
+      "zero": "Голосов"
+    },
     "LIQUID_TOKEN_UPPERCASE ": "ГОЛОС",
     "TOKEN_WORTH": "~1 мг золота",
     "VESTING_TOKEN": "Сила Голоса",
     "VESTING_TOKEN2": "Силу Голоса",
-    "VESTING_TOKENS": "Силы Голоса"
+    "VESTING_TOKENS": "Силы Голоса",
+    "VESTING_TOKEN_PLURALIZE": {
+      "one": "Сила Голоса",
+      "other": "Силы Голоса",
+      "zero": "Силы Голоса"
+    }
   },
   "transfer_jsx": {
     "advanced": "Расширенные опции",
