@@ -18,7 +18,7 @@ function* togglePinned(action) {
 
     const metadata = JSON.parse(account.get('json_metadata'));
 
-    let pinnedPosts = account.get('pinnedPosts').toJS();
+    let pinnedPosts = metadata.pinnedPosts || [];
 
     if (isPin) {
         if (pinnedPosts.includes(link)) {

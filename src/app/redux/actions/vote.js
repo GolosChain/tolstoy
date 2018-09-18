@@ -3,7 +3,6 @@ import user from '../../../../app/redux/User';
 import tt from 'counterpart';
 
 export function onVote(voter, author, permLink, percent) {
-    console.log(arguments);
     return dispatch => {
         dispatch(
             transaction.actions.broadcastOperation({
