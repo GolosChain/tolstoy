@@ -30,13 +30,16 @@ export const votesSummarySelector = createDeepEqualSelector(
 );
 
 export const repostSelector = createDeepEqualSelector([], () => 0);
-
+export const currentUsernameSelector = createDeepEqualSelector([currentUserSelector], user =>
+    user.get('username')
+);
 export const currentPostSelector = createDeepEqualSelector(
-    [postSelector, dataSelector('favorites')],
-    (post, favorites) => {
+    [postSelector, dataSelector('favorites'), currentUsernameSelector],
+    (post, favorites, username) => {
         if (!post) return null;
         const author = post.get('author');
         const permLink = post.get('permlink');
+        const myVote = getMyVote(post, username);
         return {
             created: post.get('created'),
             isFavorite: favorites.set.includes(author + '/' + permLink),
@@ -53,9 +56,22 @@ export const currentPostSelector = createDeepEqualSelector(
             permLink,
             children: post.get('children'),
             link: `/@${author}/${permLink}`,
+            myVote,
         };
     }
 );
+
+function getMyVote(post, username) {
+    const votes = post.get('active_votes');
+    for (let vote of votes) {
+        if (vote.get('voter') === username) {
+            const myVote = vote.toJS();
+            myVote.weight = parseInt(myVote.weight || 0, 10);
+            return myVote;
+        }
+    }
+    return 0;
+}
 
 const followingSelector = createDeepEqualSelector(
     [globalSelector('follow'), currentUserSelector],

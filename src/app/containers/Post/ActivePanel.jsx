@@ -6,8 +6,15 @@ import Icon from '../../components/golos-ui/Icon/Icon';
 import ReplyBlock from '../../components/common/ReplyBlock/ReplyBlock';
 import Tooltip from '../../components/post/Tooltip';
 import tt from 'counterpart';
-import { postSelector } from '../../redux/selectors/post/post';
-import { currentUserSelector } from '../../redux/selectors/common';
+import {
+    authorSelector,
+    currentPostSelector,
+    currentUsernameSelector,
+    postSelector,
+    votesSummarySelector,
+} from '../../redux/selectors/post/post';
+import { confirmVote } from '../../helpers/votes';
+import { onVote } from '../../redux/actions/vote';
 
 const Wrapper = styled.div`
     display: flex;
@@ -181,8 +188,16 @@ class ActivePanel extends Component {
         );
     }
 
-    _voteChange = param => {
-        console.log(param);
+    _voteChange = async percent => {
+        const {
+            votesSummary: { myVote },
+            username,
+            permLink,
+            account,
+        } = this.props;
+        if (await confirmVote(myVote, percent)) {
+            this.props.onVote(username, account, permLink, percent);
+        }
     };
 
     _pinPost = () => {
@@ -211,14 +226,23 @@ class ActivePanel extends Component {
 }
 
 const mapStateToProps = (state, props) => {
+    const post = currentPostSelector(state, props);
+    const author = authorSelector(state, props);
     return {
+        votesSummary: votesSummarySelector(state, props),
         data: postSelector(state, props),
-        username: currentUserSelector(state).get('username'),
+        username: currentUsernameSelector(state),
+        permLink: post.permLink,
+        account: author.account,
     };
 };
 
 const mapDispatchToProps = dispatch => {
-    return {};
+    return {
+        onVote: (voter, author, permLink, percent) => {
+            dispatch(onVote(voter, author, permLink, percent));
+        },
+    };
 };
 
 export default connect(

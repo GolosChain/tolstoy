@@ -8,8 +8,11 @@ import Tooltip from './Tooltip';
 import Popover from './Popover';
 import Icon from '../golos-ui/Icon';
 import { connect } from 'react-redux';
-import { authorSelector, currentPostSelector } from '../../redux/selectors/post/post';
-import { currentUserSelector } from '../../redux/selectors/common';
+import {
+    authorSelector,
+    currentPostSelector,
+    currentUsernameSelector,
+} from '../../redux/selectors/post/post';
 import { toggleFavoriteAction } from '../../redux/actions/favorites';
 import { updateFollow } from '../../redux/actions/follow';
 
@@ -175,7 +178,7 @@ class PostHeader extends Component {
 const mapStateToProps = (state, props) => {
     const post = currentPostSelector(state, props);
     const author = authorSelector(state, props);
-    const username = currentUserSelector(state).get('username');
+    const username = currentUsernameSelector(state);
     return {
         username,
         isMy: username === author.account,
