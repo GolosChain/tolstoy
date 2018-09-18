@@ -102,7 +102,7 @@ const DotsMore = Repost.extend`
             color: #2578be;
         }
     `};
-    
+
     @media (max-width: 768px) {
         grid-area: dm;
         justify-self: end;

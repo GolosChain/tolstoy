@@ -28,7 +28,7 @@ const PostTitle = styled.h1`
     font-weight: bold;
     letter-spacing: 0.37px;
     line-height: 41px;
-    
+
     @media (max-width: 576px) {
         font-size: 30px;
     }
