@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import is from 'styled-is';
 import PropTypes from 'prop-types';
@@ -6,12 +7,10 @@ import Icon from '../golos-ui/Icon';
 import Userpic from 'app/components/elements/Userpic';
 import tt from 'counterpart';
 import { Link } from 'react-router';
-import ToggleFollowButton from '../common/ToggleFollowButton';
+import FollowButton from '../common/FollowButton';
 import ToggleMuteButton from '../common/ToggleMuteButton';
-import { authorSelector, currentPostSelector } from '../../redux/selectors/post/post';
-import { currentUserSelector } from '../../redux/selectors/common';
+import { authorSelector } from '../../redux/selectors/post/post';
 import { toggleFavoriteAction } from '../../redux/actions/favorites';
-import connect from 'react-redux/es/connect/connect';
 
 const Block = styled.div`
     width: 100%;
@@ -125,7 +124,7 @@ const PostTitle = styled(Link)`
     }
 `;
 
-const ToggleFollowButtonWrapper = styled(ToggleFollowButton)`
+const FollowButtonWrapper = styled(FollowButton)`
     min-width: 150px;
     min-height: 30px;
 
@@ -189,7 +188,7 @@ class Popover extends Component {
                     </Block>
                 )}
                 <ButtonsBlock>
-                    <ToggleFollowButtonWrapper
+                    <FollowButtonWrapper
                         isFollow={isFollow}
                         followUser={this._followUser}
                         unfollowUser={this._unfollowUser}

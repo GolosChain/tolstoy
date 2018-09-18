@@ -1,11 +1,13 @@
-import { put, select, takeEvery } from 'redux-saga/effects';
+import { fork, put, select, takeEvery } from 'redux-saga/effects';
 import transaction from 'app/redux/Transaction';
 import DialogManager from 'app/components/elements/common/DialogManager';
 import { dispatch } from 'app/clientRender';
-import { PINNED_TOGGLE } from '../constants/pinnedPosts';
+import { PINNED_TOGGLE, USER_PINNED_POSTS_LOAD } from '../constants/pinnedPosts';
+import { getContent } from '../../../../app/redux/sagas/shared';
 
 export default function* watch() {
     yield takeEvery(PINNED_TOGGLE, togglePinned);
+    yield takeEvery(USER_PINNED_POSTS_LOAD, loadUserPinnedPosts);
 }
 
 function* togglePinned(action) {
@@ -61,4 +63,12 @@ function* togglePinned(action) {
             },
         })
     );
+}
+
+function* loadUserPinnedPosts({ payload }) {
+    const { urls } = payload;
+    for (let i = 0; i < urls.length; i++) {
+        let params = urls[i].split('/');
+        yield fork(getContent, { author: params[0], permlink: params[1] });
+    }
 }

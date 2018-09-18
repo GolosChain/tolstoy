@@ -7,10 +7,9 @@ import { authorSelector, currentPostSelector } from '../../redux/selectors/post/
 import PostContent from '../../components/post/PostContent';
 import { currentUserSelector } from '../../redux/selectors/common';
 import ActivePanel from './ActivePanel';
-import transaction from '../../../../app/redux/Transaction';
 import AboutPanel from './AboutPanel';
 import tt from 'counterpart';
-import { USER_FOLLOW_DATA_LOAD, USER_PINNED_POSTS_LOAD } from '../../redux/constants/followers';
+import { USER_FOLLOW_DATA_LOAD } from '../../redux/constants/followers';
 import { FAVORITES_LOAD } from '../../redux/constants/favorites';
 
 const Wrapper = styled.div`
@@ -96,21 +95,6 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        updateFollow: (follower, following, done) => {
-            const json = ['follow', { follower, following, what: ['blog'] }];
-            dispatch(
-                transaction.actions.broadcastOperation({
-                    type: 'custom_json',
-                    operation: {
-                        id: 'follow',
-                        required_posting_auths: [follower],
-                        json: JSON.stringify(json),
-                    },
-                    successCallback: done,
-                    errorCallback: done,
-                })
-            );
-        },
         loadUserFollowData: username => {
             dispatch({
                 type: USER_FOLLOW_DATA_LOAD,
