@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import is from 'styled-is';
 import PropTypes from 'prop-types';
 import Icon from '../golos-ui/Icon';
 import Userpic from 'app/components/elements/Userpic';
@@ -124,13 +123,9 @@ const PostTitle = styled(Link)`
     }
 `;
 
-const FollowButtonWrapper = styled(FollowButton)`
+const Follow = styled(FollowButton)`
     min-width: 150px;
     min-height: 30px;
-
-    ${is('isMute')`
-        visibility: hidden;
-    `};
 `;
 
 const ToggleMuteButtonWrapper = styled(ToggleMuteButton)`
@@ -142,20 +137,10 @@ const ToggleMuteButtonWrapper = styled(ToggleMuteButton)`
 class Popover extends Component {
     static propTypes = {
         close: PropTypes.func.isRequired,
-        follow: PropTypes.func.isRequired,
-        unfollow: PropTypes.func.isRequired,
     };
 
     render() {
-        const {
-            account,
-            name,
-            about,
-            followerCount,
-            pinnedPosts,
-            isFollow,
-            className,
-        } = this.props;
+        const { account, name, about, followerCount, pinnedPosts, className } = this.props;
 
         return (
             <Wrapper className={className}>
@@ -188,12 +173,7 @@ class Popover extends Component {
                     </Block>
                 )}
                 <ButtonsBlock>
-                    <FollowButtonWrapper
-                        isFollow={isFollow}
-                        followUser={this._followUser}
-                        unfollowUser={this._unfollowUser}
-                        isMute={false}
-                    />
+                    <Follow following={account} />
                     <ToggleMuteButtonWrapper
                         isMute={false}
                         muteUser={this._muteUser}
@@ -203,16 +183,6 @@ class Popover extends Component {
             </Wrapper>
         );
     }
-
-    _followUser = () => {
-        this.props.author.follow();
-        this._closePopover();
-    };
-
-    _unfollowUser = () => {
-        this.props.author.unfollow();
-        this._closePopover();
-    };
 
     _muteUser = () => {
         // this.props.author.mute(); add mute function
@@ -237,7 +207,6 @@ const mapStateToProps = (state, props) => {
         about: author.about,
         followerCount: author.followerCount,
         pinnedPosts: author.pinnedPosts,
-        isFollow: author.isFollow,
     };
 };
 

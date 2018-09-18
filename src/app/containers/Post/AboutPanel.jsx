@@ -159,11 +159,7 @@ class AboutPanel extends Component {
                         <Icon width="17" height="15" name="coins_plus" />
                         {tt('g.donate')}
                     </ButtonInPanel>
-                    <FollowButtonWrapper
-                        isFollow={isFollow}
-                        followUser={follow}
-                        unfollowUser={unfollow}
-                    />
+                    <FollowButtonWrapper following={account} />
                 </ButtonsBlock>
             </Wrapper>
         );
