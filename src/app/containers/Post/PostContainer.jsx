@@ -5,12 +5,10 @@ import Container from 'src/app/components/common/Container/Container';
 import SidePanel from 'src/app/containers/Post/SidePanel';
 import { authorSelector, currentPostSelector } from '../../redux/selectors/post/post';
 import PostContent from '../../components/post/PostContent';
-import { currentUserSelector } from '../../redux/selectors/common';
 import ActivePanel from './ActivePanel';
 import AboutPanel from './AboutPanel';
 import { USER_FOLLOW_DATA_LOAD } from '../../redux/constants/followers';
 import { FAVORITES_LOAD } from '../../redux/constants/favorites';
-import { USER_PINNED_POSTS_LOAD } from '../../redux/constants/pinnedPosts';
 
 const Wrapper = styled.div`
     width: 100%;
@@ -18,7 +16,7 @@ const Wrapper = styled.div`
     background-color: #f9f9f9;
 `;
 
-const Content = Container.extend`
+const ContentWrapper = Container.extend`
     position: relative;
     padding-top: 22px;
     padding-bottom: 17px;
@@ -31,32 +29,24 @@ const Content = Container.extend`
     }
 `;
 
-const ContentWrapper = styled(PostContent)``;
-
 class PostContainer extends Component {
     constructor(props) {
         super(props);
-        props.loadUserFollowData(props.author.account);
+        props.loadUserFollowData(props.account);
         props.loadFavorites();
     }
 
-    componentDidMount() {
-        if (this.props.author.pinnedPostsUrls) {
-            this.props.getPostContent(this.props.author.pinnedPostsUrls);
-        }
-    }
-
     render() {
-        const { post, username, author } = this.props;
-        if (!post) return null;
+        const { postLoaded } = this.props;
+        if (!postLoaded) return null;
         return (
             <Wrapper>
-                <Content>
-                    <ContentWrapper post={post} username={username} author={author} />
+                <ContentWrapper>
+                    <PostContent />
                     <ActivePanel />
                     <AboutPanel />
                     <SidePanel />
-                </Content>
+                </ContentWrapper>
             </Wrapper>
         );
     }
@@ -64,13 +54,11 @@ class PostContainer extends Component {
 
 const mapStateToProps = (state, props) => {
     const post = currentPostSelector(state, props);
-    return (
-        !!post && {
-            post,
-            username: currentUserSelector(state).get('username'),
-            author: authorSelector(state, props),
-        }
-    );
+    const author = authorSelector(state, props);
+    return {
+        account: author.account,
+        postLoaded: !!post,
+    };
 };
 
 const mapDispatchToProps = dispatch => {
@@ -87,14 +75,6 @@ const mapDispatchToProps = dispatch => {
             dispatch({
                 type: FAVORITES_LOAD,
                 payload: {},
-            });
-        },
-        getPostContent: urls => {
-            dispatch({
-                type: USER_PINNED_POSTS_LOAD,
-                payload: {
-                    urls,
-                },
             });
         },
     };

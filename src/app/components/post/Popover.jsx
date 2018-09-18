@@ -10,6 +10,7 @@ import FollowButton from '../common/FollowButton';
 import MuteButton from '../common/MuteButton';
 import { authorSelector } from '../../redux/selectors/post/post';
 import { toggleFavoriteAction } from '../../redux/actions/favorites';
+import { USER_PINNED_POSTS_LOAD } from '../../redux/constants/pinnedPosts';
 
 const Block = styled.div`
     width: 100%;
@@ -139,6 +140,12 @@ class Popover extends Component {
         close: PropTypes.func.isRequired,
     };
 
+    componentDidMount() {
+        if (this.props.pinnedPostsUrls) {
+            this.props.getPostContent(this.props.pinnedPostsUrls);
+        }
+    }
+
     render() {
         const { account, name, about, followerCount, pinnedPosts, className } = this.props;
 
@@ -193,6 +200,7 @@ const mapStateToProps = (state, props) => {
         about: author.about,
         followerCount: author.followerCount,
         pinnedPosts: author.pinnedPosts,
+        pinnedPostsUrls: author.pinnedPostsUrls,
     };
 };
 
@@ -200,6 +208,14 @@ const mapDispatchToProps = dispatch => {
     return {
         toggleFavorite: (link, isAdd) => {
             dispatch(toggleFavoriteAction({ link, isAdd }));
+        },
+        getPostContent: urls => {
+            dispatch({
+                type: USER_PINNED_POSTS_LOAD,
+                payload: {
+                    urls,
+                },
+            });
         },
     };
 };
