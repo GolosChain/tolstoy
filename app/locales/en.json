@@ -980,7 +980,7 @@
     "LIQUID_TOKEN": "Golos",
     "LIQUID_TOKEN_PLURALIZE": {
       "one": "Golos",
-      "other": "Golos\n",
+      "other": "Golos",
       "zero": "Golos"
     },
     "LIQUID_TOKEN_UPPERCASE": "GOLOS",
