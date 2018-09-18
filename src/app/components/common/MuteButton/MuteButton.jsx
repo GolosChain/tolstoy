@@ -3,8 +3,7 @@ import tt from 'counterpart';
 import styled from 'styled-components';
 import Button from '../../golos-ui/Button';
 import PropTypes from 'prop-types';
-import { authorSelector } from '../../../redux/selectors/post/post';
-import { currentUserSelector } from '../../../redux/selectors/common';
+import { authorSelector, currentUsernameSelector } from '../../../redux/selectors/post/post';
 import { connect } from 'react-redux';
 import { updateFollow } from '../../../redux/actions/follow';
 
@@ -73,7 +72,7 @@ const mapStateToProps = (state, props) => {
     const author = authorSelector(state, props);
     return {
         isMute: author.isMute,
-        username: currentUserSelector(state).get('username'),
+        username: currentUsernameSelector(state),
     };
 };
 

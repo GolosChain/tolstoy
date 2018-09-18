@@ -4,7 +4,16 @@ import throttle from 'lodash/throttle';
 import Icon from '../../components/golos-ui/Icon/Icon';
 import is, { isNot } from 'styled-is';
 import { connect } from 'react-redux';
-import { repostSelector, votesSummarySelector } from '../../redux/selectors/post/post';
+import {
+    authorSelector,
+    currentPostSelector,
+    currentUsernameSelector,
+    repostSelector,
+    votesSummarySelector,
+} from '../../redux/selectors/post/post';
+import { toggleFavoriteAction } from '../../redux/actions/favorites';
+import { confirmVote } from '../../helpers/votes';
+import { onVote } from '../../redux/actions/vote';
 
 const PADDING_FROM_HEADER = 22;
 const HEADER_HEIGHT = 121;
@@ -76,9 +85,9 @@ const ActionIconWrapper = styled.div`
     }
 `;
 
-const ActionBlock = ({ iconName, count = null }) => {
+const ActionBlock = ({ iconName, count, onClick, dataTooltip }) => {
     return (
-        <ActionButton>
+        <ActionButton onClick={onClick} data-tooltip={dataTooltip}>
             <ActionIconWrapper>
                 <Icon width="20" height="20" name={iconName} />
             </ActionIconWrapper>
@@ -105,7 +114,7 @@ class SidePanel extends Component {
     }
 
     render() {
-        const { votesSummary, repost } = this.props;
+        const { votesSummary, repost, isFavorite } = this.props;
         const { showPanel, fixedOnScreen } = this.state;
         return (
             <Wrapper
@@ -113,11 +122,19 @@ class SidePanel extends Component {
                 showPanel={showPanel}
                 fixedOnScreen={fixedOnScreen}
             >
-                <ActionBlock iconName="like" count={votesSummary.likes} />
-                <ActionBlock iconName="dislike" count={votesSummary.dislikes} />
+                <ActionBlock iconName="like" count={votesSummary.likes} onClick={this._like} />
+                <ActionBlock
+                    iconName="dislike"
+                    count={votesSummary.dislikes}
+                    onClick={this._dislike}
+                />
                 <ActionBlock iconName="repost-right" count={repost} />
                 <ActionBlock iconName="sharing_triangle" />
-                <ActionBlock iconName="star" />
+                <ActionBlock
+                    iconName={isFavorite ? 'star_filled' : 'star'}
+                    onClick={this._toggleFavorite}
+                    dataTooltip={isFavorite ? 'Убрать из избранного' : 'В избранное'}
+                />
             </Wrapper>
         );
     }
@@ -152,17 +169,53 @@ class SidePanel extends Component {
     _scrollScreenLazy = throttle(this._scrollScreen, 25, { leading: true });
 
     _resizeScreenLazy = throttle(this._resizeScreen, 25, { leading: true });
+
+    _toggleFavorite = () => {
+        const { author, permLink, isFavorite } = this.props;
+        this.props.toggleFavorite(author + '/' + permLink, !isFavorite);
+    };
+
+    _like = async () => {
+        const { username, permLink, author, myVote } = this.props;
+        const percent = 1;
+        if (await confirmVote(myVote, percent)) {
+            this.props.onVote(username, author, permLink, !myVote.percent ? percent : 0);
+        }
+    };
+
+    _dislike = async () => {
+        const { username, permLink, author, myVote } = this.props;
+        const percent = -1;
+        if (await confirmVote(myVote, percent)) {
+            this.props.onVote(username, author, permLink, !myVote.percent ? percent : 0);
+        }
+    };
 }
 
 const mapStateToProps = (state, props) => {
+    const post = currentPostSelector(state, props);
+    const author = authorSelector(state, props);
+    const username = currentUsernameSelector(state);
     return {
         votesSummary: votesSummarySelector(state, props),
         repost: repostSelector(state, props),
+        isFavorite: post.isFavorite,
+        author: author.account,
+        permLink: post.permLink,
+        username,
+        myVote: post.myVote,
     };
 };
 
 const mapDispatchToProps = dispatch => {
-    return {};
+    return {
+        toggleFavorite: (link, isAdd) => {
+            dispatch(toggleFavoriteAction({ link, isAdd }));
+        },
+        onVote: (voter, author, permLink, percent) => {
+            dispatch(onVote(voter, author, permLink, percent));
+        },
+    };
 };
 
 export default connect(

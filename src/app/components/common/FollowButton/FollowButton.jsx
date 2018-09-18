@@ -4,8 +4,7 @@ import Icon from '../../golos-ui/Icon';
 import Button from '../../golos-ui/Button';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { authorSelector } from '../../../redux/selectors/post/post';
-import { currentUserSelector } from '../../../redux/selectors/common';
+import { authorSelector, currentUsernameSelector } from '../../../redux/selectors/post/post';
 import { updateFollow } from '../../../redux/actions/follow';
 
 const Wrapper = Button.extend`
@@ -55,7 +54,7 @@ const mapStateToProps = (state, props) => {
     const author = authorSelector(state, props);
     return {
         isFollow: author.isFollow,
-        username: currentUserSelector(state).get('username'),
+        username: currentUsernameSelector(state),
     };
 };
 
