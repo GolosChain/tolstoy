@@ -49,7 +49,7 @@ class PostContainer extends Component {
     }
 
     render() {
-        const { post, username, author, accounts } = this.props;
+        const { post, username, author } = this.props;
         if (!post) return null;
         author.follow = this.follow;
         author.unfollow = this.unfollow;
