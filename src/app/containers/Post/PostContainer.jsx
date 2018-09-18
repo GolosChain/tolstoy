@@ -11,6 +11,7 @@ import AboutPanel from './AboutPanel';
 import tt from 'counterpart';
 import { USER_FOLLOW_DATA_LOAD } from '../../redux/constants/followers';
 import { FAVORITES_LOAD } from '../../redux/constants/favorites';
+import { USER_PINNED_POSTS_LOAD } from '../../redux/constants/pinnedPosts';
 
 const Wrapper = styled.div`
     width: 100%;
