@@ -109,7 +109,6 @@ ActionIcon.defaultProps = {
 
 class ActivePanel extends Component {
     state = {
-        showPanel: true,
         activeDotsMore: false,
     };
 
