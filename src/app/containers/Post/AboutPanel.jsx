@@ -105,7 +105,7 @@ const ButtonInPanel = Button.extend`
     }
 `;
 
-const FollowButtonWrapper = styled(FollowButton)`
+const Follow = styled(FollowButton)`
     min-width: 167px;
     min-height: 34px;
 
@@ -130,13 +130,8 @@ const AboutTextMobile = styled.p`
 `;
 
 class AboutPanel extends Component {
-    static propTypes = {
-        follow: PropTypes.func.isRequired,
-        unfollow: PropTypes.func.isRequired,
-    };
-
     render() {
-        const { name, account, isFollow, follow, unfollow, created, about } = this.props;
+        const { name, account, created, about } = this.props;
         return (
             <Wrapper>
                 <AvatarBlock>
@@ -159,7 +154,7 @@ class AboutPanel extends Component {
                         <Icon width="17" height="15" name="coins_plus" />
                         {tt('g.donate')}
                     </ButtonInPanel>
-                    <FollowButtonWrapper following={account} />
+                    <Follow following={account} />
                 </ButtonsBlock>
             </Wrapper>
         );
@@ -171,7 +166,6 @@ const mapStateToProps = (state, props) => {
     return {
         name: author.name,
         account: author.account,
-        isFollow: author.isFollow,
         created: author.created,
         about: author.about,
     };

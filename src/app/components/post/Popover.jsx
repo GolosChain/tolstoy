@@ -7,7 +7,7 @@ import Userpic from 'app/components/elements/Userpic';
 import tt from 'counterpart';
 import { Link } from 'react-router';
 import FollowButton from '../common/FollowButton';
-import ToggleMuteButton from '../common/ToggleMuteButton';
+import MuteButton from '../common/MuteButton';
 import { authorSelector } from '../../redux/selectors/post/post';
 import { toggleFavoriteAction } from '../../redux/actions/favorites';
 
@@ -128,7 +128,7 @@ const Follow = styled(FollowButton)`
     min-height: 30px;
 `;
 
-const ToggleMuteButtonWrapper = styled(ToggleMuteButton)`
+const Mute = styled(MuteButton)`
     min-width: 150px;
     min-height: 30px;
     margin-left: 10px;
@@ -173,26 +173,12 @@ class Popover extends Component {
                     </Block>
                 )}
                 <ButtonsBlock>
-                    <Follow following={account} />
-                    <ToggleMuteButtonWrapper
-                        isMute={false}
-                        muteUser={this._muteUser}
-                        unMuteUser={this._unmuteUser}
-                    />
+                    <Follow following={account} onClick={this._closePopover} />
+                    <Mute muting={account} onClick={this._closePopover} />
                 </ButtonsBlock>
             </Wrapper>
         );
     }
-
-    _muteUser = () => {
-        // this.props.author.mute(); add mute function
-        this._closePopover();
-    };
-
-    _unmuteUser = () => {
-        // this.props.author.unmute(); add unmute function
-        this._closePopover();
-    };
 
     _closePopover = () => {
         this.props.close();

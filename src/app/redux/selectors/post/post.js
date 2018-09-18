@@ -66,15 +66,25 @@ const followingSelector = createDeepEqualSelector(
     }
 );
 
+const mutingSelector = createDeepEqualSelector(
+    [globalSelector('follow'), currentUserSelector],
+    (follow, user) => {
+        return follow
+            .getIn(['getFollowingAsync', user.get('username'), 'ignore_result'], Set())
+            .toJS();
+    }
+);
+
 export const authorSelector = createDeepEqualSelector(
     [
         globalSelector('accounts'),
         globalSelector('follow_count'),
         followingSelector,
+        mutingSelector,
         currentPostSelector,
         globalSelector('content'),
     ],
-    (accounts, followCount, following, post, content) => {
+    (accounts, followCount, following, muting, post, content) => {
         const authorAccountName = post.author;
         const authorData = accounts.get(authorAccountName);
         const jsonData = normalizeProfile({
@@ -87,6 +97,7 @@ export const authorSelector = createDeepEqualSelector(
             account: authorAccountName,
             about: jsonData.about,
             isFollow: following.includes(authorAccountName),
+            isMute: muting.includes(authorAccountName),
             followerCount:
                 (followCount && followCount.getIn([authorAccountName, 'follower_count'])) || 0,
             pinnedPostsUrls,
