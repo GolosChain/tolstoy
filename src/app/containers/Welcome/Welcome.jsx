@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+
 import user from 'app/redux/User';
+
 import Hero from 'src/app/components/welcome/Hero';
 import About from 'src/app/components/welcome/About';
 import Initial from 'src/app/components/welcome/Initial';
@@ -9,7 +11,25 @@ import Mobile from 'src/app/components/welcome/Mobile';
 import Reviews from 'src/app/components/welcome/Reviews';
 import Questions from 'src/app/components/welcome/Questions';
 
-class Welcome extends Component {
+@connect(
+    null,
+    dispatch => ({
+        getContent: payload =>
+            new Promise((resolve, reject) => {
+                dispatch({
+                    type: 'GET_CONTENT',
+                    payload: { ...payload, resolve, reject },
+                });
+            }),
+        getAccount: payload =>
+            new Promise((resolve, reject) => {
+                dispatch(
+                    user.actions.getAccount({ ...payload, resolve, reject })
+                );
+            }),
+    })
+)
+export default class Welcome extends Component {
     state = {
         tagsLoading: false,
         tagsActiveId: false,
@@ -120,22 +140,3 @@ class Welcome extends Component {
         );
     }
 }
-
-export default connect(
-    null,
-    dispatch => ({
-        getContent: payload =>
-            new Promise((resolve, reject) => {
-                dispatch({
-                    type: 'GET_CONTENT',
-                    payload: { ...payload, resolve, reject },
-                });
-            }),
-        getAccount: payload =>
-            new Promise((resolve, reject) => {
-                dispatch(
-                    user.actions.getAccount({ ...payload, resolve, reject })
-                );
-            }),
-    })
-)(Welcome);

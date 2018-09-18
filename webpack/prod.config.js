@@ -6,10 +6,10 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
-const Webpack_isomorphic_tools_plugin = require('webpack-isomorphic-tools/plugin');
-const webpack_isomorphic_tools_plugin = new Webpack_isomorphic_tools_plugin(
-    require('./webpack-isotools-config')
-);
+// const Webpack_isomorphic_tools_plugin = require('webpack-isomorphic-tools/plugin');
+// const webpack_isomorphic_tools_plugin = new Webpack_isomorphic_tools_plugin(
+//     require('./webpack-isotools-config')
+// );
 
 module.exports = merge(baseConfig, {
     mode: 'production',
@@ -25,7 +25,7 @@ module.exports = merge(baseConfig, {
                 TYPED_ARRAY_SUPPORT: JSON.stringify(false),
             },
         }),
-        webpack_isomorphic_tools_plugin,
+        // webpack_isomorphic_tools_plugin,
         new MiniCssExtractPlugin({
             filename: '[name].[hash].css',
             chunkFilename: '[id].[hash].css',

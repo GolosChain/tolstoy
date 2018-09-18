@@ -2,7 +2,7 @@ import React from 'react';
 import { LIQUID_TOKEN } from 'app/client_config';
 import config from 'config';
 
-export default function ServerHTML({ body, assets, title, meta }) {
+export default function ServerHTML({ loadableState, body, assets, title, meta }) {
     let page_title = title;
     return (
         <html>
@@ -50,25 +50,27 @@ export default function ServerHTML({ body, assets, title, meta }) {
             <meta name="msapplication-square310x310logo" content="/images/favicons/ms-icon-310x310.png" />
 
             {/* styles (will be present only in production with webpack extract text plugin) */}
-            {Object.keys(assets.styles).map((style, i) =>
+            {/* {Object.keys(assets.styles).map((style, i) =>
                 <link href={assets.styles[style]} key={i} media="screen, projection"
-                    rel="stylesheet" type="text/css" />)}
+                    rel="stylesheet" type="text/css" />)} */}
 
             {/* resolves the initial style flash (flicker) on page load in development mode */}
-            {Object.keys(assets.styles).length === 0 ?
-                <style dangerouslySetInnerHTML={{ __html: '#content{visibility:hidden}' }} /> : null}
+            {/* {Object.keys(assets.styles).length === 0 ?
+                <style dangerouslySetInnerHTML={{ __html: '#content{visibility:hidden}' }} /> : null} */}
 
             <title>{page_title}</title>
         </head>
         <body>
             <div id="content" dangerouslySetInnerHTML={ { __html: body } }></div>
 
+            {loadableState.getScriptTag()}
+
             {/* javascripts */}
             {/* (usually one for each "entry" in webpack configuration) */}
             {/* (for more informations on "entries" see https://github.com/petehunt/webpack-howto/) */}
-            {Object.keys(assets.javascript).map((script, i) =>
+            {/* {Object.keys(assets.javascript).map((script, i) =>
                 <script src={assets.javascript[script]} key={i} />
-            )}
+            )} */}
 
             { config.get('vk_pixel_id') && <script dangerouslySetInnerHTML={ { __html: `(window.Image ? (new Image()) : document.createElement('img')).src = 'https://vk.com/rtrg?p=${config.get('vk_pixel_id')}';` } }></script> }
         </body>

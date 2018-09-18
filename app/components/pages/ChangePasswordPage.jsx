@@ -2,7 +2,7 @@ import React from 'react';
 import ChangePassword from '@elements/ChangePassword';
 import tt from 'counterpart';
 
-class ChangePasswordPage extends React.Component {
+export default class ChangePasswordPage extends React.Component {
 
     render() {
         if (!process.env.BROWSER) { // don't render this page on the server
@@ -23,8 +23,3 @@ class ChangePasswordPage extends React.Component {
         );
     }
 }
-
-export default {
-    path: 'change_password',
-    component: ChangePasswordPage
-};

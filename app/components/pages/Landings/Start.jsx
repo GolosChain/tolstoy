@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import Icon from '../../elements/Icon';
 
-class Start extends PureComponent {
+export default class Start extends PureComponent {
     state = {
         simple: true,
     };
@@ -257,8 +257,3 @@ class Start extends PureComponent {
         this.setState({ simple });
     };
 }
-
-export default {
-    path: 'start',
-    component: Start,
-};

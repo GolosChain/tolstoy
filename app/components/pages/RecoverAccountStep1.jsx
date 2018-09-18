@@ -21,7 +21,7 @@ function passwordToOwnerPubKey(account_name, password) {
     return pub_key.toPublicKey().toString();
 }
 
-class RecoverAccountStep1 extends React.Component {
+export default class RecoverAccountStep1 extends React.Component {
 
     static propTypes = {
     };
@@ -253,8 +253,3 @@ class RecoverAccountStep1 extends React.Component {
         );
     }
 }
-
-export default {
-    path: 'recover_account_step_1',
-    component: RecoverAccountStep1
-};

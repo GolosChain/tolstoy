@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import Button from '@elements/Button';
 
-class LeavePage extends Component {
+export default class LeavePage extends Component {
     goBack = () => {
         this.props.router.goBack()
     }
@@ -44,8 +44,3 @@ class LeavePage extends Component {
         )
     }
 }
-
-export default {
-    path: 'leave_page',
-    component: LeavePage
-};

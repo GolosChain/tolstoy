@@ -178,23 +178,20 @@ class RecoverAccountStep2 extends React.Component {
     }
 }
 
-export default {
-    path: 'recover_account_step_2',
-    component: connect(
-        state => {
-            return {
-                account_to_recover: state.offchain.get('recover_account'),
-            };
+export default connect(
+    state => {
+        return {
+            account_to_recover: state.offchain.get('recover_account'),
+        };
+    },
+    dispatch => ({
+        recoverAccount: (
+            account_to_recover, old_password, new_password, onError, onSuccess
+        ) => {
+            dispatch({type: 'transaction/RECOVER_ACCOUNT',
+                payload: {account_to_recover, old_password, new_password, onError, onSuccess}
+            })
+            dispatch({type: 'user/LOGOUT'})
         },
-        dispatch => ({
-            recoverAccount: (
-                account_to_recover, old_password, new_password, onError, onSuccess
-            ) => {
-                dispatch({type: 'transaction/RECOVER_ACCOUNT',
-                    payload: {account_to_recover, old_password, new_password, onError, onSuccess}
-                })
-                dispatch({type: 'user/LOGOUT'})
-            },
-        })
-    )(RecoverAccountStep2)
-};
+    })
+)(RecoverAccountStep2)

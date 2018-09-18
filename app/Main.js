@@ -2,10 +2,11 @@ import '@babel/register';
 import '@babel/polyfill';
 import 'whatwg-fetch';
 import './assets/stylesheets/app.scss';
+
 import plugins from 'app/utils/JsPlugins';
 import { serverApiRecordEvent } from 'app/utils/ServerApiClient';
-import Iso from 'iso';
 import clientRender from 'app/clientRender';
+import { loadComponents } from 'loadable-components'
 import * as golos from 'golos-js';
 
 // window.onerror = error => {
@@ -28,7 +29,9 @@ function runApp(initialState) {
     }
 
     try {
-        clientRender(initialState)
+        loadComponents().then(() => {
+            clientRender(initialState)
+        });
     } catch (error) {
         console.error(error)
         serverApiRecordEvent('client_error', error)
@@ -41,12 +44,12 @@ if (!window.Intl) {
         (require) => {
             window.IntlPolyfill = window.Intl = require('intl/dist/Intl')
             require('intl/locale-data/jsonp/en-US.js')
-            Iso.bootstrap(runApp)
+            runApp();
         },
         'IntlBundle'
     )
 } else {
-    Iso.bootstrap(runApp)
+    runApp();
 }
 
 

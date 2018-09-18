@@ -232,9 +232,9 @@ if (env !== 'test') {
     app.use(function*() {
         // clear require() cache if in development mode
         // (makes asset hot reloading work)
-        if (process.env.NODE_ENV !== 'production') {
-            webpackIsomorphicTools.refresh()
-        }
+        // if (process.env.NODE_ENV !== 'production') {
+        //     webpackIsomorphicTools.refresh()
+        // }
 
         yield appRender(this);
         // if (app_router.dbStatus.ok) recordWebEvent(this, 'page_load');

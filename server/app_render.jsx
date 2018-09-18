@@ -3,6 +3,8 @@ import { renderToNodeStream } from 'react-dom/server';
 import stringToStream from 'string-to-stream';
 import multiStream from 'multistream';
 import { ServerStyleSheet } from 'styled-components';
+import { getLoadableState } from 'loadable-components/server'
+
 import config from 'config';
 import jayson from 'jayson';
 import merge from 'lodash/merge';
@@ -110,7 +112,7 @@ async function appRender(ctx) {
 
 
         const start = new Date();
-        const { body, title, statusCode, meta } = await serverRender({
+        const { body, app, title, statusCode, meta } = await serverRender({
             location: ctx.request.url,
             offchain,
             ErrorPage,
@@ -121,20 +123,21 @@ async function appRender(ctx) {
         if (metrics) metrics.timing(`universalRender.time`, new Date() - start);
 
         // Assets name are found in `webpack-stats` file
-        const assets_filename =
-            process.env.NODE_ENV === 'production'
-                ? 'tmp/webpack-isotools-assets-prod.json'
-                : 'tmp/webpack-isotools-assets-dev.json';
-        const assets = require(assets_filename);
+        // const assets_filename =
+        //     process.env.NODE_ENV === 'production'
+        //         ? 'tmp/webpack-isotools-assets-prod.json'
+        //         : 'tmp/webpack-isotools-assets-dev.json';
+        // const assets = require(assets_filename);
 
         // Don't cache assets name on dev
-        if (process.env.NODE_ENV === 'development') {
-            delete require.cache[require.resolve(assets_filename)];
-        }
+        // if (process.env.NODE_ENV === 'development') {
+        //     delete require.cache[require.resolve(assets_filename)];
+        // }
 
+        const loadableState = await getLoadableState(app)
         const sheet = new ServerStyleSheet();
         const jsx = sheet.collectStyles(
-            <ServerHTML body={body} assets={assets} title={title} meta={meta} />
+            <ServerHTML loadableState={loadableState} body={body} /*assets={assets}*/ title={title} meta={meta} />
         );
         const stream = sheet.interleaveWithNodeStream(renderToNodeStream(jsx));
 

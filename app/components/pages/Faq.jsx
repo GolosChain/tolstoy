@@ -1,7 +1,7 @@
 import React from 'react';
 import HelpContent from 'app/components/elements/HelpContent';
 
-class Faq extends React.Component {
+export default class Faq extends React.Component {
     render() {
         return (
             <div className="row">
@@ -12,8 +12,3 @@ class Faq extends React.Component {
         );
     }
 }
-
-export default {
-    path: 'faq.html',
-    component: Faq
-};

@@ -2,7 +2,7 @@ import React from 'react';
 import LoginForm from 'app/components/modules/LoginForm';
 import tt from 'counterpart';
 
-class Login extends React.Component {
+export default class Login extends React.Component {
     render() {
         if (!process.env.BROWSER) { // don't render this page on the server
             return <div className="row">
@@ -20,8 +20,3 @@ class Login extends React.Component {
         );
     }
 }
-
-export default {
-    path: 'login.html',
-    component: Login
-};

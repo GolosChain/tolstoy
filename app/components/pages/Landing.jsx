@@ -3,7 +3,7 @@ import WhatIsGolos from 'app/components/elements/about/WhatIsGolos/WhatIsGolos';
 import LandingTeam from 'app/components/elements/about/LandingTeam/LandingTeam';
 import LandingPartners from 'app/components/elements/about/LandingPartners/LandingPartners';
 
-class Landing extends PureComponent {
+export default class Landing extends PureComponent {
     render() {
         return (
             <div className="Landing">
@@ -16,8 +16,3 @@ class Landing extends PureComponent {
         );
     }
 }
-
-export default {
-    path: 'about',
-    component: Landing,
-};

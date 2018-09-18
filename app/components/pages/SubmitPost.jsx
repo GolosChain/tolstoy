@@ -3,7 +3,7 @@ import { browserHistory } from 'react-router';
 import PostFormLoader from 'app/components/modules/PostForm/loader';
 import ReplyEditor from 'app/components/elements/ReplyEditor';
 
-class SubmitPost extends React.PureComponent {
+export default class SubmitPost extends React.PureComponent {
     constructor(props) {
         super(props);
 
@@ -39,8 +39,3 @@ class SubmitPost extends React.PureComponent {
         browserHistory.push('/created');
     };
 }
-
-export default {
-    path: 'submit',
-    component: SubmitPost,
-};

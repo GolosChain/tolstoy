@@ -849,23 +849,20 @@ function callApi(apiName, data) {
     });
 }
 
-export default {
-    path: 'create_account',
-    component: connect(
-        state => ({
-            loggedIn: !!state.user.get('current'),
-            offchainUser: state.offchain.get('user'),
-            serverBusy: state.offchain.get('serverBusy'),
-            suggestedPassword: state.global.get('suggestedPassword'),
-        }),
-        {
-            loginUser: (username, password) =>
-                user.actions.usernamePasswordLogin({
-                    username,
-                    password,
-                    saveLogin: true,
-                }),
-            logout: () => user.actions.logout(),
-        }
-    )(CreateAccount),
-};
+export default connect(
+    state => ({
+        loggedIn: !!state.user.get('current'),
+        offchainUser: state.offchain.get('user'),
+        serverBusy: state.offchain.get('serverBusy'),
+        suggestedPassword: state.global.get('suggestedPassword'),
+    }),
+    {
+        loginUser: (username, password) =>
+            user.actions.usernamePasswordLogin({
+                username,
+                password,
+                saveLogin: true,
+            }),
+        logout: () => user.actions.logout(),
+    }
+)(CreateAccount)

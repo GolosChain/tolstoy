@@ -1,3 +1,5 @@
+import loadable from 'loadable-components';
+
 import App from 'app/components/App';
 import PostsIndex from '@pages/PostsIndex';
 import resolveRoute from './ResolveRoute';
@@ -5,62 +7,19 @@ import resolveRoute from './ResolveRoute';
 export default {
     path: '/',
     component: App,
+    indexRoute: {
+        component: PostsIndex.component,
+    },
     getChildRoutes(nextState, cb) {
         const route = resolveRoute(nextState.location.pathname);
-        if (route.page === 'Landing') {
-            cb(null, [require('@pages/Landing').default]);
-        } else if (route.page === 'Welcome') {
-            cb(null, [
-                {
-                    path: 'welcome',
-                    component: process.env.BROWSER
-                        ? require('@pages/WelcomeLoader').default
-                        : require('@pages/Welcome').default,
-                },
-            ]);
-        } else if (route.page === 'Start') {
-            cb(null, [require('@pages/Landings/Start').default]);
-        } else if (route.page === 'Faq') {
-            cb(null, [require('@pages/Faq').default]);
-        } else if (route.page === 'Login') {
-            cb(null, [require('@pages/Login').default]);
-        } else if (route.page === 'Privacy') {
-            cb(null, [require('@pages/Privacy').default]);
-        } else if (route.page === 'Support') {
-            cb(null, [require('@pages/Support').default]);
-        } else if (
-            route.page === 'XSSTest' &&
-            process.env.NODE_ENV === 'development'
-        ) {
+        if (route.page === 'XSSTest' && process.env.NODE_ENV === 'development') {
             cb(null, [require('@pages/XSS').default]);
         } else if (route.page === 'Tags') {
             cb(null, [require('@pages/TagsIndex').default]);
-        } else if (route.page === 'Tos') {
-            cb(null, [require('@pages/Tos').default]);
-        } else if (route.page === 'ChangePassword') {
-            cb(null, [require('@pages/ChangePasswordPage').default]);
-        } else if (route.page === 'CreateAccount') {
-            cb(null, [require('@pages/CreateAccount').default]);
         } else if (route.page === 'CreateAccountTestnet') {
             cb(null, [require('@pages/CreateAccountTestnet').default]);
-        } else if (route.page === 'RecoverAccountStep1') {
-            cb(null, [require('@pages/RecoverAccountStep1').default]);
-        } else if (route.page === 'RecoverAccountStep2') {
-            cb(null, [require('@pages/RecoverAccountStep2').default]);
-        } else if (route.page === 'Witnesses') {
-            cb(null, [require('@pages/WitnessesLoader').default]);
-        } else if (route.page === 'LeavePage') {
-            cb(null, [require('@pages/LeavePage').default]);
-        } else if (route.page === 'SubmitPost') {
-            if (process.env.BROWSER) cb(null, [require('@pages/SubmitPost').default]);
-            else cb(null, [require('@pages/SubmitPostServerRender').default]);
         } else if (route.page === 'UserProfile') {
-            cb(null, [
-                require('src/app/containers/userProfile')
-                    .UserProfileContainer,
-            ]);
-        } else if (route.page === 'Market') {
-            cb(null, [require('@pages/MarketLoader').default]);
+            cb(null, [require('src/app/containers/userProfile').UserProfileContainer]);
         } else if (route.page === 'Post') {
             cb(null, [require('@pages/PostPage').default]);
         } else if (route.page === 'PostNoCategory') {
@@ -68,12 +27,63 @@ export default {
         } else if (route.page === 'PostsIndex') {
             cb(null, [PostsIndex]);
         } else {
-            cb(process.env.BROWSER ? null : Error(404), [
-                require('@pages/NotFound').default,
+            cb(null, [
+                {
+                    path: 'login.html',
+                    component: loadable(() => import('app/components/pages/Login'))
+                },
+                {
+                    path: 'change_password',
+                    component: loadable(() => import('app/components/pages/ChangePasswordPage'))
+                },
+                {
+                    path: 'create_account',
+                    component: loadable(() => import('app/components/pages/CreateAccount'))
+                },
+                {
+                    path: 'leave_page',
+                    component: loadable(() => import('app/components/pages/LeavePage'))
+                },
+                {
+                    path: 'submit',
+                    component: loadable(() => import('app/components/pages/SubmitPost'))
+                },
+                {
+                    path: 'recover_account_step_1',
+                    component: loadable(() => import('app/components/pages/RecoverAccountStep1'))
+                },
+                {
+                    path: 'recover_account_step_2',
+                    component: loadable(() => import('app/components/pages/RecoverAccountStep2'))
+                },
+                {
+                    path: '~witnesses',
+                    component: loadable(() => import('app/components/pages/Witnesses'))
+                },
+                {
+                    path: 'market',
+                    component: loadable(() => import('app/components/pages/Market')),
+                },
+                {
+                    path: 'start',
+                    component: loadable(() => import('app/components/pages/Landings/Start')),
+                },
+                {
+                    path: 'faq',
+                    component: loadable(() => import('app/components/pages/Faq')),
+                },
+                {
+                    path: 'about',
+                    component: loadable(() => import('app/components/pages/Landing')),
+                },
+                {
+                    path: 'welcome',
+                    component: loadable(() => import('src/app/containers/Welcome')),
+                },
+                {
+                    component: require('@pages/NotFound').default
+                }
             ]);
         }
-    },
-    indexRoute: {
-        component: PostsIndex.component,
     },
 };

@@ -1,4 +1,4 @@
-process.env.BABEL_ENV = 'browser';
+// process.env.BABEL_ENV = 'browser';
 process.env.NODE_ENV = 'development';
 
 const serve = require('webpack-serve');

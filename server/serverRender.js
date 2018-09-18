@@ -15,6 +15,10 @@ import rootReducer from 'app/redux/reducers';
 import Translator from 'app/Translator';
 import extractMeta from 'app/utils/ExtractMeta';
 
+function runRouter(location, routes) {
+    return new Promise(resolve => match({ routes, location }, (...args) => resolve(args)));
+}
+
 export default async function serverRender({ location, offchain, ErrorPage, settings, rates }) {
     let error, redirect, renderProps;
 
@@ -29,7 +33,6 @@ export default async function serverRender({ location, offchain, ErrorPage, sett
         };
     }
     if (error || !renderProps) {
-        // debug('error')('Router error', error);
         return {
             title: 'Page Not Found - ' + APP_NAME,
             statusCode: 404,
@@ -41,11 +44,6 @@ export default async function serverRender({ location, offchain, ErrorPage, sett
     let serverStore, onchain;
     try {
         let url = location === '/' ? 'trending' : location;
-        // Replace /curation-rewards and /author-rewards with /transfers for UserProfile to resolve data correctly
-        if (url.indexOf('/curation-rewards') !== -1)
-            url = url.replace(/\/curation-rewards$/, '/transfers');
-        if (url.indexOf('/author-rewards') !== -1)
-            url = url.replace(/\/author-rewards$/, '/transfers');
 
         const options = { IGNORE_TAGS };
 
@@ -130,7 +128,7 @@ export default async function serverRender({ location, offchain, ErrorPage, sett
 
     let app, status, meta;
     try {
-        app = renderToString(
+        app = (
             <Provider store={serverStore}>
                 <Translator>
                     <RouterContext {...renderProps} />
@@ -141,21 +139,18 @@ export default async function serverRender({ location, offchain, ErrorPage, sett
         status = 200;
     } catch (re) {
         console.error('Rendering error: ', re, re.stack);
-        app = renderToString(<ErrorPage />);
+        app = <ErrorPage />;
         status = 500;
     }
 
-    const body = Iso.render(app, serverStore.getState());
+    const body = renderToString(app);
 
     return {
         title: SEO_TITLE,
         titleBase: SEO_TITLE + ' - ',
         meta,
         statusCode: status,
+        app,
         body,
     };
-}
-
-function runRouter(location, routes) {
-    return new Promise(resolve => match({ routes, location }, (...args) => resolve(args)));
 }
