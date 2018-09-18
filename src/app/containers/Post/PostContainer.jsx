@@ -6,16 +6,12 @@ import SidePanel from 'src/app/containers/Post/SidePanel';
 import { authorSelector, currentPostSelector } from '../../redux/selectors/post/post';
 import PostContent from '../../components/post/PostContent';
 import { currentUserSelector } from '../../redux/selectors/common';
-import { toggleFavoriteAction } from '../../redux/actions/favorites';
 import ActivePanel from './ActivePanel';
 import transaction from '../../../../app/redux/Transaction';
 import AboutPanel from './AboutPanel';
 import tt from 'counterpart';
 import { USER_FOLLOW_DATA_LOAD, USER_PINNED_POSTS_LOAD } from '../../redux/constants/followers';
 import { FAVORITES_LOAD } from '../../redux/constants/favorites';
-import throttle from 'lodash/throttle';
-
-const iPadWidth = 768;
 
 const Wrapper = styled.div`
     width: 100%;
@@ -46,32 +42,19 @@ class PostContainer extends Component {
         props.loadFavorites();
     }
 
-    state = {
-        isiPadScreen: false,
-        scrollbarWidth: 0,
-    };
-
     componentDidMount() {
         if (this.props.author.pinnedPostsUrls) {
             this.props.getPostContent(this.props.author.pinnedPostsUrls);
         }
-        this._installScrollbarWidth();
-        window.addEventListener('resize', this._resizeScreenLazy);
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('resize', this._resizeScreenLazy);
     }
 
     render() {
-        const { post, username, author, accounts } = this.props;
-        const { isiPadScreen } = this.state;
+        const { post, username, author } = this.props;
         if (!post) return null;
         author.follow = this.follow;
         author.unfollow = this.unfollow;
         author.ignore = this.ignore;
         author.unignore = this.unignore;
-        post.toggleFavorite = this.toggleFavorite;
         return (
             <Wrapper>
                 <Content>
@@ -97,31 +80,6 @@ class PostContainer extends Component {
         this.ignore = upd.bind(null, 'ignore', tt('g.confirm_ignore'));
         this.unignore = upd.bind(null, null, tt('g.confirm_unignore'));
     };
-
-    _installScrollbarWidth = () => {
-        const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-        this.setState({ scrollbarWidth: scrollbarWidth }, () => {
-            this._resizeScreenLazy();
-        });
-    };
-
-    toggleFavorite = () => {
-        const { post } = this.props;
-        this.props.toggleFavorite(post.author + '/' + post.permLink, !post.isFavorite);
-    };
-
-    _resizeScreen = () => {
-        const documentWidth = document.documentElement.clientWidth;
-        const { isiPadScreen, scrollbarWidth } = this.state;
-        if (documentWidth <= (iPadWidth - scrollbarWidth) && !isiPadScreen) {
-            this.setState({ isiPadScreen: true });
-        }
-        if (documentWidth > (iPadWidth - scrollbarWidth) && isiPadScreen) {
-            this.setState({ isiPadScreen: false });
-        }
-    };
-
-    _resizeScreenLazy = throttle(this._resizeScreen, 100, { leading: true });
 }
 
 const mapStateToProps = (state, props) => {
@@ -131,16 +89,12 @@ const mapStateToProps = (state, props) => {
             post,
             username: currentUserSelector(state).get('username'),
             author: authorSelector(state, props),
-            accounts: state.global.get('accounts'),
         }
     );
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        toggleFavorite: (link, isAdd) => {
-            dispatch(toggleFavoriteAction({ link, isAdd }));
-        },
         updateFollow: (follower, following, done) => {
             const json = ['follow', { follower, following, what: ['blog'] }];
             dispatch(
