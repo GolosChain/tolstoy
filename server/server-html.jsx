@@ -50,6 +50,9 @@ export default function ServerHTML({ body, assets, locale, title, meta, analytic
             <meta name="msapplication-wide310x150logo" content="/images/favicons/ms-icon-310x150.png" />
             <meta name="msapplication-square310x310logo" content="/images/favicons/ms-icon-310x310.png" />
 
+            <meta name="yandex-verification" content="8574d8fb75b296c2" />
+            <meta name="google-site-verification" content="CtWufLjNvr7DncMLb_ucQmeloTT2c2ifD9-Or8y0vDw" />
+
             {/* styles (will be present only in production with webpack extract text plugin) */}
             {Object.keys(assets.styles).map((style, i) =>
                 <link href={assets.styles[style]} key={i} media="screen, projection"
