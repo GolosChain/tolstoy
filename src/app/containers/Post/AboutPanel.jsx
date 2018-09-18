@@ -97,6 +97,7 @@ const ButtonsBlock = styled.div`
 
 const ButtonInPanel = Button.extend`
     min-width: 167px;
+    text-transform: lowercase;
 
     @media (max-width: 768px) {
         width: 100%;
@@ -156,7 +157,7 @@ class AboutPanel extends Component {
                 <ButtonsBlock>
                     <ButtonInPanel light>
                         <Icon width="17" height="15" name="coins_plus" />
-                        отблагодарить
+                        {tt('g.donate')}
                     </ButtonInPanel>
                     <FollowButtonWrapper
                         isFollow={isFollow}
