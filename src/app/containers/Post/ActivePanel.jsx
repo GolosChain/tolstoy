@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import VotePanel from '../../components/common/VotePanel/VotePanel';
 import Icon from '../../components/golos-ui/Icon/Icon';
 import ReplyBlock from '../../components/common/ReplyBlock/ReplyBlock';
 import Tooltip from '../../components/post/Tooltip';
-import { connect } from 'react-redux';
+import tt from 'counterpart';
 import { postSelector } from '../../redux/selectors/post/post';
 import { currentUserSelector } from '../../redux/selectors/common';
 
@@ -13,41 +14,11 @@ const Wrapper = styled.div`
     justify-content: space-between;
     width: 100%;
     padding: 34px 0 30px 0;
-
-    @media (max-width: 768px) {
-        flex-direction: column;
-        overflow: hidden;
-    }
 `;
 
 const HoldingBlock = styled.div`
     display: flex;
     align-items: center;
-
-    @media (max-width: 768px) {
-        display: none;
-    }
-`;
-
-const HoldingBlockMobile = styled.div`
-    display: none;
-    justify-content: space-between;
-
-    @media (max-width: 768px) {
-        display: flex;
-    }
-`;
-
-const RepostSharingMobile = styled.div`
-    display: flex;
-    
-    @media (min-width: 576px) and (max-width: 768px) {
-        margin-left: -14px;
-    }
-    
-    @media (max-width: 576px){
-        margin-left: -2px;
-    }
 `;
 
 const Divider = styled.div`
@@ -58,10 +29,6 @@ const Divider = styled.div`
 
 const VotePanelWrapper = styled(VotePanel)`
     padding: 12px 22px 12px 0;
-    
-    @media (max-width: 576px) {
-        padding-left: 16px;
-    }
 `;
 
 const Repost = styled.div`
@@ -92,10 +59,6 @@ const CountOf = styled.div`
 
 const SharingTriangle = Repost.extend`
     padding: 0 17px 0 7px;
-    
-    @media (max-width: 768px) {
-        padding-left: 15px;
-    }
 `;
 
 const DotsMore = Repost.extend`
@@ -138,6 +101,7 @@ const ActionText = styled.div`
 `;
 
 const ActionIcon = styled(Icon)``;
+
 ActionIcon.defaultProps = {
     width: 20,
     height: 20,
@@ -152,74 +116,54 @@ class ActivePanel extends Component {
     render() {
         const { data, username } = this.props;
 
-        const votePanelWrapper = (
-            <VotePanelWrapper
-                data={data}
-                me={username}
-                whiteTheme={false}
-                onChange={this._voteChange}
-            />
-        );
-
-        const repost = (
-            <Repost>
-                <Icon width="30" height="27" name="repost-right" />
-                <CountOf>20</CountOf>
-            </Repost>
-        );
-
-        const sharingTriangle = (
-            <SharingTriangle>
-                <Icon width="26" height="26" name="sharing_triangle" />
-            </SharingTriangle>
-        );
-
-        const dotsMore = (
-            <DotsMore>
-                <Icon
-                    width="32"
-                    height="32"
-                    name={this.state.activeDotsMore ? 'dots-more_pressed' : 'dots-more_normal'}
-                    onClick={this._openPopover}
-                />
-                <Tooltip
-                    ref={ref => (this.tooltip = ref)}
-                    up={true}
-                    changedIsOpen={this.toggleDots}
-                >
-                    <ActionsBlock>
-                        <Action onClick={this._pinPost}>
-                            <ActionIcon name="pin" />
-                            <ActionText>Закрепить пост</ActionText>
-                        </Action>
-                        <Action onClick={this._promotePost}>
-                            <ActionIcon name="brilliant" />
-                            <ActionText>Продвинуть пост</ActionText>
-                        </Action>
-                        <Action onClick={this._flagPost}>
-                            <ActionIcon name="complain_normal" />
-                            <ActionText>Пожаловаться на пост</ActionText>
-                        </Action>
-                    </ActionsBlock>
-                </Tooltip>
-            </DotsMore>
-        );
-
         return (
             <Wrapper>
                 <HoldingBlock>
-                    {votePanelWrapper}
+                    <VotePanelWrapper
+                        data={data}
+                        me={username}
+                        whiteTheme={false}
+                        onChange={this._voteChange}
+                    />
                     <Divider />
-                    {repost}
+                    <Repost>
+                        <Icon width="30" height="27" name="repost-right" />
+                        <CountOf>20</CountOf>
+                    </Repost>
                     <Divider />
-                    {sharingTriangle}
+                    <SharingTriangle>
+                        <Icon width="26" height="26" name="sharing_triangle" />
+                    </SharingTriangle>
                     <Divider />
-                    {dotsMore}
+                    <DotsMore>
+                        <Icon
+                            width="32"
+                            height="32"
+                            name={this.state.activeDotsMore ? 'dots-more_pressed' : 'dots-more_normal'}
+                            onClick={this._openPopover}
+                        />
+                        <Tooltip
+                            ref={ref => (this.tooltip = ref)}
+                            up={true}
+                            changedIsOpen={this.toggleDots}
+                        >
+                            <ActionsBlock>
+                                <Action onClick={this._pinPost}>
+                                    <ActionIcon name="pin" />
+                                    <ActionText>{tt('active_panel_tooltip.pin_post')}</ActionText>
+                                </Action>
+                                <Action onClick={this._promotePost}>
+                                    <ActionIcon name="brilliant" />
+                                    <ActionText>{tt('active_panel_tooltip.promote_post')}</ActionText>
+                                </Action>
+                                <Action onClick={this._flagPost}>
+                                    <ActionIcon name="complain_normal" />
+                                    <ActionText>{tt('active_panel_tooltip.complain_about_post')}</ActionText>
+                                </Action>
+                            </ActionsBlock>
+                        </Tooltip>
+                    </DotsMore>
                 </HoldingBlock>
-                <HoldingBlockMobile>
-                    {votePanelWrapper}
-                    {dotsMore}
-                </HoldingBlockMobile>
                 <HoldingBlock>
                     <ReplyBlock
                         withImage={false}
@@ -228,18 +172,6 @@ class ActivePanel extends Component {
                         text="Ответить"
                     />
                 </HoldingBlock>
-                <HoldingBlockMobile>
-                    <RepostSharingMobile>
-                        {repost}
-                        {sharingTriangle}
-                    </RepostSharingMobile>
-                    <ReplyBlock
-                        withImage={false}
-                        count={data.get('children')}
-                        link={data.get('link')}
-                        text="Ответить"
-                    />
-                </HoldingBlockMobile>
             </Wrapper>
         );
     }
