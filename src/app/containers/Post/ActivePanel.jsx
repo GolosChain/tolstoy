@@ -16,6 +16,7 @@ import {
 } from '../../redux/selectors/post/post';
 import { confirmVote } from '../../helpers/votes';
 import { onVote } from '../../redux/actions/vote';
+import { togglePinAction } from '../../redux/actions/pinnedPosts';
 
 const Wrapper = styled.div`
     display: flex;
@@ -207,7 +208,7 @@ class ActivePanel extends Component {
                         changedIsOpen={this.toggleDots}
                     >
                         <ActionsBlock>
-                            <Action onClick={this._pinPost}>
+                            <Action onClick={this._togglePin}>
                                 <ActionIcon name="pin" />
                                 <ActionText>{tt('active_panel_tooltip.pin_post')}</ActionText>
                             </Action>
@@ -246,10 +247,6 @@ class ActivePanel extends Component {
         }
     };
 
-    _pinPost = () => {
-        this._closePopover();
-    };
-
     _promotePost = () => {
         this._closePopover();
     };
@@ -266,6 +263,12 @@ class ActivePanel extends Component {
         this.tooltip.close();
     };
 
+    _togglePin = () => {
+        const { account, permLink, isPinned } = this.props;
+        this.props.togglePin(account + '/' + permLink, !isPinned);
+        this._closePopover();
+    };
+
     toggleDots = () => {
         this.setState({ activeDotsMore: !this.state.activeDotsMore });
     };
@@ -280,6 +283,7 @@ const mapStateToProps = (state, props) => {
         username: currentUsernameSelector(state),
         permLink: post.permLink,
         account: author.account,
+        isPinned: author.pinnedPostsUrls.includes(author.account + '/' + post.permLink),
     };
 };
 
@@ -287,6 +291,9 @@ const mapDispatchToProps = dispatch => {
     return {
         onVote: (voter, author, permLink, percent) => {
             dispatch(onVote(voter, author, permLink, percent));
+        },
+        togglePin: (link, isPin) => {
+            dispatch(togglePinAction(link, isPin));
         },
     };
 };
