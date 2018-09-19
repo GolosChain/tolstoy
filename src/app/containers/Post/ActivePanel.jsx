@@ -163,8 +163,8 @@ class ActivePanel extends Component {
 
     render() {
         const { activeDotsMore } = this.state;
-        const { data, username } = this.props;
-
+        const { data, username, votesSummary } = this.props;
+        console.log(votesSummary);
         return (
             <Wrapper>
                 <VotePanelWrapper
