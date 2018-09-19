@@ -28,8 +28,6 @@ const Mute = styled.div`
 `;
 
 const Unmute = Button.extend`
-    min-width: 100%;
-    min-height: 100%;
     font-size: 12px;
     font-weight: bold;
     line-height: 23px;

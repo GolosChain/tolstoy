@@ -4,6 +4,7 @@ import throttle from 'lodash/throttle';
 import Icon from '../../components/golos-ui/Icon/Icon';
 import is, { isNot } from 'styled-is';
 import { connect } from 'react-redux';
+import tt from 'counterpart';
 import {
     authorSelector,
     currentPostSelector,
@@ -86,7 +87,7 @@ const ActionIconWrapper = styled.div`
 
 const Action = ({ iconName, count, onClick, dataTooltip }) => {
     return (
-        <ActionButton onClick={onClick} data-tooltip={dataTooltip}>
+        <ActionButton onClick={onClick} data-tooltip={dataTooltip} data-tooltip-html>
             <ActionIconWrapper>
                 <Icon width="20" height="20" name={iconName} />
             </ActionIconWrapper>
@@ -121,14 +122,35 @@ class SidePanel extends Component {
                 showPanel={showPanel}
                 fixedOnScreen={fixedOnScreen}
             >
-                <Action iconName="like" count={votesSummary.likes} onClick={this._like} />
-                <Action iconName="dislike" count={votesSummary.dislikes} onClick={this._dislike} />
-                <Action iconName="repost-right" />
-                <Action iconName="sharing_triangle" />
+                <Action
+                    iconName="like"
+                    count={votesSummary.likes}
+                    onClick={this._like}
+                    dataTooltip={this.tooltipContent(
+                        votesSummary.firstLikes,
+                        votesSummary.likes > 10
+                    )}
+                />
+                <Action
+                    iconName="dislike"
+                    count={votesSummary.dislikes}
+                    onClick={this._dislike}
+                    dataTooltip={this.tooltipContent(
+                        votesSummary.firstDislikes,
+                        votesSummary.dislikes > 10
+                    )}
+                />
+                <Action iconName="repost-right" count={repost} dataTooltip={tt('g.reblog')} />
+                <Action
+                    iconName="sharing_triangle"
+                    dataTooltip={tt('postfull_jsx.share_in_social_networks')}
+                />
                 <Action
                     iconName={isFavorite ? 'star_filled' : 'star'}
                     onClick={this._toggleFavorite}
-                    dataTooltip={isFavorite ? 'Убрать из избранного' : 'В избранное'}
+                    dataTooltip={
+                        isFavorite ? tt('g.remove_from_favourites') : tt('g.add_to_favourites')
+                    }
                 />
             </Wrapper>
         );
@@ -184,6 +206,13 @@ class SidePanel extends Component {
         if (await confirmVote(myVote, percent)) {
             this.props.onVote(username, author, permLink, myVote.percent < 0 ? percent : 0);
         }
+    };
+
+    tooltipContent = (users, isMore) => {
+        if (!users.length) {
+            return null;
+        }
+        return users.join('<br>') + (isMore ? '<br>...' : '');
     };
 }
 

@@ -11,6 +11,7 @@ import {
     currentPostSelector,
     currentUsernameSelector,
     postSelector,
+    repostSelector,
     votesSummarySelector,
 } from '../../redux/selectors/post/post';
 import { confirmVote } from '../../helpers/votes';
@@ -163,8 +164,7 @@ class ActivePanel extends Component {
 
     render() {
         const { activeDotsMore } = this.state;
-        const { data, username, votesSummary } = this.props;
-        console.log(votesSummary);
+        const { data, username, repost } = this.props;
         return (
             <Wrapper>
                 <VotePanelWrapper
@@ -175,16 +175,19 @@ class ActivePanel extends Component {
                 />
                 <Divider />
                 <RepostSharingWrapper>
-                    <Repost>
+                    <Repost data-tooltip={tt('g.reblog')}>
                         <Icon width="30" height="27" name="repost-right" />
                     </Repost>
                     <Divider />
-                    <SharingTriangle>
+                    <SharingTriangle data-tooltip={tt('postfull_jsx.share_in_social_networks')}>
                         <Icon width="26" height="26" name="sharing_triangle" />
                     </SharingTriangle>
                 </RepostSharingWrapper>
                 <Divider />
-                <DotsMore isOpen={activeDotsMore}>
+                <DotsMore
+                    isOpen={activeDotsMore}
+                    data-tooltip={tt('g.next_3_strings_together.show_more')}
+                >
                     <Icon
                         width="32"
                         height="32"
@@ -273,6 +276,7 @@ const mapStateToProps = (state, props) => {
         permLink: post.permLink,
         account: author.account,
         isPinned: author.pinnedPostsUrls.includes(author.account + '/' + post.permLink),
+        repost: repostSelector(state, props),
     };
 };
 
