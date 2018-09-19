@@ -16,7 +16,7 @@ import {
 import { confirmVote } from '../../helpers/votes';
 import { onVote } from '../../redux/actions/vote';
 import { togglePinAction } from '../../redux/actions/pinnedPosts';
-import Popover from 'golos-ui/Popover';
+import Popover from '../../components/golos-ui/Popover/Popover';
 
 const Wrapper = styled.div`
     display: flex;

@@ -14,7 +14,7 @@ import {
 } from '../../redux/selectors/post/post';
 import { toggleFavoriteAction } from '../../redux/actions/favorites';
 import { updateFollow } from '../../redux/actions/follow';
-import Popover from 'golos-ui/Popover';
+import Popover from '../golos-ui/Popover/Popover';
 
 const Wrapper = styled.div`
     display: flex;

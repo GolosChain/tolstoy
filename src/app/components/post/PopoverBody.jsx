@@ -135,7 +135,7 @@ const Mute = styled(MuteButton)`
     margin-left: 10px;
 `;
 
-class Popover extends Component {
+class PopoverBody extends Component {
     static propTypes = {
         close: PropTypes.func.isRequired,
     };
@@ -220,4 +220,7 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default FollowButtonWrapperconnect(mapStateToProps, mapDispatchToProps)(Popover);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(PopoverBody);

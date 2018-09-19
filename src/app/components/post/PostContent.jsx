@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import MarkdownViewer from '../../../../app/components/cards/MarkdownViewer';
-import Tag from 'golos-ui/Tag';
 import PostHeader from './PostHeader';
 import { connect } from 'react-redux';
 import { currentPostSelector } from '../../redux/selectors/post/post';
+import Tag from '../golos-ui/Tag/Tag';
 
 const Wrapper = styled.section`
     padding: 40px 70px 30px;
