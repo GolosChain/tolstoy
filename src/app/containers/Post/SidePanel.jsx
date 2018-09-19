@@ -172,9 +172,10 @@ class SidePanel extends Component {
 
     _like = async () => {
         const { username, permLink, author, myVote } = this.props;
+        console.log(myVote);
         const percent = 1;
         if (await confirmVote(myVote, percent)) {
-            this.props.onVote(username, author, permLink, !myVote.percent ? percent : 0);
+            this.props.onVote(username, author, permLink, myVote.percent > 0 ? percent : 0);
         }
     };
 
@@ -182,7 +183,7 @@ class SidePanel extends Component {
         const { username, permLink, author, myVote } = this.props;
         const percent = -1;
         if (await confirmVote(myVote, percent)) {
-            this.props.onVote(username, author, permLink, !myVote.percent ? percent : 0);
+            this.props.onVote(username, author, permLink, myVote.percent < 0 ? percent : 0);
         }
     };
 }
