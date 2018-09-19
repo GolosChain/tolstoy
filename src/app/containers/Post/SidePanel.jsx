@@ -172,7 +172,6 @@ class SidePanel extends Component {
 
     _like = async () => {
         const { username, permLink, author, myVote } = this.props;
-        console.log(myVote);
         const percent = 1;
         if (await confirmVote(myVote, percent)) {
             this.props.onVote(username, author, permLink, myVote.percent > 0 ? percent : 0);
