@@ -64,44 +64,44 @@ export default class AccountMenu extends PureComponent {
     render() {
         const { myAccountName, onShowMessagesClick, onLogoutClick } = this.props;
 
-        let user_menu = [
+        let items = [
             {
                 link: `/@${myAccountName}/feed`,
                 icon: 'new/home',
                 iconSize: '1_5x',
-                value: tt('g.feed'),
+                text: tt('g.feed'),
             },
-            { link: `/@${myAccountName}`, icon: 'new/blogging', value: tt('g.blog') },
-            { link: `/@${myAccountName}/comments`, icon: 'new/comment', value: tt('g.comments') },
+            { link: `/@${myAccountName}`, icon: 'new/blogging', text: tt('g.blog') },
+            { link: `/@${myAccountName}/comments`, icon: 'new/comment', text: tt('g.comments') },
             $STM_Config.is_sandbox
                 ? {
                       icon: 'chatboxes',
-                      value: tt('g.messages'),
+                      text: tt('g.messages'),
                       onClick: onShowMessagesClick,
                   }
                 : null,
             {
                 link: `/@${myAccountName}/recent-replies`,
                 icon: 'new/answer',
-                value: tt('g.replies'),
+                text: tt('g.replies'),
             },
-            { link: `/@${myAccountName}/favorites`, icon: 'new/star', value: tt('g.favorites') },
-            { link: `/@${myAccountName}/transfers`, icon: 'new/wallet', value: tt('g.wallet') },
-            { link: `/@${myAccountName}/settings`, icon: 'new/setting', value: tt('g.settings') },
-            { icon: 'new/logout', value: tt('g.logout'), onClick: onLogoutClick },
+            { link: `/@${myAccountName}/favorites`, icon: 'new/star', text: tt('g.favorites') },
+            { link: `/@${myAccountName}/transfers`, icon: 'new/wallet', text: tt('g.wallet') },
+            { link: `/@${myAccountName}/settings`, icon: 'new/setting', text: tt('g.settings') },
+            { icon: 'new/logout', text: tt('g.logout'), onClick: onLogoutClick },
         ];
 
-        user_menu = user_menu.filter(item => item);
+        items = items.filter(item => item);
 
         return (
             <Ul>
-                {user_menu.map(({ link, icon, iconSize, value, onClick }, i) => (
+                {items.map(({ link, icon, iconSize, text, onClick }, i) => (
                     <Li key={i}>
                         <LinkStyled href={link} onClick={onClick}>
                             <IconWrapper>
                                 <IconStyled name={icon} size={iconSize || '1_25x'} />
                             </IconWrapper>
-                            {value}
+                            {text}
                         </LinkStyled>
                     </Li>
                 ))}

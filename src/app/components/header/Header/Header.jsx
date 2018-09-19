@@ -8,8 +8,10 @@ import Icon from 'golos-ui/Icon';
 import Button from 'golos-ui/Button';
 import Userpic from 'app/components/elements/Userpic';
 import AccountMenuDesktopWrapper from '../AccountMenuDesktopWrapper';
-import Popover from '../Popover';
+import MobilePopover from '../MobilePopover';
 import AccountMenu from '../AccountMenu';
+import Popover from '../Popover';
+import Menu from '../Menu';
 
 const MIN_MOBILE_WIDTH = 500;
 
@@ -195,6 +197,8 @@ const Notifications = styled.div`
     display: flex;
     align-items: center;
     padding: 10px;
+    user-select: none;
+    cursor: pointer;
 
     ${is('mobile')`
         padding: 10px 20px;
@@ -214,13 +218,18 @@ const NotifCounter = styled.div`
     color: #757575;
 `;
 
-const Dots = styled(Icon)`
-    width: 40px;
-    height: 40px;
+const DotsWrapper = styled.div`
     padding: 10px;
     margin-left: 10px;
-    color: #393636;
     cursor: pointer;
+`;
+
+const Dots = styled(Icon)`
+    display: block;
+    width: 20px;
+    height: 20px;
+    color: #393636;
+    user-select: none;
 `;
 
 const MobileAccountBlock = styled.div`
@@ -273,6 +282,7 @@ const PowerCircle = styled.div`
 export default class Header extends PureComponent {
     state = {
         isAccountOpen: false,
+        isMenuOpen: false,
         isMobile: process.env.BROWSER ? window.innerWidth < MIN_MOBILE_WIDTH : false,
     };
 
@@ -287,7 +297,7 @@ export default class Header extends PureComponent {
 
     render() {
         const { myAccountName } = this.props;
-        const { isMobile } = this.state;
+        const { isMobile, isMenuOpen } = this.state;
 
         return (
             <Root>
@@ -315,8 +325,17 @@ export default class Header extends PureComponent {
                                 <Button>Регистрация</Button>
                             </Fragment>
                         )}
-                        {isMobile ? null : <Dots name="dots" />}
+                        {isMobile ? null : (
+                            <DotsWrapper innerRef={this._onDotsRef} onClick={this._onMenuClick}>
+                                <Dots name="dots" />
+                            </DotsWrapper>
+                        )}
                     </Content>
+                    {isMenuOpen ? (
+                        <Popover target={this._dots} onClose={this._onMenuClose}>
+                            <Menu />
+                        </Popover>
+                    ) : null}
                 </Fixed>
                 {isMobile ? null : <Filler />}
             </Root>
@@ -407,9 +426,9 @@ export default class Header extends PureComponent {
                     </MobileAccountContainer>
                 </MobileAccountBlock>
                 {isAccountOpen ? (
-                    <Popover target={this._account} onClose={this._onAccountMenuClose}>
+                    <MobilePopover target={this._account} onClose={this._onAccountMenuClose}>
                         <AccountMenu />
-                    </Popover>
+                    </MobilePopover>
                 ) : null}
             </Fragment>
         );
@@ -425,6 +444,10 @@ export default class Header extends PureComponent {
         this._account = el;
     };
 
+    _onDotsRef = el => {
+        this._dots = el;
+    };
+
     _onAccountClick = () => {
         this.setState({
             isAccountOpen: !this.state.isAccountOpen,
@@ -434,6 +457,18 @@ export default class Header extends PureComponent {
     _onAccountMenuClose = () => {
         this.setState({
             isAccountOpen: false,
+        });
+    };
+
+    _onMenuClick = () => {
+        this.setState({
+            isMenuOpen: !this.state.isMenuOpen,
+        });
+    };
+
+    _onMenuClose = () => {
+        this.setState({
+            isMenuOpen: false,
         });
     };
 }

@@ -4,40 +4,28 @@ import styled from 'styled-components';
 const Root = styled.div`
     position: absolute;
     top: 56px;
-    left: 0;
-    right: 0;
+    right: ${({ right }) => right}px; 
+    border-radius: 8px;
     background: #fff;
-    z-index: 1;
-`;
-
-const Shadow = styled.div`
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 20px;
-    overflow: hidden;
-    
-    &:after {
-        position: absolute;
-        content: '';
-        top: 0;
-        left: -20px;
-        right: -20px;
-        height: 40px;
-        box-shadow: inset 0 0 18px 4px rgba(0, 0, 0, 0.05);
-    }
+    box-shadow: 0 0 9px 1px rgba(0, 0, 0, 0.05);
+    z-index: 2;
+    animation: fade-in 0.15s;
 `;
 
 const Arrow = styled.div`
-    position: relative;
+    position: absolute;
     width: 18px;
     height: 18px;
-    margin-top: -18px;
-    margin-left: -9px;
-    border: 9px solid transparent;
-    border-bottom-color: #f5f5f5;
-    transform: translateX(${({ left }) => left}px);
+    top: -9px;
+    right: 15px;
+    background: #fff;
+    box-shadow: -3px -3px 3px 0px rgba(0, 0, 0, 0.015);
+    transform: rotate(45deg);
+`;
+
+const Content = styled.div`
+    position: relative;
+    z-index: 1;
 `;
 
 export default class Popover extends PureComponent {
@@ -53,13 +41,14 @@ export default class Popover extends PureComponent {
         const { target, children } = this.props;
 
         const box = target.getBoundingClientRect();
-        const left = Math.round(box.left + box.width / 2);
+        const right = window.innerWidth - Math.round(box.left + box.width / 2) - 39;
 
         return (
-            <Root innerRef={this._onRef}>
-                <Shadow />
-                <Arrow left={left} />
-                {children}
+            <Root innerRef={this._onRef} right={right}>
+                <Arrow />
+                <Content>
+                    {children}
+                </Content>
             </Root>
         );
     }
@@ -69,7 +58,7 @@ export default class Popover extends PureComponent {
     };
 
     _onAwayClick = e => {
-        if (this._root && !this._root.parentNode.contains(e.target)) {
+        if (this._root && !this._root.contains(e.target)) {
             this.props.onClose();
         }
     };
