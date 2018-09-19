@@ -7,6 +7,7 @@ import throttle from 'lodash/throttle';
 import Icon from 'golos-ui/Icon';
 import Button from 'golos-ui/Button';
 import Userpic from 'app/components/elements/Userpic';
+import HeaderAccountMenu from '../HeaderAccountMenu';
 
 const MIN_MOBILE_WIDTH = 500;
 
@@ -115,6 +116,10 @@ const SearchIcon = styled(Icon)`
     color: #393636;
 `;
 
+const NewPostLink = styled(Link)`
+    padding: 0 10px;
+`;
+
 const NewPostButton = styled(Button)``;
 
 const NewPostIcon = styled(Icon)`
@@ -123,9 +128,22 @@ const NewPostIcon = styled(Icon)`
     margin-right: 1px;
 `;
 
-const AccountInfoBlock = styled.div`
+const AccountInfoWrapper = styled.div`
+    position: relative;
     display: flex;
     align-items: center;
+    height: 100%;
+`;
+
+const AccountInfoBlock = styled.div`
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 10px;
+    cursor: pointer;
+    user-select: none;
+    z-index: 1;
 `;
 
 const AccountText = styled.div`
@@ -246,6 +264,7 @@ const PowerCircle = styled.div`
 })
 export default class Header extends PureComponent {
     state = {
+        isAccountOpen: false,
         isMobile: process.env.BROWSER ? window.innerWidth < MIN_MOBILE_WIDTH : false,
     };
 
@@ -302,12 +321,12 @@ export default class Header extends PureComponent {
         return (
             <Fragment>
                 {isMobile ? null : (
-                    <Link href="/submit">
+                    <NewPostLink href="/submit">
                         <NewPostButton>
                             <NewPostIcon name="new-post" />
                             Добавить пост
                         </NewPostButton>
-                    </Link>
+                    </NewPostLink>
                 )}
                 {isMobile ? null : <Splitter />}
                 {isMobile ? null : this._renderFullAccountBlock()}
@@ -323,27 +342,34 @@ export default class Header extends PureComponent {
 
     _renderFullAccountBlock() {
         const { myAccountName, votingPower } = this.props;
+        const { isAccountOpen } = this.state;
 
         const powerPercent = formatPower(votingPower);
 
         return (
-            <AccountInfoBlock>
-                <Userpic account={myAccountName} size={36} />
-                <AccountText>
-                    <AccountName>{myAccountName}</AccountName>
-                    <AccountPowerBlock>
-                        <AccountPowerLabel>Сила Голоса:</AccountPowerLabel>
-                        <AccountPowerValue>{powerPercent}%</AccountPowerValue>
-                    </AccountPowerBlock>
-                </AccountText>
-                <AccountPowerBar title={`Сила голоса: ${powerPercent}%`}>
-                    <AccountPowerChunk fill={votingPower > 90 ? 1 : 0} />
-                    <AccountPowerChunk fill={votingPower > 70 ? 1 : 0} />
-                    <AccountPowerChunk fill={votingPower > 50 ? 1 : 0} />
-                    <AccountPowerChunk fill={votingPower > 30 ? 1 : 0} />
-                    <AccountPowerChunk fill={votingPower > 10 ? 1 : 0} />
-                </AccountPowerBar>
-            </AccountInfoBlock>
+            <AccountInfoWrapper>
+                <AccountInfoBlock onClick={this._onAccountClick}>
+                    <Userpic account={myAccountName} size={36} />
+                    <AccountText>
+                        <AccountName>{myAccountName}</AccountName>
+                        <AccountPowerBlock>
+                            <AccountPowerLabel>Сила Голоса:</AccountPowerLabel>
+                            <AccountPowerValue>{powerPercent}%</AccountPowerValue>
+                        </AccountPowerBlock>
+                    </AccountText>
+                    <AccountPowerBar title={`Сила голоса: ${powerPercent}%`}>
+                        <AccountPowerChunk fill={votingPower > 90 ? 1 : 0} />
+                        <AccountPowerChunk fill={votingPower > 70 ? 1 : 0} />
+                        <AccountPowerChunk fill={votingPower > 50 ? 1 : 0} />
+                        <AccountPowerChunk fill={votingPower > 30 ? 1 : 0} />
+                        <AccountPowerChunk fill={votingPower > 10 ? 1 : 0} />
+                    </AccountPowerBar>
+                </AccountInfoBlock>
+                {isAccountOpen ?
+                    <HeaderAccountMenu onClose={this._onAccountMenuClose} />
+                    : null
+                }
+            </AccountInfoWrapper>
         );
     }
 
@@ -377,6 +403,18 @@ export default class Header extends PureComponent {
             isMobile: window.innerWidth < MIN_MOBILE_WIDTH,
         });
     }, 100);
+
+    _onAccountClick = () => {
+        this.setState({
+            isAccountOpen: !this.state.isAccountOpen,
+        });
+    }
+
+    _onAccountMenuClose = () => {
+        this.setState({
+            isAccountOpen: false,
+        });
+    }
 }
 
 function formatPower(percent) {
