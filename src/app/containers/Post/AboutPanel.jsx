@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Userpic from '../../../../app/components/elements/Userpic';
@@ -23,7 +22,7 @@ const Wrapper = styled.div`
     }
 `;
 
-const AvatarBlock = styled.div`
+const Avatar = styled.div`
     display: flex;
     align-items: center;
     flex-grow: 1;
@@ -34,11 +33,11 @@ const AvatarBlock = styled.div`
     }
 `;
 
-const NamesWrapper = styled.div`
+const Names = styled.div`
     padding: 0 20px 0 10px;
 `;
 
-const RealName = styled.div`
+const Name = styled.div`
     color: #393636;
     font-family: 'Open Sans', sans-serif;
     font-size: 24px;
@@ -46,7 +45,7 @@ const RealName = styled.div`
     line-height: 25px;
 `;
 
-const UserName = styled(Link)`
+const Account = styled(Link)`
     display: inline-block;
     padding: 0 10px;
     margin-left: -10px;
@@ -66,7 +65,7 @@ const Divider = styled.div`
     }
 `;
 
-const CakeBlock = styled.div`
+const Cake = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -87,7 +86,7 @@ const CakeText = styled.div`
     line-height: 24px;
 `;
 
-const ButtonsBlock = styled.div`
+const Buttons = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
@@ -97,7 +96,7 @@ const ButtonsBlock = styled.div`
 
 const ButtonInPanel = Button.extend`
     min-width: 167px;
-    text-transform: lowercase;
+    text-transform: uppercase;
 
     @media (max-width: 768px) {
         width: 100%;
@@ -105,7 +104,7 @@ const ButtonInPanel = Button.extend`
     }
 `;
 
-const FollowButtonWrapper = styled(FollowButton)`
+const Follow = styled(FollowButton)`
     min-width: 167px;
     min-height: 34px;
 
@@ -115,7 +114,7 @@ const FollowButtonWrapper = styled(FollowButton)`
     }
 `;
 
-const AboutTextMobile = styled.p`
+const AboutMobile = styled.p`
     display: none;
     margin: 20px 0 0 0;
     color: #959595;
@@ -130,41 +129,32 @@ const AboutTextMobile = styled.p`
 `;
 
 class AboutPanel extends Component {
-    static propTypes = {
-        follow: PropTypes.func.isRequired,
-        unfollow: PropTypes.func.isRequired,
-    };
-
     render() {
-        const { name, account, isFollow, follow, unfollow, created, about } = this.props;
+        const { name, account, created, about } = this.props;
         return (
             <Wrapper>
-                <AvatarBlock>
+                <Avatar>
                     <Userpic account={account} size={50} />
-                    <NamesWrapper>
-                        <RealName>{name}</RealName>
-                        <UserName to={`/@${account}`}>@{account}</UserName>
-                    </NamesWrapper>
+                    <Names>
+                        <Name>{name}</Name>
+                        <Account to={`/@${account}`}>@{account}</Account>
+                    </Names>
                     <Divider />
-                </AvatarBlock>
-                <AboutTextMobile>{about}</AboutTextMobile>
-                <CakeBlock>
+                </Avatar>
+                <AboutMobile>{about}</AboutMobile>
+                <Cake>
                     <Icon width="36" height="34" name="cake" />
                     <CakeText>
                         {tt('on_golos_from')} <JoinedToGolos date={created} />
                     </CakeText>
-                </CakeBlock>
-                <ButtonsBlock>
+                </Cake>
+                <Buttons>
                     <ButtonInPanel light>
                         <Icon width="17" height="15" name="coins_plus" />
                         {tt('g.donate')}
                     </ButtonInPanel>
-                    <FollowButtonWrapper
-                        isFollow={isFollow}
-                        followUser={follow}
-                        unfollowUser={unfollow}
-                    />
-                </ButtonsBlock>
+                    <Follow following={account} />
+                </Buttons>
             </Wrapper>
         );
     }
@@ -175,7 +165,6 @@ const mapStateToProps = (state, props) => {
     return {
         name: author.name,
         account: author.account,
-        isFollow: author.isFollow,
         created: author.created,
         about: author.about,
     };

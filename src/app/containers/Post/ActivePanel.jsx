@@ -5,6 +5,7 @@ import is from 'styled-is';
 import VotePanel from '../../components/common/VotePanel/VotePanel';
 import Icon from '../../components/golos-ui/Icon/Icon';
 import ReplyBlock from '../../components/common/ReplyBlock/ReplyBlock';
+import Tooltip from '../../components/post/Tooltip';
 import tt from 'counterpart';
 import {
     authorSelector,
@@ -16,7 +17,6 @@ import {
 import { confirmVote } from '../../helpers/votes';
 import { onVote } from '../../redux/actions/vote';
 import { togglePinAction } from '../../redux/actions/pinnedPosts';
-import Popover from 'golos-ui/Popover';
 
 const Wrapper = styled.div`
     display: flex;
@@ -73,6 +73,16 @@ const Repost = styled.div`
     @media (max-width: 768px) {
         padding-left: 13px;
     }
+`;
+
+const CountOf = styled.div`
+    padding-left: 7px;
+    color: #757575;
+    font-family: Roboto, sans-serif;
+    font-size: 18px;
+    font-weight: 300;
+    letter-spacing: 1.8px;
+    line-height: 23px;
 `;
 
 const SharingTriangle = Repost.extend`
@@ -177,6 +187,7 @@ class ActivePanel extends Component {
                 <RepostSharingWrapper>
                     <Repost>
                         <Icon width="30" height="27" name="repost-right" />
+                        <CountOf>20</CountOf>
                     </Repost>
                     <Divider />
                     <SharingTriangle>
@@ -191,10 +202,10 @@ class ActivePanel extends Component {
                         name="dots-more_normal"
                         onClick={this._openPopover}
                     />
-                    <Popover
+                    <Tooltip
                         ref={ref => (this.tooltip = ref)}
                         up={true}
-                        handleToggleOpen={this.toggleDots}
+                        changedIsOpen={this.toggleDots}
                     >
                         <ActionsBlock>
                             <Action onClick={this._togglePin}>
@@ -212,7 +223,7 @@ class ActivePanel extends Component {
                                 </ActionText>
                             </Action>
                         </ActionsBlock>
-                    </Popover>
+                    </Tooltip>
                 </DotsMore>
                 <ReplyBlockStyled
                     withImage={false}

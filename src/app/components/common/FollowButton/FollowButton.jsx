@@ -4,9 +4,8 @@ import Icon from '../../golos-ui/Icon';
 import Button from '../../golos-ui/Button';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { authorSelector } from '../../../redux/selectors/post/post';
-import transaction from '../../../../../app/redux/Transaction';
-import { currentUserSelector } from '../../../redux/selectors/common';
+import { authorSelector, currentUsernameSelector } from '../../../redux/selectors/post/post';
+import { updateFollow } from '../../../redux/actions/follow';
 
 const Wrapper = Button.extend`
     min-width: 100%;
@@ -17,6 +16,14 @@ const Wrapper = Button.extend`
 `;
 
 class FollowButton extends Component {
+    static propTypes = {
+        following: PropTypes.string.isRequired,
+        onClick: PropTypes.func,
+    };
+    static defaultProps = {
+        onClick: () => {},
+    };
+
     render() {
         const { isFollow, className } = this.props;
         return isFollow ? (
@@ -32,43 +39,29 @@ class FollowButton extends Component {
         );
     }
 
-    _follow = () => {
+    _follow = e => {
         this.props.updateFollow(this.props.username, 'blog');
+        this.props.onClick(e);
     };
-    _unfollow = () => {
+
+    _unfollow = e => {
         this.props.updateFollow(this.props.username, null);
+        this.props.onClick(e);
     };
 }
-
-FollowButton.propTypes = {
-    following: PropTypes.string.isRequired,
-};
 
 const mapStateToProps = (state, props) => {
     const author = authorSelector(state, props);
     return {
         isFollow: author.isFollow,
-        username: currentUserSelector(state).get('username'),
+        username: currentUsernameSelector(state),
     };
 };
 
 const mapDispatchToProps = (dispatch, { following }) => {
     return {
-        updateFollow: (follower, action, done) => {
-            const what = action ? [action] : [];
-            const json = ['follow', { follower, following, what }];
-            dispatch(
-                transaction.actions.broadcastOperation({
-                    type: 'custom_json',
-                    operation: {
-                        id: 'follow',
-                        required_posting_auths: [follower],
-                        json: JSON.stringify(json),
-                    },
-                    successCallback: done,
-                    errorCallback: done,
-                })
-            );
+        updateFollow: (follower, action) => {
+            dispatch(updateFollow(follower, following, action));
         },
     };
 };

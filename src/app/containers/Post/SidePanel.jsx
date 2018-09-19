@@ -128,7 +128,7 @@ class SidePanel extends Component {
                     count={votesSummary.dislikes}
                     onClick={this._dislike}
                 />
-                <ActionBlock iconName="repost-right" />
+                <ActionBlock iconName="repost-right" count={repost} />
                 <ActionBlock iconName="sharing_triangle" />
                 <ActionBlock
                     iconName={isFavorite ? 'star_filled' : 'star'}

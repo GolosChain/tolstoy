@@ -4,7 +4,8 @@ import Userpic from '../../../../app/components/elements/Userpic';
 import TimeAgoWrapper from '../../../../app/components/elements/TimeAgoWrapper';
 import tt from 'counterpart';
 import { Link } from 'react-router';
-import PopoverBody from './PopoverBody';
+import Tooltip from './Tooltip';
+import Popover from './Popover';
 import Icon from '../golos-ui/Icon';
 import { connect } from 'react-redux';
 import {
@@ -14,7 +15,6 @@ import {
 } from '../../redux/selectors/post/post';
 import { toggleFavoriteAction } from '../../redux/actions/favorites';
 import { updateFollow } from '../../redux/actions/follow';
-import Popover from 'golos-ui/Popover';
 
 const Wrapper = styled.div`
     display: flex;
@@ -124,9 +124,9 @@ class PostHeader extends Component {
                 <UserInfoWrapper>
                     <Avatar>
                         <Userpic account={author} size={50} onClick={this._openPopover} />
-                        <Popover ref={ref => (this.tooltip = ref)}>
-                            <PopoverBody close={this._closePopover} author={author} />
-                        </Popover>
+                        <Tooltip ref={ref => (this.tooltip = ref)}>
+                            <Popover close={this._closePopover} author={author} />
+                        </Tooltip>
                     </Avatar>
                     <InfoBlock>
                         <AuthorName to={`/@${author}`}>{author}</AuthorName>

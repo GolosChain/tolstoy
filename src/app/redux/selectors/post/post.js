@@ -30,13 +30,16 @@ export const votesSummarySelector = createDeepEqualSelector(
 );
 
 export const repostSelector = createDeepEqualSelector([], () => 0);
-
+export const currentUsernameSelector = createDeepEqualSelector([currentUserSelector], user =>
+    user.get('username')
+);
 export const currentPostSelector = createDeepEqualSelector(
-    [postSelector, dataSelector('favorites')],
-    (post, favorites) => {
+    [postSelector, dataSelector('favorites'), currentUsernameSelector],
+    (post, favorites, username) => {
         if (!post) return null;
         const author = post.get('author');
         const permLink = post.get('permlink');
+        const myVote = getMyVote(post, username);
         return {
             created: post.get('created'),
             isFavorite: favorites.set.includes(author + '/' + permLink),
@@ -53,9 +56,22 @@ export const currentPostSelector = createDeepEqualSelector(
             permLink,
             children: post.get('children'),
             link: `/@${author}/${permLink}`,
+            myVote,
         };
     }
 );
+
+function getMyVote(post, username) {
+    const votes = post.get('active_votes');
+    for (let vote of votes) {
+        if (vote.get('voter') === username) {
+            const myVote = vote.toJS();
+            myVote.weight = parseInt(myVote.weight || 0, 10);
+            return myVote;
+        }
+    }
+    return 0;
+}
 
 const followingSelector = createDeepEqualSelector(
     [globalSelector('follow'), currentUserSelector],
@@ -66,15 +82,25 @@ const followingSelector = createDeepEqualSelector(
     }
 );
 
+const mutingSelector = createDeepEqualSelector(
+    [globalSelector('follow'), currentUserSelector],
+    (follow, user) => {
+        return follow
+            .getIn(['getFollowingAsync', user.get('username'), 'ignore_result'], Set())
+            .toJS();
+    }
+);
+
 export const authorSelector = createDeepEqualSelector(
     [
         globalSelector('accounts'),
         globalSelector('follow_count'),
         followingSelector,
+        mutingSelector,
         currentPostSelector,
         globalSelector('content'),
     ],
-    (accounts, followCount, following, post, content) => {
+    (accounts, followCount, following, muting, post, content) => {
         const authorAccountName = post.author;
         const authorData = accounts.get(authorAccountName);
         const jsonData = normalizeProfile({
@@ -87,6 +113,7 @@ export const authorSelector = createDeepEqualSelector(
             account: authorAccountName,
             about: jsonData.about,
             isFollow: following.includes(authorAccountName),
+            isMute: muting.includes(authorAccountName),
             followerCount:
                 (followCount && followCount.getIn([authorAccountName, 'follower_count'])) || 0,
             pinnedPostsUrls,

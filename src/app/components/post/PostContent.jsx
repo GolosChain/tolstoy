@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import MarkdownViewer from '../../../../app/components/cards/MarkdownViewer';
 import Tag from '../golos-ui/Tag/Tag';
 import PostHeader from './PostHeader';
 import { connect } from 'react-redux';
-import { authorSelector, currentPostSelector } from '../../redux/selectors/post/post';
-import { currentUserSelector } from '../../redux/selectors/common';
+import { currentPostSelector } from '../../redux/selectors/post/post';
 
 const Wrapper = styled.section`
     padding: 40px 70px 30px;
@@ -30,6 +28,10 @@ const PostTitle = styled.h1`
     font-weight: bold;
     letter-spacing: 0.37px;
     line-height: 41px;
+
+    @media (max-width: 576px) {
+        font-size: 30px;
+    }
 `;
 
 const PostBody = styled.div`
@@ -61,45 +63,23 @@ const Tags = styled.div`
 `;
 
 class PostContent extends Component {
-    static propTypes = {
-        username: PropTypes.string,
-        post: PropTypes.shape({
-            tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-            payout: PropTypes.number.isRequired,
-            category: PropTypes.string.isRequired,
-            title: PropTypes.string.isRequired,
-            body: PropTypes.string.isRequired,
-            created: PropTypes.any.isRequired,
-            pictures: PropTypes.bool.isRequired,
-            jsonMetadata: PropTypes.string,
-            author: PropTypes.string.isRequired,
-            isFavorite: PropTypes.bool.isRequired,
-        }).isRequired,
-        author: PropTypes.shape({
-            name: PropTypes.string,
-            about: PropTypes.string,
-            account: PropTypes.string.isRequired,
-            isFollow: PropTypes.bool.isRequired,
-            followerCount: PropTypes.number.isRequired,
-            pinnedPosts: PropTypes.array.isRequired,
-            follow: PropTypes.func.isRequired,
-            unfollow: PropTypes.func.isRequired,
-        }).isRequired,
-    };
-
-    static defaultProps = {
-        author: {
-            isFollow: false,
-        },
-    };
-
     render() {
-        const { post, username, author, className } = this.props;
-        const { tags, payout, data, category, title, body, jsonMetadata, pictures } = post;
-        const formId = `postFull-${data}`;
+        const {
+            tags,
+            payout,
+            permLink,
+            category,
+            title,
+            body,
+            jsonMetadata,
+            pictures,
+            created,
+            className,
+        } = this.props;
+        const formId = `postFull-${permLink}`;
         return (
             <Wrapper className={className}>
-                <PostHeader post={post} username={username} author={author} />
+                <PostHeader />
                 <Body>
                     <Tag category>{category}</Tag>
                     <PostTitle>{title}</PostTitle>
@@ -111,7 +91,7 @@ class PostContent extends Component {
                             large
                             highQualityPost={payout > 10}
                             noImage={!pictures}
-                            timeCteated={new Date(post.created)}
+                            timeCteated={new Date(created)}
                         />
                     </PostBody>
                 </Body>
@@ -129,20 +109,18 @@ class PostContent extends Component {
 
 const mapStateToProps = (state, props) => {
     const post = currentPostSelector(state, props);
-    return (
-        !!post && {
-            post,
-            username: currentUserSelector(state).get('username'),
-            author: authorSelector(state, props),
-        }
-    );
+    return {
+        tags: post.tags,
+        payout: post.payout,
+        data: post.data,
+        category: post.category,
+        title: post.title,
+        body: post.body,
+        jsonMetadata: post.jsonMetadata,
+        pictures: post.pictures,
+        created: post.created,
+        permLink: post.permLink,
+    };
 };
 
-const mapDispatchToProps = dispatch => {
-    return {};
-};
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(PostContent);
+export default connect(mapStateToProps)(PostContent);

@@ -5,10 +5,8 @@ import Container from 'src/app/components/common/Container/Container';
 import SidePanel from 'src/app/containers/Post/SidePanel';
 import { authorSelector, currentPostSelector } from '../../redux/selectors/post/post';
 import PostContent from '../../components/post/PostContent';
-import { currentUserSelector } from '../../redux/selectors/common';
 import ActivePanel from './ActivePanel';
 import AboutPanel from './AboutPanel';
-import tt from 'counterpart';
 import { USER_FOLLOW_DATA_LOAD } from '../../redux/constants/followers';
 import { FAVORITES_LOAD } from '../../redux/constants/favorites';
 
@@ -18,7 +16,7 @@ const Wrapper = styled.div`
     background-color: #f9f9f9;
 `;
 
-const Content = Container.extend`
+const ContentWrapper = Container.extend`
     position: relative;
     padding-top: 22px;
     padding-bottom: 17px;
@@ -31,65 +29,36 @@ const Content = Container.extend`
     }
 `;
 
-const ContentWrapper = styled(PostContent)``;
-
 class PostContainer extends Component {
     constructor(props) {
         super(props);
-        this._initEvents(props);
-        props.loadUserFollowData(props.author.account);
+        props.loadUserFollowData(props.account);
         props.loadFavorites();
     }
 
-    componentDidMount() {
-        if (this.props.author.pinnedPostsUrls) {
-            this.props.getPostContent(this.props.author.pinnedPostsUrls);
-        }
-    }
-
     render() {
-        const { post, username, author } = this.props;
-        if (!post) return null;
-        author.follow = this.follow;
-        author.unfollow = this.unfollow;
-        author.ignore = this.ignore;
-        author.unignore = this.unignore;
+        const { postLoaded } = this.props;
+        if (!postLoaded) return null;
         return (
             <Wrapper>
-                <Content>
-                    <ContentWrapper post={post} username={username} author={author} />
+                <ContentWrapper>
+                    <PostContent />
                     <ActivePanel />
-                    <AboutPanel follow={this.follow} unfollow={this.unfollow} />
+                    <AboutPanel />
                     <SidePanel />
-                </Content>
+                </ContentWrapper>
             </Wrapper>
         );
     }
-
-    _initEvents = props => {
-        const { updateFollow, username, author } = props;
-        const upd = type => {
-            const done = () => {
-                console.log('done');
-            };
-            updateFollow(username, author.account, type, done);
-        };
-        this.follow = upd.bind(null, 'blog', tt('g.confirm_follow'));
-        this.unfollow = upd.bind(null, null, tt('g.confirm_unfollow'));
-        this.ignore = upd.bind(null, 'ignore', tt('g.confirm_ignore'));
-        this.unignore = upd.bind(null, null, tt('g.confirm_unignore'));
-    };
 }
 
 const mapStateToProps = (state, props) => {
     const post = currentPostSelector(state, props);
-    return (
-        !!post && {
-            post,
-            username: currentUserSelector(state).get('username'),
-            author: authorSelector(state, props),
-        }
-    );
+    const author = authorSelector(state, props);
+    return {
+        account: author.account,
+        postLoaded: !!post,
+    };
 };
 
 const mapDispatchToProps = dispatch => {
@@ -106,14 +75,6 @@ const mapDispatchToProps = dispatch => {
             dispatch({
                 type: FAVORITES_LOAD,
                 payload: {},
-            });
-        },
-        getPostContent: urls => {
-            dispatch({
-                type: USER_PINNED_POSTS_LOAD,
-                payload: {
-                    urls,
-                },
             });
         },
     };
