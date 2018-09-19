@@ -6,22 +6,6 @@ import tt from 'counterpart';
 import Icon from 'app/components/elements/Icon';
 import user from 'app/redux/User';
 
-const Root = styled.div`
-    position: absolute;
-    top: 0;
-    left: -22px;
-    right: -22px;
-    padding-top: 60px;
-    border-radius: 8px;
-    background: #fff;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
-    animation: fade-in 0.15s;
-`;
-
-const Line = styled.div`
-    border-bottom: 1px solid #e1e1e1;
-`;
-
 const Ul = styled.ul`
     padding: 5px 0 6px;
     margin: 0;
@@ -76,15 +60,7 @@ const LinkStyled = styled(Link)`
         onLogoutClick: () => user.actions.logout(),
     }
 )
-export default class Header extends PureComponent {
-    componentDidMount() {
-        window.addEventListener('mousedown', this._onAwayClick);
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('mousedown', this._onAwayClick);
-    }
-
+export default class AccountMenu extends PureComponent {
     render() {
         const { myAccountName, onShowMessagesClick, onLogoutClick } = this.props;
 
@@ -118,31 +94,18 @@ export default class Header extends PureComponent {
         user_menu = user_menu.filter(item => item);
 
         return (
-            <Root innerRef={this._onRef}>
-                <Line />
-                <Ul>
-                    {user_menu.map(({ link, icon, iconSize, value, onClick }, i) => (
-                        <Li key={i}>
-                            <LinkStyled href={link} onClick={onClick}>
-                                <IconWrapper>
-                                    <IconStyled name={icon} size={iconSize || '1_25x'} />
-                                </IconWrapper>
-                                {value}
-                            </LinkStyled>
-                        </Li>
-                    ))}
-                </Ul>
-            </Root>
+            <Ul>
+                {user_menu.map(({ link, icon, iconSize, value, onClick }, i) => (
+                    <Li key={i}>
+                        <LinkStyled href={link} onClick={onClick}>
+                            <IconWrapper>
+                                <IconStyled name={icon} size={iconSize || '1_25x'} />
+                            </IconWrapper>
+                            {value}
+                        </LinkStyled>
+                    </Li>
+                ))}
+            </Ul>
         );
     }
-
-    _onRef = el => {
-        this._root = el;
-    };
-
-    _onAwayClick = e => {
-        if (this._root && !this._root.parentNode.contains(e.target)) {
-            this.props.onClose();
-        }
-    };
 }

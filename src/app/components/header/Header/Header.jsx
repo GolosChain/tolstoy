@@ -7,7 +7,9 @@ import throttle from 'lodash/throttle';
 import Icon from 'golos-ui/Icon';
 import Button from 'golos-ui/Button';
 import Userpic from 'app/components/elements/Userpic';
-import HeaderAccountMenu from '../HeaderAccountMenu';
+import AccountMenuDesktopWrapper from '../AccountMenuDesktopWrapper';
+import Popover from '../Popover';
+import AccountMenu from '../AccountMenu';
 
 const MIN_MOBILE_WIDTH = 500;
 
@@ -23,7 +25,7 @@ const Fixed = styled.div`
     height: 60px;
     background: #fff;
     box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.1);
-    z-index: 1;
+    z-index: 2;
 
     ${is('mobile')`
         position: relative;
@@ -32,6 +34,7 @@ const Fixed = styled.div`
 `;
 
 const Content = styled.div`
+    position: relative;
     display: flex;
     align-items: center;
     width: 100%;
@@ -54,7 +57,7 @@ const LogoLink = styled(Link)`
     align-items: center;
     padding: 10px;
     margin-left: -10px;
-    
+
     @media (max-width: 1230px) {
         margin-left: 8px;
     }
@@ -89,10 +92,10 @@ const SearchBlock = styled(Link)`
     flex-grow: 1;
     margin-left: 8px;
     padding-right: 10px;
-    
+
     ${is('mobile')`
         padding: 10px 20px;
-    `}
+    `};
 `;
 
 const SearchInput = styled.input`
@@ -192,10 +195,10 @@ const Notifications = styled.div`
     display: flex;
     align-items: center;
     padding: 10px;
-    
+
     ${is('mobile')`
         padding: 10px 20px;
-    `}
+    `};
 `;
 
 const NotifIcon = styled(Icon)`
@@ -221,7 +224,12 @@ const Dots = styled(Icon)`
 `;
 
 const MobileAccountBlock = styled.div`
+    display: flex;
+    align-items: center;
+    height: 100%;
     padding: 0 15px 0 12px;
+    cursor: pointer;
+    z-index: 1;
 `;
 
 const MobileAccountContainer = styled.div`
@@ -365,36 +373,45 @@ export default class Header extends PureComponent {
                         <AccountPowerChunk fill={votingPower > 10 ? 1 : 0} />
                     </AccountPowerBar>
                 </AccountInfoBlock>
-                {isAccountOpen ?
-                    <HeaderAccountMenu onClose={this._onAccountMenuClose} />
-                    : null
-                }
+                {isAccountOpen ? (
+                    <AccountMenuDesktopWrapper onClose={this._onAccountMenuClose} />
+                ) : null}
             </AccountInfoWrapper>
         );
     }
 
     _renderMobileAccountBlock() {
         const { myAccountName, votingPower } = this.props;
+        const { isAccountOpen } = this.state;
 
         const angle = 2 * Math.PI - 2 * Math.PI * (votingPower / 100);
 
         const { x, y } = calcXY(angle);
 
         return (
-            <MobileAccountBlock>
-                <MobileAccountContainer>
-                    <PowerCircle>
-                        <svg viewBox="-1 -1 2 2">
-                            <circle cx="0" cy="0" r="1" fill="#78c2d0" />
-                            <path
-                                d={`M ${x * -1} ${y} A 1 1 0 ${angle > Math.PI ? 1 : 0} 1 0 -1 L 0 0`}
-                                fill="#393636"
-                            />
-                        </svg>
-                    </PowerCircle>
-                    <UserpicMobile account={myAccountName} size={44} />
-                </MobileAccountContainer>
-            </MobileAccountBlock>
+            <Fragment>
+                <MobileAccountBlock onClick={this._onAccountClick}>
+                    <MobileAccountContainer innerRef={this._onAccountRef}>
+                        <PowerCircle>
+                            <svg viewBox="-1 -1 2 2">
+                                <circle cx="0" cy="0" r="1" fill="#78c2d0" />
+                                <path
+                                    d={`M ${x * -1} ${y} A 1 1 0 ${
+                                        angle > Math.PI ? 1 : 0
+                                    } 1 0 -1 L 0 0`}
+                                    fill="#393636"
+                                />
+                            </svg>
+                        </PowerCircle>
+                        <UserpicMobile account={myAccountName} size={44} />
+                    </MobileAccountContainer>
+                </MobileAccountBlock>
+                {isAccountOpen ? (
+                    <Popover target={this._account} onClose={this._onAccountMenuClose}>
+                        <AccountMenu />
+                    </Popover>
+                ) : null}
+            </Fragment>
         );
     }
 
@@ -404,17 +421,21 @@ export default class Header extends PureComponent {
         });
     }, 100);
 
+    _onAccountRef = el => {
+        this._account = el;
+    };
+
     _onAccountClick = () => {
         this.setState({
             isAccountOpen: !this.state.isAccountOpen,
         });
-    }
+    };
 
     _onAccountMenuClose = () => {
         this.setState({
             isAccountOpen: false,
         });
-    }
+    };
 }
 
 function formatPower(percent) {
