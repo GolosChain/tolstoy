@@ -29,7 +29,6 @@ export const votesSummarySelector = createDeepEqualSelector(
     }
 );
 
-export const repostSelector = createDeepEqualSelector([], () => 0);
 export const currentUsernameSelector = createDeepEqualSelector([currentUserSelector], user =>
     user.get('username')
 );

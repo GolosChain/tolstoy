@@ -85,7 +85,7 @@ const ActionIconWrapper = styled.div`
     }
 `;
 
-const ActionBlock = ({ iconName, count, onClick, dataTooltip }) => {
+const Action = ({ iconName, count, onClick, dataTooltip }) => {
     return (
         <ActionButton onClick={onClick} data-tooltip={dataTooltip}>
             <ActionIconWrapper>
@@ -114,7 +114,7 @@ class SidePanel extends Component {
     }
 
     render() {
-        const { votesSummary, repost, isFavorite } = this.props;
+        const { votesSummary, isFavorite } = this.props;
         const { showPanel, fixedOnScreen } = this.state;
         return (
             <Wrapper
@@ -122,15 +122,11 @@ class SidePanel extends Component {
                 showPanel={showPanel}
                 fixedOnScreen={fixedOnScreen}
             >
-                <ActionBlock iconName="like" count={votesSummary.likes} onClick={this._like} />
-                <ActionBlock
-                    iconName="dislike"
-                    count={votesSummary.dislikes}
-                    onClick={this._dislike}
-                />
-                <ActionBlock iconName="repost-right" />
-                <ActionBlock iconName="sharing_triangle" />
-                <ActionBlock
+                <Action iconName="like" count={votesSummary.likes} onClick={this._like} />
+                <Action iconName="dislike" count={votesSummary.dislikes} onClick={this._dislike} />
+                <Action iconName="repost-right" />
+                <Action iconName="sharing_triangle" />
+                <Action
                     iconName={isFavorite ? 'star_filled' : 'star'}
                     onClick={this._toggleFavorite}
                     dataTooltip={isFavorite ? 'Убрать из избранного' : 'В избранное'}
@@ -198,7 +194,6 @@ const mapStateToProps = (state, props) => {
     const username = currentUsernameSelector(state);
     return {
         votesSummary: votesSummarySelector(state, props),
-        repost: repostSelector(state, props),
         isFavorite: post.isFavorite,
         author: author.account,
         permLink: post.permLink,
