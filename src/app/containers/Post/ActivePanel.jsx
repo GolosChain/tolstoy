@@ -186,7 +186,7 @@ class ActivePanel extends Component {
                 <Divider />
                 <DotsMore
                     isOpen={activeDotsMore}
-                    data-tooltip={tt('g.next_3_strings_together.show_more')}
+                    data-tooltip={activeDotsMore ? null : tt('g.next_3_strings_together.show_more')}
                 >
                     <Icon
                         width="32"

@@ -83,12 +83,23 @@ const ActionIconWrapper = styled.div`
     &:hover {
         transform: scale(1.15);
     }
+
+    ${({ isActive }) =>
+        isActive === 'like'
+            ? `
+        color: #2879ff 
+    `
+            : isActive === 'dislike'
+                ? `
+        color: #ff4e00
+    `
+                : ``};
 `;
 
-const Action = ({ iconName, count, onClick, dataTooltip }) => {
+const Action = ({ iconName, count, onClick, dataTooltip, isActive }) => {
     return (
         <ActionButton onClick={onClick} data-tooltip={dataTooltip} data-tooltip-html>
-            <ActionIconWrapper>
+            <ActionIconWrapper isActive={isActive}>
                 <Icon width="20" height="20" name={iconName} />
             </ActionIconWrapper>
             <CountOf count={count}>{count}</CountOf>
@@ -116,6 +127,7 @@ class SidePanel extends Component {
     render() {
         const { votesSummary, isFavorite } = this.props;
         const { showPanel, fixedOnScreen } = this.state;
+        const { myVote, likes, firstLikes, dislikes, firstDislikes } = votesSummary;
         return (
             <Wrapper
                 innerRef={this._setWrapperRef}
@@ -123,22 +135,19 @@ class SidePanel extends Component {
                 fixedOnScreen={fixedOnScreen}
             >
                 <Action
+                    isActive={myVote}
+                <Action
                     iconName="like"
-                    count={votesSummary.likes}
+                    count={likes}
                     onClick={this._like}
-                    dataTooltip={this.tooltipContent(
-                        votesSummary.firstLikes,
-                        votesSummary.likes > 10
-                    )}
+                    dataTooltip={this.tooltipContent(firstLikes, likes > 10)}
                 />
                 <Action
+                    isActive={myVote}
                     iconName="dislike"
-                    count={votesSummary.dislikes}
+                    count={dislikes}
                     onClick={this._dislike}
-                    dataTooltip={this.tooltipContent(
-                        votesSummary.firstDislikes,
-                        votesSummary.dislikes > 10
-                    )}
+                    dataTooltip={this.tooltipContent(firstDislikes, dislikes > 10)}
                 />
                 <Action iconName="repost-right" count={repost} dataTooltip={tt('g.reblog')} />
                 <Action

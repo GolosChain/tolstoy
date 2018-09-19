@@ -39,7 +39,6 @@ const Wrapper = styled.section`
         padding-bottom: 0;
     }
 `;
-
 const CloseButton = styled.div`
     width: 24px;
     height: 24px;
@@ -130,7 +129,7 @@ const Follow = styled(FollowButton)`
 `;
 
 const Mute = styled(MuteButton)`
-    min-width: 150px;
+    min-width: 130px;
     min-height: 30px;
     margin-left: 10px;
 `;
