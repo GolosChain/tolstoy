@@ -11,6 +11,8 @@ const Container = styled.div`
     margin-top: 10px;
     top: 100%;
     z-index: 1;
+    transform: translateX(-50%);
+    cursor: default;
 
     ${is('up')`
         margin-top: 0;
@@ -19,20 +21,18 @@ const Container = styled.div`
         bottom: 100%;
     `};
 
-    transform: translateX(-50%);
     ${({ margin, screenMargin }) =>
         margin !== 0 &&
         `
             transform: translateX(calc(-50% - ${margin}px + ${screenMargin}px));
         `};
-    cursor: default;
+
     ${isNot('isOpen')`
         height: 0;
         padding-top: 0;
         padding-bottom: 0;
         overflow: hidden;
     `};
-    z-index: 1;
 `;
 
 const Decoration = styled.div`
@@ -42,7 +42,7 @@ const Decoration = styled.div`
     ${({ up }) => (up ? 'bottom: -7px;' : 'top: -7px;')};
     left: 50%;
     transform: translateX(-50%) rotate(45deg);
-    background-color: white;
+    background-color: #ffffff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
 
     ${({ margin, screenMargin }) =>
@@ -53,14 +53,14 @@ const Decoration = styled.div`
 `;
 
 const ContentWrapper = styled.div`
-    background-color: white;
+    background-color: #ffffff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
     border-radius: 5px;
     overflow: hidden;
 `;
 
 const Content = styled.div`
-    background-color: white;
+    background-color: #ffffff;
     position: relative;
 `;
 
@@ -141,15 +141,9 @@ class Popover extends Component {
         const x = Math.floor(
             this.container.getBoundingClientRect().x + margin - (margin ? screenMargin : 0)
         );
-        if (x < 0) {
-            this.setState({
-                margin: x,
-            });
-        } else {
-            this.setState({
-                margin: 0,
-            });
-        }
+        this.setState({
+            margin: x < 0 ? x : 0,
+        });
     };
 
     _checkScreenSizeLazy = throttle(this._checkContainerBoundingClientRect, 200, {
