@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import is from 'styled-is';
 import { Link } from 'react-router';
 import Icon from 'golos-ui/Icon';
 import DialogManager from 'app/components/elements/common/DialogManager';
@@ -10,17 +9,7 @@ import SafeDialog from 'src/app/components/userProfile/dialogs/SafeDialog';
 import ConvertDialog from 'src/app/components/userProfile/dialogs/ConvertDialog';
 import DelegateVestingDialog from 'src/app/components/userProfile/dialogs/DelegateVestingDialog';
 
-const Root = styled.div`
-    margin-bottom: 18px;
-    border-radius: 8px;
-    background: #fff;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
-
-    @media (max-width: 890px) {
-        margin-bottom: 14px;
-        border-radius: 0;
-    }
-`;
+const Root = styled.div``;
 
 const Action = styled.div`
     display: flex;
@@ -40,9 +29,9 @@ const Action = styled.div`
     transition: color 0.15s;
     cursor: pointer;
 
-    ${is('last')`
+    &:last-child {
         border-bottom: none;
-    `}
+    }
 
     &:hover {
         color: #000;
@@ -91,7 +80,7 @@ class RightActions extends PureComponent {
                     <ActionTitle>Делегировать Силу Голоса</ActionTitle>
                 </Action>
                 {isOwner ? (
-                    <Action last onClick={this._onConvertClick}>
+                    <Action onClick={this._onConvertClick}>
                         <ActionIcon name="refresh" />
                         <ActionTitle>Конвертировать</ActionTitle>
                     </Action>

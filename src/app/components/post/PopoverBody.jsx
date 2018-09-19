@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import is from 'styled-is';
 import PropTypes from 'prop-types';
 import Icon from '../golos-ui/Icon';
 import Userpic from 'app/components/elements/Userpic';
 import tt from 'counterpart';
 import { Link } from 'react-router';
 import FollowButton from '../common/FollowButton';
-import ToggleMuteButton from '../common/ToggleMuteButton';
+import MuteButton from '../common/MuteButton';
 import { authorSelector } from '../../redux/selectors/post/post';
 import { toggleFavoriteAction } from '../../redux/actions/favorites';
+import { USER_PINNED_POSTS_LOAD } from '../../redux/constants/pinnedPosts';
 
 const Block = styled.div`
     width: 100%;
@@ -124,38 +124,30 @@ const PostTitle = styled(Link)`
     }
 `;
 
-const FollowButtonWrapper = styled(FollowButton)`
+const Follow = styled(FollowButton)`
     min-width: 150px;
     min-height: 30px;
-
-    ${is('isMute')`
-        visibility: hidden;
-    `};
 `;
 
-const ToggleMuteButtonWrapper = styled(ToggleMuteButton)`
+const Mute = styled(MuteButton)`
     min-width: 150px;
     min-height: 30px;
     margin-left: 10px;
 `;
 
-class PopoverBody extends Component {
+class Popover extends Component {
     static propTypes = {
         close: PropTypes.func.isRequired,
-        follow: PropTypes.func.isRequired,
-        unfollow: PropTypes.func.isRequired,
     };
 
+    componentDidMount() {
+        if (this.props.pinnedPostsUrls) {
+            this.props.getPostContent(this.props.pinnedPostsUrls);
+        }
+    }
+
     render() {
-        const {
-            account,
-            name,
-            about,
-            followerCount,
-            pinnedPosts,
-            isFollow,
-            className,
-        } = this.props;
+        const { account, name, about, followerCount, pinnedPosts, className } = this.props;
 
         return (
             <Wrapper className={className}>
@@ -188,41 +180,12 @@ class PopoverBody extends Component {
                     </Block>
                 )}
                 <ButtonsBlock>
-                    <FollowButtonWrapper
-                        isFollow={isFollow}
-                        followUser={this._followUser}
-                        unfollowUser={this._unfollowUser}
-                        isMute={false}
-                    />
-                    <ToggleMuteButtonWrapper
-                        isMute={false}
-                        muteUser={this._muteUser}
-                        unMuteUser={this._unmuteUser}
-                    />
+                    <Follow following={account} onClick={this._closePopover} />
+                    <Mute muting={account} onClick={this._closePopover} />
                 </ButtonsBlock>
             </Wrapper>
         );
     }
-
-    _followUser = () => {
-        this.props.author.follow();
-        this._closePopover();
-    };
-
-    _unfollowUser = () => {
-        this.props.author.unfollow();
-        this._closePopover();
-    };
-
-    _muteUser = () => {
-        // this.props.author.mute(); add mute function
-        this._closePopover();
-    };
-
-    _unmuteUser = () => {
-        // this.props.author.unmute(); add unmute function
-        this._closePopover();
-    };
 
     _closePopover = () => {
         this.props.close();
@@ -237,7 +200,7 @@ const mapStateToProps = (state, props) => {
         about: author.about,
         followerCount: author.followerCount,
         pinnedPosts: author.pinnedPosts,
-        isFollow: author.isFollow,
+        pinnedPostsUrls: author.pinnedPostsUrls,
     };
 };
 
@@ -246,10 +209,15 @@ const mapDispatchToProps = dispatch => {
         toggleFavorite: (link, isAdd) => {
             dispatch(toggleFavoriteAction({ link, isAdd }));
         },
+        getPostContent: urls => {
+            dispatch({
+                type: USER_PINNED_POSTS_LOAD,
+                payload: {
+                    urls,
+                },
+            });
+        },
     };
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(PopoverBody);
+export default FollowButtonWrapperconnect(mapStateToProps, mapDispatchToProps)(Popover);
