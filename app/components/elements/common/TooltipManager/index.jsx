@@ -34,7 +34,7 @@ export default class TooltipManager extends React.PureComponent {
                 {tooltip ? (
                     <div
                         key={tooltip.key}
-                        className={cn('Tooltip', tooltip.addClass)}
+                        className={cn('Popover', tooltip.addClass)}
                         style={tooltip.style}
                         dangerouslySetInnerHTML={tooltip.isHtml ? { __html: tooltip.text } : null}
                     >

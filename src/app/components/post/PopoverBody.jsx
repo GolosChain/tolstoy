@@ -139,7 +139,7 @@ const ToggleMuteButtonWrapper = styled(ToggleMuteButton)`
     margin-left: 10px;
 `;
 
-class Popover extends Component {
+class PopoverBody extends Component {
     static propTypes = {
         close: PropTypes.func.isRequired,
         follow: PropTypes.func.isRequired,
@@ -252,4 +252,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Popover);
+)(PopoverBody);

@@ -1,34 +1,58 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
+import is from 'styled-is';
 import VotePanel from '../../components/common/VotePanel/VotePanel';
 import Icon from '../../components/golos-ui/Icon/Icon';
 import ReplyBlock from '../../components/common/ReplyBlock/ReplyBlock';
-import Tooltip from '../../components/post/Tooltip';
 import tt from 'counterpart';
-import { postSelector } from '../../redux/selectors/post/post';
-import { currentUserSelector } from '../../redux/selectors/common';
+import {
+    authorSelector,
+    currentPostSelector,
+    currentUsernameSelector,
+    postSelector,
+    votesSummarySelector,
+} from '../../redux/selectors/post/post';
+import { confirmVote } from '../../helpers/votes';
+import { onVote } from '../../redux/actions/vote';
+import { togglePinAction } from '../../redux/actions/pinnedPosts';
+import Popover from 'golos-ui/Popover';
 
 const Wrapper = styled.div`
     display: flex;
-    justify-content: space-between;
+    align-items: center;
     width: 100%;
     padding: 34px 0 30px 0;
-`;
 
-const HoldingBlock = styled.div`
-    display: flex;
-    align-items: center;
+    @media (max-width: 768px) {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        grid-template-areas:
+            'vpw vpm vpm vpm vpm dm'
+            'rsw rsw . . rbs rbs';
+        overflow: hidden;
+    }
 `;
 
 const Divider = styled.div`
     width: 1px;
     height: 26px;
     background: #e1e1e1;
+
+    @media (max-width: 768px) {
+        display: none;
+    }
 `;
 
 const VotePanelWrapper = styled(VotePanel)`
     padding: 12px 22px 12px 0;
+
+    @media (max-width: 768px) {
+        display: -webkit-box;
+        padding-left: 14px;
+        grid-area: vpw;
+    }
 `;
 
 const Repost = styled.div`
@@ -45,16 +69,10 @@ const Repost = styled.div`
             transform: scale(1.15);
         }
     }
-`;
 
-const CountOf = styled.div`
-    padding-left: 7px;
-    color: #757575;
-    font-family: Roboto, sans-serif;
-    font-size: 18px;
-    font-weight: 300;
-    letter-spacing: 1.8px;
-    line-height: 23px;
+    @media (max-width: 768px) {
+        padding-left: 13px;
+    }
 `;
 
 const SharingTriangle = Repost.extend`
@@ -67,6 +85,18 @@ const DotsMore = Repost.extend`
 
     svg {
         padding: 12px 4px;
+    }
+
+    ${is('isOpen')`
+        & > svg {
+            transition: color 0s;
+            color: #2578be;
+        }
+    `};
+
+    @media (max-width: 768px) {
+        grid-area: dm;
+        justify-self: end;
     }
 `;
 
@@ -102,6 +132,25 @@ const ActionText = styled.div`
 
 const ActionIcon = styled(Icon)``;
 
+const ReplyBlockStyled = styled(ReplyBlock)`
+    margin-left: auto;
+
+    @media (max-width: 768px) {
+        margin-left: 0;
+        justify-self: end;
+        grid-area: rbs;
+    }
+`;
+
+const RepostSharingWrapper = styled.div`
+    display: flex;
+
+    @media (max-width: 768px) {
+        margin-left: -2px;
+        grid-area: rsw;
+    }
+`;
+
 ActionIcon.defaultProps = {
     width: 20,
     height: 20,
@@ -109,79 +158,82 @@ ActionIcon.defaultProps = {
 
 class ActivePanel extends Component {
     state = {
-        showPanel: true,
         activeDotsMore: false,
     };
 
     render() {
+        const { activeDotsMore } = this.state;
         const { data, username } = this.props;
 
         return (
             <Wrapper>
-                <HoldingBlock>
-                    <VotePanelWrapper
-                        data={data}
-                        me={username}
-                        whiteTheme={false}
-                        onChange={this._voteChange}
-                    />
-                    <Divider />
+                <VotePanelWrapper
+                    data={data}
+                    me={username}
+                    whiteTheme={false}
+                    onChange={this._voteChange}
+                />
+                <Divider />
+                <RepostSharingWrapper>
                     <Repost>
                         <Icon width="30" height="27" name="repost-right" />
-                        <CountOf>20</CountOf>
                     </Repost>
                     <Divider />
                     <SharingTriangle>
                         <Icon width="26" height="26" name="sharing_triangle" />
                     </SharingTriangle>
-                    <Divider />
-                    <DotsMore>
-                        <Icon
-                            width="32"
-                            height="32"
-                            name={this.state.activeDotsMore ? 'dots-more_pressed' : 'dots-more_normal'}
-                            onClick={this._openPopover}
-                        />
-                        <Tooltip
-                            ref={ref => (this.tooltip = ref)}
-                            up={true}
-                            changedIsOpen={this.toggleDots}
-                        >
-                            <ActionsBlock>
-                                <Action onClick={this._pinPost}>
-                                    <ActionIcon name="pin" />
-                                    <ActionText>{tt('active_panel_tooltip.pin_post')}</ActionText>
-                                </Action>
-                                <Action onClick={this._promotePost}>
-                                    <ActionIcon name="brilliant" />
-                                    <ActionText>{tt('active_panel_tooltip.promote_post')}</ActionText>
-                                </Action>
-                                <Action onClick={this._flagPost}>
-                                    <ActionIcon name="complain_normal" />
-                                    <ActionText>{tt('active_panel_tooltip.complain_about_post')}</ActionText>
-                                </Action>
-                            </ActionsBlock>
-                        </Tooltip>
-                    </DotsMore>
-                </HoldingBlock>
-                <HoldingBlock>
-                    <ReplyBlock
-                        withImage={false}
-                        count={data.get('children')}
-                        link={data.get('link')}
-                        text="Ответить"
+                </RepostSharingWrapper>
+                <Divider />
+                <DotsMore isOpen={activeDotsMore}>
+                    <Icon
+                        width="32"
+                        height="32"
+                        name="dots-more_normal"
+                        onClick={this._openPopover}
                     />
-                </HoldingBlock>
+                    <Popover
+                        ref={ref => (this.tooltip = ref)}
+                        up={true}
+                        handleToggleOpen={this.toggleDots}
+                    >
+                        <ActionsBlock>
+                            <Action onClick={this._togglePin}>
+                                <ActionIcon name="pin" />
+                                <ActionText>{tt('active_panel_tooltip.pin_post')}</ActionText>
+                            </Action>
+                            <Action onClick={this._promotePost}>
+                                <ActionIcon name="brilliant" />
+                                <ActionText>{tt('active_panel_tooltip.promote_post')}</ActionText>
+                            </Action>
+                            <Action onClick={this._flagPost}>
+                                <ActionIcon name="complain_normal" />
+                                <ActionText>
+                                    {tt('active_panel_tooltip.complain_about_post')}
+                                </ActionText>
+                            </Action>
+                        </ActionsBlock>
+                    </Popover>
+                </DotsMore>
+                <ReplyBlockStyled
+                    withImage={false}
+                    count={data.get('children')}
+                    link={data.get('link')}
+                    text="Ответить"
+                />
             </Wrapper>
         );
     }
 
-    _voteChange = param => {
-        console.log(param);
-    };
-
-    _pinPost = () => {
-        this._closePopover();
+    _voteChange = async percent => {
+        const {
+            votesSummary: { myVote },
+            username,
+            permLink,
+            account,
+        } = this.props;
+        if (await confirmVote(myVote, percent)) {
+            this.props.onVote(username, account, permLink, percent);
+        }
     };
 
     _promotePost = () => {
@@ -200,20 +252,39 @@ class ActivePanel extends Component {
         this.tooltip.close();
     };
 
+    _togglePin = () => {
+        const { account, permLink, isPinned } = this.props;
+        this.props.togglePin(account + '/' + permLink, !isPinned);
+        this._closePopover();
+    };
+
     toggleDots = () => {
         this.setState({ activeDotsMore: !this.state.activeDotsMore });
     };
 }
 
 const mapStateToProps = (state, props) => {
+    const post = currentPostSelector(state, props);
+    const author = authorSelector(state, props);
     return {
+        votesSummary: votesSummarySelector(state, props),
         data: postSelector(state, props),
-        username: currentUserSelector(state).get('username'),
+        username: currentUsernameSelector(state),
+        permLink: post.permLink,
+        account: author.account,
+        isPinned: author.pinnedPostsUrls.includes(author.account + '/' + post.permLink),
     };
 };
 
 const mapDispatchToProps = dispatch => {
-    return {};
+    return {
+        onVote: (voter, author, permLink, percent) => {
+            dispatch(onVote(voter, author, permLink, percent));
+        },
+        togglePin: (link, isPin) => {
+            dispatch(togglePinAction(link, isPin));
+        },
+    };
 };
 
 export default connect(

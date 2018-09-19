@@ -13,7 +13,6 @@ const Container = styled.div`
     z-index: 1;
 
     ${is('up')`
-
         margin-top: 0;
         margin-bottom: 10px;
         top: auto;
@@ -65,23 +64,28 @@ const Content = styled.div`
     position: relative;
 `;
 
-class Tooltip extends Component {
+class Popover extends Component {
     static propTypes = {
         screenMargin: PropTypes.number,
         up: PropTypes.bool,
-        changedIsOpen: PropTypes.func,
+        handleToggleOpen: PropTypes.func,
+        opened: PropTypes.bool,
     };
 
     static defaultProps = {
         screenMargin: 20,
         up: false,
-        changedIsOpen: () => {},
+        handleToggleOpen: () => {},
+        opened: false,
     };
 
-    state = {
-        margin: 0,
-        isOpen: false,
-    };
+    constructor(props) {
+        super();
+        this.state = {
+            margin: 0,
+            isOpen: props.opened,
+        };
+    }
 
     componentDidMount() {
         this._checkContainerBoundingClientRect();
@@ -116,15 +120,15 @@ class Tooltip extends Component {
 
     open = () => {
         if (!this.state.isOpen) {
-            this.props.changedIsOpen();
             this.setState({ isOpen: true });
+            this.props.handleToggleOpen();
         }
     };
 
     close = () => {
         if (this.state.isOpen) {
-            this.props.changedIsOpen();
             this.setState({ isOpen: false });
+            this.props.handleToggleOpen();
         }
     };
 
@@ -156,4 +160,4 @@ class Tooltip extends Component {
     });
 }
 
-export default Tooltip;
+export default Popover;
