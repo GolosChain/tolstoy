@@ -15,6 +15,7 @@ import cookie from "react-cookie";
 import { SELECT_TAGS_KEY } from 'app/client_config';
 import transaction from 'app/redux/Transaction'
 import o2j from 'shared/clash/object2json'
+import Navigation from 'src/app/components/main/Navigation';
 
 class PostsIndex extends React.Component {
 
@@ -173,41 +174,44 @@ class PostsIndex extends React.Component {
         const metaData = account ? o2j.ifStringParseJSON(json_metadata) : {}
 
         return (
-            <div className={'PostsIndex row' + (fetching ? ' fetching' : '')}>
-                <div className="PostsIndex__left column small-collapse">
-                    <div className="PostsIndex__topics_compact show-for-small hide-for-medium">
+            <div>
+                <Navigation />
+                <div className={'PostsIndex row' + (fetching ? ' fetching' : '')}>
+                    <div className="PostsIndex__left column small-collapse">
+                        <div className="PostsIndex__topics_compact show-for-small hide-for-medium">
+                            <Topics
+                                categories={categories}
+                                order={topics_order}
+                                current={category}
+                                loading={fetching}
+                                loadSelected={this.loadSelected}
+                                compact
+                            />
+                        </div>
+                        {(!fetching && (posts && !posts.size)) ? <Callout>{emptyText}</Callout> :
+                            <PostsList
+                                ref={this.listRef}
+                                posts={posts ? posts : Immutable.List()}
+                                loading={fetching}
+                                category={category}
+                                loadMore={this.loadMore}
+                                showSpam={showSpam}
+                            />}
+                    </div>
+                    <div className="PostsIndex__topics column shrink show-for-large">
                         <Topics
                             categories={categories}
                             order={topics_order}
                             current={category}
                             loading={fetching}
                             loadSelected={this.loadSelected}
-                            compact
+                            compact={false}
+                            user={this.props.username}
+                            updateSubscribe={this.updateSubscribe}
+                            metaData={metaData}
                         />
+                        <small><a onClick={this.onShowSpam}>{tt(showSpam ? 'g.next_3_strings_together.show_less' : 'g.next_3_strings_together.show_more')}</a><br/>{tt('g.next_3_strings_together.value_posts')}</small>
                     </div>
-                    {(!fetching && (posts && !posts.size)) ? <Callout>{emptyText}</Callout> :
-                        <PostsList
-                            ref={this.listRef}
-                            posts={posts ? posts : Immutable.List()}
-                            loading={fetching}
-                            category={category}
-                            loadMore={this.loadMore}
-                            showSpam={showSpam}
-                        />}
-                </div>
-                <div className="PostsIndex__topics column shrink show-for-large">
-                    <Topics
-                        categories={categories}
-                        order={topics_order}
-                        current={category}
-                        loading={fetching}
-                        loadSelected={this.loadSelected}
-                        compact={false}
-                        user={this.props.username}
-                        updateSubscribe={this.updateSubscribe}
-                        metaData={metaData}
-                    />
-                    <small><a onClick={this.onShowSpam}>{tt(showSpam ? 'g.next_3_strings_together.show_less' : 'g.next_3_strings_together.show_more')}</a><br/>{tt('g.next_3_strings_together.value_posts')}</small>
                 </div>
             </div>
         );
