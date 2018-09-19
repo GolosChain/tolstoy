@@ -93,6 +93,7 @@ class Popover extends Component {
     componentWillUnmount() {
         window.removeEventListener('resize', this._checkScreenSizeLazy);
         window.removeEventListener('click', this._checkClick, true);
+        this._checkScreenSizeLazy.cancel();
     }
 
     render() {
