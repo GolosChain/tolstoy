@@ -8,7 +8,6 @@ import {
     authorSelector,
     currentPostSelector,
     currentUsernameSelector,
-    repostSelector,
     votesSummarySelector,
 } from '../../redux/selectors/post/post';
 import { toggleFavoriteAction } from '../../redux/actions/favorites';
