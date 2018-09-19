@@ -75,17 +75,14 @@ class Popover extends Component {
     static defaultProps = {
         screenMargin: 20,
         up: false,
-        handleToggleOpen: () => {},
+        onToggleOpen: () => {},
         opened: false,
     };
 
-    constructor(props) {
-        super();
-        this.state = {
-            margin: 0,
-            isOpen: props.opened,
-        };
-    }
+    state = {
+        margin: 0,
+        isOpen: this.props.opened,
+    };
 
     componentDidMount() {
         this._checkContainerBoundingClientRect();
@@ -121,14 +118,14 @@ class Popover extends Component {
     open = () => {
         if (!this.state.isOpen) {
             this.setState({ isOpen: true });
-            this.props.handleToggleOpen();
+            this.props.onToggleOpen();
         }
     };
 
     close = () => {
         if (this.state.isOpen) {
             this.setState({ isOpen: false });
-            this.props.handleToggleOpen();
+            this.props.onToggleOpen();
         }
     };
 
