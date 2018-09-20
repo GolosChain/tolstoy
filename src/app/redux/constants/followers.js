@@ -1,0 +1,1 @@
+export const USER_FOLLOW_DATA_LOAD = 'user/FOLLOW_DATA_LOAD';
