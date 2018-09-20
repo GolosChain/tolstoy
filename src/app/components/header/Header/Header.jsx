@@ -135,9 +135,9 @@ const NewPostLink = styled(Link)`
 const NewPostButton = styled(Button)``;
 
 const NewPostIcon = styled(Icon)`
-    width: 17px;
-    height: 17px;
-    margin-right: 1px;
+    width: 16px;
+    height: 16px;
+    margin-right: 7px !important;
 `;
 
 const AccountInfoWrapper = styled.div`

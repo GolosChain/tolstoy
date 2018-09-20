@@ -36,7 +36,6 @@ const IconWrapper = styled.div`
     justify-content: center;
     width: 26px;
     margin-right: 20px;
-    overflow: hidden;
 `;
 
 const LinkStyled = styled(Link)`
@@ -85,13 +84,13 @@ export default class AccountMenu extends PureComponent {
                 link: `/@${myAccountName}/feed`,
                 icon: 'home',
                 text: tt('g.feed'),
-                size: 25,
+                size: 26,
             },
             {
                 link: `/@${myAccountName}`,
                 icon: 'blog',
                 text: tt('g.blog'),
-                size: 19,
+                size: 20,
             },
             {
                 link: `/@${myAccountName}/comments`,
@@ -103,7 +102,10 @@ export default class AccountMenu extends PureComponent {
                 link: `/@${myAccountName}/recent-replies`,
                 icon: 'comment-reply',
                 text: tt('g.replies'),
-                size: 23,
+                size: 25,
+                style: {
+                    transform: 'translateX(2px)',
+                },
             },
             $STM_Config.is_sandbox
                 ? {
@@ -129,7 +131,7 @@ export default class AccountMenu extends PureComponent {
                 link: `/@${myAccountName}/settings`,
                 icon: 'settings',
                 text: tt('g.settings'),
-                size: 23,
+                size: 24,
             },
             {
                 icon: 'logout',
@@ -151,11 +153,11 @@ export default class AccountMenu extends PureComponent {
                     </div>
                 </PriceBlock>
                 <Ul>
-                    {items.map(({ link, icon, text, size, onClick }, i) => (
+                    {items.map(({ link, icon, text, size, style, onClick }, i) => (
                         <Li key={i}>
                             <LinkStyled href={link} onClick={onClick}>
                                 <IconWrapper>
-                                    <IconStyled name={icon} size={size || 22} />
+                                    <IconStyled name={icon} size={size || 22} style={style} />
                                 </IconWrapper>
                                 {text}
                             </LinkStyled>
