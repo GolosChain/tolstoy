@@ -7,8 +7,9 @@ import { connect } from 'react-redux';
 import {followSelector} from '../../../redux/selectors/follow/follow';
 import {currentUsernameSelector} from '../../../redux/selectors/common';
 import {updateFollow} from '../../../redux/actions/follow';
+import styled from 'styled-components';
 
-const Wrapper = Button.extend`
+const Wrapper = styled(Button)`
     min-width: 100%;
     min-height: 100%;
     font-size: 12px;
