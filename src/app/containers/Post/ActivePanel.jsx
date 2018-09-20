@@ -103,7 +103,7 @@ const DotsMore = Repost.extend`
 
 const ActionsBlock = styled.div`
     padding: 20px 30px;
-    
+
     @media (max-width: 768px) {
         position: relative;
         max-width: calc(100vw - 60px);
@@ -178,16 +178,20 @@ const CloseDialog = styled.div`
     &:hover svg {
         color: #b9b9b9;
     }
-    
+
     @media (max-width: 768px) {
         display: flex;
     }
 `;
 
-const ActionsBlockHolder = ({ togglePin, promotePost, flagPost, close }) => {
+const ActionsBlockHolder = ({ togglePin, promotePost, flagPost, close, ...props }) => {
+    let closeDialog = close;
+    if (!closeDialog) {
+        closeDialog = props.onClose;
+    }
     return (
         <ActionsBlock>
-            <CloseDialog onClick={close}>
+            <CloseDialog onClick={closeDialog}>
                 <Icon name="cross" width={16} height={16} />
             </CloseDialog>
             <Action onClick={togglePin}>
@@ -220,6 +224,10 @@ ActionIcon.defaultProps = {
 class ActivePanel extends Component {
     state = {
         activeDotsMore: false,
+    };
+
+    static defaultProps = {
+        isPadScreen: false,
     };
 
     render() {
@@ -278,7 +286,7 @@ class ActivePanel extends Component {
     }
 
     _onRef = ref => {
-        this.tooltip = ref
+        this.tooltip = ref;
     };
 
     _voteChange = async percent => {
@@ -302,10 +310,10 @@ class ActivePanel extends Component {
     };
 
     _openPopover = () => {
-        if (false) {
-            this.tooltip.open();
-        } else {
+        if (this.props.isPadScreen) {
             this._openMobileDialog();
+        } else {
+            this.tooltip.open();
         }
     };
 
@@ -326,6 +334,11 @@ class ActivePanel extends Component {
     _openMobileDialog = () => {
         DialogManager.showDialog({
             component: ActionsBlockHolder,
+            props: {
+                togglePin: this._togglePin,
+                promotePost: this._promotePost,
+                flagPost: this._flagPost,
+            },
         });
     };
 }

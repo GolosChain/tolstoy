@@ -37,7 +37,6 @@ class PostContainer extends Component {
     }
 
     render() {
-        console.log(window.innerWidth);
         const { postLoaded } = this.props;
         if (!postLoaded) return null;
         return (

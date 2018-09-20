@@ -124,6 +124,10 @@ const PopoverStyled = styled(Popover)`
 `;
 
 class PostHeader extends Component {
+    static defaultProps = {
+        isPadScreen: false,
+    };
+
     render() {
         const { isMy, created, isFavorite, author, isFollow, className } = this.props;
         return (
@@ -161,14 +165,14 @@ class PostHeader extends Component {
     }
 
     _onRef = ref => {
-        this.tooltip = ref
+        this.tooltip = ref;
     };
 
     _openPopover = () => {
-        if (false) {
-            this.tooltip.open();
-        } else {
+        if (this.props.isPadScreen) {
             this._openMobileDialog();
+        } else {
+            this.tooltip.open();
         }
     };
 
@@ -193,8 +197,8 @@ class PostHeader extends Component {
         DialogManager.showDialog({
             component: PopoverBody,
             props: {
-                author: this.props.author
-            }
+                author: this.props.author,
+            },
         });
     };
 }

@@ -144,7 +144,7 @@ const Mute = styled(MuteButton)`
 
 class PopoverBody extends Component {
     static propTypes = {
-        close: PropTypes.func.isRequired,
+        close: PropTypes.func,
     };
 
     componentDidMount() {
@@ -195,7 +195,11 @@ class PopoverBody extends Component {
     }
 
     _closePopover = () => {
-        this.props.close();
+        if (this.props.onClose) {
+            this.props.onClose()
+        } else {
+            this.props.close()
+        }
     };
 }
 
