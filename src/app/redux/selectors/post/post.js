@@ -84,6 +84,10 @@ export const authorSelector = createDeepEqualSelector(
             name: authorAccountName,
         });
         const pinnedPostsUrls = extractPinnedPostData(authorData.get('json_metadata'));
+        const created = authorData.get('created');
+        const date = new Date(created);
+        const joinMonth = tt('months_names')[date.getMonth()];
+        const joinYear = date.getFullYear();
         return {
             name: jsonData.name || authorAccountName,
             account: authorAccountName,
@@ -100,7 +104,8 @@ export const authorSelector = createDeepEqualSelector(
                         url: post.get('url'),
                     };
                 }),
-            created: authorData.get('created'),
+            created,
+            joinDate: joinMonth + ' ' + joinYear,
         };
     }
 );

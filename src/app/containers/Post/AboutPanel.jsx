@@ -131,7 +131,6 @@ class AboutPanel extends Component {
     render() {
         const { name, account, about, joinDate } = this.props;
 
-
         return (
             <Wrapper>
                 <Avatar>
@@ -147,9 +146,7 @@ class AboutPanel extends Component {
                     <Icon width="36" height="34" name="cake" />
                     <CakeText>
                         {tt('on_golos_from')}
-                        <span>
-                            {joinDate}
-                        </span>
+                        <span>{joinDate}</span>
                     </CakeText>
                 </Cake>
                 <Buttons>
@@ -166,15 +163,10 @@ class AboutPanel extends Component {
 
 const mapStateToProps = (state, props) => {
     const author = authorSelector(state, props);
-
-    const date = new Date(author.created);
-    const joinMonth = tt('months_names')[date.getMonth()];
-    const joinYear = date.getFullYear();
-
     return {
         name: author.name,
         account: author.account,
-        joinDate: joinMonth + ' ' + joinYear,
+        joinDate: author.joinDate,
         about: author.about,
     };
 };
