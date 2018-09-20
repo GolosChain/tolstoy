@@ -243,7 +243,7 @@ class ActivePanel extends Component {
                 />
                 <Divider />
                 <RepostSharingWrapper>
-                    <Repost что={tt('g.reblog')}>
+                    <Repost data-tooltip={tt('g.reblog')}>
                         <Icon width="30" height="27" name="repost-right" />
                     </Repost>
                     <Divider />
