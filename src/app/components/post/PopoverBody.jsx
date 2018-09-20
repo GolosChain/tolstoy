@@ -38,7 +38,15 @@ const Wrapper = styled.section`
         border-bottom: none;
         padding-bottom: 0;
     }
+    
+    @media (max-width: 768px) {
+        max-width: calc(100vw - 60px);
+        min-width: 330px;
+        background: #ffffff;
+        border-radius: 7px;
+    }
 `;
+
 const CloseButton = styled.div`
     width: 24px;
     height: 24px;

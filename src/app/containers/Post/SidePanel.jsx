@@ -136,7 +136,6 @@ class SidePanel extends Component {
             >
                 <Action
                     isActive={myVote}
-                <Action
                     iconName="like"
                     count={likes}
                     onClick={this._like}
@@ -149,7 +148,7 @@ class SidePanel extends Component {
                     onClick={this._dislike}
                     dataTooltip={this.tooltipContent(firstDislikes, dislikes > 10)}
                 />
-                <Action iconName="repost-right" count={repost} dataTooltip={tt('g.reblog')} />
+                <Action iconName="repost-right" dataTooltip={tt('g.reblog')} />
                 <Action
                     iconName="sharing_triangle"
                     dataTooltip={tt('postfull_jsx.share_in_social_networks')}

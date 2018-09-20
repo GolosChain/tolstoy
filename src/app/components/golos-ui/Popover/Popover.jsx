@@ -6,7 +6,6 @@ import is, { isNot } from 'styled-is';
 
 const Container = styled.div`
     max-width: calc(100vw - ${({ screenMargin }) => screenMargin * 3}px);
-    min-width: 330px;
     position: absolute;
     left: 50%;
     margin-top: 10px;

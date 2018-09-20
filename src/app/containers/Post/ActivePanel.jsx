@@ -11,13 +11,13 @@ import {
     currentPostSelector,
     currentUsernameSelector,
     postSelector,
-    repostSelector,
     votesSummarySelector,
 } from '../../redux/selectors/post/post';
 import { confirmVote } from '../../helpers/votes';
 import { onVote } from '../../redux/actions/vote';
 import { togglePinAction } from '../../redux/actions/pinnedPosts';
 import Popover from '../../components/golos-ui/Popover/Popover';
+import DialogManager from '../../../../app/components/elements/common/DialogManager/index';
 
 const Wrapper = styled.div`
     display: flex;
@@ -103,6 +103,14 @@ const DotsMore = Repost.extend`
 
 const ActionsBlock = styled.div`
     padding: 20px 30px;
+    
+    @media (max-width: 768px) {
+        position: relative;
+        max-width: calc(100vw - 60px);
+        min-width: 295px;
+        background: #ffffff;
+        border-radius: 7px;
+    }
 `;
 
 const Action = styled.div`
@@ -152,6 +160,58 @@ const RepostSharingWrapper = styled.div`
     }
 `;
 
+const CloseDialog = styled.div`
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+
+    & svg {
+        color: #e1e1e1;
+    }
+
+    &:hover svg {
+        color: #b9b9b9;
+    }
+    
+    @media (max-width: 768px) {
+        display: flex;
+    }
+`;
+
+const ActionsBlockHolder = ({ togglePin, promotePost, flagPost, close }) => {
+    return (
+        <ActionsBlock>
+            <CloseDialog onClick={close}>
+                <Icon name="cross" width={16} height={16} />
+            </CloseDialog>
+            <Action onClick={togglePin}>
+                <ActionIcon name="pin" />
+                <ActionText>{tt('active_panel_tooltip.pin_post')}</ActionText>
+            </Action>
+            <Action onClick={promotePost}>
+                <ActionIcon name="brilliant" />
+                <ActionText>{tt('active_panel_tooltip.promote_post')}</ActionText>
+            </Action>
+            <Action onClick={flagPost}>
+                <ActionIcon name="complain_normal" />
+                <ActionText>{tt('active_panel_tooltip.complain_about_post')}</ActionText>
+            </Action>
+        </ActionsBlock>
+    );
+};
+
+const PopoverStyled = styled(Popover)`
+    @media (max-width: 768px) {
+        display: none;
+    }
+`;
+
 ActionIcon.defaultProps = {
     width: 20,
     height: 20,
@@ -164,7 +224,7 @@ class ActivePanel extends Component {
 
     render() {
         const { activeDotsMore } = this.state;
-        const { data, username, repost } = this.props;
+        const { data, username } = this.props;
         return (
             <Wrapper>
                 <VotePanelWrapper
@@ -175,7 +235,7 @@ class ActivePanel extends Component {
                 />
                 <Divider />
                 <RepostSharingWrapper>
-                    <Repost data-tooltip={tt('g.reblog')}>
+                    <Repost что={tt('g.reblog')}>
                         <Icon width="30" height="27" name="repost-right" />
                     </Repost>
                     <Divider />
@@ -194,28 +254,18 @@ class ActivePanel extends Component {
                         name="dots-more_normal"
                         onClick={this._openPopover}
                     />
-                    <Popover
-                        ref={ref => (this.tooltip = ref)}
+                    <PopoverStyled
+                        innerRef={this._onRef}
                         up={true}
                         handleToggleOpen={this.toggleDots}
                     >
-                        <ActionsBlock>
-                            <Action onClick={this._togglePin}>
-                                <ActionIcon name="pin" />
-                                <ActionText>{tt('active_panel_tooltip.pin_post')}</ActionText>
-                            </Action>
-                            <Action onClick={this._promotePost}>
-                                <ActionIcon name="brilliant" />
-                                <ActionText>{tt('active_panel_tooltip.promote_post')}</ActionText>
-                            </Action>
-                            <Action onClick={this._flagPost}>
-                                <ActionIcon name="complain_normal" />
-                                <ActionText>
-                                    {tt('active_panel_tooltip.complain_about_post')}
-                                </ActionText>
-                            </Action>
-                        </ActionsBlock>
-                    </Popover>
+                        <ActionsBlockHolder
+                            togglePin={this._togglePin}
+                            promotePost={this._promotePost}
+                            flagPost={this._flagPost}
+                            close={this._closePopover}
+                        />
+                    </PopoverStyled>
                 </DotsMore>
                 <ReplyBlockStyled
                     withImage={false}
@@ -226,6 +276,10 @@ class ActivePanel extends Component {
             </Wrapper>
         );
     }
+
+    _onRef = ref => {
+        this.tooltip = ref
+    };
 
     _voteChange = async percent => {
         const {
@@ -248,7 +302,11 @@ class ActivePanel extends Component {
     };
 
     _openPopover = () => {
-        this.tooltip.open();
+        if (false) {
+            this.tooltip.open();
+        } else {
+            this._openMobileDialog();
+        }
     };
 
     _closePopover = () => {
@@ -264,6 +322,12 @@ class ActivePanel extends Component {
     toggleDots = () => {
         this.setState({ activeDotsMore: !this.state.activeDotsMore });
     };
+
+    _openMobileDialog = () => {
+        DialogManager.showDialog({
+            component: ActionsBlockHolder,
+        });
+    };
 }
 
 const mapStateToProps = (state, props) => {
@@ -276,7 +340,6 @@ const mapStateToProps = (state, props) => {
         permLink: post.permLink,
         account: author.account,
         isPinned: author.pinnedPostsUrls.includes(author.account + '/' + post.permLink),
-        repost: repostSelector(state, props),
     };
 };
 
