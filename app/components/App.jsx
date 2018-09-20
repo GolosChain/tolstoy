@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { ThemeProvider, injectGlobal } from 'styled-components';
 import AppPropTypes from 'app/utils/AppPropTypes';
 import Header from 'src/app/components/header/Header';
-import Header_ from 'app/components/modules/Header'; //  TODO: Remove
 import Footer from 'app/components/modules/Footer';
 import TooltipManager from 'app/components/elements/common/TooltipManager';
 import user from 'app/redux/User';
