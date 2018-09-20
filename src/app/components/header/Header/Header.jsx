@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import styled from 'styled-components';
 import is from 'styled-is';
 import throttle from 'lodash/throttle';
+import tt from 'counterpart';
 import Icon from 'golos-ui/Icon';
 import Button from 'golos-ui/Button';
 import Userpic from 'app/components/elements/Userpic';
@@ -12,6 +13,7 @@ import MobilePopover from '../MobilePopover';
 import AccountMenu from '../AccountMenu';
 import Popover from '../Popover';
 import Menu from '../Menu';
+import user from 'app/redux/User';
 
 const MIN_MOBILE_WIDTH = 500;
 
@@ -119,6 +121,10 @@ const SearchIcon = styled(Icon)`
     width: 18px;
     height: 18px;
     color: #393636;
+`;
+
+const RegistrationLink = styled(Link)`
+    margin-right: 12px;
 `;
 
 const NewPostLink = styled(Link)`
@@ -265,20 +271,25 @@ const PowerCircle = styled.div`
     box-shadow: 0 2px 7px 1px rgba(0, 0, 0, 0.1);
 `;
 
-@connect(state => {
-    const myAccountName = state.user.getIn(['current', 'username']);
+@connect(
+    state => {
+        const myAccountName = state.user.getIn(['current', 'username']);
 
-    let votingPower = null;
+        let votingPower = null;
 
-    if (myAccountName) {
-        votingPower = state.global.getIn(['accounts', myAccountName, 'voting_power']) / 100;
+        if (myAccountName) {
+            votingPower = state.global.getIn(['accounts', myAccountName, 'voting_power']) / 100;
+        }
+
+        return {
+            myAccountName,
+            votingPower,
+        };
+    },
+    {
+        onLogin: () => user.actions.showLogin(),
     }
-
-    return {
-        myAccountName,
-        votingPower,
-    };
-})
+)
 export default class Header extends PureComponent {
     state = {
         isAccountOpen: false,
@@ -321,8 +332,12 @@ export default class Header extends PureComponent {
                             this._renderAuthorizedPart()
                         ) : (
                             <Fragment>
-                                <Button>Войти</Button>
-                                <Button>Регистрация</Button>
+                                <RegistrationLink to="https://reg.golos.io/">
+                                    <Button>{tt('g.sign_up')}</Button>
+                                </RegistrationLink>
+                                <Link to="/login.html" onClick={this._onLoginClick}>
+                                    <Button light>{tt('g.login')}</Button>
+                                </Link>
                             </Fragment>
                         )}
                         {isMobile ? null : (
@@ -470,6 +485,12 @@ export default class Header extends PureComponent {
         this.setState({
             isMenuOpen: false,
         });
+    };
+
+    _onLoginClick = e => {
+        e.preventDefault();
+
+        this.props.onLogin();
     };
 }
 

@@ -4,11 +4,10 @@ import tt from 'counterpart';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
-import { TabLink as StyledTabLink, TabLinkIndex as StyledTabLinkIndex } from 'golos-ui/Tab';
-
+import { TabLink } from 'golos-ui/Tab';
 import SlideContainer from 'src/app/components/common/SlideContainer';
 
-const TabLink = styled(StyledTabLink)`
+const TabLinkStyled = styled(TabLink)`
     &.${({ activeClassName }) => activeClassName} {
         :after {
             content: '';
@@ -21,11 +20,9 @@ const TabLink = styled(StyledTabLink)`
         }
     }
 `;
-TabLink.defaultProps = {
+TabLinkStyled.defaultProps = {
     activeClassName: 'active',
 };
-
-const TabLinkIndex = TabLink.withComponent(StyledTabLinkIndex);
 
 @connect(state => ({
     myAccountName: state.user.getIn(['current', 'username']),
@@ -52,9 +49,9 @@ export default class Navigation extends PureComponent {
         return (
             <SlideContainer className={className}>
                 {tabLinks.map(({ value, to }) => (
-                    <TabLinkIndex key={to} to={to}>
+                    <TabLinkStyled key={to} to={to}>
                         {value}
-                    </TabLinkIndex>
+                    </TabLinkStyled>
                 ))}
             </SlideContainer>
         );
