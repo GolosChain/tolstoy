@@ -1,10 +1,26 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import styled from 'styled-components';
 import tt from 'counterpart';
 import Icon from 'app/components/elements/Icon';
 import user from 'app/redux/User';
+import { getAccountPrice } from 'src/app/redux/selectors/account/accountPrice';
+import { formatCurrency } from 'src/app/helpers/currency';
+
+const PriceBlock = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    border-bottom: 1px solid #e1e1e1;
+    font-size: 14px;
+    color: #333;
+`;
+
+const Price = styled.span`
+    font-weight: 500;
+`;
 
 const Ul = styled.ul`
     padding: 5px 0 6px;
@@ -51,8 +67,12 @@ const LinkStyled = styled(Link)`
     state => {
         const myAccountName = state.user.getIn(['current', 'username']);
 
+        const { price, currency } = getAccountPrice(state, myAccountName);
+
         return {
             myAccountName,
+            price,
+            currency,
         };
     },
     {
@@ -62,7 +82,7 @@ const LinkStyled = styled(Link)`
 )
 export default class AccountMenu extends PureComponent {
     render() {
-        const { myAccountName, onShowMessagesClick, onLogoutClick } = this.props;
+        const { myAccountName, price, currency, onShowMessagesClick, onLogoutClick } = this.props;
 
         let items = [
             {
@@ -93,19 +113,28 @@ export default class AccountMenu extends PureComponent {
 
         items = items.filter(item => item);
 
+        const priceString = formatCurrency(price, currency, 'adaptive');
+
         return (
-            <Ul>
-                {items.map(({ link, icon, iconSize, text, onClick }, i) => (
-                    <Li key={i}>
-                        <LinkStyled href={link} onClick={onClick}>
-                            <IconWrapper>
-                                <IconStyled name={icon} size={iconSize || '1_25x'} />
-                            </IconWrapper>
-                            {text}
-                        </LinkStyled>
-                    </Li>
-                ))}
-            </Ul>
+            <Fragment>
+                <PriceBlock>
+                    <div>
+                        Баланс: <Price>{priceString}</Price>
+                    </div>
+                </PriceBlock>
+                <Ul>
+                    {items.map(({ link, icon, iconSize, text, onClick }, i) => (
+                        <Li key={i}>
+                            <LinkStyled href={link} onClick={onClick}>
+                                <IconWrapper>
+                                    <IconStyled name={icon} size={iconSize || '1_25x'} />
+                                </IconWrapper>
+                                {text}
+                            </LinkStyled>
+                        </Li>
+                    ))}
+                </Ul>
+            </Fragment>
         );
     }
 }

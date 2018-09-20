@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { vestsToGolos } from 'app/utils/StateFunctions';
+import { getAccountPrice } from 'src/app/redux/selectors/account/accountPrice';
 import { formatCurrency } from 'src/app/helpers/currency';
 
 const Body = styled.div`
@@ -19,32 +19,11 @@ const Body = styled.div`
     text-overflow: ellipsis;
 `;
 
-function getRate(rates, from, to) {
-    if (from === to) {
-        return 1;
-    } else {
-        return rates[from][to];
-    }
-}
-
 @connect((state, props) => {
-    const account = state.global.getIn(['accounts', props.accountName]);
-    const rates = state.data.rates.actual;
-
-    let currency = state.data.settings.getIn(['basic', 'currency'], 'GBG');
-
-    if (currency !== 'GBG' && !rates.GOLOS[currency]) {
-        currency = 'GBG';
-    }
+    const { price, currency } = getAccountPrice(state, props.accountName);
 
     return {
-        golos: account.get('balance').split(' ')[0],
-        golosSafe: account.get('savings_balance').split(' ')[0],
-        gold: account.get('sbd_balance').split(' ')[0],
-        goldSafe: account.get('savings_sbd_balance').split(' ')[0],
-        power: account.get('vesting_shares'),
-        rates,
-        globalProps: state.global.get('props'),
+        price,
         currency,
     };
 })
@@ -54,23 +33,10 @@ export default class AccountPrice extends PureComponent {
     };
 
     render() {
-        const { golos, golosSafe, gold, goldSafe, power, currency, rates, globalProps } = this.props;
+        const { price, currency } = this.props;
 
-        const golosRate = getRate(rates, 'GOLOS', currency);
-        const gbgRate = getRate(rates, 'GBG', currency);
+        const sumString = formatCurrency(price, currency, 'adaptive');
 
-        let sum = 0;
-
-        sum += parseFloat(golos) * golosRate || 0;
-        sum += parseFloat(golosSafe) * golosRate || 0;
-        sum += parseFloat(gold) * gbgRate || 0;
-        sum += parseFloat(goldSafe) * gbgRate || 0;
-        sum += parseFloat(vestsToGolos(power, globalProps.toJS())) * golosRate || 0;
-
-        const sumString = formatCurrency(sum, currency, 'adaptive');
-
-        return (
-            <Body fontSize={Math.floor(48 * (8 / sumString.length))}>{sumString}</Body>
-        );
+        return <Body fontSize={Math.floor(48 * (8 / sumString.length))}>{sumString}</Body>;
     }
 }
