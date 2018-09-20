@@ -50,6 +50,7 @@ class PostContainer extends Component {
 
     componentWillUnmount() {
         window.removeEventListener('resize', this.__checkScreenSizeLazy);
+        this.__checkScreenSizeLazy.cancel();
     }
 
     render() {
