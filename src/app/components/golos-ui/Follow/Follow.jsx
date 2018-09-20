@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {followSelector} from '../../../redux/selectors/follow/follow';
 import {currentUsernameSelector} from '../../../redux/selectors/common';
+import {updateFollow} from '../../../redux/actions/follow';
 
 const Wrapper = Button.extend`
     min-width: 100%;

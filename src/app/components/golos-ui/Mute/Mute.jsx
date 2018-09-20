@@ -8,7 +8,7 @@ import { updateFollow } from '../../../redux/actions/follow';
 import {currentUsernameSelector} from '../../../redux/selectors/common';
 import {followSelector} from '../../../redux/selectors/follow/follow';
 
-const Mute = styled.div`
+const MuteButton = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -28,7 +28,7 @@ const Mute = styled.div`
     }
 `;
 
-const Unmute = Button.extend`
+const UnmuteButton = styled(Button)`
     min-width: 100%;
     min-height: 100%;
     font-size: 12px;
@@ -49,13 +49,13 @@ class Mute extends Component {
     render() {
         const { isMute, className } = this.props;
         return isMute ? (
-            <Unmute light onClick={this._unmute} className={className}>
+            <UnmuteButton light onClick={this._unmute} className={className}>
                 {tt('g.unmute')}
-            </Unmute>
+            </UnmuteButton>
         ) : (
-            <Mute onClick={this._mute} className={className}>
+            <MuteButton onClick={this._mute} className={className}>
                 {tt('g.mute')}
-            </Mute>
+            </MuteButton>
         );
     }
 
@@ -63,6 +63,7 @@ class Mute extends Component {
         this.props.updateFollow(this.props.username, 'ignore');
         this.props.onClick(e);
     };
+
     _unmute = e => {
         this.props.updateFollow(this.props.username, null);
         this.props.onClick(e);
