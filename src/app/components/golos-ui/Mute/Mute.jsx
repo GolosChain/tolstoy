@@ -5,8 +5,8 @@ import Button from '../Button/index';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { updateFollow } from '../../../redux/actions/follow';
-import {currentUsernameSelector} from '../../../redux/selectors/common';
-import {followSelector} from '../../../redux/selectors/follow/follow';
+import { currentUsernameSelector } from '../../../redux/selectors/common';
+import { followSelector } from '../../../redux/selectors/follow/follow';
 
 const MuteButton = styled.div`
     display: flex;

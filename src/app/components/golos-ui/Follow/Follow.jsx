@@ -4,9 +4,9 @@ import Icon from '../Icon/index';
 import Button from '../Button/index';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import {followSelector} from '../../../redux/selectors/follow/follow';
-import {currentUsernameSelector} from '../../../redux/selectors/common';
-import {updateFollow} from '../../../redux/actions/follow';
+import { followSelector } from '../../../redux/selectors/follow/follow';
+import { currentUsernameSelector } from '../../../redux/selectors/common';
+import { updateFollow } from '../../../redux/actions/follow';
 import styled from 'styled-components';
 
 const Wrapper = styled(Button)`
