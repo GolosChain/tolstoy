@@ -6,6 +6,7 @@ import VotePanel from '../../components/common/VotePanel/VotePanel';
 import Icon from '../../components/golos-ui/Icon/Icon';
 import ReplyBlock from '../../components/common/ReplyBlock/ReplyBlock';
 import tt from 'counterpart';
+import PropTypes from 'prop-types';
 import {
     authorSelector,
     currentPostSelector,
@@ -226,8 +227,8 @@ class ActivePanel extends Component {
         activeDotsMore: false,
     };
 
-    static defaultProps = {
-        isPadScreen: false,
+    static propTypes = {
+        isPadScreen: PropTypes.bool.isRequired,
     };
 
     render() {
@@ -322,8 +323,8 @@ class ActivePanel extends Component {
     };
 
     _togglePin = () => {
-        const { account, permLink, isPinned } = this.props;
-        this.props.togglePin(account + '/' + permLink, !isPinned);
+        const { account, permLink, isPinned, togglePin } = this.props;
+        togglePin(account + '/' + permLink, !isPinned);
         this._closePopover();
     };
 

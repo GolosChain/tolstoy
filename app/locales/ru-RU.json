@@ -271,7 +271,7 @@
     "email_recovery_hint": "Используется для сброса пароля в случае если аккаунт был украден",
     "enter_username": "Введи свое имя пользователя",
     "expand": "Развернуть",
-    "favourites": "Избранное",
+    "favorites": "Избранное",
     "add_to_favourites": "В избранное",
     "remove_from_favourites": "Убрать из избранного",
     "feed": "Лента",

@@ -9,6 +9,9 @@ import ActivePanel from './ActivePanel';
 import AboutPanel from './AboutPanel';
 import { USER_FOLLOW_DATA_LOAD } from '../../redux/constants/followers';
 import { FAVORITES_LOAD } from '../../redux/constants/favorites';
+import throttle from 'lodash/throttle';
+
+const PAD_SCREEN_SIZE = 768;
 
 const Wrapper = styled.div`
     width: 100%;
@@ -36,20 +39,46 @@ class PostContainer extends Component {
         props.loadFavorites();
     }
 
+    state = {
+        isPadScreen: false,
+    };
+
+    componentDidMount() {
+        this._checkScreenSize();
+        window.addEventListener('resize', this.__checkScreenSizeLazy);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.__checkScreenSizeLazy);
+    }
+
     render() {
         const { postLoaded } = this.props;
+        const { isPadScreen } = this.state;
         if (!postLoaded) return null;
         return (
             <Wrapper>
                 <ContentWrapper>
-                    <PostContent />
-                    <ActivePanel />
+                    <PostContent isPadScreen={isPadScreen} />
+                    <ActivePanel isPadScreen={isPadScreen} />
                     <AboutPanel />
                     <SidePanel />
                 </ContentWrapper>
             </Wrapper>
         );
     }
+
+    _checkScreenSize = () => {
+        const windowWidth = window.innerWidth;
+        if (windowWidth <= PAD_SCREEN_SIZE && !this.state.isPadScreen) {
+            this.setState({ isPadScreen: true });
+        }
+        if (windowWidth > PAD_SCREEN_SIZE && this.state.isPadScreen) {
+            this.setState({ isPadScreen: false });
+        }
+    };
+
+    __checkScreenSizeLazy = throttle(this._checkScreenSize, 100, { leading: true });
 }
 
 const mapStateToProps = (state, props) => {
