@@ -261,6 +261,8 @@
     "email_recovery_hint": "Используется для сброса пароля в случае если аккаунт был украден",
     "enter_username": "Введи свое имя пользователя",
     "expand": "Развернуть",
+    "add_to_favourites": "В избранное",
+    "remove_from_favourites": "Убрать из избранного",
     "favorites": "Избранное",
     "feed": "Лента",
     "feeds": "Лента",
@@ -754,7 +756,8 @@
     "transfer_amount_from": "Перевод %(amount)s со счёта",
     "transfer_amount_to": "Перевод %(amount)s на счёт",
     "transfer_amount_to_VESTING_TOKEN": "Перевести %(amount)s %(VESTING_TOKEN2)s",
-    "your_password_permissions_were_reduced": "Ваши резрешения пароля были снижены"
+    "your_password_permissions_were_reduced": "Ваши резрешения пароля были снижены",
+    "share_in_social_networks": "Поделится в соц. сети"
   },
   "postsummary_jsx": {
     "adjust_your": "откорректируйте свои",
