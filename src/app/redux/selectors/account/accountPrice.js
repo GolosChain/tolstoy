@@ -1,9 +1,10 @@
 import { createSelector } from 'reselect';
 import { vestsToGolos } from 'app/utils/StateFunctions';
+import { globalSelector } from '../common';
 
 export const getAccountPrice = createSelector(
     (state, accountName) => state.global.getIn(['accounts', accountName]),
-    state => state.global.get('props'),
+    globalSelector('props'),
     state => state.data.rates.actual,
     state => state.data.settings.getIn(['basic', 'currency'], 'GBG'),
 
@@ -39,7 +40,7 @@ export const getAccountPrice = createSelector(
 function getRate(rates, from, to) {
     if (from === to) {
         return 1;
-    } else {
-        return rates[from][to];
     }
+
+    return rates[from][to];
 }

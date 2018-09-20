@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import { getAccountPrice } from 'src/app/redux/selectors/account/accountPrice';
 import { formatCurrency } from 'src/app/helpers/currency';
 
+const FONT_MULTIPLIER = 48;
+
 const Body = styled.div`
     height: 103px;
     padding: 0 14px;
@@ -37,6 +39,8 @@ export default class AccountPrice extends PureComponent {
 
         const sumString = formatCurrency(price, currency, 'adaptive');
 
-        return <Body fontSize={Math.floor(48 * (8 / sumString.length))}>{sumString}</Body>;
+        return (
+            <Body fontSize={Math.floor(FONT_MULTIPLIER * (8 / sumString.length))}>{sumString}</Body>
+        );
     }
 }

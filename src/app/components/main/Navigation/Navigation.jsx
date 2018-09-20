@@ -41,10 +41,12 @@ export default class Navigation extends PureComponent {
             tabLinks.push({ value: tt('header_jsx.home'), to: `/@${myAccountName}/feed` });
         }
 
-        tabLinks.push({ value: tt('g.new'), to: '/created' });
-        tabLinks.push({ value: tt('main_menu.hot'), to: '/hot' });
-        tabLinks.push({ value: tt('main_menu.trending'), to: '/trending' });
-        tabLinks.push({ value: tt('g.promoted'), to: '/promoted' });
+        tabLinks.push(
+            { value: tt('g.new'), to: '/created' },
+            { value: tt('main_menu.hot'), to: '/hot' },
+            { value: tt('main_menu.trending'), to: '/trending' },
+            { value: tt('g.promoted'), to: '/promoted' }
+        );
 
         return (
             <SlideContainer className={className}>

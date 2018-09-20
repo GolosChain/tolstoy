@@ -43,7 +43,7 @@ const LinkStyled = styled(Link)`
     display: flex;
     align-items: center;
     height: 50px;
-    padding: 0 10px 0 37px;
+    padding: 0 10px 0 34px;
     font-size: 14px;
     color: #333 !important;
     background-color: #fff;
@@ -85,37 +85,58 @@ export default class AccountMenu extends PureComponent {
                 link: `/@${myAccountName}/feed`,
                 icon: 'home',
                 text: tt('g.feed'),
-                size: 26,
+                size: 25,
             },
-            { link: `/@${myAccountName}`, icon: 'blog', text: tt('g.blog'), size: 20 },
+            {
+                link: `/@${myAccountName}`,
+                icon: 'blog',
+                text: tt('g.blog'),
+                size: 19,
+            },
             {
                 link: `/@${myAccountName}/comments`,
                 icon: 'comment',
                 text: tt('g.comments'),
-                size: 22,
+                size: 21,
             },
             {
                 link: `/@${myAccountName}/recent-replies`,
                 icon: 'comment-reply',
                 text: tt('g.replies'),
+                size: 23,
             },
             $STM_Config.is_sandbox
                 ? {
                       icon: 'messanger',
                       text: tt('g.messages'),
                       onClick: onShowMessagesClick,
-                      size: 22,
+                      size: 21,
                   }
                 : null,
-            { link: `/@${myAccountName}/favorites`, icon: 'star', text: tt('g.favorites') },
+            {
+                link: `/@${myAccountName}/favorites`,
+                icon: 'star',
+                text: tt('g.favorites'),
+                size: 23,
+            },
             {
                 link: `/@${myAccountName}/transfers`,
                 icon: 'wallet2',
                 text: tt('g.wallet'),
-                size: 22,
+                size: 20,
             },
-            { link: `/@${myAccountName}/settings`, icon: 'settings', text: tt('g.settings') },
-            { icon: 'logout', text: tt('g.logout'), onClick: onLogoutClick, size: 22 },
+            {
+                link: `/@${myAccountName}/settings`,
+                icon: 'settings',
+                text: tt('g.settings'),
+                size: 23,
+            },
+            {
+                icon: 'logout',
+                text: tt('g.logout'),
+                onClick: onLogoutClick,
+                size: 20,
+            },
         ];
 
         items = items.filter(item => item);
@@ -134,7 +155,7 @@ export default class AccountMenu extends PureComponent {
                         <Li key={i}>
                             <LinkStyled href={link} onClick={onClick}>
                                 <IconWrapper>
-                                    <IconStyled name={icon} size={size || 24} />
+                                    <IconStyled name={icon} size={size || 22} />
                                 </IconWrapper>
                                 {text}
                             </LinkStyled>
