@@ -124,7 +124,6 @@ class SidePanel extends Component {
         window.removeEventListener('resize', this._resizeScreenLazy);
         this._scrollScreenLazy.cancel();
         this._resizeScreenLazy.cancel();
-
     }
 
     render() {
