@@ -135,7 +135,11 @@ class PostHeader extends Component {
             <Wrapper className={className}>
                 <UserInfoWrapper>
                     <Avatar>
-                        <Userpic account={author} size={isPadScreen ? 38 : 50} onClick={this._openPopover} />
+                        <Userpic
+                            account={author}
+                            size={isPadScreen ? 38 : 50}
+                            onClick={this._openPopover}
+                        />
                         <PopoverStyled innerRef={this._onRef}>
                             <PopoverBody close={this._closePopover} author={author} />
                         </PopoverStyled>
