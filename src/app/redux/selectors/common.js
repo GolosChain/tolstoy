@@ -41,3 +41,7 @@ export const currentUserSelector = createDeepEqualSelector(
     [userSelector('current')],
     currentUser => currentUser || emptyMap
 );
+
+export const currentUsernameSelector = createDeepEqualSelector([currentUserSelector], user =>
+    user.get('username')
+);
