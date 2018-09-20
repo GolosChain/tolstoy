@@ -206,8 +206,8 @@ const Notifications = styled.div`
 `;
 
 const NotifIcon = styled(Icon)`
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     color: #393636;
 `;
 

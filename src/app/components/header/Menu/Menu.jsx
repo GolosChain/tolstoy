@@ -13,12 +13,6 @@ const Li = styled.li`
     list-style: none;
 `;
 
-const IconStyled = styled(Icon)`
-    width: 16px;
-    margin-right: 20px;
-    transition: color 0.15s;
-`;
-
 const LinkStyled = styled(Link)`
     display: flex;
     align-items: center;
@@ -32,10 +26,13 @@ const LinkStyled = styled(Link)`
     &:hover {
         background-color: #f0f0f0;
     }
+`;
 
-    &:hover ${IconStyled} {
-        color: #3f46ad;
-    }
+const IconStyled = styled(Icon)`
+    width: 20px;
+    height: 20px;
+    margin-right: 20px;
+    color: #393636;
 `;
 
 export default class Menu extends PureComponent {
@@ -43,27 +40,27 @@ export default class Menu extends PureComponent {
         const items = [
             {
                 link: '/welcome',
-                icon: 'cross',
+                icon: 'hand',
                 text: tt('navigation.welcome'),
             },
             {
                 link: '//wiki.golos.io/',
-                icon: 'cross',
+                icon: 'wiki',
                 text: tt('navigation.wiki'),
             },
             {
                 link: '/market',
-                icon: 'cross',
-                text: tt('navigation.market'),
+                icon: 'transfer',
+                text: tt('userwallet_jsx.market'),
             },
             {
                 link: '/~witnesses',
-                icon: 'cross',
+                icon: 'delegates',
                 text: tt('navigation.delegates'),
             },
             {
                 link: '//golostools.com/',
-                icon: 'cross',
+                icon: 'apps',
                 text: tt('navigation.app_center'),
             },
         ];

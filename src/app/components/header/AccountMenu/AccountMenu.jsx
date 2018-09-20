@@ -39,10 +39,6 @@ const IconWrapper = styled.div`
     overflow: hidden;
 `;
 
-const IconStyled = styled(Icon)`
-    transition: fill 0.15s, color 0.15s;
-`;
-
 const LinkStyled = styled(Link)`
     display: flex;
     align-items: center;
@@ -56,11 +52,11 @@ const LinkStyled = styled(Link)`
     &:hover {
         background-color: #f0f0f0;
     }
+`;
 
-    &:hover ${IconStyled} {
-        color: #3f46ad;
-        fill: #3f46ad;
-    }
+const IconStyled = styled(Icon)`
+    color: #393636;
+    fill: #393636;
 `;
 
 @connect(
