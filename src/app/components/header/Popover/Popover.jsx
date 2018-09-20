@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const Root = styled.div`
     position: absolute;
     top: 56px;
-    right: ${({ right }) => right}px; 
+    right: ${({ right }) => right}px;
     border-radius: 8px;
     background: #fff;
     box-shadow: 0 0 9px 1px rgba(0, 0, 0, 0.05);
@@ -46,9 +46,7 @@ export default class Popover extends PureComponent {
         return (
             <Root innerRef={this._onRef} right={right}>
                 <Arrow />
-                <Content>
-                    {children}
-                </Content>
+                <Content>{children}</Content>
             </Root>
         );
     }
@@ -58,7 +56,9 @@ export default class Popover extends PureComponent {
     };
 
     _onAwayClick = e => {
-        if (this._root && !this._root.contains(e.target)) {
+        const { target } = this.props;
+
+        if (this._root && !this._root.contains(e.target) && !target.contains(e.target)) {
             this.props.onClose();
         }
     };
