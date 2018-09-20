@@ -122,6 +122,9 @@ class SidePanel extends Component {
     componentWillUnmount() {
         window.removeEventListener('scroll', this._scrollScreenLazy);
         window.removeEventListener('resize', this._resizeScreenLazy);
+        this._scrollScreenLazy.cancel();
+        this._resizeScreenLazy.cancel();
+
     }
 
     render() {
