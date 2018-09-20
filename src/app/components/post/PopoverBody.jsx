@@ -38,6 +38,13 @@ const Wrapper = styled.section`
         border-bottom: none;
         padding-bottom: 0;
     }
+    
+    @media (max-width: 768px) {
+        max-width: calc(100vw - 60px);
+        min-width: 330px;
+        background: #ffffff;
+        border-radius: 7px;
+    }
 `;
 
 const CloseButton = styled.div`
@@ -130,14 +137,14 @@ const Follow = styled(FollowButton)`
 `;
 
 const Mute = styled(MuteButton)`
-    min-width: 150px;
+    min-width: 130px;
     min-height: 30px;
     margin-left: 10px;
 `;
 
 class PopoverBody extends Component {
     static propTypes = {
-        close: PropTypes.func.isRequired,
+        close: PropTypes.func,
     };
 
     componentDidMount() {
@@ -188,7 +195,11 @@ class PopoverBody extends Component {
     }
 
     _closePopover = () => {
-        this.props.close();
+        if (this.props.onClose) {
+            this.props.onClose()
+        } else {
+            this.props.close()
+        }
     };
 }
 

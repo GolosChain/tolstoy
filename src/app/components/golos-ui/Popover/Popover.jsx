@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import throttle from 'lodash/throttle';
@@ -55,7 +55,7 @@ const Decoration = styled.div`
 const ContentWrapper = styled.div`
     background-color: white;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
-    border-radius: 5px;
+    border-radius: 7px;
     overflow: hidden;
 `;
 

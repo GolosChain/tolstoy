@@ -4,6 +4,7 @@ import throttle from 'lodash/throttle';
 import Icon from '../../components/golos-ui/Icon/Icon';
 import is, { isNot } from 'styled-is';
 import { connect } from 'react-redux';
+import tt from 'counterpart';
 import {
     authorSelector,
     currentPostSelector,
@@ -82,12 +83,23 @@ const ActionIconWrapper = styled.div`
     &:hover {
         transform: scale(1.15);
     }
+
+    ${({ isActive }) =>
+        isActive === 'like'
+            ? `
+        color: #2879ff 
+    `
+            : isActive === 'dislike'
+                ? `
+        color: #ff4e00
+    `
+                : ``};
 `;
 
-const Action = ({ iconName, count, onClick, dataTooltip }) => {
+const Action = ({ iconName, count, onClick, dataTooltip, isActive }) => {
     return (
-        <ActionButton onClick={onClick} data-tooltip={dataTooltip}>
-            <ActionIconWrapper>
+        <ActionButton onClick={onClick} data-tooltip={dataTooltip} data-tooltip-html>
+            <ActionIconWrapper isActive={isActive}>
                 <Icon width="20" height="20" name={iconName} />
             </ActionIconWrapper>
             <CountOf count={count}>{count}</CountOf>
@@ -115,20 +127,38 @@ class SidePanel extends Component {
     render() {
         const { votesSummary, isFavorite } = this.props;
         const { showPanel, fixedOnScreen } = this.state;
+        const { myVote, likes, firstLikes, dislikes, firstDislikes } = votesSummary;
         return (
             <Wrapper
                 innerRef={this._setWrapperRef}
                 showPanel={showPanel}
                 fixedOnScreen={fixedOnScreen}
             >
-                <Action iconName="like" count={votesSummary.likes} onClick={this._like} />
-                <Action iconName="dislike" count={votesSummary.dislikes} onClick={this._dislike} />
-                <Action iconName="repost-right" />
-                <Action iconName="sharing_triangle" />
+                <Action
+                    isActive={myVote}
+                    iconName="like"
+                    count={likes}
+                    onClick={this._like}
+                    dataTooltip={this.tooltipContent(firstLikes, likes > 10)}
+                />
+                <Action
+                    isActive={myVote}
+                    iconName="dislike"
+                    count={dislikes}
+                    onClick={this._dislike}
+                    dataTooltip={this.tooltipContent(firstDislikes, dislikes > 10)}
+                />
+                <Action iconName="repost-right" dataTooltip={tt('g.reblog')} />
+                <Action
+                    iconName="sharing_triangle"
+                    dataTooltip={tt('postfull_jsx.share_in_social_networks')}
+                />
                 <Action
                     iconName={isFavorite ? 'star_filled' : 'star'}
                     onClick={this._toggleFavorite}
-                    dataTooltip={isFavorite ? 'Убрать из избранного' : 'В избранное'}
+                    dataTooltip={
+                        isFavorite ? tt('g.remove_from_favourites') : tt('g.add_to_favourites')
+                    }
                 />
             </Wrapper>
         );
@@ -184,6 +214,13 @@ class SidePanel extends Component {
         if (await confirmVote(myVote, percent)) {
             this.props.onVote(username, author, permLink, myVote.percent < 0 ? percent : 0);
         }
+    };
+
+    tooltipContent = (users, isMore) => {
+        if (!users.length) {
+            return null;
+        }
+        return users.join('<br>') + (isMore ? '<br>...' : '');
     };
 }
 

@@ -15,6 +15,7 @@ import {
 import { toggleFavoriteAction } from '../../redux/actions/favorites';
 import { updateFollow } from '../../redux/actions/follow';
 import Popover from '../golos-ui/Popover/Popover';
+import DialogManager from '../../../../app/components/elements/common/DialogManager/index';
 
 const Wrapper = styled.div`
     display: flex;
@@ -116,7 +117,17 @@ const UserInfoWrapper = styled.div`
     align-items: center;
 `;
 
+const PopoverStyled = styled(Popover)`
+    @media (max-width: 768px) {
+        display: none;
+    }
+`;
+
 class PostHeader extends Component {
+    static defaultProps = {
+        isPadScreen: false,
+    };
+
     render() {
         const { isMy, created, isFavorite, author, isFollow, className } = this.props;
         return (
@@ -124,9 +135,9 @@ class PostHeader extends Component {
                 <UserInfoWrapper>
                     <Avatar>
                         <Userpic account={author} size={50} onClick={this._openPopover} />
-                        <Popover ref={ref => (this.tooltip = ref)}>
+                        <PopoverStyled innerRef={this._onRef}>
                             <PopoverBody close={this._closePopover} author={author} />
-                        </Popover>
+                        </PopoverStyled>
                     </Avatar>
                     <InfoBlock>
                         <AuthorName to={`/@${author}`}>{author}</AuthorName>
@@ -153,8 +164,16 @@ class PostHeader extends Component {
         );
     }
 
+    _onRef = ref => {
+        this.tooltip = ref;
+    };
+
     _openPopover = () => {
-        this.tooltip.open();
+        if (this.props.isPadScreen) {
+            this._openMobileDialog();
+        } else {
+            this.tooltip.open();
+        }
     };
 
     _closePopover = () => {
@@ -172,6 +191,15 @@ class PostHeader extends Component {
 
     _unfollow = () => {
         this.props.updateFollow(this.props.username, this.props.author, null);
+    };
+
+    _openMobileDialog = () => {
+        DialogManager.showDialog({
+            component: PopoverBody,
+            props: {
+                author: this.props.author,
+            },
+        });
     };
 }
 
