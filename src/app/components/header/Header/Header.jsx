@@ -71,6 +71,7 @@ const LogoIcon = styled(Icon)`
     width: 28px;
     height: 28px;
     flex-shrink: 0;
+    color: #2879ff;
 `;
 
 const LogoTextBlock = styled.div`
