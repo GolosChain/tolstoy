@@ -8,7 +8,6 @@ import Icon from '../../components/golos-ui/Icon/Icon';
 import Button from '../../components/golos-ui/Button/Button';
 import FollowButton from '../../components/golos-ui/Follow/index';
 import { authorSelector } from '../../redux/selectors/post/post';
-import JoinedToGolos from '../../components/common/JoinedToGolos';
 
 const Wrapper = styled.div`
     display: flex;
@@ -130,7 +129,9 @@ const AboutMobile = styled.p`
 
 class AboutPanel extends Component {
     render() {
-        const { name, account, created, about } = this.props;
+        const { name, account, about, joinDate } = this.props;
+
+
         return (
             <Wrapper>
                 <Avatar>
@@ -145,7 +146,10 @@ class AboutPanel extends Component {
                 <Cake>
                     <Icon width="36" height="34" name="cake" />
                     <CakeText>
-                        {tt('on_golos_from')} <JoinedToGolos date={created} />
+                        {tt('on_golos_from')}
+                        <span>
+                            {joinDate}
+                        </span>
                     </CakeText>
                 </Cake>
                 <Buttons>
@@ -162,10 +166,15 @@ class AboutPanel extends Component {
 
 const mapStateToProps = (state, props) => {
     const author = authorSelector(state, props);
+
+    const date = new Date(author.created);
+    const joinMonth = tt('months_names')[date.getMonth()];
+    const joinYear = date.getFullYear();
+
     return {
         name: author.name,
         account: author.account,
-        created: author.created,
+        joinDate: joinMonth + ' ' + joinYear,
         about: author.about,
     };
 };
