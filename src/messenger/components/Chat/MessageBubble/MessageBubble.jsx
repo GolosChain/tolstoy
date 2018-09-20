@@ -44,6 +44,7 @@ export default class MessageBubble extends Component {
             sender,
             profileAvatar
         } = this.props;
+        
         return (
             <MessageBubbleWrapper sender={sender}>
                 <Body>

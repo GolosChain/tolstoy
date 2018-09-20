@@ -53,7 +53,7 @@ class Chat extends Component {
             return (
                 <Message
                     key={message.time}
-                    self={message.sender === 'self' ? true : false}
+                    self={message.sender === 'self'}
                 >
                     <MessageBubble {...message}/>
                 </Message>
