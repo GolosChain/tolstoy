@@ -14,6 +14,9 @@ import Icon from 'golos-ui/Icon';
 import { CardTitle } from 'golos-ui/Card';
 import CollapsingCard from 'golos-ui/CollapsingCard';
 
+import DialogManager from 'app/components/elements/common/DialogManager';
+import FollowersDialog from 'src/app/components/userProfile/dialogs/FollowersDialog';
+
 const CollapsingCardStyled = styled(CollapsingCard)`
     margin-bottom: 18px;
     border-radius: 8px;
@@ -77,7 +80,13 @@ const Column = styled.div`
     }
 `;
 
+const ColumnClick = styled(Column)`
+    cursor: pointer;
+`;
+
 const Bold = styled.div`
+    display: flex;
+    align-items: center;
     color: #333;
     font-family: ${({ theme }) => theme.fontFamily};
     font-size: 17px;
@@ -134,8 +143,16 @@ const SocialLink = styled(Link)`
     `};
 `;
 
-const IconStyled = Icon.extend`
+const IconStyled = styled(Icon)`
     display: block;
+`;
+
+const IconTriangle = styled(Icon).attrs({
+    name: 'triangle',
+    width: '4.2',
+    height: '2.8'
+})`
+    margin: 0 -8.4px 0 3px;
 `;
 
 export default class UserCardAbout extends PureComponent {
@@ -144,6 +161,26 @@ export default class UserCardAbout extends PureComponent {
         followerCount: PropTypes.number,
         followingCount: PropTypes.number,
     };
+
+    onShowFollowers = () => {
+        DialogManager.showDialog({
+            component: FollowersDialog,
+            props: {
+                pageAccountName: this.props.account.get('name'),
+                type: 'follower'
+            },
+        });
+    }
+
+    onShowFollowing = () => {
+        DialogManager.showDialog({
+            component: FollowersDialog,
+            props: {
+                pageAccountName: this.props.account.get('name'),
+                type: 'following'
+            },
+        });
+    }
 
     render() {
         const { account, followerCount, followingCount } = this.props;
@@ -171,14 +208,14 @@ export default class UserCardAbout extends PureComponent {
             <CollapsingCardStyled title={'Краткая информация'} saveStateKey="info">
                 <CardContentCounters>
                     <Row>
-                        <Column>
-                            <Bold>{followerCount}</Bold>
+                        <ColumnClick onClick={this.onShowFollowers}>
+                            <Bold>{followerCount} <IconTriangle /></Bold>
                             <Title>Подписчиков</Title>
-                        </Column>
-                        <Column>
-                            <Bold>{followingCount}</Bold>
+                        </ColumnClick>
+                        <ColumnClick onClick={this.onShowFollowing}>
+                            <Bold>{followingCount} <IconTriangle /></Bold>
                             <Title>Подписок</Title>
-                        </Column>
+                        </ColumnClick>
                     </Row>
 
                     <Row>

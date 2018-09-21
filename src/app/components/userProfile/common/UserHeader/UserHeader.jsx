@@ -8,12 +8,14 @@ import proxifyImageUrl from 'app/utils/ProxifyUrl';
 import normalizeProfile from 'app/utils/NormalizeProfile';
 
 import Dropzone from 'react-dropzone';
-import StyledButton, { BaseButton } from 'golos-ui/Button';
+import { BaseButton } from 'golos-ui/Button';
 import Icon from 'golos-ui/Icon';
 import Flex from 'golos-ui/Flex';
+
+import Follow from 'src/app/components/common/Follow';
+import Mute from 'src/app/components/common/Mute';
 import StyledContainer from 'src/app/components/common/Container';
 import UserProfileAvatar from './../UserProfileAvatar';
-import Follow from 'src/app/components/common/Follow';
 
 // Styled Components
 const Wrapper = styled.div`
@@ -144,6 +146,14 @@ const IconPicture = styled(Icon)`
     color: #333;
 `;
 
+const ButtonFollow = styled(Follow)`
+    margin-right: 5px;
+`;
+
+const ButtonMute = styled(Mute)`
+    margin-right: 5px;
+`;
+
 // Component
 export default class UserHeader extends Component {
     static propTypes = {
@@ -240,9 +250,11 @@ export default class UserHeader extends Component {
                                     {/* <Button light>
                                     <Icon name="reply" height="17" width="18" />Написать
                                     </Button> */}
-                                    <Follow
-                                        follower={currentUser.get('username')}
+                                    <ButtonFollow
                                         following={currentAccount.get('name')}
+                                    />
+                                    <ButtonMute
+                                        muting={currentAccount.get('name')}
                                     />
                                 </Fragment>
                             )}

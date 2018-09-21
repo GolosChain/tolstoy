@@ -850,7 +850,7 @@
     "about_is_too_long": "About is too long",
     "account": {
       "placeholders": {
-        "about": "What did I learn\\n\\rWhere and by whom I work\\nMy projects\\nInterests\\nThe family\\nLife credo",
+        "about": "What did I learn. Where and by whom I work. My projects. Interests. The family. Life credo",
         "gender": "Select your gender",
         "location": "Enter your city",
         "name": "Full name",
@@ -1021,17 +1021,17 @@
   },
   "user_profile": {
     "explore_APP_NAME": "Explore %(APP_NAME)s",
-    "followed_count": {
-      "one": "1 following",
-      "other": "%(count)s following",
-      "zero": "Not following anybody"
-    },
     "follower_count": {
       "one": "1 follower",
       "other": "%(count)s followers",
       "zero": "No followers"
     },
     "followers": "Followers",
+    "following_count": {
+      "one": "1 following",
+      "other": "%(count)s following",
+      "zero": "Not following anybody"
+    },
     "full_faq": "The full F.A.Q on %(APP_NAME)s",
     "if_you_recently_added_new_users_to_follow": "If you recently added new users to follow, your personalized feed will populate once new content is available.",
     "post_count": {

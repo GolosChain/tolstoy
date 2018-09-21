@@ -735,17 +735,17 @@
   },
   "user_profile": {
     "explore_APP_NAME": "Дослідити %(APP_NAME)s",
-    "followed_count": {
-      "one": "1 підписка",
-      "other": "%(count)s підписок",
-      "zero": "0 підписок"
-    },
     "follower_count": {
       "one": "1 підписник",
       "other": "%(count)s підписників",
       "zero": "0 підписників"
     },
     "followers": "Підписники",
+    "following_count": {
+      "one": "1 підписка",
+      "other": "%(count)s підписок",
+      "zero": "0 підписок"
+    },
     "full_faq": "Детальне FAQ %(APP_NAME)s",
     "if_you_recently_added_new_users_to_follow": "Якщо Ви недавно додали нових користувачів, ваш персоналізований фид буде заповнюватися відразу після появи нового контенту.",
     "post_count": {

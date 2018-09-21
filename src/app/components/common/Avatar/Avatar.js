@@ -7,14 +7,19 @@ import proxifyImageUrl from 'app/utils/ProxifyUrl';
 
 import Icon from 'golos-ui/Icon';
 
-const Wrapper = styled.div`
+// Optimized for lists. It will not generate new classes
+// for every avatar because we don't use props in css
+const Wrapper = styled.div.attrs({
+    style: ({ backgroundUrl, size }) => ({
+        backgroundImage: `url(${backgroundUrl})`,
+        height: `${size}px`,
+        width:  `${size}px`,
+    }),
+})`
     display: flex;
     position: relative;
     align-items: center;
     justify-content: center;
-
-    height: ${({ size }) => size}px;
-    width: ${({ size }) => size}px;
 
     color: #E1E1E1;
 
@@ -27,7 +32,6 @@ const Wrapper = styled.div`
     background-position: 50% 50%;
     border-radius: 50%;
     background-color: #fff;
-    background-image: ${({ backgroundUrl }) => `url(${backgroundUrl})`};
 `;
 
 const AvatarBadge = styled.div`
