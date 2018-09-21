@@ -3,12 +3,14 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router';
 import tt from 'counterpart';
-import Userpic from 'app/components/elements/Userpic';
+import { FormattedDate } from 'react-intl';
+
 import Icon from 'golos-ui/Icon';
 import Button from 'golos-ui/Button';
-import { authorSelector } from 'app/redux/selectors/post/post';
-import { FormattedDate } from 'react-intl';
-import Follow from 'app/components/common/Follow';
+
+import Userpic from 'app/components/elements/Userpic';
+import Follow from 'src/app/components/common/Follow/Follow';
+import {authorSelector} from 'src/app/redux/selectors/post/post';
 
 const Wrapper = styled.div`
     display: flex;
