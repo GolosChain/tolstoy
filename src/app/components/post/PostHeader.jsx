@@ -2,18 +2,20 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
 import { Link } from 'react-router';
-import PopoverBody from './PopoverBody';
-import Icon from 'golos-ui/Icon';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
+import Icon from 'golos-ui/Icon';
 import Popover from 'golos-ui/Popover';
-import { currentUsernameSelector } from 'app/redux/selectors/common';
+
 import Userpic from 'app/components/elements/Userpic';
 import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
 import DialogManager from 'app/components/elements/common/DialogManager';
-import { currentPostSelector, authorSelector } from 'app/redux/selectors/post/post';
-import { toggleFavoriteAction } from 'app/redux/actions/favorites';
-import { updateFollow } from 'app/redux/actions/follow';
+import PopoverBody from 'src/app/components/post/PopoverBody';
+import {currentPostSelector, authorSelector} from 'src/app/redux/selectors/post/post';
+import {currentUsernameSelector} from 'src/app/redux/selectors/common';
+import {toggleFavoriteAction} from 'src/app/redux/actions/favorites';
+import {updateFollow} from 'src/app/redux/actions/follow';
 
 const Wrapper = styled.div`
     display: flex;
