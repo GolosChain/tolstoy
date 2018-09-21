@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
+import throttle from 'lodash/throttle';
+
 import Container from 'src/app/components/common/Container/Container';
 import SidePanel from 'src/app/containers/Post/SidePanel';
-import throttle from 'lodash/throttle';
 import PostContent from 'src/app/components/post/PostContent';
 import ActivePanel from 'src/app/containers/Post/ActivePanel';
 import AboutPanel from 'src/app/containers/Post/AboutPanel';

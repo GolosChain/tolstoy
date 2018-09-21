@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { isNot } from 'styled-is';
-import MarkdownViewer from '../../../../app/components/cards/MarkdownViewer';
-import PostHeader from './PostHeader';
 import { connect } from 'react-redux';
-import { currentPostSelector } from '../../redux/selectors/post/post';
-import Tag from '../golos-ui/Tag/Tag';
-import Icon from '../golos-ui/Icon';
+import { isNot } from 'styled-is';
+
+import Tag from 'golos-ui/Tag';
+import Icon from 'golos-ui/Icon';
+
+import PostHeader from 'src/app/components/post/PostHeader';
+import MarkdownViewer from 'app/components/cards/MarkdownViewer';
+import {currentPostSelector} from 'src/app/redux/selectors/post/post';
 
 const Wrapper = styled.section`
     padding: 40px 70px 30px;
