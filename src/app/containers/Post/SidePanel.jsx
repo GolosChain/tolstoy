@@ -11,6 +11,7 @@ import { confirmVote } from 'src/app/helpers/votes';
 import { toggleFavoriteAction } from 'src/app/redux/actions/favorites';
 import { onVote } from 'src/app/redux/actions/vote';
 import { sidePanelSelector } from 'src/app/redux/selectors/post/sidePanel';
+import { reblog } from 'src/app/redux/actions/posts';
 
 const PADDING_FROM_HEADER = 22;
 const HEADER_HEIGHT = 121;
@@ -145,7 +146,11 @@ class SidePanel extends Component {
                     onClick={this._dislike}
                     dataTooltip={this.tooltipContent(firstDislikes, dislikes > 10)}
                 />
-                <Action iconName="repost-right" dataTooltip={tt('g.reblog')} />
+                <Action
+                    iconName="repost-right"
+                    dataTooltip={tt('g.reblog')}
+                    onClick={this._reblog}
+                />
                 <Action
                     iconName="sharing_triangle"
                     dataTooltip={tt('postfull_jsx.share_in_social_networks')}
@@ -192,6 +197,11 @@ class SidePanel extends Component {
 
     _resizeScreenLazy = throttle(this._resizeScreen, 25, { leading: true });
 
+    _reblog = () => {
+        const { username, author, permLink } = this.props;
+        this.props.reblog(username, author, permLink);
+    };
+
     _toggleFavorite = () => {
         const { author, permLink, isFavorite } = this.props;
         this.props.toggleFavorite(author + '/' + permLink, !isFavorite);
@@ -232,6 +242,9 @@ const mapDispatchToProps = dispatch => {
         },
         onVote: (voter, author, permLink, percent) => {
             dispatch(onVote(voter, author, permLink, percent));
+        },
+        reblog: (account, author, permLink) => {
+            dispatch(reblog(account, author, permLink));
         },
     };
 };

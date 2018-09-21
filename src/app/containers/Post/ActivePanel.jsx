@@ -15,6 +15,7 @@ import { confirmVote } from 'src/app/helpers/votes';
 import { onVote } from 'src/app/redux/actions/vote';
 import { togglePinAction } from 'src/app/redux/actions/pinnedPosts';
 import { activePanelSelector } from 'src/app/redux/selectors/post/activePanel';
+import { reblog } from 'src/app/redux/actions/posts';
 
 const Wrapper = styled.div`
     display: flex;
@@ -241,7 +242,7 @@ class ActivePanel extends Component {
                 <Divider />
                 <RepostSharingWrapper>
                     <Repost data-tooltip={tt('g.reblog')}>
-                        <Icon width="30" height="27" name="repost-right" />
+                        <Icon width="30" height="27" name="repost-right" onClick={this._reblog} />
                     </Repost>
                     <Divider />
                     <SharingTriangle data-tooltip={tt('postfull_jsx.share_in_social_networks')}>
@@ -318,6 +319,11 @@ class ActivePanel extends Component {
         this.tooltip.close();
     };
 
+    _reblog = () => {
+        const { username, account, permLink } = this.props;
+        this.props.reblog(username, account, permLink);
+    };
+
     _togglePin = () => {
         const { account, permLink, isPinned, togglePin } = this.props;
         togglePin(account + '/' + permLink, !isPinned);
@@ -351,6 +357,9 @@ const mapDispatchToProps = dispatch => {
         },
         togglePin: (link, isPin) => {
             dispatch(togglePinAction(link, isPin));
+        },
+        reblog: (account, author, permLink) => {
+            dispatch(reblog(account, author, permLink));
         },
     };
 };
