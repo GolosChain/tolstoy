@@ -8,7 +8,6 @@ import tt from 'counterpart';
 import Popover from 'golos-ui/Popover';
 import Icon from 'golos-ui/Icon';
 
-import DialogManager from 'app/components/elements/common/DialogManager';
 import VotePanel from 'src/app/components/common/VotePanel/VotePanel';
 import ReplyBlock from 'src/app/components/common/ReplyBlock/ReplyBlock';
 import { confirmVote } from 'src/app/helpers/votes';
@@ -99,18 +98,6 @@ const DotsMore = styled(Repost)`
     }
 `;
 
-const ActionsBlock = styled.div`
-    padding: 20px 30px;
-
-    @media (max-width: 768px) {
-        position: relative;
-        max-width: calc(100vw - 60px);
-        min-width: 295px;
-        background: #ffffff;
-        border-radius: 7px;
-    }
-`;
-
 const Action = styled.div`
     display: flex;
     align-items: center;
@@ -158,7 +145,19 @@ const RepostSharingWrapper = styled.div`
     }
 `;
 
-const CloseDialog = styled.div`
+const Actions = styled.div`
+    padding: 20px 30px;
+
+    @media (max-width: 768px) {
+        position: relative;
+        max-width: calc(100vw - 60px);
+        min-width: 295px;
+        background: #ffffff;
+        border-radius: 7px;
+    }
+`;
+
+const PopoverCross = styled.div`
     position: absolute;
     top: 10px;
     right: 10px;
@@ -171,6 +170,7 @@ const CloseDialog = styled.div`
 
     & svg {
         color: #e1e1e1;
+        padding: 0;
     }
 
     &:hover svg {
@@ -182,16 +182,12 @@ const CloseDialog = styled.div`
     }
 `;
 
-const ActionsBlockHolder = ({ togglePin, promotePost, flagPost, close, ...props }) => {
-    let closeDialog = close;
-    if (!closeDialog) {
-        closeDialog = props.onClose;
-    }
+const ActionsBlock = ({ togglePin, promotePost, flagPost, close }) => {
     return (
-        <ActionsBlock>
-            <CloseDialog onClick={closeDialog}>
+        <Actions>
+            <PopoverCross onClick={close}>
                 <Icon name="cross" width={16} height={16} />
-            </CloseDialog>
+            </PopoverCross>
             <Action onClick={togglePin}>
                 <ActionIcon name="pin" />
                 <ActionText>{tt('active_panel_tooltip.pin_post')}</ActionText>
@@ -204,13 +200,40 @@ const ActionsBlockHolder = ({ togglePin, promotePost, flagPost, close, ...props 
                 <ActionIcon name="complain_normal" />
                 <ActionText>{tt('active_panel_tooltip.complain_about_post')}</ActionText>
             </Action>
-        </ActionsBlock>
+        </Actions>
     );
 };
 
 const PopoverStyled = styled(Popover)`
     @media (max-width: 768px) {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        z-index: 101;
+        bottom: auto;
+        margin: 0;
+        transform: translate(-50%, -50%);
+
+        & > div:first-child {
+            display: none;
+        }
+    }
+`;
+
+const PopoverBackgroundShade = styled.div`
+    @media (max-width: 768px) {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 100;
         display: none;
+        height: 100%;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.5);
+
+        ${is('show')`
+            display: block;
+        `};
     }
 `;
 
@@ -254,18 +277,15 @@ class ActivePanel extends Component {
                     isOpen={activeDotsMore}
                     data-tooltip={activeDotsMore ? null : tt('g.next_3_strings_together.show_more')}
                 >
+                    <PopoverBackgroundShade show={activeDotsMore} />
                     <Icon
                         width="32"
                         height="32"
                         name="dots-more_normal"
                         onClick={this._openPopover}
                     />
-                    <PopoverStyled
-                        innerRef={this._onRef}
-                        up={true}
-                        handleToggleOpen={this.toggleDots}
-                    >
-                        <ActionsBlockHolder
+                    <PopoverStyled innerRef={this._onRef} up={true} onToggleOpen={this.toggleDots}>
+                        <ActionsBlock
                             togglePin={this._togglePin}
                             promotePost={this._promotePost}
                             flagPost={this._flagPost}
@@ -308,11 +328,7 @@ class ActivePanel extends Component {
     };
 
     _openPopover = () => {
-        if (this.props.isPadScreen) {
-            this._openMobileDialog();
-        } else {
-            this.tooltip.open();
-        }
+        this.tooltip.open();
     };
 
     _closePopover = () => {
@@ -332,17 +348,6 @@ class ActivePanel extends Component {
 
     toggleDots = () => {
         this.setState({ activeDotsMore: !this.state.activeDotsMore });
-    };
-
-    _openMobileDialog = () => {
-        DialogManager.showDialog({
-            component: ActionsBlockHolder,
-            props: {
-                togglePin: this._togglePin,
-                promotePost: this._promotePost,
-                flagPost: this._flagPost,
-            },
-        });
     };
 }
 
