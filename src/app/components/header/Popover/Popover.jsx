@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 
-const POPOVER_OFFSET = 39;
+const POPOVER_OFFSET = 24;
 
 const Root = styled.div`
     position: absolute;
@@ -43,7 +43,7 @@ export default class Popover extends PureComponent {
         const { target, children } = this.props;
 
         const box = target.getBoundingClientRect();
-        const right = window.innerWidth - Math.round(box.left + box.width / 2) - POPOVER_OFFSET;
+        const right = document.body.clientWidth - Math.round(box.left + box.width / 2) - POPOVER_OFFSET;
 
         return (
             <Root innerRef={this._onRef} right={right}>

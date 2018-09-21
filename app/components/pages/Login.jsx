@@ -22,6 +22,6 @@ class Login extends React.Component {
 }
 
 export default {
-    path: 'login.html',
+    path: 'login',
     component: Login
 };

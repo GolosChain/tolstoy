@@ -8,6 +8,7 @@ const Root = styled.div`
     right: 0;
     background: #fff;
     z-index: 1;
+    box-shadow: 0 7px 13px 0 rgba(0, 0, 0, 0.05);
 `;
 
 const Shadow = styled.div`
