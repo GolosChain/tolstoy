@@ -319,7 +319,7 @@ export default class Header extends PureComponent {
             <Root>
                 <Fixed mobile={isMobile ? 1 : 0}>
                     <Content>
-                        <LogoLink href="/">
+                        <LogoLink to="/">
                             <LogoIcon name="logo" />
                             {isMobile ? null : (
                                 <LogoTextBlock>
@@ -368,7 +368,7 @@ export default class Header extends PureComponent {
         return (
             <Fragment>
                 {isMobile ? null : (
-                    <NewPostLink href="/submit">
+                    <NewPostLink to="/submit">
                         <NewPostButton>
                             <NewPostIcon name="new-post" />
                             Добавить пост

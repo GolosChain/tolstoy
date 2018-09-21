@@ -69,7 +69,7 @@ export default class Menu extends PureComponent {
             <Ul>
                 {items.map(({ link, target, icon, text }, i) => (
                     <Li key={i}>
-                        <LinkStyled href={link} target={link.startsWith('//') ? 'blank' : null}>
+                        <LinkStyled to={link} target={link.startsWith('//') ? 'blank' : null}>
                             <IconStyled name={icon} />
                             {text}
                         </LinkStyled>

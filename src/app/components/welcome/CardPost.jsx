@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router';
+
+import extractContent from 'app/utils/ExtractContent';
+import { objAccessor } from 'app/utils/Accessors';
+
+import PostPayout from '../common/PostPayout/PostPayout';
 import Userpic from 'app/components/elements/Userpic';
 import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
 import Icon from 'app/components/elements/Icon';
-import extractContent from 'app/utils/ExtractContent';
-import { objAccessor } from 'app/utils/Accessors';
-import PostPayout from '../common/PostPayout/PostPayout';
 
 const Root = styled.div`
     border-radius: 8.5px;
@@ -19,7 +22,7 @@ const Root = styled.div`
     }
 `;
 
-const Main = styled.a`
+const Main = styled(Link)`
     display: block;
     height: 342px;
     overflow: hidden;
@@ -62,7 +65,7 @@ const Footer = styled.div`
     box-shadow: 0px -7px 20px #fff;
 `;
 
-const FooterProfile = styled.a`
+const FooterProfile = styled(Link)`
     display: flex;
     align-items: center;
 `;
@@ -130,7 +133,7 @@ export default class CardPost extends Component {
 
         return (
             <Root className={className}>
-                <Main href={p.link}>
+                <Main to={p.link}>
                     {p.image_link && <Img src={p.image_link} title={p.title} />}
                     <Content>
                         <ContentTitle>{p.title}</ContentTitle>
@@ -138,7 +141,7 @@ export default class CardPost extends Component {
                     </Content>
                 </Main>
                 <Footer>
-                    <FooterProfile href={`/@${p.author}`} title={p.author}>
+                    <FooterProfile to={`/@${p.author}`} title={p.author}>
                         <Userpic account={p.author} />
                         <FooterInfo>
                             <FooterName>{p.author}</FooterName>
