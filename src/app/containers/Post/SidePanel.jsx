@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import throttle from 'lodash/throttle';
-import Icon from '../../components/golos-ui/Icon/Icon';
 import is, { isNot } from 'styled-is';
 import { connect } from 'react-redux';
 import tt from 'counterpart';
+import { onVote } from 'app/redux/actions/vote';
+import Icon from 'golos-ui/Icon/Icon';
+import { confirmVote } from 'app/helpers/votes';
 import {
-    authorSelector,
     currentPostSelector,
+    authorSelector,
     votesSummarySelector,
-} from '../../redux/selectors/post/post';
-import { toggleFavoriteAction } from '../../redux/actions/favorites';
-import { confirmVote } from '../../helpers/votes';
-import { onVote } from '../../redux/actions/vote';
-import { currentUsernameSelector } from '../../redux/selectors/common';
+} from 'app/redux/selectors/post/post';
+import { currentUsernameSelector } from 'app/redux/selectors/common';
+import { toggleFavoriteAction } from 'app/redux/actions/favorites';
 
 const PADDING_FROM_HEADER = 22;
 const HEADER_HEIGHT = 121;
