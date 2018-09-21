@@ -1,22 +1,19 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import Userpic from '../../../../app/components/elements/Userpic';
-import TimeAgoWrapper from '../../../../app/components/elements/TimeAgoWrapper';
 import tt from 'counterpart';
 import { Link } from 'react-router';
 import PopoverBody from './PopoverBody';
-import Icon from '../golos-ui/Icon';
+import Icon from 'golos-ui/Icon';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import {
-    authorSelector,
-    currentPostSelector,
-} from '../../redux/selectors/post/post';
-import { toggleFavoriteAction } from '../../redux/actions/favorites';
-import { updateFollow } from '../../redux/actions/follow';
-import Popover from '../golos-ui/Popover/Popover';
-import DialogManager from '../../../../app/components/elements/common/DialogManager/index';
-import {currentUsernameSelector} from 'app/redux/selectors/common';
+import Popover from 'golos-ui/Popover';
+import { currentUsernameSelector } from 'app/redux/selectors/common';
+import Userpic from 'app/components/elements/Userpic';
+import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
+import DialogManager from 'app/components/elements/common/DialogManager';
+import { currentPostSelector, authorSelector } from 'app/redux/selectors/post/post';
+import { toggleFavoriteAction } from 'app/redux/actions/favorites';
+import { updateFollow } from 'app/redux/actions/follow';
 
 const Wrapper = styled.div`
     display: flex;
@@ -71,7 +68,7 @@ const Follow = styled.div`
     cursor: pointer;
 `;
 
-const Followed = Follow.extend`
+const Followed = styled(Follow)`
     color: #393636;
     background-color: transparent;
     border: 1px solid #e1e1e1;
@@ -83,7 +80,7 @@ const Followed = Follow.extend`
     }
 `;
 
-const NoFollowed = Follow.extend`
+const NoFollowed = styled(Follow)`
     color: #ffffff;
     background-color: #2879ff;
 
