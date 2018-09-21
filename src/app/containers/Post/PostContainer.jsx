@@ -8,9 +8,9 @@ import SidePanel from 'src/app/containers/Post/SidePanel';
 import PostContent from 'src/app/components/post/PostContent';
 import ActivePanel from 'src/app/containers/Post/ActivePanel';
 import AboutPanel from 'src/app/containers/Post/AboutPanel';
-import {USER_FOLLOW_DATA_LOAD} from 'src/app/redux/constants/followers';
-import {FAVORITES_LOAD} from 'src/app/redux/constants/favorites';
-import {currentPostSelector, authorSelector} from 'src/app/redux/selectors/post/post';
+import { USER_FOLLOW_DATA_LOAD } from 'src/app/redux/constants/followers';
+import { FAVORITES_LOAD } from 'src/app/redux/constants/favorites';
+import { currentPostSelector, authorSelector } from 'src/app/redux/selectors/post/post';
 
 const PAD_SCREEN_SIZE = 768;
 

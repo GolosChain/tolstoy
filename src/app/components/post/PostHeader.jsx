@@ -12,10 +12,10 @@ import Userpic from 'app/components/elements/Userpic';
 import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
 import DialogManager from 'app/components/elements/common/DialogManager';
 import PopoverBody from 'src/app/components/post/PopoverBody';
-import {currentPostSelector, authorSelector} from 'src/app/redux/selectors/post/post';
-import {currentUsernameSelector} from 'src/app/redux/selectors/common';
-import {toggleFavoriteAction} from 'src/app/redux/actions/favorites';
-import {updateFollow} from 'src/app/redux/actions/follow';
+import { currentPostSelector, authorSelector } from 'src/app/redux/selectors/post/post';
+import { currentUsernameSelector } from 'src/app/redux/selectors/common';
+import { toggleFavoriteAction } from 'src/app/redux/actions/favorites';
+import { updateFollow } from 'src/app/redux/actions/follow';
 
 const Wrapper = styled.div`
     display: flex;

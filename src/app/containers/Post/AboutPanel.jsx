@@ -9,7 +9,7 @@ import Icon from 'golos-ui/Icon';
 import Button from 'golos-ui/Button';
 
 import Userpic from 'app/components/elements/Userpic';
-import {authorSelector} from 'src/app/redux/selectors/post/post';
+import { authorSelector } from 'src/app/redux/selectors/post/post';
 import Follow from 'src/app/components/common/SingleFollow/Follow';
 
 const Wrapper = styled.div`
@@ -148,11 +148,7 @@ class AboutPanel extends Component {
                     <Icon width="36" height="34" name="cake" />
                     <CakeText>
                         {tt('on_golos_from')}
-                        <FormattedDate
-                            value={new Date(created)}
-                            month="long"
-                            year="numeric"
-                        />
+                        <FormattedDate value={new Date(created)} month="long" year="numeric" />
                     </CakeText>
                 </Cake>
                 <Buttons>
