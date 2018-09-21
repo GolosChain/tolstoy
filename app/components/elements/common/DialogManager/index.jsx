@@ -11,9 +11,21 @@ let id = 0;
 export default class DialogManager extends React.PureComponent {
     static showDialog(options) {
         if (instance) {
-            instance._showDialog(options);
+            return instance._showDialog(options);
         } else {
             queue.push(options);
+
+            return {
+                close: () => {
+                    const inQueueIndex = queue.indexOf(options);
+
+                    if (inQueueIndex !== -1) {
+                        queue.splice(inQueueIndex, 1);
+                    } else if (instance) {
+                        instance._closeByOptions(options);
+                    }
+                },
+            };
         }
     }
 
@@ -171,15 +183,32 @@ export default class DialogManager extends React.PureComponent {
         }
     }
 
+    _closeByOptions(options) {
+        for (let dialog of this._dialogs) {
+            if (dialog.options === options) {
+                this._closeDialog(dialog);
+                return;
+            }
+        }
+    }
+
     _showDialog(options, silent) {
-        this._dialogs.push({
+        const dialog = {
             key: ++id,
             options,
-        });
+        };
+
+        this._dialogs.push(dialog);
 
         if (!silent) {
             this.forceUpdate();
         }
+
+        return {
+            close: () => {
+                this._closeDialog(dialog);
+            },
+        };
     }
 
     _onShadowRef = el => {
