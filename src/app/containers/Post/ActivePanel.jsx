@@ -11,16 +11,10 @@ import Icon from 'golos-ui/Icon';
 import DialogManager from 'app/components/elements/common/DialogManager';
 import VotePanel from 'src/app/components/common/VotePanel/VotePanel';
 import ReplyBlock from 'src/app/components/common/ReplyBlock/ReplyBlock';
-import {confirmVote} from 'src/app/helpers/votes';
-import {
-    currentPostSelector,
-    authorSelector,
-    votesSummarySelector,
-    postSelector
-} from 'src/app/redux/selectors/post/post';
-import {currentUsernameSelector} from 'src/app/redux/selectors/common';
-import {onVote} from 'src/app/redux/actions/vote';
-import {togglePinAction} from 'src/app/redux/actions/pinnedPosts';
+import { confirmVote } from 'src/app/helpers/votes';
+import { onVote } from 'src/app/redux/actions/vote';
+import { togglePinAction } from 'src/app/redux/actions/pinnedPosts';
+import { activePanelSelector } from 'src/app/redux/selectors/post/activePanel';
 
 const Wrapper = styled.div`
     display: flex;
@@ -347,16 +341,7 @@ class ActivePanel extends Component {
 }
 
 const mapStateToProps = (state, props) => {
-    const post = currentPostSelector(state, props);
-    const author = authorSelector(state, props);
-    return {
-        votesSummary: votesSummarySelector(state, props),
-        data: postSelector(state, props),
-        username: currentUsernameSelector(state),
-        permLink: post.permLink,
-        account: author.account,
-        isPinned: author.pinnedPostsUrls.includes(author.account + '/' + post.permLink),
-    };
+    return activePanelSelector(state, props);
 };
 
 const mapDispatchToProps = dispatch => {
