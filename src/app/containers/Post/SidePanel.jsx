@@ -4,16 +4,13 @@ import throttle from 'lodash/throttle';
 import is, { isNot } from 'styled-is';
 import { connect } from 'react-redux';
 import tt from 'counterpart';
-import { onVote } from 'app/redux/actions/vote';
-import Icon from 'golos-ui/Icon/Icon';
-import { confirmVote } from 'app/helpers/votes';
-import {
-    currentPostSelector,
-    authorSelector,
-    votesSummarySelector,
-} from 'app/redux/selectors/post/post';
-import { currentUsernameSelector } from 'app/redux/selectors/common';
-import { toggleFavoriteAction } from 'app/redux/actions/favorites';
+
+import Icon from 'golos-ui/Icon';
+import {confirmVote} from 'src/app/helpers/votes';
+import {currentPostSelector, authorSelector, votesSummarySelector} from 'src/app/redux/selectors/post/post';
+import {currentUsernameSelector} from 'src/app/redux/selectors/common';
+import {toggleFavoriteAction} from 'src/app/redux/actions/favorites';
+import {onVote} from 'src/app/redux/actions/vote';
 
 const PADDING_FROM_HEADER = 22;
 const HEADER_HEIGHT = 121;
