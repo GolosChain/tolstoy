@@ -210,7 +210,7 @@ class Voting extends PureComponent {
                 value:
                     tt('voting_jsx.potential_payout') +
                     ' ' +
-                    renderValue(pending_payout) +
+                    renderValue(pending_payout, 'GBG') +
                     ' (' +
                     pending_payout.toFixed(3) +
                     ' ' +
@@ -221,7 +221,7 @@ class Voting extends PureComponent {
 
         if (promoted > 0) {
             payoutItems.push({
-                value: tt('voting_jsx.boost_payments') + ' ' + renderValue(promoted),
+                value: tt('voting_jsx.boost_payments') + ' ' + renderValue(promoted, 'GBG'),
             });
         }
 
@@ -233,7 +233,7 @@ class Voting extends PureComponent {
             payoutItems.push({ value: tt('voting_jsx.payouts_declined') });
         } else if (max_payout < 1000000) {
             payoutItems.push({
-                value: tt('voting_jsx.max_accepted_payout') + renderValue(max_payout),
+                value: tt('voting_jsx.max_accepted_payout') + renderValue(max_payout, 'GBG'),
             });
         }
 
@@ -242,7 +242,7 @@ class Voting extends PureComponent {
                 value:
                     tt('voting_jsx.past_payouts') +
                     ' ' +
-                    renderValue(total_author_payout + total_curator_payout),
+                    renderValue(total_author_payout + total_curator_payout, 'GBG'),
             });
 
             payoutItems.push({
@@ -250,7 +250,7 @@ class Voting extends PureComponent {
                     ' - ' +
                     tt('voting_jsx.authors') +
                     ': ' +
-                    renderValue(total_author_payout),
+                    renderValue(total_author_payout, 'GBG'),
             });
 
             payoutItems.push({
@@ -258,7 +258,7 @@ class Voting extends PureComponent {
                     ' - ' +
                     tt('voting_jsx.curators') +
                     ': ' +
-                    renderValue(total_curator_payout),
+                    renderValue(total_curator_payout, 'GBG'),
             });
         }
 

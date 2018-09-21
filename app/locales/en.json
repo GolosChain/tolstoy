@@ -671,6 +671,13 @@
     }
   },
   "on_golos_from": "On Golos from",
+  "payout_info": {
+    "author": "Author's payout",
+    "beneficiary": "Beneficiary rewards",
+    "curator": "Curator's payout",
+    "payout": "Payout",
+    "potential_payout": "Potential payout"
+  },
   "plurals": {
     "author_rewards_last_24_hours": "Author rewards last 24 hours",
     "balance": "Balance",

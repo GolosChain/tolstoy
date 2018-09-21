@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import tt from 'counterpart';
 import styled from 'styled-components';
 import is from 'styled-is';
@@ -8,8 +9,13 @@ import { calcVotesStats } from 'app/utils/StateFunctions';
 import Icon from 'golos-ui/Icon';
 import Slider from 'golos-ui/Slider';
 import PostPayout from 'src/app/components/common/PostPayout';
+import Popover from '../Popover';
+import PayoutInfo from '../PayoutInfo';
+import PayoutInfoDialog from '../PayoutInfoDialog';
+import DialogManager from 'app/components/elements/common/DialogManager';
 
 const VOTE_PERCENT_THRESHOLD = 1000000;
+const MOBILE_WIDTH = 700;
 
 const LIKE_PERCENT_KEY = 'golos.like-percent';
 const DISLIKE_PERCENT_KEY = 'golos.dislike-percent';
@@ -106,7 +112,7 @@ const Money = styled.div`
     border: 1px solid #959595;
     border-radius: 100px;
     color: #393636;
-    cursor: default;
+    cursor: pointer;
 `;
 
 const Root = styled.div`
@@ -182,11 +188,19 @@ const SliderStyled = styled(Slider)`
     flex-shrink: 1;
 `;
 
+const PostPayoutStyled = styled(PostPayout)`
+    user-select: none;
+`;
+
+@connect(state => ({
+    windowWidth: state.browser.width,
+}))
 export default class VotePanel extends PureComponent {
     static propTypes = {
         data: PropTypes.object, // Immutable.Map
         me: PropTypes.string,
         whiteTheme: PropTypes.bool,
+        windowWidth: PropTypes.number.isRequired,
         onChange: PropTypes.func.isRequired,
     };
 
@@ -231,9 +245,7 @@ export default class VotePanel extends PureComponent {
                         <IconTriangle name="triangle" />
                     </LikeCount>
                 </LikeBlock>
-                <Money>
-                    <PostPayout data={data} />
-                </Money>
+                {this._renderPayout()}
                 <LikeBlockNeg
                     activeNeg={this._myVote === 'dislike' || sliderAction === 'dislike'}
                     data-tooltip={
@@ -288,6 +300,26 @@ export default class VotePanel extends PureComponent {
                 />
             </SliderBlock>
         );
+    }
+
+    _renderPayout() {
+        const { data, windowWidth } = this.props;
+
+        if (windowWidth < MOBILE_WIDTH) {
+            return (
+                <Money onClick={this._onPayoutClick}>
+                    <PostPayoutStyled data={data} />
+                </Money>
+            );
+        } else {
+            return (
+                <Popover content={() => <PayoutInfo data={data} />}>
+                    <Money>
+                        <PostPayoutStyled data={data} />
+                    </Money>
+                </Popover>
+            );
+        }
     }
 
     _hideSlider() {
@@ -371,6 +403,17 @@ export default class VotePanel extends PureComponent {
 
     _onCancelVoteClick = () => {
         this._hideSlider();
+    };
+
+    _onPayoutClick = () => {
+        const { data } = this.props;
+
+        DialogManager.showDialog({
+            component: PayoutInfoDialog,
+            props: {
+                data,
+            },
+        });
     };
 }
 
