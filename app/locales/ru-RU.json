@@ -162,7 +162,6 @@
     "strikethrough": "Подчеркнутый текст",
     "unordered_list": "Список"
   },
-  "on_golos_from": "На Golos с",
   "enter_confirm_email_jsx": {
     "email_address": "Адрес электронной почты",
     "email_address_cannot_be_changed_at_this_moment_sorry_for_inconvenience": "Адрес электронной почты на данный момент не может быть изменен, извините за неудобства",
@@ -676,6 +675,7 @@
       }
     }
   },
+  "on_golos_from": "На Golos с",
   "plurals": {
     "author_rewards_last_24_hours": "Авторские вознаграждения за последние 24 часа",
     "balance": "Баланс",

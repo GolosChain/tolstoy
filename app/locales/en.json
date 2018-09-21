@@ -160,7 +160,6 @@
     "strikethrough": "Toggle strikethrough style",
     "unordered_list": "Make list"
   },
-  "on_golos_from": "On Golos from",
   "enter_confirm_email_jsx": {
     "email_address": "Email Address",
     "email_address_cannot_be_changed_at_this_moment_sorry_for_inconvenience": "Email address cannot be changed at this moment, sorry for the inconvenience",
@@ -671,6 +670,7 @@
       }
     }
   },
+  "on_golos_from": "On Golos from",
   "plurals": {
     "author_rewards_last_24_hours": "Author rewards last 24 hours",
     "balance": "Balance",
