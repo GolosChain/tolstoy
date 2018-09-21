@@ -9,6 +9,34 @@ import { detransliterate, parsePayoutAmount } from 'app/utils/ParsersAndFormatte
 import normalizeProfile from 'app/utils/NormalizeProfile';
 import { calcVotesStats } from 'app/utils/StateFunctions';
 
+const pathnameSelector = state => {
+    return state.routing.locationBeforeTransitions.pathname;
+};
+
+const postUrlFromPathnameSelector = createDeepEqualSelector([pathnameSelector], pathname =>
+    pathname.substr(pathname.indexOf('@') + 1)
+);
+
+const getMyVote = (post, username) => {
+    const votes = post.get('active_votes');
+    for (let vote of votes) {
+        if (vote.get('voter') === username) {
+            const myVote = vote.toJS();
+            myVote.weight = parseInt(myVote.weight || 0, 10);
+            return myVote;
+        }
+    }
+    return 0;
+};
+
+const extractPinnedPostData = metadata => {
+    try {
+        return JSON.parse(metadata).pinnedPosts || [];
+    } catch (error) {
+        return [];
+    }
+};
+
 export const postSelector = createDeepEqualSelector(
     [globalSelector('content'), postUrlFromPathnameSelector],
     (content, url) => content.get(url)
@@ -56,7 +84,7 @@ export const authorSelector = createDeepEqualSelector(
         currentPostSelector,
         globalSelector('content'),
     ],
-    (accounts, followCount, muting, post, content) => {
+    (accounts, followCount, post, content) => {
         const authorAccountName = post.author;
         const authorData = accounts.get(authorAccountName);
         const jsonData = normalizeProfile({
@@ -83,31 +111,3 @@ export const authorSelector = createDeepEqualSelector(
         };
     }
 );
-
-const pathnameSelector = state => {
-    return state.routing.locationBeforeTransitions.pathname;
-};
-
-const postUrlFromPathnameSelector = createDeepEqualSelector([pathnameSelector], pathname =>
-    pathname.substr(pathname.indexOf('@') + 1)
-);
-
-const getMyVote = (post, username) => {
-    const votes = post.get('active_votes');
-    for (let vote of votes) {
-        if (vote.get('voter') === username) {
-            const myVote = vote.toJS();
-            myVote.weight = parseInt(myVote.weight || 0, 10);
-            return myVote;
-        }
-    }
-    return 0;
-};
-
-const extractPinnedPostData = metadata => {
-    try {
-        return JSON.parse(metadata).pinnedPosts || [];
-    } catch (error) {
-        return [];
-    }
-};

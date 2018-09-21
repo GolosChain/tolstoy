@@ -8,10 +8,11 @@ import { Link } from 'react-router';
 import Icon from 'golos-ui/Icon';
 
 import Userpic from 'app/components/elements/Userpic';
-import Follow from 'src/app/components/common/Follow';
 import Mute from 'src/app/components/common/Mute';
 import {toggleFavoriteAction} from 'src/app/redux/actions/favorites';
 import {USER_PINNED_POSTS_LOAD} from 'src/app/redux/constants/pinnedPosts';
+import {authorSelector} from 'src/app/redux/selectors/post/post';
+import Follow from 'src/app/components/common/SingleFollow/Follow';
 
 const Block = styled.div`
     width: 100%;

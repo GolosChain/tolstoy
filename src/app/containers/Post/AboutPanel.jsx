@@ -9,8 +9,8 @@ import Icon from 'golos-ui/Icon';
 import Button from 'golos-ui/Button';
 
 import Userpic from 'app/components/elements/Userpic';
-import Follow from 'src/app/components/common/Follow/Follow';
 import {authorSelector} from 'src/app/redux/selectors/post/post';
+import Follow from 'src/app/components/common/SingleFollow/Follow';
 
 const Wrapper = styled.div`
     display: flex;
