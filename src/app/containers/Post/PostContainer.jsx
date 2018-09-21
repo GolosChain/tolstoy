@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Container from 'src/app/components/common/Container/Container';
 import SidePanel from 'src/app/containers/Post/SidePanel';
-import { authorSelector, currentPostSelector } from '../../redux/selectors/post/post';
-import PostContent from '../../components/post/PostContent';
-import ActivePanel from './ActivePanel';
-import AboutPanel from './AboutPanel';
-import { USER_FOLLOW_DATA_LOAD } from '../../redux/constants/followers';
-import { FAVORITES_LOAD } from '../../redux/constants/favorites';
 import throttle from 'lodash/throttle';
+import PostContent from 'app/components/post/PostContent';
+import ActivePanel from 'app/containers/Post/ActivePanel';
+import AboutPanel from 'app/containers/Post/AboutPanel';
+import { currentPostSelector, authorSelector } from 'app/redux/selectors/post/post';
+import { USER_FOLLOW_DATA_LOAD } from 'app/redux/constants/followers';
+import { FAVORITES_LOAD } from 'app/redux/constants/favorites';
 
 const PAD_SCREEN_SIZE = 768;
 
@@ -19,7 +19,7 @@ const Wrapper = styled.div`
     background-color: #f9f9f9;
 `;
 
-const ContentWrapper = Container.extend`
+const ContentWrapper = styled(Container)`
     position: relative;
     padding-top: 22px;
     padding-bottom: 17px;
