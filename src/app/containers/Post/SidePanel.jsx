@@ -7,10 +7,10 @@ import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
 
-import {confirmVote} from 'src/app/helpers/votes';
-import {toggleFavoriteAction} from 'src/app/redux/actions/favorites';
-import {onVote} from 'src/app/redux/actions/vote';
-import {sidePanelSelector} from 'src/app/redux/selectors/post/sidePanel';
+import { confirmVote } from 'src/app/helpers/votes';
+import { toggleFavoriteAction } from 'src/app/redux/actions/favorites';
+import { onVote } from 'src/app/redux/actions/vote';
+import { sidePanelSelector } from 'src/app/redux/selectors/post/sidePanel';
 
 const PADDING_FROM_HEADER = 22;
 const HEADER_HEIGHT = 121;
