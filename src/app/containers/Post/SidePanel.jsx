@@ -30,7 +30,7 @@ const Wrapper = styled.div`
     background-color: #ffffff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
     opacity: 1;
-    transition: visibility 0s linear 0s, opacity 0.3s;
+    transition: visibility 0.3s, opacity 0.3s;
 
     ${isNot('fixedOnScreen')`
         position: absolute;
@@ -38,7 +38,6 @@ const Wrapper = styled.div`
 
     ${isNot('showPanel')`
         opacity: 0;
-        transition: visibility 0s linear .3s, opacity .3s;
         visibility: hidden;
     `};
 
@@ -48,7 +47,6 @@ const Wrapper = styled.div`
 
     @media (max-width: 1407px) {
         opacity: 0;
-        transition: visibility 0s linear 0.3s, opacity 0.3s;
         visibility: hidden;
     }
 
