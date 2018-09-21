@@ -6,9 +6,10 @@ import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
 import Button from 'golos-ui/Button';
-import {currentUsernameSelector} from 'src/app/redux/selectors/common';
-import {followSelector} from 'src/app/redux/selectors/follow/follow';
-import {updateFollow} from 'src/app/redux/actions/follow';
+
+import { currentUsernameSelector } from 'src/app/redux/selectors/common';
+import { followSelector } from 'src/app/redux/selectors/follow/follow';
+import { updateFollow } from 'src/app/redux/actions/follow';
 
 const Wrapper = styled(Button)`
     min-width: 100%;

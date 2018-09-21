@@ -6,9 +6,9 @@ import tt from 'counterpart';
 
 import Button from 'golos-ui/Button';
 
-import {followSelector} from 'src/app/redux/selectors/follow/follow';
-import {currentUsernameSelector} from 'src/app/redux/selectors/common';
-import {updateFollow} from 'src/app/redux/actions/follow';
+import { muteSelector } from 'src/app/redux/selectors/follow/follow';
+import { currentUsernameSelector } from 'src/app/redux/selectors/common';
+import { updateFollow } from 'src/app/redux/actions/follow';
 
 const MuteButton = styled.div`
     display: flex;
@@ -74,7 +74,7 @@ class Mute extends Component {
 
 const mapStateToProps = (state, props) => {
     return {
-        ...followSelector(state, props),
+        ...muteSelector(state, props),
         username: currentUsernameSelector(state),
     };
 };
