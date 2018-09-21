@@ -320,6 +320,8 @@ class ActivePanel extends Component {
     };
 
     _promotePost = () => {
+        const { account, permLink } = this.props;
+        this.props.showPromotePost(account, permLink);
         this._closePopover();
     };
 
@@ -365,6 +367,12 @@ const mapDispatchToProps = dispatch => {
         },
         reblog: (account, author, permLink) => {
             dispatch(reblog(account, author, permLink));
+        },
+        showPromotePost(author, permlink) {
+            dispatch({
+                type: 'global/SHOW_DIALOG',
+                payload: { name: 'promotePost', params: { author, permlink } },
+            });
         },
     };
 };
