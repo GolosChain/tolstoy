@@ -6,9 +6,9 @@ import tt from 'counterpart';
 import Userpic from 'app/components/elements/Userpic';
 import Icon from 'golos-ui/Icon';
 import Button from 'golos-ui/Button';
-import Follow from 'golos-ui/Follow';
 import { authorSelector } from 'app/redux/selectors/post/post';
 import { FormattedDate } from 'react-intl';
+import Follow from 'app/components/common/Follow';
 
 const Wrapper = styled.div`
     display: flex;

@@ -2,15 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import Icon from '../golos-ui/Icon';
 import Userpic from 'app/components/elements/Userpic';
 import tt from 'counterpart';
 import { Link } from 'react-router';
-import Follow from '../common/Follow';
-import Mute from '../common/Mute';
-import { authorSelector } from '../../redux/selectors/post/post';
-import { toggleFavoriteAction } from '../../redux/actions/favorites';
-import { USER_PINNED_POSTS_LOAD } from '../../redux/constants/pinnedPosts';
+import Follow from 'app/components/common/Follow/Follow';
+import Mute from 'app/components/common/Mute/Mute';
+import { toggleFavoriteAction } from 'app/redux/actions/favorites';
+import { USER_PINNED_POSTS_LOAD } from 'app/redux/constants/pinnedPosts';
+import { authorSelector } from 'app/redux/selectors/post/post';
 
 const Block = styled.div`
     width: 100%;
@@ -24,7 +23,7 @@ const Block = styled.div`
     }
 `;
 
-const ButtonsBlock = Block.extend`
+const ButtonsBlock = styled(Block)`
     display: flex;
     justify-content: space-between;
 `;
@@ -38,7 +37,7 @@ const Wrapper = styled.section`
         border-bottom: none;
         padding-bottom: 0;
     }
-    
+
     @media (max-width: 768px) {
         max-width: calc(100vw - 60px);
         min-width: 330px;
@@ -196,9 +195,9 @@ class PopoverBody extends Component {
 
     _closePopover = () => {
         if (this.props.onClose) {
-            this.props.onClose()
+            this.props.onClose();
         } else {
-            this.props.close()
+            this.props.close();
         }
     };
 }
