@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import tt from 'counterpart';
-import styled from 'styled-components';
-import Button from '../../golos-ui/Button/index';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { updateFollow } from '../../../redux/actions/follow';
-import { currentUsernameSelector } from '../../../redux/selectors/common';
-import { followSelector } from '../../../redux/selectors/follow/follow';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import tt from 'counterpart';
+
+import Button from 'golos-ui/Button';
+
+import {followSelector} from 'src/app/redux/selectors/follow/follow';
+import {currentUsernameSelector} from 'src/app/redux/selectors/common';
+import {updateFollow} from 'src/app/redux/actions/follow';
 
 const MuteButton = styled.div`
     display: flex;

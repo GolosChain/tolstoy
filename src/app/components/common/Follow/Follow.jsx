@@ -5,12 +5,12 @@ import styled from 'styled-components';
 import { Set, Map } from 'immutable';
 import tt from 'counterpart';
 
-import user from 'app/redux/User';
-import transaction from 'app/redux/Transaction';
-
-import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import Button from 'golos-ui/Button';
 import Icon from 'golos-ui/Icon';
+
+import user from 'app/redux/User';
+import transaction from 'app/redux/Transaction';
+import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 
 const ButtonStyled = styled(Button)`
     margin-right: 8px;
