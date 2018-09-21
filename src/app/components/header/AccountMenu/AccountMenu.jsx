@@ -155,7 +155,7 @@ export default class AccountMenu extends PureComponent {
                 <Ul>
                     {items.map(({ link, icon, text, size, style, onClick }, i) => (
                         <Li key={i}>
-                            <LinkStyled href={link} onClick={onClick}>
+                            <LinkStyled to={link} onClick={onClick}>
                                 <IconWrapper>
                                     <IconStyled name={icon} size={size || 22} style={style} />
                                 </IconWrapper>
