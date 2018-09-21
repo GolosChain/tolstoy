@@ -9,7 +9,7 @@ const Root = styled.div`
     right: ${({ right }) => right}px;
     border-radius: 8px;
     background: #fff;
-    box-shadow: 0 0 9px 1px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
     z-index: 2;
     animation: fade-in 0.15s;
 `;
