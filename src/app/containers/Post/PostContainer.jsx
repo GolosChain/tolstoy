@@ -4,12 +4,12 @@ import styled from 'styled-components';
 import Container from 'src/app/components/common/Container/Container';
 import SidePanel from 'src/app/containers/Post/SidePanel';
 import throttle from 'lodash/throttle';
-import PostContent from 'app/components/post/PostContent';
-import ActivePanel from 'app/containers/Post/ActivePanel';
-import AboutPanel from 'app/containers/Post/AboutPanel';
-import { currentPostSelector, authorSelector } from 'app/redux/selectors/post/post';
-import { USER_FOLLOW_DATA_LOAD } from 'app/redux/constants/followers';
-import { FAVORITES_LOAD } from 'app/redux/constants/favorites';
+import PostContent from 'src/app/components/post/PostContent';
+import ActivePanel from 'src/app/containers/Post/ActivePanel';
+import AboutPanel from 'src/app/containers/Post/AboutPanel';
+import {USER_FOLLOW_DATA_LOAD} from 'src/app/redux/constants/followers';
+import {FAVORITES_LOAD} from 'src/app/redux/constants/favorites';
+import {currentPostSelector, authorSelector} from 'src/app/redux/selectors/post/post';
 
 const PAD_SCREEN_SIZE = 768;
 
