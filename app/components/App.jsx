@@ -1,21 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import cn from 'classnames';
 import { ThemeProvider, injectGlobal } from 'styled-components';
 import AppPropTypes from 'app/utils/AppPropTypes';
-import Header from 'app/components/modules/Header';
+import Header from 'src/app/components/header/Header';
 import Footer from 'app/components/modules/Footer';
 import TooltipManager from 'app/components/elements/common/TooltipManager';
 import user from 'app/redux/User';
 import g from 'app/redux/GlobalReducer';
-import resolveRoute from 'app/ResolveRoute';
 import CloseButton from 'react-foundation-components/lib/global/close-button';
 import Dialogs from '@modules/Dialogs';
 import Modals from '@modules/Modals';
 import ScrollButton from '@elements/ScrollButton';
 import { key_utils } from 'golos-js/lib/auth/ecc';
-import MiniHeader from '@modules/MiniHeader';
 import tt from 'counterpart';
 import PageViewsCounter from '@elements/PageViewsCounter';
 
@@ -154,8 +151,6 @@ class App extends Component {
     render() {
         const { location, params, children, flash, new_visitor } = this.props;
 
-        const route = resolveRoute(location.pathname);
-        const miniHeader = location.pathname === '/create_account';
         const params_keys = Object.keys(params);
         const ip =
             location.pathname === '/' ||
@@ -227,15 +222,11 @@ class App extends Component {
         return (
             <ThemeProvider theme={defaultTheme}>
                 <div
-                    className={'App' + (ip ? ' index-page' : '') + (miniHeader ? ' mini-' : '')}
+                    className={'App' + (ip ? ' index-page' : '')}
                     onMouseMove={this.onEntropyEvent}
                 >
-                    {miniHeader ? <MiniHeader /> : <Header />}
-                    <div
-                        className={cn('App__content', {
-                            'App__content_hide-sub-menu': route.hideSubMenu,
-                        })}
-                    >
+                    <Header />
+                    <div className="App__content">
                         {welcome_screen}
                         {callout}
                         {children}
