@@ -1,24 +1,26 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
-import Icon from 'golos-ui/Icon';
 import tt from 'counterpart';
-import PropTypes from 'prop-types';
+
 import Popover from 'golos-ui/Popover';
-import VotePanel from 'app/components/common/VotePanel/VotePanel';
-import ReplyBlock from 'app/components/common/ReplyBlock/ReplyBlock';
-import { confirmVote } from 'app/helpers/votes';
+import Icon from 'golos-ui/Icon';
+
 import DialogManager from 'app/components/elements/common/DialogManager';
+import VotePanel from 'src/app/components/common/VotePanel/VotePanel';
+import ReplyBlock from 'src/app/components/common/ReplyBlock/ReplyBlock';
+import {confirmVote} from 'src/app/helpers/votes';
 import {
     currentPostSelector,
     authorSelector,
     votesSummarySelector,
-    postSelector,
-} from 'app/redux/selectors/post/post';
-import { currentUsernameSelector } from 'app/redux/selectors/common';
-import { onVote } from 'app/redux/actions/vote';
-import { togglePinAction } from 'app/redux/actions/pinnedPosts';
+    postSelector
+} from 'src/app/redux/selectors/post/post';
+import {currentUsernameSelector} from 'src/app/redux/selectors/common';
+import {onVote} from 'src/app/redux/actions/vote';
+import {togglePinAction} from 'src/app/redux/actions/pinnedPosts';
 
 const Wrapper = styled.div`
     display: flex;
