@@ -128,6 +128,10 @@ const RegistrationLink = styled(Link)`
     margin-right: 12px;
 `;
 
+const LoginLink = styled(Link)`
+    margin-right: 12px;
+`;
+
 const NewPostLink = styled(Link)`
     padding: 0 10px;
 `;
@@ -204,6 +208,7 @@ const Notifications = styled.div`
     display: flex;
     align-items: center;
     padding: 10px;
+    margin-right: 10px;
     user-select: none;
     cursor: pointer;
 
@@ -227,7 +232,6 @@ const NotifCounter = styled.div`
 
 const DotsWrapper = styled.div`
     padding: 10px;
-    margin-left: 10px;
     cursor: pointer;
 `;
 
@@ -336,9 +340,9 @@ export default class Header extends PureComponent {
                                 <RegistrationLink to="https://reg.golos.io/">
                                     <Button>{tt('g.sign_up')}</Button>
                                 </RegistrationLink>
-                                <Link to="/login.html" onClick={this._onLoginClick}>
+                                <LoginLink to="/login.html" onClick={this._onLoginClick}>
                                     <Button light>{tt('g.login')}</Button>
-                                </Link>
+                                </LoginLink>
                             </Fragment>
                         )}
                         {isMobile ? null : (
