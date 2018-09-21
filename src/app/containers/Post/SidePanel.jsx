@@ -6,11 +6,11 @@ import { connect } from 'react-redux';
 import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
+
 import {confirmVote} from 'src/app/helpers/votes';
-import {currentPostSelector, authorSelector, votesSummarySelector} from 'src/app/redux/selectors/post/post';
-import {currentUsernameSelector} from 'src/app/redux/selectors/common';
 import {toggleFavoriteAction} from 'src/app/redux/actions/favorites';
 import {onVote} from 'src/app/redux/actions/vote';
+import {sidePanelSelector} from 'src/app/redux/selectors/post/sidePanel';
 
 const PADDING_FROM_HEADER = 22;
 const HEADER_HEIGHT = 121;
@@ -222,17 +222,7 @@ class SidePanel extends Component {
 }
 
 const mapStateToProps = (state, props) => {
-    const post = currentPostSelector(state, props);
-    const author = authorSelector(state, props);
-    const username = currentUsernameSelector(state);
-    return {
-        votesSummary: votesSummarySelector(state, props),
-        isFavorite: post.isFavorite,
-        author: author.account,
-        permLink: post.permLink,
-        username,
-        myVote: post.myVote,
-    };
+    return sidePanelSelector(state, props);
 };
 
 const mapDispatchToProps = dispatch => {
