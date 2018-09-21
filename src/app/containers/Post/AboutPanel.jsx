@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import Userpic from '../../../../app/components/elements/Userpic';
 import { Link } from 'react-router';
 import tt from 'counterpart';
-import Icon from '../../components/golos-ui/Icon/Icon';
-import Button from '../../components/golos-ui/Button/Button';
-import FollowButton from '../../components/golos-ui/Follow/index';
-import { authorSelector } from '../../redux/selectors/post/post';
+import Userpic from 'app/components/elements/Userpic';
+import Icon from 'golos-ui/Icon';
+import Button from 'golos-ui/Button';
+import Follow from 'golos-ui/Follow';
+import { authorSelector } from 'app/redux/selectors/post/post';
+import { FormattedDate } from 'react-intl';
 
 const Wrapper = styled.div`
     display: flex;
@@ -93,7 +94,7 @@ const Buttons = styled.div`
     flex-grow: 1;
 `;
 
-const ButtonInPanel = Button.extend`
+const ButtonInPanel = styled(Button)`
     min-width: 167px;
     text-transform: uppercase;
 
@@ -103,7 +104,7 @@ const ButtonInPanel = Button.extend`
     }
 `;
 
-const Follow = styled(FollowButton)`
+const FollowButton = styled(Follow)`
     min-width: 167px;
     min-height: 34px;
 
@@ -129,8 +130,7 @@ const AboutMobile = styled.p`
 
 class AboutPanel extends Component {
     render() {
-        const { name, account, about, joinDate } = this.props;
-
+        const { name, account, about } = this.props;
         return (
             <Wrapper>
                 <Avatar>
@@ -146,7 +146,11 @@ class AboutPanel extends Component {
                     <Icon width="36" height="34" name="cake" />
                     <CakeText>
                         {tt('on_golos_from')}
-                        <span>{joinDate}</span>
+                        <FormattedDate
+                            value={new Date(author.created)}
+                            month="long"
+                            year="numeric"
+                        />
                     </CakeText>
                 </Cake>
                 <Buttons>
@@ -154,7 +158,7 @@ class AboutPanel extends Component {
                         <Icon width="17" height="15" name="coins_plus" />
                         {tt('g.donate')}
                     </ButtonInPanel>
-                    <Follow following={account} />
+                    <FollowButton following={account} />
                 </Buttons>
             </Wrapper>
         );
@@ -163,19 +167,12 @@ class AboutPanel extends Component {
 
 const mapStateToProps = (state, props) => {
     const author = authorSelector(state, props);
+
     return {
         name: author.name,
         account: author.account,
-        joinDate: author.joinDate,
         about: author.about,
     };
 };
 
-const mapDispatchToProps = dispatch => {
-    return {};
-};
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(AboutPanel);
+export default connect(mapStateToProps)(AboutPanel);

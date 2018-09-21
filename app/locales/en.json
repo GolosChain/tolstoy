@@ -160,8 +160,6 @@
     "strikethrough": "Toggle strikethrough style",
     "unordered_list": "Make list"
   },
-  "months_names": ["January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"],
   "on_golos_from": "On Golos from",
   "enter_confirm_email_jsx": {
     "email_address": "Email Address",

@@ -7,15 +7,7 @@ import {
 } from '../common';
 import { detransliterate, parsePayoutAmount } from 'app/utils/ParsersAndFormatters';
 import normalizeProfile from 'app/utils/NormalizeProfile';
-import { calcVotesStats } from '../../../../../app/utils/StateFunctions';
-
-const pathnameSelector = state => {
-    return state.routing.locationBeforeTransitions.pathname;
-};
-
-const postUrlFromPathnameSelector = createDeepEqualSelector([pathnameSelector], pathname =>
-    pathname.substr(pathname.indexOf('@') + 1)
-);
+import { calcVotesStats } from 'app/utils/StateFunctions';
 
 export const postSelector = createDeepEqualSelector(
     [globalSelector('content'), postUrlFromPathnameSelector],
@@ -57,18 +49,6 @@ export const currentPostSelector = createDeepEqualSelector(
     }
 );
 
-function getMyVote(post, username) {
-    const votes = post.get('active_votes');
-    for (let vote of votes) {
-        if (vote.get('voter') === username) {
-            const myVote = vote.toJS();
-            myVote.weight = parseInt(myVote.weight || 0, 10);
-            return myVote;
-        }
-    }
-    return 0;
-}
-
 export const authorSelector = createDeepEqualSelector(
     [
         globalSelector('accounts'),
@@ -84,10 +64,7 @@ export const authorSelector = createDeepEqualSelector(
             name: authorAccountName,
         });
         const pinnedPostsUrls = extractPinnedPostData(authorData.get('json_metadata'));
-        const created = authorData.get('created');
-        const date = new Date(created);
-        const joinMonth = tt('months_names')[date.getMonth()];
-        const joinYear = date.getFullYear();
+
         return {
             name: jsonData.name || authorAccountName,
             account: authorAccountName,
@@ -98,17 +75,34 @@ export const authorSelector = createDeepEqualSelector(
             pinnedPosts: pinnedPostsUrls
                 .map(url => content.get(url))
                 .filter(post => !!post)
-                .map(post => {
-                    return {
-                        title: post.get('title'),
-                        url: post.get('url'),
-                    };
-                }),
-            created,
-            joinDate: joinMonth + ' ' + joinYear,
+                .map(post => ({
+                    title: post.get('title'),
+                    url: post.get('url'),
+                })),
+            created: authorData.get('created'),
         };
     }
 );
+
+const pathnameSelector = state => {
+    return state.routing.locationBeforeTransitions.pathname;
+};
+
+const postUrlFromPathnameSelector = createDeepEqualSelector([pathnameSelector], pathname =>
+    pathname.substr(pathname.indexOf('@') + 1)
+);
+
+const getMyVote = (post, username) => {
+    const votes = post.get('active_votes');
+    for (let vote of votes) {
+        if (vote.get('voter') === username) {
+            const myVote = vote.toJS();
+            myVote.weight = parseInt(myVote.weight || 0, 10);
+            return myVote;
+        }
+    }
+    return 0;
+};
 
 const extractPinnedPostData = metadata => {
     try {
