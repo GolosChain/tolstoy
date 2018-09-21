@@ -340,7 +340,7 @@ export default class Header extends PureComponent {
                                 <RegistrationLink to="https://reg.golos.io/">
                                     <Button>{tt('g.sign_up')}</Button>
                                 </RegistrationLink>
-                                <LoginLink to="/login.html" onClick={this._onLoginClick}>
+                                <LoginLink to="/login" onClick={this._onLoginClick}>
                                     <Button light>{tt('g.login')}</Button>
                                 </LoginLink>
                             </Fragment>

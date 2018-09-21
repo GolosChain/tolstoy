@@ -77,7 +77,7 @@ class CreateAccountTestnet extends React.Component {
                 }
                 this.setState({server_error: res.error || tt('g.unknown'), loading: false});
             } else {
-                window.location = `/login.html#account=${name}&msg=accountcreated`;
+                window.location = `/login#account=${name}&msg=accountcreated`;
             }
         }).catch(error => {
             console.error('Caught CreateAccount server error', error);

@@ -136,7 +136,7 @@ class RecoverAccountStep2 extends React.Component {
         } else {
             if (success) {
                 // submit = <h4>Congratulations! Your account has been recovered. Please login using your new password.</h4>;
-                window.location = `/login.html#account=${account_to_recover}&msg=accountrecovered`;
+                window.location = `/login#account=${account_to_recover}&msg=accountrecovered`;
             } else {
                 submit = <input disabled={!valid} type="submit" className={submit_btn_class} value={tt('g.submit')} />;
             }

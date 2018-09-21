@@ -349,7 +349,7 @@ class CreateAccount extends React.Component {
                             {tt(
                                 'createaccount_jsx.next_3_blocks.you_can_either'
                             ) + ' '}
-                            <a href="/login.html">{tt('g.login')}</a>
+                            <a href="/login">{tt('g.login')}</a>
                             {tt(
                                 'createaccount_jsx.next_3_blocks.to_your_existing_account_or'
                             ) + ' '}
@@ -569,7 +569,7 @@ class CreateAccount extends React.Component {
                 });
             } else {
                 successReg();
-                window.location = `/login.html#account=${name}&msg=accountcreated`;
+                window.location = `/login#account=${name}&msg=accountcreated`;
             }
         } catch (err) {
             console.error('Caught CreateAccount server error', err);

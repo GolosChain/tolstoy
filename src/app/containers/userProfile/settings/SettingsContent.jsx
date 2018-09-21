@@ -166,7 +166,7 @@ export default class SettingsContent extends PureComponent {
                 newWif: values.newWif,
                 successCallback: () => {
                     notify('Password Updated');
-                    window.location = `/login.html#account=${values.username}&msg=passwordupdated`;
+                    window.location = `/login#account=${values.username}&msg=passwordupdated`;
                     resolve();
                 },
                 errorCallback: e => {
