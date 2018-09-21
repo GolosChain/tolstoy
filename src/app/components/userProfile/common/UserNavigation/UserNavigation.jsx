@@ -158,7 +158,7 @@ class UserNavigation extends PureComponent {
                     to={`/@${accountName}/settings`}
                     data-tooltip={tt('g.settings')}
                 >
-                    <Icon name="setting" size="24" />
+                    <Icon name="settings" size="24" />
                 </IconLink>
             );
         }

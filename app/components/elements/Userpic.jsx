@@ -94,7 +94,7 @@ class Userpic extends PureComponent {
     };
 
     render() {
-        const { size, votingPower, showProgress, onClick } = this.props;
+        const { size, votingPower, showProgress, className, onClick } = this.props;
 
         const style = {
             width: size,
@@ -107,12 +107,12 @@ class Userpic extends PureComponent {
             const toggle = showProgress ? () => {} : this.toggleProgress;
 
             return (
-                <div className="Userpic" onClick={toggle} style={style}>
+                <div className={cn('Userpic', className)} onClick={toggle} style={style}>
                     {percentage ? this.getVotingIndicator(percentage) : null}
                 </div>
             );
         } else {
-            return <div className="Userpic" style={style} onClick={onClick} />;
+            return <div className={cn('Userpic', className)} style={style} onClick={onClick} />;
         }
     }
 }

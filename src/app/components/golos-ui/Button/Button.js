@@ -15,7 +15,7 @@ export const BaseButton = styled.button`
     border-radius: 100px;
 
     margin: 0;
-    padding: 0 12px;
+    padding: 0 15px;
     border: 0;
     outline: none;
 
