@@ -132,7 +132,7 @@ const AboutMobile = styled.p`
 
 class AboutPanel extends Component {
     render() {
-        const { name, account, about } = this.props;
+        const { name, account, about, created } = this.props;
         return (
             <Wrapper>
                 <Avatar>
@@ -149,7 +149,7 @@ class AboutPanel extends Component {
                     <CakeText>
                         {tt('on_golos_from')}
                         <FormattedDate
-                            value={new Date(author.created)}
+                            value={new Date(created)}
                             month="long"
                             year="numeric"
                         />
@@ -174,6 +174,7 @@ const mapStateToProps = (state, props) => {
         name: author.name,
         account: author.account,
         about: author.about,
+        created: author.created,
     };
 };
 
