@@ -6,8 +6,8 @@ import Icon from '../golos-ui/Icon';
 import Userpic from 'app/components/elements/Userpic';
 import tt from 'counterpart';
 import { Link } from 'react-router';
-import FollowButton from '../common/FollowButton';
-import MuteButton from '../common/MuteButton';
+import Follow from '../common/Follow';
+import Mute from '../common/Mute';
 import { authorSelector } from '../../redux/selectors/post/post';
 import { toggleFavoriteAction } from '../../redux/actions/favorites';
 import { USER_PINNED_POSTS_LOAD } from '../../redux/constants/pinnedPosts';
@@ -131,12 +131,12 @@ const PostTitle = styled(Link)`
     }
 `;
 
-const Follow = styled(FollowButton)`
+const FollowButton = styled(Follow)`
     min-width: 150px;
     min-height: 30px;
 `;
 
-const Mute = styled(MuteButton)`
+const MuteButton = styled(Mute)`
     min-width: 130px;
     min-height: 30px;
     margin-left: 10px;
@@ -187,8 +187,8 @@ class PopoverBody extends Component {
                     </Block>
                 )}
                 <ButtonsBlock>
-                    <Follow following={account} onClick={this._closePopover} />
-                    <Mute muting={account} onClick={this._closePopover} />
+                    <FollowButton following={account} onClick={this._closePopover} />
+                    <MuteButton muting={account} onClick={this._closePopover} />
                 </ButtonsBlock>
             </Wrapper>
         );

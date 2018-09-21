@@ -11,12 +11,12 @@ import PropTypes from 'prop-types';
 import {
     authorSelector,
     currentPostSelector,
-    currentUsernameSelector,
 } from '../../redux/selectors/post/post';
 import { toggleFavoriteAction } from '../../redux/actions/favorites';
 import { updateFollow } from '../../redux/actions/follow';
 import Popover from '../golos-ui/Popover/Popover';
 import DialogManager from '../../../../app/components/elements/common/DialogManager/index';
+import {currentUsernameSelector} from 'app/redux/selectors/common';
 
 const Wrapper = styled.div`
     display: flex;

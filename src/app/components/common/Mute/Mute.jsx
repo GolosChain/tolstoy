@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import tt from 'counterpart';
 import styled from 'styled-components';
-import Button from '../Button/index';
+import Button from '../../golos-ui/Button/index';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { updateFollow } from '../../../redux/actions/follow';
