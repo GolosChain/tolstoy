@@ -1,12 +1,13 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Map, Set, OrderedSet } from 'immutable';
+import { OrderedSet } from 'immutable';
 import styled from 'styled-components';
 import { Link } from 'react-router';
 
 import tt from 'counterpart';
 import o2j from 'shared/clash/object2json';
+import { followersDialogSelector } from 'src/app/redux/selectors/dialogs/followersDialog';
 
 import Icon from 'golos-ui/Icon';
 import SplashLoader from 'golos-ui/SplashLoader';
@@ -100,29 +101,7 @@ const Name = styled.div`
     margin-left: 9px;
 `;
 
-const emptyMap = Map();
-const emptyOrderedSet = OrderedSet();
-
-@connect((state, props) => {
-    const { pageAccountName, type } = props;
-
-    const methodPath = type === 'follower' ? 'getFollowersAsync' : 'getFollowingAsync';
-    const countPath = type === 'follower' ? 'follower_count' : 'following_count';
-
-    const followCount = state.global.getIn(['follow_count', pageAccountName, countPath], 0);
-    const follow = state.global.getIn(['follow', methodPath, pageAccountName], emptyMap);
-    const loadingFollow = follow.get('blog_loading', false) || follow.get('ignore_loading', false);
-    const namesFollow = follow.get('blog_result', emptyOrderedSet);
-
-    const accounts = state.global.get('accounts');
-    const users = namesFollow.map(name => accounts.get(name));
-
-    return {
-        loadingFollow,
-        followCount,
-        users,
-    };
-})
+@connect(followersDialogSelector)
 export default class FollowersDialog extends PureComponent {
     static propTypes = {
         pageAccountName: PropTypes.string,
@@ -169,7 +148,11 @@ export default class FollowersDialog extends PureComponent {
 
                         return (
                             <UserItem key={key}>
-                                <UserLink to={`/@${user.get('name')}`} title={user.get('name')} onClick={this.props.onClose}>
+                                <UserLink
+                                    to={`/@${user.get('name')}`}
+                                    title={user.get('name')}
+                                    onClick={this.props.onClose}
+                                >
                                     <Avatar avatarUrl={profile.profile_image} />
                                     <Name>{profile.name || user.get('name')}</Name>
                                 </UserLink>
