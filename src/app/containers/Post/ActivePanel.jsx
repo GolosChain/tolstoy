@@ -2,23 +2,23 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import is from 'styled-is';
-import VotePanel from '../../components/common/VotePanel/VotePanel';
-import Icon from '../../components/golos-ui/Icon/Icon';
-import ReplyBlock from '../../components/common/ReplyBlock/ReplyBlock';
+import Icon from 'golos-ui/Icon';
 import tt from 'counterpart';
 import PropTypes from 'prop-types';
+import Popover from 'golos-ui/Popover';
+import VotePanel from 'app/components/common/VotePanel/VotePanel';
+import ReplyBlock from 'app/components/common/ReplyBlock/ReplyBlock';
+import { confirmVote } from 'app/helpers/votes';
+import DialogManager from 'app/components/elements/common/DialogManager';
 import {
-    authorSelector,
     currentPostSelector,
-    currentUsernameSelector,
-    postSelector,
+    authorSelector,
     votesSummarySelector,
-} from '../../redux/selectors/post/post';
-import { confirmVote } from '../../helpers/votes';
-import { onVote } from '../../redux/actions/vote';
-import { togglePinAction } from '../../redux/actions/pinnedPosts';
-import Popover from '../../components/golos-ui/Popover/Popover';
-import DialogManager from '../../../../app/components/elements/common/DialogManager/index';
+    postSelector,
+} from 'app/redux/selectors/post/post';
+import { currentUsernameSelector } from 'app/redux/selectors/common';
+import { onVote } from 'app/redux/actions/vote';
+import { togglePinAction } from 'app/redux/actions/pinnedPosts';
 
 const Wrapper = styled.div`
     display: flex;
@@ -77,11 +77,11 @@ const Repost = styled.div`
     }
 `;
 
-const SharingTriangle = Repost.extend`
+const SharingTriangle = styled(Repost)`
     padding: 0 17px 0 7px;
 `;
 
-const DotsMore = Repost.extend`
+const DotsMore = styled(Repost)`
     position: relative;
     padding: 0 13px;
 
