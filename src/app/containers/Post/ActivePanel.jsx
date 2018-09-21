@@ -196,10 +196,11 @@ const ActionsBlock = ({ togglePin, promotePost, flagPost, close }) => {
                 <ActionIcon name="brilliant" />
                 <ActionText>{tt('active_panel_tooltip.promote_post')}</ActionText>
             </Action>
+            {/*TODO после реализации функционала
             <Action onClick={flagPost}>
                 <ActionIcon name="complain_normal" />
                 <ActionText>{tt('active_panel_tooltip.complain_about_post')}</ActionText>
-            </Action>
+            </Action>*/}
         </Actions>
     );
 };
