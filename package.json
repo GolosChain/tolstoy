@@ -23,7 +23,8 @@
     "webpush": "babel-node ./scripts/webpush_notify.js",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "release-tag": "node scripts/release_tag.js"
+    "release-tag": "node scripts/release_tag.js",
+    "sort-locales": "node scripts/sort_locales.js"
   },
   "author": "Golos.io",
   "license": "MIT",

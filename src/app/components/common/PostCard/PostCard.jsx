@@ -447,7 +447,7 @@ class PostCard extends PureComponent {
         const proxy = $STM_Config.img_proxy_prefix;
 
         if (proxy) {
-            return `${proxy}309x500/${url}`;
+            return `${proxy}346x194/${url}`;
         } else {
             return url;
         }

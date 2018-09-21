@@ -670,6 +670,7 @@
       }
     }
   },
+  "on_golos_from": "On Golos from",
   "plurals": {
     "author_rewards_last_24_hours": "Author rewards last 24 hours",
     "balance": "Balance",
