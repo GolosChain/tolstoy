@@ -2,14 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import Userpic from 'app/components/elements/Userpic';
 import tt from 'counterpart';
 import { Link } from 'react-router';
-import Follow from 'app/components/common/Follow/Follow';
-import Mute from 'app/components/common/Mute/Mute';
-import { toggleFavoriteAction } from 'app/redux/actions/favorites';
-import { USER_PINNED_POSTS_LOAD } from 'app/redux/constants/pinnedPosts';
-import { authorSelector } from 'app/redux/selectors/post/post';
+
+import Icon from 'golos-ui/Icon';
+
+import Userpic from 'app/components/elements/Userpic';
+import Follow from 'src/app/components/common/Follow';
+import Mute from 'src/app/components/common/Mute';
+import {toggleFavoriteAction} from 'src/app/redux/actions/favorites';
+import {USER_PINNED_POSTS_LOAD} from 'src/app/redux/constants/pinnedPosts';
 
 const Block = styled.div`
     width: 100%;
