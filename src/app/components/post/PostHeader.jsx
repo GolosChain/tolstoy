@@ -7,6 +7,7 @@ import { Link } from 'react-router';
 import PopoverBody from './PopoverBody';
 import Icon from '../golos-ui/Icon';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import {
     authorSelector,
     currentPostSelector,
@@ -124,17 +125,21 @@ const PopoverStyled = styled(Popover)`
 `;
 
 class PostHeader extends Component {
-    static defaultProps = {
-        isPadScreen: false,
+    static propTypes = {
+        isPadScreen: PropTypes.bool.isRequired,
     };
 
     render() {
-        const { isMy, created, isFavorite, author, isFollow, className } = this.props;
+        const { isMy, created, isFavorite, author, isFollow, className, isPadScreen } = this.props;
         return (
             <Wrapper className={className}>
                 <UserInfoWrapper>
                     <Avatar>
-                        <Userpic account={author} size={50} onClick={this._openPopover} />
+                        <Userpic
+                            account={author}
+                            size={isPadScreen ? 38 : 50}
+                            onClick={this._openPopover}
+                        />
                         <PopoverStyled innerRef={this._onRef}>
                             <PopoverBody close={this._closePopover} author={author} />
                         </PopoverStyled>

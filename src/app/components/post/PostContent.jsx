@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { isNot } from 'styled-is';
 import MarkdownViewer from '../../../../app/components/cards/MarkdownViewer';
 import PostHeader from './PostHeader';
 import { connect } from 'react-redux';
 import { currentPostSelector } from '../../redux/selectors/post/post';
 import Tag from '../golos-ui/Tag/Tag';
+import Icon from '../golos-ui/Icon';
 
 const Wrapper = styled.section`
     padding: 40px 70px 30px;
@@ -62,6 +64,17 @@ const Tags = styled.div`
     }
 `;
 
+const CategoryWrapper = styled.div`
+    display: flex;
+    justify-content: space-between;
+
+    svg {
+        ${isNot('isPromoted')`
+            display: none;
+        `};
+    }
+`;
+
 class PostContent extends Component {
     render() {
         const {
@@ -75,13 +88,18 @@ class PostContent extends Component {
             pictures,
             created,
             className,
+            isPadScreen,
+            isPromoted,
         } = this.props;
         const formId = `postFull-${permLink}`;
         return (
             <Wrapper className={className}>
-                <PostHeader />
+                <PostHeader isPadScreen={isPadScreen} />
                 <Body>
-                    <Tag category>{category}</Tag>
+                    <CategoryWrapper isPromoted={isPromoted}>
+                        <Tag category>{category}</Tag>
+                        <Icon name="best" width="34" height="37" />
+                    </CategoryWrapper>
                     <PostTitle>{title}</PostTitle>
                     <PostBody>
                         <MarkdownViewer
@@ -120,6 +138,7 @@ const mapStateToProps = (state, props) => {
         pictures: post.pictures,
         created: post.created,
         permLink: post.permLink,
+        isPromoted: true,
     };
 };
 
