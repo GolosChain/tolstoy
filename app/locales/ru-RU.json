@@ -162,9 +162,6 @@
     "strikethrough": "Подчеркнутый текст",
     "unordered_list": "Список"
   },
-  "months_names": ["января", "февраля", "марта", "апреля", "мая", "июня",
-    "июля", "явгуста", "сентября", "октября", "ноября", "декабря"
-  ],
   "on_golos_from": "На Golos с",
   "active_panel_tooltip": {
     "pin_post": "Закрепить пост",
@@ -271,9 +268,9 @@
     "email_recovery_hint": "Используется для сброса пароля в случае если аккаунт был украден",
     "enter_username": "Введи свое имя пользователя",
     "expand": "Развернуть",
-    "favourites": "Избранное",
-    "add_to_favourites": "В избранное",
-    "remove_from_favourites": "Убрать из избранного",
+    "favorites": "Избранное",
+    "add_to_favorites": "В избранное",
+    "remove_from_favorites": "Убрать из избранного",
     "feed": "Лента",
     "feeds": "Лента",
     "filter": "Фильтр",

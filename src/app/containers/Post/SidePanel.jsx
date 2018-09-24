@@ -159,7 +159,7 @@ class SidePanel extends Component {
                     iconName={isFavorite ? 'star_filled' : 'star'}
                     onClick={this._toggleFavorite}
                     dataTooltip={
-                        isFavorite ? tt('g.remove_from_favourites') : tt('g.add_to_favourites')
+                        isFavorite ? tt('g.remove_from_favorites') : tt('g.add_to_favorites')
                     }
                 />
             </Wrapper>
