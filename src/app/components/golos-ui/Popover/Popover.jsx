@@ -2,52 +2,50 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import throttle from 'lodash/throttle';
-import is, { isNot } from 'styled-is';
+import { isNot } from 'styled-is';
 
 const Container = styled.div`
     max-width: calc(100vw - ${({ screenMargin }) => screenMargin * 3}px);
     position: absolute;
-    left: 50%;
-    margin-top: 10px;
-    top: 100%;
     z-index: 1;
-    transform: translateX(-50%);
     cursor: default;
 
-    ${({ position }) => {
+    ${({ margin, screenMargin, position }) => {
         switch (position) {
             case 'left':
                 return `
-                    margin-top: 0;
                     top: 50%;
-                    left: auto;
                     transform: translate(-100%, -50%);
                 `;
             case 'right':
                 return `
-                    margin-top: 0;
                     top: 50%;
-                    left: auto;
                     transform: translate(100%, -50%);
                 `;
             case 'top':
                 return `
-                    margin-top: 0;
-                    margin-bottom: 10px;
-                    top: auto;
+                    left: 50%;
                     bottom: 100%;
+                    margin-bottom: 10px;
+                    transform: translateX(-50%);
+                    ${margin !== 0 &&
+                        `
+                        transform: translateX(calc(-50% - ${margin}px + ${screenMargin}px));
+                    `}
                 `;
             default:
-                return;
+                return `
+                    left: 50%;
+                    top: 100%;
+                    margin-top: 10px;
+                    transform: translateX(-50%);
+                    ${margin !== 0 &&
+                        `
+                         transform: translateX(calc(-50% - ${margin}px + ${screenMargin}px));
+                    `}
+                `;
         }
     }};
-
-    ${({ margin, screenMargin, position }) =>
-        margin !== 0 &&
-        (position === 'top' || position === 'bottom') &&
-        `
-            transform: translateX(calc(-50% - ${margin}px + ${screenMargin}px));
-        `};
 
     ${isNot('isOpen')`
         display: none;
@@ -59,7 +57,7 @@ const Decoration = styled.div`
     height: 14px;
     position: absolute;
 
-    ${({ position }) => {
+    ${({ margin, screenMargin, position }) => {
         switch (position) {
             case 'left':
                 return `
@@ -75,11 +73,20 @@ const Decoration = styled.div`
                 return `
                     bottom: -7px;
                      left: 50%;
+                     ${margin !== 0 &&
+                         `
+                         transform: translateX(calc(-50% + ${margin}px - ${screenMargin}px)) rotate(45deg);
+                     `}
                 `;
             default:
                 return `
                     top: -7px;
                     left: 50%;
+                    
+                    ${margin !== 0 &&
+                        `
+                         transform: translateX(calc(-50% + ${margin}px - ${screenMargin}px)) rotate(45deg);
+                    `}
                 `;
         }
     }};
@@ -87,12 +94,6 @@ const Decoration = styled.div`
     transform: translateX(-50%) rotate(45deg);
     background-color: #ffffff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
-
-    ${({ margin, screenMargin }) =>
-        margin !== 0 &&
-        `
-            transform: translateX(calc(-50% + ${margin}px - ${screenMargin}px)) rotate(45deg);
-        `};
 `;
 
 const ContentWrapper = styled.div`
