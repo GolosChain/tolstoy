@@ -6,16 +6,18 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import Icon from 'golos-ui/Icon';
-import Popover from 'golos-ui/Popover';
 
 import Userpic from 'app/components/elements/Userpic';
 import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
-import DialogManager from 'app/components/elements/common/DialogManager';
 import PopoverBody from 'src/app/components/post/PopoverBody';
 import { currentPostSelector, authorSelector } from 'src/app/redux/selectors/post/post';
 import { currentUsernameSelector } from 'src/app/redux/selectors/common';
 import { toggleFavoriteAction } from 'src/app/redux/actions/favorites';
 import { updateFollow } from 'src/app/redux/actions/follow';
+import {
+    PopoverBackgroundShade,
+    PopoverStyled,
+} from 'src/app/components/golos-ui/Popover/PopoverAdditionalStyles';
 
 const Wrapper = styled.div`
     display: flex;
@@ -117,29 +119,30 @@ const UserInfoWrapper = styled.div`
     align-items: center;
 `;
 
-const PopoverStyled = styled(Popover)`
-    @media (max-width: 768px) {
-        display: none;
-    }
-`;
-
 class PostHeader extends Component {
     static propTypes = {
         isPadScreen: PropTypes.bool.isRequired,
     };
 
+    state = {
+        isPopoverOpen: false,
+    };
+
     render() {
+        const { isPopoverOpen } = this.state;
         const { isMy, created, isFavorite, author, isFollow, className, isPadScreen } = this.props;
+
         return (
             <Wrapper className={className}>
                 <UserInfoWrapper>
                     <Avatar>
+                        <PopoverBackgroundShade show={isPopoverOpen} />
                         <Userpic
                             account={author}
                             size={isPadScreen ? 38 : 50}
                             onClick={this._openPopover}
                         />
-                        <PopoverStyled innerRef={this._onRef}>
+                        <PopoverStyled innerRef={this._onRef} onToggleOpen={this.togglePopoverOpen}>
                             <PopoverBody close={this._closePopover} author={author} />
                         </PopoverStyled>
                     </Avatar>
@@ -173,11 +176,7 @@ class PostHeader extends Component {
     };
 
     _openPopover = () => {
-        if (this.props.isPadScreen) {
-            this._openMobileDialog();
-        } else {
-            this.tooltip.open();
-        }
+        this.tooltip.open();
     };
 
     _closePopover = () => {
@@ -197,13 +196,8 @@ class PostHeader extends Component {
         this.props.updateFollow(this.props.username, this.props.author, null);
     };
 
-    _openMobileDialog = () => {
-        DialogManager.showDialog({
-            component: PopoverBody,
-            props: {
-                author: this.props.author,
-            },
-        });
+    togglePopoverOpen = () => {
+        this.setState({ isPopoverOpen: !this.state.isPopoverOpen });
     };
 }
 

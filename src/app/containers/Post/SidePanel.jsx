@@ -39,7 +39,7 @@ const Wrapper = styled.div`
         visibility: hidden;
     `};
 
-    & > div {
+    & > * {
         padding: 10px 0;
     }
 
@@ -80,22 +80,22 @@ const ActionIconWrapper = styled.div`
         transform: scale(1.15);
     }
 
-    ${({ isActive }) =>
-        isActive === 'like'
+    ${({ activeType }) =>
+        activeType === 'like'
             ? `
         color: #2879ff 
     `
-            : isActive === 'dislike'
+            : activeType === 'dislike'
                 ? `
         color: #ff4e00
     `
                 : ``};
 `;
 
-const Action = ({ iconName, count, onClick, dataTooltip, isActive }) => {
+const Action = ({ iconName, count, onClick, dataTooltip, activeType }) => {
     return (
         <ActionButton onClick={onClick} data-tooltip={dataTooltip} data-tooltip-html>
-            <ActionIconWrapper isActive={isActive}>
+            <ActionIconWrapper activeType={activeType}>
                 <Icon width="20" height="20" name={iconName} />
             </ActionIconWrapper>
             <CountOf count={count}>{count}</CountOf>
@@ -133,14 +133,14 @@ class SidePanel extends Component {
                 fixedOnScreen={fixedOnScreen}
             >
                 <Action
-                    isActive={myVote}
+                    activeType={myVote}
                     iconName="like"
                     count={likes}
                     onClick={this._like}
                     dataTooltip={this.tooltipContent(firstLikes, likes > 10)}
                 />
                 <Action
-                    isActive={myVote}
+                    activeType={myVote}
                     iconName="dislike"
                     count={dislikes}
                     onClick={this._dislike}
@@ -193,9 +193,9 @@ class SidePanel extends Component {
         this._scrollScreenLazy();
     };
 
-    _scrollScreenLazy = throttle(this._scrollScreen, 25, { leading: true });
+    _scrollScreenLazy = throttle(this._scrollScreen, 25);
 
-    _resizeScreenLazy = throttle(this._resizeScreen, 25, { leading: true });
+    _resizeScreenLazy = throttle(this._resizeScreen, 25);
 
     _reblog = () => {
         const { username, author, permLink } = this.props;
@@ -224,10 +224,7 @@ class SidePanel extends Component {
     };
 
     tooltipContent = (users, isMore) => {
-        if (!users.length) {
-            return null;
-        }
-        return users.join('<br>') + (isMore ? '<br>...' : '');
+        return users.length ? users.join('<br>') + (isMore ? '<br>...' : '') : null;
     };
 }
 

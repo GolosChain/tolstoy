@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
 
-import Popover from 'golos-ui/Popover';
 import Icon from 'golos-ui/Icon';
 
 import VotePanel from 'src/app/components/common/VotePanel/VotePanel';
@@ -15,6 +14,11 @@ import { onVote } from 'src/app/redux/actions/vote';
 import { togglePinAction } from 'src/app/redux/actions/pinnedPosts';
 import { activePanelSelector } from 'src/app/redux/selectors/post/activePanel';
 import { reblog } from 'src/app/redux/actions/posts';
+import {
+    PopoverBackgroundShade,
+    ClosePopoverButton,
+    PopoverStyled,
+} from 'src/app/components/golos-ui/Popover/PopoverAdditionalStyles';
 
 const Wrapper = styled.div`
     display: flex;
@@ -157,37 +161,12 @@ const Actions = styled.div`
     }
 `;
 
-const PopoverCross = styled.div`
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
-
-    & svg {
-        color: #e1e1e1;
-        padding: 0;
-    }
-
-    &:hover svg {
-        color: #b9b9b9;
-    }
-
-    @media (max-width: 768px) {
-        display: flex;
-    }
-`;
-
-const ActionsBlock = ({ togglePin, promotePost, flagPost, close }) => {
+const ActionsBlock = ({ togglePin, promotePost, flagPost, close, isPadScreen }) => {
     return (
         <Actions>
-            <PopoverCross onClick={close}>
+            <ClosePopoverButton onClick={close} showCross={isPadScreen}>
                 <Icon name="cross" width={16} height={16} />
-            </PopoverCross>
+            </ClosePopoverButton>
             <Action onClick={togglePin}>
                 <ActionIcon name="pin" />
                 <ActionText>{tt('active_panel_tooltip.pin_post')}</ActionText>
@@ -205,39 +184,6 @@ const ActionsBlock = ({ togglePin, promotePost, flagPost, close }) => {
     );
 };
 
-const PopoverStyled = styled(Popover)`
-    @media (max-width: 768px) {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        z-index: 101;
-        bottom: auto;
-        margin: 0;
-        transform: translate(-50%, -50%);
-
-        & > div:first-child {
-            display: none;
-        }
-    }
-`;
-
-const PopoverBackgroundShade = styled.div`
-    @media (max-width: 768px) {
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 100;
-        display: none;
-        height: 100%;
-        width: 100%;
-        background: rgba(0, 0, 0, 0.5);
-
-        ${is('show')`
-            display: block;
-        `};
-    }
-`;
-
 ActionIcon.defaultProps = {
     width: 20,
     height: 20,
@@ -254,7 +200,7 @@ class ActivePanel extends Component {
 
     render() {
         const { activeDotsMore } = this.state;
-        const { data, username } = this.props;
+        const { data, username, isPadScreen } = this.props;
         return (
             <Wrapper>
                 <VotePanelWrapper
@@ -291,6 +237,7 @@ class ActivePanel extends Component {
                             promotePost={this._promotePost}
                             flagPost={this._flagPost}
                             close={this._closePopover}
+                            isPadScreen={isPadScreen}
                         />
                     </PopoverStyled>
                 </DotsMore>
