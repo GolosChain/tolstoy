@@ -1,7 +1,6 @@
 import { createSelectorCreator, defaultMemoize, createSelector } from 'reselect';
 import isEqual from 'react-fast-compare';
 import { Map } from 'immutable';
-import { toAsset } from '../../../../app/utils/StateFunctions';
 
 const emptyMap = Map();
 
@@ -17,14 +16,10 @@ export const entitiesSelector = type => state => state.entities[type];
 export const dataSelector = type => state => state.data[type];
 export const uiSelector = type => state => state.ui[type];
 
-export const globalPropsJS = createSelector([globalSelector('props')], globalProps =>
-    globalProps.toJS()
-);
-
-export const getVestsToGolosRatio = createSelector([globalPropsJS], globalProps => {
+export const getVestsToGolosRatio = createSelector([globalSelector('props')], globalProps => {
     return (
-        parseFloat(globalProps.total_vesting_fund_steem) /
-        parseFloat(globalProps.total_vesting_shares)
+        parseFloat(globalProps.get('total_vesting_fund_steem')) /
+        parseFloat(globalProps.get('total_vesting_shares'))
     );
 });
 
