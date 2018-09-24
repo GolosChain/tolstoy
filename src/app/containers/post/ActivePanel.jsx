@@ -229,7 +229,7 @@ export default class ActivePanel extends Component {
                             up={true}
                             onToggleOpen={this.toggleShare}
                         >
-                            <SharePopover />
+                            <SharePopover horizontal={true} />
                         </PopoverStyled>
                     </SharingTriangle>
                 </RepostSharingWrapper>

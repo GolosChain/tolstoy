@@ -30,7 +30,7 @@ export default class SharePopover extends Component {
     };
 
     static defaultProps = {
-        horizontal: true,
+        horizontal: false,
     };
 
     render() {

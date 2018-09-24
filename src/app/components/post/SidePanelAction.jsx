@@ -42,13 +42,27 @@ const CountOf = styled.div`
     `};
 `;
 
-export const Action = ({ iconName, count, onClick, dataTooltip, activeType }) => {
+export const Action = ({
+    iconName,
+    count,
+    onClick,
+    dataTooltip,
+    activeType,
+    children,
+    className,
+}) => {
     return (
-        <ActionButton onClick={onClick} data-tooltip={dataTooltip} data-tooltip-html>
+        <ActionButton
+            onClick={onClick}
+            data-tooltip={dataTooltip}
+            data-tooltip-html
+            className={className}
+        >
             <ActionIconWrapper activeType={activeType}>
                 <Icon width="20" height="20" name={iconName} />
             </ActionIconWrapper>
             <CountOf count={count}>{count}</CountOf>
+            {children}
         </ActionButton>
     );
 };
