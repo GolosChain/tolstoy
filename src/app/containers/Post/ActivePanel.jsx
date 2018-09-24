@@ -161,29 +161,6 @@ const Actions = styled.div`
     }
 `;
 
-const ActionsBlock = ({ togglePin, promotePost, flagPost, close, isPadScreen }) => {
-    return (
-        <Actions>
-            <ClosePopoverButton onClick={close} showCross={isPadScreen}>
-                <Icon name="cross" width={16} height={16} />
-            </ClosePopoverButton>
-            <Action onClick={togglePin}>
-                <ActionIcon name="pin" />
-                <ActionText>{tt('active_panel_tooltip.pin_post')}</ActionText>
-            </Action>
-            <Action onClick={promotePost}>
-                <ActionIcon name="brilliant" />
-                <ActionText>{tt('active_panel_tooltip.promote_post')}</ActionText>
-            </Action>
-            {/*TODO после реализации функционала
-            <Action onClick={flagPost}>
-                <ActionIcon name="complain_normal" />
-                <ActionText>{tt('active_panel_tooltip.complain_about_post')}</ActionText>
-            </Action>*/}
-        </Actions>
-    );
-};
-
 ActionIcon.defaultProps = {
     width: 20,
     height: 20,
@@ -232,13 +209,27 @@ class ActivePanel extends Component {
                         onClick={this._openPopover}
                     />
                     <PopoverStyled innerRef={this._onRef} up={true} onToggleOpen={this.toggleDots}>
-                        <ActionsBlock
-                            togglePin={this._togglePin}
-                            promotePost={this._promotePost}
-                            flagPost={this._flagPost}
-                            close={this._closePopover}
-                            isPadScreen={isPadScreen}
-                        />
+                        <Actions>
+                            <ClosePopoverButton
+                                onClick={this._closePopover}
+                                showCross={isPadScreen}
+                            >
+                                <Icon name="cross" width={16} height={16} />
+                            </ClosePopoverButton>
+                            <Action onClick={this._togglePin}>
+                                <ActionIcon name="pin" />
+                                <ActionText>{tt('active_panel_tooltip.pin_post')}</ActionText>
+                            </Action>
+                            <Action onClick={this._promotePost}>
+                                <ActionIcon name="brilliant" />
+                                <ActionText>{tt('active_panel_tooltip.promote_post')}</ActionText>
+                            </Action>
+                            {/*TODO после реализации функционала
+                            <Action onClick={this._flagPost}>
+                                <ActionIcon name="complain_normal" />
+                                <ActionText>{tt('active_panel_tooltip.complain_about_post')}</ActionText>
+                            </Action>*/}
+                        </Actions>
                     </PopoverStyled>
                 </DotsMore>
                 <ReplyBlockStyled
