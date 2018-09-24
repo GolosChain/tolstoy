@@ -13,7 +13,7 @@ import { toggleFavoriteAction } from 'src/app/redux/actions/favorites';
 import { USER_PINNED_POSTS_LOAD } from 'src/app/redux/constants/pinnedPosts';
 import { authorSelector } from 'src/app/redux/selectors/post/commanPost';
 import Follow from 'src/app/components/common/SingleFollow/Follow';
-import { ClosePopoverButton } from 'src/app/components/golos-ui/Popover/PopoverAdditionalStyles';
+import { ClosePopoverButton } from 'src/app/components/post/PopoverAdditionalStyles';
 
 const Block = styled.div`
     width: 100%;

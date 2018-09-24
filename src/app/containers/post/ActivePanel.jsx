@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
@@ -18,7 +17,7 @@ import {
     PopoverBackgroundShade,
     ClosePopoverButton,
     PopoverStyled,
-} from 'src/app/components/golos-ui/Popover/PopoverAdditionalStyles';
+} from 'src/app/components/post/PopoverAdditionalStyles';
 
 const Wrapper = styled.div`
     display: flex;

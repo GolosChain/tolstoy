@@ -16,7 +16,7 @@ import { updateFollow } from 'src/app/redux/actions/follow';
 import {
     PopoverBackgroundShade,
     PopoverStyled,
-} from 'src/app/components/golos-ui/Popover/PopoverAdditionalStyles';
+} from 'src/app/components/post/PopoverAdditionalStyles';
 
 const Wrapper = styled.div`
     display: flex;

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import is from 'styled-is';
-import Popover from './Popover';
+import Popover from 'golos-ui/Popover';
 
 export const PopoverStyled = styled(Popover)`
     @media (max-width: 768px) {
