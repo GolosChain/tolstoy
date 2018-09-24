@@ -14,12 +14,23 @@ const Container = styled.div`
     transform: translateX(-50%);
     cursor: default;
 
-    ${is('up')`
-        margin-top: 0;
-        margin-bottom: 10px;
-        top: auto;
-        bottom: 100%;
-    `};
+    ${({ position }) => {
+        switch (position) {
+            case 'left':
+                return;
+            case 'right':
+                return;
+            case 'top':
+                return `
+                    margin-top: 0;
+                    margin-bottom: 10px;
+                    top: auto;
+                    bottom: 100%;
+                `;
+            default:
+                return;
+        }
+    }};
 
     ${({ margin, screenMargin }) =>
         margin !== 0 &&
@@ -39,7 +50,24 @@ const Decoration = styled.div`
     width: 14px;
     height: 14px;
     position: absolute;
-    ${({ up }) => (up ? 'bottom: -7px;' : 'top: -7px;')};
+
+    ${({ position }) => {
+        switch (position) {
+            case 'left':
+                return;
+            case 'right':
+                return;
+            case 'top':
+                return `
+                    bottom: -7px;
+                `;
+            default:
+                return `
+                    top: -7px;
+                `;
+        }
+    }};
+
     left: 50%;
     transform: translateX(-50%) rotate(45deg);
     background-color: #ffffff;
@@ -67,14 +95,14 @@ const Content = styled.div`
 class Popover extends Component {
     static propTypes = {
         screenMargin: PropTypes.number,
-        up: PropTypes.bool,
+        position: PropTypes.oneOf(['left', 'right', 'top', 'bottom']),
         handleToggleOpen: PropTypes.func,
         opened: PropTypes.bool,
     };
 
     static defaultProps = {
         screenMargin: 20,
-        up: false,
+        position: 'bottom',
         onToggleOpen: () => {},
         opened: false,
     };
@@ -97,7 +125,7 @@ class Popover extends Component {
     }
 
     render() {
-        const { screenMargin, up, children, className } = this.props;
+        const { screenMargin, position, children, className } = this.props;
         const { margin, isOpen } = this.state;
         return (
             <Container
@@ -105,10 +133,10 @@ class Popover extends Component {
                 innerRef={ref => (this.container = ref)}
                 margin={margin}
                 screenMargin={screenMargin}
-                up={up}
+                position={position}
                 isOpen={isOpen}
             >
-                <Decoration margin={margin} screenMargin={screenMargin} up={up} />
+                <Decoration margin={margin} screenMargin={screenMargin} position={position} />
                 <ContentWrapper>
                     <Content>{children}</Content>
                 </ContentWrapper>

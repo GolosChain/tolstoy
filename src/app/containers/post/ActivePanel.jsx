@@ -226,7 +226,7 @@ export default class ActivePanel extends Component {
                         />
                         <PopoverStyled
                             innerRef={this._onShareRef}
-                            up={true}
+                            position="top"
                             onToggleOpen={this.toggleShare}
                         >
                             <SharePopover horizontal={true} />
@@ -247,7 +247,7 @@ export default class ActivePanel extends Component {
                     />
                     <PopoverStyled
                         innerRef={this._onDotsRef}
-                        up={true}
+                        position="top"
                         onToggleOpen={this.toggleDots}
                     >
                         <Actions>
