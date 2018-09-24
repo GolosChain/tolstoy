@@ -6,8 +6,8 @@ import tt from 'counterpart';
 import capitalize from 'lodash/capitalize';
 
 import { renderValue } from 'src/app/helpers/currency';
-import { getVestsToGolosRatio } from 'src/app/redux/selectors/common';
 import { getHistoricalData } from 'src/app/redux/actions/rates';
+import payoutInfoSelector from './PayoutInfo.selector';
 
 const Root = styled.div`
     border-radius: 8px;
@@ -69,39 +69,14 @@ const MoneyNative = styled.span``;
 
 @injectIntl
 @connect(
-    state => ({
-        rates: state.data.rates,
-        vestsToGolosRatio: getVestsToGolosRatio(state),
-    }),
+    payoutInfoSelector,
     {
         getHistoricalData,
     }
 )
 export default class PayoutInfo extends PureComponent {
     render() {
-        const { data, intl, vestsToGolosRatio } = this.props;
-
-        const isPending = parseFloat(data.get('total_payout_value')) === 0;
-
-        const [author, curator, benefactor] = ['author', 'curator', 'benefactor'].map(type => {
-            let value;
-
-            if (isPending) {
-                value = data.get(`pending_${type}_payout_gests_value`);
-            } else {
-                if (type === 'benefactor') {
-                    type = 'beneficiary';
-                }
-
-                value = data.get(`${type}_gests_payout_value`);
-            }
-
-            if (!value) {
-                return 0;
-            }
-
-            return parseFloat(value) * vestsToGolosRatio;
-        });
+        const { data, intl, isPending, author, curator, benefactor } = this.props;
 
         const total = author + curator + benefactor;
 
