@@ -16,13 +16,6 @@ export const entitiesSelector = type => state => state.entities[type];
 export const dataSelector = type => state => state.data[type];
 export const uiSelector = type => state => state.ui[type];
 
-export const getVestsToGolosRatio = createSelector([globalSelector('props')], globalProps => {
-    return (
-        parseFloat(globalProps.get('total_vesting_fund_steem')) /
-        parseFloat(globalProps.get('total_vesting_shares'))
-    );
-});
-
 // Router selectors
 
 export const routerParamSelector = name => (state, props) => props.params[name];
@@ -51,4 +44,13 @@ export const currentUserSelector = createDeepEqualSelector(
 
 export const currentUsernameSelector = createDeepEqualSelector([currentUserSelector], user =>
     user.get('username')
+);
+
+// Utils
+
+export const getVestsToGolosRatio = createSelector(
+    [globalSelector('props')],
+    globalProps =>
+        parseFloat(globalProps.get('total_vesting_fund_steem')) /
+        parseFloat(globalProps.get('total_vesting_shares'))
 );
