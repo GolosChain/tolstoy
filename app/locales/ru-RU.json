@@ -676,6 +676,13 @@
     }
   },
   "on_golos_from": "На Golos с",
+  "payout_info": {
+    "author": "Авторские выплаты",
+    "beneficiary": "Бенефициарские выплаты",
+    "curator": "Кураторские выплаты",
+    "payout": "Выплата",
+    "potential_payout": "Потенциальная выплата"
+  },
   "plurals": {
     "author_rewards_last_24_hours": "Авторские вознаграждения за последние 24 часа",
     "balance": "Баланс",

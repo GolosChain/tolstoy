@@ -1,4 +1,4 @@
-import { createSelectorCreator, defaultMemoize } from 'reselect';
+import { createSelectorCreator, defaultMemoize, createSelector } from 'reselect';
 import isEqual from 'react-fast-compare';
 import { Map } from 'immutable';
 
@@ -44,4 +44,13 @@ export const currentUserSelector = createDeepEqualSelector(
 
 export const currentUsernameSelector = createDeepEqualSelector([currentUserSelector], user =>
     user.get('username')
+);
+
+// Utils
+
+export const getVestsToGolosRatio = createSelector(
+    [globalSelector('props')],
+    globalProps =>
+        parseFloat(globalProps.get('total_vesting_fund_steem')) /
+        parseFloat(globalProps.get('total_vesting_shares'))
 );
