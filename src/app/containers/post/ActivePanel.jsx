@@ -183,13 +183,9 @@ export default class ActivePanel extends Component {
         activeDotsMore: false,
     };
 
-    static propTypes = {
-        isPadScreen: PropTypes.bool.isRequired,
-    };
-
     render() {
         const { activeDotsMore } = this.state;
-        const { data, username, isPadScreen } = this.props;
+        const { data, username } = this.props;
         return (
             <Wrapper>
                 <VotePanelWrapper
@@ -222,10 +218,7 @@ export default class ActivePanel extends Component {
                     />
                     <PopoverStyled innerRef={this._onRef} up={true} onToggleOpen={this.toggleDots}>
                         <Actions>
-                            <ClosePopoverButton
-                                onClick={this._closePopover}
-                                showCross={isPadScreen}
-                            >
+                            <ClosePopoverButton onClick={this._closePopover} showCross={false}>
                                 <Icon name="cross" width={16} height={16} />
                             </ClosePopoverButton>
                             <Action onClick={this._togglePin}>
@@ -248,7 +241,7 @@ export default class ActivePanel extends Component {
                     withImage={false}
                     count={data.get('children')}
                     link={data.get('link')}
-                    text="Ответить"
+                    text={tt('g.reply')}
                 />
             </Wrapper>
         );

@@ -98,6 +98,7 @@ const PostsTitle = styled.div`
     font-weight: 600;
     line-height: 16px;
     flex-shrink: 1;
+    text-transform: uppercase;
 `;
 
 const PostTitle = styled(Link)`
@@ -161,7 +162,7 @@ class PopoverBody extends Component {
                 </Block>
                 {pinnedPosts.length > 0 && (
                     <Block>
-                        <PostsTitle>ПОСТЫ АВТОРА</PostsTitle>
+                        <PostsTitle>{tt('g.authors_posts')}</PostsTitle>
                         {pinnedPosts.map(post => (
                             <PinnedPost key={post.url}>
                                 <Icon name="pin" size="20px" />

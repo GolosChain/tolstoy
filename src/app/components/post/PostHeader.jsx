@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 
 import Icon from 'golos-ui/Icon';
 
@@ -41,14 +40,18 @@ const Avatar = styled.div`
 
 const InfoBlock = styled.div`
     margin: 0 10px;
-    color: #959595;
-    font: 13px Roboto, sans-serif;
     letter-spacing: 0.4px;
     line-height: 18px;
 
     span {
         display: block;
         margin-top: -5px;
+        color: #959595;
+        font: 13px Roboto, sans-serif;
+    }
+    
+    @media (max-width: 576px) {
+        font-size: 12px;
     }
 `;
 
@@ -60,6 +63,10 @@ const AuthorName = styled(Link)`
     font-weight: 500;
     color: #333;
     text-decoration: none;
+    
+    @media (max-width: 576px) {
+        font-size: 14px;
+    }
 `;
 
 const Follow = styled.div`
@@ -119,29 +126,28 @@ const UserInfoWrapper = styled.div`
     align-items: center;
 `;
 
-class PostHeader extends Component {
-    static propTypes = {
-        isPadScreen: PropTypes.bool.isRequired,
-    };
+const UserpicStyled = styled(Userpic)`
+    @media (max-width: 576px) {
+        width: 38px !important;
+        height: 38px !important;
+    }
+`;
 
+class PostHeader extends Component {
     state = {
         isPopoverOpen: false,
     };
 
     render() {
         const { isPopoverOpen } = this.state;
-        const { isMy, created, isFavorite, author, isFollow, className, isPadScreen } = this.props;
+        const { isMy, created, isFavorite, author, isFollow, className } = this.props;
 
         return (
             <Wrapper className={className}>
                 <UserInfoWrapper>
                     <Avatar>
                         <PopoverBackgroundShade show={isPopoverOpen} />
-                        <Userpic
-                            account={author}
-                            size={isPadScreen ? 38 : 50}
-                            onClick={this._openPopover}
-                        />
+                        <UserpicStyled account={author} size={50} onClick={this._openPopover} />
                         <PopoverStyled innerRef={this._onRef} onToggleOpen={this.togglePopoverOpen}>
                             <PopoverBody close={this._closePopover} author={author} />
                         </PopoverStyled>
@@ -162,7 +168,7 @@ class PostHeader extends Component {
                         </NoFollowed>
                     ))}
                 <IconWrapper
-                    data-tooltip={isFavorite ? 'Убрать из избранного' : 'В избранное'}
+                    data-tooltip={isFavorite ? tt('g.remove_from_favorites') : tt('g.add_to_favorites')}
                     onClick={this._toggleFavorite}
                 >
                     <Icon name={isFavorite ? 'star_filled' : 'star'} width={20} height={20} />
