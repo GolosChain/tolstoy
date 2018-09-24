@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import throttle from 'lodash/throttle';
-import is, { isNot } from 'styled-is';
+import { isNot } from 'styled-is';
 import { connect } from 'react-redux';
 import tt from 'counterpart';
-
-import Icon from 'golos-ui/Icon';
 
 import { confirmVote } from 'src/app/helpers/votes';
 import { toggleFavoriteAction } from 'src/app/redux/actions/favorites';
 import { onVote } from 'src/app/redux/actions/vote';
 import { sidePanelSelector } from 'src/app/redux/selectors/post/sidePanel';
 import { reblog } from 'src/app/redux/actions/posts';
+import { Action } from 'src/app/components/post/SidePanelAction';
 
 const PADDING_FROM_HEADER = 22;
 const HEADER_HEIGHT = 121;
@@ -52,56 +51,6 @@ const Wrapper = styled.div`
         display: none;
     }
 `;
-
-const CountOf = styled.div`
-    color: #959595;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 16px;
-    line-height: 23px;
-
-    ${is('count')`
-        padding-top: 5px;
-    `};
-`;
-
-const ActionButton = styled.div`
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-`;
-
-const ActionIconWrapper = styled.div`
-    display: flex;
-    padding: 5px;
-    cursor: pointer;
-    transition: transform 0.15s;
-
-    &:hover {
-        transform: scale(1.15);
-    }
-
-    ${({ activeType }) =>
-        activeType === 'like'
-            ? `
-        color: #2879ff 
-    `
-            : activeType === 'dislike'
-                ? `
-        color: #ff4e00
-    `
-                : ``};
-`;
-
-const Action = ({ iconName, count, onClick, dataTooltip, activeType }) => {
-    return (
-        <ActionButton onClick={onClick} data-tooltip={dataTooltip} data-tooltip-html>
-            <ActionIconWrapper activeType={activeType}>
-                <Icon width="20" height="20" name={iconName} />
-            </ActionIconWrapper>
-            <CountOf count={count}>{count}</CountOf>
-        </ActionButton>
-    );
-};
 
 @connect(
     sidePanelSelector,
