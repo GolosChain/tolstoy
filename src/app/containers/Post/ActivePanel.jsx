@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
 
-import Popover from 'golos-ui/Popover';
 import Icon from 'golos-ui/Icon';
 
 import VotePanel from 'src/app/components/common/VotePanel/VotePanel';
@@ -15,6 +14,11 @@ import { onVote } from 'src/app/redux/actions/vote';
 import { togglePinAction } from 'src/app/redux/actions/pinnedPosts';
 import { activePanelSelector } from 'src/app/redux/selectors/post/activePanel';
 import { reblog } from 'src/app/redux/actions/posts';
+import {
+    PopoverBackgroundShade,
+    ClosePopoverButton,
+    PopoverStyled,
+} from 'src/app/components/golos-ui/Popover/PopoverAdditionalStyles';
 
 const Wrapper = styled.div`
     display: flex;
@@ -157,87 +161,6 @@ const Actions = styled.div`
     }
 `;
 
-const PopoverCross = styled.div`
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
-
-    & svg {
-        color: #e1e1e1;
-        padding: 0;
-    }
-
-    &:hover svg {
-        color: #b9b9b9;
-    }
-
-    @media (max-width: 768px) {
-        display: flex;
-    }
-`;
-
-const ActionsBlock = ({ togglePin, promotePost, flagPost, close }) => {
-    return (
-        <Actions>
-            <PopoverCross onClick={close}>
-                <Icon name="cross" width={16} height={16} />
-            </PopoverCross>
-            <Action onClick={togglePin}>
-                <ActionIcon name="pin" />
-                <ActionText>{tt('active_panel_tooltip.pin_post')}</ActionText>
-            </Action>
-            <Action onClick={promotePost}>
-                <ActionIcon name="brilliant" />
-                <ActionText>{tt('active_panel_tooltip.promote_post')}</ActionText>
-            </Action>
-            {/*TODO после реализации функционала
-            <Action onClick={flagPost}>
-                <ActionIcon name="complain_normal" />
-                <ActionText>{tt('active_panel_tooltip.complain_about_post')}</ActionText>
-            </Action>*/}
-        </Actions>
-    );
-};
-
-const PopoverStyled = styled(Popover)`
-    @media (max-width: 768px) {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        z-index: 101;
-        bottom: auto;
-        margin: 0;
-        transform: translate(-50%, -50%);
-
-        & > div:first-child {
-            display: none;
-        }
-    }
-`;
-
-const PopoverBackgroundShade = styled.div`
-    @media (max-width: 768px) {
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 100;
-        display: none;
-        height: 100%;
-        width: 100%;
-        background: rgba(0, 0, 0, 0.5);
-
-        ${is('show')`
-            display: block;
-        `};
-    }
-`;
-
 ActionIcon.defaultProps = {
     width: 20,
     height: 20,
@@ -254,7 +177,7 @@ class ActivePanel extends Component {
 
     render() {
         const { activeDotsMore } = this.state;
-        const { data, username } = this.props;
+        const { data, username, isPadScreen } = this.props;
         return (
             <Wrapper>
                 <VotePanelWrapper
@@ -286,12 +209,27 @@ class ActivePanel extends Component {
                         onClick={this._openPopover}
                     />
                     <PopoverStyled innerRef={this._onRef} up={true} onToggleOpen={this.toggleDots}>
-                        <ActionsBlock
-                            togglePin={this._togglePin}
-                            promotePost={this._promotePost}
-                            flagPost={this._flagPost}
-                            close={this._closePopover}
-                        />
+                        <Actions>
+                            <ClosePopoverButton
+                                onClick={this._closePopover}
+                                showCross={isPadScreen}
+                            >
+                                <Icon name="cross" width={16} height={16} />
+                            </ClosePopoverButton>
+                            <Action onClick={this._togglePin}>
+                                <ActionIcon name="pin" />
+                                <ActionText>{tt('active_panel_tooltip.pin_post')}</ActionText>
+                            </Action>
+                            <Action onClick={this._promotePost}>
+                                <ActionIcon name="brilliant" />
+                                <ActionText>{tt('active_panel_tooltip.promote_post')}</ActionText>
+                            </Action>
+                            {/*TODO после реализации функционала
+                            <Action onClick={this._flagPost}>
+                                <ActionIcon name="complain_normal" />
+                                <ActionText>{tt('active_panel_tooltip.complain_about_post')}</ActionText>
+                            </Action>*/}
+                        </Actions>
                     </PopoverStyled>
                 </DotsMore>
                 <ReplyBlockStyled

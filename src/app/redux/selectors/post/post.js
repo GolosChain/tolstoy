@@ -73,6 +73,7 @@ export const currentPostSelector = createDeepEqualSelector(
             children: post.get('children'),
             link: `/@${author}/${permLink}`,
             myVote,
+            promotedAmount: parsePayoutAmount(post.get('promoted')),
         };
     }
 );
