@@ -3,16 +3,17 @@ import PropTypes from 'prop-types';
 import tt from 'counterpart';
 import styled from 'styled-components';
 import is from 'styled-is';
+
 import { getStoreState } from 'app/clientRender';
 import { calcVotesStats } from 'app/utils/StateFunctions';
+import { listenLazy } from 'src/app/helpers/hoc';
 import Icon from 'golos-ui/Icon';
 import Slider from 'golos-ui/Slider';
 import PostPayout from 'src/app/components/common/PostPayout';
+import DialogManager from 'app/components/elements/common/DialogManager';
 import Popover from '../Popover';
 import PayoutInfo from '../PayoutInfo';
 import PayoutInfoDialog from '../PayoutInfoDialog';
-import DialogManager from 'app/components/elements/common/DialogManager';
-import { listenLazy } from 'src/app/helpers/hoc';
 
 const VOTE_PERCENT_THRESHOLD = 1000000;
 const MOBILE_WIDTH = 890;

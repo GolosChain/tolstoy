@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { injectIntl } from 'react-intl';
 import tt from 'counterpart';
 import capitalize from 'lodash/capitalize';
+
 import { renderValue } from 'src/app/helpers/currency';
 import { getVestsToGolosRatio } from 'src/app/redux/selectors/common';
 import { getHistoricalData } from 'src/app/redux/actions/rates';
