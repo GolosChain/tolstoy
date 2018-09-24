@@ -10,7 +10,7 @@ import ActivePanel from 'src/app/containers/Post/ActivePanel';
 import AboutPanel from 'src/app/containers/Post/AboutPanel';
 import { USER_FOLLOW_DATA_LOAD } from 'src/app/redux/constants/followers';
 import { FAVORITES_LOAD } from 'src/app/redux/constants/favorites';
-import { currentPostSelector, authorSelector } from 'src/app/redux/selectors/post/post';
+import { currentPostSelector, authorSelector } from 'src/app/redux/selectors/post/commanPost';
 
 const PAD_SCREEN_SIZE = 768;
 

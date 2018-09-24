@@ -9,8 +9,9 @@ import Icon from 'golos-ui/Icon';
 import Button from 'golos-ui/Button';
 
 import Userpic from 'app/components/elements/Userpic';
-import { authorSelector } from 'src/app/redux/selectors/post/post';
+import { authorSelector } from 'src/app/redux/selectors/post/commanPost';
 import Follow from 'src/app/components/common/SingleFollow/Follow';
+import { aboutPanelSelector } from 'src/app/redux/selectors/post/aboutPanel';
 
 const Wrapper = styled.div`
     display: flex;
@@ -130,6 +131,7 @@ const AboutMobile = styled.p`
     }
 `;
 
+@connect(aboutPanelSelector)
 class AboutPanel extends Component {
     render() {
         const { name, account, about, created } = this.props;
@@ -162,16 +164,3 @@ class AboutPanel extends Component {
         );
     }
 }
-
-const mapStateToProps = (state, props) => {
-    const author = authorSelector(state, props);
-
-    return {
-        name: author.name,
-        account: author.account,
-        about: author.about,
-        created: author.created,
-    };
-};
-
-export default connect(mapStateToProps)(AboutPanel);
