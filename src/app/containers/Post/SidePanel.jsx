@@ -103,7 +103,15 @@ const Action = ({ iconName, count, onClick, dataTooltip, activeType }) => {
     );
 };
 
-class SidePanel extends Component {
+@connect(
+    sidePanelSelector,
+    {
+        toggleFavoriteAction,
+        onVote,
+        reblog,
+    }
+)
+export default class SidePanel extends Component {
     state = {
         showPanel: true,
         fixedOnScreen: true,
@@ -204,7 +212,7 @@ class SidePanel extends Component {
 
     _toggleFavorite = () => {
         const { author, permLink, isFavorite } = this.props;
-        this.props.toggleFavorite(author + '/' + permLink, !isFavorite);
+        this.props.toggleFavoriteAction(author + '/' + permLink, !isFavorite);
     };
 
     _like = async () => {
@@ -227,26 +235,3 @@ class SidePanel extends Component {
         return users.length ? users.join('<br>') + (isMore ? '<br>...' : '') : null;
     };
 }
-
-const mapStateToProps = (state, props) => {
-    return sidePanelSelector(state, props);
-};
-
-const mapDispatchToProps = dispatch => {
-    return {
-        toggleFavorite: (link, isAdd) => {
-            dispatch(toggleFavoriteAction({ link, isAdd }));
-        },
-        onVote: (voter, author, permLink, percent) => {
-            dispatch(onVote(voter, author, permLink, percent));
-        },
-        reblog: (account, author, permLink) => {
-            dispatch(reblog(account, author, permLink));
-        },
-    };
-};
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(SidePanel);

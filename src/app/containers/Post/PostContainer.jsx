@@ -33,7 +33,29 @@ const ContentWrapper = styled(Container)`
     }
 `;
 
-class PostContainer extends Component {
+@connect(
+    (state, props) => {
+        const post = currentPostSelector(state, props);
+        const author = authorSelector(state, props);
+        return {
+            account: author.account,
+            postLoaded: !!post,
+        };
+    },
+    {
+        loadUserFollowData: username => ({
+            type: USER_FOLLOW_DATA_LOAD,
+            payload: {
+                username,
+            },
+        }),
+        loadFavorites: () => ({
+            type: FAVORITES_LOAD,
+            payload: {},
+        }),
+    }
+)
+export default class PostContainer extends Component {
     constructor(props) {
         super(props);
         props.loadUserFollowData(props.account);
@@ -82,36 +104,3 @@ class PostContainer extends Component {
 
     __checkScreenSizeLazy = throttle(this._checkScreenSize, 100);
 }
-
-const mapStateToProps = (state, props) => {
-    const post = currentPostSelector(state, props);
-    const author = authorSelector(state, props);
-    return {
-        account: author.account,
-        postLoaded: !!post,
-    };
-};
-
-const mapDispatchToProps = dispatch => {
-    return {
-        loadUserFollowData: username => {
-            dispatch({
-                type: USER_FOLLOW_DATA_LOAD,
-                payload: {
-                    username,
-                },
-            });
-        },
-        loadFavorites: () => {
-            dispatch({
-                type: FAVORITES_LOAD,
-                payload: {},
-            });
-        },
-    };
-};
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(PostContainer);

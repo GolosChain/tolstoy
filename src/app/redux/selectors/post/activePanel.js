@@ -4,7 +4,7 @@ import {
     authorSelector,
     votesSummarySelector,
     postSelector,
-} from 'src/app/redux/selectors/post/post';
+} from 'src/app/redux/selectors/post/commanPost';
 
 export const activePanelSelector = createDeepEqualSelector(
     [

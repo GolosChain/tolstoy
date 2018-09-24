@@ -9,7 +9,6 @@ import Icon from 'golos-ui/Icon';
 import Button from 'golos-ui/Button';
 
 import Userpic from 'app/components/elements/Userpic';
-import { authorSelector } from 'src/app/redux/selectors/post/commanPost';
 import Follow from 'src/app/components/common/SingleFollow/Follow';
 import { aboutPanelSelector } from 'src/app/redux/selectors/post/aboutPanel';
 
@@ -132,7 +131,7 @@ const AboutMobile = styled.p`
 `;
 
 @connect(aboutPanelSelector)
-class AboutPanel extends Component {
+export default class AboutPanel extends Component {
     render() {
         const { name, account, about, created } = this.props;
         return (

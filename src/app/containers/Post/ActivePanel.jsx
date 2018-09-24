@@ -166,7 +166,19 @@ ActionIcon.defaultProps = {
     height: 20,
 };
 
-class ActivePanel extends Component {
+@connect(
+    activePanelSelector,
+    {
+        onVote,
+        togglePinAction,
+        reblog,
+        showPromotePost: (author, permlink) => ({
+            type: 'global/SHOW_DIALOG',
+            payload: { name: 'promotePost', params: { author, permlink } },
+        }),
+    }
+)
+export default class ActivePanel extends Component {
     state = {
         activeDotsMore: false,
     };
@@ -282,8 +294,8 @@ class ActivePanel extends Component {
     };
 
     _togglePin = () => {
-        const { account, permLink, isPinned, togglePin } = this.props;
-        togglePin(account + '/' + permLink, !isPinned);
+        const { account, permLink, isPinned, togglePinAction } = this.props;
+        togglePinAction(account + '/' + permLink, !isPinned);
         this._closePopover();
     };
 
@@ -291,32 +303,3 @@ class ActivePanel extends Component {
         this.setState({ activeDotsMore: !this.state.activeDotsMore });
     };
 }
-
-const mapStateToProps = (state, props) => {
-    return activePanelSelector(state, props);
-};
-
-const mapDispatchToProps = dispatch => {
-    return {
-        onVote: (voter, author, permLink, percent) => {
-            dispatch(onVote(voter, author, permLink, percent));
-        },
-        togglePin: (link, isPin) => {
-            dispatch(togglePinAction(link, isPin));
-        },
-        reblog: (account, author, permLink) => {
-            dispatch(reblog(account, author, permLink));
-        },
-        showPromotePost(author, permlink) {
-            dispatch({
-                type: 'global/SHOW_DIALOG',
-                payload: { name: 'promotePost', params: { author, permlink } },
-            });
-        },
-    };
-};
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ActivePanel);
