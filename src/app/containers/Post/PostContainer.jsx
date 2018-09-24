@@ -80,7 +80,7 @@ class PostContainer extends Component {
         }
     };
 
-    __checkScreenSizeLazy = throttle(this._checkScreenSize, 100, { leading: true });
+    __checkScreenSizeLazy = throttle(this._checkScreenSize, 100);
 }
 
 const mapStateToProps = (state, props) => {

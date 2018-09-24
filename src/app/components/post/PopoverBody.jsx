@@ -13,6 +13,7 @@ import { toggleFavoriteAction } from 'src/app/redux/actions/favorites';
 import { USER_PINNED_POSTS_LOAD } from 'src/app/redux/constants/pinnedPosts';
 import { authorSelector } from 'src/app/redux/selectors/post/commanPost';
 import Follow from 'src/app/components/common/SingleFollow/Follow';
+import { ClosePopoverButton } from 'src/app/components/golos-ui/Popover/PopoverAdditionalStyles';
 
 const Block = styled.div`
     width: 100%;
@@ -46,26 +47,6 @@ const Wrapper = styled.section`
         min-width: 330px;
         background: #ffffff;
         border-radius: 7px;
-    }
-`;
-
-const CloseButton = styled.div`
-    width: 24px;
-    height: 24px;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-
-    & svg {
-        color: #e1e1e1;
-    }
-
-    &:hover svg {
-        color: #b9b9b9;
     }
 `;
 
@@ -118,6 +99,7 @@ const PostsTitle = styled.div`
     line-height: 16px;
     flex-shrink: 1;
 `;
+
 const PostTitle = styled(Link)`
     margin-left: 12px;
     color: #333333;
@@ -161,9 +143,9 @@ class PopoverBody extends Component {
         return (
             <Wrapper className={className}>
                 <Link />
-                <CloseButton onClick={this._closePopover}>
+                <ClosePopoverButton onClick={this._closePopover} showCross={true}>
                     <Icon name="cross" width={16} height={16} />
-                </CloseButton>
+                </ClosePopoverButton>
                 <Block>
                     <AuthorTitle>
                         <AuthorInfoBlock>

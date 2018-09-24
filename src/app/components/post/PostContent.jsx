@@ -140,7 +140,7 @@ const mapStateToProps = (state, props) => {
         pictures: post.pictures,
         created: post.created,
         permLink: post.permLink,
-        isPromoted: true,
+        isPromoted: post.promotedAmount > 0,
     };
 };
 
