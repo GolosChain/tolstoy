@@ -151,8 +151,8 @@ export default async function serverRender({ location, offchain, ErrorPage, sett
         helmet = Helmet.renderStatic();
         meta = extractMeta(onchain, renderProps.params);
         status = 200;
-    } catch (re) {
-        console.error('Rendering error: ', re, re.stack);
+    } catch (err) {
+        console.error('Rendering error: ', err, err.stack);
         app = renderToString(<ErrorPage />);
         status = 500;
     }
@@ -161,7 +161,6 @@ export default async function serverRender({ location, offchain, ErrorPage, sett
 
     return {
         title: SEO_TITLE,
-        titleBase: SEO_TITLE + ' - ',
         meta,
         helmet,
         statusCode: status,
