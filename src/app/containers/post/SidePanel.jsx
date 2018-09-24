@@ -133,7 +133,7 @@ export default class SidePanel extends Component {
                 >
                     <PopoverStyled
                         innerRef={this._onShareRef}
-                        position="top"
+                        position="right"
                         onToggleOpen={this.toggleShare}
                     >
                         <SharePopover />
