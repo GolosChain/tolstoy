@@ -552,6 +552,24 @@
   "messages_jsx": {
     "start_conversation": "Start conversation"
   },
+  "meta": {
+    "title": {
+      "common": {
+        "post": "%(title)s | Golos.io Blog"
+      },
+      "profile": {
+        "activity": "Activity %(name)s | Golos.io Blog",
+        "blog": "%(name)s | Golos.io Blog",
+        "comments": "Comments %(name)s | Golos.io Blog",
+        "default": "%(name)s | Golos.io Blog",
+        "favorites": "Favorites %(name)s | Golos.io Blog",
+        "messenger": "Messenger | Golos.io Blog",
+        "replies": "Replies %(name)s | Golos.io Blog",
+        "settings": "Settings %(name)s | Golos.io Blog",
+        "wallet": "Wallet %(name)s | Golos.io Blog"
+      }
+    }
+  },
   "mobilevalidation_js": {
     "attempts_10": "Confirmation was attempted a moment ago. You can try again only in 10 seconds",
     "attempts_300": "Confirmation was attempted a moment ago. You can try again only in 5 minutes",

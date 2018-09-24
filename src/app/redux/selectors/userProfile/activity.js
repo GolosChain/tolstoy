@@ -6,6 +6,7 @@ import {
     statusSelector,
     uiSelector,
     pageAccountSelector,
+    routerParamSelector,
 } from './../common';
 import { NOTIFICATIONS_FILTER_TYPES } from 'src/app/redux/constants/common';
 
@@ -46,7 +47,15 @@ const hydratedNotificationsSelector = createDeepEqualSelector(
                 // Add content title and link from store data
                 const eventType = notify.get('eventType');
                 if (
-                    ['vote', 'flag', 'repost', 'reply', 'mention', 'reward', 'curatorReward'].includes(eventType)
+                    [
+                        'vote',
+                        'flag',
+                        'repost',
+                        'reply',
+                        'mention',
+                        'reward',
+                        'curatorReward',
+                    ].includes(eventType)
                 ) {
                     let author = '';
                     if (['vote', 'flag', 'reward'].includes(eventType)) {
@@ -96,7 +105,7 @@ const hydratedNotificationsSelector = createDeepEqualSelector(
                 const isNextDay =
                     new Date(prevNotify.get('createdAt')).toDateString() !==
                     new Date(notify.get('createdAt')).toDateString();
-                notify.set('isNextDay', isNextDay)
+                notify.set('isNextDay', isNextDay);
 
                 return notify;
             })
@@ -110,12 +119,14 @@ export const activityContentSelector = createDeepEqualSelector(
         hydratedNotificationsSelector,
         statusSelector('notifications'),
         uiSelector('profile'),
+        routerParamSelector('accountName'),
     ],
-    (account, accounts, notifications, notificationsStatus, profileUi) => ({
+    (account, accounts, notifications, notificationsStatus, profileUi, accountName) => ({
         account,
         accounts,
         notifications,
         isFetching: notificationsStatus.get('isFetching'),
         currentTabId: profileUi.getIn(['activity', 'currentTabId']),
+        pageAccountName: accountName.toLowerCase(),
     })
 );

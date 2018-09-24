@@ -2,17 +2,16 @@ import React from 'react';
 import { LIQUID_TOKEN } from 'app/client_config';
 import config from 'config';
 
-export default function ServerHTML({ body, assets, title, meta }) {
-    let page_title = title;
+export default function ServerHTML({ body, assets, title, meta, helmet }) {
     return (
         <html>
         <head>
             <meta charSet="utf-8" />
+            {helmet.title ? helmet.title.toComponent() : <title>Golos.io</title>}
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
             {
                 meta && meta.map(m => {
                     if (m.title) {
-                        page_title = m.title;
                         return null;
                     }
                     if (m.canonical)
@@ -57,8 +56,6 @@ export default function ServerHTML({ body, assets, title, meta }) {
             {/* resolves the initial style flash (flicker) on page load in development mode */}
             {Object.keys(assets.styles).length === 0 ?
                 <style dangerouslySetInnerHTML={{ __html: '#content{visibility:hidden}' }} /> : null}
-
-            <title>{page_title}</title>
         </head>
         <body>
             <div id="content" dangerouslySetInnerHTML={ { __html: body } }></div>

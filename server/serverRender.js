@@ -5,6 +5,7 @@ import { createStore } from 'redux';
 import Iso from 'iso';
 import { RouterContext, match } from 'react-router';
 import { api } from 'golos-js';
+import { Helmet } from 'react-helmet';
 import RootRoute from 'app/RootRoute';
 import { APP_NAME, IGNORE_TAGS, SEO_TITLE } from 'app/client_config';
 import NotFound from 'app/components/pages/NotFound';
@@ -138,7 +139,7 @@ export default async function serverRender({ location, offchain, ErrorPage, sett
         }
     }
 
-    let app, status, meta;
+    let app, status, meta, helmet;
     try {
         app = renderToString(
             <Provider store={serverStore}>
@@ -147,6 +148,7 @@ export default async function serverRender({ location, offchain, ErrorPage, sett
                 </Translator>
             </Provider>
         );
+        helmet = Helmet.renderStatic();
         meta = extractMeta(onchain, renderProps.params);
         status = 200;
     } catch (re) {
@@ -161,6 +163,7 @@ export default async function serverRender({ location, offchain, ErrorPage, sett
         title: SEO_TITLE,
         titleBase: SEO_TITLE + ' - ',
         meta,
+        helmet,
         statusCode: status,
         body,
     };

@@ -5,8 +5,9 @@ import styled from 'styled-components';
 import is from 'styled-is';
 import { Map } from 'immutable';
 import { last } from 'ramda';
-
 import tt from 'counterpart';
+import { Helmet } from 'react-helmet';
+
 import { blockedUsers, blockedUsersContent } from 'app/utils/IllegalContent';
 
 import user from 'app/redux/User';
@@ -87,6 +88,7 @@ const SmallUserNavigation = styled(UserNavigation)`
 
 class UserProfileContainer extends Component {
     static propTypes = {
+        pageAccountName: PropTypes.string,
         isOwner: PropTypes.bool,
         params: PropTypes.object,
         route: PropTypes.object,
@@ -103,6 +105,21 @@ class UserProfileContainer extends Component {
     }
 
     render() {
+        const { pageAccountName } = this.props;
+
+        return (
+            <Fragment>
+                <Helmet>
+                    <title>
+                        {tt('meta.title.profile.default', { name: pageAccountName })}
+                    </title>
+                </Helmet>
+                {this._render()}
+            </Fragment>
+        );
+    }
+
+    _render() {
         const {
             currentUser,
             currentAccount,
@@ -279,6 +296,7 @@ export default {
             );
 
             return {
+                pageAccountName: accountName.toLowerCase(),
                 currentUser,
                 currentAccount,
 
