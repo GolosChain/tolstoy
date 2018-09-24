@@ -9,6 +9,7 @@ const Root = styled.div`
     background: #fff;
     z-index: 1;
     box-shadow: 0 7px 13px 0 rgba(0, 0, 0, 0.05);
+    animation: from-up 0.15s;
 `;
 
 const Shadow = styled.div`

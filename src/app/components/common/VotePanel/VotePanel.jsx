@@ -157,18 +157,7 @@ const SliderBlock = styled.div`
     border-radius: 8px;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
     background: #fff;
-    animation: vote-from-down 0.2s;
-
-    @keyframes vote-from-down {
-        from {
-            opacity: 0;
-            transform: translate3d(0, 10px, 0);
-        }
-        to {
-            opacity: 1;
-            transform: translate3d(0, 0, 0);
-        }
-    }
+    animation: from-down 0.2s;
 `;
 
 const SliderBlockTip = styled.div`

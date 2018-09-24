@@ -124,12 +124,33 @@ const SearchIcon = styled(Icon)`
     color: #393636;
 `;
 
+const Buttons = styled.div`
+    display: flex;
+    align-items: center;
+    opacity: 1;
+    transition: opacity 0.3s;
+    will-change: opacity;
+
+    ${is('hidden')`
+        opacity: 0;
+    `};
+`;
+
 const RegistrationLink = styled(Link)`
     margin-right: 12px;
 `;
 
 const LoginLink = styled(Link)`
     margin-right: 12px;
+`;
+
+const AuthorizedBlock = styled.div`
+    display: flex;
+    align-items: center;
+
+    ${is('appear')`
+        animation: fade-in 0.3s;
+    `};
 `;
 
 const NewPostLink = styled(Link)`
@@ -289,6 +310,7 @@ const PowerCircle = styled.div`
         return {
             myAccountName,
             votingPower,
+            offchainAccount: state.offchain.get('account'),
         };
     },
     {
@@ -299,21 +321,31 @@ export default class Header extends PureComponent {
     state = {
         isAccountOpen: false,
         isMenuOpen: false,
+        waitAuth: this.props.offchainAccount && !this.props.myAccountName,
         isMobile: process.env.BROWSER ? window.innerWidth < MIN_MOBILE_WIDTH : false,
     };
 
     componentDidMount() {
         window.addEventListener('resize', this._onResizeLazy);
+
+        if (this.state.waitAuth) {
+            this._timeoutId = setTimeout(() => {
+                this.setState({
+                    waitAuth: false,
+                });
+            }, 2000);
+        }
     }
 
     componentWillUnmount() {
         this._onResizeLazy.cancel();
         window.removeEventListener('resize', this._onResizeLazy);
+        clearTimeout(this._timeoutId);
     }
 
     render() {
         const { myAccountName } = this.props;
-        const { isMobile, isMenuOpen } = this.state;
+        const { isMobile, isMenuOpen, waitAuth } = this.state;
 
         return (
             <Root>
@@ -336,14 +368,14 @@ export default class Header extends PureComponent {
                         {myAccountName ? (
                             this._renderAuthorizedPart()
                         ) : (
-                            <Fragment>
+                            <Buttons hidden={waitAuth}>
                                 <RegistrationLink to="https://reg.golos.io/">
                                     <Button>{tt('g.sign_up')}</Button>
                                 </RegistrationLink>
                                 <LoginLink to="/login" onClick={this._onLoginClick}>
                                     <Button light>{tt('g.login')}</Button>
                                 </LoginLink>
-                            </Fragment>
+                            </Buttons>
                         )}
                         {isMobile ? null : (
                             <DotsWrapper innerRef={this._onDotsRef} onClick={this._onMenuClick}>
@@ -353,7 +385,7 @@ export default class Header extends PureComponent {
                     </Content>
                     {isMenuOpen ? (
                         <Popover target={this._dots} onClose={this._onMenuClose}>
-                            <Menu />
+                            <Menu onClose={this._onMenuClose} />
                         </Popover>
                     ) : null}
                 </Fixed>
@@ -363,10 +395,10 @@ export default class Header extends PureComponent {
     }
 
     _renderAuthorizedPart() {
-        const { isMobile } = this.state;
+        const { isMobile, waitAuth } = this.state;
 
         return (
-            <Fragment>
+            <AuthorizedBlock appear={waitAuth}>
                 {isMobile ? null : (
                     <NewPostLink to="/submit">
                         <NewPostButton>
@@ -383,7 +415,7 @@ export default class Header extends PureComponent {
                     {isMobile ? null : <NotifCounter>18</NotifCounter>}
                 </Notifications>
                 {isMobile ? this._renderMobileAccountBlock() : null}
-            </Fragment>
+            </AuthorizedBlock>
         );
     }
 
@@ -447,7 +479,7 @@ export default class Header extends PureComponent {
                 </MobileAccountBlock>
                 {isAccountOpen ? (
                     <MobilePopover target={this._account} onClose={this._onAccountMenuClose}>
-                        <AccountMenu />
+                        <AccountMenu onClose={this._onAccountMenuClose} />
                     </MobilePopover>
                 ) : null}
             </Fragment>
@@ -500,13 +532,7 @@ export default class Header extends PureComponent {
 }
 
 function formatPower(percent) {
-    const str = percent.toFixed(1);
-
-    if (str.endsWith('.0')) {
-        return str.substr(0, str.length - 2);
-    } else {
-        return str;
-    }
+    return percent.toFixed(2).replace(/\.?0+$/, '');
 }
 
 function calcXY(angle) {

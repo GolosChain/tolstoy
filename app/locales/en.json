@@ -454,6 +454,9 @@
     "i_have_read_and_agree_to_the": "I have read and agree to the",
     "terms_of_service": "Terms of service"
   },
+  "header": {
+    "account_price": "Account price"
+  },
   "header_jsx": {
     "author_rewards_by": "Author rewards by",
     "change_account_password": "Change Account Password",
