@@ -353,7 +353,7 @@ export default class Header extends PureComponent {
                     </Content>
                     {isMenuOpen ? (
                         <Popover target={this._dots} onClose={this._onMenuClose}>
-                            <Menu />
+                            <Menu onClose={this._onMenuClose} />
                         </Popover>
                     ) : null}
                 </Fixed>
@@ -447,7 +447,7 @@ export default class Header extends PureComponent {
                 </MobileAccountBlock>
                 {isAccountOpen ? (
                     <MobilePopover target={this._account} onClose={this._onAccountMenuClose}>
-                        <AccountMenu />
+                        <AccountMenu onClose={this._onAccountMenuClose} />
                     </MobilePopover>
                 ) : null}
             </Fragment>
@@ -500,13 +500,7 @@ export default class Header extends PureComponent {
 }
 
 function formatPower(percent) {
-    const str = percent.toFixed(1);
-
-    if (str.endsWith('.0')) {
-        return str.substr(0, str.length - 2);
-    } else {
-        return str;
-    }
+    return percent.toFixed(2).replace(/\.?0+$/, '');
 }
 
 function calcXY(angle) {

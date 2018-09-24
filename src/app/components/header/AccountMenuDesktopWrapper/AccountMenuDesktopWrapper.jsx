@@ -31,7 +31,7 @@ export default class AccountMenuDesktopWrapper extends PureComponent {
         return (
             <Root innerRef={this._onRef}>
                 <Line />
-                <AccountMenu />
+                <AccountMenu onClose={this._onMenuClose} />
             </Root>
         );
     }
@@ -44,5 +44,9 @@ export default class AccountMenuDesktopWrapper extends PureComponent {
         if (this._root && !this._root.parentNode.contains(e.target)) {
             this.props.onClose();
         }
+    };
+
+    _onMenuClose = () => {
+        this.props.onClose();
     };
 }

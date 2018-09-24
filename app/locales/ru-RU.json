@@ -459,6 +459,9 @@
     "i_have_read_and_agree_to_the": "Я прочитал и согласен с",
     "terms_of_service": "Условиями пользования"
   },
+  "header": {
+    "account_price": "Стоимость аккаунта"
+  },
   "header_jsx": {
     "author_rewards_by": "Автор награжден",
     "change_account_password": "Изменить пароль аккаунта",
