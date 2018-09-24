@@ -2,10 +2,17 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { sharePopoverSelector } from 'src/app/redux/selectors/post/sharePopoverSelector';
+import is from 'styled-is';
+
 import Icon from 'golos-ui/Icon';
 
-const Wrapper = styled.div``;
+import { sharePopoverSelector } from 'src/app/redux/selectors/post/sharePopoverSelector';
+
+const Wrapper = styled.div`
+    ${is('horizontal')`
+        display: flex;
+    `};
+`;
 
 const ItemContainer = styled.div`
     padding: 18px;
@@ -19,13 +26,17 @@ const ItemContainer = styled.div`
 @connect(sharePopoverSelector)
 export default class SharePopover extends Component {
     static propTypes = {
-        children: PropTypes.any,
+        horizontal: PropTypes.bool,
+    };
+
+    static defaultProps = {
+        horizontal: true,
     };
 
     render() {
-        const { shareMenu } = this.props;
+        const { shareMenu, horizontal } = this.props;
         return (
-            <Wrapper>
+            <Wrapper horizontal={horizontal}>
                 {shareMenu.map(item => (
                     <ItemContainer onClick={item.onClick} key={item.value}>
                         <Icon name={item.icon} />
