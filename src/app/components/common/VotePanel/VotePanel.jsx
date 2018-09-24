@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import tt from 'counterpart';
 import styled from 'styled-components';
 import is from 'styled-is';
@@ -13,9 +12,10 @@ import Popover from '../Popover';
 import PayoutInfo from '../PayoutInfo';
 import PayoutInfoDialog from '../PayoutInfoDialog';
 import DialogManager from 'app/components/elements/common/DialogManager';
+import { listenLazy } from 'src/app/helpers/hoc';
 
 const VOTE_PERCENT_THRESHOLD = 1000000;
-const MOBILE_WIDTH = 700;
+const MOBILE_WIDTH = 890;
 
 const LIKE_PERCENT_KEY = 'golos.like-percent';
 const DISLIKE_PERCENT_KEY = 'golos.dislike-percent';
@@ -192,15 +192,12 @@ const PostPayoutStyled = styled(PostPayout)`
     user-select: none;
 `;
 
-@connect(state => ({
-    windowWidth: state.browser.width,
-}))
+@listenLazy('resize')
 export default class VotePanel extends PureComponent {
     static propTypes = {
         data: PropTypes.object, // Immutable.Map
         me: PropTypes.string,
         whiteTheme: PropTypes.bool,
-        windowWidth: PropTypes.number.isRequired,
         onChange: PropTypes.func.isRequired,
     };
 
@@ -208,6 +205,7 @@ export default class VotePanel extends PureComponent {
         sliderAction: null,
         showSlider: false,
         votePercent: 0,
+        isMobile: window.innerWidth < MOBILE_WIDTH,
     };
 
     componentWillUnmount() {
@@ -303,9 +301,10 @@ export default class VotePanel extends PureComponent {
     }
 
     _renderPayout() {
-        const { data, windowWidth } = this.props;
+        const { data } = this.props;
+        const { isMobile } = this.state;
 
-        if (windowWidth < MOBILE_WIDTH) {
+        if (isMobile) {
             return (
                 <Money onClick={this._onPayoutClick}>
                     <PostPayoutStyled data={data} />
@@ -413,6 +412,12 @@ export default class VotePanel extends PureComponent {
             props: {
                 data,
             },
+        });
+    };
+
+    onResize = () => {
+        this.setState({
+            isMobile: window.innerWidth < MOBILE_WIDTH,
         });
     };
 }

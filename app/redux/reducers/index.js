@@ -15,7 +15,6 @@ import status from 'src/app/redux/reducers/status';
 import entities from 'src/app/redux/reducers/entities';
 import ui from 'src/app/redux/reducers/ui';
 import data from 'src/app/redux/reducers/data';
-import browser from 'src/app/redux/reducers/browser';
 
 export function initReducer(reducer, type) {
     return (state, action) => {
@@ -63,5 +62,4 @@ export default combineReducers({
     entities: initReducer(entities),
     ui: initReducer(ui),
     data,
-    browser,
 });

@@ -36,12 +36,13 @@ const Title = styled.div`
 `;
 
 const Payout = styled.div`
+    margin-bottom: 4px;
     text-align: center;
     font-size: 18px;
 `;
 
 const Duration = styled.div`
-    margin: 2px 0 6px;
+    margin: -2px 0 6px;
     text-align: center;
     font-size: 12px;
     color: #959595;
@@ -110,7 +111,7 @@ export default class PayoutInfo extends PureComponent {
             <Root>
                 <Part>
                     <Title>
-                        {isPending ? tt('payout_info.potential_payout') : 'payout_info.payout'}
+                        {isPending ? tt('payout_info.potential_payout') : tt('payout_info.payout')}
                     </Title>
                     <Payout>
                         {amount.endsWith('GOLOS') ? (
