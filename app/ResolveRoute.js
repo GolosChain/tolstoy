@@ -32,7 +32,7 @@ export default function resolveRoute(path)
     if (path === '/faq.html') {
         return {page: 'Faq'};
     }
-    if (path === '/login.html') {
+    if (path === '/login') {
         return {page: 'Login'};
     }
     if (path === '/privacy.html') {

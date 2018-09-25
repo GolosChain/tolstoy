@@ -135,9 +135,23 @@ export default class ActivityItem extends Component {
             const golos = notification.getIn(['reward', 'golos'], null);
             const golosPower = notification.getIn(['reward', 'golosPower'], null);
             const gbg = notification.getIn(['reward', 'gbg'], null);
-            if (golos) awards.push(`${golos} ${tt('token_names.LIQUID_TOKEN_PLURALIZE', { count: golos})}`);
-            if (golosPower) awards.push(`${golosPower} ${tt('token_names.VESTING_TOKEN_PLURALIZE', { count: golosPower})}`);
-            if (gbg) awards.push(`${gbg} ${DEBT_TOKEN_SHORT}`);
+            if (golos) {
+                awards.push(
+                    `${golos} ${tt('token_names.LIQUID_TOKEN_PLURALIZE', {
+                        count: parseFloat(golos),
+                    })}`
+                );
+            }
+            if (golosPower) {
+                awards.push(
+                    `${golosPower} ${tt('token_names.VESTING_TOKEN_PLURALIZE', {
+                        count: parseFloat(golosPower),
+                    })}`
+                );
+            }
+            if (gbg) {
+                awards.push(`${gbg} ${DEBT_TOKEN_SHORT}`);
+            }
             interProps.amount = awards.join(', ');
         }
 

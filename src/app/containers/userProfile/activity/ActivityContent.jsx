@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { List } from 'immutable';
 import styled from 'styled-components';
-
+import tt from 'counterpart';
+import { Helmet } from 'react-helmet';
 import throttle from 'lodash/throttle';
 
 import { NOTIFICATIONS_FILTER_TYPES, NOTIFICATIONS_PER_PAGE } from 'src/app/redux/constants/common';
@@ -36,6 +37,7 @@ export default class ActivityContent extends PureComponent {
         isFetching: PropTypes.bool,
         currentTabId: PropTypes.string,
         notifications: PropTypes.instanceOf(List),
+        pageAccountName: PropTypes.string,
 
         changeProfileActivityTab: PropTypes.func,
         getNotificationsHistory: PropTypes.func,
@@ -115,10 +117,13 @@ export default class ActivityContent extends PureComponent {
     };
 
     render() {
-        const { isFetching, currentTabId } = this.props;
+        const { isFetching, currentTabId, pageAccountName } = this.props;
 
         return (
             <Fragment>
+                <Helmet>
+                    <title>{tt('meta.title.profile.activity', { name: pageAccountName })}</title>
+                </Helmet>
                 <Card auto innerRef={this.setRootRef}>
                     <Tabs activeTab={{ id: currentTabId }} onChange={this.handleChangeTab}>
                         <CardContent column auto>

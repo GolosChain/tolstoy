@@ -1,6 +1,7 @@
 import React from 'react';
 import { getStoreState, dispatch } from 'app/clientRender';
 import { getHistoricalData } from '../redux/actions/rates';
+import { DEFAULT_CURRENCY } from '../../../app/client_config';
 
 const CURRENCY_SIGNS = {
     USD: '$_',
@@ -112,25 +113,34 @@ export function formatCurrency(amount, currency, decimals) {
     }
 }
 
-export function renderValue(amount, decimals, rates) {
+export function renderValue(amount, originalCurrency, decimals, date) {
     if (process.env.BROWSER) {
         const state = getStoreState();
 
-        let currency = state.data.settings.getIn(['basic', 'currency'], 'GBG');
+        let currency = state.data.settings.getIn(['basic', 'currency']) || DEFAULT_CURRENCY;
         let rate;
 
-        if (currency !== 'GBG') {
-            if (rates) {
-                rate = rates.GBG[currency];
+        if (currency !== originalCurrency) {
+            if (process.env.BROWSER && date && date.startsWith('2')) {
+                // 2018-09-10T07:38:57 => 2018-09-10
+                const dateString = date.substr(0, 10);
+
+                const rates = state.data.rates.dates.get(dateString);
+
+                if (rates) {
+                    rate = rates[originalCurrency][currency];
+                } else {
+                    dispatch(getHistoricalData(dateString));
+                }
             }
 
             if (!rate) {
-                rate = state.data.rates.actual.GBG[currency];
+                rate = state.data.rates.actual[originalCurrency][currency];
             }
         }
 
         if (!rate) {
-            currency = 'GBG';
+            currency = originalCurrency;
             rate = 1;
         }
 
@@ -142,11 +152,11 @@ export function renderValue(amount, decimals, rates) {
 
         return formatCurrency(amount * rate, currency, dec);
     } else {
-        return `${amount.toFixed(3)} GBG`;
+        return `${amount.toFixed(3)} ${originalCurrency}`;
     }
 }
 
-export function getPayout(data) {
+export function getPayout(data, className) {
     let params;
 
     if (data.toJS) {
@@ -183,26 +193,7 @@ export function getPayout(data) {
         isLimit = true;
     }
 
-    let rates = null;
-
-    if (process.env.BROWSER) {
-        if (params.last_payout) {
-            const date = new Date(params.last_payout);
-
-            if (date.getFullYear() > 2000) {
-                const state = getStoreState();
-                const dateString = date.toJSON().substr(0, 10);
-
-                rates = state.data.rates.dates.get(dateString);
-
-                if (!rates) {
-                    dispatch(getHistoricalData({ date: dateString }));
-                }
-            }
-        }
-    }
-
-    const stringValue = renderValue(gbgValue, null, rates);
+    const stringValue = renderValue(gbgValue, 'GBG', null, params.last_payout);
 
     let style;
 
@@ -218,5 +209,9 @@ export function getPayout(data) {
         }
     }
 
-    return <span style={style}>{stringValue}</span>;
+    return (
+        <span className={className} style={style}>
+            {stringValue}
+        </span>
+    );
 }

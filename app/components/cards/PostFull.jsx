@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import tt from 'counterpart';
+import { Helmet } from 'react-helmet';
+
 import user from 'app/redux/User';
 import transaction from 'app/redux/Transaction';
 import { repLog10, parsePayoutAmount } from 'app/utils/ParsersAndFormatters';
@@ -309,10 +311,6 @@ class PostFull extends React.Component {
             link = `/${category}${link}`;
         }
 
-        if (process.env.BROWSER && title) {
-            document.title = title + ' | ' + SEO_TITLE;
-        }
-
         const replyParams = {
             author,
             permlink,
@@ -340,6 +338,12 @@ class PostFull extends React.Component {
                 itemScope
                 itemType="http://schema.org/blogPost"
             >
+                {title ?
+                    <Helmet>
+                        <title>{tt('meta.title.common.post', { title })}</title>
+                    </Helmet>
+                    : null
+                }
                 {showEdit
                     ? this._renderPostEditor(replyParams, jsonMetadata, content)
                     : this._renderContent(

@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { Link } from 'react-router';
 import styled from 'styled-components';
 import Icon from 'app/components/elements/Icon';
 import CardPost from 'src/app/components/welcome/CardPost';
@@ -37,7 +38,7 @@ const SubHeader = styled.div`
     margin-bottom: 48px;
 `;
 
-const Link = styled.a`
+const NormalLink = styled.a`
     font-family: ${a => a.theme.fontFamily};
     font-size: 12px;
     font-weight: 500;
@@ -68,6 +69,8 @@ const Link = styled.a`
     }
 `;
 
+const LinkStyled = NormalLink.withComponent(Link);
+
 export default class Questions extends PureComponent {
     render() {
         const { questionsLoading, questionsCards } = this.props;
@@ -84,36 +87,36 @@ export default class Questions extends PureComponent {
                             <div className="columns small-12 medium-12 large-2">
                                 <div className="row small-up-2 medium-up-2 large-up-1">
                                     <div className="columns">
-                                        <Link href="/faq">
+                                        <LinkStyled to="/faq">
                                             <Icon
                                                 name="new/monitor"
                                                 size="2x"
                                             />Частые вопросы и ответы
-                                        </Link>
+                                        </LinkStyled>
                                     </div>
                                     <div className="columns">
-                                        <Link href="https://t.me/golos_support">
+                                        <NormalLink href="https://t.me/golos_support">
                                             <Icon
                                                 name="new/telegram"
                                                 size="2x"
                                             />Спросите в телеграме
-                                        </Link>
+                                        </NormalLink>
                                     </div>
                                     <div className="columns">
-                                        <Link href={WIKI_URL}>
+                                        <NormalLink href={WIKI_URL}>
                                             <Icon
                                                 name="new/wikipedia"
                                                 size="2x"
                                             />Посмотрите нашу википедию
-                                        </Link>
+                                        </NormalLink>
                                     </div>
                                     <div className="columns">
-                                        <Link href="mailto:support@golos.io">
+                                        <NormalLink href="mailto:support@golos.io">
                                             <Icon
                                                 name="new/envelope"
                                                 size="2x"
                                             />Напишите на почту
-                                        </Link>
+                                        </NormalLink>
                                     </div>
                                 </div>
                             </div>

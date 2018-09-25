@@ -9,10 +9,14 @@ import { FormattedDate } from 'react-intl';
 
 import { repLog10 } from 'app/utils/ParsersAndFormatters';
 import normalizeProfile from 'app/utils/NormalizeProfile';
+import { makeSocialLink } from 'src/app/helpers/urls';
 
 import Icon from 'golos-ui/Icon';
 import { CardTitle } from 'golos-ui/Card';
 import CollapsingCard from 'golos-ui/CollapsingCard';
+
+import DialogManager from 'app/components/elements/common/DialogManager';
+import FollowersDialog from 'src/app/components/userProfile/dialogs/FollowersDialog';
 
 const CollapsingCardStyled = styled(CollapsingCard)`
     margin-bottom: 18px;
@@ -77,7 +81,13 @@ const Column = styled.div`
     }
 `;
 
+const ColumnClick = styled(Column)`
+    cursor: pointer;
+`;
+
 const Bold = styled.div`
+    display: flex;
+    align-items: center;
     color: #333;
     font-family: ${({ theme }) => theme.fontFamily};
     font-size: 17px;
@@ -121,10 +131,12 @@ const UserCardBio = styled.div`
 `;
 
 const SocialBlock = CardTitle.extend`
-    margin: 0 -4px;
+    justify-content: space-around;
+    padding: 0 8px;
 `;
 
-const SocialLink = styled(Link)`
+const SocialLink = styled.a`
+    display: block;
     padding: 0 10px;
     color: #333;
 
@@ -134,8 +146,16 @@ const SocialLink = styled(Link)`
     `};
 `;
 
-const IconStyled = Icon.extend`
+const IconStyled = styled(Icon)`
     display: block;
+`;
+
+const IconTriangle = styled(Icon).attrs({
+    name: 'triangle',
+    width: '4.2',
+    height: '2.8',
+})`
+    margin: 0 -8.4px 0 3px;
 `;
 
 export default class UserCardAbout extends PureComponent {
@@ -143,6 +163,26 @@ export default class UserCardAbout extends PureComponent {
         account: PropTypes.object,
         followerCount: PropTypes.number,
         followingCount: PropTypes.number,
+    };
+
+    onShowFollowers = () => {
+        DialogManager.showDialog({
+            component: FollowersDialog,
+            props: {
+                pageAccountName: this.props.account.get('name'),
+                type: 'follower',
+            },
+        });
+    };
+
+    onShowFollowing = () => {
+        DialogManager.showDialog({
+            component: FollowersDialog,
+            props: {
+                pageAccountName: this.props.account.get('name'),
+                type: 'following',
+            },
+        });
     };
 
     render() {
@@ -171,14 +211,18 @@ export default class UserCardAbout extends PureComponent {
             <CollapsingCardStyled title={'Краткая информация'} saveStateKey="info">
                 <CardContentCounters>
                     <Row>
-                        <Column>
-                            <Bold>{followerCount}</Bold>
+                        <ColumnClick onClick={this.onShowFollowers}>
+                            <Bold>
+                                {followerCount} <IconTriangle />
+                            </Bold>
                             <Title>Подписчиков</Title>
-                        </Column>
-                        <Column>
-                            <Bold>{followingCount}</Bold>
+                        </ColumnClick>
+                        <ColumnClick onClick={this.onShowFollowing}>
+                            <Bold>
+                                {followingCount} <IconTriangle />
+                            </Bold>
                             <Title>Подписок</Title>
-                        </Column>
+                        </ColumnClick>
                     </Row>
 
                     <Row>
@@ -225,22 +269,38 @@ export default class UserCardAbout extends PureComponent {
                     Object.keys(social).length && (
                         <SocialBlock justify="space-between">
                             {social.facebook && (
-                                <SocialLink to={`https://facebook.com/${social.facebook}`} fb={1}>
+                                <SocialLink
+                                    href={makeSocialLink(social.facebook, 'https://facebook.com/')}
+                                    fb={1}
+                                    target="_blank"
+                                >
                                     <IconStyled name="facebook" width="13" height="24" />
                                 </SocialLink>
                             )}
                             {social.vkontakte && (
-                                <SocialLink to={`https://vk.com/${social.vkontakte}`}>
+                                <SocialLink
+                                    href={makeSocialLink(social.vkontakte, 'https://vk.com/')}
+                                    target="_blank"
+                                >
                                     <IconStyled name="vk" width="28" height="18" />
                                 </SocialLink>
                             )}
                             {social.instagram && (
-                                <SocialLink to={`https://instagram.com/${social.instagram}`}>
+                                <SocialLink
+                                    href={makeSocialLink(
+                                        social.instagram,
+                                        'https://instagram.com/'
+                                    )}
+                                    target="_blank"
+                                >
                                     <IconStyled name="instagram" size="23" />
                                 </SocialLink>
                             )}
                             {social.twitter && (
-                                <SocialLink to={`https://twitter.com/${social.twitter}`}>
+                                <SocialLink
+                                    href={makeSocialLink(social.twitter, 'https://twitter.com/')}
+                                    target="_blank"
+                                >
                                     <IconStyled name="twitter" width="26" height="22" />
                                 </SocialLink>
                             )}
@@ -250,3 +310,5 @@ export default class UserCardAbout extends PureComponent {
         );
     }
 }
+
+

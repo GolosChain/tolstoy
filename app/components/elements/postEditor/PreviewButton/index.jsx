@@ -24,7 +24,7 @@ const Root = styled.i`
     transition: color 0.1s;
     background: #fff;
     box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
-    z-index: 10;
+    z-index: 9;
     ${is('isPreview')`
         color: #fff !important;
         background: #2879ff;
