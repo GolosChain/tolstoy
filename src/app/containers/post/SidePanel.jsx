@@ -97,7 +97,7 @@ export default class SidePanel extends Component {
     render() {
         const { votesSummary, isFavorite } = this.props;
         const { showPanel, fixedOnScreen, activeShareMore } = this.state;
-        const { myVote, likes, firstLikes, dislikes, firstDislikes } = votesSummary;
+        const { myVote: voteType, likes, firstLikes, dislikes, firstDislikes } = votesSummary;
         return (
             <Wrapper
                 innerRef={this._setWrapperRef}
@@ -105,14 +105,14 @@ export default class SidePanel extends Component {
                 fixedOnScreen={fixedOnScreen}
             >
                 <Action
-                    activeType={myVote}
+                    activeType={voteType}
                     iconName="like"
                     count={likes}
                     onClick={this._like}
                     dataTooltip={this.tooltipContent(firstLikes, likes > 10)}
                 />
                 <Action
-                    activeType={myVote}
+                    activeType={voteType}
                     iconName="dislike"
                     count={dislikes}
                     onClick={this._dislike}
@@ -207,7 +207,12 @@ export default class SidePanel extends Component {
         const { username, permLink, author, myVote } = this.props;
         const percent = 1;
         if (await confirmVote(myVote, percent)) {
-            this.props.onVote(username, author, permLink, myVote.percent < 0 ? percent : 0);
+            this.props.onVote(
+                username,
+                author,
+                permLink,
+                myVote === 0 || myVote.percent <= 0 ? percent : 0
+            );
         }
     };
 
@@ -215,7 +220,12 @@ export default class SidePanel extends Component {
         const { username, permLink, author, myVote } = this.props;
         const percent = -1;
         if (await confirmVote(myVote, percent)) {
-            this.props.onVote(username, author, permLink, myVote.percent > 0 ? percent : 0);
+            this.props.onVote(
+                username,
+                author,
+                permLink,
+                myVote === 0 || myVote.percent >= 0 ? percent : 0
+            );
         }
     };
 
