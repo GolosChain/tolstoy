@@ -72,4 +72,4 @@ export const PUBLIC_API = {
   tags:         ['get_trending_tags',             'tags'],
   tagsbyauthor: ['get_tags_used_by_author',       'tagsbyauthor']
 }
-export const SEO_TITLE = 'GOLOS.io Блоги'
+export const SEO_TITLE = 'Golos.io Блоги'

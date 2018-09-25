@@ -12,7 +12,8 @@ const PriceBlock = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 40px;
+    box-sizing: content-box;
+    height: 48px;
     border-bottom: 1px solid #e1e1e1;
     font-size: 14px;
     color: #333;
@@ -71,13 +72,12 @@ const IconStyled = styled(Icon)`
         };
     },
     {
-        onShowMessagesClick: () => user.actions.showMessages(),
         onLogoutClick: () => user.actions.logout(),
     }
 )
 export default class AccountMenu extends PureComponent {
     render() {
-        const { myAccountName, price, currency, onShowMessagesClick, onLogoutClick } = this.props;
+        const { myAccountName, price, currency, onLogoutClick } = this.props;
 
         let items = [
             {
@@ -109,9 +109,9 @@ export default class AccountMenu extends PureComponent {
             },
             $STM_Config.is_sandbox
                 ? {
+                      link: `/@${myAccountName}/messages`,
                       icon: 'messanger',
                       text: tt('g.messages'),
-                      onClick: onShowMessagesClick,
                       size: 21,
                   }
                 : null,
@@ -149,12 +149,12 @@ export default class AccountMenu extends PureComponent {
             <Fragment>
                 <PriceBlock>
                     <div>
-                        Баланс: <Price>{priceString}</Price>
+                        {tt('header.account_price')}: <Price>{priceString}</Price>
                     </div>
                 </PriceBlock>
                 <Ul>
                     {items.map(({ link, icon, text, size, style, onClick }, i) => (
-                        <Li key={i}>
+                        <Li key={i} onClick={this._onItemClick}>
                             <LinkStyled to={link} onClick={onClick}>
                                 <IconWrapper>
                                     <IconStyled name={icon} size={size || 22} style={style} />
@@ -167,4 +167,8 @@ export default class AccountMenu extends PureComponent {
             </Fragment>
         );
     }
+
+    _onItemClick = () => {
+        this.props.onClose();
+    };
 }

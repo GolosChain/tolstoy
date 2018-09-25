@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
+import { Helmet } from 'react-helmet';
 import tt from 'counterpart';
 import { Link } from 'react-router';
 
@@ -15,6 +16,21 @@ const Loader = styled(LoadingIndicator)`
 
 class BlogContent extends Component {
     render() {
+        const { pageAccount } = this.props;
+
+        return (
+            <Fragment>
+                <Helmet>
+                    <title>
+                        {tt('meta.title.profile.blog', { name: pageAccount.get('name') })}
+                    </title>
+                </Helmet>
+                {this._render()}
+            </Fragment>
+        );
+    }
+
+    _render() {
         const { pageAccount } = this.props;
 
         const posts = pageAccount.get('blog');

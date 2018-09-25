@@ -34,7 +34,7 @@ import { renderValue } from 'src/app/helpers/currency';
     const totalCuratorPayout = parsePayoutAmount(post.get('curator_payout_value'));
 
     const payout = pendingPayout + totalAuthorPayout + totalCuratorPayout;
-    const payoutString = renderValue(payout, 'short');
+    const payoutString = renderValue(payout, 'GBG', 'short');
 
     let visible = false;
 
@@ -136,7 +136,7 @@ export default class CTABlock extends PureComponent {
             <div className="ctablock__text-regular">
                 Сообщество <b>Golos.io</b> {ctaInfo.regularStartText} <b>{user}</b> заработал более{' '}
                 <span className="ctablock__text-regular">
-                    {renderValue(payout, 'adaptive')}
+                    {renderValue(payout, 'GBG', 'adaptive')}
                 </span>.{' '}
                 <a href={'/start'} onClick={() => popupClickUrl()}>
                     {ctaInfo.regularEndText}

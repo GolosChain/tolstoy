@@ -1,7 +1,8 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Map } from 'immutable';
+import { Helmet } from 'react-helmet';
 
 import { PrivateKey } from 'golos-js/lib/auth/ecc';
 
@@ -196,19 +197,26 @@ export default class SettingsContent extends PureComponent {
         } = this.props;
 
         return (
-            <SettingsShow
-                profile={profile}
-                account={account}
-                privateKeys={privateKeys}
-                options={options}
-                isFetching={isFetching}
-                isChanging={isChanging}
-                onSubmitBlockchain={this.onSubmitBlockchain}
-                onSubmitGate={this.onSubmitGate}
-                onSubmitChangePassword={this.onSubmitChangePassword}
-                showLogin={showLogin}
-                showQRKey={showQRKey}
-            />
+            <Fragment>
+                <Helmet>
+                    <title>
+                        {tt('meta.title.profile.settings', { name: account.get('name') })}
+                    </title>
+                </Helmet>
+                <SettingsShow
+                    profile={profile}
+                    account={account}
+                    privateKeys={privateKeys}
+                    options={options}
+                    isFetching={isFetching}
+                    isChanging={isChanging}
+                    onSubmitBlockchain={this.onSubmitBlockchain}
+                    onSubmitGate={this.onSubmitGate}
+                    onSubmitChangePassword={this.onSubmitChangePassword}
+                    showLogin={showLogin}
+                    showQRKey={showQRKey}
+                />
+            </Fragment>
         );
     }
 }
