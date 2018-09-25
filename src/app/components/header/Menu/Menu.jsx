@@ -63,11 +63,6 @@ export default class Menu extends PureComponent {
                 icon: 'delegates',
                 text: tt('navigation.delegates'),
             },
-            {
-                link: '//golostools.com/',
-                icon: 'apps',
-                text: tt('navigation.app_center'),
-            },
         ];
 
         return (
