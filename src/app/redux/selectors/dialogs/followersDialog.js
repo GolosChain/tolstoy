@@ -1,20 +1,23 @@
-import { Map, OrderedSet } from 'immutable';
-import { createDeepEqualSelector, globalSelector, pageAccountSelector } from './../common';
-const emptyMap = Map();
-const emptyOrderedSet = OrderedSet();
+import { Set } from 'immutable';
+import { createDeepEqualSelector, globalSelector, dataSelector, statusSelector } from './../common';
 
-const getMethodPathByType = (state, { type }) =>
-    type === 'follower' ? 'getFollowersAsync' : 'getFollowingAsync';
+const emptySet = Set();
+
+const getMethodPathByType = (state, { type }) => (type === 'follower' ? 'followers' : 'following');
 const getCountPathByType = (state, { type }) =>
     type === 'follower' ? 'follower_count' : 'following_count';
 
-const followSelector = createDeepEqualSelector(
+const followersSelector = createDeepEqualSelector(
     [
-        globalSelector('follow'),
+        dataSelector('followers'),
+        statusSelector('followers'),
         getMethodPathByType,
         (state, { pageAccountName }) => pageAccountName,
     ],
-    (follow, path, pageAccountName) => follow.getIn([path, pageAccountName], emptyMap)
+    (followers, followersStatus, path, pageAccountName) => ({
+        users: followers.getIn([pageAccountName, path, 'blog'], emptySet),
+        loading: followersStatus.getIn([pageAccountName, path, 'blog', 'loading'], false),
+    })
 );
 
 const followCountSelector = createDeepEqualSelector(
@@ -27,17 +30,10 @@ const followCountSelector = createDeepEqualSelector(
 );
 
 export const followersDialogSelector = createDeepEqualSelector(
-    [globalSelector('accounts'), followSelector, followCountSelector],
-    (accounts, follow, followCount) => {
-        const loadingFollow =
-            follow.get('blog_loading', false) || follow.get('ignore_loading', false);
-        const namesFollow = follow.get('blog_result', emptyOrderedSet);
-        const users = namesFollow.map(name => accounts.get(name));
-
-        return {
-            loadingFollow,
-            followCount,
-            users,
-        };
-    }
+    [globalSelector('accounts'), followersSelector, followCountSelector],
+    (accounts, followers, followCount) => ({
+        loading: followers.loading,
+        users: followers.users.map(name => accounts.get(name)),
+        followCount,
+    })
 );

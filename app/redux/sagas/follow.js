@@ -50,20 +50,6 @@ function* loadFollowsLoop(method, account, type, start = '', limit = 100) {
     const res = fromJS(yield api[method](account, start, type, limit));
     // console.log('res.toJS()', res.toJS())
 
-    // TODO: beautyfree - only for lists where we need users info
-    if (res.size) {
-        const accountNameKey = method === "getFollowingAsync" ? "following" : "follower";
-        const names = res.map((item) => item.get(accountNameKey));
-
-        const accounts = yield call([api, api.getAccountsAsync], names);
-        yield put({
-            type: 'global/RECEIVE_ACCOUNTS',
-            payload: {
-                accounts,
-            },
-        });
-    }
-
     let cnt = 0
     let lastAccountName = null
 

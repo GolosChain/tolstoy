@@ -134,7 +134,7 @@ export default class DialogManager extends React.PureComponent {
 
     render() {
         if (!this._dialogs.length) {
-            return null;
+            return <div className="DialogManager DialogManager_hidden" ref={this._onRef} />;
         }
 
         const dialogs = this._dialogs.map((dialog, i) => (
@@ -147,6 +147,7 @@ export default class DialogManager extends React.PureComponent {
                 <div className="DialogManager__dialog">
                     <dialog.options.component
                         {...dialog.options.props}
+                        dialogRoot={this._root}
                         onRef={el => (dialog.el = el)}
                         onClose={data => this._onDialogClose(dialog, data)}
                     />
@@ -155,7 +156,7 @@ export default class DialogManager extends React.PureComponent {
         ));
 
         return (
-            <div className="DialogManager">
+            <div className="DialogManager" ref={this._onRef}>
                 <div
                     className="DialogManager__shade"
                     ref={this._onShadowRef}
@@ -165,6 +166,10 @@ export default class DialogManager extends React.PureComponent {
             </div>
         );
     }
+
+    _onRef = el => {
+        this._root = el;
+    };
 
     _closeDialog(dialog, data) {
         const index = this._dialogs.indexOf(dialog);

@@ -1,16 +1,18 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { OrderedSet } from 'immutable';
+import { Set } from 'immutable';
 import styled from 'styled-components';
 import { Link } from 'react-router';
-
+import throttle from 'lodash/throttle';
 import tt from 'counterpart';
+
 import o2j from 'shared/clash/object2json';
 import { followersDialogSelector } from 'src/app/redux/selectors/dialogs/followersDialog';
+import { getFollowers, getFollowing } from 'src/app/redux/actions/followers';
 
 import Icon from 'golos-ui/Icon';
-import SplashLoader from 'golos-ui/SplashLoader';
+import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import Avatar from 'src/app/components/common/Avatar';
 import Follow from 'src/app/components/common/Follow';
 
@@ -69,7 +71,6 @@ const Title = styled.div`
 const Content = styled.div`
     position: relative;
     padding: 20px;
-    min-height: 200px;
 `;
 
 const UserItem = styled.div`
@@ -101,7 +102,22 @@ const Name = styled.div`
     margin-left: 9px;
 `;
 
-@connect(followersDialogSelector)
+const LoaderWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 90px;
+    opacity: 0;
+    animation: fade-in 0.25s forwards;
+    animation-delay: 0.25s;
+`;
+@connect(
+    followersDialogSelector,
+    {
+        getFollowers,
+        getFollowing,
+    }
+)
 export default class FollowersDialog extends PureComponent {
     static propTypes = {
         pageAccountName: PropTypes.string,
@@ -109,45 +125,83 @@ export default class FollowersDialog extends PureComponent {
 
         onRef: PropTypes.func.isRequired,
 
-        loadingFollow: PropTypes.bool,
+        loading: PropTypes.bool,
         followCount: PropTypes.number,
-        users: PropTypes.instanceOf(OrderedSet),
+        users: PropTypes.instanceOf(Set),
+        getFollowers: PropTypes.func,
+        getFollowing: PropTypes.func,
     };
+
+    rootRef = null;
+    lastUserName = '';
 
     componentDidMount() {
         this.props.onRef(this);
+        this.props.dialogRoot.addEventListener('scroll', this.handleScroll);
+        this.loadMore();
     }
 
     componentWillUnmount() {
         this.props.onRef(null);
+        this.props.dialogRoot.removeEventListener('scroll', this.handleScroll);
+        this.handleScroll.cancel();
     }
 
+    setRootRef = el => (this.rootRef = el);
+
+    handleScroll = throttle(() => {
+        const { loading } = this.props;
+
+        if (!loading) {
+            const rect = this.rootRef.getBoundingClientRect();
+            if (rect.top + rect.height < window.innerHeight * 1.5) {
+                this.loadMore();
+            }
+        }
+    }, 1000);
+
+    loadMore = () => {
+        const { pageAccountName, users, type } = this.props;
+
+        const lastUser = users && users.last(null);
+        const startUserName = (lastUser && lastUser.get('name')) || '';
+        console.log(lastUser, startUserName)
+
+        if (!this.lastUserName || this.lastUserName !== startUserName) {
+            if (type === 'follower') {
+                this.props.getFollowers({
+                    following: pageAccountName,
+                    startFollower: startUserName,
+                });
+            } else {
+                this.props.getFollowing({
+                    follower: pageAccountName,
+                    startFollowing: startUserName,
+                });
+            }
+        }
+
+        this.lastUserName = startUserName;
+    };
+
     render() {
-        const { loadingFollow, followCount, users, type } = this.props;
+        const { loading, followCount, users, type } = this.props;
 
         return (
             <Dialog>
                 <IconClose onClick={this.props.onClose} />
                 <Header>
-                    <Title>
-                        {tt(
-                            type === 'follower'
-                                ? 'user_profile.follower_count'
-                                : 'user_profile.following_count',
-                            { count: followCount }
-                        )}
-                    </Title>
+                    <Title>{tt(`user_profile.${type}_count`, { count: followCount })}</Title>
                 </Header>
-                <Content>
-                    {loadingFollow && <SplashLoader />}
-                    {users.map((user, key) => {
+                <Content innerRef={this.setRootRef}>
+                    {users.map(user => {
                         let metaData = user ? o2j.ifStringParseJSON(user.get('json_metadata')) : {};
                         if (typeof metaData === 'string')
                             metaData = o2j.ifStringParseJSON(metaData);
                         const profile = metaData && metaData.profile ? metaData.profile : {};
 
                         return (
-                            <UserItem key={key}>
+                            <UserItem key={user.get('name')}>
                                 <UserLink
                                     to={`/@${user.get('name')}`}
                                     title={user.get('name')}
@@ -160,6 +214,11 @@ export default class FollowersDialog extends PureComponent {
                             </UserItem>
                         );
                     })}
+                    {loading && (
+                        <LoaderWrapper>
+                            <LoadingIndicator type="circle" size={40} />
+                        </LoaderWrapper>
+                    )}
                 </Content>
             </Dialog>
         );
