@@ -90,13 +90,12 @@ class PostContent extends Component {
             pictures,
             created,
             className,
-            isPadScreen,
             isPromoted,
         } = this.props;
         const formId = `postFull-${permLink}`;
         return (
             <Wrapper className={className}>
-                <PostHeader isPadScreen={isPadScreen} />
+                <PostHeader />
                 <Body>
                     <CategoryWrapper isPromoted={isPromoted}>
                         <Tag category>{category}</Tag>

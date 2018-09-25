@@ -142,10 +142,6 @@ const UserpicStyled = styled(Userpic)`
     }
 )
 export default class PostHeader extends Component {
-    static propTypes = {
-        isPadScreen: PropTypes.bool.isRequired,
-    };
-
     state = {
         isPopoverOpen: false,
     };
