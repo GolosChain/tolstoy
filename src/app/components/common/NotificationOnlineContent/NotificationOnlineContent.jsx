@@ -86,8 +86,8 @@ export default class NotificationOnlineContent extends PureComponent {
             interProps.amount = amount;
         } else if (['reward'].includes(type)) {
             const awards = [];
-            if (golos) awards.push(`${golos} ${tt('token_names.LIQUID_TOKEN_PLURALIZE', { count: golos})}`);
-            if (golosPower) awards.push(`${golosPower} ${tt('token_names.VESTING_TOKEN_PLURALIZE', { count: golosPower})}`);
+            if (golos) awards.push(`${golos} ${tt('token_names.LIQUID_TOKEN_PLURALIZE', { count: parseFloat(golos)})}`);
+            if (golosPower) awards.push(`${golosPower} ${tt('token_names.VESTING_TOKEN_PLURALIZE', { count: parseFloat(golosPower)})}`);
             if (gbg) awards.push(`${gbg} ${DEBT_TOKEN_SHORT}`);
 
             interProps.content = <Link to={link}>{title}</Link>;

@@ -107,6 +107,7 @@ const SmallUserNavigation = styled(UserNavigation)`
         );
 
         return {
+            pageAccountName: accountName,
             currentUser,
             currentAccount,
 
