@@ -108,9 +108,8 @@ async function appRender(ctx) {
             }
         }
 
-
         const start = new Date();
-        const { body, title, statusCode, meta } = await serverRender({
+        const { body, statusCode, title, meta, helmet } = await serverRender({
             location: ctx.request.url,
             offchain,
             ErrorPage,
@@ -134,7 +133,7 @@ async function appRender(ctx) {
 
         const sheet = new ServerStyleSheet();
         const jsx = sheet.collectStyles(
-            <ServerHTML body={body} assets={assets} title={title} meta={meta} />
+            <ServerHTML body={body} title={title} assets={assets} meta={meta} helmet={helmet} />
         );
         const stream = sheet.interleaveWithNodeStream(renderToNodeStream(jsx));
 

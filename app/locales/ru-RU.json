@@ -560,6 +560,24 @@
   "messages_jsx": {
     "start_conversation": "Написать сообщение"
   },
+  "meta": {
+    "title": {
+      "common": {
+        "post": "%(title)s | Golos.io Блоги"
+      },
+      "profile": {
+        "activity": "Активность %(name)s | Golos.io Блоги",
+        "blog": "%(name)s | Golos.io Блоги",
+        "comments": "Комментарии %(name)s | Golos.io Блоги",
+        "default": "%(name)s | Golos.io Блоги",
+        "favorites": "Избранное %(name)s | Golos.io Блоги",
+        "messenger": "Сообщения | Golos.io Блоги",
+        "replies": "Ответы %(name)s | Golos.io Блоги",
+        "wallet": "Кошелек %(name)s | Golos.io Блоги",
+        "settings": "Настройки %(name)s | Golos.io Blog"
+      }
+    }
+  },
   "mobilevalidation_js": {
     "attempts_10": "На указанный ранее номер был выслан код. Изменить номер можно через 10 секунд",
     "attempts_300": "На один номер мы можем зарегистрировать только одну учетную запись. Ввести новый номер можно через пять минут.",

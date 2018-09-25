@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import tt from 'counterpart';
-import { Link } from 'react-router';
+import { Helmet } from 'react-helmet';
 
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import PostsListFavorite from 'src/app/components/common/PostsList/PostsListFavorite';
@@ -23,6 +23,21 @@ class FavoritesContent extends Component {
     }
 
     render() {
+        const { pageAccountName } = this.props;
+
+        return (
+            <Fragment>
+                <Helmet>
+                    <title>
+                        {tt('meta.title.profile.favorites', { name: pageAccountName })}
+                    </title>
+                </Helmet>
+                {this._render()}
+            </Fragment>
+        );
+    }
+
+    _render() {
         if (!process.env.BROWSER) {
             return <Loader type="circle" center size={40} />;
         }

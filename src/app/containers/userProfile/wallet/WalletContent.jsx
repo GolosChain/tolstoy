@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link, browserHistory } from 'react-router';
+import { browserHistory } from 'react-router';
 import throttle from 'lodash/throttle';
 import styled from 'styled-components';
+import tt from 'counterpart';
+import { Helmet } from 'react-helmet';
 import { api } from 'golos-js';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import Card from 'golos-ui/Card';
@@ -60,9 +62,7 @@ export const DIRECTION = {
     RECEIVE: 'RECEIVE',
 };
 
-const CardStyled = styled(Card)`
-    
-`;
+const CardStyled = styled(Card)``;
 
 const Content = styled.div`
     font-family: Roboto, sans-serif;
@@ -141,10 +141,14 @@ class WalletContent extends Component {
     }
 
     render() {
+        const { pageAccountName } = this.props;
         const { mainTab, currency, rewardType, direction } = this.state;
 
         return (
             <CardStyled auto>
+                <Helmet>
+                    <title>{tt('meta.title.profile.wallet', { name: pageAccountName })}</title>
+                </Helmet>
                 <WalletTabs
                     mainTab={mainTab}
                     currency={currency}

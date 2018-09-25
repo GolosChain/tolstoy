@@ -1,6 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
+import { Helmet } from 'react-helmet';
+import tt from 'counterpart';
+
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import InfoBlock from 'src/app/components/common/InfoBlock';
 import PostsListBlog from 'src/app/components/common/PostsList/PostsListBlog';
@@ -12,6 +15,21 @@ const Loader = styled(LoadingIndicator)`
 
 class RepliesContent extends Component {
     render() {
+        const { pageAccount } = this.props;
+
+        return (
+            <Fragment>
+                <Helmet>
+                    <title>
+                        {tt('meta.title.profile.replies', { name: pageAccount.get('name') })}
+                    </title>
+                </Helmet>
+                {this._render()}
+            </Fragment>
+        );
+    }
+
+    _render() {
         const { pageAccount, isOwner } = this.props;
 
         const posts = pageAccount.get('recent_replies');
