@@ -8,6 +8,8 @@ import { TabLink } from 'golos-ui/Tab';
 import SlideContainer from 'src/app/components/common/SlideContainer';
 
 const TabLinkStyled = styled(TabLink)`
+    padding: 0 12px;
+
     &.${({ activeClassName }) => activeClassName} {
         :after {
             content: '';
