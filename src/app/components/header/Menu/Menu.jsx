@@ -45,7 +45,7 @@ export default class Menu extends PureComponent {
             },
             {
                 link: '/faq',
-                icon: 'messanger',
+                icon: 'question',
                 text: tt('navigation.faq'),
             },
             {
