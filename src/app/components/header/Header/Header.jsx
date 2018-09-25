@@ -147,6 +147,7 @@ const LoginLink = styled(Link)`
 const AuthorizedBlock = styled.div`
     display: flex;
     align-items: center;
+    height: 100%;
 
     ${is('appear')`
         animation: fade-in 0.3s;
