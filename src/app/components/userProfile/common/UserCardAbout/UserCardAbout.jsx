@@ -9,6 +9,7 @@ import { FormattedDate } from 'react-intl';
 
 import { repLog10 } from 'app/utils/ParsersAndFormatters';
 import normalizeProfile from 'app/utils/NormalizeProfile';
+import { makeSocialLink } from 'src/app/helpers/urls';
 
 import Icon from 'golos-ui/Icon';
 import { CardTitle } from 'golos-ui/Card';
@@ -130,10 +131,12 @@ const UserCardBio = styled.div`
 `;
 
 const SocialBlock = CardTitle.extend`
-    margin: 0 -4px;
+    justify-content: space-around;
+    padding: 0 8px;
 `;
 
-const SocialLink = styled(Link)`
+const SocialLink = styled.a`
+    display: block;
     padding: 0 10px;
     color: #333;
 
@@ -266,22 +269,38 @@ export default class UserCardAbout extends PureComponent {
                     Object.keys(social).length && (
                         <SocialBlock justify="space-between">
                             {social.facebook && (
-                                <SocialLink to={`https://facebook.com/${social.facebook}`} fb={1}>
+                                <SocialLink
+                                    href={makeSocialLink(social.facebook, 'https://facebook.com/')}
+                                    fb={1}
+                                    target="_blank"
+                                >
                                     <IconStyled name="facebook" width="13" height="24" />
                                 </SocialLink>
                             )}
                             {social.vkontakte && (
-                                <SocialLink to={`https://vk.com/${social.vkontakte}`}>
+                                <SocialLink
+                                    href={makeSocialLink(social.vkontakte, 'https://vk.com/')}
+                                    target="_blank"
+                                >
                                     <IconStyled name="vk" width="28" height="18" />
                                 </SocialLink>
                             )}
                             {social.instagram && (
-                                <SocialLink to={`https://instagram.com/${social.instagram}`}>
+                                <SocialLink
+                                    href={makeSocialLink(
+                                        social.instagram,
+                                        'https://instagram.com/'
+                                    )}
+                                    target="_blank"
+                                >
                                     <IconStyled name="instagram" size="23" />
                                 </SocialLink>
                             )}
                             {social.twitter && (
-                                <SocialLink to={`https://twitter.com/${social.twitter}`}>
+                                <SocialLink
+                                    href={makeSocialLink(social.twitter, 'https://twitter.com/')}
+                                    target="_blank"
+                                >
                                     <IconStyled name="twitter" width="26" height="22" />
                                 </SocialLink>
                             )}
@@ -291,3 +310,5 @@ export default class UserCardAbout extends PureComponent {
         );
     }
 }
+
+
