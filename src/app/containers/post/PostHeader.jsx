@@ -48,7 +48,7 @@ const InfoBlock = styled.div`
         color: #959595;
         font: 13px Roboto, sans-serif;
     }
-    
+
     @media (max-width: 576px) {
         font-size: 12px;
     }
@@ -62,7 +62,7 @@ const AuthorName = styled(Link)`
     font-weight: 500;
     color: #333;
     text-decoration: none;
-    
+
     @media (max-width: 576px) {
         font-size: 14px;
     }
@@ -209,7 +209,9 @@ export default class PostHeader extends Component {
                         </NoFollowed>
                     ))}
                 <IconWrapper
-                    data-tooltip={isFavorite ? tt('g.remove_from_favorites') : tt('g.add_to_favorites')}
+                    data-tooltip={
+                        isFavorite ? tt('g.remove_from_favorites') : tt('g.add_to_favorites')
+                    }
                     onClick={this._toggleFavorite}
                 >
                     <Icon name={isFavorite ? 'star_filled' : 'star'} width={20} height={20} />
