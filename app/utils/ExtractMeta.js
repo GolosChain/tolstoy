@@ -108,7 +108,6 @@ export default function extractMeta(chainData, routeParams) {
 
 function addSiteMeta(metas) {
     metas.push(
-        { title: SEO_TITLE },
         { name: 'description', content: SITE_DESCRIPTION },
         { property: 'og:type', content: 'website' },
         { property: 'og:site_name', content: SEO_TITLE },

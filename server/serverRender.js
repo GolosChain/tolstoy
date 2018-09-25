@@ -7,7 +7,7 @@ import { RouterContext, match } from 'react-router';
 import { api } from 'golos-js';
 import { Helmet } from 'react-helmet';
 import RootRoute from 'app/RootRoute';
-import { APP_NAME, IGNORE_TAGS, SEO_TITLE } from 'app/client_config';
+import { TITLE_SUFFIX, IGNORE_TAGS, SEO_TITLE } from 'app/client_config';
 import NotFound from 'app/components/pages/NotFound';
 import getState from 'app/utils/StateBuilder';
 import { routeRegex } from 'app/ResolveRoute';
@@ -24,7 +24,7 @@ export default async function serverRender({ location, offchain, ErrorPage, sett
     } catch (e) {
         console.error('Routing error:', e.toString(), location);
         return {
-            title: 'Routing error - ' + APP_NAME,
+            title: 'Routing error | ' + TITLE_SUFFIX,
             statusCode: 500,
             body: renderToString(ErrorPage ? <ErrorPage /> : <span>Routing error</span>),
         };
@@ -32,7 +32,7 @@ export default async function serverRender({ location, offchain, ErrorPage, sett
     if (error || !renderProps) {
         // debug('error')('Router error', error);
         return {
-            title: 'Page Not Found - ' + APP_NAME,
+            title: 'Page Not Found | ' + TITLE_SUFFIX,
             statusCode: 404,
             body: renderToString(<NotFound.component />),
         };
@@ -58,7 +58,7 @@ export default async function serverRender({ location, offchain, ErrorPage, sett
             (location.match(routeRegex.UserProfile1) || location.match(routeRegex.UserProfile3))
         ) {
             return {
-                title: 'User Not Found - ' + APP_NAME,
+                title: 'User Not Found | ' + TITLE_SUFFIX,
                 statusCode: 404,
                 body: renderToString(<NotFound.component />),
             };
@@ -92,7 +92,7 @@ export default async function serverRender({ location, offchain, ErrorPage, sett
             } else {
                 // protect on invalid user pages (i.e /user/transferss)
                 return {
-                    title: 'Page Not Found - ' + APP_NAME,
+                    title: 'Page Not Found | ' + TITLE_SUFFIX,
                     statusCode: 404,
                     body: renderToString(<NotFound.component />),
                 };
@@ -122,7 +122,7 @@ export default async function serverRender({ location, offchain, ErrorPage, sett
         if (location.match(routeRegex.UserProfile1)) {
             console.error('User/not found: ', location);
             return {
-                title: 'Page Not Found - ' + APP_NAME,
+                title: 'Page Not Found | ' + TITLE_SUFFIX,
                 statusCode: 404,
                 body: renderToString(<NotFound.component />),
             };
@@ -132,7 +132,7 @@ export default async function serverRender({ location, offchain, ErrorPage, sett
             const stack_trace = e.stack || '[no stack]';
             console.error('State/store error: ', msg, stack_trace);
             return {
-                title: 'Server error - ' + APP_NAME,
+                title: 'Server error | ' + TITLE_SUFFIX,
                 statusCode: 500,
                 body: renderToString(<ErrorPage />),
             };
