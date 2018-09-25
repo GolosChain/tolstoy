@@ -7,6 +7,13 @@ const ActionButton = styled.div`
     display: flex;
     align-items: center;
     flex-direction: column;
+
+    ${({ activeType }) =>
+        activeType === 'like'
+            ? `div { color: #2879ff }`
+            : activeType === 'dislike'
+                ? `div { color: #ff4e00 }`
+                : ``};
 `;
 
 const ActionIconWrapper = styled.div`
@@ -18,17 +25,6 @@ const ActionIconWrapper = styled.div`
     &:hover {
         transform: scale(1.15);
     }
-
-    ${({ activeType }) =>
-        activeType === 'like'
-            ? `
-        color: #2879ff 
-    `
-            : activeType === 'dislike'
-                ? `
-        color: #ff4e00
-    `
-                : ``};
 `;
 
 const CountOf = styled.div`
@@ -56,9 +52,10 @@ export const Action = ({
             onClick={onClick}
             data-tooltip={dataTooltip}
             data-tooltip-html
+            activeType={activeType}
             className={className}
         >
-            <ActionIconWrapper activeType={activeType}>
+            <ActionIconWrapper>
                 <Icon width="20" height="20" name={iconName} />
             </ActionIconWrapper>
             <CountOf count={count}>{count}</CountOf>
