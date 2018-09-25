@@ -18,8 +18,7 @@ import { ClosePopoverButton } from 'src/app/components/golos-ui/Popover/PopoverA
 const Block = styled.div`
     width: 100%;
     border-bottom: 2px solid #e1e1e1;
-    padding-bottom: 21px;
-    padding-top: 17px;
+    padding: 17px 0 21px;
 
     &:last-child {
         border-bottom: none;

@@ -10,14 +10,13 @@ import Icon from 'golos-ui/Icon';
 import Userpic from 'app/components/elements/Userpic';
 import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
 import PopoverBody from 'src/app/components/post/PopoverBody';
-import { currentPostSelector, authorSelector } from 'src/app/redux/selectors/post/commanPost';
-import { currentUsernameSelector } from 'src/app/redux/selectors/common';
 import { toggleFavoriteAction } from 'src/app/redux/actions/favorites';
 import { updateFollow } from 'src/app/redux/actions/follow';
 import {
     PopoverBackgroundShade,
     PopoverStyled,
 } from 'src/app/components/golos-ui/Popover/PopoverAdditionalStyles';
+import { postHeaderSelector } from 'src/app/redux/selectors/post/postHeader';
 
 const Wrapper = styled.div`
     display: flex;
@@ -46,7 +45,7 @@ const InfoBlock = styled.div`
     letter-spacing: 0.4px;
     line-height: 18px;
 
-    span {
+    ${TimeAgoWrapper} {
         display: block;
         margin-top: -5px;
     }
@@ -119,13 +118,51 @@ const UserInfoWrapper = styled.div`
     align-items: center;
 `;
 
-class PostHeader extends Component {
+@connect(
+    postHeaderSelector,
+    {
+        toggleFavorite: (link, isAdd) => {
+            toggleFavoriteAction({ link, isAdd });
+        },
+        updateFollow,
+    }
+)
+export default class PostHeader extends Component {
     static propTypes = {
         isPadScreen: PropTypes.bool.isRequired,
     };
 
     state = {
         isPopoverOpen: false,
+    };
+
+    _onRef = ref => {
+        this.tooltip = ref;
+    };
+
+    _openPopover = () => {
+        this.tooltip.open();
+    };
+
+    _closePopover = () => {
+        this.tooltip.close();
+    };
+
+    _toggleFavorite = () => {
+        const { author, permLink, isFavorite } = this.props;
+        this.props.toggleFavorite(author + '/' + permLink, !isFavorite);
+    };
+
+    _follow = () => {
+        this.props.updateFollow(this.props.username, this.props.author, 'blog');
+    };
+
+    _unfollow = () => {
+        this.props.updateFollow(this.props.username, this.props.author, null);
+    };
+
+    togglePopoverOpen = () => {
+        this.setState({ isPopoverOpen: !this.state.isPopoverOpen });
     };
 
     render() {
@@ -170,64 +207,4 @@ class PostHeader extends Component {
             </Wrapper>
         );
     }
-
-    _onRef = ref => {
-        this.tooltip = ref;
-    };
-
-    _openPopover = () => {
-        this.tooltip.open();
-    };
-
-    _closePopover = () => {
-        this.tooltip.close();
-    };
-
-    _toggleFavorite = () => {
-        const { author, permLink, isFavorite } = this.props;
-        this.props.toggleFavorite(author + '/' + permLink, !isFavorite);
-    };
-
-    _follow = () => {
-        this.props.updateFollow(this.props.username, this.props.author, 'blog');
-    };
-
-    _unfollow = () => {
-        this.props.updateFollow(this.props.username, this.props.author, null);
-    };
-
-    togglePopoverOpen = () => {
-        this.setState({ isPopoverOpen: !this.state.isPopoverOpen });
-    };
 }
-
-const mapStateToProps = (state, props) => {
-    const post = currentPostSelector(state, props);
-    const author = authorSelector(state, props);
-    const username = currentUsernameSelector(state);
-    return {
-        username,
-        isMy: username === author.account,
-        created: post.created,
-        isFavorite: post.isFavorite,
-        author: author.account,
-        isFollow: author.isFollow,
-        permLink: post.permLink,
-    };
-};
-
-const mapDispatchToProps = dispatch => {
-    return {
-        toggleFavorite: (link, isAdd) => {
-            dispatch(toggleFavoriteAction({ link, isAdd }));
-        },
-        updateFollow: (follower, following, action) => {
-            dispatch(updateFollow(follower, following, action));
-        },
-    };
-};
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(PostHeader);

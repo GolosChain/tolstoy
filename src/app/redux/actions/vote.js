@@ -1,5 +1,5 @@
-import transaction from '../../../../app/redux/Transaction';
-import user from '../../../../app/redux/User';
+import transaction from 'app/redux/Transaction';
+import user from 'app/redux/User';
 import tt from 'counterpart';
 
 export function onVote(voter, author, permLink, percent) {

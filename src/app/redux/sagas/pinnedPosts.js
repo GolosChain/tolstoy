@@ -72,3 +72,4 @@ function* loadUserPinnedPosts({ payload }) {
         yield fork(getContent, { author: params[0], permlink: params[1] });
     }
 }
+

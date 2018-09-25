@@ -6,7 +6,7 @@ import { isNot } from 'styled-is';
 import Tag from 'golos-ui/Tag';
 import Icon from 'golos-ui/Icon';
 
-import PostHeader from 'src/app/components/post/PostHeader';
+import PostHeader from 'src/app/containers/post/PostHeader';
 import MarkdownViewer from 'app/components/cards/MarkdownViewer';
 import { currentPostSelector } from 'src/app/redux/selectors/post/commanPost';
 
