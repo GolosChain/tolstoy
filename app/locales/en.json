@@ -591,7 +591,6 @@
     "APP_NAME_chat": "%(APP_NAME)s Chat",
     "APP_NAME_whitepaper": "%(APP_NAME)s Whitepaper",
     "about": "About",
-    "app_center": "Apps center",
     "buy_LIQUID_TOKEN": "Buy %(LIQUID_TOKEN)s",
     "change_account_password": "Change Account Password",
     "currency_market": "Currency Market",

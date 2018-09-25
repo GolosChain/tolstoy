@@ -1,25 +1,27 @@
 import { call, put, select, fork, cancelled, takeLatest, takeEvery } from 'redux-saga/effects';
-import {loadFollows, fetchFollowCount} from 'app/redux/sagas/follow';
-import {getContent} from 'app/redux/sagas/shared';
+import { loadFollows, fetchFollowCount } from 'app/redux/sagas/follow';
+import { getContent } from 'app/redux/sagas/shared';
 import GlobalReducer from './../GlobalReducer';
 import constants from './../constants';
 import { reveseTag } from 'app/utils/tags';
 import { IGNORE_TAGS, PUBLIC_API, SELECT_TAGS_KEY, ACCOUNT_OPERATIONS } from 'app/client_config';
-import cookie from "react-cookie";
-import {api} from 'golos-js';
+import cookie from 'react-cookie';
+import { api } from 'golos-js';
 import { processBlog } from 'shared/state';
 import { RATES_GET_ACTUAL } from 'src/app/redux/constants/rates';
 
 const FETCH_MOST_RECENT = -1;
 const DEFAULT_ACCOUNT_HISTORY_LIMIT = 500;
+const DEFAULT_REWARDS_LIMIT = 100;
 
-export function* fetchDataWatches () {
+export function* fetchDataWatches() {
     yield fork(watchLocationChange);
     yield fork(watchDataRequests);
     yield fork(watchFetchJsonRequests);
     yield fork(watchFetchState);
     yield fork(watchGetContent);
     yield fork(watchFetchVestingDelegations);
+    yield fork(watchFetchRewards);
 }
 
 function* watchGetContent() {
@@ -36,6 +38,10 @@ function* watchLocationChange() {
 
 function* watchFetchState() {
     yield takeLatest('FETCH_STATE', fetchState);
+}
+
+function* watchFetchRewards() {
+    yield takeLatest('FETCH_REWARDS', fetchRewards);
 }
 
 let is_initial_state = true;
@@ -63,7 +69,6 @@ function* fetchState(action) {
 
         if (profileMatch[2] === 'transfers') {
             yield fork(fetchTransfers, username, FETCH_MOST_RECENT, DEFAULT_ACCOUNT_HISTORY_LIMIT);
-            yield fork(fetchRewards, username, FETCH_MOST_RECENT, DEFAULT_ACCOUNT_HISTORY_LIMIT);
         }
     }
 
@@ -153,7 +158,6 @@ function* fetchState(action) {
                     break
                 }
             }
-
         } else if (parts.length === 3 && parts[1].length > 0 && parts[1][0] === '@') {
             const account = parts[1].substr(1)
             const category = parts[0]
@@ -228,16 +232,54 @@ export function* fetchTransfers(account, from, limit) {
     }
 }
 
-export function* fetchRewards(account, from, limit, type) {
-    const selectedRewards = type ? [type] : ['author_reward', 'curation_reward'];
+export function* fetchRewards({ payload }) {
+    const { account, type } = payload;
+
+    const state = select(state => state.global.getIn(['accounts', account, 'rewards', type]));
+
+    if (state && state.isLoading) {
+        return;
+    }
+
+    yield put({
+        type: 'global/FETCH_REWARDS_STARTED',
+        payload: {
+            account,
+            type,
+        },
+    });
 
     try {
-        const rewards = yield call([api, api.getAccountHistoryAsync], account, from, limit, {
-            select_ops: selectedRewards
+        const filter = type === 'author' ? 'author_reward' : 'curation_reward';
+
+        const data = yield call(
+            [api, api.getAccountHistoryAsync],
+            account,
+            FETCH_MOST_RECENT,
+            DEFAULT_REWARDS_LIMIT,
+            {
+                select_ops: [filter],
+            }
+        );
+
+        yield put({
+            type: 'global/FETCH_REWARDS_SUCCESS',
+            payload: {
+                account,
+                type,
+                items: data,
+            },
         });
-        yield put(GlobalReducer.actions.receiveRewards({ account, rewards }));
     } catch (error) {
         console.log(error);
+
+        yield put({
+            type: 'global/FETCH_REWARDS_ERROR',
+            payload: {
+                account,
+                type,
+            },
+        });
     }
 }
 

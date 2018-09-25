@@ -45,7 +45,7 @@ export default class Menu extends PureComponent {
             },
             {
                 link: '/faq',
-                icon: 'messanger',
+                icon: 'question',
                 text: tt('navigation.faq'),
             },
             {
@@ -62,11 +62,6 @@ export default class Menu extends PureComponent {
                 link: '/~witnesses',
                 icon: 'delegates',
                 text: tt('navigation.delegates'),
-            },
-            {
-                link: '//golostools.com/',
-                icon: 'apps',
-                text: tt('navigation.app_center'),
             },
         ];
 

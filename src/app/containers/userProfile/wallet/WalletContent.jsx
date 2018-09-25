@@ -263,13 +263,19 @@ class WalletContent extends Component {
     }
 
     _makeTransferList() {
-        const { pageAccount } = this.props;
-        const { mainTab, limit } = this.state;
+        const { pageAccount, pageAccountName } = this.props;
+        const { mainTab, rewardType, limit } = this.state;
 
         let transactions;
 
         if (mainTab === MAIN_TABS.REWARDS) {
-            transactions = pageAccount.get('rewards_history');
+            const type = rewardType === REWARDS_TYPES.AUTHOR ? 'author' : 'curation';
+
+            transactions = pageAccount.getIn(['rewards', type, 'items']);
+
+            if (!transactions) {
+                this.props.loadRewards(pageAccountName, type);
+            }
         } else {
             transactions = pageAccount.get('transfer_history');
         }
@@ -634,8 +640,8 @@ export default connect(
         };
     },
     {
-        delegate(operation, callback) {
-            return transaction.actions.broadcastOperation({
+        delegate: (operation, callback) =>
+            transaction.actions.broadcastOperation({
                 type: 'delegate_vesting_shares',
                 operation,
                 successCallback() {
@@ -644,8 +650,14 @@ export default connect(
                 errorCallback(err) {
                     callback(err);
                 },
-            });
-        },
+            }),
+        loadRewards: (account, type) => ({
+            type: 'FETCH_REWARDS',
+            payload: {
+                account,
+                type,
+            },
+        }),
     }
 )(WalletContent);
 

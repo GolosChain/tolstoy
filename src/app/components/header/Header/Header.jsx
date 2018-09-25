@@ -29,7 +29,7 @@ const Fixed = styled.div`
     height: 60px;
     background: #fff;
     box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.1);
-    z-index: 2;
+    z-index: 10;
 
     ${is('mobile')`
         position: relative;

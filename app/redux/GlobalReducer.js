@@ -137,7 +137,7 @@ export default createModule({
                             a => a.mergeDeep(account)
                         );
                     });
-                })
+                });
             },
         },
         {
@@ -539,12 +539,28 @@ export default createModule({
             )
         },
         {
-            action: 'RECEIVE_REWARDS',
-            reducer: (state, { payload: { account, rewards } }) => state.updateIn(
-                ['accounts', account, 'rewards_history'],
-                List(),
-                list => list.mergeDeep(fromJS(rewards))
-            )
+            action: 'FETCH_REWARDS_STARTED',
+            reducer: (state, { payload: { account, type } }) =>
+                state.updateIn(['accounts', account, 'rewards', type], Map(), data =>
+                    data.set('isLoading', true)
+                ),
+        },
+        {
+            action: 'FETCH_REWARDS_SUCCESS',
+            reducer: (state, { payload: { account, type, items } }) =>
+                state.updateIn(['accounts', account, 'rewards', type], Map(), () =>
+                    fromJS({
+                        isLoading: false,
+                        items,
+                    })
+                ),
+        },
+        {
+            action: 'FETCH_REWARDS_ERROR',
+            reducer: (state, { payload: { account, type } }) =>
+                state.updateIn(['accounts', account, 'rewards', type], Map(), data =>
+                    data.set('isLoading', false)
+                ),
         },
     ],
 });
