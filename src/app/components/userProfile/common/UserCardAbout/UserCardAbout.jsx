@@ -150,7 +150,7 @@ const IconStyled = styled(Icon)`
 const IconTriangle = styled(Icon).attrs({
     name: 'triangle',
     width: '4.2',
-    height: '2.8'
+    height: '2.8',
 })`
     margin: 0 -8.4px 0 3px;
 `;
@@ -167,20 +167,20 @@ export default class UserCardAbout extends PureComponent {
             component: FollowersDialog,
             props: {
                 pageAccountName: this.props.account.get('name'),
-                type: 'follower'
+                type: 'follower',
             },
         });
-    }
+    };
 
     onShowFollowing = () => {
         DialogManager.showDialog({
             component: FollowersDialog,
             props: {
                 pageAccountName: this.props.account.get('name'),
-                type: 'following'
+                type: 'following',
             },
         });
-    }
+    };
 
     render() {
         const { account, followerCount, followingCount } = this.props;
@@ -209,11 +209,15 @@ export default class UserCardAbout extends PureComponent {
                 <CardContentCounters>
                     <Row>
                         <ColumnClick onClick={this.onShowFollowers}>
-                            <Bold>{followerCount} <IconTriangle /></Bold>
+                            <Bold>
+                                {followerCount} <IconTriangle />
+                            </Bold>
                             <Title>Подписчиков</Title>
                         </ColumnClick>
                         <ColumnClick onClick={this.onShowFollowing}>
-                            <Bold>{followingCount} <IconTriangle /></Bold>
+                            <Bold>
+                                {followingCount} <IconTriangle />
+                            </Bold>
                             <Title>Подписок</Title>
                         </ColumnClick>
                     </Row>

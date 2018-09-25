@@ -112,6 +112,7 @@ const LoaderWrapper = styled.div`
     animation: fade-in 0.25s forwards;
     animation-delay: 0.25s;
 `;
+
 @connect(
     followersDialogSelector,
     {
