@@ -1,42 +1,6 @@
-import { createDeepEqualSelector } from '../common';
-import { currentPostSelector } from './commanPost';
-import tt from 'counterpart';
 import { serverApiRecordEvent } from 'app/utils/ServerApiClient';
 
-export const sharePopoverSelector = createDeepEqualSelector([currentPostSelector], post => ({
-    shareMenu: [
-        {
-            link: '#',
-            onClick: e => ljShare(e, post),
-            value: 'LJ',
-            title: tt('postfull_jsx.share_on_lj'),
-            icon: 'lj',
-        },
-        {
-            link: '#',
-            onClick: e => vkShare(e, post),
-            value: 'VK',
-            title: tt('postfull_jsx.share_on_vk'),
-            icon: 'vk',
-        },
-        {
-            link: '#',
-            onClick: e => fbShare(e, post),
-            value: 'Facebook',
-            title: tt('postfull_jsx.share_on_facebook'),
-            icon: 'facebook',
-        },
-        {
-            link: '#',
-            onClick: e => twitterShare(e, post),
-            value: 'Twitter',
-            title: tt('postfull_jsx.share_on_twitter'),
-            icon: 'twitter',
-        },
-    ],
-}));
-
-const fbShare = (e, post) => {
+export const fbShare = (e, post) => {
     e.preventDefault();
     const href = post.url;
 
@@ -53,7 +17,7 @@ const fbShare = (e, post) => {
     );
 };
 
-const twitterShare = (e, post) => {
+export const twitterShare = (e, post) => {
     e.preventDefault();
 
     const winWidth = 640;
@@ -70,7 +34,7 @@ const twitterShare = (e, post) => {
     );
 };
 
-const vkShare = (e, post) => {
+export const vkShare = (e, post) => {
     e.preventDefault();
     const winWidth = 720;
     const winHeight = 480;
@@ -84,7 +48,7 @@ const vkShare = (e, post) => {
     );
 };
 
-const ljShare = (e, post) => {
+export const ljShare = (e, post) => {
     e.preventDefault();
 
     const href = post.url;

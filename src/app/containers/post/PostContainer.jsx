@@ -19,8 +19,7 @@ const Wrapper = styled.div`
 
 const ContentWrapper = styled(Container)`
     position: relative;
-    padding-top: 22px;
-    padding-bottom: 17px;
+    padding: 22px 0 17px 0;
     display: flex;
     flex-direction: column;
 
@@ -64,7 +63,7 @@ export default class PostContainer extends Component {
         if (!postLoaded) return null;
         return (
             <Wrapper>
-                <ContentWrapper>
+                <ContentWrapper innerRef={ref => (this.container = ref)}>
                     <PostContent />
                     <ActivePanel />
                     <AboutPanel />

@@ -98,7 +98,13 @@ const Buttons = styled.div`
 
 const ButtonInPanel = styled(Button)`
     min-width: 167px;
+    max-width: 167px;
     text-transform: uppercase;
+    
+    svg {
+        min-width: 17px;
+        min-height: 17px;
+    }
 
     @media (max-width: 768px) {
         width: 100%;
@@ -108,6 +114,7 @@ const ButtonInPanel = styled(Button)`
 
 const FollowButton = styled(Follow)`
     min-width: 167px;
+    max-width: 167px;
     min-height: 34px;
 
     @media (max-width: 768px) {

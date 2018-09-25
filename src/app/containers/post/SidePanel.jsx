@@ -83,6 +83,7 @@ export default class SidePanel extends Component {
 
     componentDidMount() {
         this._resizeScreenLazy();
+        this._scrollScreenLazy();
         window.addEventListener('scroll', this._scrollScreenLazy);
         window.addEventListener('resize', this._resizeScreenLazy);
     }
@@ -186,7 +187,6 @@ export default class SidePanel extends Component {
         if (wrapperOffsetTop > HEADER_HEIGHT + PADDING_FROM_HEADER && !this.state.showPanel) {
             this.setState({ showPanel: true });
         }
-        this._scrollScreenLazy();
     };
 
     _scrollScreenLazy = throttle(this._scrollScreen, 25);
