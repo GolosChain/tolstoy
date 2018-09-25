@@ -8,6 +8,7 @@ import throttle from 'lodash/throttle';
 import tt from 'counterpart';
 
 import o2j from 'shared/clash/object2json';
+import normalizeProfile from 'app/utils/NormalizeProfile';
 import { followersDialogSelector } from 'src/app/redux/selectors/dialogs/followersDialog';
 import { getFollowers, getFollowing } from 'src/app/redux/actions/followers';
 
@@ -165,7 +166,6 @@ export default class FollowersDialog extends PureComponent {
 
         const lastUser = users && users.last(null);
         const startUserName = (lastUser && lastUser.get('name')) || '';
-        console.log(lastUser, startUserName)
 
         if (!this.lastUserName || this.lastUserName !== startUserName) {
             if (type === 'follower') {
@@ -195,10 +195,7 @@ export default class FollowersDialog extends PureComponent {
                 </Header>
                 <Content innerRef={this.setRootRef}>
                     {users.map(user => {
-                        let metaData = user ? o2j.ifStringParseJSON(user.get('json_metadata')) : {};
-                        if (typeof metaData === 'string')
-                            metaData = o2j.ifStringParseJSON(metaData);
-                        const profile = metaData && metaData.profile ? metaData.profile : {};
+                        const profile = normalizeProfile(user.toJS());
 
                         return (
                             <UserItem key={user.get('name')}>
