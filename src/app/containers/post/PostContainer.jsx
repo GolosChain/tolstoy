@@ -63,7 +63,7 @@ export default class PostContainer extends Component {
         if (!postLoaded) return null;
         return (
             <Wrapper>
-                <ContentWrapper innerRef={ref => (this.container = ref)}>
+                <ContentWrapper>
                     <PostContent />
                     <ActivePanel />
                     <AboutPanel />
