@@ -13,7 +13,7 @@ import { toggleFavoriteAction } from 'src/app/redux/actions/favorites';
 import { USER_PINNED_POSTS_LOAD } from 'src/app/redux/constants/pinnedPosts';
 import { authorSelector } from 'src/app/redux/selectors/post/commanPost';
 import Follow from 'src/app/components/common/SingleFollow/Follow';
-import { ClosePopoverButton } from 'src/app/components/golos-ui/Popover/PopoverAdditionalStyles';
+import { ClosePopoverButton } from 'src/app/components/post/PopoverAdditionalStyles';
 
 const Block = styled.div`
     width: 100%;
@@ -97,6 +97,7 @@ const PostsTitle = styled.div`
     font-weight: 600;
     line-height: 16px;
     flex-shrink: 1;
+    text-transform: uppercase;
 `;
 
 const PostTitle = styled(Link)`
@@ -160,7 +161,7 @@ class PopoverBody extends Component {
                 </Block>
                 {pinnedPosts.length > 0 && (
                     <Block>
-                        <PostsTitle>ПОСТЫ АВТОРА</PostsTitle>
+                        <PostsTitle>{tt('g.authors_posts')}</PostsTitle>
                         {pinnedPosts.map(post => (
                             <PinnedPost key={post.url}>
                                 <Icon name="pin" size="20px" />

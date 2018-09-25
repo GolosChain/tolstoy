@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import throttle from 'lodash/throttle';
 
 import Container from 'src/app/components/common/Container/Container';
 import SidePanel from 'src/app/containers/post/SidePanel';
@@ -11,8 +10,6 @@ import AboutPanel from 'src/app/containers/post/AboutPanel';
 import { USER_FOLLOW_DATA_LOAD } from 'src/app/redux/constants/followers';
 import { FAVORITES_LOAD } from 'src/app/redux/constants/favorites';
 import { currentPostSelector, authorSelector } from 'src/app/redux/selectors/post/commanPost';
-
-const PAD_SCREEN_SIZE = 768;
 
 const Wrapper = styled.div`
     width: 100%;
@@ -62,45 +59,19 @@ export default class PostContainer extends Component {
         props.loadFavorites();
     }
 
-    state = {
-        isPadScreen: false,
-    };
-
-    componentDidMount() {
-        this._checkScreenSize();
-        window.addEventListener('resize', this.__checkScreenSizeLazy);
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.__checkScreenSizeLazy);
-        this.__checkScreenSizeLazy.cancel();
-    }
-
     render() {
         const { postLoaded } = this.props;
-        const { isPadScreen } = this.state;
+
         if (!postLoaded) return null;
         return (
             <Wrapper>
                 <ContentWrapper>
-                    <PostContent isPadScreen={isPadScreen} />
-                    <ActivePanel isPadScreen={isPadScreen} />
+                    <PostContent />
+                    <ActivePanel />
                     <AboutPanel />
                     <SidePanel />
                 </ContentWrapper>
             </Wrapper>
         );
     }
-
-    _checkScreenSize = () => {
-        const windowWidth = window.innerWidth;
-        if (windowWidth <= PAD_SCREEN_SIZE && !this.state.isPadScreen) {
-            this.setState({ isPadScreen: true });
-        }
-        if (windowWidth > PAD_SCREEN_SIZE && this.state.isPadScreen) {
-            this.setState({ isPadScreen: false });
-        }
-    };
-
-    __checkScreenSizeLazy = throttle(this._checkScreenSize, 100);
 }

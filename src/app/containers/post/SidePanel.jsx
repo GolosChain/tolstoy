@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import throttle from 'lodash/throttle';
-import { isNot } from 'styled-is';
+import is, { isNot } from 'styled-is';
 import { connect } from 'react-redux';
 import tt from 'counterpart';
 
@@ -11,6 +11,8 @@ import { onVote } from 'src/app/redux/actions/vote';
 import { sidePanelSelector } from 'src/app/redux/selectors/post/sidePanel';
 import { reblog } from 'src/app/redux/actions/posts';
 import { Action } from 'src/app/components/post/SidePanelAction';
+import SharePopover from 'src/app/containers/post/SharePopover';
+import { PopoverStyled } from 'src/app/components/post/PopoverAdditionalStyles';
 
 const PADDING_FROM_HEADER = 22;
 const HEADER_HEIGHT = 121;
@@ -52,6 +54,18 @@ const Wrapper = styled.div`
     }
 `;
 
+const ActionWrapper = styled(Action)`
+    position: relative;
+
+    ${is('isOpen')`
+
+        & > div > svg {
+            transition: color 0s;
+            color: #2578be;
+        }
+    `};
+`;
+
 @connect(
     sidePanelSelector,
     {
@@ -64,6 +78,7 @@ export default class SidePanel extends Component {
     state = {
         showPanel: true,
         fixedOnScreen: true,
+        activeShareMore: false,
     };
 
     componentDidMount() {
@@ -81,7 +96,7 @@ export default class SidePanel extends Component {
 
     render() {
         const { votesSummary, isFavorite } = this.props;
-        const { showPanel, fixedOnScreen } = this.state;
+        const { showPanel, fixedOnScreen, activeShareMore } = this.state;
         const { myVote, likes, firstLikes, dislikes, firstDislikes } = votesSummary;
         return (
             <Wrapper
@@ -108,10 +123,22 @@ export default class SidePanel extends Component {
                     dataTooltip={tt('g.reblog')}
                     onClick={this._reblog}
                 />
-                <Action
+                <ActionWrapper
                     iconName="sharing_triangle"
-                    dataTooltip={tt('postfull_jsx.share_in_social_networks')}
-                />
+                    dataTooltip={
+                        activeShareMore ? undefined : tt('postfull_jsx.share_in_social_networks')
+                    }
+                    isOpen={activeShareMore}
+                    onClick={this._openSharePopover}
+                >
+                    <PopoverStyled
+                        innerRef={this._onShareRef}
+                        position="right"
+                        onToggleOpen={this.toggleShare}
+                    >
+                        <SharePopover />
+                    </PopoverStyled>
+                </ActionWrapper>
                 <Action
                     iconName={isFavorite ? 'star_filled' : 'star'}
                     onClick={this._toggleFavorite}
@@ -122,6 +149,18 @@ export default class SidePanel extends Component {
             </Wrapper>
         );
     }
+
+    _openSharePopover = () => {
+        this.shareRef.open();
+    };
+
+    _onShareRef = ref => {
+        this.shareRef = ref;
+    };
+
+    toggleShare = () => {
+        this.setState({ activeShareMore: !this.state.activeShareMore });
+    };
 
     _setWrapperRef = ref => {
         this.wrapperRef = ref;

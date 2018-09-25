@@ -2,36 +2,53 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import throttle from 'lodash/throttle';
-import is, { isNot } from 'styled-is';
+import { isNot } from 'styled-is';
 
 const Container = styled.div`
     max-width: calc(100vw - ${({ screenMargin }) => screenMargin * 3}px);
     position: absolute;
-    left: 50%;
-    margin-top: 10px;
-    top: 100%;
     z-index: 1;
-    transform: translateX(-50%);
     cursor: default;
 
-    ${is('up')`
-        margin-top: 0;
-        margin-bottom: 10px;
-        top: auto;
-        bottom: 100%;
-    `};
-
-    ${({ margin, screenMargin }) =>
-        margin !== 0 &&
-        `
-            transform: translateX(calc(-50% - ${margin}px + ${screenMargin}px));
-        `};
+    ${({ margin, screenMargin, position }) => {
+        switch (position) {
+            case 'left':
+                return `
+                    top: 50%;
+                    transform: translate(-100%, -50%);
+                `;
+            case 'right':
+                return `
+                    top: 50%;
+                    transform: translate(100%, -50%);
+                `;
+            case 'top':
+                return `
+                    left: 50%;
+                    bottom: 100%;
+                    margin-bottom: 10px;
+                    transform: translateX(-50%);
+                    ${margin !== 0 &&
+                        `
+                        transform: translateX(calc(-50% - ${margin}px + ${screenMargin}px));
+                    `}
+                `;
+            default:
+                return `
+                    left: 50%;
+                    top: 100%;
+                    margin-top: 10px;
+                    transform: translateX(-50%);
+                    ${margin !== 0 &&
+                        `
+                         transform: translateX(calc(-50% - ${margin}px + ${screenMargin}px));
+                    `}
+                `;
+        }
+    }};
 
     ${isNot('isOpen')`
-        height: 0;
-        padding-top: 0;
-        padding-bottom: 0;
-        overflow: hidden;
+        display: none;
     `};
 `;
 
@@ -39,17 +56,44 @@ const Decoration = styled.div`
     width: 14px;
     height: 14px;
     position: absolute;
-    ${({ up }) => (up ? 'bottom: -7px;' : 'top: -7px;')};
-    left: 50%;
+
+    ${({ margin, screenMargin, position }) => {
+        switch (position) {
+            case 'left':
+                return `
+                    top: calc(50% - 7px);
+                    right: -14px;
+                `;
+            case 'right':
+                return `
+                    top: calc(50% - 7px);
+                    left: 0;
+                `;
+            case 'top':
+                return `
+                    bottom: -7px;
+                     left: 50%;
+                     ${margin !== 0 &&
+                         `
+                         transform: translateX(calc(-50% + ${margin}px - ${screenMargin}px)) rotate(45deg);
+                     `}
+                `;
+            default:
+                return `
+                    top: -7px;
+                    left: 50%;
+                    
+                    ${margin !== 0 &&
+                        `
+                         transform: translateX(calc(-50% + ${margin}px - ${screenMargin}px)) rotate(45deg);
+                    `}
+                `;
+        }
+    }};
+
     transform: translateX(-50%) rotate(45deg);
     background-color: #ffffff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
-
-    ${({ margin, screenMargin }) =>
-        margin !== 0 &&
-        `
-            transform: translateX(calc(-50% + ${margin}px - ${screenMargin}px)) rotate(45deg);
-        `};
 `;
 
 const ContentWrapper = styled.div`
@@ -67,14 +111,14 @@ const Content = styled.div`
 class Popover extends Component {
     static propTypes = {
         screenMargin: PropTypes.number,
-        up: PropTypes.bool,
+        position: PropTypes.oneOf(['left', 'right', 'top', 'bottom']),
         handleToggleOpen: PropTypes.func,
         opened: PropTypes.bool,
     };
 
     static defaultProps = {
         screenMargin: 20,
-        up: false,
+        position: 'bottom',
         onToggleOpen: () => {},
         opened: false,
     };
@@ -97,7 +141,7 @@ class Popover extends Component {
     }
 
     render() {
-        const { screenMargin, up, children, className } = this.props;
+        const { screenMargin, position, children, className } = this.props;
         const { margin, isOpen } = this.state;
         return (
             <Container
@@ -105,10 +149,10 @@ class Popover extends Component {
                 innerRef={ref => (this.container = ref)}
                 margin={margin}
                 screenMargin={screenMargin}
-                up={up}
+                position={position}
                 isOpen={isOpen}
             >
-                <Decoration margin={margin} screenMargin={screenMargin} up={up} />
+                <Decoration margin={margin} screenMargin={screenMargin} position={position} />
                 <ContentWrapper>
                     <Content>{children}</Content>
                 </ContentWrapper>

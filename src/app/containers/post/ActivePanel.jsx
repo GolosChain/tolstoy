@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
@@ -18,7 +17,8 @@ import {
     PopoverBackgroundShade,
     ClosePopoverButton,
     PopoverStyled,
-} from 'src/app/components/golos-ui/Popover/PopoverAdditionalStyles';
+} from 'src/app/components/post/PopoverAdditionalStyles';
+import SharePopover from 'src/app/containers/post/SharePopover';
 
 const Wrapper = styled.div`
     display: flex;
@@ -78,7 +78,15 @@ const Repost = styled.div`
 `;
 
 const SharingTriangle = styled(Repost)`
+    position: relative;
     padding: 0 17px 0 7px;
+
+    ${is('isOpen')`
+        & > svg {
+            transition: color 0s;
+            color: #2578be;
+        }
+    `};
 `;
 
 const DotsMore = styled(Repost)`
@@ -181,15 +189,12 @@ ActionIcon.defaultProps = {
 export default class ActivePanel extends Component {
     state = {
         activeDotsMore: false,
-    };
-
-    static propTypes = {
-        isPadScreen: PropTypes.bool.isRequired,
+        activeShareMore: false,
     };
 
     render() {
-        const { activeDotsMore } = this.state;
-        const { data, username, isPadScreen } = this.props;
+        const { activeDotsMore, activeShareMore } = this.state;
+        const { data, username } = this.props;
         return (
             <Wrapper>
                 <VotePanelWrapper
@@ -204,8 +209,28 @@ export default class ActivePanel extends Component {
                         <Icon width="30" height="27" name="repost-right" onClick={this._reblog} />
                     </Repost>
                     <Divider />
-                    <SharingTriangle data-tooltip={tt('postfull_jsx.share_in_social_networks')}>
-                        <Icon width="26" height="26" name="sharing_triangle" />
+                    <SharingTriangle
+                        isOpen={activeShareMore}
+                        data-tooltip={
+                            activeShareMore
+                                ? undefined
+                                : tt('postfull_jsx.share_in_social_networks')
+                        }
+                    >
+                        <PopoverBackgroundShade show={activeShareMore} />
+                        <Icon
+                            width="26"
+                            height="26"
+                            name="sharing_triangle"
+                            onClick={this._openSharePopover}
+                        />
+                        <PopoverStyled
+                            innerRef={this._onShareRef}
+                            position="top"
+                            onToggleOpen={this.toggleShare}
+                        >
+                            <SharePopover horizontal={true} />
+                        </PopoverStyled>
                     </SharingTriangle>
                 </RepostSharingWrapper>
                 <Divider />
@@ -218,14 +243,15 @@ export default class ActivePanel extends Component {
                         width="32"
                         height="32"
                         name="dots-more_normal"
-                        onClick={this._openPopover}
+                        onClick={this._openDotsPopover}
                     />
-                    <PopoverStyled innerRef={this._onRef} up={true} onToggleOpen={this.toggleDots}>
+                    <PopoverStyled
+                        innerRef={this._onDotsRef}
+                        position="top"
+                        onToggleOpen={this.toggleDots}
+                    >
                         <Actions>
-                            <ClosePopoverButton
-                                onClick={this._closePopover}
-                                showCross={isPadScreen}
-                            >
+                            <ClosePopoverButton onClick={this._closeDotsPopover} showCross={false}>
                                 <Icon name="cross" width={16} height={16} />
                             </ClosePopoverButton>
                             <Action onClick={this._togglePin}>
@@ -248,14 +274,18 @@ export default class ActivePanel extends Component {
                     withImage={false}
                     count={data.get('children')}
                     link={data.get('link')}
-                    text="Ответить"
+                    text={tt('g.reply')}
                 />
             </Wrapper>
         );
     }
 
-    _onRef = ref => {
-        this.tooltip = ref;
+    _onShareRef = ref => {
+        this.shareRef = ref;
+    };
+
+    _onDotsRef = ref => {
+        this.dotsRef = ref;
     };
 
     _voteChange = async percent => {
@@ -273,19 +303,27 @@ export default class ActivePanel extends Component {
     _promotePost = () => {
         const { account, permLink } = this.props;
         this.props.showPromotePost(account, permLink);
-        this._closePopover();
+        this._closeDotsPopover();
     };
 
     _flagPost = () => {
-        this._closePopover();
+        this._closeDotsPopover();
     };
 
-    _openPopover = () => {
-        this.tooltip.open();
+    _openSharePopover = () => {
+        this.shareRef.open();
     };
 
-    _closePopover = () => {
-        this.tooltip.close();
+    _closeSharePopover = () => {
+        this.shareRef.close();
+    };
+
+    _openDotsPopover = () => {
+        this.dotsRef.open();
+    };
+
+    _closeDotsPopover = () => {
+        this.dotsRef.close();
     };
 
     _reblog = () => {
@@ -296,10 +334,14 @@ export default class ActivePanel extends Component {
     _togglePin = () => {
         const { account, permLink, isPinned, togglePinAction } = this.props;
         togglePinAction(account + '/' + permLink, !isPinned);
-        this._closePopover();
+        this._closeDotsPopover();
     };
 
     toggleDots = () => {
         this.setState({ activeDotsMore: !this.state.activeDotsMore });
+    };
+
+    toggleShare = () => {
+        this.setState({ activeShareMore: !this.state.activeShareMore });
     };
 }
