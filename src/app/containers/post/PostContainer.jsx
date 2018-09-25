@@ -53,10 +53,9 @@ const ContentWrapper = styled(Container)`
     }
 )
 export default class PostContainer extends Component {
-    constructor(props) {
-        super(props);
-        props.loadUserFollowData(props.account);
-        props.loadFavorites();
+    componentDidMount() {
+        this.props.loadUserFollowData(this.props.account);
+        this.props.loadFavorites();
     }
 
     render() {
