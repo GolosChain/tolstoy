@@ -555,18 +555,18 @@
   "meta": {
     "title": {
       "common": {
-        "post": "%(title)s | Golos.io Blog"
+        "post": "%(title)s | Golos.io Blogs"
       },
       "profile": {
-        "activity": "Activity %(name)s | Golos.io Blog",
-        "blog": "%(name)s | Golos.io Blog",
-        "comments": "Comments %(name)s | Golos.io Blog",
-        "default": "%(name)s | Golos.io Blog",
-        "favorites": "Favorites %(name)s | Golos.io Blog",
-        "messenger": "Messenger | Golos.io Blog",
-        "replies": "Replies %(name)s | Golos.io Blog",
-        "settings": "Settings %(name)s | Golos.io Blog",
-        "wallet": "Wallet %(name)s | Golos.io Blog"
+        "activity": "Activity %(name)s | Golos.io Blogs",
+        "blog": "%(name)s | Golos.io Blogs",
+        "comments": "Comments %(name)s | Golos.io Blogs",
+        "default": "%(name)s | Golos.io Blogs",
+        "favorites": "Favorites %(name)s | Golos.io Blogs",
+        "messenger": "Messenger | Golos.io Blogs",
+        "replies": "Replies %(name)s | Golos.io Blogs",
+        "settings": "Settings %(name)s | Golos.io Blogs",
+        "wallet": "Wallet %(name)s | Golos.io Blogs"
       }
     }
   },
