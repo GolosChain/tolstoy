@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet';
 import { Messenger, ChatListPanel }  from '../../components/Messenger';
 import Chat  from '../Chat';
 import ChatListContainer from '../ChatList';
+import LookupAccounts from '../LookupAccounts';
 import { dialogs, chatData } from '../../utils/_data';
 
 export default class MessengerApp extends Component {
@@ -18,7 +19,7 @@ export default class MessengerApp extends Component {
                     </title>
                 </Helmet>
                 <ChatListPanel>
-                    {/* search input */}
+                    <LookupAccounts />
                     <ChatListContainer 
                         dialogs={dialogs}
                     />
