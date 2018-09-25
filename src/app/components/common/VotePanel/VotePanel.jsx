@@ -195,7 +195,7 @@ export default class VotePanel extends PureComponent {
         sliderAction: null,
         showSlider: false,
         votePercent: 0,
-        isMobile: window.innerWidth < MOBILE_WIDTH,
+        isMobile: this._isMobile(),
     };
 
     componentWillUnmount() {
@@ -311,6 +311,10 @@ export default class VotePanel extends PureComponent {
         }
     }
 
+    _isMobile() {
+        return process.env.BROWSER ? window.innerWidth < MOBILE_WIDTH : false;
+    }
+
     _hideSlider() {
         this.setState({
             showSlider: false,
@@ -407,7 +411,7 @@ export default class VotePanel extends PureComponent {
 
     onResize = () => {
         this.setState({
-            isMobile: window.innerWidth < MOBILE_WIDTH,
+            isMobile: this._isMobile(),
         });
     };
 }
