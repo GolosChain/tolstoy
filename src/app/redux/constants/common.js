@@ -5,4 +5,6 @@ export const NOTIFICATIONS_FILTER_TYPES = {
     'mentions': ['mention'],
 }
 export const NOTIFICATIONS_PER_PAGE = 15;
+
+export const USERS_PER_PAGE = 50;
  

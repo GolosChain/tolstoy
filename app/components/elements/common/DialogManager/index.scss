@@ -8,6 +8,10 @@
   overflow-y: auto;
   z-index: 500;
 
+  &_hidden {
+    display: none;
+  }
+
   &__window {
     position: absolute;
     display: flex;

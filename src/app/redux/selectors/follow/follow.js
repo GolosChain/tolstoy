@@ -1,29 +1,23 @@
-import {createDeepEqualSelector, currentUserSelector, globalSelector} from '../common';
+import { createDeepEqualSelector, currentUserSelector, globalSelector } from '../common';
+import { Set } from 'immutable';
 
-const followingSelector = createDeepEqualSelector(
-    [globalSelector('follow'), currentUserSelector],
-    (follow, user) => {
-        return follow
-            .getIn(['getFollowingAsync', user.get('username'), 'blog_result'], Set())
-            .toJS();
-    }
-);
+const emptySet = Set();
 
-const mutingSelector = createDeepEqualSelector(
-    [globalSelector('follow'), currentUserSelector],
-    (mute, user) => {
-        return mute
-            .getIn(['getFollowingAsync', user.get('username'), 'ignore_result'], Set())
-            .toJS();
-    }
-);
+const followingSelector = type =>
+    createDeepEqualSelector([globalSelector('follow'), currentUserSelector], (follow, user) => {
+        return follow.getIn(['getFollowingAsync', user.get('username'), type], emptySet);
+    });
 
 export const followSelector = createDeepEqualSelector(
-    [followingSelector, mutingSelector, ({props: {following}}) => following],
-    (follow, mute, following) => {
-        return {
-            isFollow: follow.includes(following),
-            isMute: mute.includes(following),
-        }
-    }
+    [followingSelector('blog_result'), (state, props) => props.following],
+    (follow, following) => ({
+        isFollow: follow.includes(following),
+    })
+);
+
+export const muteSelector = createDeepEqualSelector(
+    [followingSelector('ignore_result'), (state, props) => props.muting],
+    (mute, muting) => ({
+        isMute: mute.includes(muting),
+    })
 );
