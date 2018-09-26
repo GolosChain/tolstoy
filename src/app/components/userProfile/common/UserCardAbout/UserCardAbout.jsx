@@ -113,7 +113,7 @@ const UserCardCity = styled.div`
     text-transform: initial;
 `;
 
-const UserCardSite = styled(Link)`
+const UserCardSite = styled.a`
     color: #2879ff;
     font-family: 'Open Sans', sans-serif;
     font-size: 14px;
@@ -260,7 +260,7 @@ export default class UserCardAbout extends PureComponent {
                 )}
                 {(website || about) && (
                     <CardContent>
-                        {website && <UserCardSite to={website}>{websiteLabel}</UserCardSite>}
+                        {website && <UserCardSite href={website}>{websiteLabel}</UserCardSite>}
                         {about && <UserCardBio>{about}</UserCardBio>}
                     </CardContent>
                 )}
