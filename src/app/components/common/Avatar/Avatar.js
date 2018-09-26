@@ -11,7 +11,7 @@ import Icon from 'golos-ui/Icon';
 // for every avatar because we don't use props in css
 const Wrapper = styled.div.attrs({
     style: ({ backgroundUrl, size }) => ({
-        backgroundImage: `url(${backgroundUrl})`,
+        backgroundImage: backgroundUrl ? `url(${backgroundUrl})` : null,
         height: `${size}px`,
         width:  `${size}px`,
     }),
