@@ -190,7 +190,7 @@ export default class PostHeader extends Component {
                     </Avatar>
                     <InfoBlock>
                         <AuthorName to={`/@${author}`}>{author}</AuthorName>
-                        <TimeAgoWrapper date={created}/>
+                        <TimeAgoWrapper date={created} />
                     </InfoBlock>
                 </UserInfoWrapper>
                 {!isMy &&
