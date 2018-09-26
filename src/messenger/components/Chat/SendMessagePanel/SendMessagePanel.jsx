@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
+import tt from 'counterpart';
+
 import Icon from 'golos-ui/Icon';
 
 const PanelWrapper = styled.div`
@@ -8,7 +10,7 @@ const PanelWrapper = styled.div`
     flex: 1;
     align-items: center;
 
-    box-shadow: 0 -2px 11px 0 rgba(0,0,0,0.1);
+    box-shadow: 0 -2px 11px 0 rgba(0, 0, 0, 0.1);
 `;
 
 const MediaAttachButton = styled.button`
@@ -57,7 +59,7 @@ const RichTextArea = styled.textarea`
     word-wrap: break-word;
     word-break: break-all;
     box-sizing: border-box;
-    border: 1px solid #E1E1E1;
+    border: 1px solid #e1e1e1;
     border-radius: 20px;
 
     ::placeholder {
@@ -66,11 +68,10 @@ const RichTextArea = styled.textarea`
 `;
 
 RichTextArea.defaultProps = {
-    placeholder: 'Напишите сообщение...'
-}
+    placeholder: `${tt('messenger.placeholder.send_text_area')}`,
+};
 
 export default class SendMessagePanel extends Component {
-
     render() {
         return (
             <PanelWrapper>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
+import tt from 'counterpart';
 import Icon from 'golos-ui/Icon';
 
 const LookupAccountsWrapper = styled.div`
@@ -33,7 +34,7 @@ const IconStyled = styled.div`
 
 SearchInpit.defaultProps = {
     type: 'text',
-    placeholder: 'Поиск'
+    placeholder: `${tt('messenger.placeholder.search')}`
 }
 
 export default class LookupAccounts extends Component {
