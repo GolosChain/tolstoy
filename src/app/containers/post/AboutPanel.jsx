@@ -100,7 +100,7 @@ const ButtonInPanel = styled(Button)`
     min-width: 167px;
     width: 167px;
     text-transform: uppercase;
-    
+
     svg {
         min-width: 17px;
         min-height: 15px;

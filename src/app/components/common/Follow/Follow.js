@@ -17,6 +17,10 @@ const Wrapper = styled(Button)`
     font-size: 12px;
     font-weight: bold;
     line-height: 23px;
+
+    div {
+        margin-top: 1px;
+    }
 `;
 
 class Follow extends Component {
@@ -33,12 +37,12 @@ class Follow extends Component {
         return isFollow ? (
             <Wrapper light onClick={this._unfollow} className={className}>
                 <Icon width="10" height="10" name="cross" />
-                {tt('g.unfollow')}
+                <div>{tt('g.unfollow')}</div>
             </Wrapper>
         ) : (
             <Wrapper onClick={this._follow} className={className}>
                 <Icon width="11" height="8" name="subscribe" />
-                {tt('g.follow')}
+                <div>{tt('g.follow')}</div>
             </Wrapper>
         );
     }
