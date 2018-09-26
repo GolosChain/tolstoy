@@ -67,10 +67,6 @@ const RichTextArea = styled.textarea`
     }
 `;
 
-RichTextArea.defaultProps = {
-    placeholder: `${tt('messenger.placeholder.send_text_area')}`,
-};
-
 export default class SendMessagePanel extends Component {
     render() {
         return (
@@ -79,7 +75,7 @@ export default class SendMessagePanel extends Component {
                     <Icon name="plus" width="15" height="15" />
                 </MediaAttachButton>
                 <TextAreaWrapper>
-                    <RichTextArea />
+                    <RichTextArea placeholder={tt('messenger.placeholder.send_text_area')}/>
                     <EmojiButton>
                         <Icon name="smile" width="25" height="25" />
                     </EmojiButton>

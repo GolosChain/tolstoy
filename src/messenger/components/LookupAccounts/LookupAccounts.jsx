@@ -33,15 +33,14 @@ const IconStyled = styled.div`
 `;
 
 SearchInpit.defaultProps = {
-    type: 'text',
-    placeholder: `${tt('messenger.placeholder.search')}`
+    type: 'text'
 }
 
 export default class LookupAccounts extends Component {
     render() {
         return (
             <LookupAccountsWrapper>
-                <SearchInpit />
+                <SearchInpit placeholder={tt('messenger.placeholder.search')}/>
                 <IconStyled>
                     <Icon name="search" width="16" height="16" />
                 </IconStyled>
