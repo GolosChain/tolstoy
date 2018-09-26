@@ -14,8 +14,6 @@ const MuteButton = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    min-width: 100%;
-    min-height: 100%;
     padding: 0 10px;
     color: #959595;
     font: 12px 'Open Sans', sans-serif;
@@ -38,7 +36,22 @@ const UnmuteButton = styled(Button)`
     line-height: 23px;
 `;
 
-class Mute extends Component {
+@connect(
+    (state, props) => {
+        return {
+            ...muteSelector(state, props),
+            username: currentUsernameSelector(state),
+        };
+    },
+    (dispatch, { muting }) => {
+        return {
+            updateFollow: (follower, action) => {
+                dispatch(updateFollow(follower, muting, action));
+            },
+        };
+    }
+)
+export default class Mute extends Component {
     static propTypes = {
         muting: PropTypes.string.isRequired,
         onClick: PropTypes.func,
@@ -71,23 +84,3 @@ class Mute extends Component {
         this.props.onClick(e);
     };
 }
-
-const mapStateToProps = (state, props) => {
-    return {
-        ...muteSelector(state, props),
-        username: currentUsernameSelector(state),
-    };
-};
-
-const mapDispatchToProps = (dispatch, { muting }) => {
-    return {
-        updateFollow: (follower, action) => {
-            dispatch(updateFollow(follower, muting, action));
-        },
-    };
-};
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Mute);

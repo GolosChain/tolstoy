@@ -12,18 +12,31 @@ import { followSelector } from 'src/app/redux/selectors/follow/follow';
 import { updateFollow } from 'src/app/redux/actions/follow';
 
 const Wrapper = styled(Button)`
-    min-width: 100%;
-    min-height: 100%;
     font-size: 12px;
     font-weight: bold;
     line-height: 23px;
 
-    div {
+    span {
         margin-top: 1px;
     }
 `;
 
-class Follow extends Component {
+@connect(
+    (state, props) => {
+        return {
+            ...followSelector(state, props),
+            username: currentUsernameSelector(state),
+        };
+    },
+    (dispatch, { following }) => {
+        return {
+            updateFollow: (follower, action) => {
+                dispatch(updateFollow(follower, following, action));
+            },
+        };
+    }
+)
+export default class Follow extends Component {
     static propTypes = {
         following: PropTypes.string.isRequired,
         onClick: PropTypes.func,
@@ -37,12 +50,12 @@ class Follow extends Component {
         return isFollow ? (
             <Wrapper light onClick={this._unfollow} className={className}>
                 <Icon width="10" height="10" name="cross" />
-                <div>{tt('g.unfollow')}</div>
+                <span>{tt('g.unfollow')}</span>
             </Wrapper>
         ) : (
             <Wrapper onClick={this._follow} className={className}>
                 <Icon width="11" height="8" name="subscribe" />
-                <div>{tt('g.follow')}</div>
+                <span>{tt('g.follow')}</span>
             </Wrapper>
         );
     }
@@ -57,23 +70,3 @@ class Follow extends Component {
         this.props.onClick(e);
     };
 }
-
-const mapStateToProps = (state, props) => {
-    return {
-        ...followSelector(state, props),
-        username: currentUsernameSelector(state),
-    };
-};
-
-const mapDispatchToProps = (dispatch, { following }) => {
-    return {
-        updateFollow: (follower, action) => {
-            dispatch(updateFollow(follower, following, action));
-        },
-    };
-};
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Follow);
