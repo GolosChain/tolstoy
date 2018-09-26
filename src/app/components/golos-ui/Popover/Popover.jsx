@@ -48,7 +48,9 @@ const Container = styled.div`
     }};
 
     ${isNot('isOpen')`
-        display: none;
+        height: 0;
+        padding: 0;
+        overflow: hidden;
     `};
 `;
 
@@ -56,6 +58,9 @@ const Decoration = styled.div`
     width: 14px;
     height: 14px;
     position: absolute;
+    transform: translateX(-50%) rotate(45deg);
+    background-color: #ffffff;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
 
     ${({ margin, screenMargin, position }) => {
         switch (position) {
@@ -68,6 +73,7 @@ const Decoration = styled.div`
                 return `
                     top: calc(50% - 7px);
                     left: 0;
+                    
                 `;
             case 'top':
                 return `
@@ -90,10 +96,6 @@ const Decoration = styled.div`
                 `;
         }
     }};
-
-    transform: translateX(-50%) rotate(45deg);
-    background-color: #ffffff;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
 `;
 
 const ContentWrapper = styled.div`
@@ -143,6 +145,7 @@ class Popover extends Component {
     render() {
         const { screenMargin, position, children, className } = this.props;
         const { margin, isOpen } = this.state;
+        console.log(margin, screenMargin);
         return (
             <Container
                 className={className}
