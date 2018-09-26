@@ -42,9 +42,8 @@ const InfoBlock = styled.div`
     letter-spacing: 0.4px;
     line-height: 18px;
 
-    ${styled(TimeAgoWrapper)} {
+    span {
         display: block;
-        margin-top: -5px;
         color: #959595;
         font: 13px Roboto, sans-serif;
     }

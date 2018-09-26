@@ -8,7 +8,7 @@ import Icon from 'golos-ui/Icon';
 
 import PostHeader from 'src/app/containers/post/PostHeader';
 import MarkdownViewer from 'app/components/cards/MarkdownViewer';
-import { currentPostSelector } from 'src/app/redux/selectors/post/commanPost';
+import { currentPostSelector } from 'src/app/redux/selectors/post/commonPost';
 
 const Wrapper = styled.section`
     padding: 40px 70px 30px;
