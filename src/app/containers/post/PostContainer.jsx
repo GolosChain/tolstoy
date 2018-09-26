@@ -10,6 +10,7 @@ import AboutPanel from 'src/app/containers/post/AboutPanel';
 import { USER_FOLLOW_DATA_LOAD } from 'src/app/redux/constants/followers';
 import { FAVORITES_LOAD } from 'src/app/redux/constants/favorites';
 import { currentPostSelector, authorSelector } from 'src/app/redux/selectors/post/commanPost';
+import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 
 const Wrapper = styled.div`
     width: 100%;
@@ -28,6 +29,10 @@ const ContentWrapper = styled(Container)`
         margin: 0;
         padding-top: 0;
     }
+`;
+
+const Loader = styled(LoadingIndicator)`
+    margin-top: 30px;
 `;
 
 @connect(
@@ -61,7 +66,7 @@ export default class PostContainer extends Component {
     render() {
         const { postLoaded } = this.props;
 
-        if (!postLoaded) return null;
+        if (!postLoaded) return <Loader type="circle" center size={40} />;
         return (
             <Wrapper>
                 <ContentWrapper>
