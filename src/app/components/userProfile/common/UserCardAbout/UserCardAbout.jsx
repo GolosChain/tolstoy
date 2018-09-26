@@ -9,7 +9,7 @@ import { FormattedDate } from 'react-intl';
 
 import { repLog10 } from 'app/utils/ParsersAndFormatters';
 import normalizeProfile from 'app/utils/NormalizeProfile';
-import { makeSocialLink } from 'src/app/helpers/urls';
+import { makeSocialLink, makeLeaveLink } from 'src/app/helpers/urls';
 
 import Icon from 'golos-ui/Icon';
 import { CardTitle } from 'golos-ui/Card';
@@ -113,7 +113,7 @@ const UserCardCity = styled.div`
     text-transform: initial;
 `;
 
-const UserCardSite = styled(Link)`
+const UserCardSite = styled.a`
     color: #2879ff;
     font-family: 'Open Sans', sans-serif;
     font-size: 14px;
@@ -260,7 +260,7 @@ export default class UserCardAbout extends PureComponent {
                 )}
                 {(website || about) && (
                     <CardContent>
-                        {website && <UserCardSite to={website}>{websiteLabel}</UserCardSite>}
+                        {website && <UserCardSite href={makeLeaveLink(website)}>{websiteLabel}</UserCardSite>}
                         {about && <UserCardBio>{about}</UserCardBio>}
                     </CardContent>
                 )}

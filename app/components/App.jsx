@@ -2,62 +2,31 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { ThemeProvider, injectGlobal } from 'styled-components';
-import AppPropTypes from 'app/utils/AppPropTypes';
-import Header from 'src/app/components/header/Header';
 import { Helmet } from 'react-helmet';
+import tt from 'counterpart';
+import { key_utils } from 'golos-js/lib/auth/ecc';
+import CloseButton from 'react-foundation-components/lib/global/close-button'; // TODO: make new component and delete
+
+import user from 'app/redux/User';
+import { init as initAnchorHelper } from 'app/utils/anchorHelper';
+
+import defaultTheme from 'src/app/themes';
+import Header from 'src/app/components/header/Header';
+import Notifications from 'src/app/components/common/Notifications';
 import Footer from 'app/components/modules/Footer';
 import TooltipManager from 'app/components/elements/common/TooltipManager';
-import user from 'app/redux/User';
-import g from 'app/redux/GlobalReducer';
-import CloseButton from 'react-foundation-components/lib/global/close-button';
+import MobileAppButton from 'app/components/elements/MobileBanners/MobileAppButton';
+import DialogManager from 'app/components/elements/common/DialogManager';
 import Dialogs from '@modules/Dialogs';
 import Modals from '@modules/Modals';
 import ScrollButton from '@elements/ScrollButton';
-import { key_utils } from 'golos-js/lib/auth/ecc';
-import tt from 'counterpart';
 import PageViewsCounter from '@elements/PageViewsCounter';
-
-import MobileAppButton from 'app/components/elements/MobileBanners/MobileAppButton';
-import DialogManager from 'app/components/elements/common/DialogManager';
-import defaultTheme from 'src/app/themes';
-import Notifications from 'src/app/components/common/Notifications';
-import { init as initAnchorHelper } from 'app/utils/anchorHelper';
-
-import { VEST_TICKER } from 'app/client_config';
 
 injectGlobal`
     body {
         fill: currentColor;
     }
 `;
-
-const availableLinks = [
-    'https://www.facebook.com/www.golos.io',
-    'https://vk.com/goloschain',
-    'https://t.me/golos_support',
-];
-
-const availableDomains = [
-    'golos.io',
-    'golos.blog',
-    'golostools.com',
-    'github.com',
-    'play.google.com',
-    't.me',
-    'facebook.com',
-    'vk.com',
-    'instagram.com',
-    'twitter.com',
-    'explorer.golos.io',
-    'kuna.com.ua',
-    'forklog.com',
-    'steepshot.io',
-    'goldvoice.club',
-    'oneplace.media',
-    'golos.today',
-    'cpeda.space',
-    'linkedin.com',
-];
 
 class App extends Component {
     state = {
@@ -79,9 +48,6 @@ class App extends Component {
         this.props.loginUser();
 
         window.addEventListener('storage', this.checkLogin);
-        if (process.env.BROWSER) {
-            window.addEventListener('click', this.checkLeaveGolos);
-        }
 
         if (process.env.BROWSER) {
             initAnchorHelper();
@@ -90,9 +56,6 @@ class App extends Component {
 
     componentWillUnmount() {
         window.removeEventListener('storage', this.checkLogin);
-        if (process.env.BROWSER) {
-            window.removeEventListener('click', this.checkLeaveGolos);
-        }
     }
 
     componentDidUpdate(nextProps) {
@@ -116,31 +79,6 @@ class App extends Component {
         if (event.key === 'autopost2') {
             if (!event.newValue) this.props.logoutUser();
             else if (!event.oldValue || event.oldValue !== event.newValue) this.props.loginUser();
-        }
-    };
-
-    checkLeaveGolos = e => {
-        const a = e.target.closest('a');
-
-        if (
-            a &&
-            a.hostname &&
-            a.hostname !== window.location.hostname &&
-            !availableLinks.includes(a.href) &&
-            !availableDomains.some(
-                domain => domain === a.hostname || a.hostname.endsWith('.' + domain)
-            )
-        ) {
-            e.stopPropagation();
-            e.preventDefault();
-
-            const url = `/leave_page?${a.href}`;
-
-            if (a.target === '_blank' || e.ctrlKey || e.metaKey) {
-                window.open(url, '_blank');
-            } else {
-                this.props.router.push(url);
-            }
         }
     };
 
@@ -252,11 +190,13 @@ class App extends Component {
 
 App.propTypes = {
     error: PropTypes.string,
-    children: AppPropTypes.Children,
+    children: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.node),
+        PropTypes.node
+    ]),
     location: PropTypes.object,
     loginUser: PropTypes.func.isRequired,
     logoutUser: PropTypes.func.isRequired,
-    depositSteem: PropTypes.func.isRequired,
 };
 
 export default connect(
@@ -272,13 +212,5 @@ export default connect(
     dispatch => ({
         loginUser: () => dispatch(user.actions.usernamePasswordLogin()),
         logoutUser: () => dispatch(user.actions.logout()),
-        depositSteem: () => {
-            dispatch(
-                g.actions.showDialog({
-                    name: 'blocktrades_deposit',
-                    params: { outputCoinType: VEST_TICKER },
-                })
-            );
-        },
     })
 )(App);

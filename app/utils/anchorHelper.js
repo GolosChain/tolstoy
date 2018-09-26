@@ -29,7 +29,7 @@ function tryMoveToAnchor() {
 
             const bound = anchor.getBoundingClientRect();
 
-            const delta = 120 + window.innerHeight / 6 - Math.round(bound.top);
+            const delta = Math.round(120 + window.innerHeight / 6 - bound.top);
 
             if (delta > 0) {
                 document.scrollingElement.scrollTop -= delta;

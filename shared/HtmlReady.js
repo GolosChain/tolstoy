@@ -2,6 +2,7 @@ import xmldom from 'xmldom';
 import linksRe, { any as linksAny } from 'app/utils/Links';
 import { validate_account_name } from 'app/utils/ChainValidation';
 import { detransliterate } from 'app/utils/ParsersAndFormatters';
+import { makeLeaveLink } from 'src/app/helpers/urls';
 
 let DOMParser = null;
 let XMLSerializer = null;
@@ -145,15 +146,19 @@ function traverse(node, state, depth = 0) {
 }
 
 function link(state, child) {
-    const url = child.getAttribute('href');
+    let url = child.getAttribute('href');
 
     if (url) {
         state.links.add(url);
 
         if (state.mutate) {
             // If this link is not hash, relative, http or https - add https
-            if (!/^#|^\/(?!\/)|^(?:https?:)?\/\//.test(url)) {
-                child.setAttribute('href', 'https://' + url);
+            if (!/^#|^\/(?!\/)|^(?:https?:)?\/\/|^\[?.*\]$/.test(url)) {
+                url = 'https://' + url;
+            }
+
+            if (/^(?:https?:)?\/\//.test(url)) {
+                child.setAttribute('href', makeLeaveLink(url));
             }
         }
     }
