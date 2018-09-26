@@ -118,11 +118,6 @@ export default class SidePanel extends Component {
                     onClick={this._dislike}
                     dataTooltip={this.tooltipContent(firstDislikes, dislikes > 10)}
                 />
-                <Action
-                    iconName="repost-right"
-                    dataTooltip={tt('g.reblog')}
-                    onClick={this._reblog}
-                />
                 <ActionWrapper
                     iconName="sharing_triangle"
                     dataTooltip={
@@ -139,6 +134,11 @@ export default class SidePanel extends Component {
                         <SharePopover />
                     </PopoverStyled>
                 </ActionWrapper>
+                <Action
+                    iconName="repost-right"
+                    dataTooltip={tt('g.reblog')}
+                    onClick={this._reblog}
+                />
                 <Action
                     iconName={isFavorite ? 'star_filled' : 'star'}
                     onClick={this._toggleFavorite}
