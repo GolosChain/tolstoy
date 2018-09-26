@@ -58,7 +58,7 @@ const VotePanelWrapper = styled(VotePanel)`
 `;
 
 const Repost = styled.div`
-    padding: 0 21px 0 14px;
+    padding: 0 19px;
     display: flex;
     align-items: center;
 
@@ -79,7 +79,7 @@ const Repost = styled.div`
 
 const SharingTriangle = styled(Repost)`
     position: relative;
-    padding: 0 17px 0 7px;
+    padding: 0 12px;
 
     ${is('isOpen')`
         & > svg {
@@ -91,7 +91,7 @@ const SharingTriangle = styled(Repost)`
 
 const DotsMore = styled(Repost)`
     position: relative;
-    padding: 0 13px;
+    padding: 0 18px;
 
     svg {
         padding: 12px 4px;
