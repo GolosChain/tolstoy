@@ -26,7 +26,7 @@
     border-radius: 8px;
     background: #fff;
     box-shadow: 0 2px 12px 0 rgba(0,0,0, 0.15);
-    animation: from-down 0.2s forwards;
+    animation: hint-from-down 0.2s forwards;
 
     &::after {
       @include dialog-tip();
@@ -65,7 +65,7 @@
   }
 }
 
-@keyframes from-down {
+@keyframes hint-from-down {
   from {
     opacity: 0;
     transform: translate3d(0, 0, 0);

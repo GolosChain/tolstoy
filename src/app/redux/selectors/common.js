@@ -1,4 +1,4 @@
-import { createSelectorCreator, defaultMemoize } from 'reselect';
+import { createSelectorCreator, defaultMemoize, createSelector } from 'reselect';
 import isEqual from 'react-fast-compare';
 import { Map } from 'immutable';
 
@@ -9,8 +9,8 @@ const emptyMap = Map();
 export const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 // export const routerSelector = state => state.router;
-export const globalSelector = type => state => state.global.getIn([type], emptyMap);
-export const userSelector = type => state => state.user.getIn([type], emptyMap);
+export const globalSelector = type => state => state.global.getIn(Array.isArray(type) ? type : [type], emptyMap);
+export const userSelector = type => state => state.user.getIn(Array.isArray(type) ? type : [type], emptyMap);
 export const statusSelector = type => state => state.status[type];
 export const entitiesSelector = type => state => state.entities[type];
 export const dataSelector = type => state => state.data[type];
@@ -44,4 +44,13 @@ export const currentUserSelector = createDeepEqualSelector(
 
 export const currentUsernameSelector = createDeepEqualSelector([currentUserSelector], user =>
     user.get('username')
+);
+
+// Utils
+
+export const getVestsToGolosRatio = createSelector(
+    [globalSelector('props')],
+    globalProps =>
+        parseFloat(globalProps.get('total_vesting_fund_steem')) /
+        parseFloat(globalProps.get('total_vesting_shares'))
 );

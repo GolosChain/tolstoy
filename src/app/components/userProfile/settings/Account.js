@@ -34,7 +34,7 @@ const UserName = styled.div`
 const composeValidators = (...validators) => value =>
     validators.reduce((error, validator) => error || (value && validator(value)), undefined);
 
-const isLengthGreaterThan = (min, err) => value => ((value && value.length > min) ? err : undefined);
+const isLengthGreaterThan = (min, err) => value => (value && value.length > min ? err : undefined);
 const isStartWithAt = err => value => (/^\s*@/.test(value) ? err : undefined);
 const isNotUrl = err => value => (!/^https?:\/\//.test(value) ? err : undefined);
 const composedUrlValidator = value =>
@@ -97,7 +97,10 @@ const Account = ({ profile, account, onSubmitBlockchain }) => {
                             {({ input, meta }) => (
                                 <FormGroup>
                                     <Label>{tt('settings_jsx.profile_gender.title')}</Label>
-                                    <Select {...input} placeholder={tt('settings_jsx.account.placeholders.gender')}>
+                                    <Select
+                                        {...input}
+                                        placeholder={tt('settings_jsx.account.placeholders.gender')}
+                                    >
                                         {USER_GENDER.map(i => {
                                             return (
                                                 <option key={i} value={i}>
@@ -130,7 +133,9 @@ const Account = ({ profile, account, onSubmitBlockchain }) => {
                                     <Input
                                         {...input}
                                         type="text"
-                                        placeholder={tt('settings_jsx.account.placeholders.location')}
+                                        placeholder={tt(
+                                            'settings_jsx.account.placeholders.location'
+                                        )}
                                     />
                                     <FormError meta={meta} />
                                 </FormGroup>
@@ -153,7 +158,13 @@ const Account = ({ profile, account, onSubmitBlockchain }) => {
                             {({ input, meta }) => (
                                 <FormGroup>
                                     <Label>{tt('settings_jsx.profile_website')}</Label>
-                                    <Input {...input} type="text" placeholder={tt('settings_jsx.account.placeholders.website')} />
+                                    <Input
+                                        {...input}
+                                        type="text"
+                                        placeholder={tt(
+                                            'settings_jsx.account.placeholders.website'
+                                        )}
+                                    />
                                     <FormError meta={meta} />
                                 </FormGroup>
                             )}
@@ -161,64 +172,59 @@ const Account = ({ profile, account, onSubmitBlockchain }) => {
                         <FormGroup>
                             <Label>{tt('settings_jsx.social_networks')}</Label>
                             <Field name="social.facebook">
-                                {({ input, meta }) => (
-                                    <FormGroupRow>
-                                        <LabelIcon>
-                                            <Icon name="facebook" width="13" height="24" />
-                                        </LabelIcon>
-                                        <Input
-                                            {...input}
-                                            type="text"
-                                            placeholder={tt('settings_jsx.account.placeholders.social_facebook')}
-                                        />
-                                        <FormError meta={meta} />
-                                    </FormGroupRow>
-                                )}
+                                {({ input, meta }) =>
+                                    renderSocialField(
+                                        tt('settings_jsx.account.placeholders.social_facebook'),
+                                        input,
+                                        meta,
+                                        {
+                                            name: 'facebook',
+                                            width: 13,
+                                            height: 24,
+                                        }
+                                    )
+                                }
                             </Field>
                             <Field name="social.vkontakte">
-                                {({ input, meta }) => (
-                                    <FormGroupRow>
-                                        <LabelIcon>
-                                            <Icon name="vk" width="28" height="18" />
-                                        </LabelIcon>
-                                        <Input
-                                            {...input}
-                                            type="text"
-                                            placeholder={tt('settings_jsx.account.placeholders.social_vkontakte')}
-                                        />
-                                        <FormError meta={meta} />
-                                    </FormGroupRow>
-                                )}
+                                {({ input, meta }) =>
+                                    renderSocialField(
+                                        tt('settings_jsx.account.placeholders.social_vkontakte'),
+                                        input,
+                                        meta,
+                                        {
+                                            name: 'vk',
+                                            width: 28,
+                                            height: 18,
+                                        }
+                                    )
+                                }
                             </Field>
                             <Field name="social.instagram">
-                                {({ input, meta }) => (
-                                    <FormGroupRow>
-                                        <LabelIcon>
-                                            <Icon name="instagram" size="23" />
-                                        </LabelIcon>
-                                        <Input
-                                            {...input}
-                                            type="text"
-                                            placeholder={tt('settings_jsx.account.placeholders.social_instagram')}
-                                        />
-                                        <FormError meta={meta} />
-                                    </FormGroupRow>
-                                )}
+                                {({ input, meta }) =>
+                                    renderSocialField(
+                                        tt('settings_jsx.account.placeholders.social_instagram'),
+                                        input,
+                                        meta,
+                                        {
+                                            name: 'instagram',
+                                            size: 23,
+                                        }
+                                    )
+                                }
                             </Field>
                             <Field name="social.twitter">
-                                {({ input, meta }) => (
-                                    <FormGroupRow>
-                                        <LabelIcon>
-                                            <Icon name="twitter" width="26" height="22" />
-                                        </LabelIcon>
-                                        <Input
-                                            {...input}
-                                            type="text"
-                                            placeholder={tt('settings_jsx.account.placeholders.social_twitter')}
-                                        />
-                                        <FormError meta={meta} />
-                                    </FormGroupRow>
-                                )}
+                                {({ input, meta }) =>
+                                    renderSocialField(
+                                        tt('settings_jsx.account.placeholders.social_twitter'),
+                                        input,
+                                        meta,
+                                        {
+                                            name: 'twitter',
+                                            width: 26,
+                                            height: 22,
+                                        }
+                                    )
+                                }
                             </Field>
                         </FormGroup>
                         {/* <pre>{JSON.stringify(values, 0, 2)}</pre> */}
@@ -242,5 +248,25 @@ const Account = ({ profile, account, onSubmitBlockchain }) => {
         </Form>
     );
 };
+
+function renderSocialField(placeholder, input, meta, icon) {
+    return (
+        <FormGroupRow>
+            <LabelIcon>
+                <Icon {...icon} />
+            </LabelIcon>
+            <Input
+                autoComplete="off"
+                autoCorrect="off"
+                autoCapitalize="off"
+                spellCheck="false"
+                {...input}
+                type="text"
+                placeholder={placeholder}
+            />
+            <FormError meta={meta} />
+        </FormGroupRow>
+    );
+}
 
 export default Account;

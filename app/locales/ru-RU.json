@@ -469,6 +469,9 @@
     "i_have_read_and_agree_to_the": "Я прочитал и согласен с",
     "terms_of_service": "Условиями пользования"
   },
+  "header": {
+    "account_price": "Стоимость аккаунта"
+  },
   "header_jsx": {
     "author_rewards_by": "Автор награжден",
     "change_account_password": "Изменить пароль аккаунта",
@@ -567,6 +570,24 @@
   "messages_jsx": {
     "start_conversation": "Написать сообщение"
   },
+  "meta": {
+    "title": {
+      "common": {
+        "post": "%(title)s | Golos.io Блоги"
+      },
+      "profile": {
+        "activity": "Активность %(name)s | Golos.io Блоги",
+        "blog": "%(name)s | Golos.io Блоги",
+        "comments": "Комментарии %(name)s | Golos.io Блоги",
+        "default": "%(name)s | Golos.io Блоги",
+        "favorites": "Избранное %(name)s | Golos.io Блоги",
+        "messenger": "Сообщения | Golos.io Блоги",
+        "replies": "Ответы %(name)s | Golos.io Блоги",
+        "wallet": "Кошелек %(name)s | Golos.io Блоги",
+        "settings": "Настройки %(name)s | Golos.io Blog"
+      }
+    }
+  },
   "mobilevalidation_js": {
     "attempts_10": "На указанный ранее номер был выслан код. Изменить номер можно через 10 секунд",
     "attempts_300": "На один номер мы можем зарегистрировать только одну учетную запись. Ввести новый номер можно через пять минут.",
@@ -585,7 +606,6 @@
     "APP_NAME_chat": "%(APP_NAME)s чат",
     "APP_NAME_whitepaper": "Бумага о %(APP_NAME)s",
     "about": "О проекте",
-    "app_center": "Центр приложений",
     "buy_LIQUID_TOKEN": "Купить %(LIQUID_TOKEN)s",
     "change_account_password": "Изменить пароль аккаунта",
     "currency_market": "Внутренний рынок",
@@ -865,7 +885,7 @@
     "about_is_too_long": "Информация о Вашем блоге слишком длинная",
     "account": {
       "placeholders": {
-        "about": "Чему учился\\n\\rГде и кем работаю\\nМои проекты\\nИнтересы\\nСемья\\nЖизненное кредо",
+        "about": "Чему учился. Где и кем работаю. Мои проекты. Интересы. Семья. Жизненное кредо",
         "gender": "Выберите ваш пол",
         "location": "Укажите свой город",
         "name": "Имя Фамилия",
@@ -1037,17 +1057,17 @@
   },
   "user_profile": {
     "explore_APP_NAME": "Исследовать %(APP_NAME)s",
-    "followed_count": {
-      "one": "1 подписка",
-      "other": "%(count)s подписок",
-      "zero": "0 подписок"
-    },
     "follower_count": {
       "one": "1 подписчик",
       "other": "%(count)s подписчиков",
       "zero": "0 подписчиков"
     },
     "followers": "Подписчики",
+    "following_count": {
+      "one": "1 подписка",
+      "other": "%(count)s подписок",
+      "zero": "0 подписок"
+    },
     "full_faq": "Детальное FAQ %(APP_NAME)s",
     "if_you_recently_added_new_users_to_follow": "Если Вы недавно добавили новых пользователей, ваш персонализированный фид будет заполняться сразу после появления нового контента.",
     "post_count": {

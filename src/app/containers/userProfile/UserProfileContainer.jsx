@@ -5,8 +5,9 @@ import styled from 'styled-components';
 import is from 'styled-is';
 import { Map } from 'immutable';
 import { last } from 'ramda';
-
 import tt from 'counterpart';
+import { Helmet } from 'react-helmet';
+
 import { blockedUsers, blockedUsersContent } from 'app/utils/IllegalContent';
 
 import user from 'app/redux/User';
@@ -85,8 +86,80 @@ const SmallUserNavigation = styled(UserNavigation)`
     }
 `;
 
+@connect(
+    (state, props) => {
+        const accountName = props.params.accountName.toLowerCase();
+
+        const currentUser = state.user.get('current') || Map();
+        const currentAccount = state.global.getIn(['accounts', accountName]);
+
+        const fetching = state.app.get('loading');
+        const isOwner = currentUser.get('username') === accountName;
+
+        const followerCount = state.global.getIn(
+            ['follow_count', accountName, 'follower_count'],
+            0
+        );
+
+        const followingCount = state.global.getIn(
+            ['follow_count', accountName, 'following_count'],
+            0
+        );
+
+        return {
+            pageAccountName: accountName,
+            currentUser,
+            currentAccount,
+
+            fetching,
+            isOwner,
+
+            followerCount,
+            followingCount,
+        };
+    },
+    dispatch => ({
+        fetchFollowCount: () => dispatch(fetchFollowCount),
+        uploadImage: (file, progress) => {
+            dispatch({
+                type: 'user/UPLOAD_IMAGE',
+                payload: { file, progress },
+            });
+        },
+        updateAccount: ({ successCallback, errorCallback, ...operation }) => {
+            dispatch(
+                transaction.actions.broadcastOperation({
+                    type: 'account_metadata',
+                    operation,
+                    successCallback() {
+                        dispatch(user.actions.getAccount());
+                        successCallback();
+                    },
+                    errorCallback,
+                })
+            );
+        },
+        notify: (message, dismiss = 3000) => {
+            dispatch({
+                type: 'ADD_NOTIFICATION',
+                payload: {
+                    key: 'settings_' + Date.now(),
+                    message,
+                    dismissAfter: dismiss,
+                },
+            });
+        },
+        loadFavorites() {
+            dispatch({
+                type: FAVORITES_LOAD,
+                payload: {},
+            });
+        },
+    })
+)
 class UserProfileContainer extends Component {
     static propTypes = {
+        pageAccountName: PropTypes.string,
         isOwner: PropTypes.bool,
         params: PropTypes.object,
         route: PropTypes.object,
@@ -103,6 +176,21 @@ class UserProfileContainer extends Component {
     }
 
     render() {
+        const { pageAccountName } = this.props;
+
+        return (
+            <Fragment>
+                <Helmet>
+                    <title>
+                        {tt('meta.title.profile.default', { name: pageAccountName })}
+                    </title>
+                </Helmet>
+                {this._render()}
+            </Fragment>
+        );
+    }
+
+    _render() {
         const {
             currentUser,
             currentAccount,
@@ -258,73 +346,6 @@ export default {
             },
         },
     ],
-    component: connect(
-        (state, props) => {
-            const accountName = props.params.accountName.toLowerCase();
 
-            const currentUser = state.user.get('current') || Map();
-            const currentAccount = state.global.getIn(['accounts', accountName]);
-
-            const fetching = state.app.get('loading');
-            const isOwner = currentUser.get('username') === accountName;
-
-            const followerCount = state.global.getIn(
-                ['follow_count', accountName, 'follower_count'],
-                0
-            );
-
-            const followingCount = state.global.getIn(
-                ['follow_count', accountName, 'following_count'],
-                0
-            );
-
-            return {
-                currentUser,
-                currentAccount,
-
-                fetching,
-                isOwner,
-
-                followerCount,
-                followingCount,
-            };
-        },
-        dispatch => ({
-            uploadImage: (file, progress) => {
-                dispatch({
-                    type: 'user/UPLOAD_IMAGE',
-                    payload: { file, progress },
-                });
-            },
-            updateAccount: ({ successCallback, errorCallback, ...operation }) => {
-                dispatch(
-                    transaction.actions.broadcastOperation({
-                        type: 'account_metadata',
-                        operation,
-                        successCallback() {
-                            dispatch(user.actions.getAccount());
-                            successCallback();
-                        },
-                        errorCallback,
-                    })
-                );
-            },
-            notify: (message, dismiss = 3000) => {
-                dispatch({
-                    type: 'ADD_NOTIFICATION',
-                    payload: {
-                        key: 'settings_' + Date.now(),
-                        message,
-                        dismissAfter: dismiss,
-                    },
-                });
-            },
-            loadFavorites() {
-                dispatch({
-                    type: FAVORITES_LOAD,
-                    payload: {},
-                });
-            },
-        })
-    )(UserProfileContainer),
+    component: UserProfileContainer
 };

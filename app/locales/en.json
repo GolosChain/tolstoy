@@ -463,6 +463,9 @@
     "i_have_read_and_agree_to_the": "I have read and agree to the",
     "terms_of_service": "Terms of service"
   },
+  "header": {
+    "account_price": "Account price"
+  },
   "header_jsx": {
     "author_rewards_by": "Author rewards by",
     "change_account_password": "Change Account Password",
@@ -561,6 +564,24 @@
   "messages_jsx": {
     "start_conversation": "Start conversation"
   },
+  "meta": {
+    "title": {
+      "common": {
+        "post": "%(title)s | Golos.io Blogs"
+      },
+      "profile": {
+        "activity": "Activity %(name)s | Golos.io Blogs",
+        "blog": "%(name)s | Golos.io Blogs",
+        "comments": "Comments %(name)s | Golos.io Blogs",
+        "default": "%(name)s | Golos.io Blogs",
+        "favorites": "Favorites %(name)s | Golos.io Blogs",
+        "messenger": "Messenger | Golos.io Blogs",
+        "replies": "Replies %(name)s | Golos.io Blogs",
+        "settings": "Settings %(name)s | Golos.io Blogs",
+        "wallet": "Wallet %(name)s | Golos.io Blogs"
+      }
+    }
+  },
   "mobilevalidation_js": {
     "attempts_10": "Confirmation was attempted a moment ago. You can try again only in 10 seconds",
     "attempts_300": "Confirmation was attempted a moment ago. You can try again only in 5 minutes",
@@ -579,7 +600,6 @@
     "APP_NAME_chat": "%(APP_NAME)s Chat",
     "APP_NAME_whitepaper": "%(APP_NAME)s Whitepaper",
     "about": "About",
-    "app_center": "Apps center",
     "buy_LIQUID_TOKEN": "Buy %(LIQUID_TOKEN)s",
     "change_account_password": "Change Account Password",
     "currency_market": "Currency Market",
@@ -859,7 +879,7 @@
     "about_is_too_long": "About is too long",
     "account": {
       "placeholders": {
-        "about": "What did I learn\\n\\rWhere and by whom I work\\nMy projects\\nInterests\\nThe family\\nLife credo",
+        "about": "What did I learn. Where and by whom I work. My projects. Interests. The family. Life credo",
         "gender": "Select your gender",
         "location": "Enter your city",
         "name": "Full name",
@@ -1030,17 +1050,17 @@
   },
   "user_profile": {
     "explore_APP_NAME": "Explore %(APP_NAME)s",
-    "followed_count": {
-      "one": "1 following",
-      "other": "%(count)s following",
-      "zero": "Not following anybody"
-    },
     "follower_count": {
       "one": "1 follower",
       "other": "%(count)s followers",
       "zero": "No followers"
     },
     "followers": "Followers",
+    "following_count": {
+      "one": "1 following",
+      "other": "%(count)s following",
+      "zero": "Not following anybody"
+    },
     "full_faq": "The full F.A.Q on %(APP_NAME)s",
     "if_you_recently_added_new_users_to_follow": "If you recently added new users to follow, your personalized feed will populate once new content is available.",
     "post_count": {

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { ThemeProvider, injectGlobal } from 'styled-components';
 import AppPropTypes from 'app/utils/AppPropTypes';
 import Header from 'src/app/components/header/Header';
+import { Helmet } from 'react-helmet';
 import Footer from 'app/components/modules/Footer';
 import TooltipManager from 'app/components/elements/common/TooltipManager';
 import user from 'app/redux/User';
@@ -225,6 +226,9 @@ class App extends Component {
                     className={'App' + (ip ? ' index-page' : '')}
                     onMouseMove={this.onEntropyEvent}
                 >
+                    <Helmet>
+                        <title>Golos.io</title>
+                    </Helmet>
                     <Header />
                     <div className="App__content">
                         {welcome_screen}

@@ -44,6 +44,11 @@ export default class Menu extends PureComponent {
                 text: tt('navigation.welcome'),
             },
             {
+                link: '/faq',
+                icon: 'question',
+                text: tt('navigation.faq'),
+            },
+            {
                 link: '//wiki.golos.io/',
                 icon: 'wiki',
                 text: tt('navigation.wiki'),
@@ -58,17 +63,12 @@ export default class Menu extends PureComponent {
                 icon: 'delegates',
                 text: tt('navigation.delegates'),
             },
-            {
-                link: '//golostools.com/',
-                icon: 'apps',
-                text: tt('navigation.app_center'),
-            },
         ];
 
         return (
             <Ul>
                 {items.map(({ link, target, icon, text }, i) => (
-                    <Li key={i}>
+                    <Li key={i} onClick={this._onItemClick}>
                         <LinkStyled to={link} target={link.startsWith('//') ? 'blank' : null}>
                             <IconStyled name={icon} />
                             {text}
@@ -78,4 +78,8 @@ export default class Menu extends PureComponent {
             </Ul>
         );
     }
+
+    _onItemClick = () => {
+        this.props.onClose();
+    };
 }

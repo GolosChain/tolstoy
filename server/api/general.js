@@ -235,10 +235,12 @@ export default function useGeneralApi(app) {
         if (!checkCSRF(this, csrf)) return;
         console.log('-- /login_account -->', this.session.uid, account);
         try {
-            const db_account = yield models.Account.findOne(
-                {attributes: ['user_id'], where: {name: esc(account)}, logging: false}
-            );
-            if (db_account) this.session.user = db_account.user_id;
+            if (!process.env.DISABLE_DB) { // for dev environment
+                const db_account = yield models.Account.findOne(
+                    {attributes: ['user_id'], where: {name: esc(account)}, logging: false}
+                );
+                if (db_account) this.session.user = db_account.user_id;
+            }
 
             let body = { status: 'ok' }
             if(signatures) {
@@ -282,7 +284,7 @@ export default function useGeneralApi(app) {
             }
 
             this.body = JSON.stringify(body);
-            const remote_ip = getRemoteIp(this.req);
+            // const remote_ip = getRemoteIp(this.req);
             // if (mixpanel) {
             //     mixpanel.people.set(this.session.uid, {ip: remote_ip, $ip: remote_ip});
             //     mixpanel.people.increment(this.session.uid, 'Logins', 1);
