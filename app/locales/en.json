@@ -160,6 +160,12 @@
     "strikethrough": "Toggle strikethrough style",
     "unordered_list": "Make list"
   },
+  "on_golos_from": "On Golos from",
+  "active_panel_tooltip": {
+    "pin_post": "Pin post",
+    "promote_post": "Promote post",
+    "complain_about_post": "Complain about post"
+  },
   "enter_confirm_email_jsx": {
     "email_address": "Email Address",
     "email_address_cannot_be_changed_at_this_moment_sorry_for_inconvenience": "Email address cannot be changed at this moment, sorry for the inconvenience",
@@ -260,6 +266,8 @@
     "enter_username": "Enter your username",
     "expand": "Expand",
     "favorites": "Favorites",
+    "add_to_favorites": "Add to favourite",
+    "remove_from_favorites": "Remove from favourite",
     "feed": "Feed",
     "feeds": "Feeds",
     "filter": "Filter",
@@ -349,6 +357,7 @@
     "post_as": "Post as",
     "posting": "Posting key",
     "posts": "Posts",
+    "authors_posts": "author's posts",
     "powered_up_100": "Powered Up 100%%",
     "preview": "Preview",
     "previous": "Previous",
@@ -690,14 +699,6 @@
       }
     }
   },
-  "on_golos_from": "On Golos from",
-  "payout_info": {
-    "author": "Author's payout",
-    "beneficiary": "Beneficiary rewards",
-    "curator": "Curator's payout",
-    "payout": "Payout",
-    "potential_payout": "Potential payout"
-  },
   "plurals": {
     "author_rewards_last_24_hours": "Author rewards last 24 hours",
     "balance": "Balance",
@@ -766,6 +767,7 @@
     "recieve_amount_from": "Receive %(amount)s from",
     "recieve_interest_of": "Receive interest of %(interest)s",
     "share": "Share",
+    "share_in_social_networks": "Share in soc. networks",
     "share_on_facebook": "Share on Facebook",
     "share_on_lj": "Share on LiveJournal",
     "share_on_twitter": "Share on Twitter",

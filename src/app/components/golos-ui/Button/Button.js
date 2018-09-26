@@ -55,7 +55,7 @@ export const BaseButton = styled.button`
 
     ${is('auto')`
         width: 100%;
-    `} 
+    `};
     
     ${is('light')`
         color: #393636;
@@ -66,6 +66,11 @@ export const BaseButton = styled.button`
             color: #393636;
             background: #fff;
             border: 1px solid ${darken(0.05, 'rgba(57,54,54,0.30)')};
+        }
+        
+        &:hover {
+            color: #2879ff;
+            border: 1px solid rgba(40, 121, 255, .3);
         }
     `};
 `;

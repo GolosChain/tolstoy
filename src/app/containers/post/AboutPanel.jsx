@@ -3,12 +3,14 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router';
 import tt from 'counterpart';
-import Userpic from 'app/components/elements/Userpic';
+import { FormattedDate } from 'react-intl';
+
 import Icon from 'golos-ui/Icon';
 import Button from 'golos-ui/Button';
-import Follow from 'golos-ui/Follow';
-import { authorSelector } from 'app/redux/selectors/post/post';
-import { FormattedDate } from 'react-intl';
+
+import Userpic from 'app/components/elements/Userpic';
+import Follow from 'src/app/components/common/Follow/Follow';
+import { aboutPanelSelector } from 'src/app/redux/selectors/post/aboutPanel';
 
 const Wrapper = styled.div`
     display: flex;
@@ -96,7 +98,13 @@ const Buttons = styled.div`
 
 const ButtonInPanel = styled(Button)`
     min-width: 167px;
+    width: 167px;
     text-transform: uppercase;
+
+    svg {
+        min-width: 17px;
+        min-height: 15px;
+    }
 
     @media (max-width: 768px) {
         width: 100%;
@@ -128,9 +136,10 @@ const AboutMobile = styled.p`
     }
 `;
 
-class AboutPanel extends Component {
+@connect(aboutPanelSelector)
+export default class AboutPanel extends Component {
     render() {
-        const { name, account, about } = this.props;
+        const { name, account, about, created } = this.props;
         return (
             <Wrapper>
                 <Avatar>
@@ -146,11 +155,7 @@ class AboutPanel extends Component {
                     <Icon width="36" height="34" name="cake" />
                     <CakeText>
                         {tt('on_golos_from')}
-                        <FormattedDate
-                            value={new Date(author.created)}
-                            month="long"
-                            year="numeric"
-                        />
+                        <FormattedDate value={new Date(created)} month="long" year="numeric" />
                     </CakeText>
                 </Cake>
                 <Buttons>
@@ -164,15 +169,3 @@ class AboutPanel extends Component {
         );
     }
 }
-
-const mapStateToProps = (state, props) => {
-    const author = authorSelector(state, props);
-
-    return {
-        name: author.name,
-        account: author.account,
-        about: author.about,
-    };
-};
-
-export default connect(mapStateToProps)(AboutPanel);
