@@ -9,7 +9,7 @@ import ActivePanel from 'src/app/containers/post/ActivePanel';
 import AboutPanel from 'src/app/containers/post/AboutPanel';
 import { USER_FOLLOW_DATA_LOAD } from 'src/app/redux/constants/followers';
 import { FAVORITES_LOAD } from 'src/app/redux/constants/favorites';
-import { currentPostSelector, authorSelector } from 'src/app/redux/selectors/post/commanPost';
+import { currentPostSelector, authorSelector } from 'src/app/redux/selectors/post/commonPost';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 
 const Wrapper = styled.div`

@@ -3,7 +3,7 @@ import {
     currentPostSelector,
     authorSelector,
     votesSummarySelector,
-} from 'src/app/redux/selectors/post/commanPost';
+} from 'src/app/redux/selectors/post/commonPost';
 
 export const sidePanelSelector = createDeepEqualSelector(
     [currentPostSelector, authorSelector, currentUsernameSelector, votesSummarySelector],

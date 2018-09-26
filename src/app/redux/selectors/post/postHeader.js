@@ -1,5 +1,5 @@
 import { createDeepEqualSelector, currentUsernameSelector } from 'src/app/redux/selectors/common';
-import { currentPostSelector, authorSelector } from 'src/app/redux/selectors/post/commanPost';
+import { currentPostSelector, authorSelector } from 'src/app/redux/selectors/post/commonPost';
 import { followingSelector } from 'src/app/redux/selectors/follow/follow';
 
 export const postHeaderSelector = createDeepEqualSelector(
