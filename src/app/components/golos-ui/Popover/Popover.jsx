@@ -145,7 +145,6 @@ class Popover extends Component {
     render() {
         const { screenMargin, position, children, className } = this.props;
         const { margin, isOpen } = this.state;
-        console.log(margin, screenMargin);
         return (
             <Container
                 className={className}
