@@ -95,9 +95,9 @@ export default class SidePanel extends Component {
     }
 
     render() {
-        const { votesSummary, isFavorite } = this.props;
+        const { votesSummary, isFavorite, myVote: voteType } = this.props;
         const { showPanel, fixedOnScreen, activeShareMore } = this.state;
-        const { myVote: voteType, likes, firstLikes, dislikes, firstDislikes } = votesSummary;
+        const { likes, firstLikes, dislikes, firstDislikes } = votesSummary;
         return (
             <Wrapper
                 innerRef={this._setWrapperRef}
@@ -105,14 +105,14 @@ export default class SidePanel extends Component {
                 fixedOnScreen={fixedOnScreen}
             >
                 <Action
-                    activeType={voteType}
+                    activeType={voteType.percent > 0 ? 'like' : ''}
                     iconName="like"
                     count={likes}
                     onClick={this._like}
                     dataTooltip={this.tooltipContent(firstLikes, likes > 10)}
                 />
                 <Action
-                    activeType={voteType}
+                    activeType={voteType.percent < 0 ? 'dislike' : ''}
                     iconName="dislike"
                     count={dislikes}
                     onClick={this._dislike}
