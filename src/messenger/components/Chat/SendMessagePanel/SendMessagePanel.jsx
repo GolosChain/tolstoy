@@ -22,6 +22,7 @@ const MediaAttachButton = styled.button`
     height: 40px;
     margin: 15px;
 
+    outline: none;
     border-radius: 50%;
     box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.25);
     cursor: pointer;
@@ -32,12 +33,14 @@ const EmojiButton = styled.button`
     top: 12px;
     right: 12px;
 
+    outline: none;
     cursor: pointer;
 `;
 
 const SendButton = styled.button`
     margin: 0 34px;
 
+    outline: none;
     cursor: pointer;
 `;
 
