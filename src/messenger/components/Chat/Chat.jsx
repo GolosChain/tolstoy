@@ -5,6 +5,7 @@ import Avatar from 'src/app/components/common/Avatar';
 import Icon from 'golos-ui/Icon';
 
 import MessageBubble from './MessageBubble';
+import SendMessagePanel from './SendMessagePanel';
 
 const ChatWrapper= styled.div`
     display: flex;
@@ -51,9 +52,13 @@ const Dots = styled(Icon)`
 
 const Body = styled.div`
     display: flex;
+    flex: 1;
     flex-direction: column;
 
     padding: 15px;
+`;
+
+const Footer = styled.div`
 `;
 
 const Message = styled.div`
@@ -105,6 +110,9 @@ export default class Chat extends Component {
                 <Body>
                     {this._renderMessages(messages)}
                 </Body>
+                <Footer>
+                    <SendMessagePanel />
+                </Footer>
             </ChatWrapper>
         );
     }
