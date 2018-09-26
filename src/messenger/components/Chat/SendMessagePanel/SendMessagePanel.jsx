@@ -81,11 +81,11 @@ export default class SendMessagePanel extends Component {
                 <TextAreaWrapper>
                     <RichTextArea />
                     <EmojiButton>
-                        <Icon name="refresh" width="25" height="25" />
+                        <Icon name="smile" width="25" height="25" />
                     </EmojiButton>
                 </TextAreaWrapper>
                 <SendButton>
-                    <Icon name="envelope" width="28" height="28" />
+                    <Icon name="send_mail" width="28" height="28" />
                 </SendButton>
             </PanelWrapper>
         );
