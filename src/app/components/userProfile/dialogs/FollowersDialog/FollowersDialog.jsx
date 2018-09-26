@@ -15,7 +15,7 @@ import { getFollowers, getFollowing } from 'src/app/redux/actions/followers';
 import Icon from 'golos-ui/Icon';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import Avatar from 'src/app/components/common/Avatar';
-import Follow from 'src/app/components/common/FollowMute';
+import Follow from 'src/app/components/common/Follow';
 
 const Dialog = styled.div`
     position: relative;
