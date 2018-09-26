@@ -6,7 +6,11 @@ import proxifyImageUrl from 'app/utils/ProxifyUrl';
 
 import Icon from 'golos-ui/Icon';
 
-const Wrapper = styled.div`
+const Wrapper = styled.div.attrs({
+    style: ({ backgroundUrl }) => ({
+        backgroundImage: backgroundUrl ? `url(${backgroundUrl})` : null,
+    }),
+})`
     display: flex;
     position: relative;
     align-items: center;
@@ -22,7 +26,6 @@ const Wrapper = styled.div`
     background-position: 50% 50%;
     border-radius: 50%;
     background-color: #fff;
-    background-image: ${({ backgroundUrl }) => `url(${backgroundUrl})`};
 `;
 
 export default class UserProfileAvatar extends PureComponent {
