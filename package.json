@@ -215,6 +215,17 @@
     "tabWidth": 4,
     "semi": true,
     "trailingComma": "es5",
-    "printWidth": 100
+    "printWidth": 100,
+    "overrides": [
+      {
+        "files": [
+          "*.json",
+          "*.scss"
+        ],
+        "options": {
+          "tabWidth": 2
+        }
+      }
+    ]
   }
 }
