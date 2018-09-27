@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router';
@@ -73,19 +73,25 @@ const Cake = styled.div`
     align-items: center;
     flex-direction: column;
     flex-grow: 2;
+    
+    padding: 0 20px;
+    
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    letter-spacing: -0.26px;
+    line-height: 24px;
+    div {
+        color: #959595;
+    }
 
     @media (max-width: 768px) {
-        display: none;
+        margin-top: 20px;
+        padding: 0;
     }
 `;
 
 const CakeText = styled.div`
     padding-top: 14px;
-    color: #959595;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 16px;
-    letter-spacing: -0.26px;
-    line-height: 24px;
 `;
 
 const Buttons = styled.div`
@@ -122,20 +128,6 @@ const FollowButton = styled(Follow)`
     }
 `;
 
-const AboutMobile = styled.p`
-    display: none;
-    margin: 20px 0 0 0;
-    color: #959595;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 16px;
-    letter-spacing: -0.26px;
-    line-height: 24px;
-
-    @media (max-width: 768px) {
-        display: block;
-    }
-`;
-
 @connect(aboutPanelSelector)
 export default class AboutPanel extends Component {
     render() {
@@ -150,13 +142,22 @@ export default class AboutPanel extends Component {
                     </Names>
                     <Divider />
                 </Avatar>
-                <AboutMobile>{about}</AboutMobile>
                 <Cake>
-                    <Icon width="36" height="34" name="cake" />
-                    <CakeText>
-                        {tt('on_golos_from')}
-                        <FormattedDate value={new Date(created)} month="long" year="numeric" />
-                    </CakeText>
+                    {about ? (
+                        <div>{about}</div>
+                    ) : (
+                        <Fragment>
+                            <Icon width="36" height="34" name="cake" />
+                            <CakeText>
+                                {tt('on_golos_from')}&nbsp;
+                                <FormattedDate
+                                    value={new Date(created)}
+                                    month="long"
+                                    year="numeric"
+                                />
+                            </CakeText>
+                        </Fragment>
+                    )}
                 </Cake>
                 <Buttons>
                     <ButtonInPanel light>
