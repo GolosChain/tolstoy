@@ -241,6 +241,7 @@ export default class MarkdownEditorToolbar extends React.PureComponent {
     }
 
     _renderHelper(pos) {
+        const { commentMode } = this.props;
         const { newLineOpen, selected } = this.state;
         const { root } = this.refs;
 
@@ -251,6 +252,7 @@ export default class MarkdownEditorToolbar extends React.PureComponent {
         return (
             <div
                 className={cn('MET__new-line-helper', {
+                    'MET__new-line-helper_comment': commentMode,
                     'MET__new-line-helper_open': newLineOpen,
                     'MET__new-line-helper_selected': newLineOpen && selected,
                 })}

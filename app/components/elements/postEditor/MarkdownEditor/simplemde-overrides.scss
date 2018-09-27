@@ -10,13 +10,6 @@
     background: none;
   }
 
-  &_comment .CodeMirror {
-    padding: 10px 8px 0;
-    margin: 0;
-    background: #fafafa;
-    border-radius: 6px;
-  }
-
   & .CodeMirror-scroll {
     min-height: 350px;
   }
