@@ -7,6 +7,10 @@
     "mobileBannerAlt": "Доступно в Google Play",
     "resources": "Ресурсы"
   },
+  "auth_protection": {
+    "need_auth": "Нет доступа, авторизуйтесь.",
+    "not_allowed": "Нет доступа."
+  },
   "category_selector_jsx": {
     "denied_to_publish_the_posts_with_tag": "Запрещено публиковать посты с тегом 'stihi-io'",
     "main_tag_hint": "Первый тег – основной. Пост будет опубликован в этой теме.",
@@ -162,6 +166,13 @@
     "strikethrough": "Подчеркнутый текст",
     "unordered_list": "Список"
   },
+  "on_golos_from": "На Golos с",
+  "active_panel_tooltip": {
+    "pin_post": "Закрепить пост",
+    "promote_post": "Продвинуть пост",
+    "complain_about_post": "Пожаловаться на пост"
+  },
+  
   "enter_confirm_email_jsx": {
     "email_address": "Адрес электронной почты",
     "email_address_cannot_be_changed_at_this_moment_sorry_for_inconvenience": "Адрес электронной почты на данный момент не может быть изменен, извините за неудобства",
@@ -262,6 +273,8 @@
     "enter_username": "Введи свое имя пользователя",
     "expand": "Развернуть",
     "favorites": "Избранное",
+    "add_to_favorites": "В избранное",
+    "remove_from_favorites": "Убрать из избранного",
     "feed": "Лента",
     "feeds": "Лента",
     "filter": "Фильтр",
@@ -352,6 +365,7 @@
     "post_as": "Запостить как",
     "posting": "Постинг ключ",
     "posts": "Посты",
+    "authors_posts": "посты автора",
     "power_up": "Увеличить %(VESTING_TOKEN2)s",
     "powered_up_100": "100%% к Силе Голоса",
     "preview": "Предварительный просмотр",
@@ -573,8 +587,8 @@
         "favorites": "Избранное %(name)s | Golos.io Блоги",
         "messenger": "Сообщения | Golos.io Блоги",
         "replies": "Ответы %(name)s | Golos.io Блоги",
-        "wallet": "Кошелек %(name)s | Golos.io Блоги",
-        "settings": "Настройки %(name)s | Golos.io Blog"
+        "settings": "Настройки %(name)s | Golos.io Блоги",
+        "wallet": "Кошелек %(name)s | Golos.io Блоги"
       }
     }
   },
@@ -695,14 +709,6 @@
       }
     }
   },
-  "on_golos_from": "На Golos с",
-  "payout_info": {
-    "author": "Авторские выплаты",
-    "beneficiary": "Бенефициарские выплаты",
-    "curator": "Кураторские выплаты",
-    "payout": "Выплата",
-    "potential_payout": "Потенциальная выплата"
-  },
   "plurals": {
     "author_rewards_last_24_hours": "Авторские вознаграждения за последние 24 часа",
     "balance": "Баланс",
@@ -771,6 +777,7 @@
     "recieve_amount_from": "Получено %(amount)s от",
     "recieve_interest_of": "Получены проценты в размере %(interest)s",
     "share": "Поделиться",
+    "share_in_social_networks": "Поделится в соц. сети",
     "share_on_facebook": "Поделитесь в Facebook",
     "share_on_lj": "Поделиться в LiveJournal",
     "share_on_twitter": "Поделиться в Twitter",

@@ -11,6 +11,7 @@ import { NOTIFICATIONS_FILTER_TYPES, NOTIFICATIONS_PER_PAGE } from 'src/app/redu
 import { activityContentSelector } from 'src/app/redux/selectors/userProfile/activity';
 import { getNotificationsHistory } from 'src/app/redux/actions/notifications';
 import { changeProfileActivityTab } from 'src/app/redux/actions/ui';
+import { authProtection } from 'src/app/helpers/hoc';
 
 import Card, { CardContent } from 'golos-ui/Card';
 import { TabContainer, Tabs } from 'golos-ui/Tabs';
@@ -25,6 +26,7 @@ const WrapperLoader = styled.div`
     padding-top: 20px;
 `;
 
+@authProtection()
 @connect(
     activityContentSelector,
     {

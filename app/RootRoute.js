@@ -62,7 +62,10 @@ export default {
         } else if (route.page === 'Market') {
             cb(null, [require('@pages/MarketLoader').default]);
         } else if (route.page === 'Post') {
-            cb(null, [require('@pages/PostPage').default]);
+            cb(null, [{
+                path: '/(:category/)@:username/:slug',
+                component: require('src/app/containers/post').default
+            }]);
         } else if (route.page === 'PostNoCategory') {
             cb(null, [require('@pages/PostPageNoCategory').default]);
         } else if (route.page === 'PostsIndex') {

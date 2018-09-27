@@ -8,10 +8,41 @@ import {
 import { detransliterate, parsePayoutAmount } from 'app/utils/ParsersAndFormatters';
 import normalizeProfile from 'app/utils/NormalizeProfile';
 import { calcVotesStats } from 'app/utils/StateFunctions';
+import { Map } from 'immutable';
+
+const emptyMap = Map();
+
+const pathnameSelector = state => {
+    return state.routing.locationBeforeTransitions.pathname;
+};
+
+const postUrlFromPathnameSelector = createDeepEqualSelector([pathnameSelector], pathname =>
+    pathname.substr(pathname.indexOf('@') + 1)
+);
+
+const getMyVote = (post, username) => {
+    const votes = post.get('active_votes');
+    for (let vote of votes) {
+        if (vote.get('voter') === username) {
+            const myVote = vote.toJS();
+            myVote.weight = parseInt(myVote.weight || 0, 10);
+            return myVote;
+        }
+    }
+    return 0;
+};
+
+const extractPinnedPostData = metadata => {
+    try {
+        return JSON.parse(metadata).pinnedPosts || [];
+    } catch (error) {
+        return [];
+    }
+};
 
 export const postSelector = createDeepEqualSelector(
     [globalSelector('content'), postUrlFromPathnameSelector],
-    (content, url) => content.get(url)
+    (content, url) => content.get(url) || emptyMap
 );
 
 export const votesSummarySelector = createDeepEqualSelector(
@@ -45,6 +76,7 @@ export const currentPostSelector = createDeepEqualSelector(
             children: post.get('children'),
             link: `/@${author}/${permLink}`,
             myVote,
+            promotedAmount: parsePayoutAmount(post.get('promoted')),
         };
     }
 );
@@ -56,9 +88,9 @@ export const authorSelector = createDeepEqualSelector(
         currentPostSelector,
         globalSelector('content'),
     ],
-    (accounts, followCount, muting, post, content) => {
+    (accounts, followCount, post, content) => {
         const authorAccountName = post.author;
-        const authorData = accounts.get(authorAccountName);
+        const authorData = accounts.get(authorAccountName) || emptyMap;
         const jsonData = normalizeProfile({
             json_metadata: authorData.get('json_metadata'),
             name: authorAccountName,
@@ -83,31 +115,3 @@ export const authorSelector = createDeepEqualSelector(
         };
     }
 );
-
-const pathnameSelector = state => {
-    return state.routing.locationBeforeTransitions.pathname;
-};
-
-const postUrlFromPathnameSelector = createDeepEqualSelector([pathnameSelector], pathname =>
-    pathname.substr(pathname.indexOf('@') + 1)
-);
-
-const getMyVote = (post, username) => {
-    const votes = post.get('active_votes');
-    for (let vote of votes) {
-        if (vote.get('voter') === username) {
-            const myVote = vote.toJS();
-            myVote.weight = parseInt(myVote.weight || 0, 10);
-            return myVote;
-        }
-    }
-    return 0;
-};
-
-const extractPinnedPostData = metadata => {
-    try {
-        return JSON.parse(metadata).pinnedPosts || [];
-    } catch (error) {
-        return [];
-    }
-};

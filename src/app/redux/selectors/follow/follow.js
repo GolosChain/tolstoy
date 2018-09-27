@@ -3,7 +3,7 @@ import { Set } from 'immutable';
 
 const emptySet = Set();
 
-const followingSelector = type =>
+export const followingSelector = type =>
     createDeepEqualSelector([globalSelector('follow'), currentUserSelector], (follow, user) => {
         return follow.getIn(['getFollowingAsync', user.get('username'), type], emptySet);
     });

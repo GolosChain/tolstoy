@@ -212,7 +212,6 @@ export default class VotePanel extends PureComponent {
             ? votesSummaryIm.toJS()
             : calcVotesStats(votes.toJS(), me);
         this._myVote = votesSummary.myVote;
-
         return (
             <Root whiteTheme={whiteTheme} className={className} innerRef={this._onRef}>
                 <LikeBlock

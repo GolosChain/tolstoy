@@ -12,7 +12,7 @@ import { BaseButton } from 'golos-ui/Button';
 import Icon from 'golos-ui/Icon';
 import Flex from 'golos-ui/Flex';
 
-import Follow from 'src/app/components/common/Follow';
+import Follow from 'src/app/components/common/FollowMute';
 import Mute from 'src/app/components/common/Mute';
 import StyledContainer from 'src/app/components/common/Container';
 import UserProfileAvatar from './../UserProfileAvatar';

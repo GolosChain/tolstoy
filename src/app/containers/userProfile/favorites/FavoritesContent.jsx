@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 import { Helmet } from 'react-helmet';
 
+import { authProtection } from 'src/app/helpers/hoc';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import PostsListFavorite from 'src/app/components/common/PostsList/PostsListFavorite';
 import InfoBlock from 'src/app/components/common/InfoBlock';
@@ -14,7 +15,27 @@ const Loader = styled(LoadingIndicator)`
     margin-top: 30px;
 `;
 
-class FavoritesContent extends Component {
+@authProtection()
+@connect(
+    (state, props) => {
+        const pageAccountName = props.params.accountName.toLowerCase();
+        const isOwner = state.user.getIn(['current', 'username']) === pageAccountName;
+
+        const { isLoading, isPageLoading, showList } = state.data.favorites;
+
+        return {
+            isOwner,
+            isLoading,
+            pageAccountName,
+            isPageLoading,
+            list: showList,
+        };
+    },
+    {
+        favoritesLoadNextPageAction,
+    }
+)
+export default class FavoritesContent extends Component {
     componentDidMount() {
         const { isPageLoading, list } = this.props;
         if (!isPageLoading && !list) {
@@ -28,9 +49,7 @@ class FavoritesContent extends Component {
         return (
             <Fragment>
                 <Helmet>
-                    <title>
-                        {tt('meta.title.profile.favorites', { name: pageAccountName })}
-                    </title>
+                    <title>{tt('meta.title.profile.favorites', { name: pageAccountName })}</title>
                 </Helmet>
                 {this._render()}
             </Fragment>
@@ -68,23 +87,3 @@ class FavoritesContent extends Component {
         return <PostsListFavorite pageAccountName={pageAccountName} />;
     }
 }
-
-export default connect(
-    (state, props) => {
-        const pageAccountName = props.params.accountName.toLowerCase();
-        const isOwner = state.user.getIn(['current', 'username']) === pageAccountName;
-
-        const { isLoading, isPageLoading, showList } = state.data.favorites;
-
-        return {
-            isOwner,
-            isLoading,
-            pageAccountName,
-            isPageLoading,
-            list: showList,
-        };
-    },
-    {
-        favoritesLoadNextPageAction,
-    }
-)(FavoritesContent);

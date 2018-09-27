@@ -34,7 +34,7 @@ storiesOf('Golos UI/Popover', module)
     .add('up', () => (
         <ButtonWrapper onClick={() => upPopover.open()}>
             Open
-            <Popover up={true} opened={true} ref={ref => (upPopover = ref)}>
+            <Popover position="top" opened={true} ref={ref => (upPopover = ref)}>
                 <Content>Up</Content>
             </Popover>
         </ButtonWrapper>
