@@ -31,8 +31,6 @@ export const Tag = styled.div`
             background: #789821;
         }
     `};
-    
-    
 `;
 
 Tag.propTypes = {

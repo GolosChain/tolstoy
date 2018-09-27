@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 
 import Icon from 'golos-ui/Icon';
-import {TagLink} from 'golos-ui/Tag';
+import { TagLink } from 'golos-ui/Tag';
 
 import PostHeader from 'src/app/containers/post/PostHeader';
 import MarkdownViewer from 'app/components/cards/MarkdownViewer';
@@ -91,7 +91,9 @@ class PostContent extends Component {
                 <PostHeader />
                 <Body>
                     <CategoryWrapper>
-                        <TagLink to={'/trending/' + category.origin} category>{category.tag}</TagLink>
+                        <TagLink to={'/trending/' + category.origin} category>
+                            {category.tag}
+                        </TagLink>
                         {isPromoted && <Icon name="best" width="34" height="37" />}
                     </CategoryWrapper>
                     <PostTitle>{title}</PostTitle>
