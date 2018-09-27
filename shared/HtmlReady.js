@@ -146,7 +146,7 @@ function traverse(node, state, depth = 0) {
 }
 
 function link(state, child) {
-    let url = child.getAttribute('href');
+    const url = child.getAttribute('href');
 
     if (url) {
         state.links.add(url);
