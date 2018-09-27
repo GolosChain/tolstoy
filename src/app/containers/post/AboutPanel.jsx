@@ -12,6 +12,9 @@ import Userpic from 'app/components/elements/Userpic';
 import Follow from 'src/app/components/common/Follow/Follow';
 import { aboutPanelSelector } from 'src/app/redux/selectors/post/aboutPanel';
 
+import { LIQUID_TICKER } from 'app/client_config';
+import user from 'app/redux/User';
+
 const Wrapper = styled.div`
     display: flex;
     padding: 20px;
@@ -128,7 +131,27 @@ const FollowButton = styled(Follow)`
     }
 `;
 
-@connect(aboutPanelSelector)
+@connect(
+    aboutPanelSelector,
+    dispatch => ({
+        showTransfer(account, url) {
+            dispatch(
+                user.actions.setTransferDefaults({
+                    flag: {
+                        type: `donate`,
+                        fMemo: () => JSON.stringify({ donate: { post: url } }),
+                    },
+                    to: account,
+                    asset: LIQUID_TICKER,
+                    transferType: 'Transfer to Account',
+                    disableMemo: false,
+                    disableTo: true,
+                })
+            );
+            dispatch(user.actions.showTransfer());
+        },
+    })
+)
 export default class AboutPanel extends Component {
     render() {
         const { name, account, about, created } = this.props;
@@ -161,7 +184,7 @@ export default class AboutPanel extends Component {
                     )}
                 </Cake>
                 <Buttons>
-                    <ButtonInPanel light>
+                    <ButtonInPanel light onClick={this.showTransferDialog}>
                         <Icon width="17" height="15" name="coins_plus" />
                         {tt('g.donate')}
                     </ButtonInPanel>
@@ -170,4 +193,9 @@ export default class AboutPanel extends Component {
             </Wrapper>
         );
     }
+
+    showTransferDialog = () => {
+        const { showTransfer, account, url } = this.props;
+        showTransfer(account, url);
+    };
 }
