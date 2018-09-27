@@ -260,7 +260,11 @@ export default class UserCardAbout extends PureComponent {
                 )}
                 {(website || about) && (
                     <CardContent>
-                        {website && <UserCardSite href={makeLeaveLink(website)}>{websiteLabel}</UserCardSite>}
+                        {website && (
+                            <UserCardSite href={makeLeaveLink(website)}>
+                                {websiteLabel}
+                            </UserCardSite>
+                        )}
                         {about && <UserCardBio>{about}</UserCardBio>}
                     </CardContent>
                 )}
@@ -310,5 +314,3 @@ export default class UserCardAbout extends PureComponent {
         );
     }
 }
-
-

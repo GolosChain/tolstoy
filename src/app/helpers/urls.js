@@ -28,7 +28,7 @@ export function makeLeaveLink(url) {
     if (checkIsWhitelistUrl(url)) {
         return url;
     } else {
-        return '/leave_page?' + url;
+        return '/leave_page?' + encodeURIComponent(url);
     }
 }
 
