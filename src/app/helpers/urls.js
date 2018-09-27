@@ -1,11 +1,10 @@
-import { LEAVE_PAGE_WHITELIST_LINKS, LEAVE_PAGE_WHITELIST_DOMAINS } from 'app/client_config';
+import { LEAVE_PAGE_WHITELIST_DOMAINS } from 'app/client_config';
 
 function checkIsWhitelistUrl(url) {
     try {
         const hostname = new URL(url).hostname;
 
         if (
-            LEAVE_PAGE_WHITELIST_LINKS.includes(url) ||
             LEAVE_PAGE_WHITELIST_DOMAINS.some(
                 domain => domain === hostname || hostname.endsWith('.' + domain)
             )
