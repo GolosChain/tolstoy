@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router';
@@ -70,6 +70,12 @@ const Divider = styled.div`
     }
 `;
 
+const CakeText = styled.div`
+    padding-top: 14px;
+`;
+
+const AboutText = styled.div``;
+
 const Cake = styled.div`
     display: flex;
     justify-content: center;
@@ -77,18 +83,20 @@ const Cake = styled.div`
     flex-direction: column;
     flex-grow: 2;
 
-    @media (max-width: 768px) {
-        display: none;
-    }
-`;
+    padding: 0 20px;
 
-const CakeText = styled.div`
-    padding-top: 14px;
-    color: #959595;
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
     letter-spacing: -0.26px;
     line-height: 24px;
+    ${CakeText}, ${AboutText} {
+        color: #959595;
+    }
+
+    @media (max-width: 768px) {
+        margin-top: 20px;
+        padding: 0;
+    }
 `;
 
 const Buttons = styled.div`
@@ -122,20 +130,6 @@ const FollowButton = styled(Follow)`
     @media (max-width: 768px) {
         width: 100%;
         margin-top: 20px;
-    }
-`;
-
-const AboutMobile = styled.p`
-    display: none;
-    margin: 20px 0 0 0;
-    color: #959595;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 16px;
-    letter-spacing: -0.26px;
-    line-height: 24px;
-
-    @media (max-width: 768px) {
-        display: block;
     }
 `;
 
@@ -173,13 +167,23 @@ export default class AboutPanel extends Component {
                     </Names>
                     <Divider />
                 </Avatar>
-                <AboutMobile>{about}</AboutMobile>
                 <Cake>
-                    <Icon width="36" height="34" name="cake" />
-                    <CakeText>
-                        {tt('on_golos_from')}
-                        <FormattedDate value={new Date(created)} month="long" year="numeric" />
-                    </CakeText>
+                    {about ? (
+                        <AboutText>{about}</AboutText>
+                    ) : (
+                        <Fragment>
+                            <Icon width="36" height="34" name="cake" />
+                            <CakeText>
+                                {tt('on_golos_from')}
+                                &nbsp;
+                                <FormattedDate
+                                    value={new Date(created)}
+                                    month="long"
+                                    year="numeric"
+                                />
+                            </CakeText>
+                        </Fragment>
+                    )}
                 </Cake>
                 <Buttons>
                     <ButtonInPanel light onClick={this.showTransferDialog}>
