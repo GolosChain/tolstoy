@@ -104,3 +104,25 @@ export const WIKI_URL = 'https://wiki.golos.io/';
 export const MARKDOWN_STYLING_GUIDE_URL = 'https://golos.io/ru--golos/@on0tole/osnovy-oformleniya-postov-na-golose-polnyi-kurs-po-rabote-s-markdown';
 
 export const MIN_VOICE_POWER = 3;
+
+export const LEAVE_PAGE_WHITELIST_DOMAINS = [
+    'golos.io',
+    'golos.blog',
+    'golostools.com',
+    'github.com',
+    'play.google.com',
+    't.me',
+    'facebook.com',
+    'vk.com',
+    'instagram.com',
+    'twitter.com',
+    'explorer.golos.io',
+    'kuna.com.ua',
+    'forklog.com',
+    'steepshot.io',
+    'goldvoice.club',
+    'oneplace.media',
+    'golos.today',
+    'cpeda.space',
+    'linkedin.com',
+];
