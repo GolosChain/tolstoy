@@ -10602,6 +10602,10 @@ style-loader@^0.23.0:
     loader-utils "^1.1.0"
     schema-utils "^0.4.5"
 
+styled-by@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/styled-by/-/styled-by-0.3.0.tgz#ae2feedebb4b2ee56ce3fb505d25daaa94eaed2a"
+
 styled-components@3.4.2:
   version "3.4.2"
   resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-3.4.2.tgz#8f518419932327e47fe9144824e3184b3e2da95d"
