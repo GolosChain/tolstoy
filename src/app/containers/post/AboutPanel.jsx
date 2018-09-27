@@ -73,9 +73,9 @@ const Cake = styled.div`
     align-items: center;
     flex-direction: column;
     flex-grow: 2;
-    
+
     padding: 0 20px;
-    
+
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
     letter-spacing: -0.26px;
@@ -149,7 +149,8 @@ export default class AboutPanel extends Component {
                         <Fragment>
                             <Icon width="36" height="34" name="cake" />
                             <CakeText>
-                                {tt('on_golos_from')}&nbsp;
+                                {tt('on_golos_from')}
+                                &nbsp;
                                 <FormattedDate
                                     value={new Date(created)}
                                     month="long"
