@@ -59,11 +59,17 @@ export const currentPostSelector = createDeepEqualSelector(
         return {
             created: post.get('created'),
             isFavorite: favorites.set.includes(author + '/' + permLink),
-            tags: JSON.parse(post.get('json_metadata')).tags.map(tag => detransliterate(tag)),
+            tags: JSON.parse(post.get('json_metadata')).tags.map(tag => ({
+                origin: tag,
+                tag: detransliterate(tag)
+            })),
             payout:
                 parsePayoutAmount(post.get('pending_payout_value')) +
                 parsePayoutAmount(post.get('total_payout_value')),
-            category: detransliterate(post.get('category')),
+            category: {
+                origin: post.get('category'),
+                tag: detransliterate(post.get('category'))
+            },
             title: post.get('title'),
             body: post.get('body'),
             jsonMetadata: post.get('json_metadata'),

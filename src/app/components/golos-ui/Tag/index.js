@@ -1,1 +1,1 @@
-export { default } from './Tag';
+export { default, Tag, TagLink } from './Tag';
