@@ -13,9 +13,10 @@ const CommentsWrapper = styled.div`
 @connect(commentsContainerSelector)
 export default class CommentsContainer extends Component {
     render() {
+        const { commentsCount } = this.props;
         return (
             <CommentsWrapper>
-                <CommentsHeader />
+                <CommentsHeader commentsCount={commentsCount} />
                 <CreateComment />
                 <CommentsList />
             </CommentsWrapper>
