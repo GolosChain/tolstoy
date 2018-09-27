@@ -11,6 +11,7 @@ import { USER_FOLLOW_DATA_LOAD } from 'src/app/redux/constants/followers';
 import { FAVORITES_LOAD } from 'src/app/redux/constants/favorites';
 import { currentPostSelector, authorSelector } from 'src/app/redux/selectors/post/commonPost';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
+import CommentsContainer from 'src/app/containers/post/CommentsContainer';
 
 const Wrapper = styled.div`
     width: 100%;
@@ -74,6 +75,7 @@ export default class PostContainer extends Component {
                     <ActivePanel />
                     <AboutPanel />
                     <SidePanel />
+                    <CommentsContainer />
                 </ContentWrapper>
             </Wrapper>
         );
