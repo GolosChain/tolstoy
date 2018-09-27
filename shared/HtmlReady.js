@@ -152,14 +152,7 @@ function link(state, child) {
         state.links.add(url);
 
         if (state.mutate) {
-            // If this link is not hash, relative, http or https - add https
-            if (!/^#|^\/(?!\/)|^(?:https?:)?\/\/|^\[?.*\]$/.test(url)) {
-                url = 'https://' + url;
-            }
-
-            if (/^(?:https?:)?\/\//.test(url)) {
-                child.setAttribute('href', makeLeaveLink(url));
-            }
+            child.setAttribute('href', makeLeaveLink(url));
         }
     }
 }

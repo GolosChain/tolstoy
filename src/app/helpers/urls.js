@@ -20,6 +20,11 @@ function checkIsWhitelistUrl(url) {
 }
 
 export function makeLeaveLink(url) {
+    // If this link is not hash, relative, http or https, or tag - add https
+    if (!/^#|^\/(?!\/)|^(?:https?:)?\/\/|^\[?.*\]$/.test(url)) {
+        url = 'https://' + url;
+    }
+
     if (checkIsWhitelistUrl(url)) {
         return url;
     } else {
