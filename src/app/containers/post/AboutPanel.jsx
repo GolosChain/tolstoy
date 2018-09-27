@@ -141,26 +141,24 @@ const AboutMobile = styled.p`
 
 @connect(
     aboutPanelSelector,
-    dispatch => {
-        return {
-            showTransfer(account, url) {
-                dispatch(
-                    user.actions.setTransferDefaults({
-                        flag: {
-                            type: `donate`,
-                            fMemo: () => JSON.stringify({ donate: { post: url } }),
-                        },
-                        to: account,
-                        asset: LIQUID_TICKER,
-                        transferType: 'Transfer to Account',
-                        disableMemo: false,
-                        disableTo: true,
-                    })
-                );
-                dispatch(user.actions.showTransfer());
-            },
-        };
-    }
+    dispatch => ({
+        showTransfer(account, url) {
+            dispatch(
+                user.actions.setTransferDefaults({
+                    flag: {
+                        type: `donate`,
+                        fMemo: () => JSON.stringify({ donate: { post: url } }),
+                    },
+                    to: account,
+                    asset: LIQUID_TICKER,
+                    transferType: 'Transfer to Account',
+                    disableMemo: false,
+                    disableTo: true,
+                })
+            );
+            dispatch(user.actions.showTransfer());
+        },
+    })
 )
 export default class AboutPanel extends Component {
     render() {
