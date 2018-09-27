@@ -70,6 +70,12 @@ const Divider = styled.div`
     }
 `;
 
+const CakeText = styled.div`
+    padding-top: 14px;
+`;
+
+const AboutText = styled.div``;
+
 const Cake = styled.div`
     display: flex;
     justify-content: center;
@@ -83,7 +89,7 @@ const Cake = styled.div`
     font-size: 16px;
     letter-spacing: -0.26px;
     line-height: 24px;
-    div {
+    ${CakeText}, ${AboutText} {
         color: #959595;
     }
 
@@ -91,10 +97,6 @@ const Cake = styled.div`
         margin-top: 20px;
         padding: 0;
     }
-`;
-
-const CakeText = styled.div`
-    padding-top: 14px;
 `;
 
 const Buttons = styled.div`
@@ -167,7 +169,7 @@ export default class AboutPanel extends Component {
                 </Avatar>
                 <Cake>
                     {about ? (
-                        <div>{about}</div>
+                        <AboutText>{about}</AboutText>
                     ) : (
                         <Fragment>
                             <Icon width="36" height="34" name="cake" />
