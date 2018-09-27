@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import is from 'styled-is';
+import { Link } from 'react-router';
 
-const Tag = styled.div`
+export const Tag = styled.div`
     display: table-cell;
     height: 28px;
     padding: 0 12px;
@@ -15,11 +16,20 @@ const Tag = styled.div`
     text-overflow: ellipsis;
     color: #799921;
     background-color: #f9f9f9;
-    cursor: default;
+
+    &:hover {
+        color: #799921;
+        background-color: #f9f9f9;
+    }
 
     ${is('category')`
         color: #fff;
         background: #789821;
+        
+        &:hover {
+            color: #fff;
+            background: #789821;
+        }
     `};
 `;
 
@@ -31,4 +41,5 @@ Tag.defaultProps = {
     category: false,
 };
 
+export const TagLink = Tag.withComponent(Link);
 export default Tag;

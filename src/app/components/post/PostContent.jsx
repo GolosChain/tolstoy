@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import { isNot } from 'styled-is';
 
-import Tag from 'golos-ui/Tag';
 import Icon from 'golos-ui/Icon';
+import { TagLink } from 'golos-ui/Tag';
 
 import PostHeader from 'src/app/containers/post/PostHeader';
 import MarkdownViewer from 'app/components/cards/MarkdownViewer';
@@ -69,12 +68,6 @@ const Tags = styled.div`
 const CategoryWrapper = styled.div`
     display: flex;
     justify-content: space-between;
-
-    svg {
-        ${isNot('isPromoted')`
-            display: none;
-        `};
-    }
 `;
 
 class PostContent extends Component {
@@ -97,9 +90,11 @@ class PostContent extends Component {
             <Wrapper className={className}>
                 <PostHeader />
                 <Body>
-                    <CategoryWrapper isPromoted={isPromoted}>
-                        <Tag category>{category}</Tag>
-                        <Icon name="best" width="34" height="37" />
+                    <CategoryWrapper>
+                        <TagLink to={'/trending/' + category.origin} category>
+                            {category.tag}
+                        </TagLink>
+                        {isPromoted && <Icon name="best" width="34" height="37" />}
                     </CategoryWrapper>
                     <PostTitle>{title}</PostTitle>
                     <PostBody>
@@ -116,9 +111,9 @@ class PostContent extends Component {
                 </Body>
                 <Tags>
                     {tags.map((tag, index) => (
-                        <Tag category={index === 0} key={index}>
-                            {tag}
-                        </Tag>
+                        <TagLink to={'/trending/' + tag.origin} category={index === 0} key={index}>
+                            {tag.tag}
+                        </TagLink>
                     ))}
                 </Tags>
             </Wrapper>
