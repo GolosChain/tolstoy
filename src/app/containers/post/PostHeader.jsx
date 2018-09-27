@@ -16,6 +16,7 @@ import {
     PopoverStyled,
 } from 'src/app/components/post/PopoverAdditionalStyles';
 import { postHeaderSelector } from 'src/app/redux/selectors/post/postHeader';
+import Button from 'src/app/components/golos-ui/Button';
 
 const Wrapper = styled.div`
     display: flex;
@@ -67,7 +68,7 @@ const AuthorName = styled(Link)`
     }
 `;
 
-const Follow = styled.div`
+const FollowRound = styled(Button)`
     width: 34px;
     height: 34px;
     display: flex;
@@ -75,26 +76,11 @@ const Follow = styled.div`
     align-items: center;
     border-radius: 50%;
     cursor: pointer;
-`;
-
-const Followed = styled(Follow)`
-    color: #393636;
-    background-color: transparent;
-    border: 1px solid #e1e1e1;
-
-    &:hover {
-        color: #2879ff;
-        background-color: transparent;
-        border: 1px solid rgba(40, 121, 255, 0.3);
-    }
-`;
-
-const NoFollowed = styled(Follow)`
-    color: #ffffff;
-    background-color: #2879ff;
-
-    &:hover {
-        background-color: #1d69e8;
+    
+    svg {
+        min-width: 12px;
+        min-height: 12px;
+        margin: 0;
     }
 `;
 
@@ -195,13 +181,13 @@ export default class PostHeader extends Component {
                 </UserInfoWrapper>
                 {!isMy &&
                     (isFollow ? (
-                        <Followed onClick={this._unfollow} data-tooltip={tt('g.unfollow')}>
+                        <FollowRound light onClick={this._unfollow} data-tooltip={tt('g.unfollow')}>
                             <Icon name="cross" width={12} height={12} />
-                        </Followed>
+                        </FollowRound>
                     ) : (
-                        <NoFollowed onClick={this._follow} data-tooltip={tt('g.follow')}>
+                        <FollowRound onClick={this._follow} data-tooltip={tt('g.follow')}>
                             <Icon name="check" width={14} height={10} />
-                        </NoFollowed>
+                        </FollowRound>
                     ))}
                 <IconWrapper
                     data-tooltip={
