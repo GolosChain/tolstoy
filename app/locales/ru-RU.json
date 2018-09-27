@@ -7,6 +7,10 @@
     "mobileBannerAlt": "Доступно в Google Play",
     "resources": "Ресурсы"
   },
+  "auth_protection": {
+    "need_auth": "Нет доступа, авторизуйтесь.",
+    "not_allowed": "Нет доступа."
+  },
   "category_selector_jsx": {
     "denied_to_publish_the_posts_with_tag": "Запрещено публиковать посты с тегом 'stihi-io'",
     "main_tag_hint": "Первый тег – основной. Пост будет опубликован в этой теме.",
@@ -583,8 +587,8 @@
         "favorites": "Избранное %(name)s | Golos.io Блоги",
         "messenger": "Сообщения | Golos.io Блоги",
         "replies": "Ответы %(name)s | Golos.io Блоги",
-        "wallet": "Кошелек %(name)s | Golos.io Блоги",
-        "settings": "Настройки %(name)s | Golos.io Blog"
+        "settings": "Настройки %(name)s | Golos.io Блоги",
+        "wallet": "Кошелек %(name)s | Golos.io Блоги"
       }
     }
   },

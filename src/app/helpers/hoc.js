@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import throttle from 'lodash/throttle';
 import capitalize from 'lodash/capitalize';
+import authProtect from './hoc/authProtection';
 
 let listenWrapper;
 let listenLazyWrapper;
@@ -105,3 +106,4 @@ function callHandlers(listeners, eventName, e) {
 
 export const listen = listenWrapper;
 export const listenLazy = listenLazyWrapper;
+export const authProtection = authProtect;

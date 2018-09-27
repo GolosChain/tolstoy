@@ -7,6 +7,10 @@
     "mobileBannerAlt": "Get it on Google Play",
     "resources": "Resources"
   },
+  "auth_protection": {
+    "need_auth": "Not allowed, please authorize.",
+    "not_allowed": "Not allowed."
+  },
   "category_selector_jsx": {
     "denied_to_publish_the_posts_with_tag": "It is denied to publish the posts with tag 'stihi-io'",
     "main_tag_hint": "First tag is main. Post will be posted in that category.",
