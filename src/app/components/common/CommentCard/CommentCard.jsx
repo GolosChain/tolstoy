@@ -146,7 +146,7 @@ const Root = styled.div`
 `;
 
 const Reply = styled.div`
-    padding: 0 18px 18px 18px;
+    padding: 0 18px 0 60px;
 `;
 
 const IconEditWrapper = styled.div`
@@ -204,8 +204,12 @@ const ButtonConfirm = styled.div`
     cursor: pointer;
 
     ${is('main')`
-        color: #2879ff;
+        color: #2879ff !important;
     `};
+
+    &:hover {
+        color: #393636;
+    }
 
     &:last-child {
         padding-right: 18px;
@@ -327,8 +331,8 @@ class CommentCard extends PureComponent {
                     <Fragment>
                         {this._renderBodyRe()}
                         {this._renderBodyText()}
-                        {this._renderFooter()}
                         {showReply ? this._renderReplyEditor() : null}
+                        {this._renderFooter()}
                     </Fragment>
                 ) : null}
             </Root>
@@ -436,9 +440,19 @@ class CommentCard extends PureComponent {
 
     _renderFooter() {
         const { data, myAccountName, allowInlineReply, content, dataToJS, isOwner } = this.props;
-        const { edit } = this.state;
+        const { showReply, edit } = this.state;
 
-        if (edit) {
+        if (showReply) {
+            return (
+                <FooterConfirm>
+                    <ButtonConfirm onClick={this._onCancelReplyClick}>Отмена</ButtonConfirm>
+                    <Splitter />
+                    <ButtonConfirm main onClick={this._onPostReplyClick}>
+                        Опубликовать
+                    </ButtonConfirm>
+                </FooterConfirm>
+            );
+        } else if (edit) {
             return (
                 <FooterConfirm>
                     <ButtonConfirm onClick={this._onCancelEditClick}>Отмена</ButtonConfirm>
@@ -481,7 +495,9 @@ class CommentCard extends PureComponent {
             <Reply>
                 <CommentFormLoader
                     reply
+                    hideFooter
                     params={dataToJS}
+                    forwardRef={this._onReplyRef}
                     onSuccess={this._onReplySuccess}
                     onCancel={this._onReplyCancel}
                 />
@@ -491,6 +507,10 @@ class CommentCard extends PureComponent {
 
     _onCommentRef = el => {
         this._comment = el;
+    };
+
+    _onReplyRef = el => {
+        this._reply = el;
     };
 
     _onTitleClick = e => {
@@ -581,6 +601,14 @@ class CommentCard extends PureComponent {
 
     _onCancelEditClick = () => {
         this._comment.cancel();
+    };
+
+    _onPostReplyClick = () => {
+        this._reply.post();
+    };
+
+    _onCancelReplyClick = () => {
+        this._reply.cancel();
     };
 }
 
