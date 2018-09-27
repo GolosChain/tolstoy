@@ -8,6 +8,9 @@ import {
 import { detransliterate, parsePayoutAmount } from 'app/utils/ParsersAndFormatters';
 import normalizeProfile from 'app/utils/NormalizeProfile';
 import { calcVotesStats } from 'app/utils/StateFunctions';
+import { Map } from 'immutable';
+
+const emptyMap = Map();
 
 const pathnameSelector = state => {
     return state.routing.locationBeforeTransitions.pathname;
@@ -39,7 +42,7 @@ const extractPinnedPostData = metadata => {
 
 export const postSelector = createDeepEqualSelector(
     [globalSelector('content'), postUrlFromPathnameSelector],
-    (content, url) => content.get(url)
+    (content, url) => content.get(url) || emptyMap
 );
 
 export const votesSummarySelector = createDeepEqualSelector(
@@ -87,7 +90,7 @@ export const authorSelector = createDeepEqualSelector(
     ],
     (accounts, followCount, post, content) => {
         const authorAccountName = post.author;
-        const authorData = accounts.get(authorAccountName);
+        const authorData = accounts.get(authorAccountName) || emptyMap;
         const jsonData = normalizeProfile({
             json_metadata: authorData.get('json_metadata'),
             name: authorAccountName,
