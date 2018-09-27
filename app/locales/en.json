@@ -7,6 +7,11 @@
     "mobileBannerAlt": "Get it on Google Play",
     "resources": "Resources"
   },
+  "active_panel_tooltip": {
+    "complain_about_post": "Complain about post",
+    "pin_post": "Pin post",
+    "promote_post": "Promote post"
+  },
   "auth_protection": {
     "need_auth": "Not allowed, please authorize.",
     "not_allowed": "Not allowed."
@@ -164,12 +169,6 @@
     "strikethrough": "Toggle strikethrough style",
     "unordered_list": "Make list"
   },
-  "on_golos_from": "On Golos from",
-  "active_panel_tooltip": {
-    "pin_post": "Pin post",
-    "promote_post": "Promote post",
-    "complain_about_post": "Complain about post"
-  },
   "enter_confirm_email_jsx": {
     "email_address": "Email Address",
     "email_address_cannot_be_changed_at_this_moment_sorry_for_inconvenience": "Email address cannot be changed at this moment, sorry for the inconvenience",
@@ -214,6 +213,7 @@
     "active": "Active key",
     "activity": "Activity",
     "add": "Add",
+    "add_to_favorites": "Add to favourite",
     "age": "age",
     "all_langs": "All languages",
     "amount": "Amount",
@@ -222,6 +222,7 @@
     "are_you_sure": "Are you sure?",
     "ask": "Ask",
     "author_rewards": "Author rewards",
+    "authors_posts": "author's posts",
     "auto": "auto",
     "auto_login_question_mark": "Auto login?",
     "back": "Back",
@@ -270,8 +271,6 @@
     "enter_username": "Enter your username",
     "expand": "Expand",
     "favorites": "Favorites",
-    "add_to_favorites": "Add to favourite",
-    "remove_from_favorites": "Remove from favourite",
     "feed": "Feed",
     "feeds": "Feeds",
     "filter": "Filter",
@@ -361,7 +360,6 @@
     "post_as": "Post as",
     "posting": "Posting key",
     "posts": "Posts",
-    "authors_posts": "author's posts",
     "powered_up_100": "Powered Up 100%%",
     "preview": "Preview",
     "previous": "Previous",
@@ -381,6 +379,7 @@
     "recover_your_account": "recover your account",
     "remember_voting_and_posting_key": "Remember voting & posting key",
     "remove": "Remove",
+    "remove_from_favorites": "Remove from favourite",
     "remove_vote": "Remove Vote",
     "replied_to": "replied to",
     "replies": "Replies",
@@ -568,6 +567,12 @@
   "messages_jsx": {
     "start_conversation": "Start conversation"
   },
+  "messenger": {
+    "placeholder": {
+      "search": "Search",
+      "send_text_area": "Write your message here..."
+    }
+  },
   "meta": {
     "title": {
       "common": {
@@ -702,6 +707,14 @@
         "one": "%(user)s voted for you as a delegate. 🔥"
       }
     }
+  },
+  "on_golos_from": "On Golos from",
+  "payout_info": {
+    "author": "Author's payout",
+    "beneficiary": "Beneficiary rewards",
+    "curator": "Curator's payout",
+    "payout": "Payout",
+    "potential_payout": "Potential payout"
   },
   "plurals": {
     "author_rewards_last_24_hours": "Author rewards last 24 hours",
@@ -1239,12 +1252,6 @@
       "one": "You have 1 vote remaining",
       "other": "You have %(count)s votes remaining",
       "zero": "You have no votes remaining"
-    }
-  },
-  "messenger": {
-    "placeholder": {
-      "search": "Search",
-      "send_text_area": "Write your message here..."
     }
   }
 }

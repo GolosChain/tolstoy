@@ -464,6 +464,12 @@
     "total_DEBT_TOKEN_SHORT_CURRENCY_SIGN": "Сума %(DEBT_TOKEN_SHORT)s",
     "trade_history": "Історія угод"
   },
+  "messenger": {
+    "placeholder": {
+      "search": "Пошук",
+      "send_text_area": "Напишіть Ваше повідомлення..."
+    }
+  },
   "mobilevalidation_js": {
     "be_longer": "be longer",
     "have_only_digits": "have only digits",
@@ -920,12 +926,6 @@
       "one": "1 голос",
       "other": "%(count)s голосів",
       "zero": "0 голосів"
-    }
-  },
-  "messenger": {
-    "placeholder": {
-      "search": "Пошук",
-      "send_text_area": "Напишіть Ваше повідомлення..."
     }
   }
 }
