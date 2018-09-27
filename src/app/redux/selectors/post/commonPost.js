@@ -72,6 +72,7 @@ export const currentPostSelector = createDeepEqualSelector(
             permLink,
             children: post.get('children'),
             link: `/@${author}/${permLink}`,
+            url: post.get('url'),
             myVote,
             promotedAmount: parsePayoutAmount(post.get('promoted')),
         };
