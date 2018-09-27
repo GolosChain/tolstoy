@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 import Avatar from 'src/app/components/common/Avatar';
+import Icon from 'golos-ui/Icon';
 
-import MessageBubble from './MessageBubble'
+import MessageBubble from './MessageBubble';
+import SendMessagePanel from './SendMessagePanel';
 
 const ChatWrapper= styled.div`
     display: flex;
@@ -21,6 +23,7 @@ const Header = styled.div`
 
 const Sender = styled.div`
     display: flex;
+    flex: 1;
     align-items: center;
 
     margin-left: 20px;
@@ -34,11 +37,28 @@ const Name = styled.div`
     color: #393636;
 `;
 
+const DotsWrapper = styled.div`
+    margin-left: 15px;
+    cursor: pointer;
+`;
+
+const Dots = styled(Icon)`
+    display: block;
+    width: 20px;
+    height: 20px;
+    color: #393636;
+    user-select: none;
+`;
+
 const Body = styled.div`
     display: flex;
+    flex: 1;
     flex-direction: column;
 
     padding: 15px;
+`;
+
+const Footer = styled.div`
 `;
 
 const Message = styled.div`
@@ -46,7 +66,7 @@ const Message = styled.div`
     justify-content: ${({self}) => self ? 'flex-end' : 'flex-start'};
 `;
 
-class Chat extends Component {
+export default class Chat extends Component {
 
     _renderMessages = (messages) => {
         return messages.map(message => {
@@ -59,6 +79,10 @@ class Chat extends Component {
                 </Message>
             );
         })
+    }
+
+    _onMenuClick = () => {
+
     }
 
     render() {
@@ -79,13 +103,17 @@ class Chat extends Component {
                             {senderName}
                         </Name>
                     </Sender>
+                    <DotsWrapper onClick={this._onMenuClick}>
+                        <Dots name="dots" />
+                    </DotsWrapper>
                 </Header>
                 <Body>
                     {this._renderMessages(messages)}
                 </Body>
+                <Footer>
+                    <SendMessagePanel />
+                </Footer>
             </ChatWrapper>
         );
     }
 }
-
-export default Chat;

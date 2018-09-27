@@ -1238,5 +1238,11 @@
       "other": "You have %(count)s votes remaining",
       "zero": "You have no votes remaining"
     }
+  },
+  "messenger": {
+    "placeholder": {
+      "search": "Search",
+      "send_text_area": "Write your message here..."
+    }
   }
 }

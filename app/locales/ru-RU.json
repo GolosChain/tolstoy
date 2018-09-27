@@ -1247,5 +1247,11 @@
       "other": "%(count)s голосов",
       "zero": "0 голосов"
     }
+  },
+  "messenger": {
+    "placeholder": {
+      "search": "Поиск",
+      "send_text_area": "Напишите сообщение..."
+    }
   }
 }

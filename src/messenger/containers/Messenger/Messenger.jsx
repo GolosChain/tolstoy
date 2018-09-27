@@ -6,6 +6,7 @@ import { authProtection } from 'src/app/helpers/hoc';
 import { Messenger, ChatListPanel }  from '../../components/Messenger';
 import Chat  from '../Chat';
 import ChatListContainer from '../ChatList';
+import LookupAccounts from '../LookupAccounts';
 import { dialogs, chatData } from '../../utils/_data';
 
 @authProtection()
@@ -19,8 +20,8 @@ export default class MessengerApp extends Component {
                     </title>
                 </Helmet>
                 <ChatListPanel>
-                    {/* search input */}
-                    <ChatListContainer
+                    <LookupAccounts />
+                    <ChatListContainer 
                         dialogs={dialogs}
                     />
                 </ChatListPanel>
