@@ -7,6 +7,10 @@
     "mobileBannerAlt": "Доступно в Google Play",
     "resources": "Ресурсы"
   },
+  "auth_protection": {
+    "need_auth": "Нет доступа, авторизуйтесь.",
+    "not_allowed": "Нет доступа."
+  },
   "category_selector_jsx": {
     "denied_to_publish_the_posts_with_tag": "Запрещено публиковать посты с тегом 'stihi-io'",
     "main_tag_hint": "Первый тег – основной. Пост будет опубликован в этой теме.",
@@ -583,8 +587,8 @@
         "favorites": "Избранное %(name)s | Golos.io Блоги",
         "messenger": "Сообщения | Golos.io Блоги",
         "replies": "Ответы %(name)s | Golos.io Блоги",
-        "wallet": "Кошелек %(name)s | Golos.io Блоги",
-        "settings": "Настройки %(name)s | Golos.io Blog"
+        "settings": "Настройки %(name)s | Golos.io Блоги",
+        "wallet": "Кошелек %(name)s | Golos.io Блоги"
       }
     }
   },
@@ -1056,6 +1060,7 @@
     "withdraw_funds_after_the_required_3_day_waiting_period": "Снять средства после необходимого 3-х дневного периода ожидания."
   },
   "user_profile": {
+    "change_cover": "Изменить фон",
     "explore_APP_NAME": "Исследовать %(APP_NAME)s",
     "follower_count": {
       "one": "1 подписчик",
@@ -1076,6 +1081,7 @@
       "zero": "0 постов"
     },
     "recent_replies_to_users_posts": "Недавние ответы к постам пользователя %(name)s",
+    "select_image": "Выбрать изображение",
     "this_is_users_reputations_score_it_is_based_on_history_of_votes": "Это количество очков репутации пользователя %(name)s.\n\nКоличество очков подсчитывается на основе истории полученных голосов и используется, чтобы скрыть некачественное содержимое.",
     "unknown_account": "Неизвестный аккаунт",
     "user_hasnt_followed_anything_yet": "Похоже, что %(name)s еще ни на кого не подписан! Если, %(name)s недавно подписался на новых пользователей, их персонализированный канал будет заполняться сразу после появления нового контента.",
@@ -1242,6 +1248,12 @@
       "one": "1 голос",
       "other": "%(count)s голосов",
       "zero": "0 голосов"
+    }
+  },
+  "messenger": {
+    "placeholder": {
+      "search": "Поиск",
+      "send_text_area": "Напишите сообщение..."
     }
   }
 }

@@ -18,7 +18,9 @@ import { settingsContentSelector } from 'src/app/redux/selectors/userProfile/set
 import { getSettingsOptions, setSettingsOptions } from 'src/app/redux/actions/settings';
 
 import { SettingsShow } from 'src/app/components/userProfile';
+import { authProtection } from 'src/app/helpers/hoc';
 
+@authProtection()
 @connect(
     settingsContentSelector,
     // mapDispatchToProps

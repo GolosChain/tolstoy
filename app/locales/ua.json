@@ -921,5 +921,11 @@
       "other": "%(count)s голосів",
       "zero": "0 голосів"
     }
+  },
+  "messenger": {
+    "placeholder": {
+      "search": "Пошук",
+      "send_text_area": "Напишіть Ваше повідомлення..."
+    }
   }
 }

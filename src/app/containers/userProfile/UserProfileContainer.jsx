@@ -181,9 +181,7 @@ class UserProfileContainer extends Component {
         return (
             <Fragment>
                 <Helmet>
-                    <title>
-                        {tt('meta.title.profile.default', { name: pageAccountName })}
-                    </title>
+                    <title>{tt('meta.title.profile.default', { name: pageAccountName })}</title>
                 </Helmet>
                 {this._render()}
             </Fragment>
@@ -242,6 +240,7 @@ class UserProfileContainer extends Component {
                     uploadImage={uploadImage}
                     updateAccount={updateAccount}
                     notify={notify}
+                    isSettingsPage={route === 'settings'}
                 />
                 <BigUserNavigation
                     accountName={currentAccount.get('name')}
@@ -256,7 +255,7 @@ class UserProfileContainer extends Component {
                             showLayout={!route || route === 'blog' || route === 'favorites'}
                         />
                         <Content center={route === 'settings'}>{this.props.content}</Content>
-                        {route === 'settings' ? null :
+                        {route === 'settings' ? null : (
                             <SidebarRight>
                                 <UserCardAbout
                                     account={currentAccount}
@@ -265,7 +264,7 @@ class UserProfileContainer extends Component {
                                 />
                                 {this.props.sidebarRight}
                             </SidebarRight>
-                        }
+                        )}
                     </Main>
                 </WrapperMain>
             </Fragment>
@@ -347,5 +346,5 @@ export default {
         },
     ],
 
-    component: UserProfileContainer
+    component: UserProfileContainer,
 };
