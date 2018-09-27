@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
+import by from 'styled-by';
 
 const AUTO_ALIGN_OFFSET = 150;
 
@@ -16,12 +17,10 @@ const DialogWrapper = styled.div`
     margin-top: 16px;
     transform: translateX(-50%);
 
-    ${({ align }) =>
-        align === 'left'
-            ? 'left: 0; transform: translateX(-3px);'
-            : align === 'right'
-                ? 'left: unset; right: 0; transform: translateX(3px);'
-                : null};
+    ${by('align', {
+        left: `left: 0; transform: translateX(-3px);`,
+        right: 'left: unset; right: 0; transform: translateX(3px);',
+    })};
 `;
 
 const Dialog = styled.div`
@@ -43,8 +42,10 @@ const Handle = styled.div`
     box-shadow: -3px -3px 3px 0px rgba(0, 0, 0, 0.015);
     transform: rotate(45deg);
 
-    ${({ align }) =>
-        align === 'left' ? 'left: 23px' : align === 'right' ? 'left: unset; right: 23px;' : null};
+    ${by('align', {
+        left: 'left: 23px',
+        right: 'left: unset; right: 23px;',
+    })};
 `;
 
 const Line = styled.div`
