@@ -101,7 +101,7 @@ class CommentForm extends React.Component {
         }
 
         if (this.props.forwardRef) {
-            this.props.forwardRef(this);
+            this.props.forwardRef.current = this;
         }
     }
 
@@ -109,7 +109,7 @@ class CommentForm extends React.Component {
         this._unmount = true;
 
         if (this.props.forwardRef) {
-            this.props.forwardRef(null);
+            this.props.forwardRef.current = null;
         }
     }
 

@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent, Fragment, createRef } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import styled from 'styled-components';
@@ -298,6 +298,9 @@ class CommentCard extends PureComponent {
         isCommentOpen: true,
     };
 
+    _commentRef = createRef();
+    _replyRef = createRef();
+
     componentWillReceiveProps(newProps) {
         if (this.props.data !== newProps.data) {
             this.setState({
@@ -423,7 +426,7 @@ class CommentCard extends PureComponent {
                         editMode
                         hideFooter
                         params={dataToJS}
-                        forwardRef={this._onCommentRef}
+                        forwardRef={this._commentRef}
                         onSuccess={this._onEditDone}
                         onCancel={this._onEditDone}
                     />
@@ -497,21 +500,13 @@ class CommentCard extends PureComponent {
                     reply
                     hideFooter
                     params={dataToJS}
-                    forwardRef={this._onReplyRef}
+                    forwardRef={this._replyRef}
                     onSuccess={this._onReplySuccess}
                     onCancel={this._onReplyCancel}
                 />
             </Reply>
         );
     }
-
-    _onCommentRef = el => {
-        this._comment = el;
-    };
-
-    _onReplyRef = el => {
-        this._reply = el;
-    };
 
     _onTitleClick = e => {
         const { dataToJS } = this.props;
@@ -596,19 +591,19 @@ class CommentCard extends PureComponent {
     };
 
     _onSaveEditClick = () => {
-        this._comment.post();
+        this._commentRef.current.post();
     };
 
     _onCancelEditClick = () => {
-        this._comment.cancel();
+        this._commentRef.current.cancel();
     };
 
     _onPostReplyClick = () => {
-        this._reply.post();
+        this._replyRef.current.post();
     };
 
     _onCancelReplyClick = () => {
-        this._reply.cancel();
+        this._replyRef.current.cancel();
     };
 }
 
