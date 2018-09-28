@@ -76,7 +76,7 @@ const FollowRound = styled(Button)`
     align-items: center;
     border-radius: 50%;
     cursor: pointer;
-    
+
     svg {
         min-width: 12px;
         min-height: 12px;
@@ -128,19 +128,19 @@ const UserpicStyled = styled(Userpic)`
 )
 export default class PostHeader extends Component {
     state = {
-        isPopoverOpen: false,
-    };
-
-    _onRef = ref => {
-        this.tooltip = ref;
+        showPopover: false,
     };
 
     _openPopover = () => {
-        this.tooltip.open();
+        this.setState({
+            showPopover: true,
+        });
     };
 
     _closePopover = () => {
-        this.tooltip.close();
+        this.setState({
+            showPopover: false,
+        });
     };
 
     _toggleFavorite = () => {
@@ -156,21 +156,17 @@ export default class PostHeader extends Component {
         this.props.updateFollow(this.props.username, this.props.author, null);
     };
 
-    togglePopoverOpen = () => {
-        this.setState({ isPopoverOpen: !this.state.isPopoverOpen });
-    };
-
     render() {
-        const { isPopoverOpen } = this.state;
+        const { showPopover } = this.state;
         const { isMy, created, isFavorite, author, isFollow, className } = this.props;
 
         return (
             <Wrapper className={className}>
                 <UserInfoWrapper>
                     <Avatar>
-                        <PopoverBackgroundShade show={isPopoverOpen} />
+                        <PopoverBackgroundShade show={showPopover} />
                         <UserpicStyled account={author} size={50} onClick={this._openPopover} />
-                        <PopoverStyled innerRef={this._onRef} onToggleOpen={this.togglePopoverOpen}>
+                        <PopoverStyled onClose={this._closePopover} show={showPopover}>
                             <PopoverBody close={this._closePopover} author={author} />
                         </PopoverStyled>
                     </Avatar>
