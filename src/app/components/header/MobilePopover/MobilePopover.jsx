@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import throttle from 'lodash/throttle';
 import styled from 'styled-components';
 
 const Root = styled.div`
@@ -43,24 +44,31 @@ const Arrow = styled.div`
 `;
 
 export default class MobilePopover extends PureComponent {
+    state = {
+        left: this._calcLeft(),
+    };
+
     componentDidMount() {
         window.addEventListener('mousedown', this._onAwayClick);
+        window.addEventListener('click', this._onAwayClick);
+        window.addEventListener('resize', this._onResizeLazy);
     }
 
     componentWillUnmount() {
         window.removeEventListener('mousedown', this._onAwayClick);
+        window.removeEventListener('click', this._onAwayClick);
+        window.removeEventListener('resize', this._onResizeLazy);
+        this._onResizeLazy.cancel();
     }
 
     render() {
-        const { target, children } = this.props;
-
-        const box = target.getBoundingClientRect();
-        const left = Math.round(box.left + box.width / 2);
+        const { children } = this.props;
+        const { left } = this.state;
 
         return (
             <Root innerRef={this._onRef}>
                 <Shadow />
-                <Arrow left={left} />
+                {left == null ? null : <Arrow left={left} />}
                 {children}
             </Root>
         );
@@ -71,8 +79,34 @@ export default class MobilePopover extends PureComponent {
     };
 
     _onAwayClick = e => {
-        if (this._root && !this._root.parentNode.contains(e.target)) {
+        const { target } = this.props;
+
+        if (this._root && !this._root.contains(e.target) && !target.contains(e.target)) {
             this.props.onClose();
         }
     };
+
+    _calcLeft() {
+        const { target } = this.props;
+
+        if (!target) {
+            return null;
+        }
+
+        const box = target.getBoundingClientRect();
+
+        if (box.width === 0) {
+            return null;
+        }
+
+        return Math.round(box.left + box.width / 2);
+    }
+
+    _onResize = () => {
+        this.setState({
+            left: this._calcLeft(),
+        });
+    };
+
+    _onResizeLazy = throttle(this._onResize, 50);
 }
