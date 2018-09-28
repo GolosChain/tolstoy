@@ -1,16 +1,18 @@
 import React, { PureComponent, Fragment } from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
+import is from 'styled-is';
 import throttle from 'lodash/throttle';
 
 const POPOVER_OFFSET = 25;
 
 const Root = styled.div`
     position: absolute;
-    border-radius: 8px;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
-    animation: from-down 0.15s;
+    width: 0;
+    height: 0;
     z-index: 10;
+
+    animation: from-down 0.15s;
 
     @keyframes from-down {
         from {
@@ -24,12 +26,23 @@ const Root = styled.div`
     }
 `;
 
+const Wrapper = styled.div`
+    position: absolute;
+    min-width: 100px;
+    width: max-content;
+    max-width: 90vw;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
+
+    ${is('center')`
+        transform: translateX(-50%);
+    `};
+`;
+
 const Pointer = styled.div`
     position: absolute;
     top: 0;
-    left: 25px;
-    margin-left: -8px;
-    margin-top: -7px;
+    margin: -7px -8px;
     width: 16px;
     height: 16px;
     transform: rotate(45deg);
@@ -77,12 +90,26 @@ export default class Popover extends PureComponent {
 
     _renderPopover() {
         const { content } = this.props;
-        const { top, left } = this.state;
+        const { top, left, align, pointerStyle } = this.state;
+
+        const wrapperStyle = {};
+
+        let center;
+
+        if (align === 'left') {
+            wrapperStyle.left = 0;
+        } else if (align === 'right') {
+            wrapperStyle.right = 0;
+        } else {
+            center = true;
+        }
 
         return (
-            <Root innerRef={this._onPopoverRef} style={{ top, left }}>
-                <Pointer />
-                <Content>{content()}</Content>
+            <Root style={{ top, left }}>
+                <Wrapper style={wrapperStyle} center={center} innerRef={this._onPopoverRef}>
+                    <Pointer style={pointerStyle} />
+                    <Content>{content()}</Content>
+                </Wrapper>
             </Root>
         );
     }
@@ -93,7 +120,7 @@ export default class Popover extends PureComponent {
             window.addEventListener('scroll', this._doRepositionLazy);
             window.addEventListener('resize', this._doRepositionLazy);
             window.addEventListener('mousedown', this._onAwayClick);
-            this._interval = setInterval(this._doReposition);
+            this._interval = setInterval(this._doReposition, 1000);
         }
     }
 
@@ -120,8 +147,15 @@ export default class Popover extends PureComponent {
     _onPopoverRef = el => {
         this._popover = el;
 
-        if (el && el.scrollIntoViewIfNeeded) {
-            el.scrollIntoViewIfNeeded();
+        if (el) {
+            // Force browser reflow
+            const unused = el.clientWidth;
+
+            this._doReposition();
+
+            if (el && el.scrollIntoViewIfNeeded) {
+                el.scrollIntoViewIfNeeded();
+            }
         }
     };
 
@@ -130,12 +164,90 @@ export default class Popover extends PureComponent {
             return;
         }
 
-        const pos = this._target.getBoundingClientRect();
+        const pointerStyle = {};
+
+        const target = this._target.getBoundingClientRect();
+
         const { scrollTop, scrollLeft } = document.scrollingElement || document.body;
 
+        const x = scrollLeft + target.left + target.width / 2;
+
+        const top = Math.round(scrollTop + target.top + target.height + 8);
+
+        if (this._popover) {
+            const box = this._popover.getBoundingClientRect();
+
+            const screenWidth = document.body.clientWidth;
+
+            if (this._forced === 'center' || box.width > screenWidth * 0.9) {
+                const pointerX = (x - 0.05 * screenWidth) / (screenWidth * 0.9);
+
+                const minX = (POPOVER_OFFSET * 0.5) / (screenWidth * 0.9);
+
+                const realX = Math.max(minX, Math.min(1 - minX, pointerX));
+
+                pointerStyle.left = `${realX * 100}%`;
+
+                this._forced = 'center';
+                this.setState({
+                    top,
+                    left: Math.floor(screenWidth / 2),
+                    align: 'center',
+                    pointerStyle,
+                });
+                return;
+            }
+
+            if (this._forced === 'left' || box.left < screenWidth * 0.05) {
+                pointerStyle.left = x - screenWidth * 0.05;
+
+                this._forced = 'left';
+                this.setState({
+                    top,
+                    left: screenWidth * 0.05,
+                    align: 'left',
+                    pointerStyle,
+                });
+                return;
+            }
+
+            if (this._forced === 'right' || box.right > screenWidth * 0.95) {
+                pointerStyle.right = screenWidth - x - screenWidth * 0.05;
+
+                this._forced = 'right';
+                this.setState({
+                    top,
+                    left: screenWidth * 0.95,
+                    align: 'right',
+                    pointerStyle,
+                });
+                return;
+            }
+        }
+
+        const xPart = x / document.body.clientWidth;
+
+        let left = Math.round(x);
+        let align;
+
+        if (xPart < 0.2) {
+            align = 'left';
+            left -= POPOVER_OFFSET;
+            pointerStyle.left = POPOVER_OFFSET;
+        } else if (xPart > 0.8) {
+            align = 'right';
+            left -= POPOVER_OFFSET;
+            pointerStyle.right = POPOVER_OFFSET;
+        } else {
+            align = 'center';
+            pointerStyle.left = '50%';
+        }
+
         this.setState({
-            top: Math.round(scrollTop + pos.top + pos.height + 8),
-            left: Math.round(scrollLeft + pos.left + pos.width / 2 - POPOVER_OFFSET),
+            top,
+            left,
+            align,
+            pointerStyle,
         });
     };
 
@@ -155,8 +267,14 @@ export default class Popover extends PureComponent {
 
         this._removeListeners();
 
+        this._forced = null;
+
         this.setState({
             isOpen: false,
+            top: null,
+            left: null,
+            align: null,
+            pointerStyle: null,
         });
     };
 
