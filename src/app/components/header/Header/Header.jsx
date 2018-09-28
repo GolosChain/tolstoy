@@ -252,6 +252,10 @@ const NotifCounter = styled.div`
     color: #757575;
 `;
 
+const IconWrapper = styled.div`
+    position: relative;
+`;
+
 const DotsWrapper = styled.div`
     padding: 10px;
     cursor: pointer;
@@ -379,16 +383,18 @@ export default class Header extends PureComponent {
                             </Buttons>
                         )}
                         {isMobile ? null : (
-                            <DotsWrapper innerRef={this._onDotsRef} onClick={this._onMenuClick}>
-                                <Dots name="dots" />
-                            </DotsWrapper>
+                            <IconWrapper>
+                                <DotsWrapper onClick={this._onMenuClick}>
+                                    <Dots name="dots" />
+                                </DotsWrapper>
+                                {isMenuOpen ? (
+                                    <Popover onClose={this._onMenuClose}>
+                                        <Menu onClose={this._onMenuClose} />
+                                    </Popover>
+                                ) : null}
+                            </IconWrapper>
                         )}
                     </Content>
-                    {isMenuOpen ? (
-                        <Popover target={this._dots} onClose={this._onMenuClose}>
-                            <Menu onClose={this._onMenuClose} />
-                        </Popover>
-                    ) : null}
                 </Fixed>
                 {isMobile ? null : <Filler />}
             </Root>
@@ -495,10 +501,6 @@ export default class Header extends PureComponent {
 
     _onAccountRef = el => {
         this._account = el;
-    };
-
-    _onDotsRef = el => {
-        this._dots = el;
     };
 
     _onAccountClick = () => {
