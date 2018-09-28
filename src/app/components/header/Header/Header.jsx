@@ -10,8 +10,8 @@ import Button from 'golos-ui/Button';
 import Userpic from 'app/components/elements/Userpic';
 import AccountMenuDesktopWrapper from '../AccountMenuDesktopWrapper';
 import MobilePopover from '../MobilePopover';
+import AdaptivePopover from '../AdaptivePopover';
 import AccountMenu from '../AccountMenu';
-import Popover from '../Popover';
 import Menu from '../Menu';
 import user from 'app/redux/User';
 
@@ -252,10 +252,6 @@ const NotifCounter = styled.div`
     color: #757575;
 `;
 
-const IconWrapper = styled.div`
-    position: relative;
-`;
-
 const DotsWrapper = styled.div`
     padding: 10px;
     cursor: pointer;
@@ -383,18 +379,20 @@ export default class Header extends PureComponent {
                             </Buttons>
                         )}
                         {isMobile ? null : (
-                            <IconWrapper>
-                                <DotsWrapper onClick={this._onMenuClick}>
-                                    <Dots name="dots" />
-                                </DotsWrapper>
-                                {isMenuOpen ? (
-                                    <Popover onClose={this._onMenuClose}>
-                                        <Menu onClose={this._onMenuClose} />
-                                    </Popover>
-                                ) : null}
-                            </IconWrapper>
+                            <DotsWrapper innerRef={this._onDotsRef} onClick={this._onMenuClick}>
+                                <Dots name="dots" />
+                            </DotsWrapper>
                         )}
                     </Content>
+                    {isMenuOpen ? (
+                        <AdaptivePopover
+                            isMobile={isMobile}
+                            target={this._dots}
+                            onClose={this._onMenuClose}
+                        >
+                            <Menu onClose={this._onMenuClose} />
+                        </AdaptivePopover>
+                    ) : null}
                 </Fixed>
                 {isMobile ? null : <Filler />}
             </Root>
@@ -501,6 +499,10 @@ export default class Header extends PureComponent {
 
     _onAccountRef = el => {
         this._account = el;
+    };
+
+    _onDotsRef = el => {
+        this._dots = el;
     };
 
     _onAccountClick = () => {
