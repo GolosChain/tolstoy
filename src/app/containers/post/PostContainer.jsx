@@ -11,6 +11,8 @@ import { USER_FOLLOW_DATA_LOAD } from 'src/app/redux/constants/followers';
 import { FAVORITES_LOAD } from 'src/app/redux/constants/favorites';
 import { currentPostSelector, authorSelector } from 'src/app/redux/selectors/post/commonPost';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
+import RegistrationPanel from 'src/app/containers/post/RegistrationPanel';
+import {currentUsernameSelector} from 'src/app/redux/selectors/common';
 
 const Wrapper = styled.div`
     width: 100%;
@@ -39,9 +41,11 @@ const Loader = styled(LoadingIndicator)`
     (state, props) => {
         const post = currentPostSelector(state, props);
         const author = authorSelector(state, props);
+        const username = currentUsernameSelector(state, props);
         return {
             account: author.account,
             postLoaded: !!post,
+            isUserAuth: !!username,
         };
     },
     {
@@ -64,7 +68,7 @@ export default class PostContainer extends Component {
     }
 
     render() {
-        const { postLoaded } = this.props;
+        const { postLoaded, isUserAuth } = this.props;
 
         if (!postLoaded) return <Loader type="circle" center size={40} />;
         return (
@@ -74,6 +78,7 @@ export default class PostContainer extends Component {
                     <ActivePanel />
                     <AboutPanel />
                     <SidePanel />
+                    {isUserAuth && <RegistrationPanel />}
                 </ContentWrapper>
             </Wrapper>
         );
