@@ -32,7 +32,7 @@ const Container = styled.div`
     })};
 
     ${({ position, transform }) =>
-        position === 'top' || (position === 'bottom' && `transform: ${transform}`)};
+        (position === 'top' || position === 'bottom') && `transform: ${transform}`};
 
     ${isNot('show')`
         height: 0;
@@ -68,7 +68,7 @@ const Decoration = styled.div`
     })};
 
     ${({ position, transform }) =>
-        position === 'top' || (position === 'bottom' && `transform: ${transform}`)};
+        (position === 'top' || position === 'bottom') && `transform: ${transform}`};
 `;
 
 const ContentWrapper = styled.div`
