@@ -25,9 +25,15 @@ const TYPES = {
     CANCEL: 'CANCEL',
 };
 
-const Container = styled.div`
-    max-width: 580px;
+const DialogFrameStyled = styled(DialogFrame)`
+    flex-basis: 580px;
+    
+    @media (max-width: 550px) {
+        flex-basis: 340px;
+    }
 `;
+
+const Container = styled.div``;
 
 const Content = styled.div`
     padding: 10px 30px 14px;
@@ -53,8 +59,8 @@ const SubHeaderLine = styled.div`
 const Columns = styled.div`
     display: flex;
     margin: 0 -10px;
-    
-    @media (max-width: 500px) {
+
+    @media (max-width: 550px) {
         display: block;
     }
 `;
@@ -191,7 +197,7 @@ class DelegateVestingDialog extends PureComponent {
         }
 
         return (
-            <DialogFrame
+            <DialogFrameStyled
                 title={'Делегировать Силу Голоса'}
                 titleSize={20}
                 icon="refresh"
@@ -234,7 +240,7 @@ class DelegateVestingDialog extends PureComponent {
                     )}
                 </Container>
                 {loader ? <SplashLoader /> : null}
-            </DialogFrame>
+            </DialogFrameStyled>
         );
     }
 

@@ -172,7 +172,6 @@ export default class UserCardAbout extends PureComponent {
                 pageAccountName: this.props.account.get('name'),
                 type: 'follower',
             },
-            autoWidth: true,
         });
     };
 
@@ -183,7 +182,6 @@ export default class UserCardAbout extends PureComponent {
                 pageAccountName: this.props.account.get('name'),
                 type: 'following',
             },
-            autoWidth: true,
         });
     };
 
