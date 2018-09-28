@@ -78,7 +78,7 @@ export default class SidePanel extends Component {
     state = {
         showPanel: true,
         fixedOnScreen: true,
-        activeShareMore: false,
+        showSharePopover: false,
     };
 
     componentDidMount() {
@@ -94,72 +94,16 @@ export default class SidePanel extends Component {
         this._resizeScreenLazy.cancel();
     }
 
-    render() {
-        const { votesSummary, isFavorite, myVote: voteType } = this.props;
-        const { showPanel, fixedOnScreen, activeShareMore } = this.state;
-        const { likes, firstLikes, dislikes, firstDislikes } = votesSummary;
-        return (
-            <Wrapper
-                innerRef={this._setWrapperRef}
-                showPanel={showPanel}
-                fixedOnScreen={fixedOnScreen}
-            >
-                <Action
-                    activeType={voteType.percent > 0 ? 'like' : ''}
-                    iconName="like"
-                    count={likes}
-                    onClick={this._like}
-                    dataTooltip={this.tooltipContent(firstLikes, likes > 10)}
-                />
-                <Action
-                    activeType={voteType.percent < 0 ? 'dislike' : ''}
-                    iconName="dislike"
-                    count={dislikes}
-                    onClick={this._dislike}
-                    dataTooltip={this.tooltipContent(firstDislikes, dislikes > 10)}
-                />
-                <ActionWrapper
-                    iconName="sharing_triangle"
-                    dataTooltip={
-                        activeShareMore ? undefined : tt('postfull_jsx.share_in_social_networks')
-                    }
-                    isOpen={activeShareMore}
-                    onClick={this._openSharePopover}
-                >
-                    <PopoverStyled
-                        innerRef={this._onShareRef}
-                        position="right"
-                        onToggleOpen={this.toggleShare}
-                    >
-                        <SharePopover />
-                    </PopoverStyled>
-                </ActionWrapper>
-                <Action
-                    iconName="repost-right"
-                    dataTooltip={tt('g.reblog')}
-                    onClick={this._reblog}
-                />
-                <Action
-                    iconName={isFavorite ? 'star_filled' : 'star'}
-                    onClick={this._toggleFavorite}
-                    dataTooltip={
-                        isFavorite ? tt('g.remove_from_favorites') : tt('g.add_to_favorites')
-                    }
-                />
-            </Wrapper>
-        );
-    }
-
-    _openSharePopover = () => {
-        this.shareRef.open();
+    openSharePopover = () => {
+        this.setState({
+            showSharePopover: true,
+        });
     };
 
-    _onShareRef = ref => {
-        this.shareRef = ref;
-    };
-
-    toggleShare = () => {
-        this.setState({ activeShareMore: !this.state.activeShareMore });
+    closeSharePopover = () => {
+        this.setState({
+            showSharePopover: false,
+        });
     };
 
     _setWrapperRef = ref => {
@@ -232,4 +176,60 @@ export default class SidePanel extends Component {
     tooltipContent = (users, isMore) => {
         return users.length ? users.join('<br>') + (isMore ? '<br>...' : '') : null;
     };
+
+    render() {
+        const { votesSummary, isFavorite, myVote: voteType } = this.props;
+        const { showPanel, fixedOnScreen, showSharePopover } = this.state;
+        const { likes, firstLikes, dislikes, firstDislikes } = votesSummary;
+        return (
+            <Wrapper
+                innerRef={this._setWrapperRef}
+                showPanel={showPanel}
+                fixedOnScreen={fixedOnScreen}
+            >
+                <Action
+                    activeType={voteType.percent > 0 ? 'like' : ''}
+                    iconName="like"
+                    count={likes}
+                    onClick={this._like}
+                    dataTooltip={this.tooltipContent(firstLikes, likes > 10)}
+                />
+                <Action
+                    activeType={voteType.percent < 0 ? 'dislike' : ''}
+                    iconName="dislike"
+                    count={dislikes}
+                    onClick={this._dislike}
+                    dataTooltip={this.tooltipContent(firstDislikes, dislikes > 10)}
+                />
+                <ActionWrapper
+                    iconName="sharing_triangle"
+                    dataTooltip={
+                        showSharePopover ? undefined : tt('postfull_jsx.share_in_social_networks')
+                    }
+                    isOpen={showSharePopover}
+                    onClick={this.openSharePopover}
+                >
+                    <PopoverStyled
+                        position="right"
+                        onClose={this.closeSharePopover}
+                        show={showSharePopover}
+                    >
+                        <SharePopover />
+                    </PopoverStyled>
+                </ActionWrapper>
+                <Action
+                    iconName="repost-right"
+                    dataTooltip={tt('g.reblog')}
+                    onClick={this._reblog}
+                />
+                <Action
+                    iconName={isFavorite ? 'star_filled' : 'star'}
+                    onClick={this._toggleFavorite}
+                    dataTooltip={
+                        isFavorite ? tt('g.remove_from_favorites') : tt('g.add_to_favorites')
+                    }
+                />
+            </Wrapper>
+        );
+    }
 }

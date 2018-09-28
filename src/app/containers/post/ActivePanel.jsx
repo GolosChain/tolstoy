@@ -188,12 +188,65 @@ ActionIcon.defaultProps = {
 )
 export default class ActivePanel extends Component {
     state = {
-        activeDotsMore: false,
-        activeShareMore: false,
+        showDotsPopover: false,
+        showSharePopover: false,
+    };
+
+    voteChange = async percent => {
+        const {
+            votesSummary: { myVote },
+            username,
+            permLink,
+            account,
+        } = this.props;
+        if (await confirmVote(myVote, percent)) {
+            this.props.onVote(username, account, permLink, percent);
+        }
+    };
+
+    promotePost = () => {
+        const { account, permLink } = this.props;
+        this.props.showPromotePost(account, permLink);
+    };
+
+    flagPost = () => {};
+
+    openSharePopover = () => {
+        this.setState({
+            showSharePopover: true,
+        });
+    };
+
+    closeSharePopover = () => {
+        this.setState({
+            showSharePopover: false,
+        });
+    };
+
+    openDotsPopover = () => {
+        this.setState({
+            showDotsPopover: true,
+        });
+    };
+
+    closeDotsPopover = () => {
+        this.setState({
+            showDotsPopover: false,
+        });
+    };
+
+    reblog = () => {
+        const { username, account, permLink } = this.props;
+        this.props.reblog(username, account, permLink);
+    };
+
+    togglePin = () => {
+        const { account, permLink, isPinned, togglePinAction } = this.props;
+        togglePinAction(account + '/' + permLink, !isPinned);
     };
 
     render() {
-        const { activeDotsMore, activeShareMore } = this.state;
+        const { showDotsPopover, showSharePopover } = this.state;
         const { data, username } = this.props;
         return (
             <Wrapper>
@@ -201,33 +254,33 @@ export default class ActivePanel extends Component {
                     data={data}
                     me={username}
                     whiteTheme={false}
-                    onChange={this._voteChange}
+                    onChange={this.voteChange}
                 />
                 <Divider />
                 <RepostSharingWrapper>
                     <Repost data-tooltip={tt('g.reblog')}>
-                        <Icon width="30" height="27" name="repost-right" onClick={this._reblog} />
+                        <Icon width="30" height="27" name="repost-right" onClick={this.reblog} />
                     </Repost>
                     <Divider />
                     <SharingTriangle
-                        isOpen={activeShareMore}
+                        isOpen={showSharePopover}
                         data-tooltip={
-                            activeShareMore
+                            showSharePopover
                                 ? undefined
                                 : tt('postfull_jsx.share_in_social_networks')
                         }
                     >
-                        <PopoverBackgroundShade show={activeShareMore} />
+                        <PopoverBackgroundShade show={showSharePopover} />
                         <Icon
                             width="26"
                             height="26"
                             name="sharing_triangle"
-                            onClick={this._openSharePopover}
+                            onClick={this.openSharePopover}
                         />
                         <PopoverStyled
-                            innerRef={this._onShareRef}
                             position="top"
-                            onToggleOpen={this.toggleShare}
+                            onClose={this.closeSharePopover}
+                            show={showSharePopover}
                         >
                             <SharePopover horizontal={true} />
                         </PopoverStyled>
@@ -235,30 +288,32 @@ export default class ActivePanel extends Component {
                 </RepostSharingWrapper>
                 <Divider />
                 <DotsMore
-                    isOpen={activeDotsMore}
-                    data-tooltip={activeDotsMore ? null : tt('g.next_3_strings_together.show_more')}
+                    isOpen={showDotsPopover}
+                    data-tooltip={
+                        showDotsPopover ? null : tt('g.next_3_strings_together.show_more')
+                    }
                 >
-                    <PopoverBackgroundShade show={activeDotsMore} />
+                    <PopoverBackgroundShade show={showDotsPopover} />
                     <Icon
                         width="32"
                         height="32"
                         name="dots-more_normal"
-                        onClick={this._openDotsPopover}
+                        onClick={this.openDotsPopover}
                     />
                     <PopoverStyled
-                        innerRef={this._onDotsRef}
                         position="top"
-                        onToggleOpen={this.toggleDots}
+                        onClose={this.closeDotsPopover}
+                        show={showDotsPopover}
                     >
                         <Actions>
-                            <ClosePopoverButton onClick={this._closeDotsPopover} showCross={false}>
+                            <ClosePopoverButton onClick={this.closeDotsPopover} showCross={false}>
                                 <Icon name="cross" width={16} height={16} />
                             </ClosePopoverButton>
-                            <Action onClick={this._togglePin}>
+                            <Action onClick={this.togglePin}>
                                 <ActionIcon name="pin" />
                                 <ActionText>{tt('active_panel_tooltip.pin_post')}</ActionText>
                             </Action>
-                            <Action onClick={this._promotePost}>
+                            <Action onClick={this.promotePost}>
                                 <ActionIcon name="brilliant" />
                                 <ActionText>{tt('active_panel_tooltip.promote_post')}</ActionText>
                             </Action>
@@ -279,69 +334,4 @@ export default class ActivePanel extends Component {
             </Wrapper>
         );
     }
-
-    _onShareRef = ref => {
-        this.shareRef = ref;
-    };
-
-    _onDotsRef = ref => {
-        this.dotsRef = ref;
-    };
-
-    _voteChange = async percent => {
-        const {
-            votesSummary: { myVote },
-            username,
-            permLink,
-            account,
-        } = this.props;
-        if (await confirmVote(myVote, percent)) {
-            this.props.onVote(username, account, permLink, percent);
-        }
-    };
-
-    _promotePost = () => {
-        const { account, permLink } = this.props;
-        this.props.showPromotePost(account, permLink);
-        this._closeDotsPopover();
-    };
-
-    _flagPost = () => {
-        this._closeDotsPopover();
-    };
-
-    _openSharePopover = () => {
-        this.shareRef.open();
-    };
-
-    _closeSharePopover = () => {
-        this.shareRef.close();
-    };
-
-    _openDotsPopover = () => {
-        this.dotsRef.open();
-    };
-
-    _closeDotsPopover = () => {
-        this.dotsRef.close();
-    };
-
-    _reblog = () => {
-        const { username, account, permLink } = this.props;
-        this.props.reblog(username, account, permLink);
-    };
-
-    _togglePin = () => {
-        const { account, permLink, isPinned, togglePinAction } = this.props;
-        togglePinAction(account + '/' + permLink, !isPinned);
-        this._closeDotsPopover();
-    };
-
-    toggleDots = () => {
-        this.setState({ activeDotsMore: !this.state.activeDotsMore });
-    };
-
-    toggleShare = () => {
-        this.setState({ activeShareMore: !this.state.activeShareMore });
-    };
 }

@@ -34,11 +34,11 @@ export const Tag = styled.div`
 `;
 
 Tag.propTypes = {
-    category: PropTypes.bool,
+    category: PropTypes.number,
 };
 
 Tag.defaultProps = {
-    category: false,
+    category: 0,
 };
 
 export const TagLink = Tag.withComponent(Link);

@@ -3,51 +3,38 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import throttle from 'lodash/throttle';
 import { isNot } from 'styled-is';
+import by from 'styled-by';
 
 const Container = styled.div`
-    max-width: calc(100vw - ${({ screenMargin }) => screenMargin * 3}px);
     position: absolute;
     z-index: 1;
     cursor: default;
 
-    ${({ margin, screenMargin, position }) => {
-        switch (position) {
-            case 'left':
-                return `
-                    top: 50%;
-                    transform: translate(-100%, -50%);
-                `;
-            case 'right':
-                return `
-                    top: 50%;
-                    transform: translate(100%, -50%);
-                `;
-            case 'top':
-                return `
-                    left: 50%;
-                    bottom: 100%;
-                    margin-bottom: 10px;
-                    transform: translateX(-50%);
-                    ${margin !== 0 &&
-                        `
-                        transform: translateX(calc(-50% - ${margin}px + ${screenMargin}px));
-                    `}
-                `;
-            default:
-                return `
-                    left: 50%;
-                    top: 100%;
-                    margin-top: 10px;
-                    transform: translateX(-50%);
-                    ${margin !== 0 &&
-                        `
-                         transform: translateX(calc(-50% - ${margin}px + ${screenMargin}px));
-                    `}
-                `;
-        }
-    }};
+    ${by('position', {
+        left: `
+            top: 50%;
+            transform: translate(-100%, -50%);
+        `,
+        right: `
+             top: 50%;
+             transform: translate(100%, -50%);
+        `,
+        top: `
+            left: 50%;
+            bottom: 100%;
+            margin-bottom: 10px;
+        `,
+        bottom: `
+            left: 50%;
+            top: 100%;
+            margin-top: 10px;
+        `,
+    })};
 
-    ${isNot('isOpen')`
+    ${({ position, transform }) =>
+        (position === 'top' || position === 'bottom') && `transform: ${transform}`};
+
+    ${isNot('show')`
         height: 0;
         padding: 0;
         overflow: hidden;
@@ -62,40 +49,26 @@ const Decoration = styled.div`
     background-color: #ffffff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
 
-    ${({ margin, screenMargin, position }) => {
-        switch (position) {
-            case 'left':
-                return `
-                    top: calc(50% - 7px);
-                    right: -14px;
-                `;
-            case 'right':
-                return `
-                    top: calc(50% - 7px);
-                    left: 0;
-                    
-                `;
-            case 'top':
-                return `
-                    bottom: -7px;
-                     left: 50%;
-                     ${margin !== 0 &&
-                         `
-                         transform: translateX(calc(-50% + ${margin}px - ${screenMargin}px)) rotate(45deg);
-                     `}
-                `;
-            default:
-                return `
-                    top: -7px;
-                    left: 50%;
-                    
-                    ${margin !== 0 &&
-                        `
-                         transform: translateX(calc(-50% + ${margin}px - ${screenMargin}px)) rotate(45deg);
-                    `}
-                `;
-        }
-    }};
+    ${by('position', {
+        left: `
+            top: calc(50% - 7px);
+            right: -14px;`,
+        right: `
+            top: calc(50% - 7px);
+            left: 0;
+        `,
+        top: `
+            bottom: -7px;
+            left: 50%;
+        `,
+        bottom: `
+            top: -7px;
+            left: 50%;
+        `,
+    })};
+
+    ${({ position, transform }) =>
+        (position === 'top' || position === 'bottom') && `transform: ${transform}`};
 `;
 
 const ContentWrapper = styled.div`
@@ -110,79 +83,43 @@ const Content = styled.div`
     position: relative;
 `;
 
-class Popover extends Component {
+export default class Popover extends Component {
     static propTypes = {
+        show: PropTypes.bool.isRequired,
+        onClose: PropTypes.func,
         screenMargin: PropTypes.number,
         position: PropTypes.oneOf(['left', 'right', 'top', 'bottom']),
-        handleToggleOpen: PropTypes.func,
-        opened: PropTypes.bool,
     };
 
     static defaultProps = {
         screenMargin: 20,
         position: 'bottom',
-        onToggleOpen: () => {},
-        opened: false,
+        onClose: () => {},
     };
 
     state = {
         margin: 0,
-        isOpen: this.props.opened,
     };
 
     componentDidMount() {
-        this._checkContainerBoundingClientRect();
-        window.addEventListener('resize', this._checkScreenSizeLazy);
-        window.addEventListener('click', this._checkClick, true);
+        this.checkContainerBoundingClientRect();
+        window.addEventListener('resize', this.checkScreenSizeLazy);
+        window.addEventListener('click', this.checkClick, true);
     }
 
     componentWillUnmount() {
-        window.removeEventListener('resize', this._checkScreenSizeLazy);
-        window.removeEventListener('click', this._checkClick, true);
-        this._checkScreenSizeLazy.cancel();
+        window.removeEventListener('resize', this.checkScreenSizeLazy);
+        window.removeEventListener('click', this.checkClick, true);
+        this.checkScreenSizeLazy.cancel();
     }
 
-    render() {
-        const { screenMargin, position, children, className } = this.props;
-        const { margin, isOpen } = this.state;
-        return (
-            <Container
-                className={className}
-                innerRef={ref => (this.container = ref)}
-                margin={margin}
-                screenMargin={screenMargin}
-                position={position}
-                isOpen={isOpen}
-            >
-                <Decoration margin={margin} screenMargin={screenMargin} position={position} />
-                <ContentWrapper>
-                    <Content>{children}</Content>
-                </ContentWrapper>
-            </Container>
-        );
-    }
-
-    open = () => {
-        if (!this.state.isOpen) {
-            this.setState({ isOpen: true });
-            this.props.onToggleOpen();
+    checkClick = e => {
+        if (this.props.show && !this.container.contains(e.target)) {
+            this.props.onClose();
         }
     };
 
-    close = () => {
-        if (this.state.isOpen) {
-            this.setState({ isOpen: false });
-            this.props.onToggleOpen();
-        }
-    };
-
-    _checkClick = e => {
-        if (this.state.isOpen && !this.container.contains(e.target)) {
-            this.close();
-        }
-    };
-
-    _checkContainerBoundingClientRect = () => {
+    checkContainerBoundingClientRect = () => {
         const { margin } = this.state;
         const { screenMargin } = this.props;
         const x = Math.floor(
@@ -193,9 +130,37 @@ class Popover extends Component {
         });
     };
 
-    _checkScreenSizeLazy = throttle(this._checkContainerBoundingClientRect, 200, {
+    checkScreenSizeLazy = throttle(this.checkContainerBoundingClientRect, 200, {
         leading: false,
     });
-}
 
-export default Popover;
+    render() {
+        const { show, screenMargin, position, children, className } = this.props;
+        const { margin } = this.state;
+        return (
+            <Container
+                className={className}
+                innerRef={ref => (this.container = ref)}
+                position={position}
+                show={show}
+                transform={
+                    margin !== 0
+                        ? `translateX(calc(-50% - ${margin}px + ${screenMargin}px));`
+                        : `translateX(-50%)`
+                }
+            >
+                <Decoration
+                    position={position}
+                    transform={
+                        margin !== 0
+                            ? `translateX(calc(-50% + ${margin}px - ${screenMargin}px)) rotate(45deg);`
+                            : undefined
+                    }
+                />
+                <ContentWrapper>
+                    <Content>{children}</Content>
+                </ContentWrapper>
+            </Container>
+        );
+    }
+}

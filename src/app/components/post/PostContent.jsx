@@ -91,7 +91,7 @@ class PostContent extends Component {
                 <PostHeader />
                 <Body>
                     <CategoryWrapper>
-                        <TagLink to={'/trending/' + category.origin} category>
+                        <TagLink to={'/trending/' + category.origin} category={1}>
                             {category.tag}
                         </TagLink>
                         {isPromoted && <Icon name="best" width="34" height="37" />}
@@ -111,7 +111,11 @@ class PostContent extends Component {
                 </Body>
                 <Tags>
                     {tags.map((tag, index) => (
-                        <TagLink to={'/trending/' + tag.origin} category={index === 0} key={index}>
+                        <TagLink
+                            to={'/trending/' + tag.origin}
+                            category={index === 0 ? 1 : 0}
+                            key={index}
+                        >
                             {tag.tag}
                         </TagLink>
                     ))}
