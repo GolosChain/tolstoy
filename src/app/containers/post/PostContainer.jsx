@@ -12,7 +12,7 @@ import { FAVORITES_LOAD } from 'src/app/redux/constants/favorites';
 import { currentPostSelector, authorSelector } from 'src/app/redux/selectors/post/commonPost';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import RegistrationPanel from 'src/app/containers/post/RegistrationPanel';
-import {currentUsernameSelector} from 'src/app/redux/selectors/common';
+import { currentUsernameSelector } from 'src/app/redux/selectors/common';
 
 const Wrapper = styled.div`
     width: 100%;
