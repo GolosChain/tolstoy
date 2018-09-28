@@ -23,17 +23,16 @@ const Container = styled.div`
             left: 50%;
             bottom: 100%;
             margin-bottom: 10px;
-            transform: translateX(-50%);
-            transform: ${by('transform')}
         `,
         bottom: `
             left: 50%;
             top: 100%;
             margin-top: 10px;
-            transform: translateX(-50%);
-            transform: ${by('transform')}
         `,
     })};
+
+    ${({ position, transform }) =>
+        position === 'top' || (position === 'bottom' && `transform: ${transform}`)};
 
     ${isNot('show')`
         height: 0;
@@ -61,14 +60,15 @@ const Decoration = styled.div`
         top: `
             bottom: -7px;
             left: 50%;
-            transform: ${by('transform')} 
         `,
         bottom: `
             top: -7px;
             left: 50%;
-            transform: ${by('transform')}
         `,
     })};
+
+    ${({ position, transform }) =>
+        position === 'top' || (position === 'bottom' && `transform: ${transform}`)};
 `;
 
 const ContentWrapper = styled.div`
@@ -146,7 +146,7 @@ export default class Popover extends Component {
                 transform={
                     margin !== 0
                         ? `translateX(calc(-50% - ${margin}px + ${screenMargin}px));`
-                        : undefined
+                        : `translateX(-50%)`
                 }
             >
                 <Decoration
