@@ -58,10 +58,12 @@ const Line = styled.div`
 const Label = styled.div`
     flex-grow: 1;
     margin-right: 38px;
+    line-height: 1.2em;
     color: #959595;
 `;
 
 const Money = styled.span`
+    white-space: nowrap;
     font-weight: bold;
 `;
 
