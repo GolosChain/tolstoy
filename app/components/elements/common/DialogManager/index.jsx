@@ -144,7 +144,10 @@ export default class DialogManager extends React.PureComponent {
                     DialogManager__window_active: i === this._dialogs.length - 1,
                 })}
             >
-                <div className="DialogManager__dialog">
+                <div
+                    className="DialogManager__dialog"
+                    style={dialog.options.autoWidth ? { maxWidth: 'unset' } : null}
+                >
                     <dialog.options.component
                         {...dialog.options.props}
                         dialogRoot={this._root}
