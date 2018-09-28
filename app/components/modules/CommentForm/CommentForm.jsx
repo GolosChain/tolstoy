@@ -4,17 +4,26 @@ import throttle from 'lodash/throttle';
 import { connect } from 'react-redux';
 import cn from 'classnames';
 import tt from 'counterpart';
+import styled from 'styled-components';
 import transaction from 'app/redux/Transaction';
 import { getTags } from 'shared/HtmlReady';
 import DialogManager from 'app/components/elements/common/DialogManager';
 import Icon from 'app/components/elements/Icon';
 import MarkdownEditor from 'app/components/elements/postEditor/MarkdownEditor/MarkdownEditor';
 import CommentFooter from 'app/components/elements/postEditor/CommentFooter';
+import PreviewButton from 'app/components/elements/postEditor/PreviewButton';
 import MarkdownViewer, { getRemarkable } from 'app/components/cards/MarkdownViewer';
 import { checkPostHtml } from 'app/utils/validator';
 import './CommentForm.scss';
 
 const DRAFT_KEY = 'golos.comment.draft';
+
+const PreviewButtonWrapper = styled.div`
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 2;
+`;
 
 class CommentForm extends React.Component {
     static propTypes = {
@@ -90,16 +99,24 @@ class CommentForm extends React.Component {
                 this.refs.editor.focus();
             }, 100);
         }
+
+        if (this.props.forwardRef) {
+            this.props.forwardRef.current = this;
+        }
     }
 
     componentWillUnmount() {
         this._unmount = true;
+
+        if (this.props.forwardRef) {
+            this.props.forwardRef.current = null;
+        }
     }
 
     render() {
-        const { editMode } = this.props;
+        const { editMode, hideFooter } = this.props;
 
-        const { text, emptyBody, postError, uploadingCount } = this.state;
+        const { text, emptyBody, postError, isPreview, uploadingCount } = this.state;
 
         const allowPost = uploadingCount === 0 && !emptyBody;
 
@@ -110,7 +127,23 @@ class CommentForm extends React.Component {
                 })}
             >
                 <div className="CommentForm__work-area">
-                    <div className="CommentForm__content">
+                    <PreviewButtonWrapper>
+                        <PreviewButton
+                            isStatic
+                            isPreview={isPreview}
+                            onPreviewChange={this._onPreviewChange}
+                        />
+                    </PreviewButtonWrapper>
+                    {isPreview ? (
+                        <div className="CommentForm__preview">
+                            <MarkdownViewer text={text} />
+                        </div>
+                    ) : null}
+                    <div
+                        className={cn('CommentForm__content', {
+                            CommentForm__content_hidden: isPreview,
+                        })}
+                    >
                         <MarkdownEditor
                             ref="editor"
                             autoFocus
@@ -122,23 +155,20 @@ class CommentForm extends React.Component {
                         />
                     </div>
                 </div>
-                <div className="CommentForm__footer">
-                    <div className="CommentForm__footer-content">
-                        <CommentFooter
-                            ref="footer"
-                            editMode={editMode}
-                            errorText={postError}
-                            postDisabled={!allowPost}
-                            onPostClick={this._postSafe}
-                            onCancelClick={this._onCancelClick}
-                        />
+                {hideFooter ? null : (
+                    <div className="CommentForm__footer">
+                        <div className="CommentForm__footer-content">
+                            <CommentFooter
+                                ref="footer"
+                                editMode={editMode}
+                                errorText={postError}
+                                postDisabled={!allowPost}
+                                onPostClick={this._postSafe}
+                                onCancelClick={this._onCancelClick}
+                            />
+                        </div>
                     </div>
-                </div>
-                {text ? (
-                    <div className="CommentForm__preview">
-                        <MarkdownViewer text={text} />
-                    </div>
-                ) : null}
+                )}
                 {uploadingCount > 0 ? (
                     <div className="CommentForm__spinner">
                         <Icon name="clock" size="4x" className="CommentForm__spinner-inner" />
@@ -146,6 +176,14 @@ class CommentForm extends React.Component {
                 ) : null}
             </div>
         );
+    }
+
+    post() {
+        this._postSafe();
+    }
+
+    cancel() {
+        this._onCancelClick();
     }
 
     _onTextChangeNotify = () => {
@@ -327,6 +365,21 @@ class CommentForm extends React.Component {
             });
         }
     }
+
+    _onPreviewChange = enable => {
+        if (enable) {
+            this._saveDraft();
+
+            this.setState({
+                isPreview: true,
+                text: this.refs.editor.getValue(),
+            });
+        } else {
+            this.setState({
+                isPreview: false,
+            });
+        }
+    };
 }
 
 export default connect(

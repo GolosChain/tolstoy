@@ -99,6 +99,11 @@
     z-index: 10;
     animation: fade-in 0.1s;
 
+    &_comment {
+      left: 0;
+      margin-top: 20px;
+    }
+
     @media (max-width: 890px) {
       left: 0;
       margin-top: 20px;
