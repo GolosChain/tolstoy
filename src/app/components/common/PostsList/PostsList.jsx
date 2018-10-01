@@ -125,7 +125,6 @@ export default class PostsList extends PureComponent {
 
         const isGrid = isPosts && (layout === 'grid' || forceGrid);
         const EntryComponent = isPosts ? PostCard : CommentCard;
-
         return (
             <Root innerRef={this._onRef} grid={isGrid}>
                 {posts.map(permLink => (
@@ -135,7 +134,7 @@ export default class PostsList extends PureComponent {
                             grid={isGrid}
                             allowInlineReply={allowInlineReply}
                             pageAccountName={pageAccountName}
-                            showPinButton={showPinButton}
+                            showPinButton={pageAccountName}
                             onClick={this._onEntryClick}
                         />
                     </EntryWrapper>

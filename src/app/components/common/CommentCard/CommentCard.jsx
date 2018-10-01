@@ -444,7 +444,6 @@ class CommentCard extends PureComponent {
     _renderFooter() {
         const { data, myAccountName, allowInlineReply, content, dataToJS, isOwner } = this.props;
         const { showReply, edit } = this.state;
-
         if (showReply) {
             return (
                 <FooterConfirm>
