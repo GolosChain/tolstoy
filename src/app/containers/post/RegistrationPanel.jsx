@@ -5,6 +5,7 @@ import tt from 'counterpart';
 
 import Button from 'golos-ui/Button';
 import Icon from 'golos-ui/Icon';
+import { REGISTRATION_URL } from 'app/client_config';
 
 const Wrapper = styled.div`
     display: flex;
@@ -107,7 +108,7 @@ export default class RegistrationPanel extends Component {
                 <Information>
                     <Title>{tt('g.sign_up_to_vote_for_post_or_write_comments')}</Title>
                     <Description>{tt('g.authors_receive_rewards_for_upvotes')}</Description>
-                    <RegButtonLink to="https://reg.golos.io/">
+                    <RegButtonLink to={REGISTRATION_URL}>
                         <RegistrationButton>{tt('g.sign_up_action')}</RegistrationButton>
                     </RegButtonLink>
                 </Information>

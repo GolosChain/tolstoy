@@ -53,6 +53,9 @@ export const SHARE_IMAGE = 'https://' + APP_DOMAIN + '/images/golos-share.png'
 export const TWITTER_SHARE_IMAGE = 'https://' + APP_DOMAIN + '/images/golos-twshare.png'
 export const SITE_DESCRIPTION = 'Голос - социальная сеть, построенная на публичном блокчейне. Вознаграждение пользователей осуществляется за счет дополнительной эмиссии токенов. При этом распределением токенов управляют текущие пользователи сети через голосование за лучший контент.'
 
+// registration
+export const REGISTRATION_URL = 'https://reg.golos.io/';
+
 // various
 export const SUPPORT_EMAIL = 'support@' + APP_DOMAIN
 // ignore special tags, dev-tags, partners tags

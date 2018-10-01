@@ -14,6 +14,7 @@ import AccountMenu from '../AccountMenu';
 import Popover from '../Popover';
 import Menu from '../Menu';
 import user from 'app/redux/User';
+import { REGISTRATION_URL } from 'app/client_config';
 
 const MIN_MOBILE_WIDTH = 500;
 
@@ -370,7 +371,7 @@ export default class Header extends PureComponent {
                             this._renderAuthorizedPart()
                         ) : (
                             <Buttons hidden={waitAuth}>
-                                <RegistrationLink to="https://reg.golos.io/">
+                                <RegistrationLink to={REGISTRATION_URL}>
                                     <Button>{tt('g.sign_up')}</Button>
                                 </RegistrationLink>
                                 <LoginLink to="/login" onClick={this._onLoginClick}>
