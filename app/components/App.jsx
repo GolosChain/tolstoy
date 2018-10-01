@@ -10,6 +10,8 @@ import CloseButton from 'react-foundation-components/lib/global/close-button'; /
 import user from 'app/redux/User';
 import { init as initAnchorHelper } from 'app/utils/anchorHelper';
 
+import { locationChanged } from 'src/app/redux/actions/ui';
+
 import defaultTheme from 'src/app/themes';
 import Header from 'src/app/components/header/Header';
 import Notifications from 'src/app/components/common/Notifications';
@@ -42,6 +44,8 @@ class App extends Component {
 
             window.INIT_TIMESSTAMP = Date.now();
         }
+
+        this.props.locationChanged(this.props.location);
     }
 
     componentDidMount() {
@@ -61,6 +65,14 @@ class App extends Component {
     componentDidUpdate(nextProps) {
         if (nextProps.location.pathname !== this.props.location.pathname) {
             this.setState({ showBanner: false, showCallout: false });
+        }
+    }
+
+    componentWillReceiveProps(props) {
+        const { location } = this.props;
+
+        if (location.key !== props.location.key || location.action !== props.location.action) {
+            this.props.locationChanged(props.location);
         }
     }
 
@@ -178,8 +190,8 @@ class App extends Component {
                     </div>
                     <Dialogs />
                     <Modals />
-                    <Notifications />
                     <DialogManager />
+                    <Notifications />
                     {process.env.BROWSER ? <TooltipManager /> : null}
                     <PageViewsCounter hidden />
                 </div>
@@ -190,10 +202,7 @@ class App extends Component {
 
 App.propTypes = {
     error: PropTypes.string,
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node
-    ]),
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
     location: PropTypes.object,
     loginUser: PropTypes.func.isRequired,
     logoutUser: PropTypes.func.isRequired,
@@ -209,8 +218,9 @@ export default connect(
             !state.offchain.get('account') &&
             state.offchain.get('new_visit'),
     }),
-    dispatch => ({
-        loginUser: () => dispatch(user.actions.usernamePasswordLogin()),
-        logoutUser: () => dispatch(user.actions.logout()),
-    })
+    {
+        loginUser: () => user.actions.usernamePasswordLogin(),
+        logoutUser: () => user.actions.logout(),
+        locationChanged,
+    }
 )(App);

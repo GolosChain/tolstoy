@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 import is from 'styled-is';
 import throttle from 'lodash/throttle';
+import { getScrollElement } from 'src/app/helpers/window';
 
 const POPOVER_OFFSET = 25;
 
@@ -168,7 +169,7 @@ export default class Popover extends PureComponent {
 
         const target = this._target.getBoundingClientRect();
 
-        const { scrollTop, scrollLeft } = document.scrollingElement || document.body;
+        const { scrollTop, scrollLeft } = getScrollElement();
 
         const x = scrollLeft + target.left + target.width / 2;
 

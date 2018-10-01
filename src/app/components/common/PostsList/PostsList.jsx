@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import is from 'styled-is';
 import throttle from 'lodash/throttle';
@@ -8,8 +9,9 @@ import PostCard from 'src/app/components/common/PostCard';
 import CommentCard from 'src/app/components/common/CommentCard';
 import { isFetchingOrRecentlyUpdated } from 'app/utils/StateFunctions';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
-import PostOverlay from '../PostOverlay';
-import keyCodes from 'app/utils/keyCodes';
+import { getScrollElement } from 'src/app/helpers/window';
+import { saveListScrollPosition } from 'src/app/redux/actions/ui';
+import { locationSelector } from 'src/app/redux/selectors/ui/location';
 
 const FORCE_GRID_WIDTH = 1200;
 
@@ -54,6 +56,15 @@ const EntryWrapper = styled.div`
     `};
 `;
 
+@connect(
+    state => ({
+        location: locationSelector(state),
+        listScrollPosition: state.ui.common.get('listScrollPosition'),
+    }),
+    {
+        saveListScrollPosition,
+    }
+)
 export default class PostsList extends PureComponent {
     static propTypes = {
         pageAccountName: PropTypes.string.isRequired,
@@ -71,14 +82,17 @@ export default class PostsList extends PureComponent {
 
     state = {
         forceGrid: false,
-        showPostPermLink: null,
     };
 
     componentDidMount() {
         window.addEventListener('scroll', this._onScroll);
         window.addEventListener('resize', this._onResizeLazy);
 
-        this._initialUrl = location.pathname + location.search + location.hash;
+        const { location, listScrollPosition } = this.props;
+
+        if (location.action === 'POP') {
+            getScrollElement().scrollTop = listScrollPosition;
+        }
 
         if (window.innerWidth < FORCE_GRID_WIDTH) {
             this.setState({
@@ -88,8 +102,6 @@ export default class PostsList extends PureComponent {
     }
 
     componentWillUnmount() {
-        window.removeEventListener('popstate', this._onPopState);
-        window.removeEventListener('keydown', this._onKeyDown);
         window.removeEventListener('scroll', this._onScroll);
         window.removeEventListener('resize', this._onResizeLazy);
         this._onResizeLazy.cancel();
@@ -129,7 +141,6 @@ export default class PostsList extends PureComponent {
                     </EntryWrapper>
                 ))}
                 {this._renderLoaderIfNeed()}
-                {this._renderPostOverlayInNeed()}
             </Root>
         );
     }
@@ -152,14 +163,6 @@ export default class PostsList extends PureComponent {
                     <LoadingIndicator type="circle" center size={40} />
                 </Loader>
             );
-        }
-    }
-
-    _renderPostOverlayInNeed() {
-        const { showPostPermLink } = this.state;
-
-        if (showPostPermLink) {
-            return <PostOverlay permLink={showPostPermLink} onClose={this._onOverlayClose} />;
         }
     }
 
@@ -196,6 +199,10 @@ export default class PostsList extends PureComponent {
         }
     };
 
+    _onEntryClick = () => {
+        this.props.saveListScrollPosition(getScrollElement().scrollTop);
+    };
+
     _onScroll = throttle(
         () => {
             const rect = this._root.getBoundingClientRect();
@@ -207,48 +214,6 @@ export default class PostsList extends PureComponent {
         100,
         { leading: false, trailing: true }
     );
-
-    _onEntryClick = async ({ permLink, url }) => {
-        window.removeEventListener('popstate', this._onPopState);
-        window.removeEventListener('keydown', this._onKeyDown);
-        window.addEventListener('popstate', this._onPopState);
-        window.addEventListener('keydown', this._onKeyDown);
-
-        window.history.pushState({}, '', url);
-
-        this.props.fetchState();
-
-        this.setState({
-            showPostPermLink: permLink,
-        });
-    };
-
-    _onPopState = () => {
-        this._closeOverlay();
-    };
-
-    _onKeyDown = e => {
-        if (e.which === keyCodes.ESCAPE) {
-            this._closeOverlay();
-        }
-    };
-
-    _onOverlayClose = () => {
-        this._closeOverlay();
-    };
-
-    _closeOverlay() {
-        if (this.state.showPostPermLink) {
-            window.removeEventListener('popstate', this._onPopState);
-            window.removeEventListener('keydown', this._onKeyDown);
-
-            this.setState({
-                showPostPermLink: null,
-            });
-
-            window.history.pushState({}, '', this._initialUrl);
-        }
-    }
 
     _onResizeLazy = throttle(() => {
         this.setState({
