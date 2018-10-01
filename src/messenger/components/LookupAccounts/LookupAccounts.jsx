@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import tt from 'counterpart';
 import Icon from 'golos-ui/Icon';
+
+import {
+    MIN_ACCOUNT_NAME_LENGTH,
+    MAX_ACCOUNT_NAME_LENGTH
+} from '../../utils/constants';
 
 const LookupAccountsWrapper = styled.div`
     display: flex;
@@ -37,12 +43,65 @@ SearchInpit.defaultProps = {
 }
 
 export default class LookupAccounts extends Component {
+
+    static propTypes = {
+        onChange: PropTypes.func.isRequired,
+        onClose: PropTypes.func.isRequired
+    }
+
+    state = {
+        inputValue: '',
+        hasValue: false
+    }
+
+    handleChange = e => {
+        let { hasValue } = this.state;
+        const value = e.target.value.trim();
+        
+        if (value.length >= MIN_ACCOUNT_NAME_LENGTH) {
+            hasValue = true;
+            this.props.onChange(value);
+        } else {
+            hasValue = false;
+            this.props.onClose();
+        }
+
+        this.setState({
+            inputValue: value,
+            hasValue
+        });
+    }
+
+    onCloseClick = () => {
+        this.setState({
+            inputValue: '',
+            hasValue: false
+        });
+
+        this.props.onClose();
+    }
+
     render() {
+        const {
+            inputValue,
+            hasValue
+        } = this.state;
+
         return (
             <LookupAccountsWrapper>
-                <SearchInpit placeholder={tt('messenger.placeholder.search')}/>
+                <SearchInpit
+                    placeholder={tt('messenger.placeholder.search')}
+                    onChange={this.handleChange}
+                    maxLength={MAX_ACCOUNT_NAME_LENGTH}
+                    value={inputValue}
+                />
                 <IconStyled>
-                    <Icon name="search" width="16" height="16" />
+                    {hasValue
+                        ? <Icon name="cross" width="16" height="16"
+                            onClick={this.onCloseClick}
+                          />
+                        : <Icon name="search" width="16" height="16" />
+                    }
                 </IconStyled>
             </LookupAccountsWrapper>
         );
