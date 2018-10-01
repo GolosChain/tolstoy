@@ -105,13 +105,8 @@ export default class RegistrationPanel extends Component {
         return (
             <Wrapper>
                 <Information>
-                    <Title>
-                        Зарегистрируйтесь, чтобы проголосовать за пост или написать комментарий
-                    </Title>
-                    <Description>
-                        Авторы получают вознаграждение, когда пользователи голосуют за их посты.
-                        Голосующие читатели также получают вознаграждение за свои голоса.
-                    </Description>
+                    <Title>{tt('g.sign_up_to_vote_for_post_or_write_comments')}</Title>
+                    <Description>{tt('g.authors_receive_rewards_for_upvotes')}</Description>
                     <RegButtonLink to="https://reg.golos.io/">
                         <RegistrationButton>{tt('g.sign_up_action')}</RegistrationButton>
                     </RegButtonLink>
