@@ -16,6 +16,10 @@ const Wrapper = styled.div`
     border-radius: 8px;
     background-color: #ffffff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+    }
 `;
 
 const Information = styled.div`
@@ -24,11 +28,22 @@ const Information = styled.div`
     flex-direction: column;
 
     padding: 20px;
+
+    @media (max-width: 768px) {
+        order: 2;
+    }
 `;
 
 const Rocket = styled.div`
     display: flex;
     justify-content: space-between;
+
+    @media (max-width: 768px) {
+        order: 1;
+        justify-content: center;
+
+        padding-top: 20px;
+    }
 `;
 
 const Title = styled.div`
@@ -65,6 +80,10 @@ const Divider = styled.div`
     height: 100%;
 
     background-color: #e1e1e1;
+
+    @media (max-width: 768px) {
+        display: none;
+    }
 `;
 
 const RocketHolder = styled.div`

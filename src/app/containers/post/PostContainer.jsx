@@ -78,7 +78,7 @@ export default class PostContainer extends Component {
                     <ActivePanel />
                     <AboutPanel />
                     <SidePanel />
-                    {isUserAuth && <RegistrationPanel />}
+                    {!isUserAuth && <RegistrationPanel />}
                 </ContentWrapper>
             </Wrapper>
         );
