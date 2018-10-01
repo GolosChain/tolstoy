@@ -19,18 +19,11 @@ import Follow from 'src/app/components/common/Follow';
 
 const Dialog = styled.div`
     position: relative;
-    min-width: 800px;
-    max-width: 100%;
+    flex-basis: 800px;
     color: #333;
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 0 19px 3px rgba(0, 0, 0, 0.2);
-
-    @media (max-width: 500px) {
-        min-width: unset;
-        max-width: unset;
-        width: 100%;
-    }
 `;
 
 const IconClose = styled(Icon).attrs({

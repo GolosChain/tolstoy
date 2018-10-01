@@ -1,5 +1,8 @@
 
 .CommonDialog {
+  @media (max-width: 500px) {
+    flex-basis: 100%;
+  }
 
   &__body {
     color: #666;

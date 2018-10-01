@@ -18,6 +18,14 @@ const CURRENCIES = {
     GOLOS: 'GOLOS',
 };
 
+const DialogFrameStyled = styled(DialogFrame)`
+    flex-basis: 616px;
+
+    @media (max-width: 640px) {
+        flex-basis: 340px;
+    }
+`;
+
 const Content = styled.div`
     padding: 5px 30px 14px;
 `;
@@ -32,15 +40,19 @@ const SubHeader = styled.div`
 const Body = styled.div`
     display: flex;
     margin: 0 -10px;
-    
-    @media (max-width: 500px) {
-        flex-direction: column;    
+
+    @media (max-width: 640px) {
+        flex-direction: column;
     }
 `;
 
 const Column = styled.div`
     width: 288px;
     padding: 0 10px;
+
+    @media (max-width: 640px) {
+        width: unset;
+    }
 `;
 
 const Section = styled.div`
@@ -70,9 +82,9 @@ const Note = styled.textarea`
     resize: none;
     font-size: 14px;
     box-shadow: none !important;
-    
-    @media (max-width: 500px) {
-        height: 60px;  
+
+    @media (max-width: 640px) {
+        height: 60px;
     }
 `;
 
@@ -155,7 +167,7 @@ class TransferDialog extends PureComponent {
         const allow = target && target.trim() && value > 0 && !error && !loader && !disabled;
 
         return (
-            <DialogFrame
+            <DialogFrameStyled
                 title={'Передать пользователю'}
                 titleSize={20}
                 icon="coins"
@@ -204,7 +216,9 @@ class TransferDialog extends PureComponent {
                         </Column>
                         <Column>
                             <Section>
-                                <Label><NoteIcon name="note" /> Заметка</Label>
+                                <Label>
+                                    <NoteIcon name="note" /> Заметка
+                                </Label>
                                 <Note
                                     placeholder={'Эта заметка является публичной'}
                                     value={note}
@@ -215,10 +229,8 @@ class TransferDialog extends PureComponent {
                     </Body>
                     <ErrorBlock>{error ? <ErrorLine>{error}</ErrorLine> : null}</ErrorBlock>
                 </Content>
-                {loader ? (
-                    <SplashLoader />
-                ) : null}
-            </DialogFrame>
+                {loader ? <SplashLoader /> : null}
+            </DialogFrameStyled>
         );
     }
 
@@ -305,15 +317,16 @@ class TransferDialog extends PureComponent {
                 if (err !== 'Canceled') {
                     DialogManager.alert(err.toString());
                 }
-
             } else {
                 this.setState({
                     loader: false,
                 });
 
-                DialogManager.info(`Перевод на аккаунт ${operation.to} успешно завершен!`).then(() => {
-                    this.props.onClose();
-                });
+                DialogManager.info(`Перевод на аккаунт ${operation.to} успешно завершен!`).then(
+                    () => {
+                        this.props.onClose();
+                    }
+                );
             }
         });
     };

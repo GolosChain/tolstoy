@@ -24,8 +24,11 @@ const CURRENCIES = {
     GOLOS: 'GOLOS',
 };
 
+const DialogFrameStyled = styled(DialogFrame)`
+    flex-basis: 348px;
+`;
+
 const Content = styled.div`
-    width: 348px;
     padding: 10px 30px 14px;
 `;
 
@@ -129,7 +132,7 @@ class SafeDialog extends PureComponent {
         const allow = targetCheck && value > 0 && !error && !loader && !disabled;
 
         return (
-            <DialogFrame
+            <DialogFrameStyled
                 title={'Сейф'}
                 titleSize={20}
                 icon="locked"
@@ -200,7 +203,7 @@ class SafeDialog extends PureComponent {
                     <ErrorBlock>{error ? <ErrorLine>{error}</ErrorLine> : null}</ErrorBlock>
                 </Content>
                 {loader ? <SplashLoader /> : null}
-            </DialogFrame>
+            </DialogFrameStyled>
         );
     }
 

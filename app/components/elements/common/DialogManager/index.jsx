@@ -144,27 +144,18 @@ export default class DialogManager extends React.PureComponent {
                     DialogManager__window_active: i === this._dialogs.length - 1,
                 })}
             >
-                <div
-                    className="DialogManager__dialog"
-                    style={dialog.options.autoWidth ? { maxWidth: 'unset' } : null}
-                >
-                    <dialog.options.component
-                        {...dialog.options.props}
-                        dialogRoot={this._root}
-                        onRef={el => (dialog.el = el)}
-                        onClose={data => this._onDialogClose(dialog, data)}
-                    />
-                </div>
+                <dialog.options.component
+                    {...dialog.options.props}
+                    dialogRoot={this._root}
+                    onRef={el => (dialog.el = el)}
+                    onClose={data => this._onDialogClose(dialog, data)}
+                />
             </div>
         ));
 
         return (
-            <div className="DialogManager" ref={this._onRef}>
-                <div
-                    className="DialogManager__shade"
-                    ref={this._onShadowRef}
-                    onClick={this._onShadeClick}
-                />
+            <div className="DialogManager" ref={this._onRef} onClick={this._onRootClick}>
+                <div className="DialogManager__shade" ref={this._onShadowRef} />
                 {dialogs}
             </div>
         );
@@ -234,8 +225,10 @@ export default class DialogManager extends React.PureComponent {
         }
     };
 
-    _onShadeClick = () => {
-        this._tryToClose();
+    _onRootClick = e => {
+        if (e.target === this._root) {
+            this._tryToClose();
+        }
     };
 
     _onDialogClose = (dialog, data) => {
