@@ -17,7 +17,7 @@ import Card, { CardContent } from 'golos-ui/Card';
 import { TabContainer, Tabs } from 'golos-ui/Tabs';
 
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
-import ActivityList from 'src/app/components/userProfile/activity/ActivityList';
+import ActivityList from 'src/app/components/common/ActivityList';
 
 const WrapperLoader = styled.div`
     display: flex;

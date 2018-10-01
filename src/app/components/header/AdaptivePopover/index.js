@@ -1,1 +1,1 @@
-export { default } from './AdaprivePopover';
+export { default } from './AdaptivePopover';

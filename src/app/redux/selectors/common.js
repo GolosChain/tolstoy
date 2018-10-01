@@ -10,10 +10,17 @@ const emptyMap = Map();
 export const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 // export const routerSelector = state => state.router;
+
+// old
 export const globalSelector = type => state =>
     state.global.getIn(Array.isArray(type) ? type : [type], emptyMap);
 export const userSelector = type => state =>
     state.user.getIn(Array.isArray(type) ? type : [type], emptyMap);
+export const appSelector = type => state =>
+    state.app.getIn(Array.isArray(type) ? type : [type], emptyMap);
+export const offchainSelector = type => state =>
+    state.offchain.getIn(Array.isArray(type) ? type : [type], emptyMap);
+// new and our future
 export const statusSelector = type => state => state.status[type];
 export const entitiesSelector = type => state => state.entities[type];
 export const dataSelector = type => state => path(Array.isArray(type) ? type : [type])(state.data);

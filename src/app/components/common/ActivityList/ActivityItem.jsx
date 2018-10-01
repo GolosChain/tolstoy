@@ -19,7 +19,7 @@ const Wrapper = styled.div`
     align-items: center;
 
     :not(:last-child) {
-        margin-bottom: 30px;
+        margin-bottom: 15px;
     }
 `;
 
@@ -51,8 +51,8 @@ const ActivityDate = styled.div`
 
 const ActivityText = styled.div`
     color: #959595;
-    font-family: ${({ theme }) => theme.fontFamily};
     font-size: 16px;
+    font-weight: 300;
 `;
 
 const LeftSide = styled.div`
