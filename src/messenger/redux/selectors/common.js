@@ -12,8 +12,5 @@ export const showResults = createSelector(
 
 export const getAccounts = createSelector(
     searchData,
-    data => {
-        const res = data.get('accounts', emptyMap);
-        return Object.values(res.toJS());
-    }
+    data => data.get('accounts', emptyMap)
 );

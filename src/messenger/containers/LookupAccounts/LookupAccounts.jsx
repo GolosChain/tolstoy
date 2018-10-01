@@ -18,16 +18,8 @@ import LookupAccounts from '../../components/LookupAccounts';
 )
 
 export default class LookupAccountsContainer extends Component {
-    render() {
-        return (
-            <LookupAccounts
-                onChange={this._handleSearchInput}
-                onClose={this._closeSearchResults}
-            />
-        );
-    }
 
-    _handleSearchInput = (query) => {
+    handleSearchInput = query => {
         const nameError = utils.validateAccountName(query);
 
         if (!nameError) {
@@ -35,7 +27,16 @@ export default class LookupAccountsContainer extends Component {
         }
     }
 
-    _closeSearchResults = () => {
+    closeSearchResults = () => {
         this.props.closeSearchResults();
+    }
+
+    render() {
+        return (
+            <LookupAccounts
+                onChange={this.handleSearchInput}
+                onClose={this.closeSearchResults}
+            />
+        );
     }
 }

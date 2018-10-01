@@ -1,4 +1,4 @@
-import { fromJS } from 'immutable';
+import { fromJS, Map } from 'immutable';
 
 import {
     CONTACTS_SEARCH_SUCCESS,
@@ -6,8 +6,8 @@ import {
     CONTACTS_SEARCH_HIDE_RESULTS
 } from 'src/messenger/redux/constants/contacts';
 
-const initialState = fromJS({
-    accounts: [],
+const initialState = Map({
+    accounts: Map(),
     showResults: false
 });
 

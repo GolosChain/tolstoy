@@ -54,33 +54,7 @@ export default class LookupAccounts extends Component {
         hasValue: false
     }
 
-    render() {
-        const {
-            inputValue,
-            hasValue
-        } = this.state;
-
-        return (
-            <LookupAccountsWrapper>
-                <SearchInpit
-                    placeholder={tt('messenger.placeholder.search')}
-                    onChange={this._handleChange}
-                    maxLength={MAX_ACCOUNT_NAME_LENGTH}
-                    value={inputValue}
-                />
-                <IconStyled>
-                    {hasValue
-                        ? <Icon name="cross" width="16" height="16"
-                            onClick={this._onCloseClick}
-                          />
-                        : <Icon name="search" width="16" height="16" />
-                    }
-                </IconStyled>
-            </LookupAccountsWrapper>
-        );
-    }
-
-    _handleChange = (e) => {
+    handleChange = e => {
         let { hasValue } = this.state;
         const value = e.target.value.trim();
         
@@ -98,12 +72,38 @@ export default class LookupAccounts extends Component {
         });
     }
 
-    _onCloseClick = () => {
+    onCloseClick = () => {
         this.setState({
             inputValue: '',
             hasValue: false
         });
 
         this.props.onClose();
+    }
+
+    render() {
+        const {
+            inputValue,
+            hasValue
+        } = this.state;
+
+        return (
+            <LookupAccountsWrapper>
+                <SearchInpit
+                    placeholder={tt('messenger.placeholder.search')}
+                    onChange={this.handleChange}
+                    maxLength={MAX_ACCOUNT_NAME_LENGTH}
+                    value={inputValue}
+                />
+                <IconStyled>
+                    {hasValue
+                        ? <Icon name="cross" width="16" height="16"
+                            onClick={this.onCloseClick}
+                          />
+                        : <Icon name="search" width="16" height="16" />
+                    }
+                </IconStyled>
+            </LookupAccountsWrapper>
+        );
     }
 }

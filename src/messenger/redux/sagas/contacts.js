@@ -21,21 +21,23 @@ export function* contactsSearch({
         query,
         limit
     );
+
+    if (!names.length) {
+        return;
+      }
     
     const result = {};
-    if (names.length) {
-        const accounts = yield call([api, api.getAccountsAsync], names);
-        if (accounts) {
-            accounts.forEach(acc => {
-                const { name, profile_image } = normalizeProfile(acc);
-                result[acc.name] = {
-                    name: acc.name,
-                    profileName: name,
-                    profileImage: profile_image,
-                    memoKey: acc.memo_key
-                };
-            });
-        }
+    const accounts = yield call([api, api.getAccountsAsync], names);
+    if (accounts) {
+        accounts.forEach(acc => {
+            const { name, profile_image } = normalizeProfile(acc);
+            result[acc.name] = {
+                name: acc.name,
+                profileName: name,
+                profileImage: profile_image,
+                memoKey: acc.memo_key
+            };
+        });
 
         yield put({
             type: CONTACTS_SEARCH_SUCCESS,
