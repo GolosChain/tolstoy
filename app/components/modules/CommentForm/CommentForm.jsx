@@ -33,6 +33,8 @@ class CommentForm extends React.Component {
         jsonMetadata: PropTypes.object,
         onSuccess: PropTypes.func,
         onCancel: PropTypes.func,
+        onChange: PropTypes.func,
+        autoFocus: PropTypes.bool,
     };
 
     constructor(props) {
@@ -114,7 +116,7 @@ class CommentForm extends React.Component {
     }
 
     render() {
-        const { editMode, hideFooter } = this.props;
+        const { editMode, hideFooter, autoFocus } = this.props;
 
         const { text, emptyBody, postError, isPreview, uploadingCount } = this.state;
 
@@ -146,7 +148,7 @@ class CommentForm extends React.Component {
                     >
                         <MarkdownEditor
                             ref="editor"
-                            autoFocus
+                            autoFocus={autoFocus}
                             commentMode
                             initialValue={text}
                             placeholder={tt('g.reply')}
@@ -187,6 +189,9 @@ class CommentForm extends React.Component {
     }
 
     _onTextChangeNotify = () => {
+        if (this.props.onChange) {
+            this.props.onChange(this.refs.editor.getValue());
+        }
         this._saveDraftLazy();
         this._checkBodyLazy();
     };
