@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
+
 import CommentsHeader from 'src/app/containers/post/CommentsHeader';
 import CreateComment from 'src/app/containers/post/CreateComment';
 import CommentsList from 'src/app/containers/post/CommentsList';
-import { connect } from 'react-redux';
 import { commentsContainerSelector } from 'src/app/redux/selectors/post/commentsContainerSelector';
 
 const CommentsWrapper = styled.div`
