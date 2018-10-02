@@ -3,10 +3,9 @@ import Purest from 'purest';
 import models from 'db/models';
 import findUser from 'db/utils/find_user';
 import {esc, escAttrs} from 'db/models';
-import request from 'request'
 import {getLogger} from '../../app/utils/Logger'
 import tt from 'counterpart';
-import { APP_DOMAIN, SUPPORT_EMAIL } from 'app/client_config'
+import { APP_DOMAIN, SUPPORT_EMAIL, REGISTRATION_URL } from 'app/client_config';
 
 const print = getLogger('oauth').print
 
@@ -194,7 +193,7 @@ function* handleFacebookCallback() {
     }
     this.flash = {success: tt('oauth.successfully_authenticated_with') + ' Facebook'};
     if (verified_email) {
-        this.redirect('/create_account');
+        this.redirect(REGISTRATION_URL);
     } else {
         this.redirect('/enter_email');
     }
@@ -451,7 +450,7 @@ function* handleVkCallback() {
     this.redirect('/')
 
     if (verified_email) {
-        this.redirect('/create_account');
+        this.redirect(REGISTRATION_URL);
     } else {
         this.redirect('/enter_email');
     }

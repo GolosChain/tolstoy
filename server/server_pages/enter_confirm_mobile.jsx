@@ -15,6 +15,7 @@ import config from "config";
 import tt from 'counterpart';
 import {metrics} from 'server/metrics';
 import {hash} from 'golos-js/lib/auth/ecc';
+import { REGISTRATION_URL } from 'app/client_config';
 
 // FIXME copy paste code, refactor mixpanel out
 // if (config.has("mixpanel") && config.get("mixpanel")) {
@@ -120,7 +121,7 @@ export default function useEnterAndConfirmMobilePages(app) {
             //     mixpanel.track("SignupStep3", {
             //         distinct_id: this.session.uid
             //     });
-            this.redirect("/create_account");
+            this.redirect(REGISTRATION_URL);
             return;
         }
         const phone = this.query.phone;
@@ -277,7 +278,7 @@ export default function useEnterAndConfirmMobilePages(app) {
                     //     mixpanel.track("SignupStep3", {
                     //         distinct_id: this.session.uid
                     //     });
-                    this.redirect("/create_account");
+                    this.redirect(REGISTRATION_URL);
                     return;
                 }
                 yield mid.update({ verified: false, phone: phoneHash});
