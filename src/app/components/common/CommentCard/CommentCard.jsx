@@ -326,9 +326,10 @@ class CommentCard extends PureComponent {
 
     render() {
         const { showReply, isCommentOpen } = this.state;
+        const { className } = this.props;
 
         return (
-            <Root commentopen={isCommentOpen ? 1 : 0}>
+            <Root commentopen={isCommentOpen ? 1 : 0} className={className}>
                 {this._renderHeader()}
                 {isCommentOpen ? (
                     <Fragment>
@@ -444,7 +445,6 @@ class CommentCard extends PureComponent {
     _renderFooter() {
         const { data, myAccountName, allowInlineReply, content, dataToJS, isOwner } = this.props;
         const { showReply, edit } = this.state;
-
         if (showReply) {
             return (
                 <FooterConfirm>
