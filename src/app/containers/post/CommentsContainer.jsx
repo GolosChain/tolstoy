@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import CommentsHeader from 'src/app/containers/post/CommentsHeader';
 import CreateComment from 'src/app/containers/post/CreateComment';
 import CommentsList from 'src/app/containers/post/CommentsList';
-import { commentsContainerSelector } from 'src/app/redux/selectors/post/commentsContainerSelector';
+import commentsContainerSelector from 'src/app/redux/selectors/post/commentsContainerSelector';
 
 const CommentsWrapper = styled.div`
     padding-top: 30px;

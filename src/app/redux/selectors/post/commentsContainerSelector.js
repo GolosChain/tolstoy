@@ -1,7 +1,7 @@
 import { createDeepEqualSelector, currentUsernameSelector } from 'src/app/redux/selectors/common';
 import { currentPostSelector, postSelector } from 'src/app/redux/selectors/post/commonPost';
 
-export const commentsContainerSelector = createDeepEqualSelector(
+export default createDeepEqualSelector(
     [currentPostSelector, postSelector, currentUsernameSelector],
     (post, data, username) => {
         return {
@@ -10,7 +10,7 @@ export const commentsContainerSelector = createDeepEqualSelector(
             commentPermLink: post.permLink,
             username: username,
             permLink: post.permlink,
-            data
+            data,
         };
     }
 );

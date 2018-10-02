@@ -72,7 +72,6 @@ export default class PostsList extends PureComponent {
         posts: PropTypes.instanceOf(immutable.List),
         layout: PropTypes.oneOf(['list', 'grid']),
         allowInlineReply: PropTypes.bool,
-        showPinButton: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -115,7 +114,6 @@ export default class PostsList extends PureComponent {
             layout,
             allowInlineReply,
             pageAccountName,
-            showPinButton,
             isFavorite,
         } = this.props;
 
@@ -134,7 +132,6 @@ export default class PostsList extends PureComponent {
                             grid={isGrid}
                             allowInlineReply={allowInlineReply}
                             pageAccountName={pageAccountName}
-                            showPinButton={pageAccountName}
                             onClick={this._onEntryClick}
                         />
                     </EntryWrapper>
