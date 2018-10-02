@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { Link } from 'react-router';
-import { List } from 'immutable';
-
+import styled from 'styled-components';
+import is from 'styled-is';
+import { List, Map } from 'immutable';
 import tt from 'counterpart';
 import Interpolate from 'react-interpolate-component';
+
 import normalizeProfile from 'app/utils/NormalizeProfile';
 import { DEBT_TOKEN_SHORT } from 'app/client_config';
 
+import Icon from 'golos-ui/Icon';
 import Avatar from 'src/app/components/common/Avatar';
 import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
-import Icon from 'golos-ui/Icon';
 
 const Wrapper = styled.div`
     display: flex;
@@ -53,6 +54,10 @@ const ActivityText = styled.div`
     color: #959595;
     font-size: 16px;
     font-weight: 300;
+
+    ${is('isCompact')`
+        color: #757575;
+    `};
 `;
 
 const LeftSide = styled.div`
@@ -115,6 +120,12 @@ const icons = {
 const emptyList = List();
 
 export default class ActivityItem extends Component {
+    static propTypes = {
+        accounts: PropTypes.instanceOf(Map),
+        notification: PropTypes.instanceOf(Map),
+        isCompact: PropTypes.bool
+    }
+
     getPropsForInterpolation() {
         const { notification } = this.props;
 
@@ -167,7 +178,7 @@ export default class ActivityItem extends Component {
     }
 
     render() {
-        const { notification } = this.props;
+        const { notification, isCompact } = this.props;
 
         let leftSide = null;
         let nameLink = null;
@@ -207,7 +218,7 @@ export default class ActivityItem extends Component {
                             <TimeAgoWrapper date={notification.get('createdAt')} />
                         </ActivityDate>
                     </ActivityTop>
-                    <ActivityText>
+                    <ActivityText isCompact={isCompact}>
                         <Interpolate with={this.getPropsForInterpolation()} component="div">
                             {tt(['notifications', 'activity', notification.get('eventType')], {
                                 count: 1,

@@ -7,6 +7,10 @@ import {
     NOTIFICATION_GET_HISTORY_FRESH,
     NOTIFICATION_GET_HISTORY_FRESH_SUCCESS,
     NOTIFICATION_GET_HISTORY_FRESH_ERROR,
+
+    NOTIFICATION_MARK_ALL_AS_VIEWED,
+    NOTIFICATION_MARK_ALL_AS_VIEWED_SUCCESS,
+    NOTIFICATION_MARK_ALL_AS_VIEWED_ERROR,
 } from 'src/app/redux/constants/notifications';
 import Schemas from 'src/app/redux/sagas/gate/api/schemas';
 import { hydrateNotifications } from 'src/app/redux/sagas/actions/notifications';
@@ -41,6 +45,22 @@ export function getNotificationsHistoryFreshCount({ user = null } = {}) {
                 NOTIFICATION_GET_HISTORY_FRESH,
                 NOTIFICATION_GET_HISTORY_FRESH_SUCCESS,
                 NOTIFICATION_GET_HISTORY_FRESH_ERROR,
+            ],
+            data: { user },
+        },
+        meta: { user },
+    };
+}
+
+export function notifyMarkAllAsViewed({ user = null } = {}) {
+    return {
+        type: GATE_SEND_MESSAGE,
+        payload: {
+            method: 'notify.markAllAsViewed',
+            types: [
+                NOTIFICATION_MARK_ALL_AS_VIEWED,
+                NOTIFICATION_MARK_ALL_AS_VIEWED_SUCCESS,
+                NOTIFICATION_MARK_ALL_AS_VIEWED_ERROR,
             ],
             data: { user },
         },

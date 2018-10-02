@@ -56,14 +56,14 @@ export default class ActivityList extends Component {
     }
 
     render() {
-        const { isFetching, notifications, accounts } = this.props;
+        const { isFetching, isCompact, notifications, accounts } = this.props;
 
         return (
             <Fragment>
                 {notifications.map(notification => (
                     <Fragment key={notification.get('_id')}>
                         {this.renderDate(notification)}
-                        <ActivityItem notification={notification} accounts={accounts} />
+                        <ActivityItem notification={notification} accounts={accounts} isCompact={isCompact} />
                     </Fragment>
                 ))}
                 {!isFetching && !notifications.size && <div>Пусто</div>}

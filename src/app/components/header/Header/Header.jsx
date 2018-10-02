@@ -13,6 +13,7 @@ import { statusSelector } from 'src/app/redux/selectors/common';
 import {
     getNotificationsHistoryFreshCount,
     getNotificationsHistory,
+    notifyMarkAllAsViewed,
 } from 'src/app/redux/actions/notifications';
 
 import Icon from 'golos-ui/Icon';
@@ -341,12 +342,14 @@ function calcXY(angle) {
         onLogin: () => user.actions.showLogin(),
         getNotificationsHistoryFreshCount,
         getNotificationsHistory,
+        notifyMarkAllAsViewed,
     }
 )
 export default class Header extends PureComponent {
     static propTypes = {
-        getNotificationsHistoryFreshCount: PropTypes.func,
-        getNotificationsHistory: PropTypes.func,
+        getNotificationsHistoryFreshCount: PropTypes.func.isRequired,
+        getNotificationsHistory: PropTypes.func.isRequired,
+        notifyMarkAllAsViewed: PropTypes.func.isRequired,
     };
 
     state = {
@@ -524,7 +527,7 @@ export default class Header extends PureComponent {
     }
 
     render() {
-        const { currentAccountName, getNotificationsHistory } = this.props;
+        const { currentAccountName, getNotificationsHistory, notifyMarkAllAsViewed } = this.props;
         const { isMobile, isMenuOpen, isNotificationsOpen, waitAuth } = this.state;
 
         return (
@@ -572,6 +575,8 @@ export default class Header extends PureComponent {
                             <NotificationsMenu
                                 params={{ accountName: currentAccountName }}
                                 getNotificationsHistory={getNotificationsHistory}
+                                notifyMarkAllAsViewed={notifyMarkAllAsViewed}
+                                onClose={this.onNotificationsMenuToggle}
                             />
                         </AdaptivePopover>
                     ) : null}
