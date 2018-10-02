@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import tt from 'counterpart';
 
 const CommentsHeaderWrapper = styled.div`
     display: flex;
@@ -53,10 +54,10 @@ export default class CommentsHeader extends Component {
         const { commentsCount } = this.props;
         return (
             <CommentsHeaderWrapper>
-                <CommentsCount>комментарии ({commentsCount})</CommentsCount>
+                <CommentsCount>{tt('g.comments')} ({commentsCount})</CommentsCount>
                 <SortComments>
-                    Сортировать по:
-                    <CommentCategory>Популярности</CommentCategory>
+                    {tt('post_jsx.sort_by')}:
+                    <CommentCategory>{tt('post_jsx.popularity')}</CommentCategory>
                 </SortComments>
             </CommentsHeaderWrapper>
         );
