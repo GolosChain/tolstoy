@@ -46,6 +46,10 @@ export const DialogFooter = styled.div`
 `;
 
 export const DialogButton = styled.button`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     position: relative;
     flex: 1;
 
@@ -55,6 +59,7 @@ export const DialogButton = styled.button`
     line-height: 1;
     letter-spacing: 1.4px;
     text-align: center;
+    text-transform: uppercase;
     color: #b7b7ba;
 
     border-radius: 0;
@@ -81,9 +86,9 @@ export const DialogButton = styled.button`
     }
 
     &:disabled,
-    &[disabled]{
-        color: rgba(0,0,0,0.3);
-        background: rgba(0,0,0,0.03);
+    &[disabled] {
+        color: rgba(0, 0, 0, 0.3);
+        background: rgba(0, 0, 0, 0.03);
         cursor: default;
     }
 

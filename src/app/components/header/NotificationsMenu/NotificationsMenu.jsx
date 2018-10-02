@@ -7,7 +7,6 @@ import { List, Map } from 'immutable';
 
 import { NOTIFICATIONS_FILTER_TYPES } from 'src/app/redux/constants/common';
 import { notificationsMenuSelector } from 'src/app/redux/selectors/header/activity';
-import { getNotificationsHistory } from 'src/app/redux/actions/notifications';
 
 import { DialogFooter, DialogButton } from 'golos-ui/Dialog';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
@@ -32,20 +31,17 @@ const WrapperLoader = styled.div`
 
 const DialogButtonLink = DialogButton.withComponent(Link);
 
-@connect(
-    notificationsMenuSelector,
-    {
-        getNotificationsHistory,
-    }
-)
+@connect(notificationsMenuSelector)
 export default class NotificationsMenu extends PureComponent {
     static propTypes = {
         params: PropTypes.shape({
-            accountName: PropTypes.string
+            accountName: PropTypes.string,
         }),
         isFetching: PropTypes.bool,
         notifications: PropTypes.instanceOf(List),
         accounts: PropTypes.instanceOf(Map),
+
+        getNotificationsHistory: PropTypes.func,
     };
 
     componentDidMount() {
@@ -57,7 +53,12 @@ export default class NotificationsMenu extends PureComponent {
     }
 
     render() {
-        const { isFetching, notifications, accounts, params: { accountName } } = this.props;
+        const {
+            isFetching,
+            notifications,
+            accounts,
+            params: { accountName },
+        } = this.props;
 
         return (
             <Wrapper>
@@ -76,8 +77,10 @@ export default class NotificationsMenu extends PureComponent {
                 </WrapperActivity>
                 {!isFetching && (
                     <DialogFooter>
-                        <DialogButtonLink primary to={`/@${accountName}/activity`}>Показать еще</DialogButtonLink>
-                    </DialogFooter> 
+                        <DialogButtonLink primary to={`/@${accountName}/activity`}>
+                            Показать еще
+                        </DialogButtonLink>
+                    </DialogFooter>
                 )}
             </Wrapper>
         );

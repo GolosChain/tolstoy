@@ -46,7 +46,7 @@ export default class IconBadge extends Component {
         return (
             <Wrapper>
                 <Icon {...props} />
-                <Badge>{count < 100 ? count : 99}</Badge>
+                {!!count && <Badge>{count < 100 ? count : 99}</Badge>}
             </Wrapper>
         );
     }

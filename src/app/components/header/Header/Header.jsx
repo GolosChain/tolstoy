@@ -1,4 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import styled from 'styled-components';
@@ -8,6 +9,11 @@ import tt from 'counterpart';
 
 import user from 'app/redux/User';
 import { REGISTRATION_URL } from 'app/client_config';
+import { statusSelector } from 'src/app/redux/selectors/common';
+import {
+    getNotificationsHistoryFreshCount,
+    getNotificationsHistory,
+} from 'src/app/redux/actions/notifications';
 
 import Icon from 'golos-ui/Icon';
 import IconBadge from 'golos-ui/IconBadge';
@@ -246,7 +252,7 @@ const Notifications = styled.div`
     `};
 
     &:hover {
-        color: #2879ff; 
+        color: #2879ff;
     }
 
     ${is('active')`
@@ -322,7 +328,10 @@ function calcXY(angle) {
                 state.global.getIn(['accounts', currentAccountName, 'voting_power']) / 100;
         }
 
+        const notificationsStatus = statusSelector('notifications')(state);
+
         return {
+            freshCount: notificationsStatus.get('freshCount'),
             currentAccountName,
             votingPower,
             offchainAccount: state.offchain.get('account'),
@@ -330,9 +339,16 @@ function calcXY(angle) {
     },
     {
         onLogin: () => user.actions.showLogin(),
+        getNotificationsHistoryFreshCount,
+        getNotificationsHistory,
     }
 )
 export default class Header extends PureComponent {
+    static propTypes = {
+        getNotificationsHistoryFreshCount: PropTypes.func,
+        getNotificationsHistory: PropTypes.func,
+    };
+
     state = {
         isAccountOpen: false,
         isMenuOpen: false,
@@ -349,6 +365,7 @@ export default class Header extends PureComponent {
 
     componentDidMount() {
         window.addEventListener('resize', this.onResizeLazy);
+        this.props.getNotificationsHistoryFreshCount();
 
         if (this.state.waitAuth) {
             this.timeoutId = setTimeout(() => {
@@ -451,6 +468,7 @@ export default class Header extends PureComponent {
     }
 
     renderNotificationsBlock() {
+        const { freshCount } = this.props;
         const { isMobile, isNotificationsOpen } = this.state;
 
         return (
@@ -461,7 +479,7 @@ export default class Header extends PureComponent {
                     onClick={this.onNotificationsMenuToggle}
                     active={isNotificationsOpen}
                 >
-                    <IconBadge name="bell" size={20} count={18} />
+                    <IconBadge name="bell" size={20} count={freshCount} />
                 </Notifications>
             </Fragment>
         );
@@ -506,7 +524,7 @@ export default class Header extends PureComponent {
     }
 
     render() {
-        const { currentAccountName } = this.props;
+        const { currentAccountName, getNotificationsHistory } = this.props;
         const { isMobile, isMenuOpen, isNotificationsOpen, waitAuth } = this.state;
 
         return (
@@ -551,7 +569,10 @@ export default class Header extends PureComponent {
                             target={this.noticationsRef.current}
                             onClose={this.onNotificationsMenuToggle}
                         >
-                            <NotificationsMenu params={{ accountName: currentAccountName }} />
+                            <NotificationsMenu
+                                params={{ accountName: currentAccountName }}
+                                getNotificationsHistory={getNotificationsHistory}
+                            />
                         </AdaptivePopover>
                     ) : null}
                     {isMenuOpen ? (
