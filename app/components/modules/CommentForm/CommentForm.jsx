@@ -14,6 +14,7 @@ import CommentFooter from 'app/components/elements/postEditor/CommentFooter';
 import PreviewButton from 'app/components/elements/postEditor/PreviewButton';
 import MarkdownViewer, { getRemarkable } from 'app/components/cards/MarkdownViewer';
 import { checkPostHtml } from 'app/utils/validator';
+import is from 'styled-is';
 import './CommentForm.scss';
 
 const DRAFT_KEY = 'golos.comment.draft';
@@ -23,6 +24,10 @@ const PreviewButtonWrapper = styled.div`
     right: 0;
     top: 0;
     z-index: 2;
+
+    ${is('emptyBody')`
+        display: none;
+    `};
 `;
 
 class CommentForm extends React.Component {
@@ -84,7 +89,7 @@ class CommentForm extends React.Component {
 
             state.text = draft.text;
             state.emptyBody = draft.text.trim().length === 0;
-
+            this.props.onChange(draft.text);
             return true;
         }
     }
@@ -129,7 +134,7 @@ class CommentForm extends React.Component {
                 })}
             >
                 <div className="CommentForm__work-area">
-                    <PreviewButtonWrapper>
+                    <PreviewButtonWrapper emptyBody={emptyBody}>
                         <PreviewButton
                             isStatic
                             isPreview={isPreview}
