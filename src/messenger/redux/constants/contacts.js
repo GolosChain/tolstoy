@@ -1,0 +1,4 @@
+export const CONTACTS_SEARCH = 'contacts/SEARCH';
+export const CONTACTS_SEARCH_SUCCESS = 'contacts/SEARCH_SUCCESS';
+export const CONTACTS_SEARCH_SHOW_RESULTS = 'contacts/SEARCH_SHOW_RESULTS';
+export const CONTACTS_SEARCH_HIDE_RESULTS = 'contacts/SEARCH_HIDE_RESULTS';

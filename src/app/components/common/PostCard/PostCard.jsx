@@ -266,6 +266,10 @@ class PostCard extends PureComponent {
         onClick: PropTypes.func,
     };
 
+    static defaultProps = {
+        onClick: () => {},
+    };
+
     state = {
         myVote: this._getMyVote(this.props),
     };
@@ -306,8 +310,6 @@ class PostCard extends PureComponent {
 
         const p = extractContent(immutableAccessor, data);
         const withImage = Boolean(p.image_link);
-
-        this._url = p.link;
 
         if (withImage) {
             p.desc = p.desc.replace(p.image_link, '');
@@ -478,13 +480,7 @@ class PostCard extends PureComponent {
     }
 
     _onClick = e => {
-        if (this.props.onClick) {
-            e.preventDefault();
-            this.props.onClick({
-                permLink: this.props.permLink,
-                url: this._url,
-            });
-        }
+        this.props.onClick(e);
     };
 
     _onVoteChange = async percent => {

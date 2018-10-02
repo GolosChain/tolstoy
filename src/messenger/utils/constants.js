@@ -1,0 +1,2 @@
+export const MIN_ACCOUNT_NAME_LENGTH = 3;
+export const MAX_ACCOUNT_NAME_LENGTH = 16;

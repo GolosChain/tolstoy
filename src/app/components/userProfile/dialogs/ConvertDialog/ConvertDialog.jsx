@@ -44,9 +44,11 @@ const TYPES_SUCCESS_TEXT = {
     GBG: 'Операция запущена!',
 };
 
-const Container = styled.div`
-    max-width: 580px;
+const DialogFrameStyled = styled(DialogFrame)`
+    flex-basis: 580px;
 `;
+
+const Container = styled.div``;
 
 const Content = styled.div`
     padding: 10px 30px 14px;
@@ -182,7 +184,7 @@ class ConvertDialog extends PureComponent {
         }
 
         return (
-            <DialogFrame
+            <DialogFrameStyled
                 title={'Конвертировать'}
                 titleSize={20}
                 icon="refresh"
@@ -247,7 +249,7 @@ class ConvertDialog extends PureComponent {
                     </Content>
                 </Container>
                 {loader ? <SplashLoader /> : null}
-            </DialogFrame>
+            </DialogFrameStyled>
         );
     }
 
@@ -344,7 +346,8 @@ class ConvertDialog extends PureComponent {
                             Силу Голоса нельзя перевести другим пользователям, но можно делегировать{' '}
                             <Hint data-hint="Делегирование — передача части своей Силы Голоса под управление другому аккаунту. Делегирование можно отменить в любой момент.">
                                 (?)
-                            </Hint>. Количество Силы Голоса растет при хранении.
+                            </Hint>
+                            . Количество Силы Голоса растет при хранении.
                         </SubHeaderLine>
                     </Fragment>
                 );

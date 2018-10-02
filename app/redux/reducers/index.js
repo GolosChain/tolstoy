@@ -15,6 +15,7 @@ import status from 'src/app/redux/reducers/status';
 import entities from 'src/app/redux/reducers/entities';
 import ui from 'src/app/redux/reducers/ui';
 import data from 'src/app/redux/reducers/data';
+import messenger from 'src/messenger/redux/reducers';
 
 export function initReducer(reducer, type) {
     return (state, action) => {
@@ -62,4 +63,6 @@ export default combineReducers({
     entities: initReducer(entities),
     ui: initReducer(ui),
     data,
+    
+    messenger: initReducer(messenger)
 });

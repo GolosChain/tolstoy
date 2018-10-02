@@ -1,3 +1,4 @@
+import { getScrollElement } from 'src/app/helpers/window';
 
 export function init() {
     window.addEventListener('hashchange', () => {
@@ -32,7 +33,7 @@ function tryMoveToAnchor() {
             const delta = Math.round(120 + window.innerHeight / 6 - bound.top);
 
             if (delta > 0) {
-                document.scrollingElement.scrollTop -= delta;
+                getScrollElement().scrollTop -= delta;
             }
         }
     }

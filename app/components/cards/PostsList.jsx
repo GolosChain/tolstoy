@@ -11,6 +11,7 @@ import { findParent } from 'app/utils/DomUtils';
 import Icon from 'app/components/elements/Icon';
 import KEYS from 'app/utils/keyCodes';
 import { dataSelector } from 'src/app/redux/selectors/common';
+import { getScrollElement } from 'src/app/helpers/window';
 
 function topPosition(domElt) {
     if (!domElt) {
@@ -145,12 +146,12 @@ export default class PostsList extends PureComponent {
     scrollListener = throttle(
         () => {
             const el = window.document.getElementById('posts_list');
-            if (!el) return;
-            const scrollTop =
-                window.pageYOffset !== undefined
-                    ? window.pageYOffset
-                    : (document.documentElement || document.body.parentNode || document.body)
-                          .scrollTop;
+
+            if (!el) {
+                return;
+            }
+
+            const scrollTop = getScrollElement().scrollTop;
 
             if (topPosition(el) + el.offsetHeight - scrollTop - window.innerHeight < 10) {
                 const { loadMore, posts, category } = this.props;

@@ -68,20 +68,19 @@ const Message = styled.div`
 
 export default class Chat extends Component {
 
-    _renderMessages = (messages) => {
-        return messages.map(message => {
-            return (
+    renderMessages = messages => {
+        return messages.map(message => (
                 <Message
                     key={message.time}
                     self={message.sender === 'self'}
                 >
                     <MessageBubble {...message}/>
                 </Message>
-            );
-        })
+            )
+        );
     }
 
-    _onMenuClick = () => {
+    onMenuClick = () => {
 
     }
 
@@ -91,6 +90,7 @@ export default class Chat extends Component {
             senderName,
             messages
         } = this.props;
+        
         return (
             <ChatWrapper>
                 <Header>
@@ -103,12 +103,12 @@ export default class Chat extends Component {
                             {senderName}
                         </Name>
                     </Sender>
-                    <DotsWrapper onClick={this._onMenuClick}>
+                    <DotsWrapper onClick={this.onMenuClick}>
                         <Dots name="dots" />
                     </DotsWrapper>
                 </Header>
                 <Body>
-                    {this._renderMessages(messages)}
+                    {this.renderMessages(messages)}
                 </Body>
                 <Footer>
                     <SendMessagePanel />

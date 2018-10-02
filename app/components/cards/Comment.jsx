@@ -16,6 +16,7 @@ import Voting from 'app/components/elements/Voting';
 import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
 import Userpic from 'app/components/elements/Userpic';
 import IllegalContentMessage from 'app/components/elements/IllegalContentMessage';
+import { getScrollElement } from 'src/app/helpers/window';
 
 class CommentImpl extends PureComponent {
     static propTypes = {
@@ -89,7 +90,7 @@ class CommentImpl extends PureComponent {
 
             if (comment_el) {
                 comment_el.scrollIntoView(true);
-                document.body.scrollTop -= 200;
+                getScrollElement().scrollTop -= 200;
                 this.setState({ highlight: true });
             }
         }
