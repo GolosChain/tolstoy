@@ -113,7 +113,7 @@ class PostContent extends Component {
             <Wrapper className={className}>
                 {backUrl ? (
                     <BackLink to={backUrl} onClick={this.onBackClick}>
-                        <BackIcon name="transfer" />
+                        <BackIcon name="arrow_left" />
                     </BackLink>
                 ) : null}
                 <PostHeader />
