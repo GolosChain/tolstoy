@@ -326,9 +326,10 @@ class CommentCard extends PureComponent {
 
     render() {
         const { showReply, isCommentOpen } = this.state;
+        const { className } = this.props;
 
         return (
-            <Root commentopen={isCommentOpen ? 1 : 0}>
+            <Root commentopen={isCommentOpen ? 1 : 0} className={className}>
                 {this._renderHeader()}
                 {isCommentOpen ? (
                     <Fragment>

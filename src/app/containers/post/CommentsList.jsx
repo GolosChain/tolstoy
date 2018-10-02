@@ -1,9 +1,24 @@
 import React, { Component } from 'react';
 import { api } from 'golos-js';
-import { DEFAULT_VOTE_LIMIT } from 'app/client_config';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+
 import CommentCard from 'src/app/components/common/CommentCard/CommentCard';
+import { DEFAULT_VOTE_LIMIT } from 'app/client_config';
+
+const CommentsListWrapper = styled.div``;
+
+const CommentCardStyled = styled(CommentCard)`
+    margin-top: 20px;
+`;
 
 export default class CommentsList extends Component {
+    static propTypes = {
+        commentAuthor: PropTypes.string.isRequired,
+        commentPermLink: PropTypes.string.isRequired,
+        username: PropTypes.string.isRequired,
+    };
+
     state = {
         commentsArr: [],
     };
@@ -18,18 +33,19 @@ export default class CommentsList extends Component {
         const { commentsArr } = this.state;
         const { username } = this.props;
         return (
-            <div>
+            <CommentsListWrapper>
                 {commentsArr.map((comment, index) => (
-                    <CommentCard
+                    <CommentCardStyled
                         key={index}
                         permLink={`${comment.author}/${comment.permlink}`}
-                        allowInlineReply={true}
+                        allowInlineReply={comment.author !== username}
                         pageAccountName={comment.author}
                     />
                 ))}
-            </div>
+            </CommentsListWrapper>
         );
     }
+
     receivePostComments = async () => {
         const { commentAuthor, commentPermLink } = this.props;
         return await api.getAllContentRepliesAsync(
