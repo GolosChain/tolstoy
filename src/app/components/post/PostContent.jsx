@@ -27,12 +27,15 @@ const BackLink = styled(Link)`
     position: absolute;
     top: 0;
     left: 0;
+    border-radius: 8px 0 25px 0;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
 `;
 
 const BackIcon = styled(Icon)`
+    display: block;
     width: 50px;
     height: 50px;
-    padding: 15px 10px 10px 15px;
+    padding: 13px;
 `;
 
 const Body = styled.div`
