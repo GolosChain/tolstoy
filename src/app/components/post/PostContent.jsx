@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { Link, browserHistory } from 'react-router';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { createSelector } from 'reselect';
 
 import Icon from 'golos-ui/Icon';
 import { TagLink } from 'golos-ui/Tag';
@@ -10,6 +12,7 @@ import MarkdownViewer from 'app/components/cards/MarkdownViewer';
 import { currentPostSelector } from 'src/app/redux/selectors/post/commonPost';
 
 const Wrapper = styled.section`
+    position: relative;
     padding: 40px 70px 30px;
     background-color: white;
     border-radius: 8px;
@@ -18,6 +21,18 @@ const Wrapper = styled.section`
     @media (max-width: 576px) {
         padding: 15px 16px;
     }
+`;
+
+const BackLink = styled(Link)`
+    position: absolute;
+    top: 0;
+    left: 0;
+`;
+
+const BackIcon = styled(Icon)`
+    width: 50px;
+    height: 50px;
+    padding: 15px 10px 10px 15px;
 `;
 
 const Body = styled.div`
@@ -71,6 +86,11 @@ const CategoryWrapper = styled.div`
 `;
 
 class PostContent extends Component {
+    onBackClick = e => {
+        e.preventDefault();
+        browserHistory.goBack();
+    };
+
     render() {
         const {
             tags,
@@ -84,10 +104,18 @@ class PostContent extends Component {
             created,
             className,
             isPromoted,
+            backUrl,
         } = this.props;
+
         const formId = `postFull-${permLink}`;
+
         return (
             <Wrapper className={className}>
+                {backUrl ? (
+                    <BackLink to={backUrl} onClick={this.onBackClick}>
+                        <BackIcon name="arrow_left" />
+                    </BackLink>
+                ) : null}
                 <PostHeader />
                 <Body>
                     <CategoryWrapper>
@@ -125,21 +153,32 @@ class PostContent extends Component {
     }
 }
 
-const mapStateToProps = (state, props) => {
-    const post = currentPostSelector(state, props);
-    return {
-        tags: post.tags,
-        payout: post.payout,
-        data: post.data,
-        category: post.category,
-        title: post.title,
-        body: post.body,
-        jsonMetadata: post.jsonMetadata,
-        pictures: post.pictures,
-        created: post.created,
-        permLink: post.permLink,
-        isPromoted: post.promotedAmount > 0,
-    };
-};
+const mapStateToProps = createSelector(
+    [currentPostSelector, state => state.ui.location],
+    (post, location) => {
+        const prev = location.get('previous');
+
+        let backUrl = null;
+
+        if (prev) {
+            backUrl = prev.get('pathname') + prev.get('search') + prev.get('hash');
+        }
+
+        return {
+            tags: post.tags,
+            payout: post.payout,
+            data: post.data,
+            category: post.category,
+            title: post.title,
+            body: post.body,
+            jsonMetadata: post.jsonMetadata,
+            pictures: post.pictures,
+            created: post.created,
+            permLink: post.permLink,
+            isPromoted: post.promotedAmount > 0,
+            backUrl,
+        };
+    }
+);
 
 export default connect(mapStateToProps)(PostContent);
