@@ -108,7 +108,7 @@ export const MARKDOWN_STYLING_GUIDE_URL = 'https://golos.io/ru--golos/@on0tole/o
 
 export const MIN_VOICE_POWER = 3;
 
-export const DEFAULT_VOTE_LIMIT = 10;
+export const DEFAULT_VOTE_LIMIT = 10000;
 
 export const LEAVE_PAGE_WHITELIST_DOMAINS = [
     'golos.io',

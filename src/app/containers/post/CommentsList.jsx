@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { api } from 'golos-js';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import CommentCard from 'src/app/components/common/CommentCard/CommentCard';
-import { DEFAULT_VOTE_LIMIT } from 'app/client_config';
+import { receivePostComments } from 'src/app/redux/actions/receivePostComments';
 
 const CommentsListWrapper = styled.div``;
 
@@ -24,8 +23,9 @@ export default class CommentsList extends Component {
     };
 
     componentDidMount() {
-        this.receivePostComments().then(comments => {
-            this.setState({ commentsArr: comments });
+        const { commentAuthor, commentPermLink } = this.props;
+        receivePostComments(commentAuthor, commentPermLink).then(comments => {
+            this.setState({ commentsArr: comments }); //TODO move data to store
         });
     }
 
@@ -45,13 +45,4 @@ export default class CommentsList extends Component {
             </CommentsListWrapper>
         );
     }
-
-    receivePostComments = async () => {
-        const { commentAuthor, commentPermLink } = this.props;
-        return await api.getAllContentRepliesAsync(
-            commentAuthor,
-            commentPermLink,
-            DEFAULT_VOTE_LIMIT
-        );
-    };
 }
