@@ -87,6 +87,11 @@ const Divider = styled.div`
     }
 `;
 
+const RocketImg = styled.img`
+    min-width: 133px;
+    min-height: 132px;
+`;
+
 const RocketHolder = styled.div`
     display: flex;
     justify-content: flex-end;
@@ -94,11 +99,6 @@ const RocketHolder = styled.div`
 
     margin-left: 20px;
     padding-right: 20px;
-
-    ${Icon} {
-        min-width: 133px;
-        min-height: 132px;
-    }
 `;
 
 export default class RegistrationPanel extends Component {
@@ -115,7 +115,7 @@ export default class RegistrationPanel extends Component {
                 <Rocket>
                     <Divider />
                     <RocketHolder>
-                        <Icon name="registration-rocket" width="133" height="132" />
+                        <RocketImg src="/images/post/registration-rocket.svg"/>
                     </RocketHolder>
                 </Rocket>
             </Wrapper>
