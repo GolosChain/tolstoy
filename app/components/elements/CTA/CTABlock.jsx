@@ -6,6 +6,7 @@ import { parsePayoutAmount } from 'app/utils/ParsersAndFormatters';
 import ctaInfo from './ctainfo';
 import { popupClickUrl, popupClickButton } from 'app/utils/Analytics';
 import { renderValue } from 'src/app/helpers/currency';
+import { REGISTRATION_URL } from 'app/client_config';
 
 @connect((state, props) => {
     const post = state.global.getIn(['content', props.post]);
@@ -106,7 +107,7 @@ export default class CTABlock extends PureComponent {
                 </div>
                 <div className="ctablock__button-block">
                     <a
-                        href="/create_account"
+                        href={REGISTRATION_URL}
                         className="ctablock__button button"
                         onClick={this._onCreateAccClick}
                     >

@@ -24,6 +24,8 @@ import Modals from '@modules/Modals';
 import ScrollButton from '@elements/ScrollButton';
 import PageViewsCounter from '@elements/PageViewsCounter';
 
+import { REGISTRATION_URL } from 'app/client_config';
+
 injectGlobal`
     body {
         fill: currentColor;
@@ -148,7 +150,7 @@ class App extends Component {
                             <h2>{tt('submit_a_story.welcome_to_the_blockchain')}</h2>
                             <h4>{tt('submit_a_story.your_voice_is_worth_something')}</h4>
                             <br />
-                            <a className="button" href="/create_account">
+                            <a className="button" href={REGISTRATION_URL}>
                                 {' '}
                                 <b>{tt('navigation.sign_up')}</b>{' '}
                             </a>
