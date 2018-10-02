@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { REGISTRATION_URL } from 'app/client_config';
 
 class Start extends PureComponent {
     state = {
@@ -35,7 +36,7 @@ class Start extends PureComponent {
                                 </span>{' '}
                                 за любое действие
                             </p>
-                            <a href="/create_account" className="button">
+                            <a href={REGISTRATION_URL} className="button">
                                 Создать аккаунт
                             </a>
                         </div>
@@ -72,7 +73,7 @@ class Start extends PureComponent {
                                     {this._renderAnswer()}
                                 </div>
                                 <div className="landing-start-block-center column large-12 medium-12 small-12">
-                                    <a href="/create_account" className="button">
+                                    <a href={REGISTRATION_URL} className="button">
                                         Создать аккаунт
                                     </a>
                                 </div>
@@ -116,7 +117,7 @@ class Start extends PureComponent {
                             </div>
 
                             <div className="landing-start-block-center column large-12 medium-12 small-12">
-                                <a href="/create_account" className="button">
+                                <a href={REGISTRATION_URL} className="button">
                                     Создать аккаунт
                                 </a>
                             </div>
@@ -148,7 +149,7 @@ class Start extends PureComponent {
                                     </p>
                                 </div>
                                 <div className="landing-start-block-center column large-12 medium-12 small-12">
-                                    <a href="/create_account" className="button">
+                                    <a href={REGISTRATION_URL} className="button">
                                         Создать аккаунт
                                     </a>
                                 </div>
@@ -196,7 +197,7 @@ class Start extends PureComponent {
                         </div>
                     </div>
                     <div className="landing-start-block-center column large-12 medium-12 small-12">
-                        <a href="/create_account" className="button">
+                        <a href={REGISTRATION_URL} className="button">
                             Создать аккаунт
                         </a>
                     </div>
