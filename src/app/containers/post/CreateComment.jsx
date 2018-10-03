@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import CommentFormLoader from 'app/components/modules/CommentForm/loader';
 import by from 'styled-by';
+
+import CommentFormLoader from 'app/components/modules/CommentForm/loader';
 
 const CreateCommentWrapper = styled.div`
     margin-top: 20px;

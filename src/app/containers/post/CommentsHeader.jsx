@@ -32,7 +32,7 @@ const CommentCategory = styled.div`
     color: #333333;
     cursor: pointer;
     
-    ::after {
+    &::after {
         content: ''; 
         position: absolute; 
         right: 0;
@@ -41,7 +41,6 @@ const CommentCategory = styled.div`
         
         border: 3px solid transparent; 
         border-top: 4px solid #333333;
-        
     }
 `;
 

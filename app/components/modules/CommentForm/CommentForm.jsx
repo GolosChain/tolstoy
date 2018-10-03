@@ -1,12 +1,13 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import throttle from 'lodash/throttle';
-import { connect } from 'react-redux';
+import styled from 'styled-components';
+import is from 'styled-is';
 import cn from 'classnames';
 import tt from 'counterpart';
-import styled from 'styled-components';
+
 import transaction from 'app/redux/Transaction';
-import { getTags } from 'shared/HtmlReady';
 import DialogManager from 'app/components/elements/common/DialogManager';
 import Icon from 'app/components/elements/Icon';
 import MarkdownEditor from 'app/components/elements/postEditor/MarkdownEditor/MarkdownEditor';
@@ -14,7 +15,7 @@ import CommentFooter from 'app/components/elements/postEditor/CommentFooter';
 import PreviewButton from 'app/components/elements/postEditor/PreviewButton';
 import MarkdownViewer, { getRemarkable } from 'app/components/cards/MarkdownViewer';
 import { checkPostHtml } from 'app/utils/validator';
-import is from 'styled-is';
+import { getTags } from 'shared/HtmlReady';
 import './CommentForm.scss';
 
 const DRAFT_KEY = 'golos.comment.draft';
