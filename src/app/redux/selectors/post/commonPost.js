@@ -64,14 +64,14 @@ export const currentPostSelector = createDeepEqualSelector(
             isFavorite: favorites.set.includes(author + '/' + permLink),
             tags: JSON.parse(post.get('json_metadata')).tags.map(tag => ({
                 origin: tag,
-                tag: detransliterate(tag)
+                tag: detransliterate(tag),
             })),
             payout:
                 parsePayoutAmount(post.get('pending_payout_value')) +
                 parsePayoutAmount(post.get('total_payout_value')),
             category: {
                 origin: post.get('category'),
-                tag: detransliterate(post.get('category'))
+                tag: detransliterate(post.get('category')),
             },
             title: post.get('title'),
             body: post.get('body'),
@@ -120,6 +120,24 @@ export const authorSelector = createDeepEqualSelector(
                     url: post.get('url'),
                 })),
             created: authorData.get('created'),
+        };
+    }
+);
+
+export const commentsSelector = createDeepEqualSelector(
+    [currentPostSelector, state => state.data.comments],
+    (post, comments) => {
+        const postAuthor = post.author;
+        const postPermLink = post.permLink;
+        const permLink = `${postAuthor}/${postPermLink}`;
+        let commentsArr = [];
+        if (comments[permLink]) {
+            commentsArr = comments[permLink].comments;
+        }
+        return {
+            postAuthor: post.author,
+            postPermLink: post.permLink,
+            comments: commentsArr,
         };
     }
 );

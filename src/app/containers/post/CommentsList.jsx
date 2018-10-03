@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 import CommentCard from 'src/app/components/common/CommentCard/CommentCard';
-import { setComments } from 'src/app/redux/actions/receiveComments';
+import { setComments } from 'src/app/redux/actions/comments';
 import commentsListSelector from 'src/app/redux/selectors/post/commentsList';
 
 const CommentsListWrapper = styled.div``;
@@ -25,7 +25,7 @@ export default class CommentsList extends Component {
     }
 
     render() {
-        const { username = '', comments = [] } = this.props;
+        const { username = '', comments } = this.props;
         return (
             <CommentsListWrapper>
                 {comments.map((comment, index) => (
