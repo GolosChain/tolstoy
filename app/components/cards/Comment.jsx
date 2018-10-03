@@ -196,6 +196,7 @@ class CommentImpl extends PureComponent {
                     reply={showReply}
                     editMode={showEdit}
                     params={comment}
+                    autoFocus
                     jsonMetadata={jsonMetadata}
                     onSuccess={this._onSuccess}
                     onCancel={this._onCancel}

@@ -426,6 +426,7 @@ class CommentCard extends PureComponent {
                         reply
                         editMode
                         hideFooter
+                        autoFocus
                         params={dataToJS}
                         forwardRef={this._commentRef}
                         onSuccess={this._onEditDone}
@@ -499,6 +500,7 @@ class CommentCard extends PureComponent {
                 <CommentFormLoader
                     reply
                     hideFooter
+                    autoFocus
                     params={dataToJS}
                     forwardRef={this._replyRef}
                     onSuccess={this._onReplySuccess}
