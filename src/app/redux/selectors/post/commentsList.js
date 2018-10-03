@@ -1,14 +1,12 @@
 import { createDeepEqualSelector, currentUsernameSelector } from 'src/app/redux/selectors/common';
-import { currentPostSelector } from 'src/app/redux/selectors/post/commonPost';
+import { commentsSelector } from 'src/app/redux/selectors/post/commonPost';
 
 export default createDeepEqualSelector(
-    [currentPostSelector, currentUsernameSelector],
-    (post, username) => {
+    [currentUsernameSelector, commentsSelector],
+    (username, comments) => {
         return {
-            postAuthor: post.author,
-            postPermLink: post.permLink,
-            username: username,
-            comments: post.comments,
+            username,
+            ...comments,
         };
     }
 );
