@@ -84,7 +84,7 @@ export const currentPostSelector = createDeepEqualSelector(
             url: post.get('url'),
             myVote,
             promotedAmount: parsePayoutAmount(post.get('promoted')),
-            postCommentsArr: post.get('post_comments_arr'),
+            comments: post.get('comments'),
         };
     }
 );

@@ -8,7 +8,7 @@ export default createDeepEqualSelector(
             postAuthor: post.author,
             postPermLink: post.permLink,
             username: username,
-            postCommentsArr: post.postCommentsArr,
+            comments: post.comments,
         };
     }
 );
