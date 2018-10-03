@@ -252,12 +252,6 @@ export default createModule({
                 state.setIn(['accounts', account, 'proxy'], proxy),
         },
         {
-            action: 'SET_POST_COMMENTS',
-            reducer: (state, { payload: { postCommentsArr, permLink } }) => {
-                return state.setIn(['content', permLink, 'post_comments_arr'], postCommentsArr);
-            },
-        },
-        {
             action: 'DELETE_CONTENT',
             reducer: (state, { payload: { author, permlink } }) => {
                 const key = author + '/' + permlink;
