@@ -21,10 +21,11 @@ const Wrapper = styled.div`
 
 const ContentWrapper = styled(Container)`
     position: relative;
-    padding-top: 22px;
-    padding-bottom: 17px;
     display: flex;
     flex-direction: column;
+    max-width: 1024px;
+    padding-top: 22px;
+    padding-bottom: 17px;
 
     @media (max-width: 576px) {
         margin: 0;

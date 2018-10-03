@@ -2,14 +2,9 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import throttle from 'lodash/throttle';
-import tt from 'counterpart';
-import CloseButton from 'react-foundation-components/lib/global/close-button';
+
 import PostSummary from 'app/components/cards/PostSummary';
-import Post from 'app/components/pages/Post';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
-import { findParent } from 'app/utils/DomUtils';
-import Icon from 'app/components/elements/Icon';
-import KEYS from 'app/utils/keyCodes';
 import { dataSelector } from 'src/app/redux/selectors/common';
 import { getScrollElement } from 'src/app/helpers/window';
 
@@ -40,15 +35,6 @@ function topPosition(domElt) {
             nsfw: settings.getIn(['basic', 'nsfw']),
             pathname: state.app.get('location').pathname,
         };
-    },
-    {
-        fetchState: pathname => ({
-            type: 'FETCH_STATE',
-            payload: { pathname },
-        }),
-        removeHighSecurityKeys: () => ({
-            type: 'user/REMOVE_HIGH_SECURITY_KEYS',
-        }),
     }
 )
 export default class PostsList extends PureComponent {
@@ -58,7 +44,6 @@ export default class PostsList extends PureComponent {
         category: PropTypes.string,
         loadMore: PropTypes.func,
         showSpam: PropTypes.bool,
-        fetchState: PropTypes.func.isRequired,
         pathname: PropTypes.string,
         ignoreResult: PropTypes.any,
     };
@@ -69,7 +54,6 @@ export default class PostsList extends PureComponent {
 
     state = {
         thumbSize: 'desktop',
-        showPost: null,
     };
 
     componentDidMount() {
@@ -77,70 +61,8 @@ export default class PostsList extends PureComponent {
         this.attachScrollListener();
     }
 
-    componentWillUpdate() {
-        const path = `${location.pathname}${location.search}${location.hash}`;
-        if (this.state.showPost && path !== this.post_url) {
-            this.setState({ showPost: null });
-        }
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        if (this.state.showPost && !prevState.showPost) {
-            document.body.classList.add('with-post-overlay');
-            window.addEventListener('popstate', this.onBackButton);
-            window.addEventListener('keydown', this.onBackButton);
-            const postOverlay = document.getElementById('post_overlay');
-            if (postOverlay) {
-                postOverlay.addEventListener('click', this.closeOnOutsideClick);
-                postOverlay.focus();
-            }
-        }
-        if (!this.state.showPost && prevState.showPost) {
-            window.history.pushState({}, '', this.props.pathname);
-            document.body.classList.remove('with-post-overlay');
-            this.post_url = null;
-        }
-    }
-
     componentWillUnmount() {
         this.detachScrollListener();
-        window.removeEventListener('popstate', this.onBackButton);
-        window.removeEventListener('keydown', this.onBackButton);
-        const postOverlay = document.getElementById('post_overlay');
-        if (postOverlay) {
-            postOverlay.removeEventListener('click', this.closeOnOutsideClick);
-        }
-        document.body.classList.remove('with-post-overlay');
-    }
-
-    onBackButton = e => {
-        if ('keyCode' in e && e.keyCode !== KEYS.ESCAPE) return;
-        window.removeEventListener('popstate', this.onBackButton);
-        window.removeEventListener('keydown', this.onBackButton);
-        this.closePostModal();
-    };
-
-    closeOnOutsideClick = e => {
-        const inside_post = findParent(e.target, 'PostsList__post_container');
-        if (!inside_post) {
-            const inside_top_bar = findParent(e.target, 'PostsList__post_top_bar');
-            if (!inside_top_bar) {
-                const post_overlay = document.getElementById('post_overlay');
-                if (post_overlay) {
-                    post_overlay.removeEventListener('click', this.closeOnOutsideClick);
-                }
-                this.closePostModal();
-            }
-        }
-    };
-
-    closePostModal = () => {
-        window.document.title = this.state.prevTitle;
-        this.setState({ showPost: null, prevTitle: null });
-    };
-
-    fetchIfNeeded() {
-        this.scrollListener();
     }
 
     scrollListener = throttle(
@@ -184,14 +106,6 @@ export default class PostsList extends PureComponent {
         window.removeEventListener('resize', this.scrollListener);
     }
 
-    onPostClick = (post, url) => {
-        this.post_url = url;
-        this.props.fetchState(url);
-        this.props.removeHighSecurityKeys();
-        this.setState({ showPost: post, prevTitle: window.document.title });
-        window.history.pushState({}, '', url);
-    };
-
     render() {
         const {
             posts,
@@ -204,15 +118,11 @@ export default class PostsList extends PureComponent {
             nsfw,
         } = this.props;
 
-        const { thumbSize, showPost } = this.state;
+        const { thumbSize } = this.state;
 
         const postsInfo = [];
-        let aiPosts = [];
 
         posts.forEach(item => {
-            if (showPost) {
-                aiPosts.push(item);
-            }
             const cont = content.get(item);
             if (!cont) {
                 console.error('PostsList --> Missing cont key', item);
@@ -225,15 +135,6 @@ export default class PostsList extends PureComponent {
                 postsInfo.push({ item, ignore });
             }
         });
-
-        if (showPost) {
-            const sliceCount = 5;
-            const index = aiPosts.indexOf(showPost);
-            aiPosts = aiPosts.slice(
-                index < sliceCount ? 0 : index - sliceCount,
-                index + sliceCount + 1
-            );
-        }
 
         const renderSummary = items =>
             items.map(item => (
@@ -263,30 +164,6 @@ export default class PostsList extends PureComponent {
                     <center>
                         <LoadingIndicator type="circle" />
                     </center>
-                )}
-                {showPost && (
-                    <div id="post_overlay" className="PostsList__post_overlay" tabIndex={0}>
-                        <div className="PostsList__post_top_overlay">
-                            <div className="PostsList__post_top_bar">
-                                <button
-                                    className="back-button"
-                                    type="button"
-                                    title={tt('g.back')}
-                                    onClick={() => {
-                                        this.setState({ showPost: null });
-                                    }}
-                                >
-                                    <span aria-hidden="true">
-                                        <Icon name="chevron-left" />
-                                    </span>
-                                </button>
-                                <CloseButton onClick={this.closePostModal} />
-                            </div>
-                        </div>
-                        <div className="PostsList__post_container">
-                            <Post post={showPost} aiPosts={aiPosts} />
-                        </div>
-                    </div>
                 )}
             </div>
         );
