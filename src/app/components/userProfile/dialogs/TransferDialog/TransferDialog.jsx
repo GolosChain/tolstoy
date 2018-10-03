@@ -135,6 +135,8 @@ class TransferDialog extends PureComponent {
         const { myAccount, myUser } = this.props;
         const { target, amount, currency, note, loader, disabled, amountInFocus } = this.state;
 
+        const normalizedTarget = target.trim().toLowerCase();
+
         const buttons = [
             {
                 id: CURRENCIES.GBG,
@@ -159,12 +161,12 @@ class TransferDialog extends PureComponent {
         let { value, error } = parseAmount(amount, balance, !amountInFocus);
 
         if (!error) {
-            if (myUser.get('username') === target.trim()) {
+            if (myUser.get('username') === normalizedTarget) {
                 error = 'Нельзя выполнить перевод самому себе';
             }
         }
 
-        const allow = target && target.trim() && value > 0 && !error && !loader && !disabled;
+        const allow = normalizedTarget && value > 0 && !error && !loader && !disabled;
 
         return (
             <DialogFrameStyled
@@ -296,9 +298,11 @@ class TransferDialog extends PureComponent {
             return;
         }
 
+        const normalizedTarget = target.trim().toLowerCase();
+
         const operation = {
             from: myUser.get('username'),
-            to: target.trim(),
+            to: normalizedTarget,
             amount: parseFloat(amount.replace(/\s+/, '')).toFixed(3) + ' ' + currency,
             memo: note,
         };

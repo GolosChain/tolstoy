@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
+import { api } from 'golos-js';
 import { MIN_VOICE_POWER } from 'app/client_config';
 import transaction from 'app/redux/Transaction';
 import DialogFrame from 'app/components/dialogs/DialogFrame';
@@ -15,7 +16,6 @@ import { parseAmount2 } from 'src/app/helpers/currency';
 import { vestsToGolos, golosToVests, getVesting } from 'app/utils/StateFunctions';
 import Shrink from 'src/app/components/golos-ui/Shrink';
 import DelegationsList from './DelegationsList';
-import { api } from 'golos-js';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import DelegationEdit from './DelegationEdit';
 import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';
@@ -27,7 +27,7 @@ const TYPES = {
 
 const DialogFrameStyled = styled(DialogFrame)`
     flex-basis: 580px;
-    
+
     @media (max-width: 550px) {
         flex-basis: 340px;
     }
@@ -392,7 +392,9 @@ class DelegateVestingDialog extends PureComponent {
 
     _onOkClick = () => {
         const { myUser } = this.props;
-        const { target, amount, loader, disabled } = this.state;
+        const { target, amount, loader, disabled, delegationData } = this.state;
+
+        const normalizedTarget = target.trim().toLowerCase();
 
         if (loader || disabled) {
             return;
@@ -405,11 +407,25 @@ class DelegateVestingDialog extends PureComponent {
 
         const iAm = myUser.get('username');
 
-        const vesting = golosToVests(parseFloat(amount.replace(/\s+/, '')), this._globalProps);
+        let alreadyDelegated = 0;
+
+        if (delegationData) {
+            for (let { delegatee, vesting_shares } of delegationData) {
+                if (delegatee === normalizedTarget) {
+                    alreadyDelegated = parseFloat(vesting_shares);
+                    break;
+                }
+            }
+        }
+
+        const vesting = (
+            alreadyDelegated +
+            golosToVests(parseFloat(amount.replace(/\s+/, '')), this._globalProps, true)
+        ).toFixed(6);
 
         const operation = {
             delegator: iAm,
-            delegatee: target.trim(),
+            delegatee: normalizedTarget,
             vesting_shares: vesting + ' GESTS',
         };
 
@@ -490,7 +506,7 @@ class DelegateVestingDialog extends PureComponent {
             const result = await api.getVestingDelegationsAsync(
                 myUser.get('username'),
                 '',
-                100,
+                1000,
                 'delegated'
             );
 
