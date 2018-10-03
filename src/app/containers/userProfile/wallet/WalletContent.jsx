@@ -339,7 +339,8 @@ class WalletContent extends Component {
 
         const list = [];
 
-        for (let item of delegationData) {
+        for (let i = delegationData.length - 1; i >= 0; i--) {
+            const item = delegationData[i];
             const isReceive = item.delegatee === pageAccountName;
             const isSent = item.delegator === pageAccountName;
 
