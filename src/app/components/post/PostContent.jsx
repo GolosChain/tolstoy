@@ -59,7 +59,7 @@ const PostBody = styled.div`
     padding: 12px 0 14px;
 
     p {
-        color: #959595;
+        color: #373D3F;
         font-family: 'Open Sans', sans-serif;
         font-size: 18px;
         letter-spacing: -0.29px;

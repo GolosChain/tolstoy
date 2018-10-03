@@ -21,7 +21,7 @@ const FOOTER_HEIGHT = 403;
 const Wrapper = styled.div`
     position: fixed;
     bottom: 30px;
-    left: calc(50% - 684px);
+    left: calc(50% - 596px);
     width: 64px;
     min-height: 50px;
     padding: 15px 22px;
