@@ -24,7 +24,6 @@ const ContentWrapper = styled(Container)`
     display: flex;
     flex-direction: column;
     max-width: 1024px;
-    margin: 0 auto;
     padding-top: 22px;
     padding-bottom: 17px;
 
