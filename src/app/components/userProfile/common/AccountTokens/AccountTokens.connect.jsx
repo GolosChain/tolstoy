@@ -1,13 +1,13 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
-import { getVestsToGolosRatio } from 'src/app/redux/selectors/common';
+import { getVestsToGolosRatio, globalSelector, dataSelector } from 'src/app/redux/selectors/common';
 import AccountTokens from './AccountTokens';
 
 const selector = createSelector(
     [
-        (state, props) => state.global.getIn(['accounts', props.accountName]),
+        (state, props) => globalSelector(['accounts', props.accountName])(state),
         getVestsToGolosRatio,
-        state => state.data.rates.actual.GBG.GOLOS,
+        dataSelector(['rates', 'actual', 'GBG', 'GOLOS']),
     ],
     (account, vestsToGolosRatio, gbgPerGolos) => ({
         golos: account.get('balance').split(' ')[0],

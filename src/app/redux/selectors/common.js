@@ -1,6 +1,7 @@
 import { createSelectorCreator, defaultMemoize, createSelector } from 'reselect';
 import isEqual from 'react-fast-compare';
 import { Map } from 'immutable';
+import { path } from 'ramda';
 
 const emptyMap = Map();
 
@@ -9,11 +10,13 @@ const emptyMap = Map();
 export const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 // export const routerSelector = state => state.router;
-export const globalSelector = type => state => state.global.getIn(Array.isArray(type) ? type : [type], emptyMap);
-export const userSelector = type => state => state.user.getIn(Array.isArray(type) ? type : [type], emptyMap);
+export const globalSelector = type => state =>
+    state.global.getIn(Array.isArray(type) ? type : [type], emptyMap);
+export const userSelector = type => state =>
+    state.user.getIn(Array.isArray(type) ? type : [type], emptyMap);
 export const statusSelector = type => state => state.status[type];
 export const entitiesSelector = type => state => state.entities[type];
-export const dataSelector = type => state => state.data[type];
+export const dataSelector = type => state => path(Array.isArray(type) ? type : [type])(state.data);
 export const uiSelector = type => state => state.ui[type];
 
 // Router selectors
