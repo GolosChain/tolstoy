@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import CommentCard from 'src/app/components/common/CommentCard/CommentCard';
-import { setPostComments } from 'src/app/redux/actions/receivePostComments';
+import { fetchCommentsIfNeeded } from 'src/app/redux/actions/comments';
 import commentsListSelector from 'src/app/redux/selectors/post/commentsList';
 
 const CommentsListWrapper = styled.div``;
@@ -15,27 +16,35 @@ const CommentCardStyled = styled(CommentCard)`
 @connect(
     commentsListSelector,
     {
-        setPostComments,
+        fetchCommentsIfNeeded,
     }
 )
 export default class CommentsList extends Component {
+    static propTypes = {
+        commentsCount: PropTypes.number,
+    };
+
     componentDidMount() {
-        const { postAuthor, postPermLink, setPostComments } = this.props;
-        setPostComments(postAuthor, postPermLink);
+        const { postAuthor, postPermLink, fetchCommentsIfNeeded } = this.props;
+        fetchCommentsIfNeeded(postAuthor, postPermLink);
     }
 
     render() {
-        const { username = '', postCommentsArr = [] } = this.props;
+        const { username = '', comments, isFetching } = this.props;
         return (
             <CommentsListWrapper>
-                {postCommentsArr.map((comment, index) => (
-                    <CommentCardStyled
-                        key={index}
-                        permLink={`${comment.author}/${comment.permlink}`}
-                        allowInlineReply={comment.author !== username}
-                        pageAccountName={comment.author}
-                    />
-                ))}
+                {comments.map((comment, index) => {
+                    const author = comment.get('author');
+                    const permLink = comment.get('permlink');
+                    return (
+                        <CommentCardStyled
+                            key={index}
+                            permLink={`${author}/${permLink}`}
+                            allowInlineReply={author !== username}
+                            pageAccountName={author}
+                        />
+                    );
+                })}
             </CommentsListWrapper>
         );
     }
