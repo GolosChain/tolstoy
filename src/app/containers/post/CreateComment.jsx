@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import by from 'styled-by';
+import PropTypes from 'prop-types';
+import { Map } from 'immutable';
 
 import CommentFormLoader from 'app/components/modules/CommentForm/loader';
 
@@ -15,6 +17,12 @@ const CreateCommentWrapper = styled.div`
 `;
 
 export default class CreateComment extends Component {
+    static propTypes = {
+        updateComments: PropTypes.func.isRequired,
+        data: PropTypes.instanceOf(Map)
+
+    };
+
     state = {
         inputText: '',
     };
@@ -23,6 +31,13 @@ export default class CreateComment extends Component {
         this.setState({
             inputText: value.trim(),
         });
+    };
+
+    onSuccess = () => {
+        this.props.updateComments();
+    };
+
+    onCancel = () => {
     };
 
     render() {
@@ -36,6 +51,8 @@ export default class CreateComment extends Component {
                     hideFooter={inputText.length === 0}
                     params={data.toJS()}
                     onChange={this.textChange}
+                    onSuccess={this.onSuccess}
+                    onCancel={this.onCancel}
                 />
             </CreateCommentWrapper>
         );

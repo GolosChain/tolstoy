@@ -20,16 +20,20 @@ const CommentsWrapper = styled.div`
 )
 export default class CommentsContainer extends Component {
     componentDidMount() {
+        this.updateComments();
+    }
+
+    updateComments = () => {
         const { postAuthor, postPermLink, fetchCommentsIfNeeded } = this.props;
         fetchCommentsIfNeeded(postAuthor, postPermLink);
-    }
+    };
 
     render() {
         const { commentsCount, data, username = '', comments, isFetching } = this.props;
         return (
             <CommentsWrapper>
                 <CommentsHeader commentsCount={commentsCount} />
-                <CreateComment data={data} />
+                <CreateComment data={data} updateComments={this.updateComments}/>
                 <CommentsList username={username} comments={comments} isFetching={isFetching} />
             </CommentsWrapper>
         );
