@@ -19,7 +19,7 @@ export default class CommentsContainer extends Component {
             <CommentsWrapper>
                 <CommentsHeader commentsCount={commentsCount} />
                 <CreateComment data={data} />
-                <CommentsList commentsCount={commentsCount} />
+                <CommentsList />
             </CommentsWrapper>
         );
     }

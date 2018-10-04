@@ -20,10 +20,6 @@ const CommentCardStyled = styled(CommentCard)`
     }
 )
 export default class CommentsList extends Component {
-    static propTypes = {
-        commentsCount: PropTypes.number,
-    };
-
     componentDidMount() {
         const { postAuthor, postPermLink, fetchCommentsIfNeeded } = this.props;
         fetchCommentsIfNeeded(postAuthor, postPermLink);

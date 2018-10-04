@@ -10,7 +10,7 @@ const initialState = fromJS({
     error: null,
 });
 
-export default function(state = initialState, { type, error }) {
+export default function(state = initialState, { type }) {
     switch (type) {
         case FETCH_COMMENTS:
             return state.set('isFetching', true);
@@ -19,7 +19,7 @@ export default function(state = initialState, { type, error }) {
             return state.set('isFetching', false);
 
         case FETCH_COMMENTS_ERROR:
-            return state.set('isFetching', false).set('error', error);
+            return state.set('isFetching', false);
 
         default:
             return state;
