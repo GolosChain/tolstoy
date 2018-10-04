@@ -13,7 +13,7 @@ import ChatListItem from '../../components/ChatList/ChatListItem';
     return {
         searchAccounts: getAccounts(state),
         showSearchResults: showResults(state),
-        contactList: getContactList(state)
+        contactList: getContactList(state),
     };
 })
 

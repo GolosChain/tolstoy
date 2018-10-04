@@ -2,15 +2,13 @@ import { createSelector } from 'reselect';
 
 import { messengerSelector } from './common';
 
-export const contactsSelector = messengerSelector('contacts');
-
 export const getSize = createSelector(
-    contactsSelector,
+    messengerSelector('contacts'),
     contacts => contacts.get('size')
 );
 
 export const getContactList= createSelector(
-    contactsSelector,
+    messengerSelector('contacts'),
     contacts => contacts.get('contactsList')
 );
 

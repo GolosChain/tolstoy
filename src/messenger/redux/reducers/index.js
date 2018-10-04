@@ -4,5 +4,5 @@ import contacts from './contacts/contactList';
 
 export default combineReducers({
     search,
-    contacts
+    contacts,
 });

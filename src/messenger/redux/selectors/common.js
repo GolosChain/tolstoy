@@ -4,14 +4,13 @@ import { createSelector } from 'reselect';
 const emptyMap = Map();
 
 export const messengerSelector = type => state => state.messenger[type];
-export const searchSelector = messengerSelector('search');
 
 export const showResults = createSelector(
-    searchSelector,
-    data => data.get('showResults')
+    messengerSelector('search'),
+    search => search.get('showResults')
 );
 
 export const getAccounts = createSelector(
-    searchSelector,
-    data => data.get('accounts', emptyMap)
+    messengerSelector('search'),
+    search => search.get('accounts', emptyMap)
 );

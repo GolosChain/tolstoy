@@ -4,8 +4,8 @@ import tt from 'counterpart';
 import { Helmet } from 'react-helmet';
 
 import { authProtection } from 'src/app/helpers/hoc';
-import { Messenger, ChatListPanel }  from '../../components/Messenger';
-import Chat  from '../Chat';
+import { Messenger, ChatListPanel } from '../../components/Messenger';
+import Chat from '../Chat';
 import ChatListContainer from '../ChatList';
 import LookupAccounts from '../LookupAccounts';
 import { dialogs, chatData } from '../../utils/_data';
@@ -15,7 +15,7 @@ import { initMessenger } from '../../redux/actions/messenger';
 @connect(
     null,
     {
-        initMessenger
+        initMessenger,
     }
 )
 export default class MessengerApp extends Component {
