@@ -40,20 +40,22 @@ function* togglePinned(action) {
 
     metadata.pinnedPosts = pinnedPosts;
 
+    const jsonMetadata = JSON.stringify(metadata);
+
     yield put(
         transaction.actions.broadcastOperation({
             type: 'account_metadata',
             operation: {
                 account: account.get('name'),
                 memo_key: account.get('memo_key'),
-                json_metadata: JSON.stringify(metadata),
+                json_metadata: jsonMetadata,
             },
             successCallback: () => {
                 dispatch({
-                    type: 'global/PINNED_UPDATE',
+                    type: 'global/UPDATE_JSON_METADATA',
                     payload: {
                         accountName: account.get('name'),
-                        pinnedPosts,
+                        jsonMetadata,
                     },
                 });
             },

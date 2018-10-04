@@ -1,3 +1,4 @@
+import { Map, List } from 'immutable';
 import {
     createDeepEqualSelector,
     currentUsernameSelector,
@@ -5,10 +6,10 @@ import {
     dataSelector,
     globalSelector,
 } from '../common';
+import { extractPinnedPosts } from 'src/app/redux/selectors/account/pinnedPosts';
 import { detransliterate, parsePayoutAmount } from 'app/utils/ParsersAndFormatters';
 import normalizeProfile from 'app/utils/NormalizeProfile';
 import { calcVotesStats } from 'app/utils/StateFunctions';
-import { Map, List } from 'immutable';
 
 const emptyMap = Map();
 const emptyList = List();
@@ -31,14 +32,6 @@ const getMyVote = (post, username) => {
         }
     }
     return 0;
-};
-
-const extractPinnedPostData = metadata => {
-    try {
-        return JSON.parse(metadata).pinnedPosts || [];
-    } catch (error) {
-        return [];
-    }
 };
 
 export const postSelector = createDeepEqualSelector(
@@ -104,7 +97,8 @@ export const authorSelector = createDeepEqualSelector(
             json_metadata: authorData.get('json_metadata'),
             name: authorAccountName,
         });
-        const pinnedPostsUrls = extractPinnedPostData(authorData.get('json_metadata'));
+
+        const pinnedPostsUrls = extractPinnedPosts(authorData.get('json_metadata'));
 
         return {
             name: jsonData.name || authorAccountName,

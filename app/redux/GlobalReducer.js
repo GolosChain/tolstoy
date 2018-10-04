@@ -90,8 +90,6 @@ export default createModule({
         {
             action: 'RECEIVE_ACCOUNT',
             reducer: (state, { payload: { account } }) => {
-                extractPinnedPosts(account);
-
                 account = fromJS(account, (key, value) => {
                     if (key === 'witness_votes') {
                         return value.toSet();
@@ -501,15 +499,10 @@ export default createModule({
                     data.set('isLoading', false)
                 ),
         },
+        {
+            action: 'UPDATE_JSON_METADATA',
+            reducer: (state, { payload: { accountName, jsonMetadata } }) =>
+                state.setIn(['accounts', accountName, 'json_metadata'], jsonMetadata),
+        },
     ],
 });
-
-function extractPinnedPosts(account) {
-    if (account.json_metadata) {
-        try {
-            account.pinnedPosts = JSON.parse(account.json_metadata).pinnedPosts || [];
-        } catch (err) {
-            console.error(err);
-        }
-    }
-}

@@ -13,10 +13,10 @@ export async function processBlog(state, { uname, voteLimit }) {
     try {
         const pinned = JSON.parse(account.json_metadata).pinnedPosts;
 
-        if (Array.isArray(pinned) && pinned.every(link => is(String, link))) {
+        if (Array.isArray(pinned) && pinned.every(is(String))) {
             pinnedPosts = pinned;
         }
-    } catch(err) {
+    } catch (err) {
         console.error(err);
     }
 
