@@ -2,7 +2,7 @@ import { Map, Set, List, fromJS, Iterable } from 'immutable';
 import createModule from 'redux-modules';
 import constants from './constants';
 import { contentStats, fromJSGreedy } from 'app/utils/StateFunctions';
-import { LIQUID_TICKER, DEBT_TICKER } from 'app/client_config'
+import { LIQUID_TICKER, DEBT_TICKER } from 'app/client_config';
 
 const emptyContentMap = Map({
     fetched: new Date(), /// the date at which this data was requested from the server
@@ -25,9 +25,9 @@ const emptyContentMap = Map({
     abs_rshares: 0,
     cashout_time: new Date().toISOString(),
     total_vote_weight: '0',
-    total_payout_value: ['0.000', DEBT_TICKER].join(" "),
-    pending_payout_value: ['0.000', LIQUID_TICKER].join(" "),
-    total_pending_payout_value: ['0.000', LIQUID_TICKER].join(" "),
+    total_payout_value: ['0.000', DEBT_TICKER].join(' '),
+    pending_payout_value: ['0.000', LIQUID_TICKER].join(' '),
+    total_pending_payout_value: ['0.000', LIQUID_TICKER].join(' '),
     active_votes: [],
     replies: [],
     stats: {
@@ -54,18 +54,15 @@ export default createModule({
         },
         {
             action: 'FETCHING_STATE',
-            reducer: (state, { payload: fetching }) =>
-                state.mergeDeep({ fetching }),
+            reducer: (state, { payload: fetching }) => state.mergeDeep({ fetching }),
         },
         {
             action: 'FETCHING_JSON',
-            reducer: (state, { payload: fetchingJson }) =>
-                state.mergeDeep({ fetchingJson }),
+            reducer: (state, { payload: fetchingJson }) => state.mergeDeep({ fetchingJson }),
         },
         {
             action: 'FETCHING_XCHANGE',
-            reducer: (state, { payload: fetchingXchange }) =>
-                state.mergeDeep({ fetchingXchange }),
+            reducer: (state, { payload: fetchingXchange }) => state.mergeDeep({ fetchingXchange }),
         },
         {
             action: 'RECEIVE_STATE',
@@ -84,10 +81,7 @@ export default createModule({
                     // TODO reserved words used in account names, find correct solution
                     if (!Map.isMap(payload.get('accounts'))) {
                         const accounts = payload.get('accounts');
-                        payload = payload.set(
-                            'accounts',
-                            fromJSGreedy(accounts)
-                        );
+                        payload = payload.set('accounts', fromJSGreedy(accounts));
                     }
                 }
                 return state.mergeDeep(payload);
@@ -102,17 +96,13 @@ export default createModule({
                     if (key === 'witness_votes') {
                         return value.toSet();
                     } else {
-                        return Iterable.isIndexed(value)
-                            ? value.toList()
-                            : value.toOrderedMap();
+                        return Iterable.isIndexed(value) ? value.toList() : value.toOrderedMap();
                     }
                 });
 
                 // Merging accounts: A get_state will provide a very full account but a get_accounts will provide a smaller version
-                return state.updateIn(
-                    ['accounts', account.get('name')],
-                    Map(),
-                    a => a.mergeDeep(account)
+                return state.updateIn(['accounts', account.get('name')], Map(), a =>
+                    a.mergeDeep(account)
                 );
             },
         },
@@ -131,10 +121,8 @@ export default createModule({
                             }
                         });
                         // Merging accounts: A get_state will provide a very full account but a get_accounts will provide a smaller version
-                        state.updateIn(
-                            ['accounts', account.get('name')],
-                            Map(),
-                            a => a.mergeDeep(account)
+                        state.updateIn(['accounts', account.get('name')], Map(), a =>
+                            a.mergeDeep(account)
                         );
                     });
                 });
@@ -153,18 +141,15 @@ export default createModule({
                 } = op;
                 const key = author + '/' + permlink;
 
-                let updatedState = state.updateIn(
-                    ['content', key],
-                    Map(emptyContent),
-                    r =>
-                        r.merge({
-                            author,
-                            permlink,
-                            parent_author,
-                            parent_permlink,
-                            title: title.toString('utf-8'),
-                            body: body.toString('utf-8'),
-                        })
+                let updatedState = state.updateIn(['content', key], Map(emptyContent), r =>
+                    r.merge({
+                        author,
+                        permlink,
+                        parent_author,
+                        parent_permlink,
+                        title: title.toString('utf-8'),
+                        body: body.toString('utf-8'),
+                    })
                 );
 
                 if (parent_author !== '' && parent_permlink !== '') {
@@ -176,10 +161,8 @@ export default createModule({
                         r => r.insert(0, key)
                     );
 
-                    const children = updatedState.getIn(
-                        ['content', parent_key, 'replies'],
-                        List()
-                    ).size;
+                    const children = updatedState.getIn(['content', parent_key, 'replies'], List())
+                        .size;
 
                     updatedState = updatedState.updateIn(
                         ['content', parent_key, 'children'],
@@ -193,8 +176,7 @@ export default createModule({
             action: 'RECEIVE_CONTENT',
             reducer: (state, { payload: { content } }) => {
                 content = fromJS(content);
-                const key =
-                    content.get('author') + '/' + content.get('permlink');
+                const key = content.get('author') + '/' + content.get('permlink');
 
                 return state.updateIn(['content', key], Map(), c => {
                     c = emptyContentMap.mergeDeep(c);
@@ -212,8 +194,7 @@ export default createModule({
                 contents = fromJS(contents);
                 return state.withMutations(state => {
                     contents.forEach(content => {
-                        const key =
-                            content.get('author') + '/' + content.get('permlink');
+                        const key = content.get('author') + '/' + content.get('permlink');
 
                         state.updateIn(['content', key], Map(), c => {
                             c = emptyContentMap.mergeDeep(c);
@@ -230,12 +211,7 @@ export default createModule({
         {
             action: 'LINK_REPLY',
             reducer: (state, { payload: op }) => {
-                const {
-                    author,
-                    permlink,
-                    parent_author = '',
-                    parent_permlink = '',
-                } = op;
+                const { author, permlink, parent_author = '', parent_permlink = '' } = op;
 
                 if (parent_author === '' || parent_permlink === '') {
                     return state;
@@ -250,10 +226,8 @@ export default createModule({
                     l => (l.findIndex(i => i === key) === -1 ? l.push(key) : l)
                 );
 
-                const children = updatedState.getIn(
-                    ['content', parent_key, 'replies'],
-                    List()
-                ).size;
+                const children = updatedState.getIn(['content', parent_key, 'replies'], List())
+                    .size;
 
                 updatedState = updatedState.updateIn(
                     ['content', parent_key, 'children'],
@@ -269,10 +243,7 @@ export default createModule({
                 state.updateIn(
                     ['accounts', account, 'witness_votes'],
                     Set(),
-                    votes =>
-                        approve
-                            ? Set(votes).add(witness)
-                            : Set(votes).remove(witness)
+                    votes => (approve ? Set(votes).add(witness) : Set(votes).remove(witness))
                 ),
         },
         {
@@ -304,10 +275,7 @@ export default createModule({
         },
         {
             action: 'VOTED',
-            reducer: (
-                state,
-                { payload: { username, author, permlink, weight } }
-            ) =>
+            reducer: (state, { payload: { username, author, permlink, weight } }) =>
                 state.updateIn(
                     ['content', author + '/' + permlink, 'active_votes'],
                     List(),
@@ -317,9 +285,7 @@ export default createModule({
                                 voter: username,
                                 percent: weight,
                             });
-                            const idx = activeVotes.findIndex(
-                                v => v.get('voter') === username
-                            );
+                            const idx = activeVotes.findIndex(v => v.get('voter') === username);
 
                             if (idx === -1) {
                                 activeVotes.push(vote);
@@ -339,13 +305,7 @@ export default createModule({
         {
             action: 'RECEIVE_DATA',
             reducer: (state, { payload }) => {
-                const {
-                    data,
-                    order,
-                    category,
-                    permlink: startPermLink,
-                    accountname,
-                } = payload;
+                const { data, order, category, permlink: startPermLink, accountname } = payload;
                 let newState = state;
 
                 let dataPath;
@@ -389,16 +349,13 @@ export default createModule({
                     })
                 );
 
-                newState = newState.updateIn(
-                    ['status', category || '', order],
-                    () => {
-                        if (data.length < constants.FETCH_DATA_BATCH_SIZE) {
-                            return { fetching: false, lastFetch: Date.now() };
-                        } else {
-                            return { fetching: false };
-                        }
+                newState = newState.updateIn(['status', category || '', order], () => {
+                    if (data.length < constants.FETCH_DATA_BATCH_SIZE) {
+                        return { fetching: false, lastFetch: Date.now() };
+                    } else {
+                        return { fetching: false };
                     }
-                );
+                });
 
                 return newState;
             },
@@ -406,19 +363,16 @@ export default createModule({
         {
             action: 'RECEIVE_RECENT_POSTS',
             reducer: (state, { payload: { data } }) => {
-                let newState = state.updateIn(
-                    ['discussion_idx', '', 'created'],
-                    List(),
-                    posts =>
-                        posts.withMutations(posts => {
-                            for (let { author, permlink } of data) {
-                                const entry = `${author}/${permlink}`;
+                let newState = state.updateIn(['discussion_idx', '', 'created'], List(), posts =>
+                    posts.withMutations(posts => {
+                        for (let { author, permlink } of data) {
+                            const entry = `${author}/${permlink}`;
 
-                                if (!posts.includes(entry)) {
-                                    posts.unshift(entry);
-                                }
+                            if (!posts.includes(entry)) {
+                                posts.unshift(entry);
                             }
-                        })
+                        }
+                    })
                 );
 
                 newState = newState.updateIn(['content'], content =>
@@ -477,15 +431,12 @@ export default createModule({
         },
         {
             action: 'CLEAR_META',
-            reducer: (state, { payload: { id } }) =>
-                state.deleteIn(['metaLinkData', id]),
+            reducer: (state, { payload: { id } }) => state.deleteIn(['metaLinkData', id]),
         },
         {
             action: 'CLEAR_META_ELEMENT',
             reducer: (state, { payload: { formId, element } }) =>
-                state.updateIn(['metaLinkData', formId], data =>
-                    data.remove(element)
-                ),
+                state.updateIn(['metaLinkData', formId], data => data.remove(element)),
         },
         {
             action: 'FETCH_JSON',
@@ -499,9 +450,7 @@ export default createModule({
         {
             action: 'SHOW_DIALOG',
             reducer: (state, { payload: { name, params = {} } }) =>
-                state.update('active_dialogs', Map(), d =>
-                    d.set(name, fromJS({ params }))
-                ),
+                state.update('active_dialogs', Map(), d => d.set(name, fromJS({ params }))),
         },
         {
             action: 'HIDE_DIALOG',
@@ -510,33 +459,23 @@ export default createModule({
         },
         {
             action: 'RECEIVE_ACCOUNT_VESTING_DELEGATIONS',
-            reducer: (
-                state,
-                { payload: { account, type, vesting_delegations } }
-            ) =>
-                state.setIn(
-                    ['accounts', account, `${type}_vesting`],
-                    fromJS(vesting_delegations)
-                ),
+            reducer: (state, { payload: { account, type, vesting_delegations } }) =>
+                state.setIn(['accounts', account, `${type}_vesting`], fromJS(vesting_delegations)),
         },
         {
             action: 'UPDATE_ACCOUNT_METADATA',
             reducer: (state, { payload }) => {
                 const { accountName, jsonMetadata } = payload;
 
-                return state.setIn(
-                    ['accounts', accountName, 'json_metadata'],
-                    jsonMetadata
-                );
+                return state.setIn(['accounts', accountName, 'json_metadata'], jsonMetadata);
             },
         },
         {
             action: 'RECEIVE_TRANSFERS',
-            reducer: (state, { payload: { account, transfers } }) => state.updateIn(
-                ['accounts', account, 'transfer_history'],
-                List(),
-                list => list.mergeDeep(fromJS(transfers))
-            )
+            reducer: (state, { payload: { account, transfers } }) =>
+                state.updateIn(['accounts', account, 'transfer_history'], List(), list =>
+                    list.mergeDeep(fromJS(transfers))
+                ),
         },
         {
             action: 'FETCH_REWARDS_STARTED',

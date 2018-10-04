@@ -1,12 +1,13 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import throttle from 'lodash/throttle';
-import { connect } from 'react-redux';
+import styled from 'styled-components';
+import is from 'styled-is';
 import cn from 'classnames';
 import tt from 'counterpart';
-import styled from 'styled-components';
+
 import transaction from 'app/redux/Transaction';
-import { getTags } from 'shared/HtmlReady';
 import DialogManager from 'app/components/elements/common/DialogManager';
 import Icon from 'app/components/elements/Icon';
 import MarkdownEditor from 'app/components/elements/postEditor/MarkdownEditor/MarkdownEditor';
@@ -14,6 +15,7 @@ import CommentFooter from 'app/components/elements/postEditor/CommentFooter';
 import PreviewButton from 'app/components/elements/postEditor/PreviewButton';
 import MarkdownViewer, { getRemarkable } from 'app/components/cards/MarkdownViewer';
 import { checkPostHtml } from 'app/utils/validator';
+import { getTags } from 'shared/HtmlReady';
 import './CommentForm.scss';
 
 const DRAFT_KEY = 'golos.comment.draft';
@@ -23,6 +25,10 @@ const PreviewButtonWrapper = styled.div`
     right: 0;
     top: 0;
     z-index: 2;
+
+    ${is('emptyBody')`
+        display: none;
+    `};
 `;
 
 class CommentForm extends React.Component {
@@ -33,6 +39,9 @@ class CommentForm extends React.Component {
         jsonMetadata: PropTypes.object,
         onSuccess: PropTypes.func,
         onCancel: PropTypes.func,
+        onChange: PropTypes.func,
+        autoFocus: PropTypes.bool,
+        clearAfterAction: PropTypes.bool,
     };
 
     constructor(props) {
@@ -82,7 +91,7 @@ class CommentForm extends React.Component {
 
             state.text = draft.text;
             state.emptyBody = draft.text.trim().length === 0;
-
+            this.props.onChange(draft.text);
             return true;
         }
     }
@@ -114,7 +123,7 @@ class CommentForm extends React.Component {
     }
 
     render() {
-        const { editMode, hideFooter } = this.props;
+        const { editMode, hideFooter, autoFocus } = this.props;
 
         const { text, emptyBody, postError, isPreview, uploadingCount } = this.state;
 
@@ -127,7 +136,7 @@ class CommentForm extends React.Component {
                 })}
             >
                 <div className="CommentForm__work-area">
-                    <PreviewButtonWrapper>
+                    <PreviewButtonWrapper emptyBody={emptyBody}>
                         <PreviewButton
                             isStatic
                             isPreview={isPreview}
@@ -146,7 +155,7 @@ class CommentForm extends React.Component {
                     >
                         <MarkdownEditor
                             ref="editor"
-                            autoFocus
+                            autoFocus={autoFocus}
                             commentMode
                             initialValue={text}
                             placeholder={tt('g.reply')}
@@ -187,6 +196,9 @@ class CommentForm extends React.Component {
     }
 
     _onTextChangeNotify = () => {
+        if (this.props.onChange) {
+            this.props.onChange(this.refs.editor.getValue());
+        }
         this._saveDraftLazy();
         this._checkBodyLazy();
     };
@@ -305,13 +317,16 @@ class CommentForm extends React.Component {
                 try {
                     localStorage.removeItem(DRAFT_KEY);
                 } catch (err) {}
-
+                if (this.props.clearAfterAction) {
+                    this.refs.editor.setValue('');
+                }
                 this.props.onSuccess();
             },
             err => {
                 this.refs.footer.showPostError(err.toString().trim());
             }
         );
+
     };
 
     _onCancelClick = async () => {
@@ -327,6 +342,9 @@ class CommentForm extends React.Component {
             } catch (err) {}
 
             this.props.onCancel();
+            if (this.props.clearAfterAction) {
+                this.refs.editor.setValue('');
+            }
         }
     };
 

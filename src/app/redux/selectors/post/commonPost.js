@@ -8,16 +8,17 @@ import {
 import { detransliterate, parsePayoutAmount } from 'app/utils/ParsersAndFormatters';
 import normalizeProfile from 'app/utils/NormalizeProfile';
 import { calcVotesStats } from 'app/utils/StateFunctions';
-import { Map } from 'immutable';
+import { Map, List } from 'immutable';
 
 const emptyMap = Map();
+const emptyList = List();
 
 const pathnameSelector = state => {
     return state.routing.locationBeforeTransitions.pathname;
 };
 
 const postUrlFromPathnameSelector = createDeepEqualSelector([pathnameSelector], pathname =>
-    pathname.substr(pathname.indexOf('@') + 1)
+    pathname.substring(pathname.indexOf('#') + 1).substr(pathname.indexOf('@') + 1)
 );
 
 const getMyVote = (post, username) => {
@@ -64,14 +65,14 @@ export const currentPostSelector = createDeepEqualSelector(
             isFavorite: favorites.set.includes(author + '/' + permLink),
             tags: JSON.parse(post.get('json_metadata')).tags.map(tag => ({
                 origin: tag,
-                tag: detransliterate(tag)
+                tag: detransliterate(tag),
             })),
             payout:
                 parsePayoutAmount(post.get('pending_payout_value')) +
                 parsePayoutAmount(post.get('total_payout_value')),
             category: {
                 origin: post.get('category'),
-                tag: detransliterate(post.get('category'))
+                tag: detransliterate(post.get('category')),
             },
             title: post.get('title'),
             body: post.get('body'),
@@ -84,6 +85,7 @@ export const currentPostSelector = createDeepEqualSelector(
             url: post.get('url'),
             myVote,
             promotedAmount: parsePayoutAmount(post.get('promoted')),
+            comments: post.get('comments'),
         };
     }
 );
@@ -119,6 +121,22 @@ export const authorSelector = createDeepEqualSelector(
                     url: post.get('url'),
                 })),
             created: authorData.get('created'),
+        };
+    }
+);
+
+export const commentsSelector = createDeepEqualSelector(
+    [currentPostSelector, state => state.data.comments, state => state.status.comments],
+    (post, comments, status) => {
+        const postAuthor = post.author;
+        const postPermLink = post.permLink;
+        const permLink = `${postAuthor}/${postPermLink}`;
+        return {
+            postAuthor: post.author,
+            postPermLink: post.permLink,
+            commentsCount: post.children,
+            comments: comments.getIn([permLink], emptyList),
+            isFetching: status.get('isFetching'),
         };
     }
 );

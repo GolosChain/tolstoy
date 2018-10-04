@@ -10,6 +10,7 @@ import AboutPanel from 'src/app/containers/post/AboutPanel';
 import { USER_FOLLOW_DATA_LOAD } from 'src/app/redux/constants/followers';
 import { FAVORITES_LOAD } from 'src/app/redux/constants/favorites';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
+import CommentsContainer from 'src/app/containers/post/CommentsContainer';
 import RegistrationPanel from 'src/app/containers/post/RegistrationPanel';
 import { postContainerSelector } from 'src/app/redux/selectors/post/postContainer';
 
@@ -69,6 +70,7 @@ export default class PostContainer extends Component {
                     <ActivePanel />
                     <AboutPanel />
                     <SidePanel />
+                    <CommentsContainer />
                     {!isUserAuth && <RegistrationPanel />}
                 </ContentWrapper>
             </Wrapper>

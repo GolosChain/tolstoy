@@ -247,7 +247,7 @@ export default class ActivePanel extends Component {
 
     render() {
         const { showDotsPopover, showSharePopover } = this.state;
-        const { data, username } = this.props;
+        const { data, username, url, children } = this.props;
         return (
             <Wrapper>
                 <VotePanelWrapper
@@ -327,8 +327,8 @@ export default class ActivePanel extends Component {
                 </DotsMore>
                 <ReplyBlockStyled
                     withImage={false}
-                    count={data.get('children')}
-                    link={data.get('link')}
+                    count={children}
+                    link={url}
                     text={tt('g.reply')}
                 />
             </Wrapper>

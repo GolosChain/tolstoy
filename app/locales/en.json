@@ -769,8 +769,13 @@
   },
   "post_jsx": {
     "comments_were_hidden_due_to_low_ratings": "Comments were hidden due to low ratings",
+    "first_new": "First new",
+    "first_old": "First old",
     "now_showing_comments_with_low_ratings": "Now showing comments with low ratings",
-    "sort_order": "Sort Order"
+    "popularity": "Popularity",
+    "sort_by": "Sort by",
+    "sort_order": "Sort Order",
+    "voices": "Voices"
   },
   "postfull_jsx": {
     "account_name_is_not_available": "Account name is not available",

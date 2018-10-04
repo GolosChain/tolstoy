@@ -50,10 +50,7 @@ export default class MarkdownEditor extends PureComponent {
             const timeDelta = DELAYED_TIMEOUT - (Date.now() - INIT_TIMESSTAMP);
 
             if (timeDelta > 0) {
-                this._delayedTimeout = setTimeout(
-                    () => this._init(),
-                    timeDelta
-                );
+                this._delayedTimeout = setTimeout(() => this._init(), timeDelta);
                 return;
             }
         }
@@ -91,7 +88,9 @@ export default class MarkdownEditor extends PureComponent {
             this._cm.on('cursorActivity', this._onCursorActivityLazy);
         }
 
-        this._cm.setCursor({ line: 999, ch: 999 });
+        if (this.props.autoFocus) {
+            this._cm.setCursor({ line: 999, ch: 999 });
+        }
 
         this.forceUpdate();
 
@@ -145,10 +144,7 @@ export default class MarkdownEditor extends PureComponent {
                             SM={SimpleMDE}
                         />
                     ) : null}
-                    <textarea
-                        ref="textarea"
-                        className="MarkdownEditor__textarea"
-                    />
+                    <textarea ref="textarea" className="MarkdownEditor__textarea" />
                 </Dropzone>
             </div>
         );
@@ -176,9 +172,7 @@ export default class MarkdownEditor extends PureComponent {
 
         if (!file) {
             if (rejectedFiles.length) {
-                DialogManager.alert(
-                    tt('reply_editor.please_insert_only_image_files')
-                );
+                DialogManager.alert(tt('reply_editor.please_insert_only_image_files'));
             }
             return;
         }
@@ -252,9 +246,7 @@ export default class MarkdownEditor extends PureComponent {
             }
         }
 
-        this._lineWidgets = this._lineWidgets.filter(
-            widget => !alreadyWidgets.has(widget)
-        );
+        this._lineWidgets = this._lineWidgets.filter(widget => !alreadyWidgets.has(widget));
 
         for (let widget of alreadyWidgets) {
             widget.clear();
@@ -266,41 +258,36 @@ export default class MarkdownEditor extends PureComponent {
 
         let updated = false;
 
-        const updatedText = text.replace(
-            /<iframe\s+([^>]*)>[\s\S]*<\/iframe>/g,
-            (a, attrsStr) => {
-                const match = attrsStr.match(/src="([^"]+)"/);
+        const updatedText = text.replace(/<iframe\s+([^>]*)>[\s\S]*<\/iframe>/g, (a, attrsStr) => {
+            const match = attrsStr.match(/src="([^"]+)"/);
 
-                if (match) {
-                    let match2 = match[1].match(
-                        /^https:\/\/www\.youtube\.com\/embed\/([A-Za-z0-9_-]+)/
-                    );
+            if (match) {
+                let match2 = match[1].match(
+                    /^https:\/\/www\.youtube\.com\/embed\/([A-Za-z0-9_-]+)/
+                );
 
-                    if (match2) {
-                        updated = true;
-                        return `https://youtube.com/watch?v=${match2[1]}`;
-                    }
+                if (match2) {
+                    updated = true;
+                    return `https://youtube.com/watch?v=${match2[1]}`;
+                }
 
-                    match2 = match[1].match(
-                        /^(?:https?:)?\/\/rutube\.ru\/play\/embed\/([A-Za-z0-9_-]+)/
-                    );
+                match2 = match[1].match(
+                    /^(?:https?:)?\/\/rutube\.ru\/play\/embed\/([A-Za-z0-9_-]+)/
+                );
 
-                    if (match2) {
-                        updated = true;
-                        return `https://rutube.ru/video/${match2[1]}/`;
-                    }
+                if (match2) {
+                    updated = true;
+                    return `https://rutube.ru/video/${match2[1]}/`;
+                }
 
-                    match2 = match[1].match(
-                        /^(?:https?:)?\/\/ok\.ru\/videoembed\/([A-Za-z0-9_-]+)/
-                    );
+                match2 = match[1].match(/^(?:https?:)?\/\/ok\.ru\/videoembed\/([A-Za-z0-9_-]+)/);
 
-                    if (match2) {
-                        updated = true;
-                        return `https://ok.ru/video/${match2[1]}`;
-                    }
+                if (match2) {
+                    updated = true;
+                    return `https://ok.ru/video/${match2[1]}`;
                 }
             }
-        );
+        });
 
         if (updated) {
             for (let w of this._lineWidgets) {
@@ -374,9 +361,7 @@ export default class MarkdownEditor extends PureComponent {
 
                         this.props.uploadImage(file, progress => {
                             if (progress.url) {
-                                const imageUrl = `![${fileName || file.name}](${
-                                    progress.url
-                                })`;
+                                const imageUrl = `![${fileName || file.name}](${progress.url})`;
 
                                 this._cm.replaceSelection(imageUrl);
                             }
