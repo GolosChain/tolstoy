@@ -87,6 +87,11 @@ const PinnedPost = styled.div`
     margin-top: 20px;
 `;
 
+const PinnedIcon = styled(Icon)`
+    width: 20px;
+    flex-shrink: 0;
+`;
+
 const PostsTitle = styled.div`
     color: #393636;
     font: 14px 'Open Sans', sans-serif;
@@ -168,7 +173,7 @@ export class PopoverBody extends Component {
                         <PostsTitle>{tt('g.authors_posts')}</PostsTitle>
                         {pinnedPosts.map(post => (
                             <PinnedPost key={post.url}>
-                                <Icon name="pin" size="20px" />
+                                <PinnedIcon name="pin" />
                                 <PostTitle to={post.url}>{post.title}</PostTitle>
                             </PinnedPost>
                         ))}
