@@ -612,7 +612,7 @@ class CommentCard extends PureComponent {
 export default connect(
     (state, props) => {
         const data = state.global.getIn(['content', props.permLink]);
-        const dataToJS = data ? data.toJS() : {};
+        const dataToJS = data.toJS();
         const content = extractContent(immutableAccessor, data);
         const htmlContent = { __html: content.desc };
         const myAccountName = state.user.getIn(['current', 'username']);
