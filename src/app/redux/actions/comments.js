@@ -7,15 +7,6 @@ import {
     FETCH_COMMENTS_SUCCESS,
 } from 'src/app/redux/constants/comments';
 import { dataSelector } from 'src/app/redux/selectors/common';
-import { ADD_NOTIFICATION } from 'src/app/redux/constants/notifications';
-
-export function fetchCommentsIfNeeded(postAuthor, postPermLink) {
-    return (dispatch, getState) => {
-        if (!dataSelector(['comments', `${postAuthor}/${postPermLink}`])(getState())) {
-            return dispatch(fetchComments(postAuthor, postPermLink));
-        }
-    };
-}
 
 function fetchComments(postAuthor, postPermLink) {
     return dispatch => {
@@ -37,12 +28,20 @@ function fetchComments(postAuthor, postPermLink) {
                     error,
                 });
                 dispatch({
-                    type: ADD_NOTIFICATION,
+                    type: 'ADD_NOTIFICATION',
                     payload: {
                         message: error,
                         dismissAfter: 5000,
                     },
                 });
             });
+    };
+}
+
+export function fetchCommentsIfNeeded(postAuthor, postPermLink) {
+    return (dispatch, getState) => {
+        if (!dataSelector(['comments', `${postAuthor}/${postPermLink}`])(getState())) {
+            return dispatch(fetchComments(postAuthor, postPermLink));
+        }
     };
 }

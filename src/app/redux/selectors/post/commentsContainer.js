@@ -1,12 +1,13 @@
-import { createDeepEqualSelector } from 'src/app/redux/selectors/common';
-import { currentPostSelector, postSelector } from 'src/app/redux/selectors/post/commonPost';
+import { createDeepEqualSelector, currentUsernameSelector } from 'src/app/redux/selectors/common';
+import { commentsSelector, postSelector } from 'src/app/redux/selectors/post/commonPost';
 
 export default createDeepEqualSelector(
-    [currentPostSelector, postSelector],
-    (post, data) => {
+    [postSelector, currentUsernameSelector, commentsSelector],
+    (data, username, comments) => {
         return {
-            commentsCount: post.children,
             data,
+            username,
+            ...comments,
         };
     }
 );
