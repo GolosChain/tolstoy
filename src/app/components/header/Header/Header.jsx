@@ -12,8 +12,8 @@ import { REGISTRATION_URL } from 'app/client_config';
 import { statusSelector } from 'src/app/redux/selectors/common';
 import {
     getNotificationsHistoryFreshCount,
-    getNotificationsHistory,
-    notifyMarkAllAsViewed,
+    // getNotificationsHistory,
+    // notifyMarkAllAsViewed,
 } from 'src/app/redux/actions/notifications';
 
 import Icon from 'golos-ui/Icon';
@@ -329,10 +329,10 @@ function calcXY(angle) {
                 state.global.getIn(['accounts', currentAccountName, 'voting_power']) / 100;
         }
 
-        const notificationsStatus = statusSelector('notifications')(state);
+        const notificationsOnlineStatus = statusSelector('notificationsOnline')(state);
 
         return {
-            freshCount: notificationsStatus.get('freshCount'),
+            freshCount: notificationsOnlineStatus.get('freshCount'),
             currentAccountName,
             votingPower,
             offchainAccount: state.offchain.get('account'),
@@ -341,15 +341,15 @@ function calcXY(angle) {
     {
         onLogin: () => user.actions.showLogin(),
         getNotificationsHistoryFreshCount,
-        getNotificationsHistory,
-        notifyMarkAllAsViewed,
+        // getNotificationsHistory,
+        // notifyMarkAllAsViewed,
     }
 )
 export default class Header extends PureComponent {
     static propTypes = {
         getNotificationsHistoryFreshCount: PropTypes.func.isRequired,
-        getNotificationsHistory: PropTypes.func.isRequired,
-        notifyMarkAllAsViewed: PropTypes.func.isRequired,
+        // getNotificationsHistory: PropTypes.func.isRequired,
+        // notifyMarkAllAsViewed: PropTypes.func.isRequired,
     };
 
     state = {
@@ -574,8 +574,8 @@ export default class Header extends PureComponent {
                         >
                             <NotificationsMenu
                                 params={{ accountName: currentAccountName }}
-                                getNotificationsHistory={getNotificationsHistory}
-                                notifyMarkAllAsViewed={notifyMarkAllAsViewed}
+                                // getNotificationsHistory={getNotificationsHistory}
+                                // notifyMarkAllAsViewed={notifyMarkAllAsViewed}
                                 onClose={this.onNotificationsMenuToggle}
                             />
                         </AdaptivePopover>

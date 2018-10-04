@@ -48,17 +48,17 @@ export default class NotificationsMenu extends PureComponent {
         accounts: PropTypes.instanceOf(Map),
 
         onClose: PropTypes.func.isRequired,
-        getNotificationsHistory: PropTypes.func.isRequired,
-        notifyMarkAllAsViewed: PropTypes.func.isRequired,
+        // getNotificationsHistory: PropTypes.func.isRequired,
+        // notifyMarkAllAsViewed: PropTypes.func.isRequired,
     };
 
     componentDidMount() {
-        this.props.getNotificationsHistory({
-            types: NOTIFICATIONS_FILTER_TYPES['all'],
-            fromId: null,
-            limit: NOTIFICATIONS_PER_PAGE,
-        });
-        this.props.notifyMarkAllAsViewed();
+        // this.props.getNotificationsHistory({
+        //     types: NOTIFICATIONS_FILTER_TYPES['all'],
+        //     fromId: null,
+        //     limit: NOTIFICATIONS_PER_PAGE,
+        // });
+        // this.props.notifyMarkAllAsViewed();
 
         window.addEventListener('click', this.checkClickLink);
     }

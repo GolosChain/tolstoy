@@ -6,10 +6,9 @@ import {
     NOTIFICATION_GET_HISTORY_FRESH_SUCCESS,
     NOTIFICATION_MARK_ALL_AS_VIEWED_SUCCESS,
 } from 'src/app/redux/constants/notifications';
-import { NOTIFICATION_ONLINE_ADD_NOTIFICATION } from 'src/app/redux/constants/notificationsOnline';
 
 const initialState = fromJS({
-    freshCount: 0, // count on new notifications
+    freshCount: 0, // count of new notifications
     isFetching: false,
     error: null,
 });
@@ -31,12 +30,6 @@ export default function(state = initialState, { type, payload, error }) {
         case NOTIFICATION_GET_HISTORY_FRESH_SUCCESS:
             return state
                 .set('freshCount', payload.fresh)
-                .set('isFetching', false)
-                .set('error', null);
-
-        case NOTIFICATION_ONLINE_ADD_NOTIFICATION:
-            return state
-                .set('freshCount', state.get('freshCount') + 1)
                 .set('isFetching', false)
                 .set('error', null);
 
