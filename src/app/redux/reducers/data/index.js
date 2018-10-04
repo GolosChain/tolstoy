@@ -10,7 +10,7 @@ import { initReducer } from 'app/redux/reducers';
 export default combineReducers({
     settings: initReducer(settings),
     followers: initReducer(followers),
+    comments: initReducer(comments),
     favorites,
     rates,
-    comments,
 });

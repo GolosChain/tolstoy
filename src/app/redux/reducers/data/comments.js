@@ -1,18 +1,14 @@
-import { Map } from 'immutable';
-import { COMMENTS_SET_COMMENTS } from 'src/app/redux/constants/comments';
+import { Map, fromJS } from 'immutable';
+import { FETCH_COMMENTS_SUCCESS } from 'src/app/redux/constants/comments';
 
 const initialState = Map();
 
 export default function(state = initialState, { type, permLink, comments }) {
     switch (type) {
-        case COMMENTS_SET_COMMENTS:
-            return {
-                ...state,
-                [permLink]: {
-                    comments,
-                },
-            };
-    }
+        case FETCH_COMMENTS_SUCCESS:
+            return state.set(permLink, fromJS(comments));
 
-    return state;
+        default:
+            return state
+    }
 }

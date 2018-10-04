@@ -8,9 +8,10 @@ import {
 import { detransliterate, parsePayoutAmount } from 'app/utils/ParsersAndFormatters';
 import normalizeProfile from 'app/utils/NormalizeProfile';
 import { calcVotesStats } from 'app/utils/StateFunctions';
-import { Map } from 'immutable';
+import { Map, List } from 'immutable';
 
 const emptyMap = Map();
+const emptyList = List();
 
 const pathnameSelector = state => {
     return state.routing.locationBeforeTransitions.pathname;
@@ -125,19 +126,16 @@ export const authorSelector = createDeepEqualSelector(
 );
 
 export const commentsSelector = createDeepEqualSelector(
-    [currentPostSelector, state => state.data.comments],
-    (post, comments) => {
+    [currentPostSelector, state => state.data.comments, state => state.status.comments],
+    (post, comments, status) => {
         const postAuthor = post.author;
         const postPermLink = post.permLink;
         const permLink = `${postAuthor}/${postPermLink}`;
-        let commentsArr = [];
-        if (comments[permLink]) {
-            commentsArr = comments[permLink].comments;
-        }
         return {
             postAuthor: post.author,
             postPermLink: post.permLink,
-            comments: commentsArr,
+            comments: comments.getIn([permLink], emptyList),
+            isFetching: status.get('isFetching'),
         };
     }
 );

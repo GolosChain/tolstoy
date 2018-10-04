@@ -1,19 +1,40 @@
 import { api } from 'golos-js';
 
 import { DEFAULT_VOTE_LIMIT } from 'app/client_config';
-import { COMMENTS_SET_COMMENTS } from 'src/app/redux/constants/comments';
+import {
+    FETCH_COMMENTS,
+    FETCH_COMMENTS_ERROR,
+    FETCH_COMMENTS_SUCCESS,
+} from 'src/app/redux/constants/comments';
+import { dataSelector } from 'src/app/redux/selectors/common';
 
-export function setComments(postAuthor, postPermLink) {
+export function fetchCommentsIfNeeded(postAuthor, postPermLink) {
+    return (dispatch, getState) => {
+        if (!dataSelector(['comments', `${postAuthor}/${postPermLink}`])(getState())) {
+            return dispatch(fetchComments(postAuthor, postPermLink));
+        }
+    };
+}
+
+function fetchComments(postAuthor, postPermLink) {
     return dispatch => {
-        api.getAllContentRepliesAsync(postAuthor, postPermLink, DEFAULT_VOTE_LIMIT).then(
-            comments => {
+        dispatch({
+            type: FETCH_COMMENTS,
+        });
+        api.getAllContentRepliesAsync(postAuthor, postPermLink, DEFAULT_VOTE_LIMIT)
+            .then(comments => {
                 const permLink = `${postAuthor}/${postPermLink}`;
                 dispatch({
-                    type: COMMENTS_SET_COMMENTS,
+                    type: FETCH_COMMENTS_SUCCESS,
                     permLink,
                     comments,
                 });
-            }
-        );
+            })
+            .catch(error => {
+                dispatch({
+                    type: FETCH_COMMENTS_ERROR,
+                    error,
+                });
+            });
     };
 }
