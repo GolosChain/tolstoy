@@ -1,9 +1,7 @@
 import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
 import CollapsingBlock from 'golos-ui/CollapsingBlock';
 import PieChart from 'src/app/components/common/PieChart';
-import { vestsToGolos } from 'app/utils/StateFunctions';
 
 const Root = styled.div``;
 
@@ -88,26 +86,15 @@ const SubLabel = styled.div`
     }
 `;
 
-class AccountTokens extends PureComponent {
+export default class AccountTokens extends PureComponent {
     state = {
         hoverIndex: null,
         collapsed: false,
     };
 
-    constructor(props) {
-        super(props);
-
-        this._globalProps = props.globalProps.toJS();
-    }
-
-    componentWillReceiveProps(newProps) {
-        if (this.props.globalProps !== newProps.globalProps) {
-            this._globalProps = newProps.globalProps.toJS();
-        }
-    }
-
     render() {
         const { golos, golosSafe, gold, goldSafe, power, powerDelegated, gbgPerGolos } = this.props;
+
         const { hoverIndex } = this.state;
 
         const labels = [
@@ -149,11 +136,11 @@ class AccountTokens extends PureComponent {
                 values: [
                     {
                         title: 'Свои',
-                        value: vestsToGolos(power, this._globalProps),
+                        value: power,
                     },
                     {
                         title: 'Делегированные',
-                        value: vestsToGolos(powerDelegated, this._globalProps),
+                        value: powerDelegated,
                     },
                 ],
             },
@@ -201,9 +188,7 @@ class AccountTokens extends PureComponent {
                             <LabelBody>
                                 {label.values.map((subLabel, i) => (
                                     <SubLabel key={i}>
-                                        <SubColorMark
-                                            style={{ backgroundColor: label.color }}
-                                        />
+                                        <SubColorMark style={{ backgroundColor: label.color }} />
                                         <LabelTitle>{subLabel.title}</LabelTitle>
                                         <LabelValue>{subLabel.value}</LabelValue>
                                     </SubLabel>
@@ -230,18 +215,3 @@ class AccountTokens extends PureComponent {
         }
     };
 }
-
-export default connect((state, props) => {
-    const account = state.global.getIn(['accounts', props.accountName]);
-
-    return {
-        golos: account.get('balance').split(' ')[0],
-        golosSafe: account.get('savings_balance').split(' ')[0],
-        gold: account.get('sbd_balance').split(' ')[0],
-        goldSafe: account.get('savings_sbd_balance').split(' ')[0],
-        power: account.get('vesting_shares'),
-        powerDelegated: account.get('delegated_vesting_shares'),
-        gbgPerGolos: state.data.rates.actual.GBG.GOLOS,
-        globalProps: state.global.get('props'),
-    };
-})(AccountTokens);
