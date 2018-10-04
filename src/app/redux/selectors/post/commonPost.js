@@ -17,7 +17,7 @@ const pathnameSelector = state => {
 };
 
 const postUrlFromPathnameSelector = createDeepEqualSelector([pathnameSelector], pathname =>
-    pathname.substr(pathname.indexOf('@') + 1)
+    pathname.substring(pathname.indexOf('#') + 1).substr(pathname.indexOf('@') + 1)
 );
 
 const getMyVote = (post, username) => {

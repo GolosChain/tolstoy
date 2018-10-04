@@ -31,6 +31,7 @@ export default class CreateComment extends Component {
 
         return (
             <CreateCommentWrapper padding-bottom={inputText.length === 0 ? '17px' : '0'}>
+                <a id="comments"></a>
                 <CommentFormLoader
                     hideFooter={inputText.length === 0}
                     params={data.toJS()}
