@@ -28,6 +28,7 @@ const ButtonsBlock = styled(Block)`
 `;
 
 const Wrapper = styled.section`
+    min-width: 300px;
     max-width: 100%;
     position: relative;
     padding: 8px 20px 20px;
@@ -51,6 +52,7 @@ const AuthorTitle = styled.div`
 `;
 
 const AuthorInfoBlock = styled(Link)`
+    padding-right: 12px;
     margin-right: auto;
 `;
 
@@ -147,7 +149,15 @@ export class PopoverBody extends Component {
     };
 
     render() {
-        const { account, name, about, followerCount, pinnedPosts, className } = this.props;
+        const {
+            account,
+            name,
+            about,
+            followerCount,
+            pinnedPosts,
+            className,
+            showFollowBlock,
+        } = this.props;
 
         return (
             <Wrapper className={className}>
@@ -179,10 +189,12 @@ export class PopoverBody extends Component {
                         ))}
                     </Block>
                 )}
-                <ButtonsBlock>
-                    <FollowButton following={account} onClick={this.closePopover} />
-                    <MuteButton muting={account} onClick={this.closePopover} />
-                </ButtonsBlock>
+                {showFollowBlock && (
+                    <ButtonsBlock>
+                        <FollowButton following={account} onClick={this.closePopover} />
+                        <MuteButton muting={account} onClick={this.closePopover} />
+                    </ButtonsBlock>
+                )}
             </Wrapper>
         );
     }
