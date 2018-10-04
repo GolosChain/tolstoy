@@ -111,7 +111,6 @@ class PostContent extends Component {
         } = this.props;
 
         const formId = `postFull-${permLink}`;
-
         return (
             <Wrapper className={className}>
                 {backUrl ? (

@@ -119,11 +119,15 @@ const UserpicStyled = styled(Userpic)`
 
 @connect(
     postHeaderSelector,
-    {
-        toggleFavorite: (link, isAdd) => {
-            toggleFavoriteAction({ link, isAdd });
-        },
-        updateFollow,
+    dispatch => {
+        return {
+            toggleFavorite: (link, isAdd) => {
+                dispatch(toggleFavoriteAction({ link, isAdd }));
+            },
+            updateFollow: (follower, following, action) => {
+                dispatch(updateFollow(follower, following, action));
+            },
+        };
     }
 )
 export default class PostHeader extends Component {
