@@ -1,16 +1,16 @@
 import { Map } from 'immutable';
-import { createSelector } from "reselect";
+import { createSelector } from 'reselect';
 
 const emptyMap = Map();
 
-const searchData = state => state.messenger.search;
+export const messengerSelector = type => state => state.messenger[type];
 
 export const showResults = createSelector(
-    searchData,
-    data => data.get('showResults')
+    messengerSelector('search'),
+    search => search.get('showResults')
 );
 
 export const getAccounts = createSelector(
-    searchData,
-    data => data.get('accounts', emptyMap)
+    messengerSelector('search'),
+    search => search.get('accounts', emptyMap)
 );
