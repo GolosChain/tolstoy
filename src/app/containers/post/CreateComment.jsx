@@ -53,6 +53,7 @@ export default class CreateComment extends Component {
                     onChange={this.textChange}
                     onSuccess={this.onSuccess}
                     onCancel={this.onCancel}
+                    clearAfterAction
                 />
             </CreateCommentWrapper>
         );

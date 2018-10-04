@@ -41,6 +41,7 @@ class CommentForm extends React.Component {
         onCancel: PropTypes.func,
         onChange: PropTypes.func,
         autoFocus: PropTypes.bool,
+        clearAfterAction: PropTypes.bool,
     };
 
     constructor(props) {
@@ -316,13 +317,16 @@ class CommentForm extends React.Component {
                 try {
                     localStorage.removeItem(DRAFT_KEY);
                 } catch (err) {}
-
+                if (this.props.clearAfterAction) {
+                    this.refs.editor.setValue('');
+                }
                 this.props.onSuccess();
             },
             err => {
                 this.refs.footer.showPostError(err.toString().trim());
             }
         );
+
     };
 
     _onCancelClick = async () => {
@@ -338,6 +342,9 @@ class CommentForm extends React.Component {
             } catch (err) {}
 
             this.props.onCancel();
+            if (this.props.clearAfterAction) {
+                this.refs.editor.setValue('');
+            }
         }
     };
 
