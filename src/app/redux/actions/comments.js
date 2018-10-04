@@ -7,6 +7,7 @@ import {
     FETCH_COMMENTS_SUCCESS,
 } from 'src/app/redux/constants/comments';
 import { dataSelector } from 'src/app/redux/selectors/common';
+import { ADD_NOTIFICATION } from 'src/app/redux/constants/notifications';
 
 export function fetchCommentsIfNeeded(postAuthor, postPermLink) {
     return (dispatch, getState) => {
@@ -34,6 +35,13 @@ function fetchComments(postAuthor, postPermLink) {
                 dispatch({
                     type: FETCH_COMMENTS_ERROR,
                     error,
+                });
+                dispatch({
+                    type: ADD_NOTIFICATION,
+                    payload: {
+                        message: error,
+                        dismissAfter: 5000,
+                    },
                 });
             });
     };

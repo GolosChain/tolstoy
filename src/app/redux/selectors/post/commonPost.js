@@ -134,6 +134,7 @@ export const commentsSelector = createDeepEqualSelector(
         return {
             postAuthor: post.author,
             postPermLink: post.permLink,
+            commentsCount: post.children,
             comments: comments.getIn([permLink], emptyList),
             isFetching: status.get('isFetching'),
         };
