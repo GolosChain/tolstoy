@@ -17,11 +17,9 @@ import Modals from '@modules/Modals';
 import Icon from '@elements/Icon';
 import ScrollButton from '@elements/ScrollButton';
 import { key_utils } from 'golos-js/lib/auth/ecc';
-import MiniHeader from '@modules/MiniHeader';
 import tt from 'counterpart';
 import PageViewsCounter from '@elements/PageViewsCounter';
 
-import LocalizedCurrency from '@elements/LocalizedCurrency';
 import MobileAppButton from 'app/components/elements/MobileBanners/MobileAppButton';
 import DialogManager from 'app/components/elements/common/DialogManager';
 import { init as initAnchorHelper } from 'app/utils/anchorHelper';
@@ -29,6 +27,7 @@ import { init as initAnchorHelper } from 'app/utils/anchorHelper';
 import {
     APP_ICON,
     VEST_TICKER,
+    REGISTRATION_URL,
 } from 'app/client_config';
 
 injectGlobal`
@@ -209,7 +208,6 @@ class App extends React.Component {
 
         const route = resolveRoute(location.pathname);
         const lp = false; //location.pathname === '/';
-        const miniHeader = location.pathname === '/create_account';
         const params_keys = Object.keys(params);
         const ip =
             location.pathname === '/' ||
@@ -302,7 +300,7 @@ class App extends React.Component {
                                 )}
                             </h4>
                             <br />
-                            <a className="button" href="/create_account">
+                            <a className="button" href={REGISTRATION_URL}>
                                 {' '}
                                 <b>{tt('navigation.sign_up')}</b>{' '}
                             </a>
@@ -329,12 +327,11 @@ class App extends React.Component {
                 className={
                     'App' +
                     (lp ? ' LP' : '') +
-                    (ip ? ' index-page' : '') +
-                    (miniHeader ? ' mini-' : '')
+                    (ip ? ' index-page' : '')
                 }
                 onMouseMove={this.onEntropyEvent}
             >
-                {miniHeader ? <MiniHeader /> : <Header />}
+                <Header />
                 <div className={cn('App__content', {
                     'App__content_hide-sub-menu': route.hideSubMenu,
                 })}>

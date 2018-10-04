@@ -1,6 +1,7 @@
 import React from 'react';
 import Icon from '../../elements/Icon'
 import ReactTooltip from 'react-tooltip'
+import { REGISTRATION_URL } from 'app/client_config';
 
 class Start extends React.Component {
     state = {
@@ -49,7 +50,7 @@ class Start extends React.Component {
                             <p className='landing-start-block-title-text'>Пишите, фотографируйте, комментируйте и получайте
                                 <span
                                     data-tip='Токены, которыми вознаграждаются посты, можно перевести в любую мировую валюту.'> вознаграждение</span><ReactTooltip type='light' effect="solid" /> за любое действие</p>
-                            <a href="/create_account" className="button">Создать аккаунт</a>
+                            <a href={REGISTRATION_URL} className="button">Создать аккаунт</a>
                         </div>
                     </div>
                 </div>
@@ -84,7 +85,7 @@ class Start extends React.Component {
                                         : difAnswer}
                                 </div>
                                 <div className='landing-start-block-center column large-12 medium-12 small-12'>
-                                    <a href="/create_account" className="button">Создать аккаунт</a>
+                                    <a href={REGISTRATION_URL} className="button">Создать аккаунт</a>
                                 </div>
                             </div>
                         </div>
@@ -122,7 +123,7 @@ class Start extends React.Component {
                             </div>
 
                             <div className='landing-start-block-center column large-12 medium-12 small-12'>
-                                <a href="/create_account" className="button">Создать аккаунт</a>
+                                <a href={REGISTRATION_URL} className="button">Создать аккаунт</a>
                             </div>
                         </div>
                     </div>
@@ -151,7 +152,7 @@ class Start extends React.Component {
                                     </p>
                                 </div>
                                 <div className='landing-start-block-center column large-12 medium-12 small-12'>
-                                    <a href="/create_account" className="button">Создать аккаунт</a>
+                                    <a href={REGISTRATION_URL} className="button">Создать аккаунт</a>
                                 </div>
                             </div>
                         </div>
@@ -195,7 +196,7 @@ class Start extends React.Component {
                         </div>
                     </div>
                     <div className='landing-start-block-center column large-12 medium-12 small-12'>
-                        <a href="/create_account" className="button">Создать аккаунт</a>
+                        <a href={REGISTRATION_URL} className="button">Создать аккаунт</a>
                     </div>
                 </div>
                 <div className='landing-start-block'>

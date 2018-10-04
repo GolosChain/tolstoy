@@ -11,6 +11,7 @@ import tt from 'counterpart';
 import shouldComponentUpdate from 'app/utils/shouldComponentUpdate';
 import { blockedUsers } from 'app/utils/IllegalContent';
 import { buttonClick } from 'app/utils/Analytics';
+import { REGISTRATION_URL } from 'app/client_config';
 
 import CTABlock from '../elements/CTA/CTABlock'
 
@@ -190,7 +191,7 @@ class Post extends React.Component {
                             <br /> {tt('g.next_7_strings_sinngle_block.if_you_enjoyed_what_you_read_earn_amount')}
                             <br />
                             <a className="button sign-up" 
-                                href="/create_account"
+                                href={REGISTRATION_URL}
                                 onClick={() => buttonClick()}
                             >{tt('g.next_7_strings_sinngle_block.sign_up_now_to_receive')}
                                 <span className="free-money">{tt('g.next_7_strings_sinngle_block.free_steem', {LIQUID_TOKEN})}</span>

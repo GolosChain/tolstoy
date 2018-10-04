@@ -15,6 +15,7 @@ import secureRandom from "secure-random";
 // import Mixpanel from "mixpanel";
 import tt from 'counterpart';
 import {metrics} from 'server/metrics';
+import { REGISTRATION_URL } from 'app/client_config';
 
 // FIXME copy paste code, refactor mixpanel out
 // if (config.has("mixpanel") && config.get("mixpanel")) {
@@ -79,7 +80,7 @@ function* confirmEmailHandler() {
         order: "id DESC"
     });
     if (mid && mid.verified) {
-        this.redirect("/create_account");
+        this.redirect(REGISTRATION_URL);
     } else {
         this.redirect("/enter_mobile");
     }

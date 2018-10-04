@@ -2,8 +2,12 @@ import React from 'react';
 import {connect} from 'react-redux';
 import SvgImage from 'app/components/elements/SvgImage';
 import tt from 'counterpart';
-import { formatCoins } from 'app/utils/FormatCoins';
-import { APP_DOMAIN, PRIVACY_POLICY_URL, TERMS_OF_SERVICE_URL } from 'app/client_config';
+import {
+    APP_DOMAIN,
+    PRIVACY_POLICY_URL,
+    TERMS_OF_SERVICE_URL,
+    REGISTRATION_URL,
+} from 'app/client_config';
 import LocalizedCurrency from 'app/components/elements/LocalizedCurrency';
 
 class SignUp extends React.Component {
@@ -37,7 +41,7 @@ class SignUp extends React.Component {
                     <SvgImage name="golos" width="64px" height="64px" />
                 </div>
                 <div className="column large-8">
-                    <a href="/create_account" className="button secondary">{tt("recoveraccountstep1_jsx.continue_with_email")}</a>
+                    <a href={REGISTRATION_URL} className="button secondary">{tt("recoveraccountstep1_jsx.continue_with_email")}</a>
                 </div>
             </div>
             <div className="row">
