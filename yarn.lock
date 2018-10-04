@@ -3112,15 +3112,16 @@ code-point-at@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
 
-codemirror-spell-checker@*:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/codemirror-spell-checker/-/codemirror-spell-checker-1.1.2.tgz#1c660f9089483ccb5113b9ba9ca19c3f4993371e"
+codemirror-md@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/codemirror-md/-/codemirror-md-0.1.0.tgz#94dc9a384ae1f6af555ffe28f0dea0188532a38c"
   dependencies:
-    typo-js "*"
+    codemirror "^5.40.2"
+    marked "^0.5.1"
 
-codemirror@*:
-  version "5.39.0"
-  resolved "https://registry.yarnpkg.com/codemirror/-/codemirror-5.39.0.tgz#4654f7d2f7e525e04a62e72d9482348ccb37dce5"
+codemirror@^5.40.2:
+  version "5.40.2"
+  resolved "https://registry.yarnpkg.com/codemirror/-/codemirror-5.40.2.tgz#f4a41fee2d84e679543591b3680af259d903330b"
 
 collection-visit@^1.0.0:
   version "1.0.0"
@@ -7087,9 +7088,9 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
-marked@*:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/marked/-/marked-0.4.0.tgz#9ad2c2a7a1791f10a852e0112f77b571dce10c66"
+marked@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/marked/-/marked-0.5.1.tgz#062f43b88b02ee80901e8e8d8e6a620ddb3aa752"
 
 math-expression-evaluator@^1.2.14:
   version "1.2.17"
@@ -10196,14 +10197,6 @@ simple-html-tokenizer@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/simple-html-tokenizer/-/simple-html-tokenizer-0.1.1.tgz#05c2eec579ffffe145a030ac26cfea61b980fabe"
 
-simplemde@^1.11.2:
-  version "1.11.2"
-  resolved "https://registry.yarnpkg.com/simplemde/-/simplemde-1.11.2.tgz#a23a35d978d2c40ef07dec008c92f070d8e080e3"
-  dependencies:
-    codemirror "*"
-    codemirror-spell-checker "*"
-    marked "*"
-
 sinon-chai@^2.8.0:
   version "2.14.0"
   resolved "https://registry.yarnpkg.com/sinon-chai/-/sinon-chai-2.14.0.tgz#da7dd4cc83cd6a260b67cca0f7a9fdae26a1205d"
@@ -11077,10 +11070,6 @@ typedarray-to-buffer@^3.1.2:
 typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
-
-typo-js@*:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/typo-js/-/typo-js-1.0.3.tgz#54d8ebc7949f1a7810908b6002c6841526c99d5a"
 
 ua-parser-js@^0.7.18:
   version "0.7.18"
