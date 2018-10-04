@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import tt from 'counterpart';
 import { Helmet } from 'react-helmet';
 
@@ -8,9 +9,26 @@ import Chat  from '../Chat';
 import ChatListContainer from '../ChatList';
 import LookupAccounts from '../LookupAccounts';
 import { dialogs, chatData } from '../../utils/_data';
+import { initMessenger } from '../../redux/actions/messenger';
 
 @authProtection()
+@connect(
+    null,
+    {
+        initMessenger
+    }
+)
 export default class MessengerApp extends Component {
+
+    componentDidMount() {
+        const {
+            authorizedAccountName,
+            initMessenger
+        } = this.props;
+        
+        initMessenger(authorizedAccountName);
+    }
+
     render() {
         return (
             <Messenger>
