@@ -27,7 +27,7 @@ const TYPES = {
 
 const DialogFrameStyled = styled(DialogFrame)`
     flex-basis: 580px;
-    
+
     @media (max-width: 550px) {
         flex-basis: 340px;
     }
@@ -115,20 +115,27 @@ const LoaderWrapper = styled.div`
 `;
 
 class DelegateVestingDialog extends PureComponent {
-    state = {
-        type: TYPES.DELEGATE,
-        target: '',
-        amount: '',
-        amountInFocus: false,
-        loader: false,
-        disabled: false,
-        delegationError: null,
-        delegationData: null,
-        editAccountName: null,
-    };
-
     constructor(props) {
         super(props);
+
+        let target = '';
+
+        if (props.pageAccountName && props.pageAccountName !== props.myUser.get('username')) {
+            target = props.pageAccountName;
+        }
+
+        this.state = {
+            type: TYPES.DELEGATE,
+            target,
+            amount: '',
+            amountInFocus: false,
+            loader: false,
+            disabled: false,
+            delegationError: null,
+            delegationData: null,
+            editAccountName: null,
+            autoFocusValue: Boolean(target),
+        };
 
         this._globalProps = props.globalProps.toJS();
     }
@@ -245,7 +252,7 @@ class DelegateVestingDialog extends PureComponent {
     }
 
     _renderDelegateBody({ availableBalanceString }) {
-        const { target, amount } = this.state;
+        const { target, amount, autoFocusValue } = this.state;
 
         return (
             <Columns>
@@ -256,6 +263,7 @@ class DelegateVestingDialog extends PureComponent {
                             name="account"
                             spellCheck="false"
                             placeholder={'Делегировать аккаунту'}
+                            autoFocus={!autoFocusValue}
                             value={target}
                             onChange={this._onTargetChange}
                         />
@@ -270,6 +278,7 @@ class DelegateVestingDialog extends PureComponent {
                             value={amount}
                             activeId="power"
                             buttons={[{ id: 'power', title: 'СГ' }]}
+                            autoFocus={autoFocusValue}
                             onChange={this._onAmountChange}
                             onFocus={this._onAmountFocus}
                             onBlur={this._onAmountBlur}
