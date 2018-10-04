@@ -25,6 +25,10 @@ const TYPES = {
     CANCEL: 'CANCEL',
 };
 
+function normalizeAccountName(name) {
+    return name.trim().toLowerCase();
+}
+
 const DialogFrameStyled = styled(DialogFrame)`
     flex-basis: 580px;
 
@@ -163,7 +167,7 @@ class DelegateVestingDialog extends PureComponent {
 
         const { value, error } = parseAmount2(amount, availableBalance, !amountInFocus, 1000);
 
-        const allow = target.trim() && value > 0 && !error && !loader && !disabled;
+        const allow = target && value > 0 && !error && !loader && !disabled;
 
         const hint = null;
 
@@ -334,7 +338,7 @@ class DelegateVestingDialog extends PureComponent {
     confirmClose() {
         const { amount, target } = this.state;
 
-        if (amount.trim() || target.trim()) {
+        if (amount.trim() || target) {
             DialogManager.dangerConfirm('Вы действительно хотите закрыть окно?').then(y => {
                 if (y) {
                     this.props.onClose();
@@ -382,7 +386,7 @@ class DelegateVestingDialog extends PureComponent {
 
     _onTargetChange = e => {
         this.setState({
-            target: e.target.value,
+            target: normalizeAccountName(e.target.value),
         });
     };
 
@@ -393,8 +397,6 @@ class DelegateVestingDialog extends PureComponent {
     _onOkClick = () => {
         const { myUser } = this.props;
         const { target, amount, loader, disabled, delegationData } = this.state;
-
-        const normalizedTarget = target.trim().toLowerCase();
 
         if (loader || disabled) {
             return;
@@ -410,7 +412,7 @@ class DelegateVestingDialog extends PureComponent {
         let alreadyDelegated = 0;
 
         if (delegationData) {
-            const data = delegationData.find(data => data.delegatee === normalizedTarget);
+            const data = delegationData.find(data => data.delegatee === target);
 
             if (data) {
                 alreadyDelegated = parseFloat(data.vesting_shares);
@@ -424,7 +426,7 @@ class DelegateVestingDialog extends PureComponent {
 
         const operation = {
             delegator: iAm,
-            delegatee: normalizedTarget,
+            delegatee: target,
             vesting_shares: vesting + ' GESTS',
         };
 

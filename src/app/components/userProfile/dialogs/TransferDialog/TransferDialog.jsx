@@ -18,6 +18,10 @@ const CURRENCIES = {
     GOLOS: 'GOLOS',
 };
 
+function normalizeAccountName(name) {
+    return name.trim().toLowerCase();
+}
+
 const DialogFrameStyled = styled(DialogFrame)`
     flex-basis: 616px;
 
@@ -135,8 +139,6 @@ class TransferDialog extends PureComponent {
         const { myAccount, myUser } = this.props;
         const { target, amount, currency, note, loader, disabled, amountInFocus } = this.state;
 
-        const normalizedTarget = target.trim().toLowerCase();
-
         const buttons = [
             {
                 id: CURRENCIES.GBG,
@@ -161,12 +163,12 @@ class TransferDialog extends PureComponent {
         let { value, error } = parseAmount(amount, balance, !amountInFocus);
 
         if (!error) {
-            if (myUser.get('username') === normalizedTarget) {
+            if (myUser.get('username') === target) {
                 error = 'Нельзя выполнить перевод самому себе';
             }
         }
 
-        const allow = normalizedTarget && value > 0 && !error && !loader && !disabled;
+        const allow = target && value > 0 && !error && !loader && !disabled;
 
         return (
             <DialogFrameStyled
@@ -282,7 +284,7 @@ class TransferDialog extends PureComponent {
 
     _onTargetChange = e => {
         this.setState({
-            target: e.target.value,
+            target: normalizeAccountName(e.target.value),
         });
     };
 
@@ -298,11 +300,9 @@ class TransferDialog extends PureComponent {
             return;
         }
 
-        const normalizedTarget = target.trim().toLowerCase();
-
         const operation = {
             from: myUser.get('username'),
-            to: normalizedTarget,
+            to: target,
             amount: parseFloat(amount.replace(/\s+/, '')).toFixed(3) + ' ' + currency,
             memo: note,
         };
