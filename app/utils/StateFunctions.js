@@ -44,11 +44,16 @@ export function vestsToGolosEasy(amount) {
     );
 }
 
-export function golosToVests(golos, gprops) {
+export function golosToVests(golos, gprops, returnFloat) {
     const { total_vesting_fund_steem, total_vesting_shares } = gprops;
     const totalVestingFundGolos = toAsset(total_vesting_fund_steem).amount;
     const totalVestingShares = toAsset(total_vesting_shares).amount;
     const vests = golos / (totalVestingFundGolos / totalVestingShares);
+
+    if (returnFloat) {
+        return vests;
+    }
+
     return vests.toFixed(6);
 }
 

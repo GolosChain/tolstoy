@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
+import { api } from 'golos-js';
 import { MIN_VOICE_POWER } from 'app/client_config';
 import transaction from 'app/redux/Transaction';
 import DialogFrame from 'app/components/dialogs/DialogFrame';
@@ -15,7 +16,6 @@ import { parseAmount2 } from 'src/app/helpers/currency';
 import { vestsToGolos, golosToVests, getVesting } from 'app/utils/StateFunctions';
 import Shrink from 'src/app/components/golos-ui/Shrink';
 import DelegationsList from './DelegationsList';
-import { api } from 'golos-js';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import DelegationEdit from './DelegationEdit';
 import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';
@@ -24,6 +24,10 @@ const TYPES = {
     DELEGATE: 'DELEGATE',
     CANCEL: 'CANCEL',
 };
+
+function normalizeAccountName(name) {
+    return name.trim().toLowerCase();
+}
 
 const DialogFrameStyled = styled(DialogFrame)`
     flex-basis: 580px;
@@ -170,7 +174,7 @@ class DelegateVestingDialog extends PureComponent {
 
         const { value, error } = parseAmount2(amount, availableBalance, !amountInFocus, 1000);
 
-        const allow = target.trim() && value > 0 && !error && !loader && !disabled;
+        const allow = target && value > 0 && !error && !loader && !disabled;
 
         const hint = null;
 
@@ -309,13 +313,13 @@ class DelegateVestingDialog extends PureComponent {
         let vestingShares = null;
 
         if (editAccountName) {
-            for (let data of delegationData) {
-                if (data.delegatee === editAccountName) {
-                    delegation = data;
-                    vestingShares = Math.round(
-                        parseFloat(vestsToGolos(data.vesting_shares, this._globalProps)) * 1000
-                    );
-                }
+            const data = delegationData.find(data => data.delegatee === editAccountName);
+
+            if (data) {
+                delegation = data;
+                vestingShares = Math.round(
+                    parseFloat(vestsToGolos(data.vesting_shares, this._globalProps)) * 1000
+                );
             }
         }
 
@@ -343,7 +347,7 @@ class DelegateVestingDialog extends PureComponent {
     confirmClose() {
         const { amount, target } = this.state;
 
-        if (amount.trim() || target.trim()) {
+        if (amount.trim() || target) {
             DialogManager.dangerConfirm('Вы действительно хотите закрыть окно?').then(y => {
                 if (y) {
                     this.props.onClose();
@@ -391,7 +395,7 @@ class DelegateVestingDialog extends PureComponent {
 
     _onTargetChange = e => {
         this.setState({
-            target: e.target.value,
+            target: normalizeAccountName(e.target.value),
         });
     };
 
@@ -401,7 +405,7 @@ class DelegateVestingDialog extends PureComponent {
 
     _onOkClick = () => {
         const { myUser } = this.props;
-        const { target, amount, loader, disabled } = this.state;
+        const { target, amount, loader, disabled, delegationData } = this.state;
 
         if (loader || disabled) {
             return;
@@ -414,11 +418,24 @@ class DelegateVestingDialog extends PureComponent {
 
         const iAm = myUser.get('username');
 
-        const vesting = golosToVests(parseFloat(amount.replace(/\s+/, '')), this._globalProps);
+        let alreadyDelegated = 0;
+
+        if (delegationData) {
+            const data = delegationData.find(data => data.delegatee === target);
+
+            if (data) {
+                alreadyDelegated = parseFloat(data.vesting_shares);
+            }
+        }
+
+        const vesting = (
+            alreadyDelegated +
+            golosToVests(parseFloat(amount.replace(/\s+/, '')), this._globalProps, true)
+        ).toFixed(6);
 
         const operation = {
             delegator: iAm,
-            delegatee: target.trim(),
+            delegatee: target,
             vesting_shares: vesting + ' GESTS',
         };
 
@@ -499,7 +516,7 @@ class DelegateVestingDialog extends PureComponent {
             const result = await api.getVestingDelegationsAsync(
                 myUser.get('username'),
                 '',
-                100,
+                1000,
                 'delegated'
             );
 
