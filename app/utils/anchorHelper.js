@@ -5,6 +5,14 @@ export function init() {
         tryMoveToAnchor();
     });
 
+    window.addEventListener('click', e => {
+        if (e.target.closest('a[href]')) {
+            setTimeout(() => {
+                tryMoveToAnchor();
+            }, 10);
+        }
+    });
+
     let testsCount = 0;
     const interval = setInterval(() => {
         tryMoveToAnchor();
