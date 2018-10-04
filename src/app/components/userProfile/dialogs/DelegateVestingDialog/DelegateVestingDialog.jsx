@@ -300,13 +300,13 @@ class DelegateVestingDialog extends PureComponent {
         let vestingShares = null;
 
         if (editAccountName) {
-            for (let data of delegationData) {
-                if (data.delegatee === editAccountName) {
-                    delegation = data;
-                    vestingShares = Math.round(
-                        parseFloat(vestsToGolos(data.vesting_shares, this._globalProps)) * 1000
-                    );
-                }
+            const data = delegationData.find(data => data.delegatee === editAccountName);
+
+            if (data) {
+                delegation = data;
+                vestingShares = Math.round(
+                    parseFloat(vestsToGolos(data.vesting_shares, this._globalProps)) * 1000
+                );
             }
         }
 
@@ -410,11 +410,10 @@ class DelegateVestingDialog extends PureComponent {
         let alreadyDelegated = 0;
 
         if (delegationData) {
-            for (let { delegatee, vesting_shares } of delegationData) {
-                if (delegatee === normalizedTarget) {
-                    alreadyDelegated = parseFloat(vesting_shares);
-                    break;
-                }
+            const data = delegationData.find(data => data.delegatee === normalizedTarget);
+
+            if (data) {
+                alreadyDelegated = parseFloat(data.vesting_shares);
             }
         }
 
