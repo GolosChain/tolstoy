@@ -83,9 +83,33 @@ const Tags = styled.div`
     }
 `;
 
-const CategoryWrapper = styled.div`
+const BodyHeaderWrapper = styled.div`
     display: flex;
     justify-content: space-between;
+`;
+
+const PromotedMark = styled.div`
+    position: relative;
+    display: flex;
+    
+    & > ${Icon} {
+        position: relative;
+        z-index: 2;
+    }
+    
+    &::after {
+        content: '';
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -40%);
+        z-index: 1;
+        
+        width: 14px;
+        height: 17px;
+        
+        box-shadow: 0 0 30px 0 rgba(0, 0, 0, .4);
+    }
 `;
 
 class PostContent extends Component {
@@ -120,12 +144,14 @@ class PostContent extends Component {
                 ) : null}
                 <PostHeader />
                 <Body>
-                    <CategoryWrapper>
+                    <BodyHeaderWrapper>
                         <TagLink to={'/trending/' + category.origin} category={1}>
                             {category.tag}
                         </TagLink>
-                        {isPromoted && <Icon name="best" width="34" height="37" />}
-                    </CategoryWrapper>
+                        <PromotedMark>
+                            {isPromoted && <Icon name="best" width="34" height="37" />}
+                        </PromotedMark>
+                    </BodyHeaderWrapper>
                     <PostTitle>{title}</PostTitle>
                     <PostBody>
                         <MarkdownViewer
