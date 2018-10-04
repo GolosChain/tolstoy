@@ -7,7 +7,6 @@ import tt from 'counterpart';
 import cn from 'classnames';
 import MarkdownEditorToolbar from 'app/components/elements/postEditor/MarkdownEditorToolbar';
 import DialogManager from 'app/components/elements/common/DialogManager';
-import 'simplemde/dist/simplemde.min.css';
 import './MarkdownEditor.scss';
 
 const DELAYED_TIMEOUT = 1000;
@@ -15,7 +14,7 @@ const LINE_HEIGHT = 28;
 let SimpleMDE;
 
 if (process.env.BROWSER) {
-    SimpleMDE = require('simplemde');
+    SimpleMDE = require('codemirror-md');
 }
 
 let lastWidgetId = 0;
@@ -62,7 +61,6 @@ export default class MarkdownEditor extends PureComponent {
         const props = this.props;
 
         this._simplemde = new SimpleMDE({
-            spellChecker: false,
             status: false,
             autofocus: props.autoFocus,
             placeholder: props.placeholder,
@@ -73,6 +71,7 @@ export default class MarkdownEditor extends PureComponent {
             toolbar: false,
             toolbarTips: false,
             autoDownloadFontAwesome: false,
+            spellCheck: true,
             blockStyles: {
                 italic: '_',
             },
