@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Icon from 'golos-ui/Icon';
 import { TagLink } from 'golos-ui/Tag';
 
-import PostHeader from 'src/app/containers/post/PostHeader';
+import PostHeader from 'src/app/containers/post/postHeader';
 import MarkdownViewer from 'app/components/cards/MarkdownViewer';
 
 const Wrapper = styled.section`

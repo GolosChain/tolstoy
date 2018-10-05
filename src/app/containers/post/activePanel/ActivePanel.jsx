@@ -8,12 +8,12 @@ import Icon from 'golos-ui/Icon';
 import VotePanel from 'src/app/components/common/VotePanel/VotePanel';
 import ReplyBlock from 'src/app/components/common/ReplyBlock/ReplyBlock';
 import { confirmVote } from 'src/app/helpers/votes';
+import SharePopover from 'src/app/components/post/SharePopover';
 import {
     PopoverBackgroundShade,
     ClosePopoverButton,
     PopoverStyled,
 } from 'src/app/components/post/PopoverAdditionalStyles';
-import SharePopover from 'src/app/components/post/SharePopover';
 
 const Wrapper = styled.div`
     display: flex;

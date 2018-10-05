@@ -2,21 +2,17 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
 import { Link } from 'react-router';
-import { connect } from 'react-redux';
 
 import Icon from 'golos-ui/Icon';
 import Button from 'golos-ui/Button';
 
 import Userpic from 'app/components/elements/Userpic';
 import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
-import { toggleFavoriteAction } from 'src/app/redux/actions/favorites';
-import { updateFollow } from 'src/app/redux/actions/follow';
+import PopoverBody from 'src/app/containers/post/popoverBody/index';
 import {
     PopoverBackgroundShade,
     PopoverStyled,
 } from 'src/app/components/post/PopoverAdditionalStyles';
-import { postHeaderSelector } from 'src/app/redux/selectors/post/postHeader';
-import PopoverBody from 'src/app/containers/post/popoverBody';
 
 const Wrapper = styled.div`
     display: flex;
@@ -117,42 +113,33 @@ const UserpicStyled = styled(Userpic)`
     }
 `;
 
-@connect(
-    postHeaderSelector,
-    {
-        toggleFavorite: (link, isAdd) => {
-            toggleFavoriteAction({ link, isAdd });
-        },
-        updateFollow,
-    }
-)
-export default class PostHeader extends Component {
+export class PostHeader extends Component {
     state = {
         showPopover: false,
     };
 
-    _openPopover = () => {
+    openPopover = () => {
         this.setState({
             showPopover: true,
         });
     };
 
-    _closePopover = () => {
+    closePopover = () => {
         this.setState({
             showPopover: false,
         });
     };
 
-    _toggleFavorite = () => {
+    toggleFavorite = () => {
         const { author, permLink, isFavorite } = this.props;
         this.props.toggleFavorite(author + '/' + permLink, !isFavorite);
     };
 
-    _follow = () => {
+    follow = () => {
         this.props.updateFollow(this.props.username, this.props.author, 'blog');
     };
 
-    _unfollow = () => {
+    unfollow = () => {
         this.props.updateFollow(this.props.username, this.props.author, null);
     };
 
@@ -165,9 +152,9 @@ export default class PostHeader extends Component {
                 <UserInfoWrapper>
                     <Avatar>
                         <PopoverBackgroundShade show={showPopover} />
-                        <UserpicStyled account={author} size={50} onClick={this._openPopover} />
-                        <PopoverStyled onClose={this._closePopover} show={showPopover}>
-                            <PopoverBody close={this._closePopover} author={author} />
+                        <UserpicStyled account={author} size={50} onClick={this.openPopover} />
+                        <PopoverStyled onClose={this.closePopover} show={showPopover}>
+                            <PopoverBody close={this.closePopover} author={author} />
                         </PopoverStyled>
                     </Avatar>
                     <InfoBlock>
@@ -177,11 +164,11 @@ export default class PostHeader extends Component {
                 </UserInfoWrapper>
                 {!isMy &&
                     (isFollow ? (
-                        <FollowRound light onClick={this._unfollow} data-tooltip={tt('g.unfollow')}>
+                        <FollowRound light onClick={this.unfollow} data-tooltip={tt('g.unfollow')}>
                             <Icon name="cross" width={12} height={12} />
                         </FollowRound>
                     ) : (
-                        <FollowRound onClick={this._follow} data-tooltip={tt('g.follow')}>
+                        <FollowRound onClick={this.follow} data-tooltip={tt('g.follow')}>
                             <Icon name="check" width={14} height={10} />
                         </FollowRound>
                     ))}
@@ -189,7 +176,7 @@ export default class PostHeader extends Component {
                     data-tooltip={
                         isFavorite ? tt('g.remove_from_favorites') : tt('g.add_to_favorites')
                     }
-                    onClick={this._toggleFavorite}
+                    onClick={this.toggleFavorite}
                 >
                     <Icon name={isFavorite ? 'star_filled' : 'star'} width={20} height={20} />
                 </IconWrapper>
