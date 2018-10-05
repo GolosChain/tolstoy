@@ -1,22 +1,21 @@
 import React from 'react';
-import Icon from 'golos-ui/Icon';
 import is from 'styled-is';
 import styled from 'styled-components';
 
-const ActionButton = styled.div`
+import Icon from 'golos-ui/Icon';
+
+const Wrapper = styled.div`
     display: flex;
     align-items: center;
     flex-direction: column;
 
-    ${({ activeType }) =>
-        activeType === 'like'
-            ? `div { color: #2879ff }`
-            : activeType === 'dislike'
-                ? `div { color: #ff4e00 }`
-                : ``};
+    div {
+        color: ${({ activeType }) =>
+            activeType === 'like' ? '#2879ff' : activeType === 'dislike' ? '#ff4e00' : ''};
+    }
 `;
 
-const ActionIconWrapper = styled.div`
+const IconWrapper = styled.div`
     display: flex;
     padding: 5px;
     cursor: pointer;
@@ -48,18 +47,18 @@ export const Action = ({
     className,
 }) => {
     return (
-        <ActionButton
+        <Wrapper
             onClick={onClick}
             data-tooltip={dataTooltip}
             data-tooltip-html
             activeType={activeType}
             className={className}
         >
-            <ActionIconWrapper>
+            <IconWrapper>
                 <Icon width="20" height="20" name={iconName} />
-            </ActionIconWrapper>
+            </IconWrapper>
             <CountOf count={count}>{count}</CountOf>
             {children}
-        </ActionButton>
+        </Wrapper>
     );
 };

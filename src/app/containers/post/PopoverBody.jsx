@@ -8,7 +8,7 @@ import { Link } from 'react-router';
 import Icon from 'golos-ui/Icon';
 
 import Userpic from 'app/components/elements/Userpic';
-import Mute from 'src/app/components/common/Mute';
+import Mute from 'src/app/components/common/Mute/index';
 import { toggleFavoriteAction } from 'src/app/redux/actions/favorites';
 import { USER_PINNED_POSTS_LOAD } from 'src/app/redux/constants/pinnedPosts';
 import { authorSelector } from 'src/app/redux/selectors/post/commonPost';

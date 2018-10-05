@@ -11,7 +11,7 @@ import { onVote } from 'src/app/redux/actions/vote';
 import { sidePanelSelector } from 'src/app/redux/selectors/post/sidePanel';
 import { reblog } from 'src/app/redux/actions/posts';
 import { Action } from 'src/app/components/post/SidePanelAction';
-import SharePopover from 'src/app/containers/post/SharePopover';
+import SharePopover from 'src/app/components/post/SharePopover';
 import { PopoverStyled } from 'src/app/components/post/PopoverAdditionalStyles';
 
 const PADDING_FROM_HEADER = 22;

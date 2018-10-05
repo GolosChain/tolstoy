@@ -18,7 +18,7 @@ import {
     ClosePopoverButton,
     PopoverStyled,
 } from 'src/app/components/post/PopoverAdditionalStyles';
-import SharePopover from 'src/app/containers/post/SharePopover';
+import SharePopover from 'src/app/components/post/SharePopover';
 
 const Wrapper = styled.div`
     display: flex;

@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import CommentCard from 'src/app/components/common/CommentCard/CommentCard';
 
-const CommentsListWrapper = styled.div``;
+const Wrapper = styled.div``;
 
 const CommentCardStyled = styled(CommentCard)`
     margin-top: 20px;
@@ -21,7 +21,7 @@ export default class CommentsList extends Component {
     render() {
         const { username, isFetching, comments } = this.props;
         return (
-            <CommentsListWrapper>
+            <Wrapper>
                 {comments.map((comment, index) => {
                     const author = comment.get('author');
                     const permLink = comment.get('permlink');
@@ -34,7 +34,7 @@ export default class CommentsList extends Component {
                         />
                     );
                 })}
-            </CommentsListWrapper>
+            </Wrapper>
         );
     }
 }

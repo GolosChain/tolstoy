@@ -11,9 +11,8 @@ import Button from 'golos-ui/Button';
 import Userpic from 'app/components/elements/Userpic';
 import Follow from 'src/app/components/common/Follow/Follow';
 import { aboutPanelSelector } from 'src/app/redux/selectors/post/aboutPanel';
-
-import { LIQUID_TICKER } from 'app/client_config';
 import user from 'app/redux/User';
+import { LIQUID_TICKER } from 'app/client_config';
 
 const Wrapper = styled.div`
     display: flex;

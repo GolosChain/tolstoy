@@ -5,10 +5,11 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
 import Icon from 'golos-ui/Icon';
+import Button from 'golos-ui/Button';
 
 import Userpic from 'app/components/elements/Userpic';
 import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
-import PopoverBody from 'src/app/components/post/PopoverBody';
+import PopoverBody from 'src/app/containers/post/PopoverBody';
 import { toggleFavoriteAction } from 'src/app/redux/actions/favorites';
 import { updateFollow } from 'src/app/redux/actions/follow';
 import {
@@ -16,7 +17,7 @@ import {
     PopoverStyled,
 } from 'src/app/components/post/PopoverAdditionalStyles';
 import { postHeaderSelector } from 'src/app/redux/selectors/post/postHeader';
-import Button from 'src/app/components/golos-ui/Button';
+
 
 const Wrapper = styled.div`
     display: flex;
