@@ -174,19 +174,7 @@ ActionIcon.defaultProps = {
     height: 20,
 };
 
-@connect(
-    activePanelSelector,
-    {
-        onVote,
-        togglePinAction,
-        reblog,
-        showPromotePost: (author, permlink) => ({
-            type: 'global/SHOW_DIALOG',
-            payload: { name: 'promotePost', params: { author, permlink } },
-        }),
-    }
-)
-export default class ActivePanel extends Component {
+export class ActivePanel extends Component {
     state = {
         showDotsPopover: false,
         showSharePopover: false,

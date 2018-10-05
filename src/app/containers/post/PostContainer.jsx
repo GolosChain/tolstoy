@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Container from 'src/app/components/common/Container/Container';
 import SidePanel from 'src/app/containers/post/SidePanel';
 import PostContent from 'src/app/containers/post/PostContent';
-import ActivePanel from 'src/app/containers/post/ActivePanel';
+import ActivePanel from 'src/app/containers/post/activePanel/ActivePanel';
 import { USER_FOLLOW_DATA_LOAD } from 'src/app/redux/constants/followers';
 import { FAVORITES_LOAD } from 'src/app/redux/constants/favorites';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
