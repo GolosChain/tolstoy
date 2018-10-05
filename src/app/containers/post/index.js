@@ -1,1 +1,2 @@
-export { default } from './PostContainer';
+export { default } from './PostContainer.connect';
+export { PostContainer } from './PostContainer';

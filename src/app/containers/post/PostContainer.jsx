@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 import Container from 'src/app/components/common/Container/Container';
 import SidePanel from 'src/app/containers/post/sidePanel';
 import PostContent from 'src/app/containers/post/postContent';
-import { USER_FOLLOW_DATA_LOAD } from 'src/app/redux/constants/followers';
-import { FAVORITES_LOAD } from 'src/app/redux/constants/favorites';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import RegistrationPanel from 'src/app/components/post/RegistrationPanel';
-import { postContainerSelector } from 'src/app/redux/selectors/post/postContainer';
 import AboutPanel from 'src/app/containers/post/aboutPanel';
 import ActivePanel from 'src/app/containers/post/activePanel';
 import CommentsContainer from 'src/app/containers/post/commentsContainer';
@@ -38,22 +34,7 @@ const Loader = styled(LoadingIndicator)`
     margin-top: 30px;
 `;
 
-@connect(
-    postContainerSelector,
-    {
-        loadUserFollowData: username => ({
-            type: USER_FOLLOW_DATA_LOAD,
-            payload: {
-                username,
-            },
-        }),
-        loadFavorites: () => ({
-            type: FAVORITES_LOAD,
-            payload: {},
-        }),
-    }
-)
-export default class PostContainer extends Component {
+export class PostContainer extends Component {
     componentDidMount() {
         this.props.loadUserFollowData(this.props.account);
         this.props.loadFavorites();
