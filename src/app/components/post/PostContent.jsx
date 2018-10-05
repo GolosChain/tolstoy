@@ -59,7 +59,7 @@ const PostBody = styled.div`
     padding: 12px 0 14px;
 
     p {
-        color: #373D3F;
+        color: #373d3f;
         font-family: 'Open Sans', sans-serif;
         font-size: 18px;
         letter-spacing: -0.29px;
@@ -91,12 +91,7 @@ const BodyHeaderWrapper = styled.div`
 const PromotedMark = styled.div`
     position: relative;
     display: flex;
-    
-    & > ${Icon} {
-        position: relative;
-        z-index: 2;
-    }
-    
+
     &::after {
         content: '';
         position: absolute;
@@ -104,12 +99,20 @@ const PromotedMark = styled.div`
         left: 50%;
         transform: translate(-50%, -40%);
         z-index: 1;
-        
+
         width: 14px;
         height: 17px;
-        
-        box-shadow: 0 0 30px 0 rgba(0, 0, 0, .4);
+
+        box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.4);
     }
+`;
+
+const PromotedIcon = styled(Icon)`
+    position: relative;
+    z-index: 2;
+
+    min-width: 34px;
+    min-height: 37px;
 `;
 
 class PostContent extends Component {
@@ -148,9 +151,11 @@ class PostContent extends Component {
                         <TagLink to={'/trending/' + category.origin} category={1}>
                             {category.tag}
                         </TagLink>
-                        <PromotedMark>
-                            {isPromoted && <Icon name="best" width="34" height="37" />}
-                        </PromotedMark>
+                        {isPromoted && (
+                            <PromotedMark>
+                                <PromotedIcon name="best" width="34" height="37" />
+                            </PromotedMark>
+                        )}
                     </BodyHeaderWrapper>
                     <PostTitle>{title}</PostTitle>
                     <PostBody>

@@ -144,7 +144,7 @@ export default class SidePanel extends Component {
 
     _toggleFavorite = () => {
         const { author, permLink, isFavorite } = this.props;
-        this.props.toggleFavoriteAction({link: author + '/' + permLink, isAdd: !isFavorite});
+        this.props.toggleFavoriteAction({ link: author + '/' + permLink, isAdd: !isFavorite });
     };
 
     _like = async () => {
