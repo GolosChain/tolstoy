@@ -36,13 +36,18 @@ const Loader = styled(LoadingIndicator)`
 
 export class PostContainer extends Component {
     componentDidMount() {
-        this.props.loadUserFollowData(this.props.account);
+        this.props.loadUserFollowData(this.props.author);
         this.props.loadFavorites();
     }
 
     togglePin = () => {
-        const { account, permLink, isPinned, togglePin } = this.props;
-        togglePin(account + '/' + permLink, !isPinned);
+        const { author, permLink, isPinned, togglePin } = this.props;
+        togglePin(author + '/' + permLink, !isPinned);
+    };
+
+    toggleFavorite = () => {
+        const { author, permLink, isFavorite } = this.props;
+        this.props.toggleFavorite(author + '/' + permLink, !isFavorite);
     };
 
     render() {
@@ -52,10 +57,10 @@ export class PostContainer extends Component {
         return (
             <Wrapper>
                 <ContentWrapper>
-                    <PostContent togglePin={this.togglePin} />
-                    <ActivePanel togglePin={this.togglePin} />
+                    <PostContent togglePin={this.togglePin} toggleFavorite={this.toggleFavorite}/>
+                    <ActivePanel togglePin={this.togglePin} toggleFavorite={this.toggleFavorite}/>
                     <AboutPanel />
-                    <SidePanel togglePin={this.togglePin} />
+                    <SidePanel togglePin={this.togglePin} toggleFavorite={this.toggleFavorite}/>
                     <CommentsContainer />
                     {!isUserAuth && <RegistrationPanel />}
                 </ContentWrapper>

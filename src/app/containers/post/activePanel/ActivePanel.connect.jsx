@@ -30,6 +30,8 @@ export default connect(
             isPinned: author.pinnedPostsUrls.includes(author.account + '/' + post.permLink),
             children: post.children,
             url: post.url,
+            isOwner: username === author.account,
+            isFavorite: post.isFavorite,
         })
     ),
 

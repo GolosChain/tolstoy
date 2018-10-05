@@ -174,6 +174,7 @@ ActionIcon.defaultProps = {
 export class ActivePanel extends Component {
     static propTypes = {
         togglePin: PropTypes.func.isRequired,
+        toggleFavorite: PropTypes.func.isRequired,
     };
 
     state = {
@@ -231,7 +232,7 @@ export class ActivePanel extends Component {
 
     render() {
         const { showDotsPopover, showSharePopover } = this.state;
-        const { data, username, url, isPinned, togglePin, children } = this.props;
+        const { data, username, url, isPinned, togglePin, isOwner, isFavorite, toggleFavorite, children } = this.props;
         return (
             <Wrapper>
                 <VotePanelWrapper
@@ -293,10 +294,16 @@ export class ActivePanel extends Component {
                             <ClosePopoverButton onClick={this.closeDotsPopover} showCross={false}>
                                 <Icon name="cross" width={16} height={16} />
                             </ClosePopoverButton>
-                            <Action onClick={togglePin} isPinned={isPinned}>
-                                <ActionIcon name="pin" />
-                                <ActionText>{tt('active_panel_tooltip.pin_post')}</ActionText>
-                            </Action>
+                            {isOwner ? <Action onClick={togglePin} isPinned={isPinned}>
+                                    <ActionIcon name="pin"/>
+                                    <ActionText>{tt('active_panel_tooltip.pin_post')}</ActionText>
+                                </Action>
+                                :
+                                <Action onClick={toggleFavorite} >
+                                    <ActionIcon name={isFavorite ? 'star_filled' : 'star'} />
+                                    <ActionText>{tt('g.add_to_favorites')}</ActionText>
+                                </Action>
+                            }
                             <Action onClick={this.promotePost}>
                                 <ActionIcon name="brilliant" />
                                 <ActionText>{tt('active_panel_tooltip.promote_post')}</ActionText>
