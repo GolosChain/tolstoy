@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import tt from 'counterpart';
@@ -9,9 +8,6 @@ import Icon from 'golos-ui/Icon';
 
 import Userpic from 'app/components/elements/Userpic';
 import Mute from 'src/app/components/common/Mute/index';
-import { toggleFavoriteAction } from 'src/app/redux/actions/favorites';
-import { USER_PINNED_POSTS_LOAD } from 'src/app/redux/constants/pinnedPosts';
-import { authorSelector } from 'src/app/redux/selectors/post/commonPost';
 import Follow from 'src/app/components/common/Follow/Follow';
 import { ClosePopoverButton } from 'src/app/components/post/PopoverAdditionalStyles';
 
@@ -126,7 +122,7 @@ const MuteButton = styled(Mute)`
     margin-left: 10px;
 `;
 
-class PopoverBody extends Component {
+export class PopoverBody extends Component {
     static propTypes = {
         close: PropTypes.func,
     };
@@ -137,13 +133,21 @@ class PopoverBody extends Component {
         }
     }
 
+    closePopover = () => {
+        if (this.props.onClose) {
+            this.props.onClose();
+        } else {
+            this.props.close();
+        }
+    };
+
     render() {
         const { account, name, about, followerCount, pinnedPosts, className } = this.props;
 
         return (
             <Wrapper className={className}>
                 <Link />
-                <ClosePopoverButton onClick={this._closePopover} showCross={true}>
+                <ClosePopoverButton onClick={this.closePopover} showCross={true}>
                     <Icon name="cross" width={16} height={16} />
                 </ClosePopoverButton>
                 <Block>
@@ -171,51 +175,10 @@ class PopoverBody extends Component {
                     </Block>
                 )}
                 <ButtonsBlock>
-                    <FollowButton following={account} onClick={this._closePopover} />
-                    <MuteButton muting={account} onClick={this._closePopover} />
+                    <FollowButton following={account} onClick={this.closePopover} />
+                    <MuteButton muting={account} onClick={this.closePopover} />
                 </ButtonsBlock>
             </Wrapper>
         );
     }
-
-    _closePopover = () => {
-        if (this.props.onClose) {
-            this.props.onClose();
-        } else {
-            this.props.close();
-        }
-    };
 }
-
-const mapStateToProps = (state, props) => {
-    const author = authorSelector(state, props);
-    return {
-        account: author.account,
-        name: author.name,
-        about: author.about,
-        followerCount: author.followerCount,
-        pinnedPosts: author.pinnedPosts,
-        pinnedPostsUrls: author.pinnedPostsUrls,
-    };
-};
-
-const mapDispatchToProps = dispatch => {
-    return {
-        toggleFavorite: (link, isAdd) => {
-            dispatch(toggleFavoriteAction({ link, isAdd }));
-        },
-        getPostContent: urls => {
-            dispatch({
-                type: USER_PINNED_POSTS_LOAD,
-                payload: {
-                    urls,
-                },
-            });
-        },
-    };
-};
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(PopoverBody);

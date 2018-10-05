@@ -9,7 +9,6 @@ import Button from 'golos-ui/Button';
 
 import Userpic from 'app/components/elements/Userpic';
 import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
-import PopoverBody from 'src/app/containers/post/PopoverBody';
 import { toggleFavoriteAction } from 'src/app/redux/actions/favorites';
 import { updateFollow } from 'src/app/redux/actions/follow';
 import {
@@ -17,7 +16,7 @@ import {
     PopoverStyled,
 } from 'src/app/components/post/PopoverAdditionalStyles';
 import { postHeaderSelector } from 'src/app/redux/selectors/post/postHeader';
-
+import PopoverBody from 'src/app/containers/post/popoverBody';
 
 const Wrapper = styled.div`
     display: flex;
