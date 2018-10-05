@@ -20,7 +20,7 @@ export default connect(
             dispatch(
                 user.actions.setTransferDefaults({
                     flag: {
-                        type: `donate`,
+                        type: 'donate',
                         fMemo: () => JSON.stringify({ donate: { post: url } }),
                     },
                     to: account,

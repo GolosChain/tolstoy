@@ -13,8 +13,8 @@ export default connect(
         (post, author, username) => {
             return {
                 account: author.account,
-                postLoaded: !!post,
-                isUserAuth: !!username,
+                postLoaded: Boolean(post),
+                isUserAuth: Boolean(username),
             };
         }
     ),
