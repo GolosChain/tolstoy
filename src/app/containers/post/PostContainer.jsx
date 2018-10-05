@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import Container from 'src/app/components/common/Container/Container';
 import SidePanel from 'src/app/containers/post/SidePanel';
 import PostContent from 'src/app/containers/post/PostContent';
-import ActivePanel from 'src/app/containers/post/activePanel/ActivePanel';
 import { USER_FOLLOW_DATA_LOAD } from 'src/app/redux/constants/followers';
 import { FAVORITES_LOAD } from 'src/app/redux/constants/favorites';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
@@ -13,6 +12,7 @@ import CommentsContainer from 'src/app/containers/post/CommentsContainer';
 import RegistrationPanel from 'src/app/components/post/RegistrationPanel';
 import { postContainerSelector } from 'src/app/redux/selectors/post/postContainer';
 import AboutPanel from 'src/app/containers/post/aboutPanel';
+import ActivePanel from 'src/app/containers/post/activePanel';
 
 const Wrapper = styled.div`
     width: 100%;
