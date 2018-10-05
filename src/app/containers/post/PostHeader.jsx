@@ -120,7 +120,7 @@ const UserpicStyled = styled(Userpic)`
 @connect(
     postHeaderSelector,
     {
-        toggleFavoriteAction,
+        toggleFavorite: toggleFavoriteAction,
         updateFollow,
     }
 )
@@ -143,7 +143,7 @@ export default class PostHeader extends Component {
 
     _toggleFavorite = () => {
         const { author, permLink, isFavorite } = this.props;
-        this.props.toggleFavoriteAction({ link: author + '/' + permLink, isAdd: !isFavorite });
+        this.props.toggleFavorite({ link: author + '/' + permLink, isAdd: !isFavorite });
     };
 
     _follow = () => {
