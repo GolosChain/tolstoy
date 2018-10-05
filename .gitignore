@@ -36,3 +36,4 @@ scripts/yarn.lock
 .env.*
 
 package-lock.json
+yarn.lock
