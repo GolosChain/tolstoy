@@ -5,22 +5,18 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 import transaction from 'app/redux/Transaction';
 import DialogFrame from 'app/components/dialogs/DialogFrame';
-import SimpleInput from 'src/app/components/golos-ui/SimpleInput';
 import ComplexInput from 'src/app/components/golos-ui/ComplexInput';
 import SplashLoader from 'src/app/components/golos-ui/SplashLoader';
 import Icon from 'src/app/components/golos-ui/Icon';
 import DialogManager from 'app/components/elements/common/DialogManager';
 import { parseAmount } from 'src/app/helpers/currency';
 import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';
+import AccountNameInput from 'src/app/components/common/AccountNameInput';
 
 const CURRENCIES = {
     GBG: 'GBG',
     GOLOS: 'GOLOS',
 };
-
-function normalizeAccountName(name) {
-    return name.trim().toLowerCase();
-}
 
 const DialogFrameStyled = styled(DialogFrame)`
     flex-basis: 616px;
@@ -195,9 +191,9 @@ class TransferDialog extends PureComponent {
                         <Column>
                             <Section>
                                 <Label>Кому</Label>
-                                <SimpleInput
+                                <AccountNameInput
                                     name="account"
-                                    spellCheck="false"
+                                    block
                                     placeholder={'Отправить аккаунту'}
                                     value={target}
                                     onChange={this._onTargetChange}
@@ -282,9 +278,9 @@ class TransferDialog extends PureComponent {
         });
     };
 
-    _onTargetChange = e => {
+    _onTargetChange = value => {
         this.setState({
-            target: normalizeAccountName(e.target.value),
+            target: value,
         });
     };
 
