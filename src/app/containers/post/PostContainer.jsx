@@ -40,6 +40,11 @@ export class PostContainer extends Component {
         this.props.loadFavorites();
     }
 
+    togglePin = () => {
+        const { account, permLink, isPinned, togglePin } = this.props;
+        togglePin(account + '/' + permLink, !isPinned);
+    };
+
     render() {
         const { postLoaded, isUserAuth } = this.props;
 
@@ -47,10 +52,10 @@ export class PostContainer extends Component {
         return (
             <Wrapper>
                 <ContentWrapper>
-                    <PostContent />
-                    <ActivePanel />
+                    <PostContent togglePin={this.togglePin} />
+                    <ActivePanel togglePin={this.togglePin} />
                     <AboutPanel />
-                    <SidePanel />
+                    <SidePanel togglePin={this.togglePin} />
                     <CommentsContainer />
                     {!isUserAuth && <RegistrationPanel />}
                 </ContentWrapper>

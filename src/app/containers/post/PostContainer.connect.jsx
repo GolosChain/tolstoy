@@ -6,6 +6,7 @@ import { currentPostSelector, authorSelector } from 'src/app/redux/selectors/pos
 import { USER_FOLLOW_DATA_LOAD } from 'src/app/redux/constants/followers';
 import { FAVORITES_LOAD } from 'src/app/redux/constants/favorites';
 import { PostContainer } from 'src/app/containers/post/PostContainer';
+import { togglePinAction } from 'src/app/redux/actions/pinnedPosts';
 
 export default connect(
     createSelector(
@@ -15,6 +16,8 @@ export default connect(
                 account: author.account,
                 postLoaded: Boolean(post),
                 isUserAuth: Boolean(username),
+                isPinned: author.pinnedPostsUrls.includes(author.account + '/' + post.permLink),
+                permLink: post.permLink,
             };
         }
     ),
@@ -30,5 +33,6 @@ export default connect(
             type: FAVORITES_LOAD,
             payload: {},
         }),
+        togglePin: togglePinAction,
     }
 )(PostContainer);

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
+import PropTypes from 'prop-types';
 
 import Icon from 'golos-ui/Icon';
 
@@ -108,7 +109,7 @@ const DotsMore = styled(Repost)`
 const Action = styled.div`
     display: flex;
     align-items: center;
-    color: #333333;
+    color: ${({ isPinned }) => (isPinned ? '#2879ff' : '#333333')};
     cursor: pointer;
 
     &:hover {
@@ -120,6 +121,7 @@ const Action = styled.div`
         min-height: 20px;
         padding: 0;
     }
+    
 `;
 
 const ActionText = styled.div`
@@ -170,6 +172,10 @@ ActionIcon.defaultProps = {
 };
 
 export class ActivePanel extends Component {
+    static propTypes = {
+        togglePin: PropTypes.func.isRequired,
+    };
+
     state = {
         showDotsPopover: false,
         showSharePopover: false,
@@ -223,14 +229,9 @@ export class ActivePanel extends Component {
         this.props.reblog(username, account, permLink);
     };
 
-    togglePin = () => {
-        const { account, permLink, isPinned, togglePinAction } = this.props;
-        togglePinAction(account + '/' + permLink, !isPinned);
-    };
-
     render() {
         const { showDotsPopover, showSharePopover } = this.state;
-        const { data, username, url, children } = this.props;
+        const { data, username, url, isPinned, togglePin, children } = this.props;
         return (
             <Wrapper>
                 <VotePanelWrapper
@@ -292,7 +293,7 @@ export class ActivePanel extends Component {
                             <ClosePopoverButton onClick={this.closeDotsPopover} showCross={false}>
                                 <Icon name="cross" width={16} height={16} />
                             </ClosePopoverButton>
-                            <Action onClick={this.togglePin}>
+                            <Action onClick={togglePin} isPinned={isPinned}>
                                 <ActionIcon name="pin" />
                                 <ActionText>{tt('active_panel_tooltip.pin_post')}</ActionText>
                             </Action>
