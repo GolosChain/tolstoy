@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
@@ -9,10 +8,6 @@ import Icon from 'golos-ui/Icon';
 import VotePanel from 'src/app/components/common/VotePanel/VotePanel';
 import ReplyBlock from 'src/app/components/common/ReplyBlock/ReplyBlock';
 import { confirmVote } from 'src/app/helpers/votes';
-import { onVote } from 'src/app/redux/actions/vote';
-import { togglePinAction } from 'src/app/redux/actions/pinnedPosts';
-import { activePanelSelector } from 'src/app/redux/selectors/post/activePanel';
-import { reblog } from 'src/app/redux/actions/posts';
 import {
     PopoverBackgroundShade,
     ClosePopoverButton,
