@@ -69,7 +69,7 @@ const ActionWrapper = styled(Action)`
 @connect(
     sidePanelSelector,
     {
-        toggleFavoriteAction,
+        toggleFavorite: toggleFavoriteAction,
         onVote,
         reblog,
     }
@@ -144,7 +144,7 @@ export default class SidePanel extends Component {
 
     _toggleFavorite = () => {
         const { author, permLink, isFavorite } = this.props;
-        this.props.toggleFavoriteAction(author + '/' + permLink, !isFavorite);
+        this.props.toggleFavorite({ link: author + '/' + permLink, isAdd: !isFavorite });
     };
 
     _like = async () => {

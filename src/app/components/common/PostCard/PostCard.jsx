@@ -498,7 +498,6 @@ class PostCard extends PureComponent {
 
     _onFavoriteClick = () => {
         const { isFavorite, data } = this.props;
-
         this.props.toggleFavorite(data.get('author') + '/' + data.get('permlink'), !isFavorite);
     };
 
