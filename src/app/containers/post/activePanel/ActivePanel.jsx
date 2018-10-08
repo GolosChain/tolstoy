@@ -4,6 +4,7 @@ import is from 'styled-is';
 import tt from 'counterpart';
 import PropTypes from 'prop-types';
 
+
 import Icon from 'golos-ui/Icon';
 
 import VotePanel from 'src/app/components/common/VotePanel/VotePanel';
@@ -16,6 +17,7 @@ import {
     PopoverStyled,
 } from 'src/app/components/post/PopoverAdditionalStyles';
 import PinnedOfFavorite from 'src/app/components/post/PinnedOrFavorite';
+
 
 const Wrapper = styled.div`
     display: flex;
@@ -242,6 +244,7 @@ export class ActivePanel extends Component {
             toggleFavorite,
             children,
         } = this.props;
+
         return (
             <Wrapper>
                 <VotePanelWrapper

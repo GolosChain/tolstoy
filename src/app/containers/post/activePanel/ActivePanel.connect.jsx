@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
 import { onVote } from 'src/app/redux/actions/vote';
+import { togglePinAction } from 'src/app/redux/actions/pinnedPosts';
 import { reblog } from 'src/app/redux/actions/posts';
 import { ActivePanel } from 'src/app/containers/post/activePanel/ActivePanel';
 import { currentUsernameSelector } from 'src/app/redux/selectors/common';
@@ -37,6 +38,7 @@ export default connect(
 
     {
         onVote,
+        togglePinAction,
         reblog,
         showPromotePost: (author, permlink) => ({
             type: 'global/SHOW_DIALOG',
