@@ -4,8 +4,9 @@ import is from 'styled-is';
 import { api, utils } from 'golos-js';
 import memoize from 'lodash/memoize';
 import throttle from 'lodash/throttle';
-import keyCodes from 'app/utils/keyCodes';
+
 import SimpleInput from 'golos-ui/SimpleInput';
+import keyCodes from 'app/utils/keyCodes';
 
 const MIN_SYMBOLS = 2;
 const MAX_VARIANTS = 5;

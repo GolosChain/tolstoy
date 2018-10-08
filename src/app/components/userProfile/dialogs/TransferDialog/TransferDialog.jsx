@@ -3,14 +3,17 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import tt from 'counterpart';
+
+import ComplexInput from 'golos-ui/ComplexInput';
+import SplashLoader from 'golos-ui/SplashLoader';
+import Icon from 'golos-ui/Icon';
+
 import transaction from 'app/redux/Transaction';
-import DialogFrame from 'app/components/dialogs/DialogFrame';
-import ComplexInput from 'src/app/components/golos-ui/ComplexInput';
-import SplashLoader from 'src/app/components/golos-ui/SplashLoader';
-import Icon from 'src/app/components/golos-ui/Icon';
-import DialogManager from 'app/components/elements/common/DialogManager';
-import { parseAmount } from 'src/app/helpers/currency';
 import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';
+import { parseAmount } from 'src/app/helpers/currency';
+
+import DialogFrame from 'app/components/dialogs/DialogFrame';
+import DialogManager from 'app/components/elements/common/DialogManager';
 import AccountNameInput from 'src/app/components/common/AccountNameInput';
 
 const CURRENCIES = {
