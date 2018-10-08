@@ -19,10 +19,12 @@ export default connect(
             return {
                 votesSummary,
                 username,
-                isFavorite: post.isFavorite,
                 author: author.account,
                 permLink: post.permLink,
                 myVote: post.myVote,
+                isOwner: username === author.account,
+                isFavorite: post.isFavorite,
+                isPinned: author.pinnedPostsUrls.includes(author.account + '/' + post.permLink),
             };
         }
     ),

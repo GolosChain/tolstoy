@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
+import PropTypes from 'prop-types';
+
 
 import Icon from 'golos-ui/Icon';
 
@@ -14,6 +16,8 @@ import {
     ClosePopoverButton,
     PopoverStyled,
 } from 'src/app/components/post/PopoverAdditionalStyles';
+import PinnedOfFavorite from 'src/app/components/post/PinnedOrFavorite';
+
 
 const Wrapper = styled.div`
     display: flex;
@@ -108,7 +112,6 @@ const DotsMore = styled(Repost)`
 const Action = styled.div`
     display: flex;
     align-items: center;
-    color: #333333;
     cursor: pointer;
 
     &:hover {
@@ -170,6 +173,11 @@ ActionIcon.defaultProps = {
 };
 
 export class ActivePanel extends Component {
+    static propTypes = {
+        togglePin: PropTypes.func.isRequired,
+        toggleFavorite: PropTypes.func.isRequired,
+    };
+
     state = {
         showDotsPopover: false,
         showSharePopover: false,
@@ -223,14 +231,20 @@ export class ActivePanel extends Component {
         this.props.reblog(username, account, permLink);
     };
 
-    togglePin = () => {
-        const { account, permLink, isPinned, togglePinAction } = this.props;
-        togglePinAction(account + '/' + permLink, !isPinned);
-    };
-
     render() {
         const { showDotsPopover, showSharePopover } = this.state;
-        const { data, username, url, children } = this.props;
+        const {
+            data,
+            username,
+            url,
+            isPinned,
+            togglePin,
+            isOwner,
+            isFavorite,
+            toggleFavorite,
+            children,
+        } = this.props;
+
         return (
             <Wrapper>
                 <VotePanelWrapper
@@ -292,10 +306,14 @@ export class ActivePanel extends Component {
                             <ClosePopoverButton onClick={this.closeDotsPopover} showCross={false}>
                                 <Icon name="cross" width={16} height={16} />
                             </ClosePopoverButton>
-                            <Action onClick={this.togglePin}>
-                                <ActionIcon name="pin" />
-                                <ActionText>{tt('active_panel_tooltip.pin_post')}</ActionText>
-                            </Action>
+                            <PinnedOfFavorite
+                                isFavorite={isFavorite}
+                                isPinned={isPinned}
+                                isOwner={isOwner}
+                                toggleFavorite={toggleFavorite}
+                                togglePin={togglePin}
+                                showText={true}
+                            />
                             <Action onClick={this.promotePost}>
                                 <ActionIcon name="brilliant" />
                                 <ActionText>{tt('active_panel_tooltip.promote_post')}</ActionText>

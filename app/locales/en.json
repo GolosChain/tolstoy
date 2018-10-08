@@ -10,6 +10,7 @@
   "active_panel_tooltip": {
     "complain_about_post": "Complain about post",
     "pin_post": "Pin post",
+    "unpin_post": "Unpin post",
     "promote_post": "Promote post"
   },
   "auth_protection": {
