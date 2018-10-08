@@ -24,6 +24,8 @@ export default connect(
             author: author.account,
             isFollow: follow.includes(author.account),
             permLink: post.permLink,
+            isOwner: username === author.account,
+            isPinned: author.pinnedPostsUrls.includes(author.account + '/' + post.permLink),
         })
     ),
 

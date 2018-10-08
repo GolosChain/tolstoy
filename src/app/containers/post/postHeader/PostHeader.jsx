@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
 import { Link } from 'react-router';
+import PropTypes from 'prop-types';
 
 import Icon from 'golos-ui/Icon';
 import Button from 'golos-ui/Button';
@@ -13,6 +14,7 @@ import {
     PopoverBackgroundShade,
     PopoverStyled,
 } from 'src/app/components/post/PopoverAdditionalStyles';
+import PinnedOfFavorite from 'src/app/components/post/PinnedOrFavorite';
 
 const Wrapper = styled.div`
     display: flex;
@@ -80,27 +82,6 @@ const FollowRound = styled(Button)`
     }
 `;
 
-const IconWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: auto;
-    width: 32px;
-    height: 32px;
-    color: ${({ color }) => color || '#393636'};
-
-    cursor: pointer;
-    transition: transform 0.15s;
-
-    &:hover {
-        transform: scale(1.15);
-    }
-
-    @media (max-width: 576px) {
-        margin-left: 0;
-    }
-`;
-
 const UserInfoWrapper = styled.div`
     display: flex;
     align-items: center;
@@ -113,7 +94,16 @@ const UserpicStyled = styled(Userpic)`
     }
 `;
 
+const PinnedOfFavoriteWrapper = styled(PinnedOfFavorite)`
+    margin-left: auto;
+`;
+
 export class PostHeader extends Component {
+    static propTypes = {
+        togglePin: PropTypes.func.isRequired,
+        toggleFavorite: PropTypes.func.isRequired,
+    };
+
     state = {
         showPopover: false,
     };
@@ -145,7 +135,18 @@ export class PostHeader extends Component {
 
     render() {
         const { showPopover } = this.state;
-        const { isMy, created, isFavorite, author, isFollow, className } = this.props;
+        const {
+            isMy,
+            created,
+            isPinned,
+            togglePin,
+            isOwner,
+            isFavorite,
+            toggleFavorite,
+            author,
+            isFollow,
+            className,
+        } = this.props;
 
         return (
             <Wrapper className={className}>
@@ -172,14 +173,13 @@ export class PostHeader extends Component {
                             <Icon name="check" width={14} height={10} />
                         </FollowRound>
                     ))}
-                <IconWrapper
-                    data-tooltip={
-                        isFavorite ? tt('g.remove_from_favorites') : tt('g.add_to_favorites')
-                    }
-                    onClick={this.toggleFavorite}
-                >
-                    <Icon name={isFavorite ? 'star_filled' : 'star'} width={20} height={20} />
-                </IconWrapper>
+                <PinnedOfFavoriteWrapper
+                    isFavorite={isFavorite}
+                    isPinned={isPinned}
+                    isOwner={isOwner}
+                    toggleFavorite={toggleFavorite}
+                    togglePin={togglePin}
+                />
             </Wrapper>
         );
     }

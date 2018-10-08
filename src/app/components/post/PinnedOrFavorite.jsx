@@ -40,25 +40,33 @@ const PinnedOfFavorite = ({
     size = 20,
     showText = false,
     toggleFavorite,
+    className,
 }) =>
     isOwner ? (
         <Action
+            className={className}
             onClick={togglePin}
-            color={console.log(size) && isPinned ? '#2879ff' : '#333333'}
+            color={isPinned ? '#2879ff' : '#333333'}
             size={size}
+            data-tooltip={isFavorite ? tt('g.remove_from_favorites') : tt('g.add_to_favorites')}
         >
             <Icon name="pin" width={size} height={size} />
             {showText ? <ActionText>{tt('active_panel_tooltip.pin_post')}</ActionText> : null}
         </Action>
     ) : (
-        <Action onClick={toggleFavorite} size={size}>
+        <Action
+            className={className}
+            onClick={toggleFavorite}
+            size={size}
+            data-tooltip={isFavorite ? tt('g.remove_from_favorites') : tt('g.add_to_favorites')}
+        >
             <Icon name={isFavorite ? 'star_filled' : 'star'} width={size} height={size} />
             {showText ? <ActionText>{tt('g.add_to_favorites')}</ActionText> : null}
         </Action>
     );
 
 PinnedOfFavorite.propTypes = {
-    isFollow: PropTypes.bool.isRequired,
+    isFavorite: PropTypes.bool.isRequired,
     isPinned: PropTypes.bool.isRequired,
     isOwner: PropTypes.bool.isRequired,
     togglePin: PropTypes.func.isRequired,
