@@ -10,7 +10,7 @@ import Icon from 'golos-ui/Icon';
 import VotePanel from '../VotePanel';
 import { confirmVote } from 'src/app/helpers/votes';
 import ReplyBlock from '../ReplyBlock';
-import { AuthorBlock } from 'src/app/containers/post/activePanel/AuthorBlock';
+import { AuthorBlock } from 'src/app/components/common/CommentCard/AuthorBlock';
 
 const Header = styled.div`
     padding: 10px 0 6px;
@@ -32,13 +32,13 @@ const HeaderLine = styled.div`
 
 const Category = styled.div`
     flex-shrink: 0;
-    
+
     height: 28px;
     padding: 0 12px;
     margin-right: 4px;
     border-radius: 6px;
     line-height: 26px;
-    
+
     font-size: 14px;
     white-space: nowrap;
     text-overflow: ellipsis;
