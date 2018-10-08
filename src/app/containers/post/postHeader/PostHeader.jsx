@@ -34,7 +34,7 @@ const Avatar = styled.div`
     cursor: pointer;
 `;
 
-const InfoBlock = styled.div`
+const InfoBlock = styled(Link)`
     margin: 0 10px;
     letter-spacing: 0.4px;
     line-height: 18px;
@@ -50,7 +50,7 @@ const InfoBlock = styled.div`
     }
 `;
 
-const AuthorName = styled(Link)`
+const AuthorName = styled.div`
     display: inline-block;
     padding: 5px 10px;
     margin: -5px 0 0 -10px;
@@ -157,8 +157,8 @@ export class PostHeader extends Component {
                             <PopoverBody close={this.closePopover} author={author} />
                         </PopoverStyled>
                     </Avatar>
-                    <InfoBlock>
-                        <AuthorName to={`/@${author}`}>{author}</AuthorName>
+                    <InfoBlock  to={`/@${author}`}>
+                        <AuthorName>{author}</AuthorName>
                         <TimeAgoWrapper date={created} />
                     </InfoBlock>
                 </UserInfoWrapper>

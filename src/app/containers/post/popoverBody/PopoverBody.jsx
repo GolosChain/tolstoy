@@ -50,7 +50,7 @@ const AuthorTitle = styled.div`
     padding-right: 20px;
 `;
 
-const AuthorInfoBlock = styled.div`
+const AuthorInfoBlock = styled(Link)`
     margin-right: auto;
 `;
 
@@ -62,7 +62,7 @@ const AuthorName = styled.div`
     line-height: 25px;
 `;
 
-const AuthorAccount = styled(Link)`
+const AuthorAccount = styled.div`
     display: inline-block;
     padding: 0 10px;
     margin-left: -10px;
@@ -152,9 +152,9 @@ export class PopoverBody extends Component {
                 </ClosePopoverButton>
                 <Block>
                     <AuthorTitle>
-                        <AuthorInfoBlock>
+                        <AuthorInfoBlock to={`/@${account}`}>
                             <AuthorName>{name}</AuthorName>
-                            <AuthorAccount to={`/@${account}`}>@{account}</AuthorAccount>
+                            <AuthorAccount>@{account}</AuthorAccount>
                         </AuthorInfoBlock>
                         <Userpic size={50} account={account} />
                     </AuthorTitle>
