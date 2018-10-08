@@ -548,7 +548,7 @@ export default class Header extends PureComponent {
                     {isMenuOpen ? (
                         <AdaptivePopover
                             isMobile={isMobile}
-                            target={this.dotsRef}
+                            target={this.dotsRef.current}
                             onClose={this.onMenuToggle}
                         >
                             <Menu onClose={this.onMenuToggle} />
