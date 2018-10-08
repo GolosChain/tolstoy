@@ -122,7 +122,7 @@ export class PostHeader extends Component {
 
     toggleFavorite = () => {
         const { author, permLink, isFavorite } = this.props;
-        this.props.toggleFavorite(author + '/' + permLink, !isFavorite);
+        this.props.toggleFavorite({ link: author + '/' + permLink, isAdd: !isFavorite });
     };
 
     follow = () => {
