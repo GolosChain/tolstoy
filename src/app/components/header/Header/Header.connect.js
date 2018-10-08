@@ -4,7 +4,6 @@ import user from 'app/redux/User';
 import {
     getNotificationsOnlineHistoryFreshCount,
     getNotificationsOnlineHistory,
-    // notifyMarkAllAsViewed,
 } from 'src/app/redux/actions/notificationsOnline';
 import { statusSelector } from 'src/app/redux/selectors/common';
 
@@ -34,6 +33,5 @@ export default connect(
         onLogin: () => user.actions.showLogin(),
         getNotificationsOnlineHistoryFreshCount,
         getNotificationsOnlineHistory,
-        // notifyMarkAllAsViewed,
     }
 )(Header);
