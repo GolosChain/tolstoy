@@ -371,9 +371,10 @@ class PostCard extends PureComponent {
     }
 
     _renderPinButton(withImage) {
-        const { grid, showPinButton, isPinned, pinDisabled } = this.props;
+        const { data, myAccount, grid, showPinButton, isPinned, pinDisabled } = this.props;
 
-        const showPin = showPinButton && (!pinDisabled || isPinned);
+        const showPin =
+            showPinButton && myAccount === data.get('author') && (!pinDisabled || isPinned);
 
         if (!showPin) {
             return;

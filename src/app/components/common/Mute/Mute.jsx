@@ -19,8 +19,8 @@ const MuteButton = styled.div`
     font: 12px 'Open Sans', sans-serif;
     font-weight: bold;
     line-height: 23px;
-    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
     text-transform: uppercase;
+    user-select: none;
     cursor: pointer;
 
     &:hover {
