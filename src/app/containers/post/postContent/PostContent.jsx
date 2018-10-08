@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link, browserHistory } from 'react-router';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 import Icon from 'golos-ui/Icon';
 import { TagLink } from 'golos-ui/Tag';
@@ -86,6 +87,11 @@ const CategoryWrapper = styled.div`
 `;
 
 export class PostContent extends Component {
+    static propTypes = {
+        togglePin: PropTypes.func.isRequired,
+        toggleFavorite: PropTypes.func.isRequired,
+    };
+
     onBackClick = e => {
         e.preventDefault();
         browserHistory.goBack();
@@ -105,6 +111,8 @@ export class PostContent extends Component {
             className,
             isPromoted,
             backUrl,
+            togglePin,
+            toggleFavorite,
         } = this.props;
 
         const formId = `postFull-${permLink}`;
@@ -116,7 +124,7 @@ export class PostContent extends Component {
                         <BackIcon name="arrow_left" />
                     </BackLink>
                 ) : null}
-                <PostHeader />
+                <PostHeader togglePin={togglePin} toggleFavorite={toggleFavorite} />
                 <Body>
                     <CategoryWrapper>
                         <TagLink to={'/trending/' + category.origin} category={1}>

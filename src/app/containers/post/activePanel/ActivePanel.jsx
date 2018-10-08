@@ -15,6 +15,7 @@ import {
     ClosePopoverButton,
     PopoverStyled,
 } from 'src/app/components/post/PopoverAdditionalStyles';
+import PinnedOfFavorite from 'src/app/components/post/PinnedOrFavorite';
 
 const Wrapper = styled.div`
     display: flex;
@@ -109,7 +110,6 @@ const DotsMore = styled(Repost)`
 const Action = styled.div`
     display: flex;
     align-items: center;
-    color: ${({ isPinned }) => (isPinned ? '#2879ff' : '#333333')};
     cursor: pointer;
 
     &:hover {
@@ -121,7 +121,6 @@ const Action = styled.div`
         min-height: 20px;
         padding: 0;
     }
-    
 `;
 
 const ActionText = styled.div`
@@ -232,7 +231,17 @@ export class ActivePanel extends Component {
 
     render() {
         const { showDotsPopover, showSharePopover } = this.state;
-        const { data, username, url, isPinned, togglePin, isOwner, isFavorite, toggleFavorite, children } = this.props;
+        const {
+            data,
+            username,
+            url,
+            isPinned,
+            togglePin,
+            isOwner,
+            isFavorite,
+            toggleFavorite,
+            children,
+        } = this.props;
         return (
             <Wrapper>
                 <VotePanelWrapper
@@ -294,16 +303,14 @@ export class ActivePanel extends Component {
                             <ClosePopoverButton onClick={this.closeDotsPopover} showCross={false}>
                                 <Icon name="cross" width={16} height={16} />
                             </ClosePopoverButton>
-                            {isOwner ? <Action onClick={togglePin} isPinned={isPinned}>
-                                    <ActionIcon name="pin"/>
-                                    <ActionText>{tt('active_panel_tooltip.pin_post')}</ActionText>
-                                </Action>
-                                :
-                                <Action onClick={toggleFavorite} >
-                                    <ActionIcon name={isFavorite ? 'star_filled' : 'star'} />
-                                    <ActionText>{tt('g.add_to_favorites')}</ActionText>
-                                </Action>
-                            }
+                            <PinnedOfFavorite
+                                isFavorite={isFavorite}
+                                isPinned={isPinned}
+                                isOwner={isOwner}
+                                toggleFavorite={toggleFavorite}
+                                togglePin={togglePin}
+                                showText={true}
+                            />
                             <Action onClick={this.promotePost}>
                                 <ActionIcon name="brilliant" />
                                 <ActionText>{tt('active_panel_tooltip.promote_post')}</ActionText>
