@@ -8,7 +8,6 @@ import { MIN_VOICE_POWER } from 'app/client_config';
 import transaction from 'app/redux/Transaction';
 import DialogFrame from 'app/components/dialogs/DialogFrame';
 import DialogManager from 'app/components/elements/common/DialogManager';
-import SimpleInput from 'src/app/components/golos-ui/SimpleInput';
 import ComplexInput from 'src/app/components/golos-ui/ComplexInput';
 import SplashLoader from 'src/app/components/golos-ui/SplashLoader';
 import DialogTypeSelect from 'src/app/components/userProfile/common/DialogTypeSelect';
@@ -19,15 +18,12 @@ import DelegationsList from './DelegationsList';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import DelegationEdit from './DelegationEdit';
 import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';
+import AccountNameInput from 'src/app/components/common/AccountNameInput';
 
 const TYPES = {
     DELEGATE: 'DELEGATE',
     CANCEL: 'CANCEL',
 };
-
-function normalizeAccountName(name) {
-    return name.trim().toLowerCase();
-}
 
 const DialogFrameStyled = styled(DialogFrame)`
     flex-basis: 580px;
@@ -263,9 +259,9 @@ class DelegateVestingDialog extends PureComponent {
                 <Column>
                     <Section>
                         <Label>Кому</Label>
-                        <SimpleInput
+                        <AccountNameInput
                             name="account"
-                            spellCheck="false"
+                            block
                             placeholder={'Делегировать аккаунту'}
                             autoFocus={!autoFocusValue}
                             value={target}
@@ -393,9 +389,9 @@ class DelegateVestingDialog extends PureComponent {
         });
     };
 
-    _onTargetChange = e => {
+    _onTargetChange = value => {
         this.setState({
-            target: normalizeAccountName(e.target.value),
+            target: value,
         });
     };
 

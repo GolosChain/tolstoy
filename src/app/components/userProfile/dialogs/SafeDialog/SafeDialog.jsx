@@ -3,16 +3,19 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
-import transaction from 'app/redux/Transaction';
-import DialogFrame from 'app/components/dialogs/DialogFrame';
-import SimpleInput from 'golos-ui/SimpleInput';
+
 import ComplexInput from 'golos-ui/ComplexInput';
-import DialogManager from 'app/components/elements/common/DialogManager';
-import SplashLoader from 'src/app/components/golos-ui/SplashLoader';
-import { Checkbox } from 'src/app/components/golos-ui/Form';
-import { parseAmount } from 'src/app/helpers/currency';
-import DialogTypeSelect from 'src/app/components/userProfile/common/DialogTypeSelect';
+import SplashLoader from 'golos-ui/SplashLoader';
+import { Checkbox } from 'golos-ui/Form';
+
+import transaction from 'app/redux/Transaction';
 import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';
+import { parseAmount } from 'src/app/helpers/currency';
+
+import DialogFrame from 'app/components/dialogs/DialogFrame';
+import DialogManager from 'app/components/elements/common/DialogManager';
+import AccountNameInput from 'src/app/components/common/AccountNameInput';
+import DialogTypeSelect from 'src/app/components/userProfile/common/DialogTypeSelect';
 
 const TYPES = {
     SAVE: 'SAVE',
@@ -190,9 +193,9 @@ class SafeDialog extends PureComponent {
                         {saveTo ? (
                             <Section>
                                 <Label>Кому</Label>
-                                <SimpleInput
+                                <AccountNameInput
                                     name="account"
-                                    spellCheck="false"
+                                    block
                                     placeholder={'Отправить аккаунту'}
                                     value={target}
                                     onChange={this._onTargetChange}
@@ -251,9 +254,9 @@ class SafeDialog extends PureComponent {
         });
     };
 
-    _onTargetChange = e => {
+    _onTargetChange = value => {
         this.setState({
-            target: e.target.value,
+            target: value,
         });
     };
 
