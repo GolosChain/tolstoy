@@ -35,35 +35,43 @@ const AuthorBlock = styled.div`
     display: flex;
     align-items: center;
 `;
+
 const Avatar = styled(Link)`
-    display: block;
-    width: 46px;
-    height: 46px;
+    display: flex;
     margin-right: 10px;
     border-radius: 50%;
 `;
+
 const PostDesc = styled.div`
-    padding-bottom: 2px;
     font-family: ${a => a.theme.fontFamily};
 `;
+
 const AuthorName = styled(Link)`
     display: block;
+    line-height: 1.5;
     font-size: 15px;
     font-weight: 500;
     color: #333;
     text-decoration: none;
 `;
+
 const PostDate = styled.div`
     font-size: 13px;
+    letter-spacing: 0.4px;
+    line-height: 1.5;
     color: #959595;
     cursor: default;
 `;
+
 const Category = styled.div`
+    flex-shrink: 0;
+    
     height: 28px;
     padding: 0 12px;
     margin-right: 4px;
     border-radius: 6px;
     line-height: 26px;
+    
     font-size: 14px;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -80,6 +88,7 @@ const Title = styled.div`
     padding: 0 18px;
     margin-bottom: 8px;
 `;
+
 const TitleIcon = Icon.extend`
     position: relative;
     height: 20px;
@@ -87,6 +96,7 @@ const TitleIcon = Icon.extend`
     margin-right: 6px;
     margin-bottom: -3px;
 `;
+
 const TitleLink = styled(Link)`
     color: #212121 !important;
     text-decoration: underline;
@@ -350,7 +360,7 @@ export class CommentCard extends PureComponent {
                     {isCommentOpen ? (
                         <AuthorBlock>
                             <Avatar to={`/@${author}`}>
-                                <Userpic account={author} size={42} />
+                                <Userpic account={author} size={37} />
                             </Avatar>
                             <PostDesc>
                                 <AuthorName to={`/@${author}`}>{author}</AuthorName>
@@ -370,7 +380,7 @@ export class CommentCard extends PureComponent {
                         </ReLinkWrapper>
                     )}
                     <Filler />
-                    {isCommentOpen ? <Category>{category}</Category> : null}
+                    <Category>{category}</Category>
                     <ToggleCommentOpen
                         commentopen={isCommentOpen ? 1 : 0}
                         onClick={this._toggleComment}
