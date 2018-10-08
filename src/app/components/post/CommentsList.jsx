@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { List } from 'immutable';
 import styled from 'styled-components';
 
-import CommentCard from 'src/app/components/common/CommentCard/CommentCard';
+import CommentCard from 'src/app/components/common/CommentCard';
 
 const Wrapper = styled.div``;
 
