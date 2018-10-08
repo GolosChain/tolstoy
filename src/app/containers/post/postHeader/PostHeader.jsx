@@ -157,7 +157,7 @@ export class PostHeader extends Component {
                             <PopoverBody close={this.closePopover} author={author} />
                         </PopoverStyled>
                     </Avatar>
-                    <InfoBlock  to={`/@${author}`}>
+                    <InfoBlock to={`/@${author}`}>
                         <AuthorName>{author}</AuthorName>
                         <TimeAgoWrapper date={created} />
                     </InfoBlock>
