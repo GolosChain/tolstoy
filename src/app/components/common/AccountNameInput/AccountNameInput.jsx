@@ -4,8 +4,9 @@ import is from 'styled-is';
 import { api, utils } from 'golos-js';
 import memoize from 'lodash/memoize';
 import throttle from 'lodash/throttle';
-import keyCodes from 'app/utils/keyCodes';
+
 import SimpleInput from 'golos-ui/SimpleInput';
+import keyCodes from 'app/utils/keyCodes';
 
 const MIN_SYMBOLS = 2;
 const MAX_VARIANTS = 5;
@@ -227,40 +228,47 @@ export default class AccountNameInput extends PureComponent {
         const { open, list, index } = this.state;
 
         if (open) {
-            if (e.which === keyCodes.UP || e.which === keyCodes.DOWN) {
-                let newIndex;
+            switch (e.which) {
+                case keyCodes.UP:
+                case keyCodes.DOWN:
+                    let newIndex;
 
-                if (e.which === keyCodes.UP) {
-                    if (index === null) {
-                        newIndex = 0;
-                    } else {
-                        newIndex = Math.max(0, index - 1);
+                    if (e.which === keyCodes.UP) {
+                        if (index === null) {
+                            newIndex = 0;
+                        } else {
+                            newIndex = Math.max(0, index - 1);
+                        }
+                    } else if (e.which === keyCodes.DOWN) {
+                        if (index === null) {
+                            newIndex = 0;
+                        } else {
+                            newIndex = Math.min(Math.min(MAX_VARIANTS, list.length) - 1, index + 1);
+                        }
                     }
-                } else if (e.which === keyCodes.DOWN) {
-                    if (index === null) {
-                        newIndex = 0;
-                    } else {
-                        newIndex = Math.min(Math.min(MAX_VARIANTS, list.length) - 1, index + 1);
-                    }
-                }
 
-                if (newIndex != null) {
+                    if (newIndex != null) {
+                        this.setState({
+                            index: newIndex,
+                        });
+                    }
+                    break;
+
+                case keyCodes.ENTER:
                     this.setState({
-                        index: newIndex,
+                        open: false,
+                        index: null,
                     });
-                }
-            } else if (e.which === keyCodes.ENTER) {
-                this.setState({
-                    open: false,
-                    index: null,
-                });
 
-                this.props.onChange(list[index]);
-            } else if (e.which === keyCodes.ESCAPE) {
-                this.setState({
-                    open: false,
-                    index: null,
-                });
+                    this.props.onChange(list[index]);
+                    break;
+
+                case keyCodes.ESCAPE:
+                    this.setState({
+                        open: false,
+                        index: null,
+                    });
+                    break;
             }
         } else {
             this.tryOpen();
