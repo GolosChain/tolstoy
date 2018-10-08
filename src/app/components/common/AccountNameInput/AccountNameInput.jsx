@@ -111,6 +111,7 @@ export default class AccountNameInput extends PureComponent {
     };
 
     _loadIndex = 0;
+    _showIndex = null;
 
     tryOpen() {
         const { focus, list } = this.state;
@@ -137,7 +138,8 @@ export default class AccountNameInput extends PureComponent {
             try {
                 const names = await this.loadAccounts(value);
 
-                if (loadIndex === this._loadIndex) {
+                if (!this._showIndex || this._showIndex < loadIndex) {
+                    this._showIndex = loadIndex;
                     this.setState({
                         open: true,
                         list: names,
@@ -157,6 +159,10 @@ export default class AccountNameInput extends PureComponent {
             .trim()
             .toLowerCase()
             .replace(/[^a-z0-9.-]+/g, '');
+
+        if (value === this.props.value) {
+            return;
+        }
 
         this.props.onChange(value);
 
@@ -214,7 +220,7 @@ export default class AccountNameInput extends PureComponent {
                     if (index === null) {
                         newIndex = 0;
                     } else {
-                        newIndex = Math.min(list.length - 1, index + 1);
+                        newIndex = Math.min(Math.min(MAX_VARIANTS, list.length) - 1, index + 1);
                     }
                 }
 

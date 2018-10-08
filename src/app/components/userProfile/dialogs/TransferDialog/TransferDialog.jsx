@@ -194,6 +194,7 @@ class TransferDialog extends PureComponent {
                                 <AccountNameInput
                                     name="account"
                                     block
+                                    autoFocus
                                     placeholder={'Отправить аккаунту'}
                                     value={target}
                                     onChange={this._onTargetChange}
