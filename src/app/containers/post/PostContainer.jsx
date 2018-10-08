@@ -40,6 +40,23 @@ const Loader = styled(LoadingIndicator)`
     margin-top: 30px;
 `;
 
+const SidePanelWrapper = styled(SidePanel)`
+    position: fixed;
+    bottom: 50%;
+    transform: translateY(50%);
+
+    ${is('fixedOnScreen')`
+        position: absolute;
+        bottom: 20px;
+        transform: translateY(0);
+    `};
+
+    ${is('hidePanel')`
+        opacity: 0;
+        visibility: hidden;
+    `};
+`;
+
 export class PostContainer extends Component {
     state = {
         hidePanel: false,
