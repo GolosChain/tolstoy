@@ -63,7 +63,11 @@ export default class ActivityList extends Component {
                 {notifications.map(notification => (
                     <Fragment key={notification.get('_id')}>
                         {this.renderDate(notification)}
-                        <ActivityItem notification={notification} accounts={accounts} isCompact={isCompact} />
+                        <ActivityItem
+                            notification={notification}
+                            accounts={accounts}
+                            isCompact={isCompact}
+                        />
                     </Fragment>
                 ))}
                 {!isFetching && !notifications.size && <div>Пусто</div>}

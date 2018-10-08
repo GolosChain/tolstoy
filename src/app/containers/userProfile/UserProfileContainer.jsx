@@ -322,7 +322,7 @@ export default {
             path: 'activity',
             getComponents(nextState, cb) {
                 cb(null, {
-                    content: require('./activity/ActivityContent').default,
+                    content: require('./activity').default,
                     sidebarRight: require('../../components/userProfile/common/RightPanel').default,
                 });
             },

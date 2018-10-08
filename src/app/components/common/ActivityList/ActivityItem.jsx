@@ -8,7 +8,7 @@ import tt from 'counterpart';
 import Interpolate from 'react-interpolate-component';
 
 import normalizeProfile from 'app/utils/NormalizeProfile';
-import { DEBT_TOKEN_SHORT } from 'app/client_config';
+import { getPropsForInterpolation } from 'src/app/helpers/notifications';
 
 import Icon from 'golos-ui/Icon';
 import Avatar from 'src/app/components/common/Avatar';
@@ -121,61 +121,9 @@ const emptyList = List();
 
 export default class ActivityItem extends Component {
     static propTypes = {
-        accounts: PropTypes.instanceOf(Map),
         notification: PropTypes.instanceOf(Map),
-        isCompact: PropTypes.bool
-    }
-
-    getPropsForInterpolation() {
-        const { notification } = this.props;
-
-        const computed = notification.get('computed');
-        const eventType = notification.get('eventType');
-        const interProps = {};
-
-        if (
-            ['vote', 'flag', 'reply', 'mention', 'repost', 'reward', 'curatorReward'].includes(
-                eventType
-            )
-        ) {
-            interProps.content = <Link to={computed.get('link')}>{computed.get('title')}</Link>;
-        }
-
-        if (['reward'].includes(eventType)) {
-            const awards = [];
-            const golos = notification.getIn(['reward', 'golos'], null);
-            const golosPower = notification.getIn(['reward', 'golosPower'], null);
-            const gbg = notification.getIn(['reward', 'gbg'], null);
-            if (golos) {
-                awards.push(
-                    `${golos} ${tt('token_names.LIQUID_TOKEN_PLURALIZE', {
-                        count: parseFloat(golos),
-                    })}`
-                );
-            }
-            if (golosPower) {
-                awards.push(
-                    `${golosPower} ${tt('token_names.VESTING_TOKEN_PLURALIZE', {
-                        count: parseFloat(golosPower),
-                    })}`
-                );
-            }
-            if (gbg) {
-                awards.push(`${gbg} ${DEBT_TOKEN_SHORT}`);
-            }
-            interProps.amount = awards.join(', ');
-        }
-
-        if (['curatorReward'].includes(eventType)) {
-            interProps.amount = notification.get('curatorReward');
-        }
-
-        if (['transfer'].includes(eventType)) {
-            interProps.amount = notification.get('amount');
-        }
-
-        return interProps;
-    }
+        isCompact: PropTypes.bool,
+    };
 
     render() {
         const { notification, isCompact } = this.props;
@@ -219,7 +167,7 @@ export default class ActivityItem extends Component {
                         </ActivityDate>
                     </ActivityTop>
                     <ActivityText isCompact={isCompact}>
-                        <Interpolate with={this.getPropsForInterpolation()} component="div">
+                        <Interpolate with={getPropsForInterpolation(notification)} component="div">
                             {tt(['notifications', 'activity', notification.get('eventType')], {
                                 count: 1,
                                 interpolate: false,

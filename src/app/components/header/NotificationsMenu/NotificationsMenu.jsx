@@ -1,13 +1,12 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+
 import { Link } from 'react-router';
 import styled from 'styled-components';
 import { List, Map } from 'immutable';
 import tt from 'counterpart';
 
 import { NOTIFICATIONS_FILTER_TYPES } from 'src/app/redux/constants/common';
-import { notificationsMenuSelector } from 'src/app/redux/selectors/header/activity';
 
 import { DialogFooter, DialogButton } from 'golos-ui/Dialog';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
@@ -37,7 +36,6 @@ const StyledDialogFooter = styled(DialogFooter)`
 
 const DialogButtonLink = DialogButton.withComponent(Link);
 
-@connect(notificationsMenuSelector)
 export default class NotificationsMenu extends PureComponent {
     static propTypes = {
         params: PropTypes.shape({
@@ -48,16 +46,17 @@ export default class NotificationsMenu extends PureComponent {
         accounts: PropTypes.instanceOf(Map),
 
         onClose: PropTypes.func.isRequired,
-        // getNotificationsHistory: PropTypes.func.isRequired,
+        getNotificationsOnlineHistory: PropTypes.func.isRequired,
         // notifyMarkAllAsViewed: PropTypes.func.isRequired,
     };
 
     componentDidMount() {
-        // this.props.getNotificationsHistory({
-        //     types: NOTIFICATIONS_FILTER_TYPES['all'],
-        //     fromId: null,
-        //     limit: NOTIFICATIONS_PER_PAGE,
-        // });
+        this.props.getNotificationsOnlineHistory({
+            freshOnly: true,
+            types: NOTIFICATIONS_FILTER_TYPES['all'],
+            fromId: null,
+            limit: NOTIFICATIONS_PER_PAGE,
+        });
         // this.props.notifyMarkAllAsViewed();
 
         window.addEventListener('click', this.checkClickLink);

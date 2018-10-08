@@ -1,15 +1,12 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import styled from 'styled-components';
 import is from 'styled-is';
 import throttle from 'lodash/throttle';
 import tt from 'counterpart';
 
-import user from 'app/redux/User';
 import { REGISTRATION_URL } from 'app/client_config';
-import { statusSelector } from 'src/app/redux/selectors/common';
 import {
     getNotificationsHistoryFreshCount,
     // getNotificationsHistory,
@@ -21,7 +18,6 @@ import IconBadge from 'golos-ui/IconBadge';
 import Button from 'golos-ui/Button';
 import Userpic from 'app/components/elements/Userpic';
 import AccountMenuDesktopWrapper from '../AccountMenuDesktopWrapper';
-import Popover from '../Popover';
 import MobilePopover from '../MobilePopover';
 import AdaptivePopover from '../AdaptivePopover';
 import AccountMenu from '../AccountMenu';
@@ -318,37 +314,10 @@ function calcXY(angle) {
     };
 }
 
-@connect(
-    state => {
-        const currentAccountName = state.user.getIn(['current', 'username']);
-
-        let votingPower = null;
-
-        if (currentAccountName) {
-            votingPower =
-                state.global.getIn(['accounts', currentAccountName, 'voting_power']) / 100;
-        }
-
-        const notificationsOnlineStatus = statusSelector('notificationsOnline')(state);
-
-        return {
-            freshCount: notificationsOnlineStatus.get('freshCount'),
-            currentAccountName,
-            votingPower,
-            offchainAccount: state.offchain.get('account'),
-        };
-    },
-    {
-        onLogin: () => user.actions.showLogin(),
-        getNotificationsHistoryFreshCount,
-        // getNotificationsHistory,
-        // notifyMarkAllAsViewed,
-    }
-)
 export default class Header extends PureComponent {
     static propTypes = {
-        getNotificationsHistoryFreshCount: PropTypes.func.isRequired,
-        // getNotificationsHistory: PropTypes.func.isRequired,
+        getNotificationsOnlineHistoryFreshCount: PropTypes.func.isRequired,
+        getNotificationsOnlineHistory: PropTypes.func.isRequired,
         // notifyMarkAllAsViewed: PropTypes.func.isRequired,
     };
 
@@ -368,7 +337,7 @@ export default class Header extends PureComponent {
 
     componentDidMount() {
         window.addEventListener('resize', this.onResizeLazy);
-        this.props.getNotificationsHistoryFreshCount();
+        this.props.getNotificationsOnlineHistoryFreshCount();
 
         if (this.state.waitAuth) {
             this.timeoutId = setTimeout(() => {
@@ -527,7 +496,7 @@ export default class Header extends PureComponent {
     }
 
     render() {
-        const { currentAccountName, getNotificationsHistory, notifyMarkAllAsViewed } = this.props;
+        const { currentAccountName, getNotificationsOnlineHistory, notifyMarkAllAsViewed } = this.props;
         const { isMobile, isMenuOpen, isNotificationsOpen, waitAuth } = this.state;
 
         return (
@@ -574,7 +543,7 @@ export default class Header extends PureComponent {
                         >
                             <NotificationsMenu
                                 params={{ accountName: currentAccountName }}
-                                // getNotificationsHistory={getNotificationsHistory}
+                                getNotificationsOnlineHistory={getNotificationsOnlineHistory}
                                 // notifyMarkAllAsViewed={notifyMarkAllAsViewed}
                                 onClose={this.onNotificationsMenuToggle}
                             />
