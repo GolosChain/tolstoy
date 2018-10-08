@@ -28,9 +28,7 @@ export default connect(
     ),
 
     {
-        toggleFavorite: (link, isAdd) => {
-            toggleFavoriteAction({ link, isAdd });
-        },
+        toggleFavorite: toggleFavoriteAction,
         updateFollow,
     }
 )(PostHeader);

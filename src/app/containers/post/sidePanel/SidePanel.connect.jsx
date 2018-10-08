@@ -28,7 +28,7 @@ export default connect(
     ),
 
     {
-        toggleFavoriteAction,
+        toggleFavorite: toggleFavoriteAction,
         onVote,
         reblog,
     }
