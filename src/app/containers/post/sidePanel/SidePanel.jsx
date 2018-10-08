@@ -8,6 +8,7 @@ import { confirmVote } from 'src/app/helpers/votes';
 import { Action } from 'src/app/components/post/SidePanelAction';
 import SharePopover from 'src/app/components/post/SharePopover';
 import { PopoverStyled } from 'src/app/components/post/PopoverAdditionalStyles';
+import PinnedOfFavorite from 'src/app/components/post/PinnedOrFavorite';
 
 const PADDING_FROM_HEADER = 22;
 const HEADER_HEIGHT = 121;
@@ -165,7 +166,15 @@ export class SidePanel extends Component {
     };
 
     render() {
-        const { votesSummary, isFavorite, myVote: voteType } = this.props;
+        const {
+            votesSummary,
+            isPinned,
+            togglePin,
+            isOwner,
+            isFavorite,
+            toggleFavorite,
+            myVote: voteType,
+        } = this.props;
         const { showPanel, fixedOnScreen, showSharePopover } = this.state;
         const { likes, firstLikes, dislikes, firstDislikes } = votesSummary;
         return (
@@ -209,12 +218,12 @@ export class SidePanel extends Component {
                     dataTooltip={tt('g.reblog')}
                     onClick={this.reblog}
                 />
-                <Action
-                    iconName={isFavorite ? 'star_filled' : 'star'}
-                    onClick={this.toggleFavorite}
-                    dataTooltip={
-                        isFavorite ? tt('g.remove_from_favorites') : tt('g.add_to_favorites')
-                    }
+                <PinnedOfFavorite
+                    isFavorite={isFavorite}
+                    isPinned={isPinned}
+                    isOwner={isOwner}
+                    toggleFavorite={toggleFavorite}
+                    togglePin={togglePin}
                 />
             </Wrapper>
         );
