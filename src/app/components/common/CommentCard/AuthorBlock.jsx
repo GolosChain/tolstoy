@@ -6,15 +6,15 @@ import styled from 'styled-components';
 import Userpic from 'app/components/elements/Userpic';
 import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
 
+const Wrapper = styled.div`
+    display: flex;
+    align-items: center;
+`;
+
 const Avatar = styled(Link)`
     display: flex;
     margin-right: 10px;
     border-radius: 50%;
-`;
-
-const Wrapper = styled.div`
-    display: flex;
-    align-items: center;
 `;
 
 const PostDesc = styled.div`
@@ -38,7 +38,7 @@ const PostDate = styled.div`
     cursor: default;
 `;
 
-export const AuthorBlock = ({ author, dataToJS }) => (
+export const AuthorBlock = ({ author, created }) => (
     <Wrapper>
         <Avatar to={`/@${author}`}>
             <Userpic account={author} size={37} />
@@ -46,7 +46,7 @@ export const AuthorBlock = ({ author, dataToJS }) => (
         <PostDesc>
             <AuthorName to={`/@${author}`}>{author}</AuthorName>
             <PostDate>
-                <TimeAgoWrapper date={dataToJS.created} />
+                <TimeAgoWrapper date={created} />
             </PostDate>
         </PostDesc>
     </Wrapper>
@@ -54,5 +54,4 @@ export const AuthorBlock = ({ author, dataToJS }) => (
 
 AuthorBlock.propTypes = {
     author: PropTypes.string.isRequired,
-    dataToJS: PropTypes.object.isRequired,
 };

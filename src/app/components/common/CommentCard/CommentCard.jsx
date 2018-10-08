@@ -257,7 +257,7 @@ const CommentReplyWrapper = styled.div`
 export class CommentCard extends PureComponent {
     static propTypes = {
         permLink: PropTypes.string,
-        myAccountName: PropTypes.string,
+        username: PropTypes.string,
         data: PropTypes.object,
         grid: PropTypes.bool,
         allowInlineReply: PropTypes.bool,
@@ -282,11 +282,10 @@ export class CommentCard extends PureComponent {
     }
 
     _getMyVote(props) {
-        const { data, myAccountName } = props;
-        const votes = data.get('active_votes');
+        const { username, activeVotes } = props;
 
-        for (let vote of votes) {
-            if (vote.get('voter') === myAccountName) {
+        for (let vote of activeVotes) {
+            if (vote.get('voter') === username) {
                 const v = vote.toJS();
                 v.weight = parseInt(v.weight || 0, 10);
                 return v;
@@ -317,15 +316,14 @@ export class CommentCard extends PureComponent {
 
     _renderHeader() {
         const { isCommentOpen } = this.state;
-        const { parentLink, title, dataToJS } = this.props;
-        const author = dataToJS.author;
-        const category = detransliterate(dataToJS.category);
+        const { parentLink, title, author, category, created } = this.props;
+        const detransliteratedCategory = detransliterate(category);
 
         return (
             <Header>
                 <HeaderLine>
                     {isCommentOpen ? (
-                        <AuthorBlock author={author} dataToJS={dataToJS} />
+                        <AuthorBlock author={author} created={created} />
                     ) : (
                         <ReLinkWrapper>
                             <TitleIcon name="comment" />
@@ -337,7 +335,7 @@ export class CommentCard extends PureComponent {
                         </ReLinkWrapper>
                     )}
                     <Filler />
-                    <Category>{category}</Category>
+                    <Category>{detransliteratedCategory}</Category>
                     <ToggleCommentOpen
                         commentopen={isCommentOpen ? 1 : 0}
                         onClick={this._toggleComment}
@@ -350,10 +348,9 @@ export class CommentCard extends PureComponent {
     }
 
     _renderBodyRe() {
-        const { myAccountName } = this.props;
+        const { username, author, parentLink, title } = this.props;
         const { edit } = this.state;
-        const { parentLink, title, dataToJS } = this.props;
-        const showEditButton = myAccountName === dataToJS.author;
+        const showEditButton = username === author;
 
         return (
             <Title>
@@ -379,7 +376,7 @@ export class CommentCard extends PureComponent {
 
     _renderBodyText() {
         const { edit } = this.state;
-        const { content, dataToJS, htmlContent } = this.props;
+        const { content, data, htmlContent } = this.props;
 
         return (
             <Fragment>
@@ -389,7 +386,7 @@ export class CommentCard extends PureComponent {
                         editMode
                         hideFooter
                         autoFocus
-                        params={dataToJS}
+                        params={data.toJS()}
                         forwardRef={this._commentRef}
                         onSuccess={this._onEditDone}
                         onCancel={this._onEditDone}
@@ -406,7 +403,7 @@ export class CommentCard extends PureComponent {
     }
 
     _renderFooter() {
-        const { data, myAccountName, allowInlineReply, content, dataToJS, isOwner } = this.props;
+        const { data, username, allowInlineReply, content, isOwner, author, commentsCount } = this.props;
         const { showReply, edit } = this.state;
         if (showReply) {
             return (
@@ -433,17 +430,17 @@ export class CommentCard extends PureComponent {
                 <Footer>
                     <CommentVotePanel
                         data={data}
-                        me={myAccountName}
+                        me={username}
                         onChange={this._onVoteChange}
                     />
                     <CommentReplyWrapper>
                         <CommentReplyBlock
-                            count={data.get('children')}
+                            count={commentsCount}
                             link={content.link}
                             text="Комментарии"
                             showText={isOwner}
                         />
-                        {allowInlineReply && dataToJS.author !== myAccountName ? (
+                        {allowInlineReply && author !== username ? (
                             <ButtonStyled light onClick={this._onReplyClick}>
                                 Ответить
                             </ButtonStyled>
@@ -455,7 +452,7 @@ export class CommentCard extends PureComponent {
     }
 
     _renderReplyEditor() {
-        const { dataToJS } = this.props;
+        const { data } = this.props;
 
         return (
             <Reply>
@@ -463,7 +460,7 @@ export class CommentCard extends PureComponent {
                     reply
                     hideFooter
                     autoFocus
-                    params={dataToJS}
+                    params={data.toJS()}
                     forwardRef={this._replyRef}
                     onSuccess={this._onReplySuccess}
                     onCancel={this._onReplyCancel}
@@ -473,15 +470,15 @@ export class CommentCard extends PureComponent {
     }
 
     _onTitleClick = e => {
-        const { dataToJS } = this.props;
+        const { parentAuthor, parentPermLink } = this.props;
         if (this.props.onClick) {
             e.preventDefault();
 
             const url = e.currentTarget.href;
 
-            if (dataToJS.parent_author) {
+            if (parentAuthor) {
                 this.props.onClick({
-                    permLink: `${dataToJS.parent_author}/${dataToJS.parent_permlink}`,
+                    permLink: `${parentAuthor}/${parentPermLink}`,
                     url,
                 });
             } else {
@@ -530,14 +527,14 @@ export class CommentCard extends PureComponent {
     };
 
     _onVoteChange = async percent => {
-        const { data, myAccountName } = this.props;
+        const { username, author, permLink } = this.props;
         const { myVote } = this.state;
 
         if (await confirmVote(myVote, percent)) {
             this.props.onVote(percent, {
-                myAccountName: myAccountName,
-                author: data.get('author'),
-                permlink: data.get('permlink'),
+                username,
+                author,
+                permLink,
             });
         }
     };
