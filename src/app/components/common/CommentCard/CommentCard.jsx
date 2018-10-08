@@ -4,14 +4,13 @@ import { Link } from 'react-router';
 import styled from 'styled-components';
 import is, { isNot } from 'styled-is';
 import tt from 'counterpart';
-import Userpic from 'app/components/elements/Userpic';
-import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
 import { detransliterate } from 'app/utils/ParsersAndFormatters';
 import CommentFormLoader from 'app/components/modules/CommentForm/loader';
 import Icon from 'golos-ui/Icon';
 import VotePanel from '../VotePanel';
 import { confirmVote } from 'src/app/helpers/votes';
 import ReplyBlock from '../ReplyBlock';
+import { AuthorBlock } from 'src/app/containers/post/activePanel/AuthorBlock';
 
 const Header = styled.div`
     padding: 10px 0 6px;
@@ -29,38 +28,6 @@ const HeaderLine = styled.div`
     & > * {
         pointer-events: initial;
     }
-`;
-
-const AuthorBlock = styled.div`
-    display: flex;
-    align-items: center;
-`;
-
-const Avatar = styled(Link)`
-    display: flex;
-    margin-right: 10px;
-    border-radius: 50%;
-`;
-
-const PostDesc = styled.div`
-    font-family: ${a => a.theme.fontFamily};
-`;
-
-const AuthorName = styled(Link)`
-    display: block;
-    line-height: 1.5;
-    font-size: 15px;
-    font-weight: 500;
-    color: #333;
-    text-decoration: none;
-`;
-
-const PostDate = styled.div`
-    font-size: 13px;
-    letter-spacing: 0.4px;
-    line-height: 1.5;
-    color: #959595;
-    cursor: default;
 `;
 
 const Category = styled.div`
@@ -358,17 +325,7 @@ export class CommentCard extends PureComponent {
             <Header>
                 <HeaderLine>
                     {isCommentOpen ? (
-                        <AuthorBlock>
-                            <Avatar to={`/@${author}`}>
-                                <Userpic account={author} size={37} />
-                            </Avatar>
-                            <PostDesc>
-                                <AuthorName to={`/@${author}`}>{author}</AuthorName>
-                                <PostDate>
-                                    <TimeAgoWrapper date={dataToJS.created} />
-                                </PostDate>
-                            </PostDesc>
-                        </AuthorBlock>
+                        <AuthorBlock author={author} dataToJS={dataToJS} />
                     ) : (
                         <ReLinkWrapper>
                             <TitleIcon name="comment" />
