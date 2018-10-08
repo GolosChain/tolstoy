@@ -47,7 +47,6 @@ export default class NotificationsMenu extends PureComponent {
 
         onClose: PropTypes.func.isRequired,
         getNotificationsOnlineHistory: PropTypes.func.isRequired,
-        // notifyMarkAllAsViewed: PropTypes.func.isRequired,
     };
 
     componentDidMount() {
@@ -57,7 +56,6 @@ export default class NotificationsMenu extends PureComponent {
             fromId: null,
             limit: NOTIFICATIONS_PER_PAGE,
         });
-        // this.props.notifyMarkAllAsViewed();
 
         window.addEventListener('click', this.checkClickLink);
     }

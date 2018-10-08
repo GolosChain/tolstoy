@@ -9,8 +9,6 @@ import tt from 'counterpart';
 import { REGISTRATION_URL } from 'app/client_config';
 import {
     getNotificationsHistoryFreshCount,
-    // getNotificationsHistory,
-    // notifyMarkAllAsViewed,
 } from 'src/app/redux/actions/notifications';
 
 import Icon from 'golos-ui/Icon';
@@ -318,7 +316,6 @@ export default class Header extends PureComponent {
     static propTypes = {
         getNotificationsOnlineHistoryFreshCount: PropTypes.func.isRequired,
         getNotificationsOnlineHistory: PropTypes.func.isRequired,
-        // notifyMarkAllAsViewed: PropTypes.func.isRequired,
     };
 
     state = {
@@ -496,7 +493,7 @@ export default class Header extends PureComponent {
     }
 
     render() {
-        const { currentAccountName, getNotificationsOnlineHistory, notifyMarkAllAsViewed } = this.props;
+        const { currentAccountName, getNotificationsOnlineHistory } = this.props;
         const { isMobile, isMenuOpen, isNotificationsOpen, waitAuth } = this.state;
 
         return (
@@ -544,7 +541,6 @@ export default class Header extends PureComponent {
                             <NotificationsMenu
                                 params={{ accountName: currentAccountName }}
                                 getNotificationsOnlineHistory={getNotificationsOnlineHistory}
-                                // notifyMarkAllAsViewed={notifyMarkAllAsViewed}
                                 onClose={this.onNotificationsMenuToggle}
                             />
                         </AdaptivePopover>
