@@ -80,7 +80,7 @@ const Tags = styled.div`
     }
 `;
 
-const CategoryWrapper = styled.div`
+const BodyHeaderWrapper = styled.div`
     display: flex;
     justify-content: space-between;
 `;
@@ -141,7 +141,7 @@ export class PostContent extends Component {
                 ) : null}
                 <PostHeader />
                 <Body>
-                    <CategoryWrapper>
+                    <BodyHeaderWrapper>
                         <TagLink to={'/trending/' + category.origin} category={1}>
                             {category.tag}
                         </TagLink>
@@ -150,7 +150,7 @@ export class PostContent extends Component {
                                 <PromotedIcon name="best" width="34" height="37" />
                             </PromotedMark>
                         )}
-                    </CategoryWrapper>
+                    </BodyHeaderWrapper>
                     <PostTitle>{title}</PostTitle>
                     <PostBody>
                         <MarkdownViewer
