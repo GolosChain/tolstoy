@@ -48,7 +48,13 @@ const PinnedOfFavorite = ({
             onClick={togglePin}
             color={isPinned ? '#2879ff' : '#333333'}
             size={size}
-            data-tooltip={isFavorite ? tt('g.remove_from_favorites') : tt('g.add_to_favorites')}
+            data-tooltip={
+                !showText
+                    ? isPinned
+                        ? tt('active_panel_tooltip.unpin_post')
+                        : tt('active_panel_tooltip.pin_post')
+                    : undefined
+            }
         >
             <Icon name="pin" width={size} height={size} />
             {showText ? <ActionText>{tt('active_panel_tooltip.pin_post')}</ActionText> : null}
@@ -58,7 +64,13 @@ const PinnedOfFavorite = ({
             className={className}
             onClick={toggleFavorite}
             size={size}
-            data-tooltip={isFavorite ? tt('g.remove_from_favorites') : tt('g.add_to_favorites')}
+            data-tooltip={
+                !showText
+                    ? isFavorite
+                        ? tt('g.remove_from_favorites')
+                        : tt('g.add_to_favorites')
+                    : undefined
+            }
         >
             <Icon name={isFavorite ? 'star_filled' : 'star'} width={size} height={size} />
             {showText ? <ActionText>{tt('g.add_to_favorites')}</ActionText> : null}

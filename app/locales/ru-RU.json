@@ -10,6 +10,7 @@
   "active_panel_tooltip": {
     "complain_about_post": "Пожаловаться на пост",
     "pin_post": "Закрепить пост",
+    "unpin_post": "Открепить пост",
     "promote_post": "Продвинуть пост"
   },
   "auth_protection": {
