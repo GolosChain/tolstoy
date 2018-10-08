@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
@@ -9,16 +8,12 @@ import Icon from 'golos-ui/Icon';
 import VotePanel from 'src/app/components/common/VotePanel/VotePanel';
 import ReplyBlock from 'src/app/components/common/ReplyBlock/ReplyBlock';
 import { confirmVote } from 'src/app/helpers/votes';
-import { onVote } from 'src/app/redux/actions/vote';
-import { togglePinAction } from 'src/app/redux/actions/pinnedPosts';
-import { activePanelSelector } from 'src/app/redux/selectors/post/activePanel';
-import { reblog } from 'src/app/redux/actions/posts';
+import SharePopover from 'src/app/components/post/SharePopover';
 import {
     PopoverBackgroundShade,
     ClosePopoverButton,
     PopoverStyled,
 } from 'src/app/components/post/PopoverAdditionalStyles';
-import SharePopover from 'src/app/containers/post/SharePopover';
 
 const Wrapper = styled.div`
     display: flex;
@@ -174,19 +169,7 @@ ActionIcon.defaultProps = {
     height: 20,
 };
 
-@connect(
-    activePanelSelector,
-    {
-        onVote,
-        togglePinAction,
-        reblog,
-        showPromotePost: (author, permlink) => ({
-            type: 'global/SHOW_DIALOG',
-            payload: { name: 'promotePost', params: { author, permlink } },
-        }),
-    }
-)
-export default class ActivePanel extends Component {
+export class ActivePanel extends Component {
     state = {
         showDotsPopover: false,
         showSharePopover: false,

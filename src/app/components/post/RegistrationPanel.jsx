@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 
 import Button from 'golos-ui/Button';
-import Icon from 'golos-ui/Icon';
+
 import { REGISTRATION_URL } from 'app/client_config';
 
 const Wrapper = styled.div`

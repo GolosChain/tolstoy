@@ -6,21 +6,18 @@ import { Map } from 'immutable';
 
 import CommentFormLoader from 'app/components/modules/CommentForm/loader';
 
-const CreateCommentWrapper = styled.div`
+const Wrapper = styled.div`
     margin-top: 20px;
-    padding: 27px 20px;
+    padding: 27px 20px ${by('padding-bottom')};
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
-
-    padding-bottom: ${by('padding-bottom')};
 `;
 
 export default class CreateComment extends Component {
     static propTypes = {
         updateComments: PropTypes.func.isRequired,
         data: PropTypes.instanceOf(Map)
-
     };
 
     state = {
@@ -45,7 +42,7 @@ export default class CreateComment extends Component {
         const { inputText } = this.state;
 
         return (
-            <CreateCommentWrapper padding-bottom={inputText.length === 0 ? '17px' : '0'}>
+            <Wrapper padding-bottom={inputText.length === 0 ? '17px' : '0'}>
                 <a id="comments"></a>
                 <CommentFormLoader
                     hideFooter={inputText.length === 0}
@@ -55,7 +52,7 @@ export default class CreateComment extends Component {
                     onCancel={this.onCancel}
                     clearAfterAction
                 />
-            </CreateCommentWrapper>
+            </Wrapper>
         );
     }
 }

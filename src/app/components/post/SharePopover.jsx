@@ -5,6 +5,7 @@ import is from 'styled-is';
 import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
+
 import { fbShare, ljShare, twitterShare, vkShare } from 'src/app/helpers/shareSocNetworks';
 
 const Wrapper = styled.div`

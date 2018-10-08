@@ -1,24 +1,15 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import CommentsHeader from 'src/app/containers/post/CommentsHeader';
-import CreateComment from 'src/app/containers/post/CreateComment';
-import CommentsList from 'src/app/containers/post/CommentsList';
-import commentsContainerSelector from 'src/app/redux/selectors/post/commentsContainer';
-import { fetchCommentsIfNeeded } from 'src/app/redux/actions/comments';
+import CommentsHeader from 'src/app/components/post/CommentsHeader';
+import CreateComment from 'src/app/components/post/CreateComment';
+import CommentsList from 'src/app/components/post/CommentsList';
 
 const CommentsWrapper = styled.div`
     padding-top: 30px;
 `;
 
-@connect(
-    commentsContainerSelector,
-    {
-        fetchCommentsIfNeeded,
-    }
-)
-export default class CommentsContainer extends Component {
+export class CommentsContainer extends Component {
     componentDidMount() {
         this.updateComments();
     }
@@ -33,7 +24,7 @@ export default class CommentsContainer extends Component {
         return (
             <CommentsWrapper>
                 <CommentsHeader commentsCount={commentsCount} />
-                <CreateComment data={data} updateComments={this.updateComments}/>
+                <CreateComment data={data} updateComments={this.updateComments} />
                 <CommentsList username={username} comments={comments} isFetching={isFetching} />
             </CommentsWrapper>
         );

@@ -2,16 +2,11 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import throttle from 'lodash/throttle';
 import is, { isNot } from 'styled-is';
-import { connect } from 'react-redux';
 import tt from 'counterpart';
 
 import { confirmVote } from 'src/app/helpers/votes';
-import { toggleFavoriteAction } from 'src/app/redux/actions/favorites';
-import { onVote } from 'src/app/redux/actions/vote';
-import { sidePanelSelector } from 'src/app/redux/selectors/post/sidePanel';
-import { reblog } from 'src/app/redux/actions/posts';
 import { Action } from 'src/app/components/post/SidePanelAction';
-import SharePopover from 'src/app/containers/post/SharePopover';
+import SharePopover from 'src/app/components/post/SharePopover';
 import { PopoverStyled } from 'src/app/components/post/PopoverAdditionalStyles';
 
 const PADDING_FROM_HEADER = 22;
@@ -66,15 +61,7 @@ const ActionWrapper = styled(Action)`
     `};
 `;
 
-@connect(
-    sidePanelSelector,
-    {
-        toggleFavoriteAction,
-        onVote,
-        reblog,
-    }
-)
-export default class SidePanel extends Component {
+export class SidePanel extends Component {
     state = {
         showPanel: true,
         fixedOnScreen: true,
@@ -82,16 +69,16 @@ export default class SidePanel extends Component {
     };
 
     componentDidMount() {
-        this._resizeScreenLazy();
-        window.addEventListener('scroll', this._scrollScreenLazy);
-        window.addEventListener('resize', this._resizeScreenLazy);
+        this.resizeScreenLazy();
+        window.addEventListener('scroll', this.scrollScreenLazy);
+        window.addEventListener('resize', this.resizeScreenLazy);
     }
 
     componentWillUnmount() {
-        window.removeEventListener('scroll', this._scrollScreenLazy);
-        window.removeEventListener('resize', this._resizeScreenLazy);
-        this._scrollScreenLazy.cancel();
-        this._resizeScreenLazy.cancel();
+        window.removeEventListener('scroll', this.scrollScreenLazy);
+        window.removeEventListener('resize', this.resizeScreenLazy);
+        this.scrollScreenLazy.cancel();
+        this.resizeScreenLazy.cancel();
     }
 
     openSharePopover = () => {
@@ -106,11 +93,11 @@ export default class SidePanel extends Component {
         });
     };
 
-    _setWrapperRef = ref => {
+    setWrapperRef = ref => {
         this.wrapperRef = ref;
     };
 
-    _scrollScreen = () => {
+    scrollScreen = () => {
         const documentElem = document.documentElement;
         const bottomBorder = documentElem.scrollHeight - FOOTER_HEIGHT;
         const offsetBottomOfScreen = documentElem.scrollTop + documentElem.clientHeight;
@@ -122,7 +109,7 @@ export default class SidePanel extends Component {
         }
     };
 
-    _resizeScreen = () => {
+    resizeScreen = () => {
         const wrapperOffsetTop = this.wrapperRef.offsetTop;
         if (wrapperOffsetTop <= HEADER_HEIGHT + PADDING_FROM_HEADER && this.state.showPanel) {
             this.setState({ showPanel: false });
@@ -130,24 +117,24 @@ export default class SidePanel extends Component {
         if (wrapperOffsetTop > HEADER_HEIGHT + PADDING_FROM_HEADER && !this.state.showPanel) {
             this.setState({ showPanel: true });
         }
-        this._scrollScreenLazy();
+        this.scrollScreenLazy();
     };
 
-    _scrollScreenLazy = throttle(this._scrollScreen, 25);
+    scrollScreenLazy = throttle(this.scrollScreen, 25);
 
-    _resizeScreenLazy = throttle(this._resizeScreen, 25);
+    resizeScreenLazy = throttle(this.resizeScreen, 25);
 
-    _reblog = () => {
+    reblog = () => {
         const { username, author, permLink } = this.props;
         this.props.reblog(username, author, permLink);
     };
 
-    _toggleFavorite = () => {
+    toggleFavorite = () => {
         const { author, permLink, isFavorite } = this.props;
         this.props.toggleFavoriteAction(author + '/' + permLink, !isFavorite);
     };
 
-    _like = async () => {
+    like = async () => {
         const { username, permLink, author, myVote } = this.props;
         const percent = 1;
         if (await confirmVote(myVote, percent)) {
@@ -160,7 +147,7 @@ export default class SidePanel extends Component {
         }
     };
 
-    _dislike = async () => {
+    dislike = async () => {
         const { username, permLink, author, myVote } = this.props;
         const percent = -1;
         if (await confirmVote(myVote, percent)) {
@@ -183,7 +170,7 @@ export default class SidePanel extends Component {
         const { likes, firstLikes, dislikes, firstDislikes } = votesSummary;
         return (
             <Wrapper
-                innerRef={this._setWrapperRef}
+                innerRef={this.setWrapperRef}
                 showPanel={showPanel}
                 fixedOnScreen={fixedOnScreen}
             >
@@ -191,14 +178,14 @@ export default class SidePanel extends Component {
                     activeType={voteType.percent > 0 ? 'like' : ''}
                     iconName="like"
                     count={likes}
-                    onClick={this._like}
+                    onClick={this.like}
                     dataTooltip={this.tooltipContent(firstLikes, likes > 10)}
                 />
                 <Action
                     activeType={voteType.percent < 0 ? 'dislike' : ''}
                     iconName="dislike"
                     count={dislikes}
-                    onClick={this._dislike}
+                    onClick={this.dislike}
                     dataTooltip={this.tooltipContent(firstDislikes, dislikes > 10)}
                 />
                 <ActionWrapper
@@ -220,11 +207,11 @@ export default class SidePanel extends Component {
                 <Action
                     iconName="repost-right"
                     dataTooltip={tt('g.reblog')}
-                    onClick={this._reblog}
+                    onClick={this.reblog}
                 />
                 <Action
                     iconName={isFavorite ? 'star_filled' : 'star'}
-                    onClick={this._toggleFavorite}
+                    onClick={this.toggleFavorite}
                     dataTooltip={
                         isFavorite ? tt('g.remove_from_favorites') : tt('g.add_to_favorites')
                     }

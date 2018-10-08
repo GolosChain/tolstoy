@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router';
 import tt from 'counterpart';
@@ -10,10 +9,6 @@ import Button from 'golos-ui/Button';
 
 import Userpic from 'app/components/elements/Userpic';
 import Follow from 'src/app/components/common/Follow/Follow';
-import { aboutPanelSelector } from 'src/app/redux/selectors/post/aboutPanel';
-
-import { LIQUID_TICKER } from 'app/client_config';
-import user from 'app/redux/User';
 
 const Wrapper = styled.div`
     display: flex;
@@ -38,11 +33,11 @@ const Avatar = styled.div`
     }
 `;
 
-const Names = styled.div`
+const AuthorInfo = styled.div`
     padding: 0 20px 0 10px;
 `;
 
-const Name = styled.div`
+const AuthorName = styled.div`
     color: #393636;
     font-family: 'Open Sans', sans-serif;
     font-size: 24px;
@@ -133,38 +128,22 @@ const FollowButton = styled(Follow)`
     }
 `;
 
-@connect(
-    aboutPanelSelector,
-    dispatch => ({
-        showTransfer(account, url) {
-            dispatch(
-                user.actions.setTransferDefaults({
-                    flag: {
-                        type: `donate`,
-                        fMemo: () => JSON.stringify({ donate: { post: url } }),
-                    },
-                    to: account,
-                    asset: LIQUID_TICKER,
-                    transferType: 'Transfer to Account',
-                    disableMemo: false,
-                    disableTo: true,
-                })
-            );
-            dispatch(user.actions.showTransfer());
-        },
-    })
-)
-export default class AboutPanel extends Component {
+export class AboutPanel extends Component {
+    showTransferDialog = () => {
+        const { showTransfer, account, url } = this.props;
+        showTransfer(account, url);
+    };
+
     render() {
         const { name, account, about, created } = this.props;
         return (
             <Wrapper>
                 <Avatar>
                     <Userpic account={account} size={50} />
-                    <Names>
-                        <Name>{name}</Name>
+                    <AuthorInfo>
+                        <AuthorName>{name}</AuthorName>
                         <Account to={`/@${account}`}>@{account}</Account>
-                    </Names>
+                    </AuthorInfo>
                     <Divider />
                 </Avatar>
                 <Cake>
@@ -195,9 +174,4 @@ export default class AboutPanel extends Component {
             </Wrapper>
         );
     }
-
-    showTransferDialog = () => {
-        const { showTransfer, account, url } = this.props;
-        showTransfer(account, url);
-    };
 }
