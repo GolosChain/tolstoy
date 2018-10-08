@@ -47,7 +47,7 @@ const usernameValidation = (username, err) =>
 
 const validate = values => ({
     name: composeValidators(
-        // isLengthGreaterThan(20, tt('settings_jsx.name_is_too_long')),
+        isLengthGreaterThan(20, tt('settings_jsx.name_is_too_long')),
         isStartWithAt(tt('settings_jsx.name_must_not_begin_with'))
     )(values.name),
     about: isLengthGreaterThan(160, tt('settings_jsx.about_is_too_long'))(values.about),
