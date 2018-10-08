@@ -34,7 +34,7 @@ export default function extractContent(get, content) {
     const author_link = '/@' + get(content, 'author');
     let link = `/@${author}/${permlink}`;
     if (category) link = `/${category}${link}`;
-    const body = get(content, 'body');
+    const body = get(content, 'body').trim();
     let jsonMetadata = {}
     let image_link
     try {
@@ -54,7 +54,7 @@ export default function extractContent(get, content) {
     }
 
     // If nothing found in json metadata, parse body and check images/links
-    if(!image_link) {
+    if(!image_link && body) {
         let rtags
         {
             const isHtml = /^<html>([\S\s]*)<\/html>$/.test(body)
@@ -71,7 +71,7 @@ export default function extractContent(get, content) {
 
     let desc
     let desc_complete = false
-    if(!desc) {
+    if(body) {
         // Short description.
         // Remove bold and header, etc.
         // Stripping removes links with titles (so we got the links above)..
