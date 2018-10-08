@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import is from 'styled-is';
-import { api } from 'golos-js';
+import { api, utils } from 'golos-js';
 import memoize from 'lodash/memoize';
 import throttle from 'lodash/throttle';
 import keyCodes from 'app/utils/keyCodes';
@@ -36,6 +36,10 @@ const At = styled.div`
         border-radius: 6px 0 0 0;
     `};
 
+    ${is('error')`
+        border-color: #ff7d7d;
+    `};
+
     &::after {
         content: '@';
     }
@@ -47,6 +51,10 @@ const SimpleInputStyled = styled(SimpleInput)`
 
     ${is('open')`
         border-radius: 0 6px 0 0;
+    `};
+
+    ${is('error')`
+        border-color: #ff7d7d;
     `};
 
     &:focus + ${At} {
@@ -106,12 +114,21 @@ export default class AccountNameInput extends PureComponent {
     state = {
         focus: false,
         open: false,
+        valid: false,
         index: null,
         list: null,
     };
 
     _loadIndex = 0;
     _showIndex = null;
+
+    componentWillReceiveProps(props) {
+        if (this.props.value !== props.value) {
+            this.setState({
+                valid: !utils.validateAccountName(props.value),
+            });
+        }
+    }
 
     tryOpen() {
         const { focus, list } = this.state;
@@ -139,9 +156,12 @@ export default class AccountNameInput extends PureComponent {
                 const names = await this.loadAccounts(value);
 
                 if (!this._showIndex || this._showIndex < loadIndex) {
+                    const { focus } = this.state;
+
                     this._showIndex = loadIndex;
+
                     this.setState({
-                        open: true,
+                        open: focus,
                         list: names,
                         index: 0,
                     });
@@ -150,7 +170,7 @@ export default class AccountNameInput extends PureComponent {
                 console.error(err);
             }
         },
-        200,
+        400,
         { leading: false }
     );
 
@@ -257,18 +277,20 @@ export default class AccountNameInput extends PureComponent {
             index: null,
         });
 
-        console.log(accountName);
-
         this.props.onChange(accountName);
     };
 
     loadAccounts = memoize(word => api.lookupAccountsAsync(word, MAX_VARIANTS + 1));
 
     render() {
-        const { block } = this.props;
-        const { open, list, index } = this.state;
+        const { block, value } = this.props;
+        const { open, list, focus, valid, index } = this.state;
 
-        console.log(list);
+        let isError = value && !focus && !valid;
+
+        if (!isError && list && !list.includes(value)) {
+            isError = true;
+        }
 
         return (
             <Wrapper block={block ? 1 : 0}>
@@ -279,12 +301,13 @@ export default class AccountNameInput extends PureComponent {
                     spellCheck="false"
                     {...this.props}
                     open={open ? 1 : 0}
+                    error={isError ? 1 : 0}
                     onFocus={this.onFocus}
                     onBlur={this.onBlur}
                     onChange={this.onChange}
                     onKeyDown={this.onKeyDown}
                 />
-                <At open={open ? 1 : 0} />
+                <At open={open ? 1 : 0} error={isError ? 1 : 0} />
                 {open ? (
                     <Autocomplete>
                         {list.slice(0, MAX_VARIANTS).map((accountName, i) => (

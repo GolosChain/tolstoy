@@ -236,7 +236,9 @@ class TransferDialog extends PureComponent {
     }
 
     confirmClose() {
-        if (this.state.note.trim() || this.state.amount.trim()) {
+        const { target, note, amount } = this.state;
+
+        if (target || note.trim() || amount.trim()) {
             DialogManager.dangerConfirm('Вы действительно хотите закрыть окно?').then(y => {
                 if (y) {
                     this.props.onClose();
@@ -315,8 +317,12 @@ class TransferDialog extends PureComponent {
                     disabled: false,
                 });
 
-                if (err !== 'Canceled') {
-                    DialogManager.alert(err.toString());
+                const errStr = err.toString();
+
+                if (errStr === 'Missing object (1020200)') {
+                    DialogManager.alert('Аккаунт не существует');
+                } else if (errStr !== 'Canceled') {
+                    DialogManager.alert(errStr);
                 }
             } else {
                 this.setState({
