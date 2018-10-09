@@ -10,8 +10,8 @@
   "active_panel_tooltip": {
     "complain_about_post": "Пожаловаться на пост",
     "pin_post": "Закрепить пост",
-    "unpin_post": "Открепить пост",
-    "promote_post": "Продвинуть пост"
+    "promote_post": "Продвинуть пост",
+    "unpin_post": "Открепить пост"
   },
   "auth_protection": {
     "need_auth": "Нет доступа, авторизуйтесь.",
@@ -373,6 +373,7 @@
     "print": "Распечатать",
     "promote": "Продвинуть",
     "promoted": "Промо",
+    "publish": "Опубликовать",
     "re": "RE",
     "re2": "Re",
     "re_enter_generate_password": "Введите сгенерированный пароль",
@@ -389,7 +390,6 @@
     "replied_to": "ответил",
     "replies": "Ответы",
     "reply": "Ответить",
-    "publish": "Опубликовать",
     "reputation": "Репутация",
     "request": "запрос",
     "required": "Обязательно",

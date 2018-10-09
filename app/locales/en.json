@@ -10,8 +10,8 @@
   "active_panel_tooltip": {
     "complain_about_post": "Complain about post",
     "pin_post": "Pin post",
-    "unpin_post": "Unpin post",
-    "promote_post": "Promote post"
+    "promote_post": "Promote post",
+    "unpin_post": "Unpin post"
   },
   "auth_protection": {
     "need_auth": "Not allowed, please authorize.",
@@ -369,6 +369,7 @@
     "print": "Print",
     "promote": "Promote",
     "promoted": "promoted",
+    "publish": "Publish",
     "re": "RE",
     "re2": "Re",
     "re_enter_generate_password": "Re-enter Generated Password",
@@ -386,7 +387,6 @@
     "replied_to": "replied to",
     "replies": "Replies",
     "reply": "Reply",
-    "publish": "Publish",
     "reputation": "Reputation",
     "request": "request",
     "required": "Required",
