@@ -4,8 +4,10 @@ import { Link } from 'react-router';
 import styled from 'styled-components';
 import is, { isNot } from 'styled-is';
 import tt from 'counterpart';
+
 import { detransliterate } from 'app/utils/ParsersAndFormatters';
 import CommentFormLoader from 'app/components/modules/CommentForm/loader';
+
 import Icon from 'golos-ui/Icon';
 import VotePanel from '../VotePanel';
 import { confirmVote } from 'src/app/helpers/votes';
@@ -316,7 +318,7 @@ export class CommentCard extends PureComponent {
 
     _renderHeader() {
         const { isCommentOpen } = this.state;
-        const { parentLink, title, author, category, created } = this.props;
+        const { fullParentURL, title, author, category, created } = this.props;
         const detransliteratedCategory = detransliterate(category);
 
         return (
@@ -329,7 +331,7 @@ export class CommentCard extends PureComponent {
                             <TitleIcon name="comment" />
                             {tt('g.re2')}
                             :&nbsp;
-                            <TitleLink to={parentLink} onClick={this._onTitleClick}>
+                            <TitleLink to={fullParentURL} onClick={this._onTitleClick}>
                                 {title}
                             </TitleLink>
                         </ReLinkWrapper>
@@ -348,7 +350,7 @@ export class CommentCard extends PureComponent {
     }
 
     _renderBodyRe() {
-        const { username, author, parentLink, title } = this.props;
+        const { username, author, fullParentURL, title } = this.props;
         const { edit } = this.state;
         const showEditButton = username === author;
 
@@ -358,7 +360,7 @@ export class CommentCard extends PureComponent {
                     <TitleIcon name="comment" />
                     {tt('g.re2')}
                     :&nbsp;
-                    <TitleLink to={parentLink} onClick={this._onTitleClick}>
+                    <TitleLink to={fullParentURL} onClick={this._onTitleClick}>
                         {title}
                     </TitleLink>
                 </ReLinkWrapper>
@@ -403,7 +405,15 @@ export class CommentCard extends PureComponent {
     }
 
     _renderFooter() {
-        const { data, username, allowInlineReply, content, isOwner, author, commentsCount } = this.props;
+        const {
+            data,
+            username,
+            allowInlineReply,
+            content,
+            isOwner,
+            author,
+            commentsCount,
+        } = this.props;
         const { showReply, edit } = this.state;
         if (showReply) {
             return (
@@ -428,11 +438,7 @@ export class CommentCard extends PureComponent {
         } else {
             return (
                 <Footer>
-                    <CommentVotePanel
-                        data={data}
-                        me={username}
-                        onChange={this._onVoteChange}
-                    />
+                    <CommentVotePanel data={data} me={username} onChange={this._onVoteChange} />
                     <CommentReplyWrapper>
                         <CommentReplyBlock
                             count={commentsCount}
@@ -531,11 +537,7 @@ export class CommentCard extends PureComponent {
         const { myVote } = this.state;
 
         if (await confirmVote(myVote, percent)) {
-            this.props.onVote(percent, {
-                username,
-                author,
-                permLink,
-            });
+            this.props.onVote(username, author, permLink, percent);
         }
     };
 
