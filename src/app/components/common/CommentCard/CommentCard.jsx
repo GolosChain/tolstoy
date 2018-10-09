@@ -2,17 +2,15 @@ import React, { PureComponent, Fragment, createRef } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import styled from 'styled-components';
-import is, { isNot } from 'styled-is';
+import { isNot } from 'styled-is';
 import tt from 'counterpart';
 
 import { detransliterate } from 'app/utils/ParsersAndFormatters';
 import CommentFormLoader from 'app/components/modules/CommentForm/loader';
 
 import Icon from 'golos-ui/Icon';
-import VotePanel from '../VotePanel';
-import { confirmVote } from 'src/app/helpers/votes';
-import ReplyBlock from '../ReplyBlock';
-import { AuthorBlock } from 'src/app/components/common/CommentCard/AuthorBlock';
+import CommentFooter from './CommentFooter';
+import { CommentAuthor } from './CommentAuthor';
 import { EditButton } from 'src/app/components/common/CommentCard/EditButton';
 import { ReLink } from './ReLink';
 
@@ -67,25 +65,6 @@ const PostBody = styled(Link)`
     color: #959595 !important;
 `;
 
-const Footer = styled.div`
-    position: relative;
-    display: flex;
-    flex-shrink: 0;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 0 0 0;
-    z-index: 1;
-    pointer-events: none;
-
-    & > * {
-        pointer-events: initial;
-    }
-
-    @media (min-width: 890px) and (max-width: 1087px), (max-width: 639px) {
-        flex-direction: column;
-    }
-`;
-
 const Filler = styled.div`
     flex-grow: 1;
 `;
@@ -109,63 +88,19 @@ const Reply = styled.div`
     padding: 0 18px 0 60px;
 `;
 
-const ButtonStyled = styled.div`
+const IconEditWrapper = styled.div`
+    min-width: 30px;
+    min-height: 30px;
     display: flex;
+    justify-content: center;
     align-items: center;
-    margin-right: 18px;
-    height: 100%;
-    min-height: 50px;
-    flex-grow: 1;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 12px;
-    font-weight: bold;
-    line-height: 18px;
-    text-transform: uppercase;
+    color: #aaa;
     cursor: pointer;
-
-    @media (min-width: 890px) and (max-width: 1200px), (max-width: 639px) {
-        margin: 0;
-        padding: 0 18px 0 11px;
-    }
-`;
-
-const FooterConfirm = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    height: 50px;
-`;
-
-const ButtonConfirm = styled.div`
-    display: flex;
-    align-items: center;
-    height: 100%;
-    padding: 0 10px;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 12px;
-    font-weight: bold;
-    text-transform: uppercase;
-    color: #b7b7ba;
-    cursor: pointer;
-
-    ${is('main')`
-        color: #2879ff !important;
-    `};
+    transition: color 0.15s;
 
     &:hover {
-        color: #393636;
+        color: #333;
     }
-
-    &:last-child {
-        padding-right: 18px;
-    }
-`;
-
-const Splitter = styled.div`
-    width: 1px;
-    height: 26px;
-    margin: 0 6px;
-    background: #e1e1e1;
 `;
 
 const ToggleCommentOpen = styled.div`
@@ -187,32 +122,16 @@ const ToggleCommentOpen = styled.div`
     `};
 `;
 
-const CommentVotePanel = styled(VotePanel)`
-    width: 257px;
-
-    @media (min-width: 890px) and (max-width: 1087px), (max-width: 639px) {
-        width: 100%;
-        justify-content: space-between;
-    }
-`;
-
-const CommentReplyBlock = styled(ReplyBlock)`
-    margin: 0;
-
-    @media (min-width: 890px) and (max-width: 1087px), (max-width: 639px) {
-        flex-grow: 1;
-        justify-content: center;
-    }
-`;
-
-const CommentReplyWrapper = styled.div`
+const ReLinkWrapper = styled.div`
+    padding-right: 10px;
     display: flex;
     align-items: center;
-
-    @media (min-width: 890px) and (max-width: 1087px), (max-width: 639px) {
-        width: 100%;
-        justify-content: center;
-    }
+    line-height: 29px;
+    font-family: ${a => a.theme.fontFamily};
+    font-size: 20px;
+    font-weight: bold;
+    color: #212121;
+    overflow: hidden;
 `;
 
 export class CommentCard extends PureComponent {
@@ -257,8 +176,20 @@ export class CommentCard extends PureComponent {
     }
 
     render() {
-        const { showReply, isCommentOpen } = this.state;
-        const { className } = this.props;
+        const { showReply, isCommentOpen, edit } = this.state;
+        const {
+            data,
+            username,
+            allowInlineReply,
+            content,
+            isOwner,
+            author,
+            commentsCount,
+            onVote,
+            permLink,
+            myVote,
+            className,
+        } = this.props;
 
         return (
             <Root commentopen={isCommentOpen ? 1 : 0} className={className}>
@@ -268,7 +199,23 @@ export class CommentCard extends PureComponent {
                         {this._renderBodyRe()}
                         {this._renderBodyText()}
                         {showReply ? this._renderReplyEditor() : null}
-                        {this._renderFooter()}
+                        <CommentFooter
+                            data={data}
+                            allowInlineReply={allowInlineReply}
+                            content={content}
+                            isOwner={isOwner}
+                            author={author}
+                            commentsCount={commentsCount}
+                            showReply={showReply}
+                            edit={edit}
+                            username={username}
+                            onVote={onVote}
+                            permLink={permLink}
+                            myVote={myVote}
+                            replyRef={this._replyRef}
+                            commentRef={this._commentRef}
+                            onReplyClick={this.onReplyClick}
+                        />
                     </Fragment>
                 ) : null}
             </Root>
@@ -284,7 +231,7 @@ export class CommentCard extends PureComponent {
             <Header>
                 <HeaderLine>
                     {isCommentOpen ? (
-                        <AuthorBlock author={author} created={created} />
+                        <CommentAuthor author={author} created={created} />
                     ) : (
                         <ReLink
                             fullParentURL={fullParentURL}
@@ -350,59 +297,6 @@ export class CommentCard extends PureComponent {
         );
     }
 
-    _renderFooter() {
-        const {
-            data,
-            username,
-            allowInlineReply,
-            content,
-            isOwner,
-            author,
-            commentsCount,
-        } = this.props;
-        const { showReply, edit } = this.state;
-        if (showReply) {
-            return (
-                <FooterConfirm>
-                    <ButtonConfirm onClick={this._onCancelReplyClick}>Отмена</ButtonConfirm>
-                    <Splitter />
-                    <ButtonConfirm main onClick={this._onPostReplyClick}>
-                        Опубликовать
-                    </ButtonConfirm>
-                </FooterConfirm>
-            );
-        } else if (edit) {
-            return (
-                <FooterConfirm>
-                    <ButtonConfirm onClick={this._onCancelEditClick}>Отмена</ButtonConfirm>
-                    <Splitter />
-                    <ButtonConfirm main onClick={this._onSaveEditClick}>
-                        Сохранить
-                    </ButtonConfirm>
-                </FooterConfirm>
-            );
-        } else {
-            return (
-                <Footer>
-                    <CommentVotePanel data={data} me={username} onChange={this._onVoteChange} />
-                    <CommentReplyWrapper>
-                        <CommentReplyBlock
-                            count={commentsCount}
-                            link={content.link}
-                            text="Комментарии"
-                            showText={isOwner}
-                        />
-                        {allowInlineReply && author !== username ? (
-                            <ButtonStyled light onClick={this._onReplyClick}>
-                                Ответить
-                            </ButtonStyled>
-                        ) : null}
-                    </CommentReplyWrapper>
-                </Footer>
-            );
-        }
-    }
-
     _renderReplyEditor() {
         const { data } = this.props;
 
@@ -443,11 +337,12 @@ export class CommentCard extends PureComponent {
     };
 
     _onClick = e => {
-        if (this.props.onClick) {
+        const { onClick, permLink, content } = this.props;
+        if (onClick) {
             e.preventDefault();
-            this.props.onClick({
-                permLink: this.props.permLink,
-                url: this.props.content.link,
+            onClick({
+                permLink,
+                url: content.link,
             });
         }
     };
@@ -478,16 +373,7 @@ export class CommentCard extends PureComponent {
         });
     };
 
-    _onVoteChange = async percent => {
-        const { username, author, permLink } = this.props;
-        const { myVote } = this.state;
-
-        if (await confirmVote(myVote, percent)) {
-            this.props.onVote(username, author, permLink, percent);
-        }
-    };
-
-    _onReplyClick = () => {
+    onReplyClick = () => {
         this.setState({
             showReply: true,
         });
@@ -497,21 +383,5 @@ export class CommentCard extends PureComponent {
         this.setState({
             isCommentOpen: !this.state.isCommentOpen,
         });
-    };
-
-    _onSaveEditClick = () => {
-        this._commentRef.current.post();
-    };
-
-    _onCancelEditClick = () => {
-        this._commentRef.current.cancel();
-    };
-
-    _onPostReplyClick = () => {
-        this._replyRef.current.post();
-    };
-
-    _onCancelReplyClick = () => {
-        this._replyRef.current.cancel();
     };
 }

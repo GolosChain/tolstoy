@@ -38,7 +38,7 @@ const PostDate = styled.div`
     cursor: default;
 `;
 
-export const AuthorBlock = ({ author, created }) => (
+export const CommentAuthor = ({ author, created }) => (
     <Wrapper>
         <Avatar to={`/@${author}`}>
             <Userpic account={author} size={37} />
@@ -52,6 +52,6 @@ export const AuthorBlock = ({ author, created }) => (
     </Wrapper>
 );
 
-AuthorBlock.propTypes = {
+CommentAuthor.propTypes = {
     author: PropTypes.string.isRequired,
 };
