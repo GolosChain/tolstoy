@@ -113,11 +113,11 @@ export function formatCurrency(amount, currency, decimals) {
     }
 }
 
-export function renderValue(amount, originalCurrency, decimals, date) {
+export function renderValue(amount, originalCurrency, decimals, date, forceCurrency) {
     if (process.env.BROWSER) {
         const state = getStoreState();
 
-        let currency = state.data.settings.getIn(['basic', 'currency']) || DEFAULT_CURRENCY;
+        let currency = forceCurrency || state.data.settings.getIn(['basic', 'currency']) || DEFAULT_CURRENCY;
         let rate;
 
         if (currency !== originalCurrency) {
