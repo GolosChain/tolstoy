@@ -8,11 +8,11 @@ import tt from 'counterpart';
 import { detransliterate } from 'app/utils/ParsersAndFormatters';
 import CommentFormLoader from 'app/components/modules/CommentForm/loader';
 
-import Icon from 'golos-ui/Icon';
 import CommentFooter from './CommentFooter';
 import { CommentAuthor } from './CommentAuthor';
-import { EditButton } from 'src/app/components/common/CommentCard/EditButton';
+import { EditButton } from './EditButton';
 import { ReLink } from './ReLink';
+import { CloseOpenButton } from './CloseOpenButton';
 
 const Header = styled.div`
     padding: 10px 0 6px;
@@ -88,25 +88,6 @@ const Reply = styled.div`
     padding: 0 18px 0 60px;
 `;
 
-const ToggleCommentOpen = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-width: 30px;
-    min-height: 30px;
-    margin-right: -4px;
-    user-select: none;
-    cursor: pointer;
-    transform: rotate(0);
-    transition: transform 0.4s;
-
-    ${isNot('commentopen')`
-        margin-top: -1px;
-        color: #b7b7ba;
-        transform: rotate(0.5turn);
-    `};
-`;
-
 export class CommentCard extends PureComponent {
     static propTypes = {
         permLink: PropTypes.string,
@@ -123,8 +104,8 @@ export class CommentCard extends PureComponent {
         isCommentOpen: true,
     };
 
-    _commentRef = createRef();
-    _replyRef = createRef();
+    commentRef = createRef();
+    replyRef = createRef();
 
     componentWillReceiveProps(newProps) {
         if (this.props.data !== newProps.data) {
@@ -168,7 +149,7 @@ export class CommentCard extends PureComponent {
                 {this._renderHeader()}
                 {isCommentOpen ? (
                     <Fragment>
-                        {this.titleBlock()}
+                        {this.renderTitle()}
                         {this._renderBodyText()}
                         {showReply ? this._renderReplyEditor() : null}
                         <CommentFooter
@@ -184,8 +165,8 @@ export class CommentCard extends PureComponent {
                             onVote={onVote}
                             permLink={permLink}
                             myVote={myVote}
-                            replyRef={this._replyRef}
-                            commentRef={this._commentRef}
+                            replyRef={this.replyRef}
+                            commentRef={this.commentRef}
                             onReplyClick={this.onReplyClick}
                         />
                     </Fragment>
@@ -213,18 +194,16 @@ export class CommentCard extends PureComponent {
                     )}
                     <Filler />
                     <Category>{detransliteratedCategory}</Category>
-                    <ToggleCommentOpen
-                        commentopen={isCommentOpen ? 1 : 0}
-                        onClick={this._toggleComment}
-                    >
-                        <Icon name="chevron" width="12" height="7" />
-                    </ToggleCommentOpen>
+                    <CloseOpenButton
+                        isCommentOpen={isCommentOpen}
+                        toggleComment={this.toggleComment}
+                    />
                 </HeaderLine>
             </Header>
         );
     }
 
-    titleBlock() {
+    renderTitle() {
         const { username, author, fullParentURL, title } = this.props;
         const { edit } = this.state;
         const showEditButton = username === author;
@@ -254,14 +233,14 @@ export class CommentCard extends PureComponent {
                         hideFooter
                         autoFocus
                         params={data.toJS()}
-                        forwardRef={this._commentRef}
-                        onSuccess={this._onEditDone}
-                        onCancel={this._onEditDone}
+                        forwardRef={this.commentRef}
+                        onSuccess={this.onEditDone}
+                        onCancel={this.onEditDone}
                     />
                 ) : (
                     <PostBody
                         to={contentLink}
-                        onClick={this._onClick}
+                        onClick={this.onClick}
                         dangerouslySetInnerHTML={htmlContent}
                     />
                 )}
@@ -279,9 +258,9 @@ export class CommentCard extends PureComponent {
                     hideFooter
                     autoFocus
                     params={data.toJS()}
-                    forwardRef={this._replyRef}
-                    onSuccess={this._onReplySuccess}
-                    onCancel={this._onReplyCancel}
+                    forwardRef={this.replyRef}
+                    onSuccess={this.onReplySuccess}
+                    onCancel={this.onReplyCancel}
                 />
             </Reply>
         );
@@ -308,7 +287,7 @@ export class CommentCard extends PureComponent {
         }
     };
 
-    _onClick = e => {
+    onClick = e => {
         const { onClick, permLink, contentLink } = this.props;
         if (onClick) {
             e.preventDefault();
@@ -319,7 +298,7 @@ export class CommentCard extends PureComponent {
         }
     };
 
-    _onReplySuccess = () => {
+    onReplySuccess = () => {
         this.setState({
             showReply: false,
         });
@@ -327,7 +306,7 @@ export class CommentCard extends PureComponent {
         this.props.onNotify('Ответ опубликован');
     };
 
-    _onReplyCancel = () => {
+    onReplyCancel = () => {
         this.setState({
             showReply: false,
         });
@@ -339,7 +318,7 @@ export class CommentCard extends PureComponent {
         });
     };
 
-    _onEditDone = () => {
+    onEditDone = () => {
         this.setState({
             edit: false,
         });
@@ -351,7 +330,7 @@ export class CommentCard extends PureComponent {
         });
     };
 
-    _toggleComment = () => {
+    toggleComment = () => {
         this.setState({
             isCommentOpen: !this.state.isCommentOpen,
         });
