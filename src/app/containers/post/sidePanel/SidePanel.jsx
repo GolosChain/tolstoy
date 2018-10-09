@@ -74,7 +74,7 @@ export class SidePanel extends Component {
     };
 
     componentDidMount() {
-        this.scrollScreen();
+        this.scrollScreenLazy();
         window.addEventListener('scroll', this.scrollScreenLazy);
     }
 
