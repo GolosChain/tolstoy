@@ -13,6 +13,7 @@ import VotePanel from '../VotePanel';
 import { confirmVote } from 'src/app/helpers/votes';
 import ReplyBlock from '../ReplyBlock';
 import { AuthorBlock } from 'src/app/components/common/CommentCard/AuthorBlock';
+import { ReLink } from './ReLink';
 
 const Header = styled.div`
     padding: 10px 0 6px;
@@ -56,22 +57,6 @@ const Title = styled.div`
     position: relative;
     padding: 0 18px;
     margin-bottom: 8px;
-`;
-
-const TitleIcon = Icon.extend`
-    position: relative;
-    height: 20px;
-    min-width: 24px;
-    margin-right: 6px;
-    margin-bottom: -3px;
-`;
-
-const TitleLink = styled(Link)`
-    color: #212121 !important;
-    text-decoration: underline;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 `;
 
 const PostBody = styled(Link)`
@@ -216,18 +201,6 @@ const ToggleCommentOpen = styled.div`
     `};
 `;
 
-const ReLinkWrapper = styled.div`
-    padding-right: 10px;
-    display: flex;
-    align-items: center;
-    line-height: 29px;
-    font-family: ${a => a.theme.fontFamily};
-    font-size: 20px;
-    font-weight: bold;
-    color: #212121;
-    overflow: hidden;
-`;
-
 const CommentVotePanel = styled(VotePanel)`
     width: 257px;
 
@@ -327,14 +300,11 @@ export class CommentCard extends PureComponent {
                     {isCommentOpen ? (
                         <AuthorBlock author={author} created={created} />
                     ) : (
-                        <ReLinkWrapper>
-                            <TitleIcon name="comment" />
-                            {tt('g.re2')}
-                            :&nbsp;
-                            <TitleLink to={fullParentURL} onClick={this._onTitleClick}>
-                                {title}
-                            </TitleLink>
-                        </ReLinkWrapper>
+                        <ReLink
+                            fullParentURL={fullParentURL}
+                            title={title}
+                            onTitleClick={this.onTitleClick}
+                        />
                     )}
                     <Filler />
                     <Category>{detransliteratedCategory}</Category>
@@ -356,14 +326,11 @@ export class CommentCard extends PureComponent {
 
         return (
             <Title>
-                <ReLinkWrapper>
-                    <TitleIcon name="comment" />
-                    {tt('g.re2')}
-                    :&nbsp;
-                    <TitleLink to={fullParentURL} onClick={this._onTitleClick}>
-                        {title}
-                    </TitleLink>
-                </ReLinkWrapper>
+                <ReLink
+                    fullParentURL={fullParentURL}
+                    title={title}
+                    onTitleClick={this.onTitleClick}
+                />
                 {showEditButton && !edit ? (
                     <IconEditWrapper
                         data-tooltip={'Редактировать комментарий'}
@@ -475,7 +442,7 @@ export class CommentCard extends PureComponent {
         );
     }
 
-    _onTitleClick = e => {
+    onTitleClick = e => {
         const { parentAuthor, parentPermLink } = this.props;
         if (this.props.onClick) {
             e.preventDefault();
