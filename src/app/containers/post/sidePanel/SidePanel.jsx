@@ -176,11 +176,7 @@ export class SidePanel extends Component {
         const { showSharePopover, fixedOn } = this.state;
         const { likes, firstLikes, dislikes, firstDislikes } = votesSummary;
         return (
-            <Wrapper
-                innerRef={this.setWrapperRef}
-                showPanel={showPanel}
-                fixedOnScreen={fixedOnScreen}
-            >
+            <Wrapper innerRef={this.sidePanelRef} fixedOn={fixedOn}>
                 <Action
                     activeType={voteType.percent > 0 ? 'like' : ''}
                     iconName="like"
