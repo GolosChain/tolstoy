@@ -10,8 +10,8 @@
   "active_panel_tooltip": {
     "complain_about_post": "Complain about post",
     "pin_post": "Pin post",
-    "unpin_post": "Unpin post",
-    "promote_post": "Promote post"
+    "promote_post": "Promote post",
+    "unpin_post": "Unpin post"
   },
   "auth_protection": {
     "need_auth": "Not allowed, please authorize.",
@@ -270,6 +270,7 @@
     "edit": "Edit",
     "email": "Email",
     "email_recovery_hint": "Used to recover a hijacked or stolen GOLOS account",
+    "empty": "So far empty",
     "enter_username": "Enter your username",
     "expand": "Expand",
     "favorites": "Favorites",

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { List, Map } from 'immutable';
 import { FormattedDate } from 'react-intl';
+import tt from 'counterpart';
 
 import ActivityItem from './ActivityItem';
 
@@ -70,7 +71,7 @@ export default class ActivityList extends Component {
                         />
                     </Fragment>
                 ))}
-                {!isFetching && !notifications.size && <div>Пусто</div>}
+                {!isFetching && !notifications.size && <div>{tt('g.empty')}</div>}
             </Fragment>
         );
     }

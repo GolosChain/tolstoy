@@ -1,9 +1,10 @@
 import { createSelectorCreator, defaultMemoize, createSelector } from 'reselect';
 import isEqual from 'react-fast-compare';
 import { Map } from 'immutable';
-import { path } from 'ramda';
+import { path as pathRamda } from 'ramda';
 
 const emptyMap = Map();
+const toArray = data => (Array.isArray(data) ? data : [data]);
 
 // Create a "selector creator" that uses react-fast-compare instead of '==='
 // More info you can find in: https://github.com/reduxjs/reselect#api
@@ -12,19 +13,15 @@ export const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isE
 // export const routerSelector = state => state.router;
 
 // old
-export const globalSelector = type => state =>
-    state.global.getIn(Array.isArray(type) ? type : [type], emptyMap);
-export const userSelector = type => state =>
-    state.user.getIn(Array.isArray(type) ? type : [type], emptyMap);
-export const appSelector = type => state =>
-    state.app.getIn(Array.isArray(type) ? type : [type], emptyMap);
-export const offchainSelector = type => state =>
-    state.offchain.getIn(Array.isArray(type) ? type : [type], emptyMap);
+export const globalSelector = path => state => state.global.getIn(toArray(path));
+export const userSelector = path => state => state.user.getIn(toArray(path));
+export const appSelector = path => state => state.app.getIn(toArray(path));
+export const offchainSelector = path => state => state.offchain.getIn(toArray(path));
 // new and our future
-export const statusSelector = type => state => state.status[type];
-export const entitiesSelector = type => state => state.entities[type];
-export const dataSelector = type => state => path(Array.isArray(type) ? type : [type])(state.data);
-export const uiSelector = type => state => state.ui[type];
+export const statusSelector = path => state => pathRamda(toArray(path))(state.status);
+export const entitiesSelector = path => state => pathRamda(toArray(path))(state.entities);
+export const dataSelector = path => state => pathRamda(toArray(path))(state.data);
+export const uiSelector = path => state => pathRamda(toArray(path))(state.ui);
 
 // Router selectors
 

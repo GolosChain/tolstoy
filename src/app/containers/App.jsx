@@ -37,11 +37,11 @@ injectGlobal`
 
 @connect(
     appSelector,
-    dispatch => ({
-        loginUser: () => dispatch(user.actions.usernamePasswordLogin()),
-        logoutUser: () => dispatch(user.actions.logout()),
+    {
+        loginUser: user.actions.usernamePasswordLogin,
+        logoutUser: user.actions.logout,
         locationChanged,
-    })
+    }
 )
 export default class App extends Component {
     static propTypes = {
@@ -110,10 +110,13 @@ export default class App extends Component {
 
     checkLogin = event => {
         if (event.key === 'autopost2') {
-            if (!event.newValue) {
-                this.props.logoutUser();
+            if (event.newValue) {
+                if (!event.oldValue || event.oldValue !== event.newValue) {
+                    this.props.loginUser();
+                }
             } else {
-                if (!event.oldValue || event.oldValue !== event.newValue) this.props.loginUser();
+                this.props.logoutUser();
+
             }
         }
     };
@@ -211,7 +214,7 @@ export default class App extends Component {
 
         return (
             <ThemeProvider theme={defaultTheme}>
-                <div className={'App'} onMouseMove={this.onEntropyEvent}>
+                <div className="App" onMouseMove={this.onEntropyEvent}>
                     <Helmet>
                         <title>Golos.io</title>
                     </Helmet>

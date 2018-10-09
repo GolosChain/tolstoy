@@ -3,7 +3,20 @@ import { createDeepEqualSelector, globalSelector, currentUserSelector } from './
 
 // Notifications selectors
 
-export const hydrateNotification = (notification, account, accounts, contents, prevNotify) => {
+const isNextDay = (prevNotify, notify) => {
+    return (
+        new Date(prevNotify.get('createdAt')).toDateString() !==
+        new Date(notify.get('createdAt')).toDateString()
+    );
+};
+
+export const hydrateNotification = (
+    notification,
+    account,
+    accounts,
+    contents,
+    prevNotify = null
+) => {
     return notification.withMutations(notify => {
         // Add content title and link from store data
         const eventType = notify.get('eventType');
@@ -15,10 +28,10 @@ export const hydrateNotification = (notification, account, accounts, contents, p
             let author = '';
             if (['vote', 'flag', 'reward'].includes(eventType)) {
                 author = account.get('name');
-            } else if (['curatorReward'].includes(eventType)) {
-                author = notify.get('curatorTargetAuthor');
             } else if (['repost', 'reply', 'mention'].includes(eventType)) {
                 author = notify.get('fromUsers').get(0);
+            } else if (eventType === 'curatorReward') {
+                author = notify.get('curatorTargetAuthor');
             }
 
             const content = contents.getIn([`${author}/${notify.get('permlink')}`]);
@@ -52,10 +65,7 @@ export const hydrateNotification = (notification, account, accounts, contents, p
 
         // Check that this notification have next day date
         if (prevNotify) {
-            const isNextDay =
-                new Date(prevNotify.get('createdAt')).toDateString() !==
-                new Date(notify.get('createdAt')).toDateString();
-            notify.set('isNextDay', isNextDay);
+            notify.set('isNextDay', isNextDay(prevNotify, notify));
         }
 
         return notify;

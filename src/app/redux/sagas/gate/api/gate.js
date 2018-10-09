@@ -92,13 +92,21 @@ function* write(socket, writeChannel) {
             if (normalize) {
                 const { transform, saga, schema } = normalize;
                 // if we need to get result from unusual property
-                if (transform) normalizedPayload = transform(payload);
+                if (transform) {
+                    normalizedPayload = transform(payload);
+                }
                 // if exists saga for hydrate data from blockchain
-                if (saga) normalizedPayload = yield call(saga, normalizedPayload);
-                if (schema) normalizedPayload = normalizr(normalizedPayload, schema);
+                if (saga) {
+                    normalizedPayload = yield call(saga, normalizedPayload);
+                }
+                if (schema) {
+                    normalizedPayload = normalizr(normalizedPayload, schema);
+                }
             }
 
-            yield put(actionWith({ type: successType, payload: { ...payload, ...normalizedPayload } }));
+            yield put(
+                actionWith({ type: successType, payload: { ...payload, ...normalizedPayload } })
+            );
             if (successCallback) {
                 try {
                     successCallback();
