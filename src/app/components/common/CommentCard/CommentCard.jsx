@@ -13,6 +13,7 @@ import VotePanel from '../VotePanel';
 import { confirmVote } from 'src/app/helpers/votes';
 import ReplyBlock from '../ReplyBlock';
 import { AuthorBlock } from 'src/app/components/common/CommentCard/AuthorBlock';
+import { EditButton } from 'src/app/components/common/CommentCard/EditButton';
 import { ReLink } from './ReLink';
 
 const Header = styled.div`
@@ -106,21 +107,6 @@ const Root = styled.div`
 
 const Reply = styled.div`
     padding: 0 18px 0 60px;
-`;
-
-const IconEditWrapper = styled.div`
-    min-width: 30px;
-    min-height: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #aaa;
-    cursor: pointer;
-    transition: color 0.15s;
-
-    &:hover {
-        color: #333;
-    }
 `;
 
 const ButtonStyled = styled.div`
@@ -331,14 +317,7 @@ export class CommentCard extends PureComponent {
                     title={title}
                     onTitleClick={this.onTitleClick}
                 />
-                {showEditButton && !edit ? (
-                    <IconEditWrapper
-                        data-tooltip={'Редактировать комментарий'}
-                        onClick={this._onEditClick}
-                    >
-                        <Icon name="pen" size={20} />
-                    </IconEditWrapper>
-                ) : null}
+                {showEditButton && !edit && <EditButton onEditClick={this.onEditClick} />}
             </Title>
         );
     }
@@ -487,7 +466,7 @@ export class CommentCard extends PureComponent {
         });
     };
 
-    _onEditClick = () => {
+    onEditClick = () => {
         this.setState({
             edit: true,
         });
