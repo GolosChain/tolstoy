@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
+import by from 'styled-by';
+import throttle from 'lodash/throttle';
 
 import { confirmVote } from 'src/app/helpers/votes';
 import { Action } from 'src/app/components/post/SidePanelAction';
@@ -9,7 +11,12 @@ import SharePopover from 'src/app/components/post/SharePopover';
 import { PopoverStyled } from 'src/app/components/post/PopoverAdditionalStyles';
 import PinnedOfFavorite from 'src/app/components/post/PinnedOrFavorite';
 
+const PANEL_MARGIN = 20;
+const FOOTER_HEIGHT = 403;
+const HEADER_HEIGHT = 60;
+
 const Wrapper = styled.div`
+    position: fixed;
     left: calc(50% - 596px);
     width: 64px;
     min-height: 50px;
@@ -35,6 +42,18 @@ const Wrapper = styled.div`
     @media (max-height: 430px) {
         display: none;
     }
+
+    ${by('fixedOn', {
+        center: `
+            bottom: calc(50% - ${HEADER_HEIGHT / 2}px);
+            transform: translateY(50%);
+        `,
+        bottom: `
+            position: absolute;
+            bottom: ${PANEL_MARGIN}px;
+            transform: translateY(0);
+        `,
+    })};
 `;
 
 const ActionWrapper = styled(Action)`
@@ -51,7 +70,44 @@ const ActionWrapper = styled(Action)`
 export class SidePanel extends Component {
     state = {
         showSharePopover: false,
+        fixedOn: 'center',
     };
+
+    componentDidMount() {
+        this.scrollScreen();
+        window.addEventListener('scroll', this.scrollScreenLazy);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.scrollScreenLazy);
+        this.scrollScreenLazy.cancel();
+    }
+
+    scrollScreen = () => {
+        const panelRect = this.sidePanel.getBoundingClientRect();
+
+        const documentElem = document.documentElement;
+        const bottomBorder = documentElem.scrollHeight - FOOTER_HEIGHT;
+        const offsetBottomOfScreen =
+            documentElem.scrollTop +
+            documentElem.clientHeight / 2 +
+            panelRect.height / 2 +
+            HEADER_HEIGHT / 2 +
+            PANEL_MARGIN;
+
+        let newFixedOn = 'center';
+        if (bottomBorder <= offsetBottomOfScreen) {
+            newFixedOn = 'bottom';
+        }
+
+        if (this.state.fixedOn !== newFixedOn) {
+            this.setState({
+                fixedOn: newFixedOn,
+            });
+        }
+    };
+
+    scrollScreenLazy = throttle(this.scrollScreen, 25);
 
     openSharePopover = () => {
         this.setState({
@@ -105,6 +161,10 @@ export class SidePanel extends Component {
         return users.length ? users.join('<br>') + (isMore ? '<br>...' : '') : null;
     };
 
+    setSidePanelRef = ref => {
+        this.sidePanel = ref;
+    };
+
     render() {
         const {
             votesSummary,
@@ -115,7 +175,7 @@ export class SidePanel extends Component {
             toggleFavorite,
             myVote: voteType,
         } = this.props;
-        const { showSharePopover } = this.state;
+        const { showSharePopover, fixedOn } = this.state;
         const { likes, firstLikes, dislikes, firstDislikes } = votesSummary;
         return (
             <Wrapper
