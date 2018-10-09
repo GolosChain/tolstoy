@@ -53,10 +53,12 @@ export const currentPostSelector = createDeepEqualSelector(
         const author = post.get('author');
         const permLink = post.get('permlink');
         const myVote = getMyVote(post, username);
+        const tags = JSON.parse(post.get('json_metadata')).tags || [];
+
         return {
             created: post.get('created'),
             isFavorite: favorites.set.includes(author + '/' + permLink),
-            tags: JSON.parse(post.get('json_metadata')).tags.map(tag => ({
+            tags: tags.map(tag => ({
                 origin: tag,
                 tag: detransliterate(tag),
             })),

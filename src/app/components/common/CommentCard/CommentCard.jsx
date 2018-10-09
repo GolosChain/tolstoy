@@ -3,20 +3,16 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import styled from 'styled-components';
 import is, { isNot } from 'styled-is';
-import { connect } from 'react-redux';
 import tt from 'counterpart';
-import extractContent from 'app/utils/ExtractContent';
-import { immutableAccessor } from 'app/utils/Accessors';
-import Userpic from 'app/components/elements/Userpic';
-import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
+
 import { detransliterate } from 'app/utils/ParsersAndFormatters';
 import CommentFormLoader from 'app/components/modules/CommentForm/loader';
-import user from 'app/redux/User';
-import transaction from 'app/redux/Transaction';
+
 import Icon from 'golos-ui/Icon';
 import VotePanel from '../VotePanel';
 import { confirmVote } from 'src/app/helpers/votes';
 import ReplyBlock from '../ReplyBlock';
+import { AuthorBlock } from 'src/app/components/common/CommentCard/AuthorBlock';
 
 const Header = styled.div`
     padding: 10px 0 6px;
@@ -36,39 +32,15 @@ const HeaderLine = styled.div`
     }
 `;
 
-const AuthorBlock = styled.div`
-    display: flex;
-    align-items: center;
-`;
-const Avatar = styled(Link)`
-    display: block;
-    width: 46px;
-    height: 46px;
-    margin-right: 10px;
-    border-radius: 50%;
-`;
-const PostDesc = styled.div`
-    padding-bottom: 2px;
-    font-family: ${a => a.theme.fontFamily};
-`;
-const AuthorName = styled(Link)`
-    display: block;
-    font-size: 15px;
-    font-weight: 500;
-    color: #333;
-    text-decoration: none;
-`;
-const PostDate = styled.div`
-    font-size: 13px;
-    color: #959595;
-    cursor: default;
-`;
 const Category = styled.div`
+    flex-shrink: 0;
+
     height: 28px;
     padding: 0 12px;
     margin-right: 4px;
     border-radius: 6px;
     line-height: 26px;
+
     font-size: 14px;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -85,6 +57,7 @@ const Title = styled.div`
     padding: 0 18px;
     margin-bottom: 8px;
 `;
+
 const TitleIcon = Icon.extend`
     position: relative;
     height: 20px;
@@ -92,6 +65,7 @@ const TitleIcon = Icon.extend`
     margin-right: 6px;
     margin-bottom: -3px;
 `;
+
 const TitleLink = styled(Link)`
     color: #212121 !important;
     text-decoration: underline;
@@ -282,10 +256,10 @@ const CommentReplyWrapper = styled.div`
     }
 `;
 
-class CommentCard extends PureComponent {
+export class CommentCard extends PureComponent {
     static propTypes = {
         permLink: PropTypes.string,
-        myAccountName: PropTypes.string,
+        username: PropTypes.string,
         data: PropTypes.object,
         grid: PropTypes.bool,
         allowInlineReply: PropTypes.bool,
@@ -310,11 +284,10 @@ class CommentCard extends PureComponent {
     }
 
     _getMyVote(props) {
-        const { data, myAccountName } = props;
-        const votes = data.get('active_votes');
+        const { username, activeVotes } = props;
 
-        for (let vote of votes) {
-            if (vote.get('voter') === myAccountName) {
+        for (let vote of activeVotes) {
+            if (vote.get('voter') === username) {
                 const v = vote.toJS();
                 v.weight = parseInt(v.weight || 0, 10);
                 return v;
@@ -345,37 +318,26 @@ class CommentCard extends PureComponent {
 
     _renderHeader() {
         const { isCommentOpen } = this.state;
-        const { parentLink, title, dataToJS } = this.props;
-        const author = dataToJS.author;
-        const category = detransliterate(dataToJS.category);
+        const { fullParentURL, title, author, category, created } = this.props;
+        const detransliteratedCategory = detransliterate(category);
 
         return (
             <Header>
                 <HeaderLine>
                     {isCommentOpen ? (
-                        <AuthorBlock>
-                            <Avatar to={`/@${author}`}>
-                                <Userpic account={author} size={42} />
-                            </Avatar>
-                            <PostDesc>
-                                <AuthorName to={`/@${author}`}>{author}</AuthorName>
-                                <PostDate>
-                                    <TimeAgoWrapper date={dataToJS.created} />
-                                </PostDate>
-                            </PostDesc>
-                        </AuthorBlock>
+                        <AuthorBlock author={author} created={created} />
                     ) : (
                         <ReLinkWrapper>
                             <TitleIcon name="comment" />
                             {tt('g.re2')}
                             :&nbsp;
-                            <TitleLink to={parentLink} onClick={this._onTitleClick}>
+                            <TitleLink to={fullParentURL} onClick={this._onTitleClick}>
                                 {title}
                             </TitleLink>
                         </ReLinkWrapper>
                     )}
                     <Filler />
-                    {isCommentOpen ? <Category>{category}</Category> : null}
+                    <Category>{detransliteratedCategory}</Category>
                     <ToggleCommentOpen
                         commentopen={isCommentOpen ? 1 : 0}
                         onClick={this._toggleComment}
@@ -388,10 +350,9 @@ class CommentCard extends PureComponent {
     }
 
     _renderBodyRe() {
-        const { myAccountName } = this.props;
+        const { username, author, fullParentURL, title } = this.props;
         const { edit } = this.state;
-        const { parentLink, title, dataToJS } = this.props;
-        const showEditButton = myAccountName === dataToJS.author;
+        const showEditButton = username === author;
 
         return (
             <Title>
@@ -399,7 +360,7 @@ class CommentCard extends PureComponent {
                     <TitleIcon name="comment" />
                     {tt('g.re2')}
                     :&nbsp;
-                    <TitleLink to={parentLink} onClick={this._onTitleClick}>
+                    <TitleLink to={fullParentURL} onClick={this._onTitleClick}>
                         {title}
                     </TitleLink>
                 </ReLinkWrapper>
@@ -417,7 +378,7 @@ class CommentCard extends PureComponent {
 
     _renderBodyText() {
         const { edit } = this.state;
-        const { content, dataToJS, htmlContent } = this.props;
+        const { content, data, htmlContent } = this.props;
 
         return (
             <Fragment>
@@ -427,7 +388,7 @@ class CommentCard extends PureComponent {
                         editMode
                         hideFooter
                         autoFocus
-                        params={dataToJS}
+                        params={data.toJS()}
                         forwardRef={this._commentRef}
                         onSuccess={this._onEditDone}
                         onCancel={this._onEditDone}
@@ -444,7 +405,15 @@ class CommentCard extends PureComponent {
     }
 
     _renderFooter() {
-        const { data, myAccountName, allowInlineReply, content, dataToJS, isOwner } = this.props;
+        const {
+            data,
+            username,
+            allowInlineReply,
+            content,
+            isOwner,
+            author,
+            commentsCount,
+        } = this.props;
         const { showReply, edit } = this.state;
         if (showReply) {
             return (
@@ -469,19 +438,15 @@ class CommentCard extends PureComponent {
         } else {
             return (
                 <Footer>
-                    <CommentVotePanel
-                        data={data}
-                        me={myAccountName}
-                        onChange={this._onVoteChange}
-                    />
+                    <CommentVotePanel data={data} me={username} onChange={this._onVoteChange} />
                     <CommentReplyWrapper>
                         <CommentReplyBlock
-                            count={data.get('children')}
+                            count={commentsCount}
                             link={content.link}
                             text="Комментарии"
                             showText={isOwner}
                         />
-                        {allowInlineReply && dataToJS.author !== myAccountName ? (
+                        {allowInlineReply && author !== username ? (
                             <ButtonStyled light onClick={this._onReplyClick}>
                                 Ответить
                             </ButtonStyled>
@@ -493,7 +458,7 @@ class CommentCard extends PureComponent {
     }
 
     _renderReplyEditor() {
-        const { dataToJS } = this.props;
+        const { data } = this.props;
 
         return (
             <Reply>
@@ -501,7 +466,7 @@ class CommentCard extends PureComponent {
                     reply
                     hideFooter
                     autoFocus
-                    params={dataToJS}
+                    params={data.toJS()}
                     forwardRef={this._replyRef}
                     onSuccess={this._onReplySuccess}
                     onCancel={this._onReplyCancel}
@@ -511,15 +476,15 @@ class CommentCard extends PureComponent {
     }
 
     _onTitleClick = e => {
-        const { dataToJS } = this.props;
+        const { parentAuthor, parentPermLink } = this.props;
         if (this.props.onClick) {
             e.preventDefault();
 
             const url = e.currentTarget.href;
 
-            if (dataToJS.parent_author) {
+            if (parentAuthor) {
                 this.props.onClick({
-                    permLink: `${dataToJS.parent_author}/${dataToJS.parent_permlink}`,
+                    permLink: `${parentAuthor}/${parentPermLink}`,
                     url,
                 });
             } else {
@@ -568,15 +533,11 @@ class CommentCard extends PureComponent {
     };
 
     _onVoteChange = async percent => {
-        const { data, myAccountName } = this.props;
+        const { username, author, permLink } = this.props;
         const { myVote } = this.state;
 
         if (await confirmVote(myVote, percent)) {
-            this.props.onVote(percent, {
-                myAccountName: myAccountName,
-                author: data.get('author'),
-                permlink: data.get('permlink'),
-            });
+            this.props.onVote(username, author, permLink, percent);
         }
     };
 
@@ -608,64 +569,3 @@ class CommentCard extends PureComponent {
         this._replyRef.current.cancel();
     };
 }
-
-export default connect(
-    (state, props) => {
-        const data = state.global.getIn(['content', props.permLink]);
-        const dataToJS = data.toJS();
-        const content = extractContent(immutableAccessor, data);
-        const htmlContent = { __html: content.desc };
-        const myAccountName = state.user.getIn(['current', 'username']);
-        const isOwner =
-            state.user.getIn(['current', 'username']) === props.pageAccountName.toLowerCase();
-
-        let parentLink = content.link;
-        let title = content.title;
-
-        if (dataToJS.parent_author) {
-            title = dataToJS.root_title;
-            parentLink = `/${dataToJS.category}/@${dataToJS.parent_author}/${
-                dataToJS.parent_permlink
-            }`;
-        }
-
-        return {
-            data,
-            title,
-            parentLink,
-            htmlContent,
-            dataToJS,
-            content,
-            isOwner,
-            myAccountName,
-        };
-    },
-    dispatch => ({
-        onVote: (percent, { myAccountName, author, permlink }) => {
-            dispatch(
-                transaction.actions.broadcastOperation({
-                    type: 'vote',
-                    operation: {
-                        voter: myAccountName,
-                        author,
-                        permlink,
-                        weight: percent * 10000,
-                        __config: {
-                            title: percent < 0 ? tt('voting_jsx.confirm_flag') : null,
-                        },
-                    },
-                    successCallback: () => dispatch(user.actions.getAccount()),
-                })
-            );
-        },
-        onNotify: text => {
-            dispatch({
-                type: 'ADD_NOTIFICATION',
-                payload: {
-                    message: text,
-                    dismissAfter: 5000,
-                },
-            });
-        },
-    })
-)(CommentCard);
