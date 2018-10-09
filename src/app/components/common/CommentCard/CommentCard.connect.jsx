@@ -15,10 +15,11 @@ export default connect(
             const data = content.get(props.permLink);
             const extractedContent = extractContent(immutableAccessor, data);
             const htmlContent = { __html: extractedContent.desc };
-            const isOwner = username === props.pageAccountName.toLowerCase();
+            const author = data.get('author');
             const parentAuthor = data.get('parent_author');
             const category = data.get('category');
             const parentPermLink = data.get('parent_permlink');
+            const isOwner = username === author;
 
             let fullParentURL = extractedContent.link;
             let title = extractedContent.title;
@@ -39,7 +40,7 @@ export default connect(
                 parentAuthor,
                 category,
                 parentPermLink,
-                author: data.get('author'),
+                author,
                 created: data.get('created'),
                 permLink: data.get('permlink'),
                 commentsCount: data.get('children'),

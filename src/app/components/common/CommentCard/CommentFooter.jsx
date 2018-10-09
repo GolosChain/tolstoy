@@ -125,7 +125,6 @@ export default class CommentFooter extends Component {
         data: PropTypes.instanceOf(Map),
         edit: PropTypes.bool.isRequired,
         isOwner: PropTypes.bool.isRequired,
-        myVote: PropTypes.bool,
         onReplyClick: PropTypes.func.isRequired,
         onVote: PropTypes.func.isRequired,
         permLink: PropTypes.string.isRequired,

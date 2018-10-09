@@ -204,9 +204,8 @@ export class CommentCard extends PureComponent {
     }
 
     renderTitle() {
-        const { username, author, fullParentURL, title } = this.props;
+        const { isOwner, fullParentURL, title } = this.props;
         const { edit } = this.state;
-        const showEditButton = username === author;
 
         return (
             <Title>
@@ -215,7 +214,7 @@ export class CommentCard extends PureComponent {
                     title={title}
                     onTitleClick={this.onTitleClick}
                 />
-                {showEditButton && !edit && <EditButton onEditClick={this.onEditClick} />}
+                {isOwner && !edit && <EditButton onEditClick={this.onEditClick} />}
             </Title>
         );
     }
