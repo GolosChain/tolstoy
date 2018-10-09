@@ -73,6 +73,8 @@ export class SidePanel extends Component {
         fixedOn: 'center',
     };
 
+    sidePanelRef = React.createRef();
+
     componentDidMount() {
         this.scrollScreenLazy();
         window.addEventListener('scroll', this.scrollScreenLazy);
@@ -84,7 +86,7 @@ export class SidePanel extends Component {
     }
 
     scrollScreen = () => {
-        const panelRect = this.sidePanel.getBoundingClientRect();
+        const panelRect = this.sidePanelRef.current.getBoundingClientRect();
 
         const documentElem = document.documentElement;
         const bottomBorder = documentElem.scrollHeight - FOOTER_HEIGHT;
@@ -159,10 +161,6 @@ export class SidePanel extends Component {
 
     tooltipContent = (users, isMore) => {
         return users.length ? users.join('<br>') + (isMore ? '<br>...' : '') : null;
-    };
-
-    setSidePanelRef = ref => {
-        this.sidePanel = ref;
     };
 
     render() {
