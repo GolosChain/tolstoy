@@ -364,11 +364,12 @@ export class CommentCard extends PureComponent {
     };
 
     _onClick = e => {
-        if (this.props.onClick) {
+        const { onClick, permLink, content } = this.props;
+        if (onClick) {
             e.preventDefault();
-            this.props.onClick({
-                permLink: this.props.permLink,
-                url: this.props.content.link,
+            onClick({
+                permLink,
+                url: content.link,
             });
         }
     };
