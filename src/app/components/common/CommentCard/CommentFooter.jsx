@@ -155,10 +155,13 @@ export default class CommentFooter extends Component {
             edit,
             onReplyClick,
         } = this.props;
+
         if (showReply) {
             return (
                 <FooterConfirm>
-                    <ButtonConfirm onClick={this.onCancelReplyClick}>{tt('g.cancel')}</ButtonConfirm>
+                    <ButtonConfirm onClick={this.onCancelReplyClick}>
+                        {tt('g.cancel')}
+                    </ButtonConfirm>
                     <Splitter />
                     <ButtonConfirm main onClick={this.onPostReplyClick}>
                         {tt('g.publish')}
@@ -175,25 +178,25 @@ export default class CommentFooter extends Component {
                     </ButtonConfirm>
                 </FooterConfirm>
             );
-        } else {
-            return (
-                <Wrapper>
-                    <CommentVotePanel data={data} me={username} onChange={this.onVoteChange} />
-                    <CommentReplyWrapper>
-                        <CommentReplyBlock
-                            count={commentsCount}
-                            link={content.link}
-                            text="Комментарии"
-                            showText={isOwner}
-                        />
-                        {allowInlineReply && author !== username ? (
-                            <ButtonStyled light onClick={onReplyClick}>
-                                {tt('g.reply')}
-                            </ButtonStyled>
-                        ) : null}
-                    </CommentReplyWrapper>
-                </Wrapper>
-            );
         }
+
+        return (
+            <Wrapper>
+                <CommentVotePanel data={data} me={username} onChange={this.onVoteChange} />
+                <CommentReplyWrapper>
+                    <CommentReplyBlock
+                        count={commentsCount}
+                        link={content.link}
+                        text="Комментарии"
+                        showText={isOwner}
+                    />
+                    {allowInlineReply && author !== username ? (
+                        <ButtonStyled light onClick={onReplyClick}>
+                            {tt('g.reply')}
+                        </ButtonStyled>
+                    ) : null}
+                </CommentReplyWrapper>
+            </Wrapper>
+        );
     }
 }
