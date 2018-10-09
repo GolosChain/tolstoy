@@ -33,7 +33,7 @@ export default connect(
                 title,
                 fullParentURL,
                 htmlContent,
-                content: extractedContent,
+                contentLink: extractedContent.link,
                 isOwner,
                 username,
                 parentAuthor,

@@ -88,21 +88,6 @@ const Reply = styled.div`
     padding: 0 18px 0 60px;
 `;
 
-const IconEditWrapper = styled.div`
-    min-width: 30px;
-    min-height: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #aaa;
-    cursor: pointer;
-    transition: color 0.15s;
-
-    &:hover {
-        color: #333;
-    }
-`;
-
 const ToggleCommentOpen = styled.div`
     display: flex;
     justify-content: center;
@@ -120,18 +105,6 @@ const ToggleCommentOpen = styled.div`
         color: #b7b7ba;
         transform: rotate(0.5turn);
     `};
-`;
-
-const ReLinkWrapper = styled.div`
-    padding-right: 10px;
-    display: flex;
-    align-items: center;
-    line-height: 29px;
-    font-family: ${a => a.theme.fontFamily};
-    font-size: 20px;
-    font-weight: bold;
-    color: #212121;
-    overflow: hidden;
 `;
 
 export class CommentCard extends PureComponent {
@@ -176,18 +149,17 @@ export class CommentCard extends PureComponent {
     }
 
     render() {
-        const { showReply, isCommentOpen, edit } = this.state;
+        const { showReply, isCommentOpen, edit, myVote } = this.state;
         const {
             data,
             username,
             allowInlineReply,
-            content,
+            contentLink,
             isOwner,
             author,
             commentsCount,
             onVote,
             permLink,
-            myVote,
             className,
         } = this.props;
 
@@ -196,13 +168,13 @@ export class CommentCard extends PureComponent {
                 {this._renderHeader()}
                 {isCommentOpen ? (
                     <Fragment>
-                        {this._renderBodyRe()}
+                        {this.titleBlock()}
                         {this._renderBodyText()}
                         {showReply ? this._renderReplyEditor() : null}
                         <CommentFooter
                             data={data}
                             allowInlineReply={allowInlineReply}
-                            content={content}
+                            contentLink={contentLink}
                             isOwner={isOwner}
                             author={author}
                             commentsCount={commentsCount}
@@ -252,7 +224,7 @@ export class CommentCard extends PureComponent {
         );
     }
 
-    _renderBodyRe() {
+    titleBlock() {
         const { username, author, fullParentURL, title } = this.props;
         const { edit } = this.state;
         const showEditButton = username === author;
@@ -271,7 +243,7 @@ export class CommentCard extends PureComponent {
 
     _renderBodyText() {
         const { edit } = this.state;
-        const { content, data, htmlContent } = this.props;
+        const { contentLink, data, htmlContent } = this.props;
 
         return (
             <Fragment>
@@ -288,7 +260,7 @@ export class CommentCard extends PureComponent {
                     />
                 ) : (
                     <PostBody
-                        to={content.link}
+                        to={contentLink}
                         onClick={this._onClick}
                         dangerouslySetInnerHTML={htmlContent}
                     />
@@ -337,12 +309,12 @@ export class CommentCard extends PureComponent {
     };
 
     _onClick = e => {
-        const { onClick, permLink, content } = this.props;
+        const { onClick, permLink, contentLink } = this.props;
         if (onClick) {
             e.preventDefault();
             onClick({
                 permLink,
-                url: content.link,
+                url: contentLink,
             });
         }
     };

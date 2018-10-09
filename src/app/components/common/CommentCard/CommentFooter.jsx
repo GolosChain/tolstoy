@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Map } from 'immutable';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
@@ -114,6 +116,24 @@ const ButtonConfirm = styled.div`
 `;
 
 export default class CommentFooter extends Component {
+    static propTypes = {
+        allowInlineReply: PropTypes.bool,
+        author: PropTypes.string.isRequired,
+        commentRef: PropTypes.object,
+        commentsCount: PropTypes.number.isRequired,
+        contentLink: PropTypes.string,
+        data: PropTypes.instanceOf(Map),
+        edit: PropTypes.bool.isRequired,
+        isOwner: PropTypes.bool.isRequired,
+        myVote: PropTypes.bool,
+        onReplyClick: PropTypes.func.isRequired,
+        onVote: PropTypes.func.isRequired,
+        permLink: PropTypes.string.isRequired,
+        replyRef: PropTypes.object.isRequired,
+        showReply: PropTypes.bool.isRequired,
+        username: PropTypes.string.isRequired,
+    };
+
     onCancelReplyClick = () => {
         const { replyRef } = this.props;
         replyRef.current.cancel();
@@ -147,7 +167,7 @@ export default class CommentFooter extends Component {
             data,
             username,
             allowInlineReply,
-            content,
+            contentLink,
             isOwner,
             author,
             commentsCount,
@@ -186,7 +206,7 @@ export default class CommentFooter extends Component {
                 <CommentReplyWrapper>
                     <CommentReplyBlock
                         count={commentsCount}
-                        link={content.link}
+                        link={contentLink}
                         text="Комментарии"
                         showText={isOwner}
                     />
