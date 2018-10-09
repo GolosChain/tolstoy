@@ -50,5 +50,5 @@ export const ReLink = ({ fullParentURL, title, onTitleClick }) => {
 ReLink.propTypes = {
     fullParentURL: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    onTitleClick: PropTypes.string.isRequired,
+    onTitleClick: PropTypes.func.isRequired,
 };
