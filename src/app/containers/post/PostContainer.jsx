@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import throttle from 'lodash/throttle';
-import is from 'styled-is';
+import by from 'styled-by';
 
 import Container from 'src/app/components/common/Container/Container';
 import SidePanel from 'src/app/containers/post/sidePanel';
@@ -12,9 +13,9 @@ import AboutPanel from 'src/app/containers/post/aboutPanel';
 import ActivePanel from 'src/app/containers/post/activePanel';
 import CommentsContainer from 'src/app/containers/post/commentsContainer';
 
-const PADDING_FROM_HEADER = 22;
-const HEADER_HEIGHT = 121;
+const PANEL_MARGIN = 20;
 const FOOTER_HEIGHT = 403;
+const HEADER_HEIGHT = 60;
 
 const Wrapper = styled.div`
     width: 100%;
@@ -42,41 +43,36 @@ const Loader = styled(LoadingIndicator)`
 
 const SidePanelWrapper = styled(SidePanel)`
     position: fixed;
-    bottom: 50%;
-    transform: translateY(50%);
 
-    ${is('fixedOnScreen')`
-        position: absolute;
-        bottom: 20px;
-        transform: translateY(0);
-    `};
-
-    ${is('hidePanel')`
-        opacity: 0;
-        visibility: hidden;
-    `};
+    ${by('fixedOn', {
+        center: `
+            bottom: calc(50% - ${HEADER_HEIGHT / 2}px);
+            transform: translateY(50%);
+        `,
+        bottom: `
+            position: absolute;
+            bottom: ${PANEL_MARGIN}px;
+            transform: translateY(0);
+        `,
+    })};
 `;
 
 export class PostContainer extends Component {
     state = {
-        hidePanel: false,
-        fixedOnScreen: false,
+        fixedOn: 'center',
     };
 
     componentDidMount() {
         this.props.loadUserFollowData(this.props.author);
         this.props.loadFavorites();
 
-        this.resizeScreenLazy();
+        this.scrollScreen();
         window.addEventListener('scroll', this.scrollScreenLazy);
-        window.addEventListener('resize', this.resizeScreenLazy);
     }
 
     componentWillUnmount() {
         window.removeEventListener('scroll', this.scrollScreenLazy);
-        window.removeEventListener('resize', this.resizeScreenLazy);
         this.scrollScreenLazy.cancel();
-        this.resizeScreenLazy.cancel();
     }
 
     togglePin = () => {
@@ -91,7 +87,7 @@ export class PostContainer extends Component {
 
     render() {
         const { postLoaded, isUserAuth } = this.props;
-        const { fixedOnScreen, hidePanel } = this.state;
+        const { fixedOn } = this.state;
         if (!postLoaded) return <Loader type="circle" center size={40} />;
         return (
             <Wrapper>

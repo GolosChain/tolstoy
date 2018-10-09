@@ -18,7 +18,6 @@ const Wrapper = styled.div`
     background-color: #ffffff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
     opacity: 1;
-    transition: visibility 0.3s, opacity 0.3s;
 
     & > * {
         padding: 10px 0;
@@ -30,6 +29,10 @@ const Wrapper = styled.div`
     }
 
     @media (max-width: 1200px) {
+        display: none;
+    }
+
+    @media (max-height: 430px) {
         display: none;
     }
 `;
