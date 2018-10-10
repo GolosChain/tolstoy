@@ -11,7 +11,7 @@ const Wrapper = styled.div`
     
     padding: 18px;
 
-    background-color: ${({selected}) => selected ? '#aecaff' : '#fff'};
+    background-color: ${({ selected }) => (selected ? '#aecaff' : '#fff')};
     border-bottom: 1px solid #fff;
     cursor: pointer;
     user-select: none;

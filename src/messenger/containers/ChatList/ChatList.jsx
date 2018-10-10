@@ -1,34 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Map } from 'immutable';
 
-import {
-    getSearchContacts,
-    getContactList,
-} from 'src/messenger/redux/selectors/contacts';
-import {
-    getSelectedChat,
-    showSearchResults,
-} from 'src/messenger/redux/selectors/ui';
-import { selectChat } from 'src/messenger/redux/actions/ui';
+import { Map } from 'immutable';
 
 import ChatList from 'src/messenger/components/ChatList';
 import ChatListItem from 'src/messenger/components/ChatList/ChatListItem';
 
-@connect(state => {
-    return {
-        searchContacts: getSearchContacts(state),
-        showSearchResults: showSearchResults(state),
-        contactList: getContactList(state),
-        selectedChat: getSelectedChat(state),
-    };
-},
-{
-    selectChat
-})
 
-export default class ChatListContainer extends Component {
+export class ChatListContainer extends Component {
     
     static propTypes = {
         showSearchResults: PropTypes.bool,

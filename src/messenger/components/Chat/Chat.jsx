@@ -5,10 +5,10 @@ import styled from 'styled-components';
 import Avatar from 'src/app/components/common/Avatar';
 import Icon from 'golos-ui/Icon';
 
-import MessageBubble from './MessageBubble';
-import SendMessagePanel from './SendMessagePanel';
+import MessageBubble from 'src/messenger/components/Chat/MessageBubble';
+import SendMessagePanel from 'src/messenger/components/Chat/SendMessagePanel';
 
-const Wrapper= styled.div`
+const Wrapper = styled.div`
     display: flex;
     flex: 1 1 60%;
     flex-direction: column;
@@ -64,7 +64,7 @@ const Footer = styled.div`
 
 const Message = styled.div`
     display: flex;
-    justify-content: ${({self}) => self ? 'flex-end' : 'flex-start'};
+    justify-content: ${({ self }) => (self ? 'flex-end' : 'flex-start')};
 `;
 
 export default class Chat extends Component {

@@ -1,26 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Map } from 'immutable';
-
-import { getSelectedContact } from 'src/messenger/redux/selectors/chat';
-import { sendMessage } from 'src/messenger/redux/actions/transactions';
 
 import DefaultChat from 'src/messenger/components/Chat/DefaultChat';
 import Chat from 'src/messenger/components/Chat';
 
-@connect(
-    state => {
-        return {
-            selectedContact: getSelectedContact(state),
-        }
-    },
-    {
-        sendMessage,
-    }
-)
-
-export default class ChatContainer extends Component {
+export class ChatContainer extends Component {
 
     static propTypes = {
         selectedContact: PropTypes.instanceOf(Map),
