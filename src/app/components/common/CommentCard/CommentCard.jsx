@@ -127,8 +127,7 @@ export class CommentCard extends PureComponent {
     getMyVote(props) {
         const { username, comment } = props;
 
-        let myVote =
-            comment.get('active_votes').find(vote => vote.get('voter') === username) || null;
+        let myVote = comment.get('active_votes').find(vote => vote.get('voter') === username, null);
         if (myVote) {
             myVote = myVote.toJS();
             myVote.weight = parseInt(myVote.weight || 0, 10);
