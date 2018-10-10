@@ -30,62 +30,88 @@ function f(amount) {
     return (amount && parseFloat(amount)) || 0;
 }
 
-const stateToProps = createSelector([(state, props) => props.data], data => {
-    const isPending = parseFloat(data.get('total_pending_payout_value')) > 0;
+const stateToProps = createSelector(
+    [state => state.data.rates, (state, props) => props.data],
+    (rates, data) => {
+        const lastPayout = data.get('last_payout');
+        const isPending = !lastPayout || lastPayout.startsWith('19');
 
-    console.log(data.toJS());
+        console.log(data.toJS());
 
-    const fields = isPending ? FIELDS_PENDING : FIELDS;
+        const fields = isPending ? FIELDS_PENDING : FIELDS;
 
-    const totalGbg = f(data.get(fields.TOTAL_GBG));
+        const totalGbg = f(data.get(fields.TOTAL_GBG));
 
-    if (totalGbg === 0) {
+        if (totalGbg === 0) {
+            return {
+                isPending,
+                total: 0,
+                totalGbg: 0,
+                overallTotal: 0,
+                author: 0,
+                authorGbg: 0,
+                curator: 0,
+                benefactor: 0,
+            };
+        }
+
+        const benefGests = f(data.get(fields.BENEF_GESTS));
+        const benefGbg = f(data.get(fields.BENEF_GBG));
+
+        const curatGests = f(data.get(fields.CURAT_GESTS));
+
+        const authorGbg = f(data.get(fields.AUTHOR_GBG));
+        const authorGolos = f(data.get(fields.AUTHOR_GOLOS));
+        const authorGests = f(data.get(fields.AUTHOR_GESTS));
+
+        let needLoadRatesForDate = null;
+
+        const authorTotalGbg = totalGbg - benefGbg;
+
+        const percent = data.get('percent_steem_dollars') / 20000;
+
+        let golosPerGbg = authorGolos / (authorTotalGbg * percent - authorGbg);
+
+        if (!golosPerGbg) {
+            if (!isPending) {
+                const dateRates = rates.dates.get(lastPayout);
+
+                if (dateRates) {
+                    golosPerGbg = dateRates.GBG.GOLOS;
+                } else {
+                    needLoadRatesForDate = lastPayout;
+                }
+            }
+
+            if (!golosPerGbg) {
+                golosPerGbg = rates.actual.GBG.GOLOS;
+            }
+        }
+
+        const gestsPerGolos = authorGests / (authorTotalGbg * golosPerGbg * (1 - percent));
+
+        console.log('golosPerGbg', golosPerGbg, 'gestsPerGolos', gestsPerGolos);
+
+        const author = authorGolos + authorGests / gestsPerGolos;
+        const curator = curatGests / gestsPerGolos;
+        const benefactor = benefGests / gestsPerGolos;
+
+        const finalTotal = author + curator + benefactor;
+        const finalTotalGbg = authorGbg;
+
         return {
             isPending,
-            total: 0,
-            totalGbg: 0,
-            overallTotal: 0,
-            author: 0,
-            authorGbg: 0,
-            curator: 0,
-            benefactor: 0,
+            total: finalTotal,
+            totalGbg: finalTotalGbg,
+            overallTotal: finalTotal + finalTotalGbg * golosPerGbg,
+            author,
+            authorGbg,
+            curator,
+            benefactor,
+            needLoadRatesForDate,
         };
     }
-
-    const benefGests = f(data.get(fields.BENEF_GESTS));
-    const benefGbg = f(data.get(fields.BENEF_GBG));
-
-    const curatGests = f(data.get(fields.CURAT_GESTS));
-    const curatGbg = f(data.get(fields.CURAT_GBG));
-
-    const gestsPerGbg = benefGests ? benefGests / benefGbg : curatGests / curatGbg;
-
-    const authorGbg = f(data.get(fields.AUTHOR_GBG));
-    const authorGolos = f(data.get(fields.AUTHOR_GOLOS));
-    const authorGests = f(data.get(fields.AUTHOR_GESTS));
-
-    const gestsPerGolos =
-        ((totalGbg - benefGbg - authorGbg) * gestsPerGbg - authorGests) / authorGolos;
-    const gbgPerGolos = gestsPerGolos / gestsPerGbg;
-
-    const author = authorGolos + authorGests / gestsPerGolos;
-    const curator = curatGests / gestsPerGolos;
-    const benefactor = benefGests / gestsPerGolos;
-
-    const finalTotal = author + curator + benefactor;
-    const finalTotalGbg = authorGbg;
-
-    return {
-        isPending,
-        total: finalTotal,
-        totalGbg: finalTotalGbg,
-        overallTotal: finalTotal + finalTotalGbg * gbgPerGolos,
-        author,
-        authorGbg,
-        curator,
-        benefactor,
-    };
-});
+);
 
 export default connect(
     stateToProps,

@@ -72,6 +72,15 @@ const Plus = styled.span`
 
 @injectIntl
 export default class PayoutInfo extends PureComponent {
+    componentWillReceiveProps(newProps) {
+        if (
+            newProps.needLoadRatesForDate &&
+            this.props.needLoadRatesForDate !== newProps.needLoadRatesForDate
+        ) {
+            this.props.getHistoricalData(newProps.needLoadRatesForDate);
+        }
+    }
+
     render() {
         const {
             data,
