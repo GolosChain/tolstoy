@@ -67,7 +67,8 @@ const Title = styled.div`
 `;
 
 const PostBody = styled(({ isPostPage, ...otherProps }) => <Link {...otherProps} />)`
-    display: block;
+    display: flex;
+    align-items: center;
 
     margin-right: 18px;
 
@@ -240,7 +241,7 @@ export class CommentCard extends PureComponent {
 
     renderBodyText() {
         const { edit } = this.state;
-        const { extractedContent, comment, isOwner } = this.props;
+        const { extractedContent, comment, isOwner, isPostPage } = this.props;
 
         return (
             <Fragment>
@@ -262,7 +263,7 @@ export class CommentCard extends PureComponent {
                             onClick={this.rememberScrollPosition}
                             dangerouslySetInnerHTML={{ __html: extractedContent.desc }}
                         />
-                        {isOwner && !edit && <EditButton onEditClick={this.onEditClick} />}
+                        {isOwner && isPostPage && <EditButton onEditClick={this.onEditClick} />}
                     </PostBodyWrapper>
                 )}
             </Fragment>
