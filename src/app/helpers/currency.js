@@ -115,11 +115,7 @@ export function formatCurrency(amount, currency, decimals) {
     }
 }
 
-export function renderValue(amount, originalCurrency, decimals, date, toCurrency) {
-    return renderValueEx(amount, originalCurrency, { decimals, date, toCurrency });
-}
-
-export function renderValueEx(
+export function renderValue(
     amount,
     originalCurrency,
     { decimals, date, toCurrency, rates } = {}

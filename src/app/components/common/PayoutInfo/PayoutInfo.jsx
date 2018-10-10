@@ -96,7 +96,7 @@ export default class PayoutInfo extends PureComponent {
         } = this.props;
 
         const lastPayout = data.get('last_payout');
-        const amount = renderValue(overallTotal, 'GOLOS', null, lastPayout);
+        const amount = renderValue(overallTotal, 'GOLOS', { date: lastPayout });
         const amountGolos = `${total.toFixed(3)} GOLOS`;
         const amountGbg = totalGbg ? `${totalGbg.toFixed(3)} GBG` : null;
         const duration = capitalize(intl.formatRelative(data.get('cashout_time')));
@@ -108,7 +108,7 @@ export default class PayoutInfo extends PureComponent {
                         {isPending ? tt('payout_info.potential_payout') : tt('payout_info.payout')}
                     </Title>
                     <Payout>
-                        {amount.split(' ')[1] === 'GOLOS' && !amountGbg ? (
+                        {!amountGbg && amount.split(' ')[1] === 'GOLOS' ? (
                             <Money>{amount}</Money>
                         ) : (
                             <Fragment>
