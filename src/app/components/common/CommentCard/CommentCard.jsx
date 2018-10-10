@@ -107,7 +107,7 @@ export class CommentCard extends PureComponent {
     };
 
     state = {
-        myVote: this.getMyVote(this.props),
+        myVote: this.props.dataLoaded ? this.getMyVote(this.props) : null,
         showReply: false,
         edit: false,
         isCommentOpen: true,
@@ -117,7 +117,7 @@ export class CommentCard extends PureComponent {
     replyRef = createRef();
 
     componentWillReceiveProps(newProps) {
-        if (this.props.comment !== newProps.comment) {
+        if (this.props.comment !== newProps.comment && this.props.dataLoaded) {
             this.setState({
                 myVote: this.getMyVote(newProps),
             });
@@ -305,6 +305,7 @@ export class CommentCard extends PureComponent {
     render() {
         const { showReply, isCommentOpen, edit, myVote } = this.state;
         const {
+            dataLoaded,
             comment,
             username,
             allowInlineReply,
@@ -313,6 +314,7 @@ export class CommentCard extends PureComponent {
             onVote,
             className,
         } = this.props;
+        if (!dataLoaded) return null;
 
         return (
             <Root commentopen={isCommentOpen ? 1 : 0} className={className}>
