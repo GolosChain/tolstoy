@@ -12,20 +12,20 @@ export default connect(
     createSelector(
         [globalSelector('content'), currentUsernameSelector, (state, props) => props],
         (content, username, props) => {
-            const data = content.get(props.permLink);
-            const extractedContent = extractContent(immutableAccessor, data);
-            const isOwner = username === data.get('author');
+            const comment = content.get(props.permLink);
+            const extractedContent = extractContent(immutableAccessor, comment);
+            const isOwner = username === comment.get('author');
 
             let fullParentURL = extractedContent.link;
             let title = extractedContent.title;
 
-            if (data.get('parent_author')) {
-                title = data.get('root_title');
-                fullParentURL = `/${data.get('category')}/@${data.get('parent_author')}/${data.get('parent_permlink')}`;
+            if (comment.get('parent_author')) {
+                title = comment.get('root_title');
+                fullParentURL = `/${comment.get('category')}/@${comment.get('parent_author')}/${comment.get('parent_permlink')}`;
             }
 
             return {
-                data,
+                comment,
                 title,
                 fullParentURL,
                 extractedContent,

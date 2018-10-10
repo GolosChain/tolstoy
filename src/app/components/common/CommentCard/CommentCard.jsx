@@ -92,13 +92,12 @@ export class CommentCard extends PureComponent {
     static propTypes = {
         permLink: PropTypes.string,
         username: PropTypes.string,
-        data: PropTypes.object,
         grid: PropTypes.bool,
         allowInlineReply: PropTypes.bool,
     };
 
     state = {
-        myVote: this._getMyVote(this.props),
+        myVote: this.getMyVote(this.props),
         showReply: false,
         edit: false,
         isCommentOpen: true,
@@ -108,17 +107,17 @@ export class CommentCard extends PureComponent {
     replyRef = createRef();
 
     componentWillReceiveProps(newProps) {
-        if (this.props.data !== newProps.data) {
+        if (this.props.comment !== newProps.comment) {
             this.setState({
-                myVote: this._getMyVote(newProps),
+                myVote: this.getMyVote(newProps),
             });
         }
     }
 
-    _getMyVote(props) {
-        const { username, data } = props;
+    getMyVote(props) {
+        const { username, comment } = props;
 
-        for (let vote of data.get('active_votes')) {
+        for (let vote of comment.get('active_votes')) {
             if (vote.get('voter') === username) {
                 const v = vote.toJS();
                 v.weight = parseInt(v.weight || 0, 10);
@@ -132,7 +131,7 @@ export class CommentCard extends PureComponent {
     render() {
         const { showReply, isCommentOpen, edit, myVote } = this.state;
         const {
-            data,
+            comment,
             username,
             allowInlineReply,
             extractedContent,
@@ -150,7 +149,7 @@ export class CommentCard extends PureComponent {
                         {this._renderBodyText()}
                         {showReply ? this._renderReplyEditor() : null}
                         <CommentFooter
-                            data={data}
+                            comment={comment}
                             allowInlineReply={allowInlineReply}
                             contentLink={extractedContent.link}
                             isOwner={isOwner}
@@ -171,14 +170,14 @@ export class CommentCard extends PureComponent {
 
     _renderHeader() {
         const { isCommentOpen } = this.state;
-        const { fullParentURL, title, data } = this.props;
-        const detransliteratedCategory = detransliterate(data.get('category'));
+        const { fullParentURL, title, comment } = this.props;
+        const detransliteratedCategory = detransliterate(comment.get('category'));
 
         return (
             <Header>
                 <HeaderLine>
                     {isCommentOpen ? (
-                        <CommentAuthor author={data.get('author')} created={data.get('created')} />
+                        <CommentAuthor author={comment.get('author')} created={comment.get('created')} />
                     ) : (
                         <ReLink
                             fullParentURL={fullParentURL}
@@ -215,7 +214,7 @@ export class CommentCard extends PureComponent {
 
     _renderBodyText() {
         const { edit } = this.state;
-        const { extractedContent, data } = this.props;
+        const { extractedContent, comment } = this.props;
 
         return (
             <Fragment>
@@ -225,7 +224,7 @@ export class CommentCard extends PureComponent {
                         editMode
                         hideFooter
                         autoFocus
-                        params={data.toJS()}
+                        params={comment.toJS()}
                         forwardRef={this.commentRef}
                         onSuccess={this.onEditDone}
                         onCancel={this.onEditDone}
@@ -242,7 +241,7 @@ export class CommentCard extends PureComponent {
     }
 
     _renderReplyEditor() {
-        const { data } = this.props;
+        const { comment } = this.props;
 
         return (
             <Reply>
@@ -250,7 +249,7 @@ export class CommentCard extends PureComponent {
                     reply
                     hideFooter
                     autoFocus
-                    params={data.toJS()}
+                    params={comment.toJS()}
                     forwardRef={this.replyRef}
                     onSuccess={this.onReplySuccess}
                     onCancel={this.onReplyCancel}
@@ -260,21 +259,21 @@ export class CommentCard extends PureComponent {
     }
 
     onTitleClick = e => {
-        const { data, onClick } = this.props;
+        const { comment, onClick } = this.props;
 
         if (onClick) {
             e.preventDefault();
 
             const url = e.currentTarget.href;
 
-            if (data.get('parent_author')) {
+            if (comment.get('parent_author')) {
                 onClick({
-                    permLink: `${data.get('parent_author')}/${data.get('parent_permlink')}`,
+                    permLink: `${comment.get('parent_author')}/${comment.get('parent_permlink')}`,
                     url,
                 });
             } else {
                 onClick({
-                    permLink: data.get('permlink'),
+                    permLink: comment.get('permlink'),
                     url,
                 });
             }
@@ -282,11 +281,11 @@ export class CommentCard extends PureComponent {
     };
 
     onClick = e => {
-        const { onClick, data, extractedContent } = this.props;
+        const { onClick, comment, extractedContent } = this.props;
         if (onClick) {
             e.preventDefault();
             onClick({
-                permLink: data.get('permlink'),
+                permLink: comment.get('permlink'),
                 url: extractedContent.link,
             });
         }

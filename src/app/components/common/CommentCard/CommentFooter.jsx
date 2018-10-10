@@ -120,7 +120,7 @@ export default class CommentFooter extends Component {
         allowInlineReply: PropTypes.bool,
         commentRef: PropTypes.object,
         contentLink: PropTypes.string,
-        data: PropTypes.instanceOf(Map),
+        comment: PropTypes.instanceOf(Map),
         edit: PropTypes.bool.isRequired,
         isOwner: PropTypes.bool.isRequired,
         onReplyClick: PropTypes.func.isRequired,
@@ -151,16 +151,16 @@ export default class CommentFooter extends Component {
     };
 
     onVoteChange = async percent => {
-        const { username, data, myVote, onVote } = this.props;
+        const { username, comment, myVote, onVote } = this.props;
 
         if (await confirmVote(myVote, percent)) {
-            onVote(username, data.get('author'), data.get('permlink'), percent);
+            onVote(username, comment.get('author'), comment.get('permlink'), percent);
         }
     };
 
     render() {
         const {
-            data,
+            comment,
             username,
             allowInlineReply,
             contentLink,
@@ -196,10 +196,10 @@ export default class CommentFooter extends Component {
 
         return (
             <Wrapper>
-                <CommentVotePanel data={data} me={username} onChange={this.onVoteChange} />
+                <CommentVotePanel data={comment} me={username} onChange={this.onVoteChange} />
                 <CommentReplyWrapper>
                     <CommentReplyBlock
-                        count={data.get('children')}
+                        count={comment.get('children')}
                         link={contentLink}
                         text={tt('g.comments')}
                         showText={isOwner}
