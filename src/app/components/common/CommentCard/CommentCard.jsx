@@ -14,6 +14,7 @@ import { CommentAuthor } from './CommentAuthor';
 import { EditButton } from './EditButton';
 import { ReLink } from './ReLink';
 import { CloseOpenButton } from './CloseOpenButton';
+import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 
 const Header = styled.div`
     padding: 10px 0 6px;
@@ -87,6 +88,16 @@ const Root = styled.div`
 
 const Reply = styled.div`
     padding: 0 18px 0 60px;
+`;
+
+const LoaderWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 90px;
+    opacity: 0;
+    animation: fade-in 0.25s forwards;
+    animation-delay: 0.25s;
 `;
 
 export class CommentCard extends PureComponent {
@@ -314,7 +325,13 @@ export class CommentCard extends PureComponent {
             onVote,
             className,
         } = this.props;
-        if (!dataLoaded) return null;
+        if (!dataLoaded) {
+            return (
+                <LoaderWrapper>
+                    <LoadingIndicator type="circle" size={40} />
+                </LoaderWrapper>
+            );
+        }
 
         return (
             <Root commentopen={isCommentOpen ? 1 : 0} className={className}>
