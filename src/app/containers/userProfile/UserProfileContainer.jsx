@@ -18,7 +18,6 @@ import IllegalContentMessage from 'app/components/elements/IllegalContentMessage
 import Container from 'src/app/components/common/Container';
 import UserHeader from 'src/app/components/userProfile/common/UserHeader';
 import UserNavigation from 'src/app/components/userProfile/common/UserNavigation';
-import UserCardAbout from 'src/app/components/userProfile/common/UserCardAbout';
 import { FAVORITES_LOAD } from 'src/app/redux/constants/favorites';
 
 const Main = styled(Container).attrs({
@@ -96,16 +95,6 @@ const SmallUserNavigation = styled(UserNavigation)`
         const fetching = state.app.get('loading');
         const isOwner = currentUser.get('username') === accountName;
 
-        const followerCount = state.global.getIn(
-            ['follow_count', accountName, 'follower_count'],
-            0
-        );
-
-        const followingCount = state.global.getIn(
-            ['follow_count', accountName, 'following_count'],
-            0
-        );
-
         return {
             pageAccountName: accountName,
             currentUser,
@@ -113,9 +102,6 @@ const SmallUserNavigation = styled(UserNavigation)`
 
             fetching,
             isOwner,
-
-            followerCount,
-            followingCount,
         };
     },
     dispatch => ({
@@ -194,8 +180,6 @@ class UserProfileContainer extends Component {
             currentAccount,
             fetching,
             isOwner,
-            followerCount,
-            followingCount,
             uploadImage,
             updateAccount,
             notify,
@@ -256,14 +240,7 @@ class UserProfileContainer extends Component {
                         />
                         <Content center={route === 'settings'}>{this.props.content}</Content>
                         {route === 'settings' ? null : (
-                            <SidebarRight>
-                                <UserCardAbout
-                                    account={currentAccount}
-                                    followerCount={followerCount}
-                                    followingCount={followingCount}
-                                />
-                                {this.props.sidebarRight}
-                            </SidebarRight>
+                            <SidebarRight>{this.props.sidebarRight}</SidebarRight>
                         )}
                     </Main>
                 </WrapperMain>
