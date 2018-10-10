@@ -4,6 +4,7 @@ import { List } from 'immutable';
 import styled from 'styled-components';
 
 import CommentCard from 'src/app/components/common/CommentCard';
+import { getScrollElement } from 'src/app/helpers/window';
 
 const Wrapper = styled.div``;
 
@@ -16,6 +17,11 @@ export default class CommentsList extends Component {
         username: PropTypes.string.isRequired,
         isFetching: PropTypes.bool.isRequired,
         comments: PropTypes.instanceOf(List),
+        saveListScrollPosition: PropTypes.func.isRequired,
+    };
+
+    onEntryClick = () => {
+        this.props.saveListScrollPosition(getScrollElement().scrollTop);
     };
 
     render() {
@@ -31,6 +37,7 @@ export default class CommentsList extends Component {
                             permLink={`${author}/${permLink}`}
                             allowInlineReply={author !== username}
                             pageAccountName={author}
+                            onClick={this.onEntryClick}
                         />
                     );
                 })}

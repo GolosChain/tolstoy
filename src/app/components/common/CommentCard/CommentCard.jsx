@@ -155,7 +155,7 @@ export class CommentCard extends PureComponent {
                         <ReLink
                             fullParentURL={fullParentURL}
                             title={title}
-                            onTitleClick={this.onTitleClick}
+                            onClick={this.rememberScrollPosition}
                         />
                     )}
                     <Filler />
@@ -178,7 +178,7 @@ export class CommentCard extends PureComponent {
                 <ReLink
                     fullParentURL={fullParentURL}
                     title={title}
-                    onTitleClick={this.onTitleClick}
+                    onClick={this.rememberScrollPosition}
                 />
                 {isOwner && !edit && <EditButton onEditClick={this.onEditClick} />}
             </Title>
@@ -205,7 +205,7 @@ export class CommentCard extends PureComponent {
                 ) : (
                     <PostBody
                         to={extractedContent.link}
-                        onClick={this.onClick}
+                        onClick={this.rememberScrollPosition}
                         dangerouslySetInnerHTML={{ __html: extractedContent.desc }}
                     />
                 )}
@@ -231,37 +231,8 @@ export class CommentCard extends PureComponent {
         );
     }
 
-    onTitleClick = e => {
-        const { comment, onClick } = this.props;
-
-        if (onClick) {
-            e.preventDefault();
-
-            const url = e.currentTarget.href;
-
-            if (comment.get('parent_author')) {
-                onClick({
-                    permLink: `${comment.get('parent_author')}/${comment.get('parent_permlink')}`,
-                    url,
-                });
-            } else {
-                onClick({
-                    permLink: comment.get('permlink'),
-                    url,
-                });
-            }
-        }
-    };
-
-    onClick = e => {
-        const { onClick, comment, extractedContent } = this.props;
-        if (onClick) {
-            e.preventDefault();
-            onClick({
-                permLink: comment.get('permlink'),
-                url: extractedContent.link,
-            });
-        }
+    rememberScrollPosition = () => {
+        this.props.onClick();
     };
 
     onReplySuccess = () => {

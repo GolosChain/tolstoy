@@ -20,12 +20,24 @@ export class CommentsContainer extends Component {
     };
 
     render() {
-        const { commentsCount, data, username = '', comments, isFetching } = this.props;
+        const {
+            commentsCount,
+            data,
+            username = '',
+            comments,
+            isFetching,
+            saveListScrollPosition,
+        } = this.props;
         return (
             <CommentsWrapper>
                 <CommentsHeader commentsCount={commentsCount} />
                 <CreateComment data={data} updateComments={this.updateComments} />
-                <CommentsList username={username} comments={comments} isFetching={isFetching} />
+                <CommentsList
+                    username={username}
+                    comments={comments}
+                    isFetching={isFetching}
+                    saveListScrollPosition={saveListScrollPosition}
+                />
             </CommentsWrapper>
         );
     }
