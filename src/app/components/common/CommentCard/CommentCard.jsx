@@ -61,7 +61,7 @@ const Title = styled.div`
     margin-bottom: 8px;
 `;
 
-const PostBody = styled(({isPostPage, ...otherProps}) => <Link {...otherProps} />)`
+const PostBody = styled(({ isPostPage, ...otherProps }) => <Link {...otherProps} />)`
     display: block;
 
     margin-right: 18px;
@@ -154,15 +154,43 @@ export class CommentCard extends PureComponent {
         return null;
     }
 
-    renderHeader() {
+    renderHeaderForPost() {
         const { isCommentOpen } = this.state;
-        const { fullParentURL, title, comment, extractedContent, isPostPage } = this.props;
+        const { comment, extractedContent, isPostPage } = this.props;
+
+        return (
+            <Header>
+                <HeaderLine>
+                    <CommentAuthor
+                        author={comment.get('author')}
+                        created={comment.get('created')}
+                    />
+                    {!isCommentOpen && (
+                        <PostBody
+                            to={extractedContent.link}
+                            onClick={this.rememberScrollPosition}
+                            dangerouslySetInnerHTML={{ __html: extractedContent.desc }}
+                            isPostPage={isPostPage}
+                        />
+                    )}
+                    <CloseOpenButton
+                        isCommentOpen={isCommentOpen}
+                        toggleComment={this.toggleComment}
+                    />
+                </HeaderLine>
+            </Header>
+        );
+    }
+
+    renderHeaderForProfile() {
+        const { isCommentOpen } = this.state;
+        const { fullParentURL, title, comment } = this.props;
         const detransliteratedCategory = detransliterate(comment.get('category'));
 
         return (
             <Header>
                 <HeaderLine>
-                    {isCommentOpen || isPostPage ? (
+                    {isCommentOpen ? (
                         <CommentAuthor
                             author={comment.get('author')}
                             created={comment.get('created')}
@@ -174,17 +202,8 @@ export class CommentCard extends PureComponent {
                             onClick={this.rememberScrollPosition}
                         />
                     )}
-                    {!isCommentOpen &&
-                        isPostPage && (
-                            <PostBody
-                                to={extractedContent.link}
-                                onClick={this.rememberScrollPosition}
-                                dangerouslySetInnerHTML={{ __html: extractedContent.desc }}
-                                isPostPage={isPostPage}
-                            />
-                        )}
                     <CategoryTogglerWrapper>
-                        {!isPostPage && <Category>{detransliteratedCategory}</Category>}
+                        <Category>{detransliteratedCategory}</Category>
                         <CloseOpenButton
                             isCommentOpen={isCommentOpen}
                             toggleComment={this.toggleComment}
@@ -316,7 +335,7 @@ export class CommentCard extends PureComponent {
 
         return (
             <Root commentopen={isCommentOpen ? 1 : 0} className={className}>
-                {this.renderHeader()}
+                {isPostPage ? this.renderHeaderForPost() : this.renderHeaderForProfile()}
                 {isCommentOpen ? (
                     <Fragment>
                         {!isPostPage && this.renderTitle()}
