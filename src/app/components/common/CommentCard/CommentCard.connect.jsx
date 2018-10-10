@@ -13,6 +13,14 @@ export default connect(
         [globalSelector('content'), currentUsernameSelector, (state, props) => props],
         (content, username, props) => {
             const comment = content.get(props.permLink);
+            if (!comment) {
+                return {
+                    dataLoaded: false,
+                    title: '',
+                    fullParentURL: '',
+                    isOwner: true,
+                };
+            }
             const extractedContent = extractContent(immutableAccessor, comment);
             const isOwner = username === comment.get('author');
 
@@ -33,6 +41,7 @@ export default connect(
                 extractedContent,
                 isOwner,
                 username,
+                dataLoaded: true,
             };
         }
     ),

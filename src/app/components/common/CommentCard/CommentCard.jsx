@@ -14,6 +14,7 @@ import { CommentAuthor } from './CommentAuthor';
 import { EditButton } from './EditButton';
 import { ReLink } from './ReLink';
 import { CloseOpenButton } from './CloseOpenButton';
+import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 
 const Header = styled.div`
     padding: 12px 0 8px 0;
@@ -110,6 +111,15 @@ const Reply = styled.div`
     padding: 0 18px 0 60px;
 `;
 
+const LoaderWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 90px;
+    opacity: 0;
+    animation: fade-in 0.25s forwards;
+    animation-delay: 0.25s;
+
 const CategoryTogglerWrapper = styled.div`
     display: flex;
 `;
@@ -132,7 +142,7 @@ export class CommentCard extends PureComponent {
     };
 
     state = {
-        myVote: this.getMyVote(this.props),
+        myVote: this.props.dataLoaded ? this.getMyVote(this.props) : null,
         showReply: false,
         edit: false,
         isCommentOpen: true,
@@ -142,7 +152,7 @@ export class CommentCard extends PureComponent {
     replyRef = createRef();
 
     componentWillReceiveProps(newProps) {
-        if (this.props.comment !== newProps.comment) {
+        if (this.props.comment !== newProps.comment && this.props.dataLoaded) {
             this.setState({
                 myVote: this.getMyVote(newProps),
             });
@@ -333,6 +343,7 @@ export class CommentCard extends PureComponent {
     render() {
         const { showReply, isCommentOpen, edit, myVote } = this.state;
         const {
+            dataLoaded,
             comment,
             username,
             extractedContent,
@@ -341,6 +352,13 @@ export class CommentCard extends PureComponent {
             isPostPage,
             className,
         } = this.props;
+        if (!dataLoaded) {
+            return (
+                <LoaderWrapper>
+                    <LoadingIndicator type="circle" size={40} />
+                </LoaderWrapper>
+            );
+        }
 
         return (
             <Root commentopen={isCommentOpen ? 1 : 0} className={className}>
