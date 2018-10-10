@@ -125,6 +125,7 @@ export default class CommentFooter extends Component {
         isOwner: PropTypes.bool.isRequired,
         onReplyClick: PropTypes.func.isRequired,
         onVote: PropTypes.func.isRequired,
+        myVote: PropTypes.object,
         replyRef: PropTypes.object.isRequired,
         showReply: PropTypes.bool.isRequired,
         username: PropTypes.string.isRequired,

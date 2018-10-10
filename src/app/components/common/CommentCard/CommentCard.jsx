@@ -1,6 +1,7 @@
 import React, { PureComponent, Fragment, createRef } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
+import { Map } from 'immutable';
 import styled from 'styled-components';
 import { isNot } from 'styled-is';
 import tt from 'counterpart';
@@ -91,9 +92,18 @@ const Reply = styled.div`
 export class CommentCard extends PureComponent {
     static propTypes = {
         permLink: PropTypes.string,
-        username: PropTypes.string,
         grid: PropTypes.bool,
         allowInlineReply: PropTypes.bool,
+
+        comment: PropTypes.instanceOf(Map),
+        title: PropTypes.string.isRequired,
+        fullParentURL: PropTypes.string.isRequired,
+        extractedContent: PropTypes.shape({
+            link: PropTypes.string,
+            desc: PropTypes.string,
+        }),
+        isOwner: PropTypes.bool.isRequired,
+        username: PropTypes.string.isRequired,
     };
 
     state = {
@@ -128,47 +138,7 @@ export class CommentCard extends PureComponent {
         return null;
     }
 
-    render() {
-        const { showReply, isCommentOpen, edit, myVote } = this.state;
-        const {
-            comment,
-            username,
-            allowInlineReply,
-            extractedContent,
-            isOwner,
-            onVote,
-            className,
-        } = this.props;
-
-        return (
-            <Root commentopen={isCommentOpen ? 1 : 0} className={className}>
-                {this._renderHeader()}
-                {isCommentOpen ? (
-                    <Fragment>
-                        {this.renderTitle()}
-                        {this._renderBodyText()}
-                        {showReply ? this._renderReplyEditor() : null}
-                        <CommentFooter
-                            comment={comment}
-                            allowInlineReply={allowInlineReply}
-                            contentLink={extractedContent.link}
-                            isOwner={isOwner}
-                            showReply={showReply}
-                            edit={edit}
-                            username={username}
-                            onVote={onVote}
-                            myVote={myVote}
-                            replyRef={this.replyRef}
-                            commentRef={this.commentRef}
-                            onReplyClick={this.onReplyClick}
-                        />
-                    </Fragment>
-                ) : null}
-            </Root>
-        );
-    }
-
-    _renderHeader() {
+    renderHeader() {
         const { isCommentOpen } = this.state;
         const { fullParentURL, title, comment } = this.props;
         const detransliteratedCategory = detransliterate(comment.get('category'));
@@ -212,7 +182,7 @@ export class CommentCard extends PureComponent {
         );
     }
 
-    _renderBodyText() {
+    renderBodyText() {
         const { edit } = this.state;
         const { extractedContent, comment } = this.props;
 
@@ -240,7 +210,7 @@ export class CommentCard extends PureComponent {
         );
     }
 
-    _renderReplyEditor() {
+    renderReplyEditor() {
         const { comment } = this.props;
 
         return (
@@ -328,4 +298,44 @@ export class CommentCard extends PureComponent {
             isCommentOpen: !this.state.isCommentOpen,
         });
     };
+
+    render() {
+        const { showReply, isCommentOpen, edit, myVote } = this.state;
+        const {
+            comment,
+            username,
+            allowInlineReply,
+            extractedContent,
+            isOwner,
+            onVote,
+            className,
+        } = this.props;
+
+        return (
+            <Root commentopen={isCommentOpen ? 1 : 0} className={className}>
+                {this.renderHeader()}
+                {isCommentOpen ? (
+                    <Fragment>
+                        {this.renderTitle()}
+                        {this.renderBodyText()}
+                        {showReply ? this.renderReplyEditor() : null}
+                        <CommentFooter
+                            comment={comment}
+                            allowInlineReply={allowInlineReply}
+                            contentLink={extractedContent.link}
+                            isOwner={isOwner}
+                            showReply={showReply}
+                            edit={edit}
+                            username={username}
+                            onVote={onVote}
+                            myVote={myVote}
+                            replyRef={this.replyRef}
+                            commentRef={this.commentRef}
+                            onReplyClick={this.onReplyClick}
+                        />
+                    </Fragment>
+                ) : null}
+            </Root>
+        );
+    }
 }
