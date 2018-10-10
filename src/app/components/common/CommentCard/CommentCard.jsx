@@ -116,9 +116,9 @@ export class CommentCard extends PureComponent {
     }
 
     _getMyVote(props) {
-        const { username, activeVotes } = props;
+        const { username, data } = props;
 
-        for (let vote of activeVotes) {
+        for (let vote of data.get('active_votes')) {
             if (vote.get('voter') === username) {
                 const v = vote.toJS();
                 v.weight = parseInt(v.weight || 0, 10);
@@ -135,12 +135,9 @@ export class CommentCard extends PureComponent {
             data,
             username,
             allowInlineReply,
-            contentLink,
+            extractedContent,
             isOwner,
-            author,
-            commentsCount,
             onVote,
-            permLink,
             className,
         } = this.props;
 
@@ -155,15 +152,12 @@ export class CommentCard extends PureComponent {
                         <CommentFooter
                             data={data}
                             allowInlineReply={allowInlineReply}
-                            contentLink={contentLink}
+                            contentLink={extractedContent.link}
                             isOwner={isOwner}
-                            author={author}
-                            commentsCount={commentsCount}
                             showReply={showReply}
                             edit={edit}
                             username={username}
                             onVote={onVote}
-                            permLink={permLink}
                             myVote={myVote}
                             replyRef={this.replyRef}
                             commentRef={this.commentRef}
@@ -177,14 +171,14 @@ export class CommentCard extends PureComponent {
 
     _renderHeader() {
         const { isCommentOpen } = this.state;
-        const { fullParentURL, title, author, category, created } = this.props;
-        const detransliteratedCategory = detransliterate(category);
+        const { fullParentURL, title, data } = this.props;
+        const detransliteratedCategory = detransliterate(data.get('category'));
 
         return (
             <Header>
                 <HeaderLine>
                     {isCommentOpen ? (
-                        <CommentAuthor author={author} created={created} />
+                        <CommentAuthor author={data.get('author')} created={data.get('created')} />
                     ) : (
                         <ReLink
                             fullParentURL={fullParentURL}
@@ -221,7 +215,7 @@ export class CommentCard extends PureComponent {
 
     _renderBodyText() {
         const { edit } = this.state;
-        const { contentLink, data, htmlContent } = this.props;
+        const { extractedContent, data } = this.props;
 
         return (
             <Fragment>
@@ -238,9 +232,9 @@ export class CommentCard extends PureComponent {
                     />
                 ) : (
                     <PostBody
-                        to={contentLink}
+                        to={extractedContent.link}
                         onClick={this.onClick}
-                        dangerouslySetInnerHTML={htmlContent}
+                        dangerouslySetInnerHTML={{ __html: extractedContent.desc }}
                     />
                 )}
             </Fragment>
@@ -266,20 +260,21 @@ export class CommentCard extends PureComponent {
     }
 
     onTitleClick = e => {
-        const { parentAuthor, parentPermLink } = this.props;
-        if (this.props.onClick) {
+        const { data, onClick } = this.props;
+
+        if (onClick) {
             e.preventDefault();
 
             const url = e.currentTarget.href;
 
-            if (parentAuthor) {
-                this.props.onClick({
-                    permLink: `${parentAuthor}/${parentPermLink}`,
+            if (data.get('parent_author')) {
+                onClick({
+                    permLink: `${data.get('parent_author')}/${data.get('parent_permlink')}`,
                     url,
                 });
             } else {
-                this.props.onClick({
-                    permLink: this.props.permLink,
+                onClick({
+                    permLink: data.get('permlink'),
                     url,
                 });
             }
@@ -287,12 +282,12 @@ export class CommentCard extends PureComponent {
     };
 
     onClick = e => {
-        const { onClick, permLink, contentLink } = this.props;
+        const { onClick, data, extractedContent } = this.props;
         if (onClick) {
             e.preventDefault();
             onClick({
-                permLink,
-                url: contentLink,
+                permLink: data.get('permlink'),
+                url: extractedContent.link,
             });
         }
     };
@@ -302,7 +297,7 @@ export class CommentCard extends PureComponent {
             showReply: false,
         });
 
-        this.props.onNotify('Ответ опубликован');
+        this.props.onNotify(tt('g.reply_has_published'));
     };
 
     onReplyCancel = () => {

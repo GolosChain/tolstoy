@@ -118,16 +118,13 @@ const ButtonConfirm = styled.div`
 export default class CommentFooter extends Component {
     static propTypes = {
         allowInlineReply: PropTypes.bool,
-        author: PropTypes.string.isRequired,
         commentRef: PropTypes.object,
-        commentsCount: PropTypes.number.isRequired,
         contentLink: PropTypes.string,
         data: PropTypes.instanceOf(Map),
         edit: PropTypes.bool.isRequired,
         isOwner: PropTypes.bool.isRequired,
         onReplyClick: PropTypes.func.isRequired,
         onVote: PropTypes.func.isRequired,
-        permLink: PropTypes.string.isRequired,
         replyRef: PropTypes.object.isRequired,
         showReply: PropTypes.bool.isRequired,
         username: PropTypes.string.isRequired,
@@ -154,10 +151,10 @@ export default class CommentFooter extends Component {
     };
 
     onVoteChange = async percent => {
-        const { username, author, permLink, myVote, onVote } = this.props;
+        const { username, data, myVote, onVote } = this.props;
 
         if (await confirmVote(myVote, percent)) {
-            onVote(username, author, permLink, percent);
+            onVote(username, data.get('author'), data.get('permlink'), percent);
         }
     };
 
@@ -168,8 +165,6 @@ export default class CommentFooter extends Component {
             allowInlineReply,
             contentLink,
             isOwner,
-            author,
-            commentsCount,
             showReply,
             edit,
             onReplyClick,
@@ -204,16 +199,17 @@ export default class CommentFooter extends Component {
                 <CommentVotePanel data={data} me={username} onChange={this.onVoteChange} />
                 <CommentReplyWrapper>
                     <CommentReplyBlock
-                        count={commentsCount}
+                        count={data.get('children')}
                         link={contentLink}
-                        text="Комментарии"
+                        text={tt('g.comments')}
                         showText={isOwner}
                     />
-                    {allowInlineReply && author !== username ? (
-                        <ButtonStyled light onClick={onReplyClick}>
-                            {tt('g.reply')}
-                        </ButtonStyled>
-                    ) : null}
+                    {allowInlineReply &&
+                        !isOwner && (
+                            <ButtonStyled light onClick={onReplyClick}>
+                                {tt('g.reply')}
+                            </ButtonStyled>
+                        )}
                 </CommentReplyWrapper>
             </Wrapper>
         );

@@ -14,37 +14,23 @@ export default connect(
         (content, username, props) => {
             const data = content.get(props.permLink);
             const extractedContent = extractContent(immutableAccessor, data);
-            const htmlContent = { __html: extractedContent.desc };
-            const author = data.get('author');
-            const parentAuthor = data.get('parent_author');
-            const category = data.get('category');
-            const parentPermLink = data.get('parent_permlink');
-            const isOwner = username === author;
+            const isOwner = username === data.get('author');
 
             let fullParentURL = extractedContent.link;
             let title = extractedContent.title;
 
-            if (parentAuthor) {
+            if (data.get('parent_author')) {
                 title = data.get('root_title');
-                fullParentURL = `/${category}/@${parentAuthor}/${parentPermLink}`;
+                fullParentURL = `/${data.get('category')}/@${data.get('parent_author')}/${data.get('parent_permlink')}`;
             }
 
             return {
                 data,
                 title,
                 fullParentURL,
-                htmlContent,
-                contentLink: extractedContent.link,
+                extractedContent,
                 isOwner,
                 username,
-                parentAuthor,
-                category,
-                parentPermLink,
-                author,
-                created: data.get('created'),
-                permLink: data.get('permlink'),
-                commentsCount: data.get('children'),
-                activeVotes: data.get('active_votes'),
             };
         }
     ),
