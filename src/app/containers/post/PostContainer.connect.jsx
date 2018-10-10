@@ -20,6 +20,7 @@ export default connect(
                 isPinned: author.pinnedPostsUrls.includes(author.account + '/' + post.permLink),
                 permLink: post.permLink,
                 isFavorite: post.isFavorite,
+                isOwner: username === author.account,
             };
         }
     ),
