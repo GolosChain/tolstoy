@@ -93,7 +93,6 @@ export class CommentCard extends PureComponent {
     static propTypes = {
         permLink: PropTypes.string,
         grid: PropTypes.bool,
-        allowInlineReply: PropTypes.bool,
 
         comment: PropTypes.instanceOf(Map),
         title: PropTypes.string.isRequired,
@@ -278,7 +277,6 @@ export class CommentCard extends PureComponent {
         const {
             comment,
             username,
-            allowInlineReply,
             extractedContent,
             isOwner,
             onVote,
@@ -295,7 +293,6 @@ export class CommentCard extends PureComponent {
                         {showReply ? this.renderReplyEditor() : null}
                         <CommentFooter
                             comment={comment}
-                            allowInlineReply={allowInlineReply}
                             contentLink={extractedContent.link}
                             isOwner={isOwner}
                             showReply={showReply}

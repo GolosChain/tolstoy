@@ -14,7 +14,6 @@ const CommentCardStyled = styled(CommentCard)`
 
 export default class CommentsList extends Component {
     static propTypes = {
-        username: PropTypes.string.isRequired,
         isFetching: PropTypes.bool.isRequired,
         comments: PropTypes.instanceOf(List),
         saveListScrollPosition: PropTypes.func.isRequired,
@@ -25,7 +24,7 @@ export default class CommentsList extends Component {
     };
 
     render() {
-        const { username, isFetching, comments } = this.props;
+        const { isFetching, comments } = this.props;
         return (
             <Wrapper>
                 {comments.map((comment, index) => {
@@ -35,7 +34,6 @@ export default class CommentsList extends Component {
                         <CommentCardStyled
                             key={index}
                             permLink={`${author}/${permLink}`}
-                            allowInlineReply={author !== username}
                             pageAccountName={author}
                             onClick={this.onEntryClick}
                         />

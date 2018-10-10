@@ -33,7 +33,6 @@ export class CommentsContainer extends Component {
                 <CommentsHeader commentsCount={commentsCount} />
                 <CreateComment data={data} updateComments={this.updateComments} />
                 <CommentsList
-                    username={username}
                     comments={comments}
                     isFetching={isFetching}
                     saveListScrollPosition={saveListScrollPosition}
