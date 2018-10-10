@@ -9,6 +9,8 @@ const CURRENCY_SIGNS = {
     RUB: '_₽',
 };
 
+const queried = new Set();
+
 export function parseAmount(amount, balance, isFinal) {
     const amountFixed = amount.trim().replace(/\s+/, '');
 
@@ -113,46 +115,60 @@ export function formatCurrency(amount, currency, decimals) {
     }
 }
 
-export function renderValue(amount, originalCurrency, decimals, date, forceCurrency) {
-    if (process.env.BROWSER) {
-        const state = getStoreState();
+export function renderValue(amount, originalCurrency, decimals, date, toCurrency) {
+    return renderValueEx(amount, originalCurrency, { decimals, date, toCurrency });
+}
 
-        let currency =
-            forceCurrency || state.data.settings.getIn(['basic', 'currency']) || DEFAULT_CURRENCY;
-        let rate;
+export function renderValueEx(
+    amount,
+    originalCurrency,
+    { decimals, date, toCurrency, rates } = {}
+) {
+    if (!process.env.BROWSER) {
+        return `${amount.toFixed(3)} ${originalCurrency}`;
+    }
 
-        if (currency !== originalCurrency) {
-            if (process.env.BROWSER && date && date.startsWith('2')) {
-                // 2018-09-10T07:38:57 => 2018-09-10
-                const dateString = date.substr(0, 10);
+    let rate;
+    let currency =
+        toCurrency ||
+        getStoreState().data.settings.getIn(['basic', 'currency']) ||
+        DEFAULT_CURRENCY;
 
-                const rates = state.data.rates.dates.get(dateString);
+    if (currency !== originalCurrency) {
+        const useRates = rates || getStoreState().data.rates;
 
-                if (rates) {
-                    rate = rates[originalCurrency][currency];
-                } else {
+        if (date && date.startsWith('2')) {
+            // 2018-09-10T07:38:57 => 2018-09-10
+            const dateString = date.substr(0, 10);
+
+            const rates = useRates.dates.get(dateString);
+
+            if (rates) {
+                rate = rates[originalCurrency][currency];
+            } else {
+                // TODO: TEMP SOLUTION, REMOVE IF AND SET LATER
+                if (!queried.has(dateString)) {
+                    queried.add(dateString);
                     dispatch(getHistoricalData(dateString));
                 }
-            }
-
-            if (!rate) {
-                rate = state.data.rates.actual[originalCurrency][currency];
             }
         }
 
         if (!rate) {
-            currency = originalCurrency;
-            rate = 1;
+            rate = useRates.actual[originalCurrency][currency];
         }
-
-        let dec = decimals;
-
-        if (dec == null) {
-            dec = state.data.settings.getIn(['basic', 'rounding'], 3);
-        }
-
-        return formatCurrency(amount * rate, currency, dec);
-    } else {
-        return `${amount.toFixed(3)} ${originalCurrency}`;
     }
+
+    if (!rate) {
+        currency = originalCurrency;
+        rate = 1;
+    }
+
+    let dec = decimals;
+
+    if (dec == null) {
+        dec = getStoreState().data.settings.getIn(['basic', 'rounding'], 3);
+    }
+
+    return formatCurrency(amount * rate, currency, dec);
 }

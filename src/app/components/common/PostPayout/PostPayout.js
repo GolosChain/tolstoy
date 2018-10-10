@@ -1,14 +1,13 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { renderValue } from 'src/app/helpers/currency';
+
 import { getPayout } from 'src/app/redux/selectors/payout/common';
+import CurrencyValue from 'src/app/components/common/CurrencyValue';
 
 @connect(getPayout)
 export default class PostPayout extends PureComponent {
     render() {
         const { data, limitedOverallTotal, isLimit, isDeclined, className } = this.props;
-
-        const amount = renderValue(limitedOverallTotal, 'GOLOS', null, data.get('last_payout'));
 
         let style = null;
 
@@ -26,7 +25,11 @@ export default class PostPayout extends PureComponent {
 
         return (
             <span className={className} style={style}>
-                {amount}
+                <CurrencyValue
+                    value={limitedOverallTotal}
+                    currency="GOLOS"
+                    date={data.get('last_payout')}
+                />
             </span>
         );
     }
