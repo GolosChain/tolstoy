@@ -16,18 +16,22 @@ import { ReLink } from './ReLink';
 import { CloseOpenButton } from './CloseOpenButton';
 
 const Header = styled.div`
-    padding: 10px 0 6px;
+    padding: 12px 0 8px 0;
     flex-shrink: 0;
+
+    ${isNot('isCommentOpen')`
+        padding: 5px 0;
+    `};
 `;
 
 const HeaderLine = styled.div`
-    position: relative;
-    z-index: 1;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
+    z-index: 1;
 
-    padding: 2px 18px;
+    padding: 0 18px;
     pointer-events: none;
 
     & > * {
@@ -58,6 +62,7 @@ const Title = styled.div`
     justify-content: space-between;
     position: relative;
     padding: 0 18px;
+
     margin-bottom: 8px;
 `;
 
@@ -88,6 +93,9 @@ const Root = styled.div`
     flex-direction: column;
     position: relative;
     border-radius: 8px;
+
+    min-height: 50px;
+
     background: #ffffff;
     overflow: hidden;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
@@ -159,7 +167,7 @@ export class CommentCard extends PureComponent {
         const { comment, extractedContent, isPostPage } = this.props;
 
         return (
-            <Header>
+            <Header isCommentOpen={isCommentOpen}>
                 <HeaderLine>
                     <CommentAuthor
                         author={comment.get('author')}

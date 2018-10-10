@@ -25,17 +25,17 @@ const PostDesc = styled.div`
 
 const AuthorName = styled(Link)`
     display: block;
-    line-height: 1.5;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 500;
     color: #333;
     text-decoration: none;
 `;
 
 const PostDate = styled.div`
-    font-size: 13px;
+    font-size: 12px;
     letter-spacing: 0.4px;
     line-height: 1.5;
+    white-space: nowrap;
     color: #959595;
     cursor: default;
 `;
