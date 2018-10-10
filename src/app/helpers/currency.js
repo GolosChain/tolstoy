@@ -1,7 +1,7 @@
 import React from 'react';
 import { getStoreState, dispatch } from 'app/clientRender';
-import { getHistoricalData } from '../redux/actions/rates';
-import { DEFAULT_CURRENCY } from '../../../app/client_config';
+import { getHistoricalData } from 'src/app/redux/actions/rates';
+import { DEFAULT_CURRENCY } from 'app/client_config';
 
 const CURRENCY_SIGNS = {
     USD: '$_',
@@ -117,7 +117,8 @@ export function renderValue(amount, originalCurrency, decimals, date, forceCurre
     if (process.env.BROWSER) {
         const state = getStoreState();
 
-        let currency = forceCurrency || state.data.settings.getIn(['basic', 'currency']) || DEFAULT_CURRENCY;
+        let currency =
+            forceCurrency || state.data.settings.getIn(['basic', 'currency']) || DEFAULT_CURRENCY;
         let rate;
 
         if (currency !== originalCurrency) {
@@ -154,64 +155,4 @@ export function renderValue(amount, originalCurrency, decimals, date, forceCurre
     } else {
         return `${amount.toFixed(3)} ${originalCurrency}`;
     }
-}
-
-export function getPayout(data, className) {
-    let params;
-
-    if (data.toJS) {
-        params = {
-            max_accepted_payout: data.get('max_accepted_payout'),
-            pending_payout_value: data.get('pending_payout_value'),
-            total_payout_value: data.get('total_payout_value'),
-            curator_payout_value: data.get('curator_payout_value'),
-            last_payout: data.get('last_payout'),
-        };
-    } else {
-        params = data;
-    }
-
-    const max = parseFloat(params.max_accepted_payout);
-    const isDeclined = max === 0;
-
-    let isLimit = false;
-    let gbgValue = 0;
-
-    gbgValue += parseFloat(params.pending_payout_value) || 0;
-
-    if (!isDeclined) {
-        gbgValue += parseFloat(params.total_payout_value) || 0;
-        gbgValue += parseFloat(params.curator_payout_value) || 0;
-    }
-
-    if (gbgValue < 0) {
-        gbgValue = 0;
-    }
-
-    if (max != null && gbgValue > max) {
-        gbgValue = max;
-        isLimit = true;
-    }
-
-    const stringValue = renderValue(gbgValue, 'GBG', null, params.last_payout);
-
-    let style;
-
-    if (isLimit || isDeclined) {
-        style = {};
-
-        if (isLimit) {
-            style.opacity = 0.33;
-        }
-
-        if (isDeclined) {
-            style.textDecoration = 'line-through';
-        }
-    }
-
-    return (
-        <span className={className} style={style}>
-            {stringValue}
-        </span>
-    );
 }

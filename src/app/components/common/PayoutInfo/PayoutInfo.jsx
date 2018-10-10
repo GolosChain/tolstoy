@@ -101,8 +101,6 @@ export default class PayoutInfo extends PureComponent {
         const amountGbg = totalGbg ? `${totalGbg.toFixed(3)} GBG` : null;
         const duration = capitalize(intl.formatRelative(data.get('cashout_time')));
 
-        console.log(this.props);
-
         return (
             <Root>
                 <Part>
