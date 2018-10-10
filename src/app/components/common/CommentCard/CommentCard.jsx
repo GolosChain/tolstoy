@@ -119,6 +119,7 @@ const LoaderWrapper = styled.div`
     opacity: 0;
     animation: fade-in 0.25s forwards;
     animation-delay: 0.25s;
+`;
 
 const CategoryTogglerWrapper = styled.div`
     display: flex;
