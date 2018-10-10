@@ -132,7 +132,7 @@ export class CommentCard extends PureComponent {
             myVote = myVote.toJS();
             myVote.weight = parseInt(myVote.weight || 0, 10);
         }
-        return null;
+        return myVote;
     }
 
     renderHeader() {
