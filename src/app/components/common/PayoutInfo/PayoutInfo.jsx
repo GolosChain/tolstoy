@@ -66,15 +66,33 @@ const Money = styled.span`
 
 const MoneyConvert = styled.span``;
 
+const Plus = styled.span`
+    margin: 0 4px;
+`;
+
 @injectIntl
 export default class PayoutInfo extends PureComponent {
     render() {
-        const { data, intl, isPending, total, author, curator, benefactor } = this.props;
+        const {
+            data,
+            intl,
+            isPending,
+            total,
+            totalGbg,
+            overallTotal,
+            author,
+            authorGbg,
+            curator,
+            benefactor,
+        } = this.props;
 
         const lastPayout = data.get('last_payout');
-        const amount = renderValue(total, 'GBG', null, lastPayout);
-        const amountNative = renderValue(total, 'GBG', null, lastPayout, 'GOLOS');
+        const amount = renderValue(overallTotal, 'GOLOS', null, lastPayout);
+        const amountGolos = `${total.toFixed(3)} GOLOS`;
+        const amountGbg = totalGbg ? `${totalGbg.toFixed(3)} GBG` : null;
         const duration = capitalize(intl.formatRelative(data.get('cashout_time')));
+
+        console.log(this.props);
 
         return (
             <Root>
@@ -83,12 +101,20 @@ export default class PayoutInfo extends PureComponent {
                         {isPending ? tt('payout_info.potential_payout') : tt('payout_info.payout')}
                     </Title>
                     <Payout>
-                        {amount === amountNative ? (
+                        {amount.split(' ')[1] === 'GOLOS' && !amountGbg ? (
                             <Money>{amount}</Money>
                         ) : (
                             <Fragment>
-                                <Money>{amountNative}</Money> (<MoneyConvert>{amount}</MoneyConvert>
-                                )
+                                <Money>{amountGolos}</Money>
+                                {amountGbg ? (
+                                    <Fragment>
+                                        {' + '}
+                                        <Money>{amountGbg}</Money>{' '}
+                                    </Fragment>
+                                ) : null}
+                                {' ('}
+                                <MoneyConvert>{amount}</MoneyConvert>
+                                {')'}
                             </Fragment>
                         )}
                     </Payout>
@@ -97,15 +123,21 @@ export default class PayoutInfo extends PureComponent {
                 <Part>
                     <Line>
                         <Label>{tt('payout_info.author')}</Label>
-                        <Money>{renderValue(author, 'GBG', 1, lastPayout, 'GOLOS')}</Money>
+                        <Money>{author.toFixed(1)} GOLOS</Money>
+                        {authorGbg ? (
+                            <Fragment>
+                                <Plus>+</Plus>
+                                <Money>{authorGbg.toFixed(1)} GBG</Money>
+                            </Fragment>
+                        ) : null}
                     </Line>
                     <Line>
                         <Label>{tt('payout_info.curator')}</Label>
-                        <Money>{renderValue(curator, 'GBG', 1, lastPayout, 'GOLOS')}</Money>
+                        <Money>{curator.toFixed(1)} GOLOS</Money>
                     </Line>
                     <Line>
                         <Label>{tt('payout_info.beneficiary')}</Label>
-                        <Money>{renderValue(benefactor, 'GBG', 1, lastPayout, 'GOLOS')}</Money>
+                        <Money>{benefactor.toFixed(1)} GOLOS</Money>
                     </Line>
                 </Part>
             </Root>
