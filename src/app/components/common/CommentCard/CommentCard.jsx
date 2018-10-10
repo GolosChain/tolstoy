@@ -147,7 +147,10 @@ export class CommentCard extends PureComponent {
             <Header>
                 <HeaderLine>
                     {isCommentOpen ? (
-                        <CommentAuthor author={comment.get('author')} created={comment.get('created')} />
+                        <CommentAuthor
+                            author={comment.get('author')}
+                            created={comment.get('created')}
+                        />
                     ) : (
                         <ReLink
                             fullParentURL={fullParentURL}

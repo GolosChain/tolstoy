@@ -21,7 +21,9 @@ export default connect(
 
             if (comment.get('parent_author')) {
                 title = comment.get('root_title');
-                fullParentURL = `/${comment.get('category')}/@${comment.get('parent_author')}/${comment.get('parent_permlink')}`;
+                fullParentURL = `/${comment.get('category')}/@${comment.get(
+                    'parent_author'
+                )}/${comment.get('parent_permlink')}`;
             }
 
             return {
