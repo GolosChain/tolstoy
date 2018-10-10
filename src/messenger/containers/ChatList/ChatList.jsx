@@ -6,7 +6,6 @@ import { Map } from 'immutable';
 import ChatList from 'src/messenger/components/ChatList';
 import ChatListItem from 'src/messenger/components/ChatList/ChatListItem';
 
-
 export class ChatListContainer extends Component {
     
     static propTypes = {
@@ -48,10 +47,10 @@ export class ChatListContainer extends Component {
         const {
             showSearchResults,
             searchContacts,
-            contactList
+            contactList,
         } = this.props;
 
-        const listType = searchContacts.size ? 'search' : 'contacts';
+        const listType = showSearchResults ? 'search' : 'contacts';
 
         return (
             <ChatList>
