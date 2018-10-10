@@ -5,8 +5,12 @@ import CommentsHeader from 'src/app/components/post/CommentsHeader';
 import CreateComment from 'src/app/components/post/CreateComment';
 import CommentsList from 'src/app/components/post/CommentsList';
 
-const CommentsWrapper = styled.div`
+const Wrapper = styled.div`
     padding-top: 30px;
+    
+    @media (max-width: 576px) {
+        margin: 0 20px;
+    }
 `;
 
 export class CommentsContainer extends Component {
@@ -20,13 +24,24 @@ export class CommentsContainer extends Component {
     };
 
     render() {
-        const { commentsCount, data, username = '', comments, isFetching } = this.props;
+        const {
+            commentsCount,
+            data,
+            comments,
+            isFetching,
+            saveListScrollPosition,
+        } = this.props;
+
         return (
-            <CommentsWrapper>
+            <Wrapper>
                 <CommentsHeader commentsCount={commentsCount} />
                 <CreateComment data={data} updateComments={this.updateComments} />
-                <CommentsList username={username} comments={comments} isFetching={isFetching} />
-            </CommentsWrapper>
+                <CommentsList
+                    comments={comments}
+                    isFetching={isFetching}
+                    saveListScrollPosition={saveListScrollPosition}
+                />
+            </Wrapper>
         );
     }
 }

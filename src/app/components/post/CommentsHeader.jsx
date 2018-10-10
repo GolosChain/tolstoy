@@ -44,6 +44,12 @@ const CommentCategory = styled.div`
     }
 `;
 
+const SortBy = styled.div`
+    @media (max-width: 576px) {
+        display: none;
+    }
+`;
+
 export default class CommentsHeader extends Component {
     static propTypes = {
         commentsCount: PropTypes.number.isRequired,
@@ -55,7 +61,7 @@ export default class CommentsHeader extends Component {
             <CommentsHeaderWrapper>
                 <CommentsCount>{tt('g.comments')} ({commentsCount})</CommentsCount>
                 <SortComments>
-                    {tt('post_jsx.sort_by')}:
+                    <SortBy>{tt('post_jsx.sort_by')}:</SortBy>
                     <CommentCategory>{tt('post_jsx.popularity')}</CommentCategory>
                 </SortComments>
             </CommentsHeaderWrapper>
