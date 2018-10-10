@@ -9,6 +9,8 @@ import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
 const Wrapper = styled.div`
     display: flex;
     align-items: center;
+    
+    margin-right: 18px;
 `;
 
 const Avatar = styled(Link)`

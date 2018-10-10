@@ -23,11 +23,11 @@ export class CommentsContainer extends Component {
         const {
             commentsCount,
             data,
-            username = '',
             comments,
             isFetching,
             saveListScrollPosition,
         } = this.props;
+
         return (
             <CommentsWrapper>
                 <CommentsHeader commentsCount={commentsCount} />

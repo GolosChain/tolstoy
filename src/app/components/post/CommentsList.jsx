@@ -34,7 +34,7 @@ export default class CommentsList extends Component {
                         <CommentCardStyled
                             key={index}
                             permLink={`${author}/${permLink}`}
-                            pageAccountName={author}
+                            isPostPage={true}
                             onClick={this.onEntryClick}
                         />
                     );
