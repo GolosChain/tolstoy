@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { Link } from 'react-router';
-import { List } from 'immutable';
-
+import styled from 'styled-components';
+import is from 'styled-is';
+import { List, Map } from 'immutable';
 import tt from 'counterpart';
 import Interpolate from 'react-interpolate-component';
-import normalizeProfile from 'app/utils/NormalizeProfile';
-import { DEBT_TOKEN_SHORT } from 'app/client_config';
 
+import normalizeProfile from 'app/utils/NormalizeProfile';
+import { getPropsForInterpolation } from 'src/app/helpers/notifications';
+
+import Icon from 'golos-ui/Icon';
 import Avatar from 'src/app/components/common/Avatar';
 import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
-import Icon from 'golos-ui/Icon';
 
 const Wrapper = styled.div`
     display: flex;
@@ -19,7 +20,7 @@ const Wrapper = styled.div`
     align-items: center;
 
     :not(:last-child) {
-        margin-bottom: 30px;
+        margin-bottom: 15px;
     }
 `;
 
@@ -51,8 +52,12 @@ const ActivityDate = styled.div`
 
 const ActivityText = styled.div`
     color: #959595;
-    font-family: ${({ theme }) => theme.fontFamily};
     font-size: 16px;
+    font-weight: 300;
+
+    ${is('isCompact')`
+        color: #757575;
+    `};
 `;
 
 const LeftSide = styled.div`
@@ -115,59 +120,13 @@ const icons = {
 const emptyList = List();
 
 export default class ActivityItem extends Component {
-    getPropsForInterpolation() {
-        const { notification } = this.props;
-
-        const computed = notification.get('computed');
-        const eventType = notification.get('eventType');
-        const interProps = {};
-
-        if (
-            ['vote', 'flag', 'reply', 'mention', 'repost', 'reward', 'curatorReward'].includes(
-                eventType
-            )
-        ) {
-            interProps.content = <Link to={computed.get('link')}>{computed.get('title')}</Link>;
-        }
-
-        if (['reward'].includes(eventType)) {
-            const awards = [];
-            const golos = notification.getIn(['reward', 'golos'], null);
-            const golosPower = notification.getIn(['reward', 'golosPower'], null);
-            const gbg = notification.getIn(['reward', 'gbg'], null);
-            if (golos) {
-                awards.push(
-                    `${golos} ${tt('token_names.LIQUID_TOKEN_PLURALIZE', {
-                        count: parseFloat(golos),
-                    })}`
-                );
-            }
-            if (golosPower) {
-                awards.push(
-                    `${golosPower} ${tt('token_names.VESTING_TOKEN_PLURALIZE', {
-                        count: parseFloat(golosPower),
-                    })}`
-                );
-            }
-            if (gbg) {
-                awards.push(`${gbg} ${DEBT_TOKEN_SHORT}`);
-            }
-            interProps.amount = awards.join(', ');
-        }
-
-        if (['curatorReward'].includes(eventType)) {
-            interProps.amount = notification.get('curatorReward');
-        }
-
-        if (['transfer'].includes(eventType)) {
-            interProps.amount = notification.get('amount');
-        }
-
-        return interProps;
-    }
+    static propTypes = {
+        notification: PropTypes.instanceOf(Map),
+        isCompact: PropTypes.bool,
+    };
 
     render() {
-        const { notification } = this.props;
+        const { notification, isCompact } = this.props;
 
         let leftSide = null;
         let nameLink = null;
@@ -207,8 +166,8 @@ export default class ActivityItem extends Component {
                             <TimeAgoWrapper date={notification.get('createdAt')} />
                         </ActivityDate>
                     </ActivityTop>
-                    <ActivityText>
-                        <Interpolate with={this.getPropsForInterpolation()} component="div">
+                    <ActivityText isCompact={isCompact}>
+                        <Interpolate with={getPropsForInterpolation(notification)} component="div">
                             {tt(['notifications', 'activity', notification.get('eventType')], {
                                 count: 1,
                                 interpolate: false,

@@ -2,12 +2,13 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'react-router';
-import { Map } from 'immutable';
+import { List, Map } from 'immutable';
 
 import tt from 'counterpart';
 import Interpolate from 'react-interpolate-component';
 import normalizeProfile from 'app/utils/NormalizeProfile';
-import { DEBT_TOKEN_SHORT } from 'app/client_config';
+
+import { getPropsForInterpolation } from 'src/app/helpers/notifications';
 
 import Avatar from 'src/app/components/common/Avatar';
 import Icon from 'golos-ui/Icon';
@@ -44,99 +45,34 @@ const icons = {
     },
 };
 
+const emptyList = List();
+
 export default class NotificationOnlineContent extends PureComponent {
     static propTypes = {
-        type: PropTypes.string,
-        account: PropTypes.instanceOf(Map),
-
-        title: PropTypes.string,
-        link: PropTypes.string,
-        amount: PropTypes.number,
-
-        golos: PropTypes.number,
-        golosPower: PropTypes.number,
-        gbg: PropTypes.number,
+        notification: PropTypes.instanceOf(Map),
     };
 
-    getPropsForInterpolation() {
-        const {
-            type,
-            account,
-
-            title,
-            link,
-            amount,
-
-            golos,
-            golosPower,
-            gbg,
-        } = this.props;
-
-        const interProps = {};
-
-        if (['vote', 'flag', 'reply', 'mention', 'repost'].includes(type)) {
-            const userName = account.get('name');
-
-            interProps.user = <Link to={`/@${userName}`}>@{userName}</Link>;
-            interProps.content = <Link to={link}>{title}</Link>;
-        } else if (['transfer'].includes(type)) {
-            const userName = account.get('name');
-
-            interProps.user = <Link to={`/@${userName}`}>@{userName}</Link>;
-            interProps.amount = amount;
-        } else if (['reward'].includes(type)) {
-            const awards = [];
-            if (golos) {
-                awards.push(
-                    `${golos} ${tt('token_names.LIQUID_TOKEN_PLURALIZE', {
-                        count: parseFloat(golos),
-                    })}`
-                );
-            }
-            if (golosPower) {
-                awards.push(
-                    `${golosPower} ${tt('token_names.VESTING_TOKEN_PLURALIZE', {
-                        count: parseFloat(golosPower),
-                    })}`
-                );
-            }
-            if (gbg) {
-                awards.push(`${gbg} ${DEBT_TOKEN_SHORT}`);
-            }
-
-            interProps.content = <Link to={link}>{title}</Link>;
-            interProps.amount = awards.join(', ');
-        } else if (['curatorReward'].includes(type)) {
-            interProps.content = <Link to={link}>{title}</Link>;
-            interProps.amount = amount;
-        } else if (
-            ['subscribe', 'unsubscribe', 'witnessVote', 'witnessCancelVote'].includes(type)
-        ) {
-            const userName = account.get('name');
-            interProps.user = <Link to={`/@${userName}`}>@{userName}</Link>;
-        }
-
-        return interProps;
-    }
-
     render() {
-        const { account, type } = this.props;
+        const { notification } = this.props;
 
         let leftSide = null;
 
-        if (['reward', 'curatorReward'].includes(type)) {
+        if (['reward', 'curatorReward'].includes(notification.get('eventType'))) {
             leftSide = (
                 <LeftSide>
-                    <Icon {...icons[type]} />
+                    <Icon {...icons[notification.get('eventType')]} />
                 </LeftSide>
             );
         }
 
+        const account = notification.getIn(['computed', 'accounts'], emptyList).get(0);
         if (account) {
+            const userName = account.get('name');
             const { profile_image } = normalizeProfile(account.toJS());
+
             leftSide = (
                 <LeftSide>
-                    <Link to={`/@${account.get('name')}`}>
+                    <Link to={`/@${userName}`}>
                         <Avatar avatarUrl={profile_image} size={40} />
                     </Link>
                 </LeftSide>
@@ -147,8 +83,11 @@ export default class NotificationOnlineContent extends PureComponent {
             <Wrapper>
                 {leftSide}
                 <Message>
-                    <Interpolate with={this.getPropsForInterpolation()} component="div">
-                        {tt(['notifications', 'online', type], { count: 1, interpolate: false })}
+                    <Interpolate with={getPropsForInterpolation(notification)} component="div">
+                        {tt(['notifications', 'online', notification.get('eventType')], {
+                            count: 1,
+                            interpolate: false,
+                        })}
                     </Interpolate>
                 </Message>
             </Wrapper>

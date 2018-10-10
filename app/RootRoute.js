@@ -1,4 +1,4 @@
-import App from 'app/components/App';
+import App from 'src/app/containers/App';
 import PostsIndex from '@pages/PostsIndex';
 import resolveRoute from './ResolveRoute';
 
