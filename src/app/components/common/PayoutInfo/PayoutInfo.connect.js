@@ -31,11 +31,26 @@ function f(amount) {
 }
 
 const stateToProps = createSelector([(state, props) => props.data], data => {
-    const isPending = parseFloat(data.get('total_payout_value')) === 0;
+    const isPending = parseFloat(data.get('total_pending_payout_value')) > 0;
 
     console.log(data.toJS());
 
     const fields = isPending ? FIELDS_PENDING : FIELDS;
+
+    const totalGbg = f(data.get(fields.TOTAL_GBG));
+
+    if (totalGbg === 0) {
+        return {
+            isPending,
+            total: 0,
+            totalGbg: 0,
+            overallTotal: 0,
+            author: 0,
+            authorGbg: 0,
+            curator: 0,
+            benefactor: 0,
+        };
+    }
 
     const benefGests = f(data.get(fields.BENEF_GESTS));
     const benefGbg = f(data.get(fields.BENEF_GBG));
@@ -44,8 +59,6 @@ const stateToProps = createSelector([(state, props) => props.data], data => {
     const curatGbg = f(data.get(fields.CURAT_GBG));
 
     const gestsPerGbg = benefGests ? benefGests / benefGbg : curatGests / curatGbg;
-
-    const totalGbg = f(data.get(fields.TOTAL_GBG));
 
     const authorGbg = f(data.get(fields.AUTHOR_GBG));
     const authorGolos = f(data.get(fields.AUTHOR_GOLOS));
