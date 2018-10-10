@@ -12,38 +12,27 @@ export default connect(
     createSelector(
         [globalSelector('content'), currentUsernameSelector, (state, props) => props],
         (content, username, props) => {
-            const data = content.get(props.permLink);
-            const extractedContent = extractContent(immutableAccessor, data);
-            const htmlContent = { __html: extractedContent.desc };
-            const isOwner = username === props.pageAccountName.toLowerCase();
-            const parentAuthor = data.get('parent_author');
-            const category = data.get('category');
-            const parentPermLink = data.get('parent_permlink');
+            const comment = content.get(props.permLink);
+            const extractedContent = extractContent(immutableAccessor, comment);
+            const isOwner = username === comment.get('author');
 
             let fullParentURL = extractedContent.link;
             let title = extractedContent.title;
 
-            if (parentAuthor) {
-                title = data.get('root_title');
-                fullParentURL = `/${category}/@${parentAuthor}/${parentPermLink}`;
+            if (comment.get('parent_author')) {
+                title = comment.get('root_title');
+                fullParentURL = `/${comment.get('category')}/@${comment.get(
+                    'parent_author'
+                )}/${comment.get('parent_permlink')}`;
             }
 
             return {
-                data,
+                comment,
                 title,
                 fullParentURL,
-                htmlContent,
-                content: extractedContent,
+                extractedContent,
                 isOwner,
                 username,
-                parentAuthor,
-                category,
-                parentPermLink,
-                author: data.get('author'),
-                created: data.get('created'),
-                permLink: data.get('permlink'),
-                commentsCount: data.get('children'),
-                activeVotes: data.get('active_votes'),
             };
         }
     ),

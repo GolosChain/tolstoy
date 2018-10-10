@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Map } from 'immutable';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
@@ -114,6 +116,21 @@ const ButtonConfirm = styled.div`
 `;
 
 export default class CommentFooter extends Component {
+    static propTypes = {
+        allowInlineReply: PropTypes.bool,
+        commentRef: PropTypes.object,
+        contentLink: PropTypes.string,
+        comment: PropTypes.instanceOf(Map),
+        edit: PropTypes.bool.isRequired,
+        isOwner: PropTypes.bool.isRequired,
+        onReplyClick: PropTypes.func.isRequired,
+        onVote: PropTypes.func.isRequired,
+        myVote: PropTypes.object,
+        replyRef: PropTypes.object.isRequired,
+        showReply: PropTypes.bool.isRequired,
+        username: PropTypes.string,
+    };
+
     onCancelReplyClick = () => {
         const { replyRef } = this.props;
         replyRef.current.cancel();
@@ -135,22 +152,20 @@ export default class CommentFooter extends Component {
     };
 
     onVoteChange = async percent => {
-        const { username, author, permLink, myVote, onVote } = this.props;
+        const { username, comment, myVote, onVote } = this.props;
 
         if (await confirmVote(myVote, percent)) {
-            onVote(username, author, permLink, percent);
+            onVote(username, comment.get('author'), comment.get('permlink'), percent);
         }
     };
 
     render() {
         const {
-            data,
+            comment,
             username,
             allowInlineReply,
-            content,
+            contentLink,
             isOwner,
-            author,
-            commentsCount,
             showReply,
             edit,
             onReplyClick,
@@ -182,19 +197,20 @@ export default class CommentFooter extends Component {
 
         return (
             <Wrapper>
-                <CommentVotePanel data={data} me={username} onChange={this.onVoteChange} />
+                <CommentVotePanel data={comment} me={username} onChange={this.onVoteChange} />
                 <CommentReplyWrapper>
                     <CommentReplyBlock
-                        count={commentsCount}
-                        link={content.link}
-                        text="Комментарии"
+                        count={comment.get('children')}
+                        link={contentLink}
+                        text={tt('g.comments')}
                         showText={isOwner}
                     />
-                    {allowInlineReply && author !== username ? (
-                        <ButtonStyled light onClick={onReplyClick}>
-                            {tt('g.reply')}
-                        </ButtonStyled>
-                    ) : null}
+                    {allowInlineReply &&
+                        !isOwner && (
+                            <ButtonStyled light onClick={onReplyClick}>
+                                {tt('g.reply')}
+                            </ButtonStyled>
+                        )}
                 </CommentReplyWrapper>
             </Wrapper>
         );

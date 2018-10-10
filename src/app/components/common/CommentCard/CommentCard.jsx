@@ -1,6 +1,7 @@
 import React, { PureComponent, Fragment, createRef } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
+import { Map } from 'immutable';
 import styled from 'styled-components';
 import { isNot } from 'styled-is';
 import tt from 'counterpart';
@@ -8,11 +9,11 @@ import tt from 'counterpart';
 import { detransliterate } from 'app/utils/ParsersAndFormatters';
 import CommentFormLoader from 'app/components/modules/CommentForm/loader';
 
-import Icon from 'golos-ui/Icon';
 import CommentFooter from './CommentFooter';
 import { CommentAuthor } from './CommentAuthor';
-import { EditButton } from 'src/app/components/common/CommentCard/EditButton';
+import { EditButton } from './EditButton';
 import { ReLink } from './ReLink';
+import { CloseOpenButton } from './CloseOpenButton';
 
 const Header = styled.div`
     padding: 10px 0 6px;
@@ -88,83 +89,45 @@ const Reply = styled.div`
     padding: 0 18px 0 60px;
 `;
 
-const IconEditWrapper = styled.div`
-    min-width: 30px;
-    min-height: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #aaa;
-    cursor: pointer;
-    transition: color 0.15s;
-
-    &:hover {
-        color: #333;
-    }
-`;
-
-const ToggleCommentOpen = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-width: 30px;
-    min-height: 30px;
-    margin-right: -4px;
-    user-select: none;
-    cursor: pointer;
-    transform: rotate(0);
-    transition: transform 0.4s;
-
-    ${isNot('commentopen')`
-        margin-top: -1px;
-        color: #b7b7ba;
-        transform: rotate(0.5turn);
-    `};
-`;
-
-const ReLinkWrapper = styled.div`
-    padding-right: 10px;
-    display: flex;
-    align-items: center;
-    line-height: 29px;
-    font-family: ${a => a.theme.fontFamily};
-    font-size: 20px;
-    font-weight: bold;
-    color: #212121;
-    overflow: hidden;
-`;
-
 export class CommentCard extends PureComponent {
     static propTypes = {
         permLink: PropTypes.string,
-        username: PropTypes.string,
-        data: PropTypes.object,
         grid: PropTypes.bool,
         allowInlineReply: PropTypes.bool,
+
+        comment: PropTypes.instanceOf(Map),
+        title: PropTypes.string.isRequired,
+        fullParentURL: PropTypes.string.isRequired,
+        extractedContent: PropTypes.shape({
+            link: PropTypes.string,
+            desc: PropTypes.string,
+        }),
+        isOwner: PropTypes.bool.isRequired,
+        username: PropTypes.string,
     };
 
     state = {
-        myVote: this._getMyVote(this.props),
+        myVote: this.getMyVote(this.props),
         showReply: false,
         edit: false,
         isCommentOpen: true,
     };
 
-    _commentRef = createRef();
-    _replyRef = createRef();
+    commentRef = createRef();
+    replyRef = createRef();
 
     componentWillReceiveProps(newProps) {
-        if (this.props.data !== newProps.data) {
+        if (this.props.comment !== newProps.comment) {
             this.setState({
-                myVote: this._getMyVote(newProps),
+                myVote: this.getMyVote(newProps),
             });
         }
     }
 
-    _getMyVote(props) {
-        const { username, activeVotes } = props;
+    getMyVote(props) {
+        const { username, comment } = props;
 
-        for (let vote of activeVotes) {
+        for (let vote of comment.get('active_votes')) {
             if (vote.get('voter') === username) {
                 const v = vote.toJS();
                 v.weight = parseInt(v.weight || 0, 10);
@@ -175,63 +138,19 @@ export class CommentCard extends PureComponent {
         return null;
     }
 
-    render() {
-        const { showReply, isCommentOpen, edit } = this.state;
-        const {
-            data,
-            username,
-            allowInlineReply,
-            content,
-            isOwner,
-            author,
-            commentsCount,
-            onVote,
-            permLink,
-            myVote,
-            className,
-        } = this.props;
-
-        return (
-            <Root commentopen={isCommentOpen ? 1 : 0} className={className}>
-                {this._renderHeader()}
-                {isCommentOpen ? (
-                    <Fragment>
-                        {this._renderBodyRe()}
-                        {this._renderBodyText()}
-                        {showReply ? this._renderReplyEditor() : null}
-                        <CommentFooter
-                            data={data}
-                            allowInlineReply={allowInlineReply}
-                            content={content}
-                            isOwner={isOwner}
-                            author={author}
-                            commentsCount={commentsCount}
-                            showReply={showReply}
-                            edit={edit}
-                            username={username}
-                            onVote={onVote}
-                            permLink={permLink}
-                            myVote={myVote}
-                            replyRef={this._replyRef}
-                            commentRef={this._commentRef}
-                            onReplyClick={this.onReplyClick}
-                        />
-                    </Fragment>
-                ) : null}
-            </Root>
-        );
-    }
-
-    _renderHeader() {
+    renderHeader() {
         const { isCommentOpen } = this.state;
-        const { fullParentURL, title, author, category, created } = this.props;
-        const detransliteratedCategory = detransliterate(category);
+        const { fullParentURL, title, comment } = this.props;
+        const detransliteratedCategory = detransliterate(comment.get('category'));
 
         return (
             <Header>
                 <HeaderLine>
                     {isCommentOpen ? (
-                        <CommentAuthor author={author} created={created} />
+                        <CommentAuthor
+                            author={comment.get('author')}
+                            created={comment.get('created')}
+                        />
                     ) : (
                         <ReLink
                             fullParentURL={fullParentURL}
@@ -241,21 +160,18 @@ export class CommentCard extends PureComponent {
                     )}
                     <Filler />
                     <Category>{detransliteratedCategory}</Category>
-                    <ToggleCommentOpen
-                        commentopen={isCommentOpen ? 1 : 0}
-                        onClick={this._toggleComment}
-                    >
-                        <Icon name="chevron" width="12" height="7" />
-                    </ToggleCommentOpen>
+                    <CloseOpenButton
+                        isCommentOpen={isCommentOpen}
+                        toggleComment={this.toggleComment}
+                    />
                 </HeaderLine>
             </Header>
         );
     }
 
-    _renderBodyRe() {
-        const { username, author, fullParentURL, title } = this.props;
+    renderTitle() {
+        const { isOwner, fullParentURL, title } = this.props;
         const { edit } = this.state;
-        const showEditButton = username === author;
 
         return (
             <Title>
@@ -264,14 +180,14 @@ export class CommentCard extends PureComponent {
                     title={title}
                     onTitleClick={this.onTitleClick}
                 />
-                {showEditButton && !edit && <EditButton onEditClick={this.onEditClick} />}
+                {isOwner && !edit && <EditButton onEditClick={this.onEditClick} />}
             </Title>
         );
     }
 
-    _renderBodyText() {
+    renderBodyText() {
         const { edit } = this.state;
-        const { content, data, htmlContent } = this.props;
+        const { extractedContent, comment } = this.props;
 
         return (
             <Fragment>
@@ -281,24 +197,24 @@ export class CommentCard extends PureComponent {
                         editMode
                         hideFooter
                         autoFocus
-                        params={data.toJS()}
-                        forwardRef={this._commentRef}
-                        onSuccess={this._onEditDone}
-                        onCancel={this._onEditDone}
+                        params={comment.toJS()}
+                        forwardRef={this.commentRef}
+                        onSuccess={this.onEditDone}
+                        onCancel={this.onEditDone}
                     />
                 ) : (
                     <PostBody
-                        to={content.link}
-                        onClick={this._onClick}
-                        dangerouslySetInnerHTML={htmlContent}
+                        to={extractedContent.link}
+                        onClick={this.onClick}
+                        dangerouslySetInnerHTML={{ __html: extractedContent.desc }}
                     />
                 )}
             </Fragment>
         );
     }
 
-    _renderReplyEditor() {
-        const { data } = this.props;
+    renderReplyEditor() {
+        const { comment } = this.props;
 
         return (
             <Reply>
@@ -306,56 +222,57 @@ export class CommentCard extends PureComponent {
                     reply
                     hideFooter
                     autoFocus
-                    params={data.toJS()}
-                    forwardRef={this._replyRef}
-                    onSuccess={this._onReplySuccess}
-                    onCancel={this._onReplyCancel}
+                    params={comment.toJS()}
+                    forwardRef={this.replyRef}
+                    onSuccess={this.onReplySuccess}
+                    onCancel={this.onReplyCancel}
                 />
             </Reply>
         );
     }
 
     onTitleClick = e => {
-        const { parentAuthor, parentPermLink } = this.props;
-        if (this.props.onClick) {
+        const { comment, onClick } = this.props;
+
+        if (onClick) {
             e.preventDefault();
 
             const url = e.currentTarget.href;
 
-            if (parentAuthor) {
-                this.props.onClick({
-                    permLink: `${parentAuthor}/${parentPermLink}`,
+            if (comment.get('parent_author')) {
+                onClick({
+                    permLink: `${comment.get('parent_author')}/${comment.get('parent_permlink')}`,
                     url,
                 });
             } else {
-                this.props.onClick({
-                    permLink: this.props.permLink,
+                onClick({
+                    permLink: comment.get('permlink'),
                     url,
                 });
             }
         }
     };
 
-    _onClick = e => {
-        const { onClick, permLink, content } = this.props;
+    onClick = e => {
+        const { onClick, comment, extractedContent } = this.props;
         if (onClick) {
             e.preventDefault();
             onClick({
-                permLink,
-                url: content.link,
+                permLink: comment.get('permlink'),
+                url: extractedContent.link,
             });
         }
     };
 
-    _onReplySuccess = () => {
+    onReplySuccess = () => {
         this.setState({
             showReply: false,
         });
 
-        this.props.onNotify('Ответ опубликован');
+        this.props.onNotify(tt('g.reply_has_published'));
     };
 
-    _onReplyCancel = () => {
+    onReplyCancel = () => {
         this.setState({
             showReply: false,
         });
@@ -367,7 +284,7 @@ export class CommentCard extends PureComponent {
         });
     };
 
-    _onEditDone = () => {
+    onEditDone = () => {
         this.setState({
             edit: false,
         });
@@ -379,9 +296,49 @@ export class CommentCard extends PureComponent {
         });
     };
 
-    _toggleComment = () => {
+    toggleComment = () => {
         this.setState({
             isCommentOpen: !this.state.isCommentOpen,
         });
     };
+
+    render() {
+        const { showReply, isCommentOpen, edit, myVote } = this.state;
+        const {
+            comment,
+            username,
+            allowInlineReply,
+            extractedContent,
+            isOwner,
+            onVote,
+            className,
+        } = this.props;
+
+        return (
+            <Root commentopen={isCommentOpen ? 1 : 0} className={className}>
+                {this.renderHeader()}
+                {isCommentOpen ? (
+                    <Fragment>
+                        {this.renderTitle()}
+                        {this.renderBodyText()}
+                        {showReply ? this.renderReplyEditor() : null}
+                        <CommentFooter
+                            comment={comment}
+                            allowInlineReply={allowInlineReply}
+                            contentLink={extractedContent.link}
+                            isOwner={isOwner}
+                            showReply={showReply}
+                            edit={edit}
+                            username={username}
+                            onVote={onVote}
+                            myVote={myVote}
+                            replyRef={this.replyRef}
+                            commentRef={this.commentRef}
+                            onReplyClick={this.onReplyClick}
+                        />
+                    </Fragment>
+                ) : null}
+            </Root>
+        );
+    }
 }
