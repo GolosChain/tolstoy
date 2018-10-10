@@ -46,7 +46,7 @@
     "final-form": "^4.10.0",
     "foundation-sites": "^6.4.3",
     "git-rev-sync": "^1.12.0",
-    "golos-js": "^0.7.3",
+    "golos-js": "0.7.4",
     "history": "^2.0.0-rc2",
     "immutable": "^3.8.2",
     "intl": "^1.2.5",

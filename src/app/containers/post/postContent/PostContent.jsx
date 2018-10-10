@@ -3,7 +3,6 @@ import { Link, browserHistory } from 'react-router';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-
 import Icon from 'golos-ui/Icon';
 import { TagLink } from 'golos-ui/Tag';
 
