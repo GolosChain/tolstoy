@@ -257,11 +257,13 @@ class UserProfileContainer extends Component {
                         <Content center={route === 'settings'}>{this.props.content}</Content>
                         {route === 'settings' ? null : (
                             <SidebarRight>
-                                <UserCardAbout
-                                    account={currentAccount}
-                                    followerCount={followerCount}
-                                    followingCount={followingCount}
-                                />
+                                {route === 'transfers' ? null : (
+                                    <UserCardAbout
+                                        account={currentAccount}
+                                        followerCount={followerCount}
+                                        followingCount={followingCount}
+                                    />
+                                )}
                                 {this.props.sidebarRight}
                             </SidebarRight>
                         )}
