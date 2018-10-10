@@ -117,7 +117,6 @@ const ButtonConfirm = styled.div`
 
 export default class CommentFooter extends Component {
     static propTypes = {
-        allowInlineReply: PropTypes.bool,
         commentRef: PropTypes.object,
         contentLink: PropTypes.string,
         comment: PropTypes.instanceOf(Map),
@@ -163,7 +162,6 @@ export default class CommentFooter extends Component {
         const {
             comment,
             username,
-            allowInlineReply,
             contentLink,
             isOwner,
             showReply,
@@ -205,12 +203,11 @@ export default class CommentFooter extends Component {
                         text={tt('g.comments')}
                         showText={isOwner}
                     />
-                    {allowInlineReply &&
-                        !isOwner && (
-                            <ButtonStyled light onClick={onReplyClick}>
-                                {tt('g.reply')}
-                            </ButtonStyled>
-                        )}
+                    {!isOwner && (
+                        <ButtonStyled light onClick={onReplyClick}>
+                            {tt('g.reply')}
+                        </ButtonStyled>
+                    )}
                 </CommentReplyWrapper>
             </Wrapper>
         );

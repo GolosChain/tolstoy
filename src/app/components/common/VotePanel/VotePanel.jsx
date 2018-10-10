@@ -80,9 +80,12 @@ const LikeIconNeg = LikeIcon.extend`
 const LikeBlock = styled.div`
     display: flex;
     align-items: center;
+    
+    padding-right: 4px;
+    
     cursor: pointer;
     user-select: none;
-    padding-right: 4px;
+    white-space: nowrap;
 
     &:hover,
     &:hover ${LikeCount}, &:hover ${LikeIcon}, &:hover ${LikeIconNeg} {
@@ -107,19 +110,25 @@ const LikeBlockNeg = LikeBlock.extend`
 `;
 
 const Money = styled.div`
+    display: flex;
+    align-items: center;
+
     height: 26px;
     padding: 0 9px;
     margin: 0 10px;
+    
     border: 1px solid #959595;
     border-radius: 100px;
     color: #393636;
     cursor: pointer;
+    white-space: nowrap;
 `;
 
 const Root = styled.div`
     position: relative;
     padding: 12px 18px;
     display: flex;
+    align-items: center;
 
     ${is('whiteTheme')`
         ${Money} {

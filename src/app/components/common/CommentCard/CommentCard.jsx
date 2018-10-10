@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { Map } from 'immutable';
 import styled from 'styled-components';
-import { isNot } from 'styled-is';
+import is, { isNot } from 'styled-is';
 import tt from 'counterpart';
 
 import { detransliterate } from 'app/utils/ParsersAndFormatters';
@@ -16,16 +16,22 @@ import { ReLink } from './ReLink';
 import { CloseOpenButton } from './CloseOpenButton';
 
 const Header = styled.div`
-    padding: 10px 0 6px;
+    padding: 12px 0 8px 0;
     flex-shrink: 0;
+
+    ${isNot('isCommentOpen')`
+        padding: 5px 0;
+    `};
 `;
 
 const HeaderLine = styled.div`
     display: flex;
-    position: relative;
+    justify-content: space-between;
     align-items: center;
-    padding: 2px 18px;
+    position: relative;
     z-index: 1;
+
+    padding: 0 18px;
     pointer-events: none;
 
     & > * {
@@ -56,18 +62,31 @@ const Title = styled.div`
     justify-content: space-between;
     position: relative;
     padding: 0 18px;
+
     margin-bottom: 8px;
 `;
 
-const PostBody = styled(Link)`
-    display: block;
-    padding: 0 18px;
+const PostBody = styled(({ isPostPage, ...otherProps }) => <Link {...otherProps} />)`
+    display: flex;
+    align-items: center;
+
+    margin-right: 18px;
+
     font-family: ${a => a.theme.fontFamily};
     color: #959595 !important;
+
+    ${is('isPostPage')`
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    `};
 `;
 
-const Filler = styled.div`
-    flex-grow: 1;
+const PostBodyWrapper = styled.div`
+    display: flex;
+    justify-content: space-between;
+
+    padding: 0 18px;
 `;
 
 const Root = styled.div`
@@ -75,13 +94,15 @@ const Root = styled.div`
     flex-direction: column;
     position: relative;
     border-radius: 8px;
+
+    min-height: 50px;
+
     background: #ffffff;
     overflow: hidden;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
 
     ${isNot('commentopen')`
         justify-content: center;
-        height: 50px;
     `};
 `;
 
@@ -89,11 +110,15 @@ const Reply = styled.div`
     padding: 0 18px 0 60px;
 `;
 
+const CategoryTogglerWrapper = styled.div`
+    display: flex;
+`;
+
 export class CommentCard extends PureComponent {
     static propTypes = {
         permLink: PropTypes.string,
         grid: PropTypes.bool,
-        allowInlineReply: PropTypes.bool,
+        isPostPage: PropTypes.bool,
 
         comment: PropTypes.instanceOf(Map),
         title: PropTypes.string.isRequired,
@@ -138,7 +163,35 @@ export class CommentCard extends PureComponent {
         return null;
     }
 
-    renderHeader() {
+    renderHeaderForPost() {
+        const { isCommentOpen } = this.state;
+        const { comment, extractedContent, isPostPage } = this.props;
+
+        return (
+            <Header isCommentOpen={isCommentOpen}>
+                <HeaderLine>
+                    <CommentAuthor
+                        author={comment.get('author')}
+                        created={comment.get('created')}
+                    />
+                    {!isCommentOpen && (
+                        <PostBody
+                            to={extractedContent.link}
+                            onClick={this.rememberScrollPosition}
+                            dangerouslySetInnerHTML={{ __html: extractedContent.desc }}
+                            isPostPage={isPostPage}
+                        />
+                    )}
+                    <CloseOpenButton
+                        isCommentOpen={isCommentOpen}
+                        toggleComment={this.toggleComment}
+                    />
+                </HeaderLine>
+            </Header>
+        );
+    }
+
+    renderHeaderForProfile() {
         const { isCommentOpen } = this.state;
         const { fullParentURL, title, comment } = this.props;
         const detransliteratedCategory = detransliterate(comment.get('category'));
@@ -155,15 +208,16 @@ export class CommentCard extends PureComponent {
                         <ReLink
                             fullParentURL={fullParentURL}
                             title={title}
-                            onTitleClick={this.onTitleClick}
+                            onClick={this.rememberScrollPosition}
                         />
                     )}
-                    <Filler />
-                    <Category>{detransliteratedCategory}</Category>
-                    <CloseOpenButton
-                        isCommentOpen={isCommentOpen}
-                        toggleComment={this.toggleComment}
-                    />
+                    <CategoryTogglerWrapper>
+                        <Category>{detransliteratedCategory}</Category>
+                        <CloseOpenButton
+                            isCommentOpen={isCommentOpen}
+                            toggleComment={this.toggleComment}
+                        />
+                    </CategoryTogglerWrapper>
                 </HeaderLine>
             </Header>
         );
@@ -178,7 +232,7 @@ export class CommentCard extends PureComponent {
                 <ReLink
                     fullParentURL={fullParentURL}
                     title={title}
-                    onTitleClick={this.onTitleClick}
+                    onClick={this.rememberScrollPosition}
                 />
                 {isOwner && !edit && <EditButton onEditClick={this.onEditClick} />}
             </Title>
@@ -187,7 +241,7 @@ export class CommentCard extends PureComponent {
 
     renderBodyText() {
         const { edit } = this.state;
-        const { extractedContent, comment } = this.props;
+        const { extractedContent, comment, isOwner, isPostPage } = this.props;
 
         return (
             <Fragment>
@@ -203,11 +257,14 @@ export class CommentCard extends PureComponent {
                         onCancel={this.onEditDone}
                     />
                 ) : (
-                    <PostBody
-                        to={extractedContent.link}
-                        onClick={this.onClick}
-                        dangerouslySetInnerHTML={{ __html: extractedContent.desc }}
-                    />
+                    <PostBodyWrapper>
+                        <PostBody
+                            to={extractedContent.link}
+                            onClick={this.rememberScrollPosition}
+                            dangerouslySetInnerHTML={{ __html: extractedContent.desc }}
+                        />
+                        {isOwner && isPostPage && <EditButton onEditClick={this.onEditClick} />}
+                    </PostBodyWrapper>
                 )}
             </Fragment>
         );
@@ -231,37 +288,8 @@ export class CommentCard extends PureComponent {
         );
     }
 
-    onTitleClick = e => {
-        const { comment, onClick } = this.props;
-
-        if (onClick) {
-            e.preventDefault();
-
-            const url = e.currentTarget.href;
-
-            if (comment.get('parent_author')) {
-                onClick({
-                    permLink: `${comment.get('parent_author')}/${comment.get('parent_permlink')}`,
-                    url,
-                });
-            } else {
-                onClick({
-                    permLink: comment.get('permlink'),
-                    url,
-                });
-            }
-        }
-    };
-
-    onClick = e => {
-        const { onClick, comment, extractedContent } = this.props;
-        if (onClick) {
-            e.preventDefault();
-            onClick({
-                permLink: comment.get('permlink'),
-                url: extractedContent.link,
-            });
-        }
+    rememberScrollPosition = () => {
+        this.props.onClick();
     };
 
     onReplySuccess = () => {
@@ -307,24 +335,23 @@ export class CommentCard extends PureComponent {
         const {
             comment,
             username,
-            allowInlineReply,
             extractedContent,
             isOwner,
             onVote,
+            isPostPage,
             className,
         } = this.props;
 
         return (
             <Root commentopen={isCommentOpen ? 1 : 0} className={className}>
-                {this.renderHeader()}
+                {isPostPage ? this.renderHeaderForPost() : this.renderHeaderForProfile()}
                 {isCommentOpen ? (
                     <Fragment>
-                        {this.renderTitle()}
+                        {!isPostPage && this.renderTitle()}
                         {this.renderBodyText()}
-                        {showReply ? this.renderReplyEditor() : null}
+                        {showReply && this.renderReplyEditor()}
                         <CommentFooter
                             comment={comment}
-                            allowInlineReply={allowInlineReply}
                             contentLink={extractedContent.link}
                             isOwner={isOwner}
                             showReply={showReply}
