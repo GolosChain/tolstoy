@@ -256,11 +256,13 @@ class UserProfileContainer extends Component {
                         />
                         {route === 'settings' ? null : (
                             <SidebarLeft>
-                                <UserCardAbout
-                                    account={currentAccount}
-                                    followerCount={followerCount}
-                                    followingCount={followingCount}
-                                />
+                                {route === 'transfers' ? null : (
+                                    <UserCardAbout
+                                        account={currentAccount}
+                                        followerCount={followerCount}
+                                        followingCount={followingCount}
+                                    />
+                                )}
                                 {this.props.sidebarRight}
                             </SidebarLeft>
                         )}

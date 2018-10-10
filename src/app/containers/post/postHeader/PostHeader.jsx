@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
+import is from 'styled-is';
 
 import Icon from 'golos-ui/Icon';
 import Button from 'golos-ui/Button';
@@ -34,6 +35,10 @@ const Avatar = styled.div`
     display: flex;
     align-items: center;
     cursor: pointer;
+
+    ${is('isOwner')`
+        cursor: default;
+    `};
 `;
 
 const InfoBlock = styled(Link)`
@@ -151,12 +156,18 @@ export class PostHeader extends Component {
         return (
             <Wrapper className={className}>
                 <UserInfoWrapper>
-                    <Avatar>
+                    <Avatar isOwner={isOwner}>
                         <PopoverBackgroundShade show={showPopover} />
-                        <UserpicStyled account={author} size={50} onClick={this.openPopover} />
-                        <PopoverStyled onClose={this.closePopover} show={showPopover}>
-                            <PopoverBody close={this.closePopover} author={author} />
-                        </PopoverStyled>
+                        <UserpicStyled
+                            account={author}
+                            size={50}
+                            onClick={!isOwner ? this.openPopover : undefined}
+                        />
+                        {!isOwner ? (
+                            <PopoverStyled onClose={this.closePopover} show={showPopover}>
+                                <PopoverBody close={this.closePopover} author={author} />
+                            </PopoverStyled>
+                        ) : null}
                     </Avatar>
                     <InfoBlock to={`/@${author}`}>
                         <AuthorName>{author}</AuthorName>
