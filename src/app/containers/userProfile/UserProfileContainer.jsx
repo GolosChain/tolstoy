@@ -58,10 +58,10 @@ const Content = styled.div`
     }
 `;
 
-const SidebarRight = styled.div`
+const SidebarLeft = styled.div`
     width: 273px;
     flex-shrink: 0;
-    margin-left: 18px;
+    margin-right: 18px;
 
     @media (max-width: 890px) {
         width: 100%;
@@ -254,17 +254,17 @@ class UserProfileContainer extends Component {
                             isOwner={isOwner}
                             showLayout={!route || route === 'blog' || route === 'favorites'}
                         />
-                        <Content center={route === 'settings'}>{this.props.content}</Content>
                         {route === 'settings' ? null : (
-                            <SidebarRight>
+                            <SidebarLeft>
                                 <UserCardAbout
                                     account={currentAccount}
                                     followerCount={followerCount}
                                     followingCount={followingCount}
                                 />
                                 {this.props.sidebarRight}
-                            </SidebarRight>
+                            </SidebarLeft>
                         )}
+                        <Content center={route === 'settings'}>{this.props.content}</Content>
                     </Main>
                 </WrapperMain>
             </Fragment>
