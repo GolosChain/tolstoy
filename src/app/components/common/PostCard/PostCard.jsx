@@ -271,7 +271,7 @@ class PostCard extends PureComponent {
     };
 
     state = {
-        myVote: this._getMyVote(this.props),
+        myVote: this.props.dataLoaded ? this._getMyVote(this.props) : null,
     };
 
     componentDidMount() {
@@ -306,7 +306,9 @@ class PostCard extends PureComponent {
     }
 
     render() {
-        const { data, className, grid } = this.props;
+        const { data, className, grid, dataLoaded } = this.props;
+
+        if (!dataLoaded) return null;
 
         const p = extractContent(immutableAccessor, data);
         const withImage = Boolean(p.image_link);
