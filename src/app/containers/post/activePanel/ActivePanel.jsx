@@ -90,7 +90,7 @@ const DotsMore = styled(Repost)`
     position: relative;
     padding: 0 18px;
 
-    svg {
+    & > svg {
         padding: 12px 4px;
     }
 
