@@ -103,7 +103,7 @@ export class CommentCard extends PureComponent {
             desc: PropTypes.string,
         }),
         isOwner: PropTypes.bool.isRequired,
-        username: PropTypes.string.isRequired,
+        username: PropTypes.string,
     };
 
     state = {

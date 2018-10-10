@@ -128,7 +128,7 @@ export default class CommentFooter extends Component {
         myVote: PropTypes.object,
         replyRef: PropTypes.object.isRequired,
         showReply: PropTypes.bool.isRequired,
-        username: PropTypes.string.isRequired,
+        username: PropTypes.string,
     };
 
     onCancelReplyClick = () => {
