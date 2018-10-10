@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import search from './contacts/search';
-import contacts from './contacts/contactList';
+import contacts from 'src/messenger/redux/reducers/contacts/contactList';
+import ui from 'src/messenger/redux/reducers/ui';
 
 export default combineReducers({
-    search,
     contacts,
+    ui,
 });

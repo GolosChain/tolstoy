@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
 
-const PanelWrapper = styled.div`
+const Wrapper = styled.div`
     display: flex;
     flex: 1;
     align-items: center;
+    padding: 10px;
 
     box-shadow: 0 -2px 11px 0 rgba(0, 0, 0, 0.1);
 `;
@@ -20,7 +22,7 @@ const MediaAttachButton = styled.button`
 
     width: 40px;
     height: 40px;
-    margin: 15px;
+    margin-right: 20px;
 
     outline: none;
     border-radius: 50%;
@@ -63,6 +65,7 @@ const RichTextArea = styled.textarea`
     word-break: break-all;
     box-sizing: border-box;
     border: 1px solid #e1e1e1;
+    box-shadow: none;
     border-radius: 20px;
 
     ::placeholder {
@@ -71,22 +74,36 @@ const RichTextArea = styled.textarea`
 `;
 
 export default class SendMessagePanel extends Component {
+
+    static propTypes = {
+        onMessageInput: PropTypes.func.isRequired,
+        onSendButtonClick: PropTypes.func.isRequired,
+    };
+
     render() {
+        const {
+            onMessageInput,
+            onSendButtonClick,
+        } = this.props;
+
         return (
-            <PanelWrapper>
-                <MediaAttachButton>
+            <Wrapper>
+                {/* <MediaAttachButton>
                     <Icon name="plus" width="15" height="15" />
-                </MediaAttachButton>
+                </MediaAttachButton> */}
                 <TextAreaWrapper>
-                    <RichTextArea placeholder={tt('messenger.placeholder.send_text_area')}/>
-                    <EmojiButton>
+                    <RichTextArea
+                        placeholder={tt('messenger.placeholder.send_text_area')}
+                        onChange={onMessageInput}
+                    />
+                    {/* <EmojiButton>
                         <Icon name="smile" width="25" height="25" />
-                    </EmojiButton>
+                    </EmojiButton> */}
                 </TextAreaWrapper>
-                <SendButton>
+                <SendButton onClick={onSendButtonClick} >
                     <Icon name="send_mail" width="28" height="28" />
                 </SendButton>
-            </PanelWrapper>
+            </Wrapper>
         );
     }
 }

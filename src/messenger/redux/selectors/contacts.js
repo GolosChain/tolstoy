@@ -1,6 +1,14 @@
 import { createSelector } from 'reselect';
+import { Map } from 'immutable';
 
-import { messengerSelector } from './common';
+import { messengerSelector } from 'src/messenger/redux/selectors/common';
+
+const emptyMap = Map();
+
+export const getSearchContacts = createSelector(
+    messengerSelector('contacts'),
+    search => search.get('searchContacts', emptyMap)
+);
 
 export const getSize = createSelector(
     messengerSelector('contacts'),

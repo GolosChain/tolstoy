@@ -8,7 +8,6 @@ import { Messenger, ChatListPanel } from '../../components/Messenger';
 import Chat from '../Chat';
 import ChatListContainer from '../ChatList';
 import LookupAccounts from '../LookupAccounts';
-import { dialogs, chatData } from '../../utils/_data';
 import { initMessenger } from '../../redux/actions/messenger';
 
 @authProtection()
@@ -39,11 +38,9 @@ export default class MessengerApp extends Component {
                 </Helmet>
                 <ChatListPanel>
                     <LookupAccounts />
-                    <ChatListContainer 
-                        dialogs={dialogs}
-                    />
+                    <ChatListContainer />
                 </ChatListPanel>
-                <Chat data={chatData}/>
+                <Chat />
             </Messenger>
         );
     }
