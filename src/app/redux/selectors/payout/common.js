@@ -24,7 +24,7 @@ const FIELDS_PENDING = {
 
 const MEMO_LIMIT = 50;
 
-function memorize(func) {
+function memoize(func) {
     const cache = new Map();
     let prevRates = null;
     let order = [];
@@ -60,11 +60,13 @@ function memorize(func) {
 
 export const getPayout = createSelector(
     [state => state.data.rates, (state, props) => props.data],
-    memorize((rates, data) => {
+    memoize((rates, data) => {
         const max = parseFloat(data.get('max_accepted_payout', 0));
         const isDeclined = max === 0;
 
         const lastPayout = data.get('last_payout');
+
+        // Date may be "1970-01-01..." or "1969-12-31..." in case of pending payout
         const isPending = !lastPayout || lastPayout.startsWith('19');
 
         const fields = isPending ? FIELDS_PENDING : FIELDS;

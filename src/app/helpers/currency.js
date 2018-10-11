@@ -115,10 +115,31 @@ export function formatCurrency(amount, currency, decimals) {
     }
 }
 
+function getHistoricalRates(rates, date) {
+    // date can be 1970-01-01 or 1969-12-31 (we must skip that dates)
+    if (date.startsWith('2')) {
+        // 2018-09-10T07:38:57 => 2018-09-10
+        const dateString = date.substr(0, 10);
+
+        const ratesInfo = rates.dates.get(dateString);
+
+        if (!ratesInfo) {
+            // TODO: TEMP SOLUTION, REMOVE IF AND SET LATER
+            if (!queried.has(dateString)) {
+                queried.add(dateString);
+                dispatch(getHistoricalData(dateString));
+            }
+            return;
+        }
+
+        return ratesInfo;
+    }
+}
+
 export function renderValue(
     amount,
     originalCurrency,
-    { decimals, date, toCurrency, rates } = {}
+    { decimals, date, toCurrency, rates, settings } = {}
 ) {
     if (!process.env.BROWSER) {
         return `${amount.toFixed(3)} ${originalCurrency}`;
@@ -127,26 +148,17 @@ export function renderValue(
     let rate;
     let currency =
         toCurrency ||
-        getStoreState().data.settings.getIn(['basic', 'currency']) ||
+        (settings || getStoreState().data.settings).getIn(['basic', 'currency']) ||
         DEFAULT_CURRENCY;
 
     if (currency !== originalCurrency) {
         const useRates = rates || getStoreState().data.rates;
 
-        if (date && date.startsWith('2')) {
-            // 2018-09-10T07:38:57 => 2018-09-10
-            const dateString = date.substr(0, 10);
+        if (date) {
+            const ratesInfo = getHistoricalRates(useRates, date);
 
-            const rates = useRates.dates.get(dateString);
-
-            if (rates) {
-                rate = rates[originalCurrency][currency];
-            } else {
-                // TODO: TEMP SOLUTION, REMOVE IF AND SET LATER
-                if (!queried.has(dateString)) {
-                    queried.add(dateString);
-                    dispatch(getHistoricalData(dateString));
-                }
+            if (ratesInfo) {
+                rate = ratesInfo[originalCurrency][currency];
             }
         }
 
@@ -160,11 +172,9 @@ export function renderValue(
         rate = 1;
     }
 
-    let dec = decimals;
-
-    if (dec == null) {
-        dec = getStoreState().data.settings.getIn(['basic', 'rounding'], 3);
+    if (decimals == null) {
+        decimals = (settings || getStoreState().data.settings).getIn(['basic', 'rounding'], 3);
     }
 
-    return formatCurrency(amount * rate, currency, dec);
+    return formatCurrency(amount * rate, currency, decimals);
 }

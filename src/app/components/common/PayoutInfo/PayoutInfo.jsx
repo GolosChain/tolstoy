@@ -73,32 +73,50 @@ const Plus = styled.span`
 @injectIntl
 export default class PayoutInfo extends PureComponent {
     componentWillReceiveProps(newProps) {
-        if (
-            newProps.needLoadRatesForDate &&
-            this.props.needLoadRatesForDate !== newProps.needLoadRatesForDate
-        ) {
-            this.props.getHistoricalData(newProps.needLoadRatesForDate);
+        const { needLoadRatesForDate } = this.props;
+        const needNew = newProps.needLoadRatesForDate;
+
+        if (needNew && needLoadRatesForDate !== needNew) {
+            this.props.getHistoricalData(needNew);
         }
     }
 
-    render() {
-        const {
-            data,
-            intl,
-            isPending,
-            total,
-            totalGbg,
-            overallTotal,
-            author,
-            authorGbg,
-            curator,
-            benefactor,
-        } = this.props;
+    renderOverallValue() {
+        const { data, total, totalGbg, overallTotal } = this.props;
 
         const lastPayout = data.get('last_payout');
         const amount = renderValue(overallTotal, 'GOLOS', { date: lastPayout });
         const amountGolos = `${total.toFixed(3)} GOLOS`;
         const amountGbg = totalGbg ? `${totalGbg.toFixed(3)} GBG` : null;
+
+        const showOneCurrency = !amountGbg && amount.split(' ')[1] === 'GOLOS';
+
+        if (showOneCurrency) {
+            return <Money>{amount}</Money>;
+        }
+
+        let gbgSection = null;
+
+        if (amountGbg) {
+            gbgSection = (
+                <Fragment>
+                    {' + '}
+                    <Money>{amountGbg}</Money>{' '}
+                </Fragment>
+            );
+        }
+
+        return (
+            <Fragment>
+                <Money>{amountGolos}</Money>
+                {gbgSection} (<MoneyConvert>{amount}</MoneyConvert>)
+            </Fragment>
+        );
+    }
+
+    render() {
+        const { data, intl, isPending, author, authorGbg, curator, benefactor } = this.props;
+
         const duration = capitalize(intl.formatRelative(data.get('cashout_time')));
 
         return (
@@ -107,24 +125,7 @@ export default class PayoutInfo extends PureComponent {
                     <Title>
                         {isPending ? tt('payout_info.potential_payout') : tt('payout_info.payout')}
                     </Title>
-                    <Payout>
-                        {!amountGbg && amount.split(' ')[1] === 'GOLOS' ? (
-                            <Money>{amount}</Money>
-                        ) : (
-                            <Fragment>
-                                <Money>{amountGolos}</Money>
-                                {amountGbg ? (
-                                    <Fragment>
-                                        {' + '}
-                                        <Money>{amountGbg}</Money>{' '}
-                                    </Fragment>
-                                ) : null}
-                                {' ('}
-                                <MoneyConvert>{amount}</MoneyConvert>
-                                {')'}
-                            </Fragment>
-                        )}
-                    </Payout>
+                    <Payout>{this.renderOverallValue()}</Payout>
                     {isPending ? <Duration>{duration}</Duration> : null}
                 </Part>
                 <Part>
