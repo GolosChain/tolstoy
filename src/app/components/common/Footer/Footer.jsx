@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import by from 'styled-by';
 import tt from 'counterpart';
-import { api } from 'golos-js';
 
-import { TERMS_OF_SERVICE_URL } from 'app/client_config';
+import { APP_NAME_UP, TERMS_OF_SERVICE_URL } from 'app/client_config';
 import { renderValue } from 'src/app/helpers/currency';
 
 import Container from 'src/app/components/common/Container';
@@ -25,30 +25,24 @@ const Menu = styled.div`
         margin-right: 10px;
     }
 
-    ${by('type', {
-        payout: () => `
-            @media (max-width: 950px) {
+    @media (max-width: 950px) {
+        ${by('type', {
+            payout: () => `
                 order: 1;
-            }
-        `,
-        links: () => `
-            @media (max-width: 950px) {
+            `,
+            links: () => `
                 order: 0;
                 flex: 1 1 100%;
                 margin-bottom: 20px;
-            }
-        `,
-        socials: () => `
-            @media (max-width: 950px) {
+            `,
+            socials: () => `
                 order: 2;
-            }
-        `,
-        apps: () => `
-            @media (max-width: 950px) {
+            `,
+            apps: () => `
                 order: 3;
-            }
-        `,
-    })};
+            `,
+        })};
+    }
 `;
 
 const MenuBlock = styled.div`
@@ -147,28 +141,19 @@ const FooterCopyright = styled.div`
 `;
 
 export default class Footer extends PureComponent {
-    state = {
-        currentSupply: 0,
-    };
-
-    async componentDidMount() {
-        const { pricePerGolos } = this.props;
-
-        const result = await api.getDynamicGlobalProperties();
-        this.setState({
-            currentSupply: Math.floor(parseInt(result.current_supply) / pricePerGolos),
-        });
+    static propTypes = {
+        currentSupply: PropTypes.number,
     }
 
     render() {
-        const { currentSupply } = this.state;
+        const { currentSupply } = this.props;
 
         return (
             <Wrapper>
                 <FooterMenus>
                     <Container justify="space-between" wrap="wrap">
                         <Menu type="payout">
-                            <MenuTitle>Всего выплачено</MenuTitle>
+                            <MenuTitle>{tt('footer.total_paid')}</MenuTitle>
                             <MenuList>
                                 <MenuItem href="https://explorer.golos.io" type="big">
                                     {renderValue(currentSupply, 'GBG', 'short')}
@@ -176,7 +161,7 @@ export default class Footer extends PureComponent {
                             </MenuList>
                         </Menu>
                         <Menu type="links">
-                            <MenuTitle>Golos.io</MenuTitle>
+                            <MenuTitle>{APP_NAME_UP}</MenuTitle>
                             <MenuBlock type="links">
                                 <MenuList>
                                     <MenuItem href="/welcome">{tt('navigation.welcome')}</MenuItem>
@@ -199,7 +184,7 @@ export default class Footer extends PureComponent {
                             </MenuBlock>
                         </Menu>
                         <Menu type="socials">
-                            <MenuTitle>Социальные сети</MenuTitle>
+                            <MenuTitle>{tt('footer.social_networks')}</MenuTitle>
                             <MenuBlock>
                                 <MenuIconList>
                                     <MenuItem
@@ -222,15 +207,16 @@ export default class Footer extends PureComponent {
                                     >
                                         <Icon name="bitcointalk" size={26} />
                                     </MenuItem>
-                                    <MenuItem href="#" type="icon">
+                                    <MenuItem type="icon" />
+                                    {/* <MenuItem href="#" type="icon">
                                         <Icon name="discord" width={20} height={22} />
-                                    </MenuItem>
+                                    </MenuItem> */}
                                     <MenuItem type="icon" />
                                 </MenuIconList>
                             </MenuBlock>
                         </Menu>
                         <Menu type="apps">
-                            <MenuTitle>Приложения</MenuTitle>
+                            <MenuTitle>{tt('footer.mobile_apps')}</MenuTitle>
                             <MenuIconList>
                                 <MenuItem
                                     href="https://play.google.com/store/apps/details?id=io.golos.golos"

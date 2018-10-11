@@ -195,6 +195,11 @@
     "copied": "Copied!",
     "copy": "COPY"
   },
+  "footer": {
+    "mobile_apps": "Mobile apps",
+    "social_networks": "Social networks",
+    "total_paid": "Total paid"
+  },
   "g": {
     "24_hour": "24 hour",
     "30_day": "30 day",
