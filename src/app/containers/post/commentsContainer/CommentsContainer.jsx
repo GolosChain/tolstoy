@@ -29,6 +29,7 @@ export class CommentsContainer extends Component {
             data,
             comments,
             isFetching,
+            postPermLink,
             saveListScrollPosition,
         } = this.props;
 
@@ -40,6 +41,7 @@ export class CommentsContainer extends Component {
                     comments={comments}
                     isFetching={isFetching}
                     saveListScrollPosition={saveListScrollPosition}
+                    postPermLink={postPermLink}
                 />
             </Wrapper>
         );
