@@ -22,13 +22,49 @@ const FIELDS_PENDING = {
     TOTAL_GBG: 'total_pending_payout_value',
 };
 
+const MEMO_LIMIT = 50;
+
 function f(amount) {
     return (amount && parseFloat(amount)) || 0;
 }
 
+function memorize(func) {
+    const cache = new Map();
+    let prevRates = null;
+    let order = [];
+
+    return (rates, data) => {
+        if (prevRates !== rates) {
+            cache.clear();
+            order = [];
+            prevRates = rates;
+        }
+
+        if (cache.has(data)) {
+            return cache.get(data);
+        }
+
+        const result = func(rates, data);
+
+        cache.set(data, result);
+        order.push(data);
+
+        if (order.length === MEMO_LIMIT) {
+            const deleteBefore = Math.floor(MEMO_LIMIT / 2);
+
+            for (let i = 0; i < deleteBefore; i++) {
+                cache.delete(order[i]);
+                order.splice(0, deleteBefore);
+            }
+        }
+
+        return result;
+    };
+}
+
 export const getPayout = createSelector(
     [state => state.data.rates, (state, props) => props.data],
-    (rates, data) => {
+    memorize((rates, data) => {
         const max = f(data.get('max_accepted_payout'));
         const isDeclined = max === 0;
 
@@ -113,5 +149,5 @@ export const getPayout = createSelector(
             isDeclined,
             isLimit,
         };
-    }
+    })
 );
