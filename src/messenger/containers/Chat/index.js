@@ -1,2 +1,2 @@
-export { default } from 'src/messenger/containers/Chat/Chat.connect';
-export { ChatContainer } from 'src/messenger/containers/Chat/Chat';
+export { default } from './Chat.connect';
+export { ChatContainer } from './Chat';

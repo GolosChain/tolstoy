@@ -5,7 +5,7 @@ import Avatar from 'src/app/components/common/Avatar';
 
 const MessageBubbleWrapper = styled.div`
     display: flex;
-    flex-direction: ${({ sender }) => sender === 'self' ? 'row' : 'row-reverse'};
+    flex-direction: ${({ sender }) => (sender === 'self' ? 'row' : 'row-reverse')};
     max-width: 320px;
 `;
 
@@ -23,7 +23,7 @@ const Text = styled.div`
     padding: 7px 13px;
     
     font-size: 14px;
-    color: ${({sender}) => (sender === 'self' ? '#fff' : '#333')};
+    color: ${({ sender }) => (sender === 'self' ? '#fff' : '#333')};
     border-radius: 8px;
     background-color: ${({ sender }) => (sender === 'self' ? '#2879FF' : '#f8f8f8')};
     
@@ -42,9 +42,9 @@ export default class MessageBubble extends Component {
             text,
             time,
             sender,
-            profileAvatar
+            profileAvatar,
         } = this.props;
-        
+
         return (
             <MessageBubbleWrapper sender={sender}>
                 <Body>
@@ -52,13 +52,10 @@ export default class MessageBubble extends Component {
                         {text}
                     </Text>
                     <Time sender={sender}>
-                        {time} 
+                        {time}
                     </Time>
                 </Body>
-                <Avatar
-                    avatarUrl={profileAvatar}
-                    size={35}
-                />
+                <Avatar avatarUrl={profileAvatar} size={35} />
             </MessageBubbleWrapper>
         );
     }

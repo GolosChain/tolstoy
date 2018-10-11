@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { ChatListContainer } from 'src/messenger/containers/ChatList/ChatList'
+import { ChatListContainer } from './ChatList';
 
 import {
     getSearchContacts,
@@ -20,6 +20,6 @@ export default connect(
         selectedChat: getSelectedChat(state),
     }),
     {
-        selectChat
+        selectChat,
     }
 )(ChatListContainer);

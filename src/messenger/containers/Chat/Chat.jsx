@@ -10,10 +10,10 @@ export class ChatContainer extends Component {
     static propTypes = {
         selectedContact: PropTypes.instanceOf(Map),
         sendMessage: PropTypes.func.isRequired,
-    }
+    };
 
     state = {
-        message: ''
+        message: '',
     }
     
     onContactMenuClick = () => {

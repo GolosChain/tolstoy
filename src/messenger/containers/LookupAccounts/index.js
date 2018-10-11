@@ -1,2 +1,2 @@
-export { default } from 'src/messenger/containers/LookupAccounts/LookupAccounts.connect';
-export { LookupAccountsContainer } from 'src/messenger/containers/LookupAccounts/LookupAccounts';
+export { default } from './LookupAccounts.connect';
+export { LookupAccountsContainer } from './LookupAccounts';

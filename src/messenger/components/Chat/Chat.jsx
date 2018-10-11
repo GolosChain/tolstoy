@@ -5,8 +5,8 @@ import styled from 'styled-components';
 import Avatar from 'src/app/components/common/Avatar';
 import Icon from 'golos-ui/Icon';
 
-import MessageBubble from 'src/messenger/components/Chat/MessageBubble';
-import SendMessagePanel from 'src/messenger/components/Chat/SendMessagePanel';
+import MessageBubble from './MessageBubble';
+import SendMessagePanel from './SendMessagePanel';
 
 const Wrapper = styled.div`
     display: flex;
