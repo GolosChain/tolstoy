@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import CloseButton from 'react-foundation-components/lib/global/close-button';
 import Reveal from 'react-foundation-components/lib/global/reveal';
-import LoginForm from 'app/components/modules/LoginForm';
 import ConfirmTransactionForm from 'app/components/modules/ConfirmTransactionForm';
 import Transfer from 'app/components/modules/Transfer';
 import user from 'app/redux/User';
 import tr from 'app/redux/Transaction';
 import Powerdown from 'app/components/modules/Powerdown';
 import MessageBox from 'app/components/modules/Messages';
+import { Login } from 'src/app/containers/login/Login';
 
 class Modals extends React.Component {
     static propTypes = {
@@ -45,7 +45,7 @@ class Modals extends React.Component {
             <div>
                 {show_login_modal && (
                     <Reveal onHide={hideLogin} show={show_login_modal}>
-                        <LoginForm onCancel={hideLogin} />
+                        <Login onCancel={hideLogin} />
                     </Reveal>
                 )}
                 {show_confirm_modal && (
