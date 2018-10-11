@@ -160,7 +160,7 @@ export class Login extends Component {
                     <BlockCheckboxes>
                         <ConsentCheckbox>
                             <Checkbox value={consent} onChange={this.changeConsent} />
-                            <CheckboxLabel>{tt('loginform_jsx.keep_me_logged_in')}</CheckboxLabel>
+                            <CheckboxLabel>{tt('loginform_jsx.consent')}</CheckboxLabel>
                         </ConsentCheckbox>
                         <ConsentCheckbox>
                             <Checkbox
