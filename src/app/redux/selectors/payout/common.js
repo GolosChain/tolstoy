@@ -24,10 +24,6 @@ const FIELDS_PENDING = {
 
 const MEMO_LIMIT = 50;
 
-function f(amount) {
-    return (amount && parseFloat(amount)) || 0;
-}
-
 function memorize(func) {
     const cache = new Map();
     let prevRates = null;
@@ -65,7 +61,7 @@ function memorize(func) {
 export const getPayout = createSelector(
     [state => state.data.rates, (state, props) => props.data],
     memorize((rates, data) => {
-        const max = f(data.get('max_accepted_payout'));
+        const max = parseFloat(data.get('max_accepted_payout', 0));
         const isDeclined = max === 0;
 
         const lastPayout = data.get('last_payout');
@@ -73,7 +69,7 @@ export const getPayout = createSelector(
 
         const fields = isPending ? FIELDS_PENDING : FIELDS;
 
-        const totalGbg = f(data.get(fields.TOTAL_GBG));
+        const totalGbg = parseFloat(data.get(fields.TOTAL_GBG, 0));
         const isLimit = max != null && totalGbg > max;
 
         if (totalGbg === 0 || isDeclined) {
@@ -91,14 +87,14 @@ export const getPayout = createSelector(
             };
         }
 
-        const benefGests = f(data.get(fields.BENEF_GESTS));
-        const benefGbg = f(data.get(fields.BENEF_GBG));
+        const benefGests = parseFloat(data.get(fields.BENEF_GESTS, 0));
+        const benefGbg = parseFloat(data.get(fields.BENEF_GBG, 0));
 
-        const curatGests = f(data.get(fields.CURAT_GESTS));
+        const curatGests = parseFloat(data.get(fields.CURAT_GESTS, 0));
 
-        const authorGbg = f(data.get(fields.AUTHOR_GBG));
-        const authorGolos = f(data.get(fields.AUTHOR_GOLOS));
-        const authorGests = f(data.get(fields.AUTHOR_GESTS));
+        const authorGbg = parseFloat(data.get(fields.AUTHOR_GBG, 0));
+        const authorGolos = parseFloat(data.get(fields.AUTHOR_GOLOS, 0));
+        const authorGests = parseFloat(data.get(fields.AUTHOR_GESTS, 0));
 
         let needLoadRatesForDate = null;
 
