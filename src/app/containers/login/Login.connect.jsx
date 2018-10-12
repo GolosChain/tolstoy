@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { createSelector } from 'reselect';
 import { Login } from 'src/app/containers/login/Login';
 import transaction from 'app/redux/Transaction';
 import user from 'app/redux/User';
@@ -40,7 +39,7 @@ export default connect(
                         user.actions.usernamePasswordLogin({
                             username,
                             password,
-                            saveLogin: false,
+                            saveLogin,
                             afterLoginRedirectToWelcome,
                             operationType: type,
                         })
