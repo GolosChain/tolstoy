@@ -72,7 +72,7 @@ const zeroedPayout = {
     isDeclined: false,
 };
 
-function calculateGolosPerGbg(result, date) {
+function calculateGolosPerGbg(result, date, rates) {
     if (!result.isPending) {
         const dateRates = rates.dates.get(date);
 
@@ -126,15 +126,20 @@ export const getPayout = createSelector(
 
         const authorTotalGbg = totalGbg - fields.benefGbg;
 
-        const percent = data.get('percent_steem_dollars') / 20000;
+        // percent_steem_dollars stores in format like 10000, it's mean 100.00%.
+        // We divide on 10000 for converting to multiplier. (100.00% = 1)
+        const payoutPercent = data.get('percent_steem_dollars') / 10000;
+        const golosPowerFraction = payoutPercent / 2;
 
-        let golosPerGbg = fields.authorGolos / (authorTotalGbg * percent - fields.authorGbg);
+        let golosPerGbg =
+            fields.authorGolos / (authorTotalGbg * golosPowerFraction - fields.authorGbg);
 
         if (!golosPerGbg) {
-            golosPerGbg = calculateGolosPerGbg(result, lastPayout);
+            golosPerGbg = calculateGolosPerGbg(result, lastPayout, rates);
         }
 
-        const gestsPerGolos = fields.authorGests / (authorTotalGbg * golosPerGbg * (1 - percent));
+        const gestsPerGolos =
+            fields.authorGests / (authorTotalGbg * golosPerGbg * (1 - golosPowerFraction));
 
         result.author = fields.authorGolos + fields.authorGests / gestsPerGolos;
         result.authorGbg = fields.authorGbg;
