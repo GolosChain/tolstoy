@@ -5,8 +5,8 @@ import by from 'styled-by';
 import tt from 'counterpart';
 
 import { APP_NAME_UP, TERMS_OF_SERVICE_URL } from 'app/client_config';
-import { renderValue } from 'src/app/helpers/currency';
 
+import CurrencyValue from 'src/app/components/common/CurrencyValue';
 import Container from 'src/app/components/common/Container';
 import Icon from 'golos-ui/Icon';
 
@@ -142,7 +142,7 @@ const FooterCopyright = styled.div`
 
 export default class Footer extends PureComponent {
     static propTypes = {
-        currentSupply: PropTypes.number,
+        currentSupply: PropTypes.string,
     }
 
     render() {
@@ -156,7 +156,7 @@ export default class Footer extends PureComponent {
                             <MenuTitle>{tt('footer.total_paid')}</MenuTitle>
                             <MenuList>
                                 <MenuItem href="https://explorer.golos.io" type="big">
-                                    {renderValue(currentSupply, 'GBG', 'short')}
+                                    <CurrencyValue value={currentSupply} decimals="short" />
                                 </MenuItem>
                             </MenuList>
                         </Menu>
