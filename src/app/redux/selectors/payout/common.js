@@ -58,94 +58,93 @@ function memoize(func) {
     };
 }
 
+const zeroedPayout = {
+    isPending: false,
+    total: 0,
+    totalGbg: 0,
+    overallTotal: 0,
+    limitedOverallTotal: 0,
+    author: 0,
+    authorGbg: 0,
+    curator: 0,
+    benefactor: 0,
+    isLimit: false,
+    isDeclined: false,
+};
+
+function calculateGolosPerGbg(result, date) {
+    if (!result.isPending) {
+        const dateRates = rates.dates.get(date);
+
+        if (dateRates) {
+            return dateRates.GBG.GOLOS;
+        } else {
+            result.needLoadRatesForDate = date;
+        }
+
+        return dateRates.GBG.GOLOS;
+    }
+
+    return rates.actual.GBG.GOLOS;
+}
+
+function extractFields(data, fieldsList) {
+    const extract = field => parseFloat(data.get(field, 0));
+
+    return {
+        benefGests: extract(fieldsList.BENEF_GESTS),
+        benefGbg: extract(fieldsList.BENEF_GBG),
+        curatGests: extract(fieldsList.CURAT_GESTS),
+        authorGbg: extract(fieldsList.AUTHOR_GBG),
+        authorGolos: extract(fieldsList.AUTHOR_GOLOS),
+        authorGests: extract(fieldsList.AUTHOR_GESTS),
+    };
+}
+
 export const getPayout = createSelector(
     [state => state.data.rates, (state, props) => props.data],
     memoize((rates, data) => {
-        const max = parseFloat(data.get('max_accepted_payout', 0));
-        const isDeclined = max === 0;
+        const result = { ...zeroedPayout };
 
         const lastPayout = data.get('last_payout');
+        const max = parseFloat(data.get('max_accepted_payout', 0));
 
         // Date may be "1970-01-01..." or "1969-12-31..." in case of pending payout
-        const isPending = !lastPayout || lastPayout.startsWith('19');
+        result.isPending = !lastPayout || lastPayout.startsWith('19');
+        result.isDeclined = max === 0;
 
-        const fields = isPending ? FIELDS_PENDING : FIELDS;
+        const fieldsList = result.isPending ? FIELDS_PENDING : FIELDS;
+        const totalGbg = parseFloat(data.get(fieldsList.TOTAL_GBG, 0));
 
-        const totalGbg = parseFloat(data.get(fields.TOTAL_GBG, 0));
-        const isLimit = max != null && totalGbg > max;
+        result.isLimit = max != null && totalGbg > max;
 
-        if (totalGbg === 0 || isDeclined) {
-            return {
-                isPending,
-                total: 0,
-                totalGbg: 0,
-                overallTotal: 0,
-                author: 0,
-                authorGbg: 0,
-                curator: 0,
-                benefactor: 0,
-                isLimit,
-                isDeclined,
-            };
+        if (totalGbg === 0 || result.isDeclined) {
+            return result;
         }
 
-        const benefGests = parseFloat(data.get(fields.BENEF_GESTS, 0));
-        const benefGbg = parseFloat(data.get(fields.BENEF_GBG, 0));
+        const fields = extractFields(data, fieldsList);
 
-        const curatGests = parseFloat(data.get(fields.CURAT_GESTS, 0));
-
-        const authorGbg = parseFloat(data.get(fields.AUTHOR_GBG, 0));
-        const authorGolos = parseFloat(data.get(fields.AUTHOR_GOLOS, 0));
-        const authorGests = parseFloat(data.get(fields.AUTHOR_GESTS, 0));
-
-        let needLoadRatesForDate = null;
-
-        const authorTotalGbg = totalGbg - benefGbg;
+        const authorTotalGbg = totalGbg - fields.benefGbg;
 
         const percent = data.get('percent_steem_dollars') / 20000;
 
-        let golosPerGbg = authorGolos / (authorTotalGbg * percent - authorGbg);
+        let golosPerGbg = fields.authorGolos / (authorTotalGbg * percent - fields.authorGbg);
 
         if (!golosPerGbg) {
-            if (!isPending) {
-                const dateRates = rates.dates.get(lastPayout);
-
-                if (dateRates) {
-                    golosPerGbg = dateRates.GBG.GOLOS;
-                } else {
-                    needLoadRatesForDate = lastPayout;
-                }
-            }
-
-            if (!golosPerGbg) {
-                golosPerGbg = rates.actual.GBG.GOLOS;
-            }
+            golosPerGbg = calculateGolosPerGbg(result, lastPayout);
         }
 
-        const gestsPerGolos = authorGests / (authorTotalGbg * golosPerGbg * (1 - percent));
+        const gestsPerGolos = fields.authorGests / (authorTotalGbg * golosPerGbg * (1 - percent));
 
-        const author = authorGolos + authorGests / gestsPerGolos;
-        const curator = curatGests / gestsPerGolos;
-        const benefactor = benefGests / gestsPerGolos;
+        result.author = fields.authorGolos + fields.authorGests / gestsPerGolos;
+        result.authorGbg = fields.authorGbg;
+        result.curator = fields.curatGests / gestsPerGolos;
+        result.benefactor = fields.benefGests / gestsPerGolos;
+        result.total = result.author + result.curator + result.benefactor;
+        result.totalGbg = fields.authorGbg;
+        result.overallTotal = result.total + result.totalGbg * golosPerGbg;
+        result.limitedOverallTotal = result.isLimit ? max * golosPerGbg : result.overallTotal;
 
-        const finalTotal = author + curator + benefactor;
-        const finalTotalGbg = authorGbg;
-
-        const overallTotal = finalTotal + finalTotalGbg * golosPerGbg;
-
-        return {
-            isPending,
-            total: finalTotal,
-            totalGbg: finalTotalGbg,
-            overallTotal,
-            limitedOverallTotal: isLimit ? max * golosPerGbg : overallTotal,
-            author,
-            authorGbg,
-            curator,
-            benefactor,
-            needLoadRatesForDate,
-            isDeclined,
-            isLimit,
-        };
+        return result;
     })
 );
