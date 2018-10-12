@@ -356,6 +356,7 @@ class PostCard extends PureComponent {
                     <Filler />
                     {grid ? null : <Category>{category}</Category>}
                     <Toolbar>
+                        {this._renderEditButton(withImage)}
                         {this._renderPinButton(withImage)}
                         {this._renderFavoriteButton(withImage)}
                     </Toolbar>
@@ -368,6 +369,25 @@ class PostCard extends PureComponent {
                 ) : null}
             </Header>
         );
+    }
+
+    _renderEditButton(withImage) {
+        const { data, myAccount, grid, showPinButton } = this.props;
+
+        if (showPinButton && myAccount === data.get('author')) {
+            return (
+                <ToolbarAction>
+                    <IconWrapper
+                        color={withImage && !grid ? '#fff' : ''}
+                        enabled
+                        data-tooltip="Редактировать"
+                        onClick={this._onEditClick}
+                    >
+                        <Icon name="pen" width={23} height={23} />
+                    </IconWrapper>
+                </ToolbarAction>
+            );
+        }
     }
 
     _renderPinButton(withImage) {
@@ -404,7 +424,7 @@ class PostCard extends PureComponent {
                     data-tooltip={pinTip}
                     onClick={!pinDisabled ? this._onPinClick : null}
                 >
-                    <Icon name="pin" width={24} height={24} />
+                    <Icon name="pin" width={23} height={23} />
                 </IconWrapper>
             </ToolbarAction>
         );
@@ -496,6 +516,8 @@ class PostCard extends PureComponent {
             });
         }
     };
+
+    _onEditClick = () => {};
 
     _onFavoriteClick = () => {
         const { isFavorite, data } = this.props;
