@@ -1,5 +1,6 @@
 import { call, fork, put, all, takeEvery, select } from 'redux-saga/effects';
 import { api } from 'golos-js';
+import { fromJS } from 'immutable';
 
 import { createAddNotificationOnlineAction } from 'src/app/redux/actions/notificationsOnline';
 import { NOTIFICATION_ONLINE_ADD_NOTIFICATION } from 'src/app/redux/constants/notificationsOnline';
@@ -7,6 +8,8 @@ import { getAccount } from 'app/redux/sagas/shared';
 import constants from 'app/redux/constants';
 
 import { numberWithCommas, vestsToGolosPower } from 'app/utils/StateFunctions';
+
+import { hydrateNotifications } from 'src/app/redux/sagas/actions/notifications';
 
 export default function* rootSaga() {
     yield fork(addNotificationsOnlineWatch);
@@ -39,264 +42,258 @@ function* getContent(author, permlink) {
 }
 
 // TODO: look in cache before call to api
-function* handleAddNotification({
-    payload: {
-        vote,
-        flag,
-        transfer,
-        subscribe,
-        unsubscribe,
-        reply,
-        mention,
-        repost,
-        reward,
-        curatorReward,
-        witnessVote,
-        witnessCancelVote,
-    },
-}) {
-    if (vote) {
-        yield all(
-            vote.map(function*(notification) {
-                const { counter, voter, permlink } = notification; // {counter: 1, voter: "destroyer2k", permlink: "re-nickshtefan-re-destroyer2k-s-20180803t094131915z"}
+function* handleAddNotification(action) {
+    const notifications = action.payload;
+    yield hydrateNotifications(notifications);
 
-                const current = yield select(state => state.user.get('current'));
-                const author = current.get('username');
+    yield all([
+        notifications.map(function*(notification) {
+            yield put(createAddNotificationOnlineAction(fromJS(notification)))
+        })
+    ]);
 
-                const account = yield call(getAccount, voter);
+    // if (vote) {
+    //     yield all(
+    //         vote.map(function*(notification) {
+    //             const { counter, voter, permlink } = notification; // {counter: 1, voter: "destroyer2k", permlink: "re-nickshtefan-re-destroyer2k-s-20180803t094131915z"}
 
-                const { title, link } = yield call(getContent, author, permlink);
+    //             const current = yield select(state => state.user.get('current'));
+    //             const author = current.get('username');
 
-                yield put(
-                    createAddNotificationOnlineAction({
-                        type: 'vote',
-                        account,
-                        title,
-                        link,
-                    })
-                );
-            })
-        );
-    }
+    //             const account = yield call(getAccount, voter);
 
-    if (flag) {
-        yield all(
-            flag.map(function*(notification) {
-                const { counter, voter, permlink } = notification; // {counter: 1, voter: "destroyer2k", permlink: "re-nickshtefan-re-destroyer2k-s-20180803t094131915z"}
+    //             const { title, link } = yield call(getContent, author, permlink);
 
-                const current = yield select(state => state.user.get('current'));
-                const author = current.get('username');
+    //             yield put(
+    //                 createAddNotificationOnlineAction({
+    //                     type: 'vote',
+    //                     account,
+    //                     title,
+    //                     link,
+    //                 })
+    //             );
+    //         })
+    //     );
+    // }
 
-                const account = yield call(getAccount, voter);
+    // if (flag) {
+    //     yield all(
+    //         flag.map(function*(notification) {
+    //             const { counter, voter, permlink } = notification; // {counter: 1, voter: "destroyer2k", permlink: "re-nickshtefan-re-destroyer2k-s-20180803t094131915z"}
 
-                const { title, link } = yield call(getContent, author, permlink);
+    //             const current = yield select(state => state.user.get('current'));
+    //             const author = current.get('username');
 
-                yield put(
-                    createAddNotificationOnlineAction({
-                        type: 'flag',
-                        account,
-                        title,
-                        link,
-                    })
-                );
-            })
-        );
-    }
+    //             const account = yield call(getAccount, voter);
 
-    if (transfer) {
-        yield all(
-            transfer.map(function*(notification) {
-                const { counter, from, amount } = notification; // {counter: 1, voter: "destroyer2k", permlink: "re-nickshtefan-re-destroyer2k-s-20180803t094131915z"}
+    //             const { title, link } = yield call(getContent, author, permlink);
 
-                const account = yield call(getAccount, from);
+    //             yield put(
+    //                 createAddNotificationOnlineAction({
+    //                     type: 'flag',
+    //                     account,
+    //                     title,
+    //                     link,
+    //                 })
+    //             );
+    //         })
+    //     );
+    // }
 
-                yield put(
-                    createAddNotificationOnlineAction({
-                        type: 'transfer',
-                        account,
-                        amount,
-                    })
-                );
-            })
-        );
-    }
+    // if (transfer) {
+    //     yield all(
+    //         transfer.map(function*(notification) {
+    //             const { counter, from, amount } = notification; // {counter: 1, voter: "destroyer2k", permlink: "re-nickshtefan-re-destroyer2k-s-20180803t094131915z"}
 
-    if (reward) {
-        const state = yield select(state => state);
+    //             const account = yield call(getAccount, from);
 
-        yield all(
-            curatorReward.map(function*(notification) {
-                const { counter, permlink, golos, golosPower, gbg } = notification;
+    //             yield put(
+    //                 createAddNotificationOnlineAction({
+    //                     type: 'transfer',
+    //                     account,
+    //                     amount,
+    //                 })
+    //             );
+    //         })
+    //     );
+    // }
 
-                const current = yield select(state => state.user.get('current'));
-                const author = current.get('username');
+    // if (reward) {
+    //     const state = yield select(state => state);
 
-                const { title, link } = yield call(getContent, author, permlink);
+    //     yield all(
+    //         curatorReward.map(function*(notification) {
+    //             const { counter, permlink, golos, golosPower, gbg } = notification;
 
-                yield put(
-                    createAddNotificationOnlineAction({
-                        type: 'reward',
-                        title,
-                        link,
-                        golos,
-                        golosPower: numberWithCommas(vestsToGolosPower(state, `${golosPower} GESTS`)),
-                        gbg,
-                    })
-                );
-            })
-        );
-    }
+    //             const current = yield select(state => state.user.get('current'));
+    //             const author = current.get('username');
 
-    if (curatorReward) {
-        const state = yield select(state => state);
+    //             const { title, link } = yield call(getContent, author, permlink);
 
-        yield all(
-            curatorReward.map(function*(notification) {
-                const { counter, author, permlink, reward } = notification; // {counter: 1, voter: "destroyer2k", permlink: "re-nickshtefan-re-destroyer2k-s-20180803t094131915z"}
+    //             yield put(
+    //                 createAddNotificationOnlineAction({
+    //                     type: 'reward',
+    //                     title,
+    //                     link,
+    //                     golos,
+    //                     golosPower: numberWithCommas(vestsToGolosPower(state, `${golosPower} GESTS`)),
+    //                     gbg,
+    //                 })
+    //             );
+    //         })
+    //     );
+    // }
 
-                const { title, link } = yield call(getContent, author, permlink);
+    // if (curatorReward) {
+    //     const state = yield select(state => state);
 
-                yield put(
-                    createAddNotificationOnlineAction({
-                        type: 'curatorReward',
-                        title,
-                        link,
-                        amount: numberWithCommas(vestsToGolosPower(state, `${reward} GESTS`)),
-                    })
-                );
-            })
-        );
-    }
+    //     yield all(
+    //         curatorReward.map(function*(notification) {
+    //             const { counter, author, permlink, reward } = notification; // {counter: 1, voter: "destroyer2k", permlink: "re-nickshtefan-re-destroyer2k-s-20180803t094131915z"}
 
-    if (reply) {
-        yield all(
-            reply.map(function*(notification) {
-                const { counter, author, permlink } = notification; // {"counter":1,"author":"destroyer2k","permlink":"re-devall-re-nickshtefan-re-destroyer2k-s-20180810t180227217z"}
+    //             const { title, link } = yield call(getContent, author, permlink);
 
-                const account = yield call(getAccount, author);
+    //             yield put(
+    //                 createAddNotificationOnlineAction({
+    //                     type: 'curatorReward',
+    //                     title,
+    //                     link,
+    //                     amount: numberWithCommas(vestsToGolosPower(state, `${reward} GESTS`)),
+    //                 })
+    //             );
+    //         })
+    //     );
+    // }
 
-                const { title, link } = yield call(getContent, author, permlink);
+    // if (reply) {
+    //     yield all(
+    //         reply.map(function*(notification) {
+    //             const { counter, author, permlink } = notification; // {"counter":1,"author":"destroyer2k","permlink":"re-devall-re-nickshtefan-re-destroyer2k-s-20180810t180227217z"}
 
-                yield put(
-                    createAddNotificationOnlineAction({
-                        type: 'reply',
-                        account,
-                        title,
-                        link,
-                    })
-                );
-            })
-        );
-    }
+    //             const account = yield call(getAccount, author);
 
-    if (subscribe) {
-        yield all(
-            subscribe.map(function*(notification) {
-                const { counter, follower } = notification; // {counter: 1, follower: "destroyer2k"}
+    //             const { title, link } = yield call(getContent, author, permlink);
 
-                const account = yield call(getAccount, follower);
-                yield put(
-                    createAddNotificationOnlineAction({
-                        type: 'subscribe',
-                        account,
-                    })
-                );
-            })
-        );
-    }
+    //             yield put(
+    //                 createAddNotificationOnlineAction({
+    //                     type: 'reply',
+    //                     account,
+    //                     title,
+    //                     link,
+    //                 })
+    //             );
+    //         })
+    //     );
+    // }
 
-    if (unsubscribe) {
-        yield all(
-            unsubscribe.map(function*(notification) {
-                const { counter, follower } = notification; // {counter: 1, follower: "destroyer2k"}
+    // if (subscribe) {
+    //     yield all(
+    //         subscribe.map(function*(notification) {
+    //             const { counter, follower } = notification; // {counter: 1, follower: "destroyer2k"}
 
-                const account = yield call(getAccount, follower);
-                yield put(
-                    createAddNotificationOnlineAction({
-                        type: 'unsubscribe',
-                        account,
-                    })
-                );
-            })
-        );
-    }
+    //             const account = yield call(getAccount, follower);
+    //             yield put(
+    //                 createAddNotificationOnlineAction({
+    //                     type: 'subscribe',
+    //                     account,
+    //                 })
+    //             );
+    //         })
+    //     );
+    // }
 
-    if (mention) {
-        yield all(
-            mention.map(function*(notification) {
-                const { counter, author, permlink } = notification;
+    // if (unsubscribe) {
+    //     yield all(
+    //         unsubscribe.map(function*(notification) {
+    //             const { counter, follower } = notification; // {counter: 1, follower: "destroyer2k"}
 
-                const account = yield call(getAccount, author);
+    //             const account = yield call(getAccount, follower);
+    //             yield put(
+    //                 createAddNotificationOnlineAction({
+    //                     type: 'unsubscribe',
+    //                     account,
+    //                 })
+    //             );
+    //         })
+    //     );
+    // }
 
-                const { title, link } = yield call(getContent, author, permlink);
+    // if (mention) {
+    //     yield all(
+    //         mention.map(function*(notification) {
+    //             const { counter, author, permlink } = notification;
 
-                yield put(
-                    createAddNotificationOnlineAction({
-                        type: 'mention',
-                        account,
-                        title,
-                        link,
-                    })
-                );
-            })
-        );
-    }
+    //             const account = yield call(getAccount, author);
 
-    if (repost) {
-        yield all(
-            repost.map(function*(notification) {
-                const { counter, reposter, permlink } = notification;
+    //             const { title, link } = yield call(getContent, author, permlink);
 
-                const current = yield select(state => state.user.get('current'));
-                const author = current.get('username');
+    //             yield put(
+    //                 createAddNotificationOnlineAction({
+    //                     type: 'mention',
+    //                     account,
+    //                     title,
+    //                     link,
+    //                 })
+    //             );
+    //         })
+    //     );
+    // }
 
-                const account = yield call(getAccount, reposter);
+    // if (repost) {
+    //     yield all(
+    //         repost.map(function*(notification) {
+    //             const { counter, reposter, permlink } = notification;
 
-                const { title, link } = yield call(getContent, author, permlink);
+    //             const current = yield select(state => state.user.get('current'));
+    //             const author = current.get('username');
 
-                yield put(
-                    createAddNotificationOnlineAction({
-                        type: 'repost',
-                        account,
-                        title,
-                        link,
-                    })
-                );
-            })
-        );
-    }
+    //             const account = yield call(getAccount, reposter);
 
-    if (witnessVote) {
-        yield all(
-            witnessVote.map(function*(notification) {
-                const { counter, from } = notification;
+    //             const { title, link } = yield call(getContent, author, permlink);
 
-                const account = yield call(getAccount, from);
+    //             yield put(
+    //                 createAddNotificationOnlineAction({
+    //                     type: 'repost',
+    //                     account,
+    //                     title,
+    //                     link,
+    //                 })
+    //             );
+    //         })
+    //     );
+    // }
 
-                yield put(
-                    createAddNotificationOnlineAction({
-                        type: 'witnessVote',
-                        account,
-                    })
-                );
-            })
-        );
-    }
+    // if (witnessVote) {
+    //     yield all(
+    //         witnessVote.map(function*(notification) {
+    //             const { counter, from } = notification;
 
-    if (witnessCancelVote) {
-        yield all(
-            witnessCancelVote.map(function*(notification) {
-                const { counter, from } = notification;
+    //             const account = yield call(getAccount, from);
 
-                const account = yield call(getAccount, from);
+    //             yield put(
+    //                 createAddNotificationOnlineAction({
+    //                     type: 'witnessVote',
+    //                     account,
+    //                 })
+    //             );
+    //         })
+    //     );
+    // }
 
-                yield put(
-                    createAddNotificationOnlineAction({
-                        type: 'witnessCancelVote',
-                        account,
-                    })
-                );
-            })
-        );
-    }
+    // if (witnessCancelVote) {
+    //     yield all(
+    //         witnessCancelVote.map(function*(notification) {
+    //             const { counter, from } = notification;
+
+    //             const account = yield call(getAccount, from);
+
+    //             yield put(
+    //                 createAddNotificationOnlineAction({
+    //                     type: 'witnessCancelVote',
+    //                     account,
+    //                 })
+    //             );
+    //         })
+    //     );
+    // }
 }

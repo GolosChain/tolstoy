@@ -5,6 +5,9 @@ const emptySet = Set();
 
 export const followingSelector = type =>
     createDeepEqualSelector([globalSelector('follow'), currentUserSelector], (follow, user) => {
+        if (!follow) {
+            return emptySet
+        }
         return follow.getIn(['getFollowingAsync', user.get('username'), type], emptySet);
     });
 

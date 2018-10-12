@@ -1,7 +1,8 @@
-import { fromJS } from 'immutable';
+import { Map } from 'immutable';
 
-const initialState = fromJS({});
+const initialState = Map();
 
+// Gets entities from redux-entities-immutable
 export default function(state = initialState, { type, payload }) {
     switch (type) {
         default:

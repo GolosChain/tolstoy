@@ -1,6 +1,5 @@
 import React, { Fragment, PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { List } from 'immutable';
 import styled from 'styled-components';
 import tt from 'counterpart';
@@ -8,16 +7,12 @@ import { Helmet } from 'react-helmet';
 import throttle from 'lodash/throttle';
 
 import { NOTIFICATIONS_FILTER_TYPES, NOTIFICATIONS_PER_PAGE } from 'src/app/redux/constants/common';
-import { activityContentSelector } from 'src/app/redux/selectors/userProfile/activity';
-import { getNotificationsHistory } from 'src/app/redux/actions/notifications';
-import { changeProfileActivityTab } from 'src/app/redux/actions/ui';
-import { authProtection } from 'src/app/helpers/hoc';
 
 import Card, { CardContent } from 'golos-ui/Card';
 import { TabContainer, Tabs } from 'golos-ui/Tabs';
 
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
-import ActivityList from 'src/app/components/userProfile/activity/ActivityList';
+import ActivityList from 'src/app/components/common/ActivityList';
 
 const WrapperLoader = styled.div`
     display: flex;
@@ -25,15 +20,6 @@ const WrapperLoader = styled.div`
     height: 80px;
     padding-top: 20px;
 `;
-
-@authProtection()
-@connect(
-    activityContentSelector,
-    {
-        getNotificationsHistory,
-        changeProfileActivityTab,
-    }
-)
 export default class ActivityContent extends PureComponent {
     static propTypes = {
         isFetching: PropTypes.bool,

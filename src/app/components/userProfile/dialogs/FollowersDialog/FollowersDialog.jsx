@@ -7,7 +7,6 @@ import { Link } from 'react-router';
 import throttle from 'lodash/throttle';
 import tt from 'counterpart';
 
-import o2j from 'shared/clash/object2json';
 import normalizeProfile from 'app/utils/NormalizeProfile';
 import { followersDialogSelector } from 'src/app/redux/selectors/dialogs/followersDialog';
 import { getFollowers, getFollowing } from 'src/app/redux/actions/followers';
@@ -24,16 +23,21 @@ const Dialog = styled.div`
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 0 19px 3px rgba(0, 0, 0, 0.2);
+
+    @media (max-width: 890px) {
+        min-width: unset;
+        max-width: unset;
+        width: 100%;
+    }
 `;
 
 const IconClose = styled(Icon).attrs({
     name: 'cross',
+    size: 30,
 })`
     position: absolute;
     right: 8px;
     top: 8px;
-    width: 30px;
-    height: 30px;
     padding: 8px;
     text-align: center;
     color: #e1e1e1;
@@ -183,9 +187,9 @@ export default class FollowersDialog extends PureComponent {
 
         return (
             <Dialog>
-                <IconClose onClick={this.props.onClose} />
                 <Header>
                     <Title>{tt(`user_profile.${type}_count`, { count: followCount })}</Title>
+                    <IconClose onClick={this.props.onClose} />
                 </Header>
                 <Content innerRef={this.setRootRef}>
                     {users.map(user => {
