@@ -6,23 +6,24 @@ import styled from 'styled-components';
 import CommentCard from 'src/app/components/common/CommentCard';
 import { getScrollElement } from 'src/app/helpers/window';
 
-const Wrapper = styled.div``;
+const INSET_COMMENTS_LEVELS_NUMBER = 6;
 
-/*const CommentCardStyled = styled(CommentCard)`
-    margin-top: 20px;
-`;*/
+const Wrapper = styled.div``;
 
 const CombinedComment = styled(CommentCard)`
     border-radius: 0;
     box-shadow: none;
+
+    margin-left: ${props => props.insetDeep * 20}px;
 `;
 
-const CommentsWrapper = styled.div`
+const CommentWrapper = styled.div`
     margin-top: 20px;
 
     overflow: hidden;
     border-radius: 8px;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
+    background-color: #ffffff;
 `;
 
 export default class CommentsList extends Component {
@@ -37,71 +38,66 @@ export default class CommentsList extends Component {
         this.props.saveListScrollPosition(getScrollElement().scrollTop);
     };
 
-    findReplies(comments, currentComment, deep = 0) {
-        const commentWithChildren = [];
-
-        const author = currentComment.get('author');
-        const permLink = currentComment.get('permlink');
-
-        commentWithChildren.push(
-            <CombinedComment
-                permLink={`${author}/${permLink}`}
-                isPostPage={true}
-                onClick={this.onEntryClick}
-            />
-        );
-
-        const replies = currentComment.get('replies');
-
-        replies.forEach(reply => {
-            commentWithChildren.push(
-                <CombinedComment
-                    permLink={reply}
-                    isPostPage={true}
-                    onClick={this.onEntryClick}
-                />
-            )
-        });
-
-        /*if (replies.get(0)) {
-            commentWithChildren.push(
-                    {replies.map(reply => (
-                        <CombinedComment
-                            permLink={reply}
-                            isPostPage={true}
-                            onClick={this.onEntryClick}
-                        />
-                    ))}
-            );
-        } else {
-            commentWithChildren.push(
-                <CombinedComment
-                    permLink={`${author}/${permLink}`}
-                    isPostPage={true}
-                    onClick={this.onEntryClick}
-                />
-            );
-        }*/
-    }
-
     mapComments() {
         const { comments, postPermLink } = this.props;
         const commentsComponents = [];
-        const commentsCopy = [...comments];
+        const commentsCopy = [...comments.toJS()];
         for (let i = 0; i < commentsCopy.length; i++) {
             const currentComment = commentsCopy[i];
 
-            if (postPermLink !== currentComment.get('parent_permlink')) {
+            if (!currentComment || postPermLink !== currentComment.parent_permlink) {
                 continue;
             }
 
+            commentsCopy[i] = null;
+
             commentsComponents.push(
-                <CommentsWrapper>
-                    {this.findReplies(commentsCopy, currentComment)}
-                </CommentsWrapper>
+                <CommentWrapper key={i}>{this.findReplies(commentsCopy, currentComment)}</CommentWrapper>
             );
         }
         return commentsComponents;
+    }
+
+    findReplies(comments, currentComment, insetDeep = 0) {
+        const commentWithChildren = [];
+
+        commentWithChildren.push(
+            <CombinedComment
+                key={currentComment.permlink}
+                permLink={`${currentComment.author}/${currentComment.permlink}`}
+                isPostPage={true}
+                onClick={this.onEntryClick}
+                insetDeep={insetDeep}
+            />
+        );
+
+        const replies = currentComment.replies;
+
+        if (replies.length) {
+            replies.forEach(reply => {
+                let comment = this.getComment(comments, reply);
+                if (insetDeep < INSET_COMMENTS_LEVELS_NUMBER) {
+                    ++insetDeep;
+                }
+                const insetReplies = this.findReplies(comments, comment, insetDeep);
+                commentWithChildren.push(...insetReplies);
+            });
+        }
+
+        return commentWithChildren;
+    }
+
+    getComment(comments, link) {
+        for (let i = 0; i < comments.length; i++) {
+            let comment = comments[i];
+            if (comment === null) {
+                continue;
+            }
+            if (`${comment.author}/${comment.permlink}` === link) {
+                comments[i] = null;
+                return comment;
+            }
+        }
     }
 
     render() {

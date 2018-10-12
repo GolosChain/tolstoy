@@ -140,6 +140,7 @@ export class CommentCard extends PureComponent {
         }),
         isOwner: PropTypes.bool.isRequired,
         username: PropTypes.string,
+        insetDeep: PropTypes.number.isRequired,
     };
 
     state = {
@@ -173,7 +174,7 @@ export class CommentCard extends PureComponent {
 
     renderHeaderForPost() {
         const { isCommentOpen } = this.state;
-        const { comment, extractedContent, isPostPage } = this.props;
+        const { comment, extractedContent, isPostPage, insetDeep } = this.props;
 
         return (
             <Header isCommentOpen={isCommentOpen}>
@@ -190,10 +191,12 @@ export class CommentCard extends PureComponent {
                             isPostPage={isPostPage}
                         />
                     )}
-                    <CloseOpenButton
-                        isCommentOpen={isCommentOpen}
-                        toggleComment={this.toggleComment}
-                    />
+                    {insetDeep === 0 && (
+                        <CloseOpenButton
+                            isCommentOpen={isCommentOpen}
+                            toggleComment={this.toggleComment}
+                        />
+                    )}
                 </HeaderLine>
             </Header>
         );
