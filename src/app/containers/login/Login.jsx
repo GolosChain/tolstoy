@@ -131,6 +131,7 @@ export class Login extends Component {
     state = {
         consent: true,
         saveCredentials: true,
+        submitting: false,
     };
 
     username = React.createRef();
@@ -201,7 +202,7 @@ export class Login extends Component {
                             <CheckboxLabel>{tt('loginform_jsx.keep_me_logged_in')}</CheckboxLabel>
                         </ConsentCheckbox>
                     </BlockCheckboxes>
-                    <LoginButton disabled={submitting} onClick={this.submit}>
+                    <LoginButton disabled={submitting || !consent} onClick={this.submit}>
                         {tt('g.login')}
                     </LoginButton>
                 </Form>
