@@ -130,6 +130,9 @@ export class Login extends Component {
         saveCredentials: true,
     };
 
+    username = React.createRef();
+    password = React.createRef();
+
     changeConsent = () => {
         this.setState({
             consent: !this.state.consent,
@@ -142,9 +145,19 @@ export class Login extends Component {
         });
     };
 
+    submit = e => {
+        e.preventDefault();
+        const data = {
+            username: this.username.current.value.trim().toLowerCase(),
+            password: this.password.current.value,
+            saveLogin: this.state.saveCredentials,
+        };
+        this.props.dispatchSubmit(data, this.props.loginBroadcastOperation, true);
+    };
+
     render() {
         const { onCancel, className } = this.props;
-        const { consent, saveCredentials } = this.state;
+        const { consent, saveCredentials, submitting } = this.state;
         return (
             <Wrapper className={className}>
                 <CloseButton onClick={onCancel}>
@@ -154,9 +167,20 @@ export class Login extends Component {
                     <Title>{tt('g.login')}</Title>
                     <LoginBlock>
                         <LoginLabel>@</LoginLabel>
-                        <LoginInput />
+                        <LoginInput
+                            innerRef={this.username}
+                            placeholder={tt('loginform_jsx.enter_your_username')}
+                            disabled={submitting}
+                            required
+                        />
                     </LoginBlock>
-                    <PasswordInput type="password" />
+                    <PasswordInput
+                        type="password"
+                        innerRef={this.password}
+                        placeholder={tt('loginform_jsx.password_or_wif')}
+                        disabled={submitting}
+                        required
+                    />
                     <BlockCheckboxes>
                         <ConsentCheckbox>
                             <Checkbox value={consent} onChange={this.changeConsent} />
@@ -170,7 +194,9 @@ export class Login extends Component {
                             <CheckboxLabel>{tt('loginform_jsx.keep_me_logged_in')}</CheckboxLabel>
                         </ConsentCheckbox>
                     </BlockCheckboxes>
-                    <LoginButton>{tt('g.login')}</LoginButton>
+                    <LoginButton disabled={submitting} onClick={this.submit}>
+                        {tt('g.login')}
+                    </LoginButton>
                 </Form>
             </Wrapper>
         );

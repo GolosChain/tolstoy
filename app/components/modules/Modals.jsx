@@ -9,7 +9,7 @@ import user from 'app/redux/User';
 import tr from 'app/redux/Transaction';
 import Powerdown from 'app/components/modules/Powerdown';
 import MessageBox from 'app/components/modules/Messages';
-import { Login } from 'src/app/containers/login/Login';
+import Login from 'src/app/containers/login';
 
 class Modals extends React.Component {
     static propTypes = {
