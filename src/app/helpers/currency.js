@@ -1,7 +1,7 @@
 import React from 'react';
 import { getStoreState, dispatch } from 'app/clientRender';
 import { getHistoricalData } from 'src/app/redux/actions/rates';
-import { DEFAULT_CURRENCY } from 'app/client_config';
+import { CURRENCIES, DEFAULT_CURRENCY } from 'app/client_config';
 
 const CURRENCY_SIGNS = {
     USD: '$_',
@@ -142,7 +142,29 @@ export function renderValue(
     { decimals, date, toCurrency, rates, settings } = {}
 ) {
     if (!process.env.BROWSER) {
-        return `${amount.toFixed(3)} ${originalCurrency}`;
+        if (typeof amount === 'string') {
+            return amount;
+        } else {
+            return `${amount.toFixed(3)} ${originalCurrency}`;
+        }
+    }
+
+    if (typeof amount === 'string') {
+        const parsed = amount.match(/^([\d.]+) (\w+)$/);
+
+        if (!parsed) {
+            return 'Invalid value';
+        }
+
+        amount = parseFloat(parsed[1]);
+
+        if (CURRENCIES.includes(parsed[2])) {
+            originalCurrency = parsed[2];
+        }
+    }
+
+    if (!CURRENCIES.includes(originalCurrency)) {
+        return 'Invalid value';
     }
 
     let rate;
