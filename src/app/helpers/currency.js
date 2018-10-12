@@ -1,13 +1,15 @@
 import React from 'react';
 import { getStoreState, dispatch } from 'app/clientRender';
-import { getHistoricalData } from '../redux/actions/rates';
-import { DEFAULT_CURRENCY } from '../../../app/client_config';
+import { getHistoricalData } from 'src/app/redux/actions/rates';
+import { DEFAULT_CURRENCY } from 'app/client_config';
 
 const CURRENCY_SIGNS = {
     USD: '$_',
     EUR: '€_',
     RUB: '_₽',
 };
+
+const queried = new Set();
 
 export function parseAmount(amount, balance, isFinal) {
     const amountFixed = amount.trim().replace(/\s+/, '');
@@ -113,105 +115,66 @@ export function formatCurrency(amount, currency, decimals) {
     }
 }
 
-export function renderValue(amount, originalCurrency, decimals, date) {
-    if (process.env.BROWSER) {
-        const state = getStoreState();
+function getHistoricalRates(rates, date) {
+    // date can be 1970-01-01 or 1969-12-31 (we must skip that dates)
+    if (date.startsWith('2')) {
+        // 2018-09-10T07:38:57 => 2018-09-10
+        const dateString = date.substr(0, 10);
 
-        let currency = state.data.settings.getIn(['basic', 'currency']) || DEFAULT_CURRENCY;
-        let rate;
+        const ratesInfo = rates.dates.get(dateString);
 
-        if (currency !== originalCurrency) {
-            if (process.env.BROWSER && date && date.startsWith('2')) {
-                // 2018-09-10T07:38:57 => 2018-09-10
-                const dateString = date.substr(0, 10);
-
-                const rates = state.data.rates.dates.get(dateString);
-
-                if (rates) {
-                    rate = rates[originalCurrency][currency];
-                } else {
-                    dispatch(getHistoricalData(dateString));
-                }
+        if (!ratesInfo) {
+            // TODO: TEMP SOLUTION, REMOVE IF AND SET LATER
+            if (!queried.has(dateString)) {
+                queried.add(dateString);
+                dispatch(getHistoricalData(dateString));
             }
+            return;
+        }
 
-            if (!rate) {
-                rate = state.data.rates.actual[originalCurrency][currency];
+        return ratesInfo;
+    }
+}
+
+export function renderValue(
+    amount,
+    originalCurrency,
+    { decimals, date, toCurrency, rates, settings } = {}
+) {
+    if (!process.env.BROWSER) {
+        return `${amount.toFixed(3)} ${originalCurrency}`;
+    }
+
+    let rate;
+    let currency =
+        toCurrency ||
+        (settings || getStoreState().data.settings).getIn(['basic', 'currency']) ||
+        DEFAULT_CURRENCY;
+
+    if (currency !== originalCurrency) {
+        const useRates = rates || getStoreState().data.rates;
+
+        if (date) {
+            const ratesInfo = getHistoricalRates(useRates, date);
+
+            if (ratesInfo) {
+                rate = ratesInfo[originalCurrency][currency];
             }
         }
 
         if (!rate) {
-            currency = originalCurrency;
-            rate = 1;
-        }
-
-        let dec = decimals;
-
-        if (dec == null) {
-            dec = state.data.settings.getIn(['basic', 'rounding'], 3);
-        }
-
-        return formatCurrency(amount * rate, currency, dec);
-    } else {
-        return `${amount.toFixed(3)} ${originalCurrency}`;
-    }
-}
-
-export function getPayout(data, className) {
-    let params;
-
-    if (data.toJS) {
-        params = {
-            max_accepted_payout: data.get('max_accepted_payout'),
-            pending_payout_value: data.get('pending_payout_value'),
-            total_payout_value: data.get('total_payout_value'),
-            curator_payout_value: data.get('curator_payout_value'),
-            last_payout: data.get('last_payout'),
-        };
-    } else {
-        params = data;
-    }
-
-    const max = parseFloat(params.max_accepted_payout);
-    const isDeclined = max === 0;
-
-    let isLimit = false;
-    let gbgValue = 0;
-
-    gbgValue += parseFloat(params.pending_payout_value) || 0;
-
-    if (!isDeclined) {
-        gbgValue += parseFloat(params.total_payout_value) || 0;
-        gbgValue += parseFloat(params.curator_payout_value) || 0;
-    }
-
-    if (gbgValue < 0) {
-        gbgValue = 0;
-    }
-
-    if (max != null && gbgValue > max) {
-        gbgValue = max;
-        isLimit = true;
-    }
-
-    const stringValue = renderValue(gbgValue, 'GBG', null, params.last_payout);
-
-    let style;
-
-    if (isLimit || isDeclined) {
-        style = {};
-
-        if (isLimit) {
-            style.opacity = 0.33;
-        }
-
-        if (isDeclined) {
-            style.textDecoration = 'line-through';
+            rate = useRates.actual[originalCurrency][currency];
         }
     }
 
-    return (
-        <span className={className} style={style}>
-            {stringValue}
-        </span>
-    );
+    if (!rate) {
+        currency = originalCurrency;
+        rate = 1;
+    }
+
+    if (decimals == null) {
+        decimals = (settings || getStoreState().data.settings).getIn(['basic', 'rounding'], 3);
+    }
+
+    return formatCurrency(amount * rate, currency, decimals);
 }

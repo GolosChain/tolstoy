@@ -78,7 +78,7 @@ class Footer extends React.Component {
                 width: 'medium-3',
                 items: [
                     {
-                        name: renderValue(currentSupply, 'GBG', 'short'),
+                        name: renderValue(currentSupply, 'GBG', { decimals: 'short' }),
                         url: 'https://explorer.golos.io',
                         className: 'big',
                     },
