@@ -81,8 +81,6 @@ function calculateGolosPerGbg(result, date, rates) {
         } else {
             result.needLoadRatesForDate = date;
         }
-
-        return dateRates.GBG.GOLOS;
     }
 
     return rates.actual.GBG.GOLOS;
