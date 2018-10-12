@@ -7,7 +7,9 @@ import CurrencyValue from 'src/app/components/common/CurrencyValue';
 const CurrencyValueStyled = styled(CurrencyValue)`
     ${is('limited')`
         opacity: 0.33;
-    `} ${is('declined')`
+    `};
+
+    ${is('declined')`
         text-decoration: line-through;
     `};
 `;

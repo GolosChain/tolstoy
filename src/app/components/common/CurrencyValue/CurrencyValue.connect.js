@@ -1,4 +1,4 @@
-import connect from 'react-redux/es/connect/connect';
+import { connect } from 'react-redux';
 import { dataSelector } from 'src/app/redux/selectors/common';
 import CurrencyValue from './CurrencyValue';
 
