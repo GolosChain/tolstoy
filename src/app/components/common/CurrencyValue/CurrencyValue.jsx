@@ -9,8 +9,8 @@ export default function CurrencyValue({ value, currency, className, ...props }) 
 }
 
 CurrencyValue.propTypes = {
-    value: PropTypes.number.isRequired,
-    currency: PropTypes.oneOf(CURRENCIES).isRequired,
+    value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+    currency: PropTypes.oneOf(CURRENCIES),
     className: PropTypes.string,
     decimals: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf(['short', 'adaptive'])]),
     date: PropTypes.string,
