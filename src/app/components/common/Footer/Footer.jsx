@@ -27,18 +27,18 @@ const Menu = styled.div`
 
     @media (max-width: 950px) {
         ${by('type', {
-            payout: () => `
+            payout: `
                 order: 1;
             `,
-            links: () => `
+            links: `
                 order: 0;
                 flex: 1 1 100%;
                 margin-bottom: 20px;
             `,
-            socials: () => `
+            socials: `
                 order: 2;
             `,
-            apps: () => `
+            apps: `
                 order: 3;
             `,
         })};
@@ -50,7 +50,7 @@ const MenuBlock = styled.div`
     flex-direction: column;
 
     ${by('type', {
-        links: () => `
+        links: `
             flex-direction: row;
 
             @media (max-width: 500px) {
@@ -97,7 +97,7 @@ const MenuItem = styled.a`
     }
 
     ${by('type', {
-        big: () => `
+        big: `
             color: #333333;
             font-size: 36px;
             line-height: 43px;
@@ -106,7 +106,7 @@ const MenuItem = styled.a`
                 color: #333333;
             }
         `,
-        icon: () => `
+        icon: `
             color: #333333;
             flex-basis: 23px;
 
@@ -143,7 +143,7 @@ const FooterCopyright = styled.div`
 export default class Footer extends PureComponent {
     static propTypes = {
         currentSupply: PropTypes.string,
-    }
+    };
 
     render() {
         const { currentSupply } = this.props;
