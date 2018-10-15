@@ -4,15 +4,11 @@ import transaction from 'app/redux/Transaction';
 import user from 'app/redux/User';
 import { userSelector } from 'src/app/redux/selectors/common';
 
-let saveLoginDefault = true;
-if (process.env.BROWSER) {
-    saveLoginDefault = localStorage.getItem('saveLogin') === 'yes';
-}
-
 export default connect(
     state => ({
         loginBroadcastOperation: userSelector('loginBroadcastOperation')(state),
         loginError: userSelector('login_error')(state),
+        saveLoginDefault: userSelector('saveLoginDefault')(state),
     }),
     dispatch => {
         return {

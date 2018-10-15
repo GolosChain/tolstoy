@@ -15,5 +15,7 @@ function* showLoginWorker({ payload }) {
 }
 
 function* loginSuccessWorker() {
-    yield call([dialog, dialog.close])
+    if (dialog) {
+        yield call([dialog, dialog.close])
+    }
 }

@@ -142,7 +142,7 @@ export class Login extends Component {
 
     state = {
         consent: true,
-        saveCredentials: true,
+        saveCredentials: process.env.BROWSER ? localStorage.getItem('saveLogin') !== 'no' : true,
         submitting: false,
     };
 
@@ -160,6 +160,7 @@ export class Login extends Component {
         this.setState({
             saveCredentials: !this.state.saveCredentials,
         });
+        localStorage.setItem('saveLogin', !this.state.saveCredentials ? 'yes' : 'no');
         this.clearError();
     };
 
