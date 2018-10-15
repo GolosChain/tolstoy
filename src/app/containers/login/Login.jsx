@@ -132,7 +132,7 @@ const LoginButton = styled(Button)`
 
 export class Login extends Component {
     static propTypes = {
-        onClose: PropTypes.func.isRequired,
+        onClose: PropTypes.func,
     };
 
     state = {
@@ -180,9 +180,11 @@ export class Login extends Component {
         const { consent, saveCredentials, submitting } = this.state;
         return (
             <Wrapper className={className}>
-                <CloseButton onClick={onClose}>
-                    <Icon name="cross" width={16} height={16} />
-                </CloseButton>
+                {onClose ? (
+                    <CloseButton onClick={onClose}>
+                        <Icon name="cross" width={16} height={16} />
+                    </CloseButton>
+                ) : null}
                 <Form>
                     <Title>{tt('g.login')}</Title>
                     {loginError ? <ErrorMessage>{loginError}</ErrorMessage> : null}

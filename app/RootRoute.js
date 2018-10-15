@@ -23,7 +23,10 @@ export default {
         } else if (route.page === 'Faq') {
             cb(null, [require('@pages/Faq').default]);
         } else if (route.page === 'Login') {
-            cb(null, [require('@pages/Login').default]);
+            cb(null, [{
+                path: 'login',
+                component: require('src/app/containers/login').LoginPage
+            }]);
         } else if (route.page === 'Privacy') {
             cb(null, [require('@pages/Privacy').default]);
         } else if (route.page === 'Support') {
