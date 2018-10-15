@@ -16,6 +16,17 @@ const Wrapper = styled(Container)`
     min-height: calc(100vh - ${HEADER_HEIGHT}px - ${FOOTER_HEIGHT}px);
 `;
 
+const LeftImage = styled.div`
+    width: 100px;
+    height: 100px;
+    background: url('images/login/left.svg');
+`;
+const RightImage = styled.div`
+    width: 100px;
+    height: 100px;
+    background: url('images/login/right.svg');
+`;
+
 export class LoginPage extends Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.currentUser) {
@@ -26,7 +37,9 @@ export class LoginPage extends Component {
     render() {
         return (
             <Wrapper>
+                <LeftImage />
                 <Login />
+                <RightImage />
             </Wrapper>
         );
     }
