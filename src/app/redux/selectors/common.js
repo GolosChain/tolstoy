@@ -1,23 +1,27 @@
 import { createSelectorCreator, defaultMemoize, createSelector } from 'reselect';
 import isEqual from 'react-fast-compare';
 import { Map } from 'immutable';
-import { path } from 'ramda';
+import { pathOr } from 'ramda';
 
 const emptyMap = Map();
+const toArray = data => (Array.isArray(data) ? data : [data]);
 
 // Create a "selector creator" that uses react-fast-compare instead of '==='
 // More info you can find in: https://github.com/reduxjs/reselect#api
 export const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 // export const routerSelector = state => state.router;
-export const globalSelector = type => state =>
-    state.global.getIn(Array.isArray(type) ? type : [type], emptyMap);
-export const userSelector = type => state =>
-    state.user.getIn(Array.isArray(type) ? type : [type], emptyMap);
-export const statusSelector = type => state => state.status[type];
-export const entitiesSelector = type => state => state.entities[type];
-export const dataSelector = type => state => path(Array.isArray(type) ? type : [type])(state.data);
-export const uiSelector = type => state => state.ui[type];
+
+// old
+export const globalSelector = (path, defaultValue) => state => state.global.getIn(toArray(path), defaultValue);
+export const userSelector = (path, defaultValue) => state => state.user.getIn(toArray(path), defaultValue);
+export const appSelector = (path, defaultValue) => state => state.app.getIn(toArray(path), defaultValue);
+export const offchainSelector = (path, defaultValue) => state => state.offchain.getIn(toArray(path), defaultValue);
+// new and our future
+export const statusSelector = (path, defaultValue) => state => pathOr(defaultValue, toArray(path))(state.status);
+export const entitiesSelector = (path, defaultValue) => state => pathOr(defaultValue, toArray(path))(state.entities);
+export const dataSelector = (path, defaultValue) => state => pathOr(defaultValue, toArray(path))(state.data);
+export const uiSelector = (path, defaultValue) => state => pathOr(defaultValue, toArray(path))(state.ui);
 
 // Router selectors
 

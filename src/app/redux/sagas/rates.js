@@ -37,6 +37,10 @@ function* loadHistorical({ payload }) {
 }
 
 function startLoading() {
+    if (!queue.size) {
+        return;
+    }
+
     const load = Array.from(queue);
 
     for (let date of queue) {

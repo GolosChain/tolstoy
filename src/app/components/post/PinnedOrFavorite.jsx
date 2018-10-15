@@ -43,25 +43,28 @@ const PinnedOfFavorite = ({
     className,
 }) => {
     if (isOwner) {
-        return <Action
-            className={className}
-            onClick={togglePin}
-            color={isPinned ? '#2879ff' : '#333333'}
-            size={size}
-            data-tooltip={
-                !showText
-                    ? isPinned
-                        ? tt('active_panel_tooltip.unpin_post')
-                        : tt('active_panel_tooltip.pin_post')
-                    : undefined
-            }
-        >
-            <Icon name="pin" width={size} height={size}/>
-            {showText ? <ActionText>{tt('active_panel_tooltip.pin_post')}</ActionText> : null}
-        </Action>
+        return (
+            <Action
+                className={className}
+                onClick={togglePin}
+                color={isPinned ? '#2879ff' : '#333333'}
+                size={size}
+                data-tooltip={
+                    !showText
+                        ? isPinned
+                            ? tt('active_panel_tooltip.unpin_post')
+                            : tt('active_panel_tooltip.pin_post')
+                        : undefined
+                }
+            >
+                <Icon name="pin" width={size} height={size} />
+                {showText ? <ActionText>{tt('active_panel_tooltip.pin_post')}</ActionText> : null}
+            </Action>
+        );
     }
 
-     return <Action
+    return (
+        <Action
             className={className}
             onClick={toggleFavorite}
             size={size}
@@ -76,6 +79,7 @@ const PinnedOfFavorite = ({
             <Icon name={isFavorite ? 'star_filled' : 'star'} width={size} height={size} />
             {showText ? <ActionText>{tt('g.add_to_favorites')}</ActionText> : null}
         </Action>
+    );
 };
 
 PinnedOfFavorite.propTypes = {

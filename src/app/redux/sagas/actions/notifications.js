@@ -1,6 +1,5 @@
 import { call, put, all, select } from 'redux-saga/effects';
 import constants from 'app/redux/constants';
-import GlobalReducer from 'app/redux//GlobalReducer';
 import { api } from 'golos-js';
 import { numberWithCommas, vestsToGolosPower } from 'app/utils/StateFunctions';
 
@@ -30,7 +29,9 @@ export function* hydrateNotifications(notifications) {
             } else if (['reward'].includes(eventType)) {
                 author = currentUser.get('username');
                 if (notification.reward && notification.reward.golosPower) {
-                    const golosPower = numberWithCommas(vestsToGolosPower(state, `${notification.reward.golosPower} GESTS`));
+                    const golosPower = numberWithCommas(
+                        vestsToGolosPower(state, `${notification.reward.golosPower} GESTS`)
+                    );
                     notification.reward.golosPower = golosPower;
                 }
             } else if (['curatorReward'].includes(eventType)) {
@@ -57,12 +58,18 @@ export function* hydrateNotifications(notifications) {
 
     if (hydrateContents.length) {
         const contents = yield all(hydrateContents);
-        yield put(GlobalReducer.actions.receiveContents({ contents }));
+        yield put({
+            type: 'global/RECEIVE_CONTENTS',
+            payload: { contents },
+        });
     }
 
     if (hydrateUsers.length) {
         const accounts = yield call([api, api.getAccountsAsync], hydrateUsers);
-        yield put(GlobalReducer.actions.receiveAccounts({ accounts }));
+        yield put({
+            type: 'global/RECEIVE_ACCOUNTS',
+            payload: { accounts },
+        });
     }
 
     return notifications;

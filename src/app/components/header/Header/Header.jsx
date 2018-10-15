@@ -1,11 +1,18 @@
 import React, { PureComponent, Fragment } from 'react';
-import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import styled from 'styled-components';
 import is from 'styled-is';
 import throttle from 'lodash/throttle';
 import tt from 'counterpart';
+
+import { REGISTRATION_URL } from 'app/client_config';
+import {
+    getNotificationsHistoryFreshCount,
+} from 'src/app/redux/actions/notifications';
+
 import Icon from 'golos-ui/Icon';
+import IconBadge from 'golos-ui/IconBadge';
 import Button from 'golos-ui/Button';
 import Userpic from 'app/components/elements/Userpic';
 import AccountMenuDesktopWrapper from '../AccountMenuDesktopWrapper';
@@ -13,8 +20,7 @@ import MobilePopover from '../MobilePopover';
 import AdaptivePopover from '../AdaptivePopover';
 import AccountMenu from '../AccountMenu';
 import Menu from '../Menu';
-import user from 'app/redux/User';
-import { REGISTRATION_URL } from 'app/client_config';
+import NotificationsMenu from '../NotificationsMenu';
 
 const MIN_MOBILE_WIDTH = 500;
 
@@ -234,23 +240,19 @@ const Notifications = styled.div`
     margin-right: 10px;
     user-select: none;
     cursor: pointer;
+    color: #393636;
 
     ${is('mobile')`
         padding: 10px 20px;
     `};
-`;
 
-const NotifIcon = styled(Icon)`
-    width: 22px;
-    height: 22px;
-    color: #393636;
-`;
+    &:hover {
+        color: #2879ff;
+    }
 
-const NotifCounter = styled.div`
-    margin-left: 10px;
-    font-size: 18px;
-    font-weight: 300;
-    color: #757575;
+    ${is('active')`
+        color: #2879ff;
+    `};
 `;
 
 const DotsWrapper = styled.div`
@@ -299,39 +301,43 @@ const PowerCircle = styled.div`
     box-shadow: 0 2px 7px 1px rgba(0, 0, 0, 0.1);
 `;
 
-@connect(
-    state => {
-        const myAccountName = state.user.getIn(['current', 'username']);
+function formatPower(percent) {
+    return percent.toFixed(2).replace(/\.?0+$/, '');
+}
 
-        let votingPower = null;
+function calcXY(angle) {
+    return {
+        x: Math.sin(angle),
+        y: -Math.cos(angle),
+    };
+}
 
-        if (myAccountName) {
-            votingPower = state.global.getIn(['accounts', myAccountName, 'voting_power']) / 100;
-        }
-
-        return {
-            myAccountName,
-            votingPower,
-            offchainAccount: state.offchain.get('account'),
-        };
-    },
-    {
-        onLogin: () => user.actions.showLogin(),
-    }
-)
 export default class Header extends PureComponent {
+    static propTypes = {
+        getNotificationsOnlineHistoryFreshCount: PropTypes.func.isRequired,
+        getNotificationsOnlineHistory: PropTypes.func.isRequired,
+    };
+
     state = {
         isAccountOpen: false,
         isMenuOpen: false,
-        waitAuth: this.props.offchainAccount && !this.props.myAccountName,
+        isNotificationsOpen: false,
+        waitAuth: this.props.offchainAccount && !this.props.currentAccountName,
         isMobile: process.env.BROWSER ? window.innerWidth < MIN_MOBILE_WIDTH : false,
     };
 
+    timeoutId = null;
+
+    accountRef = React.createRef();
+    dotsRef = React.createRef();
+    noticationsRef = React.createRef();
+
     componentDidMount() {
-        window.addEventListener('resize', this._onResizeLazy);
+        window.addEventListener('resize', this.onResizeLazy);
+        this.props.getNotificationsOnlineHistoryFreshCount();
 
         if (this.state.waitAuth) {
-            this._timeoutId = setTimeout(() => {
+            this.timeoutId = setTimeout(() => {
                 this.setState({
                     waitAuth: false,
                 });
@@ -340,14 +346,155 @@ export default class Header extends PureComponent {
     }
 
     componentWillUnmount() {
-        this._onResizeLazy.cancel();
-        window.removeEventListener('resize', this._onResizeLazy);
-        clearTimeout(this._timeoutId);
+        this.onResizeLazy.cancel();
+        window.removeEventListener('resize', this.onResizeLazy);
+        clearTimeout(this.timeoutId);
+    }
+
+    onResizeLazy = throttle(() => {
+        this.setState({
+            isMobile: window.innerWidth < MIN_MOBILE_WIDTH,
+        });
+    }, 100);
+
+
+    onLoginClick = e => {
+        e.preventDefault();
+
+        this.props.onLogin();
+    };
+
+    onAccountMenuToggle = () => {
+        this.setState({
+            isAccountOpen: !this.state.isAccountOpen,
+        });
+    };
+
+    onMenuToggle = () => {
+        this.setState({
+            isMenuOpen: !this.state.isMenuOpen,
+        });
+    };
+
+    onNotificationsMenuToggle = () => {
+        this.setState({
+            isNotificationsOpen: !this.state.isNotificationsOpen,
+        });
+    };
+
+    renderAuthorizedPart() {
+        const { isMobile, waitAuth } = this.state;
+
+        return (
+            <AuthorizedBlock appear={waitAuth}>
+                {isMobile ? null : (
+                    <NewPostLink to="/submit">
+                        <NewPostButton>
+                            <NewPostIcon name="new-post" />
+                            Добавить пост
+                        </NewPostButton>
+                    </NewPostLink>
+                )}
+                {isMobile ? null : <Splitter />}
+                {isMobile ? null : this.renderFullAccountBlock()}
+                {isMobile ? null : <Splitter />}
+                {this.renderNotificationsBlock()}
+                {isMobile ? this.renderMobileAccountBlock() : null}
+            </AuthorizedBlock>
+        );
+    }
+
+    renderFullAccountBlock() {
+        const { currentAccountName, votingPower } = this.props;
+        const { isAccountOpen } = this.state;
+
+        const powerPercent = formatPower(votingPower);
+
+        return (
+            <AccountInfoWrapper>
+                <AccountInfoBlock onClick={this.onAccountMenuToggle}>
+                    <Userpic account={currentAccountName} size={36} />
+                    <AccountText>
+                        <AccountName>{currentAccountName}</AccountName>
+                        <AccountPowerBlock>
+                            <AccountPowerLabel>Сила Голоса:</AccountPowerLabel>
+                            <AccountPowerValue>{powerPercent}%</AccountPowerValue>
+                        </AccountPowerBlock>
+                    </AccountText>
+                    <AccountPowerBar title={`Сила голоса: ${powerPercent}%`}>
+                        <AccountPowerChunk fill={votingPower > 90 ? 1 : 0} />
+                        <AccountPowerChunk fill={votingPower > 70 ? 1 : 0} />
+                        <AccountPowerChunk fill={votingPower > 50 ? 1 : 0} />
+                        <AccountPowerChunk fill={votingPower > 30 ? 1 : 0} />
+                        <AccountPowerChunk fill={votingPower > 10 ? 1 : 0} />
+                    </AccountPowerBar>
+                </AccountInfoBlock>
+                {isAccountOpen ? (
+                    <AccountMenuDesktopWrapper onClose={this.onAccountMenuToggle} />
+                ) : null}
+            </AccountInfoWrapper>
+        );
+    }
+
+    renderNotificationsBlock() {
+        const { freshCount } = this.props;
+        const { isMobile, isNotificationsOpen } = this.state;
+
+        return (
+            <Fragment>
+                <Notifications
+                    mobile={isMobile ? 1 : 0}
+                    innerRef={this.noticationsRef}
+                    onClick={this.onNotificationsMenuToggle}
+                    active={isNotificationsOpen}
+                >
+                    <IconBadge name="bell" size={20} count={freshCount} />
+                </Notifications>
+            </Fragment>
+        );
+    }
+
+    renderMobileAccountBlock() {
+        const { currentAccountName, votingPower } = this.props;
+        const { isAccountOpen } = this.state;
+
+        const angle = 2 * Math.PI - 2 * Math.PI * (votingPower / 100);
+
+        const { x, y } = calcXY(angle);
+
+        return (
+            <Fragment>
+                <MobileAccountBlock onClick={this.onAccountMenuToggle}>
+                    <MobileAccountContainer innerRef={this.accountRef}>
+                        <PowerCircle>
+                            <svg viewBox="-1 -1 2 2">
+                                <circle cx="0" cy="0" r="1" fill="#78c2d0" />
+                                <path
+                                    d={`M ${x * -1} ${y} A 1 1 0 ${
+                                        angle > Math.PI ? 1 : 0
+                                    } 1 0 -1 L 0 0`}
+                                    fill="#393636"
+                                />
+                            </svg>
+                        </PowerCircle>
+                        <UserpicMobile account={currentAccountName} size={44} />
+                    </MobileAccountContainer>
+                </MobileAccountBlock>
+                {isAccountOpen ? (
+                    <MobilePopover
+                        target={this.accountRef.current}
+                        onClose={this.onAccountMenuToggle}
+                    >
+                        <AccountMenu onClose={this.onAccountMenuToggle} />
+                    </MobilePopover>
+                ) : null}
+            </Fragment>
+        );
     }
 
     render() {
-        const { myAccountName } = this.props;
-        const { isMobile, isMenuOpen, waitAuth } = this.state;
+        const { currentAccountName, getNotificationsOnlineHistory } = this.props;
+        const { isMobile, isMenuOpen, isNotificationsOpen, waitAuth } = this.state;
 
         return (
             <Root>
@@ -367,31 +514,44 @@ export default class Header extends PureComponent {
                             <SearchIcon name="search" />
                         </SearchBlock>
                         {isMobile ? null : <Splitter />}
-                        {myAccountName ? (
-                            this._renderAuthorizedPart()
+                        {currentAccountName ? (
+                            this.renderAuthorizedPart()
                         ) : (
                             <Buttons hidden={waitAuth}>
                                 <RegistrationLink to={REGISTRATION_URL}>
                                     <Button>{tt('g.sign_up')}</Button>
                                 </RegistrationLink>
-                                <LoginLink to="/login" onClick={this._onLoginClick}>
+                                <LoginLink to="/login" onClick={this.onLoginClick}>
                                     <Button light>{tt('g.login')}</Button>
                                 </LoginLink>
                             </Buttons>
                         )}
                         {isMobile ? null : (
-                            <DotsWrapper innerRef={this._onDotsRef} onClick={this._onMenuClick}>
+                            <DotsWrapper innerRef={this.dotsRef} onClick={this.onMenuToggle}>
                                 <Dots name="dots" />
                             </DotsWrapper>
                         )}
                     </Content>
+                    {isNotificationsOpen ? (
+                        <AdaptivePopover
+                            isMobile={isMobile}
+                            target={this.noticationsRef.current}
+                            onClose={this.onNotificationsMenuToggle}
+                        >
+                            <NotificationsMenu
+                                params={{ accountName: currentAccountName }}
+                                getNotificationsOnlineHistory={getNotificationsOnlineHistory}
+                                onClose={this.onNotificationsMenuToggle}
+                            />
+                        </AdaptivePopover>
+                    ) : null}
                     {isMenuOpen ? (
                         <AdaptivePopover
                             isMobile={isMobile}
-                            target={this._dots}
-                            onClose={this._onMenuClose}
+                            target={this.dotsRef.current}
+                            onClose={this.onMenuToggle}
                         >
-                            <Menu onClose={this._onMenuClose} />
+                            <Menu onClose={this.onMenuToggle} />
                         </AdaptivePopover>
                     ) : null}
                 </Fixed>
@@ -399,151 +559,4 @@ export default class Header extends PureComponent {
             </Root>
         );
     }
-
-    _renderAuthorizedPart() {
-        const { isMobile, waitAuth } = this.state;
-
-        return (
-            <AuthorizedBlock appear={waitAuth}>
-                {isMobile ? null : (
-                    <NewPostLink to="/submit">
-                        <NewPostButton>
-                            <NewPostIcon name="new-post" />
-                            Добавить пост
-                        </NewPostButton>
-                    </NewPostLink>
-                )}
-                {isMobile ? null : <Splitter />}
-                {isMobile ? null : this._renderFullAccountBlock()}
-                {isMobile ? null : <Splitter />}
-                <Notifications mobile={isMobile ? 1 : 0}>
-                    <NotifIcon name="bell" />
-                    {isMobile ? null : <NotifCounter>18</NotifCounter>}
-                </Notifications>
-                {isMobile ? this._renderMobileAccountBlock() : null}
-            </AuthorizedBlock>
-        );
-    }
-
-    _renderFullAccountBlock() {
-        const { myAccountName, votingPower } = this.props;
-        const { isAccountOpen } = this.state;
-
-        const powerPercent = formatPower(votingPower);
-
-        return (
-            <AccountInfoWrapper>
-                <AccountInfoBlock onClick={this._onAccountClick}>
-                    <Userpic account={myAccountName} size={36} />
-                    <AccountText>
-                        <AccountName>{myAccountName}</AccountName>
-                        <AccountPowerBlock>
-                            <AccountPowerLabel>Сила Голоса:</AccountPowerLabel>
-                            <AccountPowerValue>{powerPercent}%</AccountPowerValue>
-                        </AccountPowerBlock>
-                    </AccountText>
-                    <AccountPowerBar title={`Сила голоса: ${powerPercent}%`}>
-                        <AccountPowerChunk fill={votingPower > 90 ? 1 : 0} />
-                        <AccountPowerChunk fill={votingPower > 70 ? 1 : 0} />
-                        <AccountPowerChunk fill={votingPower > 50 ? 1 : 0} />
-                        <AccountPowerChunk fill={votingPower > 30 ? 1 : 0} />
-                        <AccountPowerChunk fill={votingPower > 10 ? 1 : 0} />
-                    </AccountPowerBar>
-                </AccountInfoBlock>
-                {isAccountOpen ? (
-                    <AccountMenuDesktopWrapper onClose={this._onAccountMenuClose} />
-                ) : null}
-            </AccountInfoWrapper>
-        );
-    }
-
-    _renderMobileAccountBlock() {
-        const { myAccountName, votingPower } = this.props;
-        const { isAccountOpen } = this.state;
-
-        const angle = 2 * Math.PI - 2 * Math.PI * (votingPower / 100);
-
-        const { x, y } = calcXY(angle);
-
-        return (
-            <Fragment>
-                <MobileAccountBlock onClick={this._onAccountClick}>
-                    <MobileAccountContainer innerRef={this._onAccountRef}>
-                        <PowerCircle>
-                            <svg viewBox="-1 -1 2 2">
-                                <circle cx="0" cy="0" r="1" fill="#78c2d0" />
-                                <path
-                                    d={`M ${x * -1} ${y} A 1 1 0 ${
-                                        angle > Math.PI ? 1 : 0
-                                    } 1 0 -1 L 0 0`}
-                                    fill="#393636"
-                                />
-                            </svg>
-                        </PowerCircle>
-                        <UserpicMobile account={myAccountName} size={44} />
-                    </MobileAccountContainer>
-                </MobileAccountBlock>
-                {isAccountOpen ? (
-                    <MobilePopover target={this._account} onClose={this._onAccountMenuClose}>
-                        <AccountMenu onClose={this._onAccountMenuClose} />
-                    </MobilePopover>
-                ) : null}
-            </Fragment>
-        );
-    }
-
-    _onResizeLazy = throttle(() => {
-        this.setState({
-            isMobile: window.innerWidth < MIN_MOBILE_WIDTH,
-        });
-    }, 100);
-
-    _onAccountRef = el => {
-        this._account = el;
-    };
-
-    _onDotsRef = el => {
-        this._dots = el;
-    };
-
-    _onAccountClick = () => {
-        this.setState({
-            isAccountOpen: !this.state.isAccountOpen,
-        });
-    };
-
-    _onAccountMenuClose = () => {
-        this.setState({
-            isAccountOpen: false,
-        });
-    };
-
-    _onMenuClick = () => {
-        this.setState({
-            isMenuOpen: !this.state.isMenuOpen,
-        });
-    };
-
-    _onMenuClose = () => {
-        this.setState({
-            isMenuOpen: false,
-        });
-    };
-
-    _onLoginClick = e => {
-        e.preventDefault();
-
-        this.props.onLogin();
-    };
-}
-
-function formatPower(percent) {
-    return percent.toFixed(2).replace(/\.?0+$/, '');
-}
-
-function calcXY(angle) {
-    return {
-        x: Math.sin(angle),
-        y: -Math.cos(angle),
-    };
 }

@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 import is from 'styled-is';
 import { api, utils } from 'golos-js';
@@ -7,6 +8,7 @@ import throttle from 'lodash/throttle';
 
 import SimpleInput from 'golos-ui/SimpleInput';
 import keyCodes from 'app/utils/keyCodes';
+import { getScrollElement } from 'src/app/helpers/window';
 
 const MIN_SYMBOLS = 2;
 const MAX_VARIANTS = 5;
@@ -20,7 +22,7 @@ const Wrapper = styled.label`
     `};
 `;
 
-const At = styled.div`
+const Sign = styled.div`
     flex-shrink: 0;
     width: 35px;
     border: 1px solid #e1e1e1;
@@ -58,16 +60,13 @@ const SimpleInputStyled = styled(SimpleInput)`
         border-color: #ff7d7d;
     `};
 
-    &:focus + ${At} {
+    &:focus + ${Sign} {
         border-color: #8a8a8a;
     }
 `;
 
 const Autocomplete = styled.ul`
     position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
     padding: 0 0 5px;
     margin: -1px 0 4px;
     border: 1px solid #aeaeae;
@@ -75,7 +74,7 @@ const Autocomplete = styled.ul`
     background: #fff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
     user-select: none;
-    z-index: 10;
+    z-index: 500;
     animation: from-up 0.12s;
 `;
 
@@ -115,13 +114,29 @@ export default class AccountNameInput extends PureComponent {
     state = {
         focus: false,
         open: false,
-        valid: false,
+        valid: Boolean(this.props.value) && !utils.validateAccountName(this.props.value),
         index: null,
         list: null,
+        popoverPos: null,
     };
 
     _loadIndex = 0;
     _showIndex = null;
+
+    componentDidMount() {
+        this._mount = document.getElementById('content');
+    }
+
+    componentWillUnmount() {
+        if (this._listen) {
+            window.removeEventListener('scroll', this.repositionLazy);
+            window.removeEventListener('resize', this.repositionLazy);
+        }
+
+        if (this.unbindBoxScroll) {
+            this.unbindBoxScroll();
+        }
+    }
 
     componentWillReceiveProps(props) {
         if (this.props.value !== props.value) {
@@ -130,6 +145,49 @@ export default class AccountNameInput extends PureComponent {
             });
         }
     }
+
+    componentDidUpdate(prevProps, prevState) {
+        const { open } = this.state;
+
+        if (this.wrapper && !prevState.open && open) {
+            if (!this._listen) {
+                this._listen = true;
+                window.addEventListener('scroll', this.repositionLazy);
+                window.addEventListener('resize', this.repositionLazy);
+            }
+
+            this.reposition();
+        }
+    }
+
+    reposition = () => {
+        const { open, popoverPos } = this.state;
+
+        if (!open) {
+            return;
+        }
+
+        const box = this.wrapper.getBoundingClientRect();
+
+        const pos = {
+            top: getScrollElement().scrollTop + box.top + box.height - 1,
+            left: box.left,
+            width: box.width,
+        };
+
+        if (
+            !popoverPos ||
+            popoverPos.top !== pos.top ||
+            popoverPos.left !== pos.left ||
+            popoverPos.width !== pos.width
+        ) {
+            this.setState({
+                popoverPos: pos,
+            });
+        }
+    };
+
+    repositionLazy = throttle(this.reposition, 50);
 
     tryOpen() {
         const { focus, list } = this.state;
@@ -140,6 +198,7 @@ export default class AccountNameInput extends PureComponent {
 
         if (!newState.open) {
             newState.index = null;
+            newState.popoverPos = null;
         }
 
         this.setState(newState);
@@ -161,17 +220,23 @@ export default class AccountNameInput extends PureComponent {
 
                     this._showIndex = loadIndex;
 
-                    this.setState({
+                    const newState = {
                         open: focus,
                         list: names,
                         index: 0,
-                    });
+                    };
+
+                    if (!newState.open) {
+                        newState.popoverPos = null;
+                    }
+
+                    this.setState(newState);
                 }
             } catch (err) {
                 console.error(err);
             }
         },
-        400,
+        300,
         { leading: false }
     );
 
@@ -193,6 +258,7 @@ export default class AccountNameInput extends PureComponent {
             this.setState({
                 open: false,
                 index: null,
+                popoverPos: null,
             });
         }
     };
@@ -213,11 +279,14 @@ export default class AccountNameInput extends PureComponent {
     };
 
     onBlur = e => {
-        this.setState({
-            focus: false,
-            open: false,
-            index: null,
-        });
+        if (!this._dontCloseUntil || this._dontCloseUntil < Date.now()) {
+            this.setState({
+                focus: false,
+                open: false,
+                index: null,
+                popoverPos: null,
+            });
+        }
 
         if (this.props.onBlur) {
             this.props.onBlur(e);
@@ -258,6 +327,7 @@ export default class AccountNameInput extends PureComponent {
                     this.setState({
                         open: false,
                         index: null,
+                        popoverPos: null,
                     });
 
                     this.props.onChange(list[index]);
@@ -267,6 +337,7 @@ export default class AccountNameInput extends PureComponent {
                     this.setState({
                         open: false,
                         index: null,
+                        popoverPos: null,
                     });
                     break;
             }
@@ -279,20 +350,66 @@ export default class AccountNameInput extends PureComponent {
         }
     };
 
+    onItemMouseDown = () => {
+        this._dontCloseUntil = Date.now() + 1000;
+    };
+
     onItemClick = accountName => {
         this.setState({
             open: false,
             index: null,
+            popoverPos: null,
         });
 
         this.props.onChange(accountName);
     };
 
+    onRef = el => {
+        this.wrapper = el;
+
+        if (el) {
+            const scrollParent = el.closest('.DialogManager');
+
+            if (scrollParent) {
+                if (this.unbindBoxScroll) {
+                    this.unbindBoxScroll();
+                }
+
+                scrollParent.addEventListener('scroll', this.repositionLazy);
+
+                this.unbindBoxScroll = () => {
+                    this.unbindBoxScroll = null;
+                    scrollParent.removeEventListener('scroll', this.repositionLazy);
+                };
+            }
+        }
+    };
+
     loadAccounts = memoize(word => api.lookupAccountsAsync(word, MAX_VARIANTS + 1));
+
+    renderAutocomplete() {
+        const { list, index, popoverPos } = this.state;
+
+        return (
+            <Autocomplete style={popoverPos}>
+                {list.slice(0, MAX_VARIANTS).map((accountName, i) => (
+                    <Item
+                        key={accountName}
+                        selected={i === index}
+                        onMouseDown={this.onItemMouseDown}
+                        onClick={() => this.onItemClick(accountName)}
+                    >
+                        {accountName}
+                    </Item>
+                ))}
+                {list.length > MAX_VARIANTS ? <Dots /> : null}
+            </Autocomplete>
+        );
+    }
 
     render() {
         const { block, value } = this.props;
-        const { open, list, focus, valid, index } = this.state;
+        const { open, list, focus, valid, popoverPos } = this.state;
 
         let isError = value && !focus && !valid;
 
@@ -301,7 +418,7 @@ export default class AccountNameInput extends PureComponent {
         }
 
         return (
-            <Wrapper block={block ? 1 : 0}>
+            <Wrapper block={block ? 1 : 0} innerRef={this.onRef}>
                 <SimpleInputStyled
                     autoComplete="off"
                     autoCorrect="off"
@@ -315,21 +432,8 @@ export default class AccountNameInput extends PureComponent {
                     onChange={this.onChange}
                     onKeyDown={this.onKeyDown}
                 />
-                <At open={open ? 1 : 0} error={isError ? 1 : 0} />
-                {open ? (
-                    <Autocomplete>
-                        {list.slice(0, MAX_VARIANTS).map((accountName, i) => (
-                            <Item
-                                key={accountName}
-                                selected={i === index}
-                                onClick={() => this.onItemClick(accountName)}
-                            >
-                                {accountName}
-                            </Item>
-                        ))}
-                        {list.length > MAX_VARIANTS ? <Dots /> : null}
-                    </Autocomplete>
-                ) : null}
+                <Sign open={open ? 1 : 0} error={isError ? 1 : 0} />
+                {open && popoverPos ? createPortal(this.renderAutocomplete(), this._mount) : null}
             </Wrapper>
         );
     }

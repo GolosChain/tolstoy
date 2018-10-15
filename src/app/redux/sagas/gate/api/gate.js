@@ -2,7 +2,7 @@ import { fork, take, call, put, cancel, select, actionChannel } from 'redux-saga
 import { eventChannel, buffers } from 'redux-saga';
 import golos from 'golos-js';
 import { Client as WebSocket } from 'rpc-websockets';
-import { normalize } from 'normalizr';
+import { normalize as normalizr } from 'normalizr';
 
 import { makeFakeAuthTransaction } from './utils';
 import { addNotificationOnline } from 'src/app/redux/actions/notificationsOnline';
@@ -77,9 +77,7 @@ function* write(socket, writeChannel) {
                 types: [requestType, successType, failureType],
                 method,
                 data,
-                transform,
-                saga,
-                schema,
+                normalize,
                 successCallback,
                 errorCallback,
             },
@@ -88,14 +86,27 @@ function* write(socket, writeChannel) {
         const actionWith = data => ({ ...action, ...data });
         yield put(actionWith({ type: requestType }));
         try {
-            let payload = yield call([socket, 'call'], method, data);
-            // if we need to get result from unusual property
-            if (transform) payload = transform(payload);
-            // if exists saga for hydrate data from blockchain
-            if (saga) payload = yield call(saga, payload);
-            payload = schema ? normalize(payload, schema) : payload;
+            const payload = yield call([socket, 'call'], method, data);
+            let normalizedPayload = {};
 
-            yield put(actionWith({ type: successType, payload }));
+            if (normalize) {
+                const { transform, saga, schema } = normalize;
+                // if we need to get result from unusual property
+                if (transform) {
+                    normalizedPayload = transform(payload);
+                }
+                // if exists saga for hydrate data from blockchain
+                if (saga) {
+                    normalizedPayload = yield call(saga, normalizedPayload);
+                }
+                if (schema) {
+                    normalizedPayload = normalizr(normalizedPayload, schema);
+                }
+            }
+
+            yield put(
+                actionWith({ type: successType, payload: { ...payload, ...normalizedPayload } })
+            );
             if (successCallback) {
                 try {
                     successCallback();

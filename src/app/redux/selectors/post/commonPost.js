@@ -24,11 +24,13 @@ const postUrlFromPathnameSelector = createDeepEqualSelector([pathnameSelector], 
 
 const getMyVote = (post, username) => {
     const votes = post.get('active_votes');
-    for (let vote of votes) {
-        if (vote.get('voter') === username) {
-            const myVote = vote.toJS();
-            myVote.weight = parseInt(myVote.weight || 0, 10);
-            return myVote;
+    if (votes) {
+        for (let vote of votes) {
+            if (vote.get('voter') === username) {
+                const myVote = vote.toJS();
+                myVote.weight = parseInt(myVote.weight || 0, 10);
+                return myVote;
+            }
         }
     }
     return 0;
@@ -53,10 +55,12 @@ export const currentPostSelector = createDeepEqualSelector(
         const author = post.get('author');
         const permLink = post.get('permlink');
         const myVote = getMyVote(post, username);
+        const tags = JSON.parse(post.get('json_metadata')).tags || [];
+
         return {
             created: post.get('created'),
             isFavorite: favorites.set.includes(author + '/' + permLink),
-            tags: JSON.parse(post.get('json_metadata')).tags.map(tag => ({
+            tags: tags.map(tag => ({
                 origin: tag,
                 tag: detransliterate(tag),
             })),

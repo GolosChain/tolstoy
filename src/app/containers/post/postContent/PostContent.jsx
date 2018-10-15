@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Link, browserHistory } from 'react-router';
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
-
+import { Link, browserHistory } from 'react-router';
+import { Helmet } from 'react-helmet';
+import styled from 'styled-components';
+import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
 import { TagLink } from 'golos-ui/Tag';
@@ -114,12 +115,29 @@ export class PostContent extends Component {
     static propTypes = {
         togglePin: PropTypes.func.isRequired,
         toggleFavorite: PropTypes.func.isRequired,
+
+        relapioToken: PropTypes.string,
     };
 
     onBackClick = e => {
         e.preventDefault();
         browserHistory.goBack();
     };
+
+    renderHelmet() {
+        const { title, relapioToken } = this.props;
+
+        return (
+            <Helmet>
+                <title>{tt('meta.title.common.post', { title })}</title>
+                <script
+                    type="text/javascript"
+                    async
+                    src={`https://relap.io/api/v6/head.js?token=${relapioToken}`}
+                />
+            </Helmet>
+        );
+    }
 
     render() {
         const {
@@ -143,6 +161,7 @@ export class PostContent extends Component {
 
         return (
             <Wrapper className={className}>
+                {this.renderHelmet()}
                 {backUrl ? (
                     <BackLink to={backUrl} onClick={this.onBackClick}>
                         <BackIcon name="arrow_left" />

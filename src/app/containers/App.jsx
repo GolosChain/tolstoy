@@ -7,15 +7,16 @@ import tt from 'counterpart';
 import { key_utils } from 'golos-js/lib/auth/ecc';
 import CloseButton from 'react-foundation-components/lib/global/close-button'; // TODO: make new component and delete
 
+import { appSelector } from 'src/app/redux/selectors/app';
 import user from 'app/redux/User';
+import { REGISTRATION_URL } from 'app/client_config';
 import { init as initAnchorHelper } from 'app/utils/anchorHelper';
-
 import { locationChanged } from 'src/app/redux/actions/ui';
 
 import defaultTheme from 'src/app/themes';
 import Header from 'src/app/components/header/Header';
 import Notifications from 'src/app/components/common/Notifications';
-import Footer from 'app/components/modules/Footer';
+import Footer from 'src/app/components/common/Footer';
 import TooltipManager from 'app/components/elements/common/TooltipManager';
 import MobileAppButton from 'app/components/elements/MobileBanners/MobileAppButton';
 import DialogManager from 'app/components/elements/common/DialogManager';
@@ -24,19 +25,37 @@ import Modals from '@modules/Modals';
 import ScrollButton from '@elements/ScrollButton';
 import PageViewsCounter from '@elements/PageViewsCounter';
 
-import { REGISTRATION_URL } from 'app/client_config';
-
 injectGlobal`
+    html {
+        height: 100%;
+    }
+
     body {
         fill: currentColor;
     }
 `;
 
-class App extends Component {
+@connect(
+    appSelector,
+    {
+        loginUser: user.actions.usernamePasswordLogin,
+        logoutUser: user.actions.logout,
+        locationChanged,
+    }
+)
+export default class App extends Component {
+    static propTypes = {
+        error: PropTypes.string,
+        children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+        location: PropTypes.object,
+        loginUser: PropTypes.func.isRequired,
+        logoutUser: PropTypes.func.isRequired,
+        locationChanged: PropTypes.func.isRequired,
+    };
+
     state = {
         showCallout: true,
         showBanner: true,
-        expandCallout: false,
     };
 
     componentWillMount() {
@@ -91,58 +110,36 @@ class App extends Component {
 
     checkLogin = event => {
         if (event.key === 'autopost2') {
-            if (!event.newValue) this.props.logoutUser();
-            else if (!event.oldValue || event.oldValue !== event.newValue) this.props.loginUser();
+            if (event.newValue) {
+                if (!event.oldValue || event.oldValue !== event.newValue) {
+                    this.props.loginUser();
+                }
+            } else {
+                this.props.logoutUser();
+
+            }
         }
     };
 
     onEntropyEvent(e) {
-        if (e.type === 'mousemove') key_utils.addEntropy(e.pageX, e.pageY, e.screenX, e.screenY);
-        else console.log('onEntropyEvent Unknown', e.type, e);
+        if (e.type === 'mousemove') {
+            key_utils.addEntropy(e.pageX, e.pageY, e.screenX, e.screenY);
+        } else {
+            console.log('onEntropyEvent Unknown', e.type, e);
+        }
     }
 
-    render() {
-        const { location, params, children, flash, new_visitor } = this.props;
-
+    renderWelcomeScreen() {
+        const { params, location, newVisitor } = this.props;
         const params_keys = Object.keys(params);
         const ip =
             location.pathname === '/' ||
             (params_keys.length === 2 &&
                 params_keys[0] === 'order' &&
                 params_keys[1] === 'category');
-        const alert = this.props.error || flash.get('alert');
-        const warning = flash.get('warning');
-        const success = flash.get('success');
-        let callout = null;
 
-        if (this.state.showCallout && (alert || warning || success)) {
-            callout = (
-                <div className="App__announcement row">
-                    <div className="column">
-                        <div className="callout">
-                            <CloseButton onClick={() => this.setState({ showCallout: false })} />
-                            <p>{alert || warning || success}</p>
-                        </div>
-                    </div>
-                </div>
-            );
-        }
-        if ($STM_Config.read_only_mode && this.state.showCallout) {
-            callout = (
-                <div className="App__announcement row">
-                    <div className="column">
-                        <div className="callout warning">
-                            <CloseButton onClick={() => this.setState({ showCallout: false })} />
-                            <p>{tt('g.read_only_mode')}</p>
-                        </div>
-                    </div>
-                </div>
-            );
-        }
-
-        let welcome_screen = null;
-        if (ip && new_visitor && this.state.showBanner) {
-            welcome_screen = (
+        if (ip && newVisitor && this.state.showBanner) {
+            return (
                 <div className="welcomeWrapper">
                     <div className="welcomeBanner">
                         <CloseButton onClick={() => this.setState({ showBanner: false })} />
@@ -172,19 +169,59 @@ class App extends Component {
             );
         }
 
+        return null;
+    }
+
+    renderCallout() {
+        const { error, flash } = this.props;
+        const alert = error || flash.get('alert');
+        const warning = flash.get('warning');
+        const success = flash.get('success');
+
+        let callout = null;
+
+        if (this.state.showCallout && (alert || warning || success)) {
+            callout = (
+                <div className="App__announcement row">
+                    <div className="column">
+                        <div className="callout">
+                            <CloseButton onClick={() => this.setState({ showCallout: false })} />
+                            <p>{alert || warning || success}</p>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        if ($STM_Config.read_only_mode && this.state.showCallout) {
+            callout = (
+                <div className="App__announcement row">
+                    <div className="column">
+                        <div className="callout warning">
+                            <CloseButton onClick={() => this.setState({ showCallout: false })} />
+                            <p>{tt('g.read_only_mode')}</p>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        return callout;
+    }
+
+    render() {
+        const { location, children } = this.props;
+
         return (
             <ThemeProvider theme={defaultTheme}>
-                <div
-                    className={'App' + (ip ? ' index-page' : '')}
-                    onMouseMove={this.onEntropyEvent}
-                >
+                <div className="App" onMouseMove={this.onEntropyEvent}>
                     <Helmet>
                         <title>Golos.io</title>
                     </Helmet>
                     <Header />
                     <div className="App__content">
-                        {welcome_screen}
-                        {callout}
+                        {this.renderWelcomeScreen()}
+                        {this.renderCallout()}
                         {children}
                         {location.pathname.startsWith('/submit') ? null : <Footer />}
                         <ScrollButton />
@@ -201,28 +238,3 @@ class App extends Component {
         );
     }
 }
-
-App.propTypes = {
-    error: PropTypes.string,
-    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
-    location: PropTypes.object,
-    loginUser: PropTypes.func.isRequired,
-    logoutUser: PropTypes.func.isRequired,
-};
-
-export default connect(
-    state => ({
-        error: state.app.get('error'),
-        flash: state.offchain.get('flash'),
-        new_visitor:
-            !state.user.get('current') &&
-            !state.offchain.get('user') &&
-            !state.offchain.get('account') &&
-            state.offchain.get('new_visit'),
-    }),
-    {
-        loginUser: () => user.actions.usernamePasswordLogin(),
-        logoutUser: () => user.actions.logout(),
-        locationChanged,
-    }
-)(App);
