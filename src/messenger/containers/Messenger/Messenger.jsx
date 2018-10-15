@@ -10,7 +10,7 @@ import ChatListContainer from 'src/messenger/containers/ChatList';
 import LookupAccounts from 'src/messenger/containers/LookupAccounts';
 
 @authProtection()
-export class MessengerApp extends Component {
+export default class MessengerApp extends Component {
 
     componentDidMount() {
         const {

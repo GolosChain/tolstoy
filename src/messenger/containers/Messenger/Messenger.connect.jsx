@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { MessengerApp } from './Messenger';
+import MessengerApp from './Messenger';
 
 import { initMessenger } from 'src/messenger/redux/actions/messenger';
 

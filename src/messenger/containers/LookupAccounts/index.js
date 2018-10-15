@@ -1,2 +1,2 @@
 export { default } from './LookupAccounts.connect';
-export { LookupAccountsContainer } from './LookupAccounts';
+export { default as LookupAccountsContainer } from './LookupAccounts';

@@ -1,2 +1,2 @@
 export { default } from './ChatList.connect';
-export { ChatListContainer } from './ChatList';
+export { default as ChatListContainer } from './ChatList';

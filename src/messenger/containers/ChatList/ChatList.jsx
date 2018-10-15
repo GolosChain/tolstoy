@@ -6,7 +6,7 @@ import { Map } from 'immutable';
 import ChatList from 'src/messenger/components/ChatList';
 import ChatListItem from 'src/messenger/components/ChatList/ChatListItem';
 
-export class ChatListContainer extends Component {
+export default class ChatListContainer extends Component {
     
     static propTypes = {
         showSearchResults: PropTypes.bool,

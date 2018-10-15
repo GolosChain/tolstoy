@@ -5,7 +5,7 @@ import { Map } from 'immutable';
 import DefaultChat from 'src/messenger/components/Chat/DefaultChat';
 import Chat from 'src/messenger/components/Chat';
 
-export class ChatContainer extends Component {
+export default class ChatContainer extends Component {
 
     static propTypes = {
         selectedContact: PropTypes.instanceOf(Map),

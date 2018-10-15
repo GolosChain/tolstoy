@@ -4,7 +4,7 @@ import { utils } from 'golos-js';
 
 import LookupAccounts from 'src/messenger/components/LookupAccounts';
 
-export class LookupAccountsContainer extends Component {
+export default class LookupAccountsContainer extends Component {
 
     handleSearchInput = query => {
         const nameError = utils.validateAccountName(query);

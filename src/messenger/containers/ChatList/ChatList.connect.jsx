@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { ChatListContainer } from './ChatList';
+import ChatListContainer from './ChatList';
 
 import {
     getSearchContacts,

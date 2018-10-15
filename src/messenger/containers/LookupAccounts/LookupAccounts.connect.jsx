@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { LookupAccountsContainer } from './LookupAccounts';
+import LookupAccountsContainer from './LookupAccounts';
 
 import { searchContacts } from 'src/messenger/redux/actions/search';
 import { closeSearchResults } from 'src/messenger/redux/actions/ui';
