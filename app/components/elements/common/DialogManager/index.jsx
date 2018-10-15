@@ -98,16 +98,14 @@ export default class DialogManager extends React.PureComponent {
     }
 
     static showLogin(afterLoginRedirectToWelcome) {
-        return new Promise(resolve => {
-            const dialog = DialogManager.showDialog({
-                component: Login,
-                props: {
-                    onCancel: () => dialog.close(),
-                    afterLoginRedirectToWelcome,
-                },
-                onClose: resolve,
-            });
+        const dialog = DialogManager.showDialog({
+            component: Login,
+            props: {
+                onCancel: () => dialog.close(),
+                afterLoginRedirectToWelcome,
+            },
         });
+        return dialog;
     }
 
     constructor(props) {

@@ -55,6 +55,12 @@ const Title = styled.h1`
     line-height: 41px;
 `;
 
+const ErrorMessage = styled.div`
+    margin: auto;
+    color: red;
+    font-size: 12px;
+`;
+
 const Form = styled.form`
     display: flex;
     align-items: flex-start;
@@ -154,12 +160,14 @@ export class Login extends Component {
         this.setState({
             consent: !this.state.consent,
         });
+        this.clearError();
     };
 
     changeSaveCredentials = () => {
         this.setState({
             saveCredentials: !this.state.saveCredentials,
         });
+        this.clearError();
     };
 
     submit = e => {
@@ -174,11 +182,16 @@ export class Login extends Component {
             this.props.loginBroadcastOperation,
             this.props.afterLoginRedirectToWelcome
         );
-        this.props.onCancel();
+    };
+
+    clearError = () => {
+        if (this.props.loginError) {
+            this.props.clearError();
+        }
     };
 
     render() {
-        const { onCancel, className } = this.props;
+        const { onCancel, loginError, className } = this.props;
         const { consent, saveCredentials, submitting } = this.state;
         return (
             <Wrapper className={className}>
@@ -186,7 +199,10 @@ export class Login extends Component {
                     <Icon name="cross" width={16} height={16} />
                 </CloseButton>
                 <Form>
-                    <Title>{tt('g.login')}</Title>
+                    <Title>
+                        {tt('g.login')}
+                        {loginError ? <ErrorMessage>{loginError}</ErrorMessage> : null}
+                    </Title>
                     <LoginBlock>
                         <LoginLabel>@</LoginLabel>
                         <LoginInput
@@ -194,6 +210,7 @@ export class Login extends Component {
                             placeholder={tt('loginform_jsx.enter_your_username')}
                             disabled={submitting}
                             required
+                            onChange={this.clearError}
                         />
                     </LoginBlock>
                     <PasswordInput
@@ -202,6 +219,7 @@ export class Login extends Component {
                         placeholder={tt('loginform_jsx.password_or_wif')}
                         disabled={submitting}
                         required
+                        onChange={this.clearError}
                     />
                     <BlockCheckboxes>
                         <ConsentCheckbox>

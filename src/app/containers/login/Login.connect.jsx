@@ -12,10 +12,15 @@ export default connect(
     state => {
         return {
             loginBroadcastOperation: state.user.get('loginBroadcastOperation'),
+            loginError: state.user.get('login_error'),
         };
     },
     dispatch => {
         return {
+            clearError: () => {
+                dispatch(user.actions.loginError({ error: null }));
+            },
+
             dispatchSubmit: (data, loginBroadcastOperation, afterLoginRedirectToWelcome) => {
                 const { username, password, saveLogin } = data;
                 if (loginBroadcastOperation) {
