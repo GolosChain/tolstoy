@@ -57,8 +57,9 @@ const Title = styled.h1`
 
 const ErrorMessage = styled.div`
     margin: auto;
-    color: red;
+    color: #ff0000;
     font-size: 12px;
+    text-align: center;
 `;
 
 const Form = styled.form`
@@ -199,10 +200,8 @@ export class Login extends Component {
                     <Icon name="cross" width={16} height={16} />
                 </CloseButton>
                 <Form>
-                    <Title>
-                        {tt('g.login')}
-                        {loginError ? <ErrorMessage>{loginError}</ErrorMessage> : null}
-                    </Title>
+                    <Title>{tt('g.login')}</Title>
+                    {loginError ? <ErrorMessage>{loginError}</ErrorMessage> : null}
                     <LoginBlock>
                         <LoginLabel>@</LoginLabel>
                         <LoginInput
