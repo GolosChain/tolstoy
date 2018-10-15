@@ -9,16 +9,13 @@ import user from 'app/redux/User';
 import tr from 'app/redux/Transaction';
 import Powerdown from 'app/components/modules/Powerdown';
 import MessageBox from 'app/components/modules/Messages';
-import Login from 'src/app/containers/login';
 
 class Modals extends React.Component {
     static propTypes = {
-        show_login_modal: PropTypes.bool,
         show_confirm_modal: PropTypes.bool,
         show_transfer_modal: PropTypes.bool,
         show_powerdown_modal: PropTypes.bool,
         show_promote_post_modal: PropTypes.bool,
-        hideLogin: PropTypes.func.isRequired,
         hideConfirm: PropTypes.func.isRequired,
         hideTransfer: PropTypes.func.isRequired,
         hidePowerdown: PropTypes.func.isRequired,
@@ -29,11 +26,9 @@ class Modals extends React.Component {
 
     render() {
         const {
-            show_login_modal,
             show_confirm_modal,
             show_transfer_modal,
             show_powerdown_modal,
-            hideLogin,
             hideTransfer,
             hidePowerdown,
             hideConfirm,
@@ -43,11 +38,6 @@ class Modals extends React.Component {
 
         return (
             <div>
-                {show_login_modal && (
-                    <Reveal onHide={hideLogin} show={show_login_modal}>
-                        <Login onCancel={hideLogin} />
-                    </Reveal>
-                )}
                 {show_confirm_modal && (
                     <Reveal onHide={hideConfirm} show={show_confirm_modal}>
                         <CloseButton onClick={hideConfirm} />
@@ -85,7 +75,6 @@ class Modals extends React.Component {
 export default connect(
     state => {
         return {
-            show_login_modal: state.user.get('show_login_modal'),
             show_confirm_modal: state.transaction.get('show_confirm_modal'),
             show_transfer_modal: state.user.get('show_transfer_modal'),
             show_promote_post_modal: state.user.get('show_promote_post_modal'),
@@ -94,10 +83,6 @@ export default connect(
         };
     },
     dispatch => ({
-        hideLogin: e => {
-            if (e) e.preventDefault();
-            dispatch(user.actions.hideLogin());
-        },
         hideConfirm: e => {
             if (e) e.preventDefault();
             dispatch(tr.actions.hideConfirm());

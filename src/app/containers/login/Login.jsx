@@ -8,8 +8,21 @@ import Icon from 'golos-ui/Icon';
 import { Checkbox } from 'golos-ui/Form';
 
 const Wrapper = styled.div`
-    margin: 4px 14px;
+    max-width: 90%;
+    min-width: 460px;
+
+    position: relative;
+    padding: 20px 30px;
     font: 14px Roboto;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
+
+    @media (max-width: 500px) {
+        width: calc(100% - 20px);
+        margin: 10px;
+        min-width: 360px;
+    }
 `;
 
 const CloseButton = styled.div`
