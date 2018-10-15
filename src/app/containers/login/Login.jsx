@@ -36,18 +36,16 @@ const CloseButton = styled.div`
     height: 24px;
     cursor: pointer;
     margin: -6px;
+    color: #e1e1e1;
 
-    & svg {
-        color: #e1e1e1;
-        padding: 0;
-    }
-
-    &:hover svg {
+    &:hover {
         color: #b9b9b9;
     }
 `;
 
 const Title = styled.h1`
+    width: 100%;
+    margin-bottom: 20px;
     text-align: center;
     color: #393636;
     font-size: 24px;
@@ -56,7 +54,7 @@ const Title = styled.h1`
 `;
 
 const ErrorMessage = styled.div`
-    margin: auto;
+    margin: -24px auto 10px;
     color: #ff0000;
     font-size: 12px;
     text-align: center;
@@ -66,15 +64,12 @@ const Form = styled.form`
     display: flex;
     align-items: flex-start;
     flex-direction: column;
-    & > * {
-        width: 100%;
-        margin-bottom: 20px;
-    }
 `;
 
 const LoginBlock = styled.div`
     display: flex;
     justify-content: space-between;
+    width: 100%;
     height: 30px;
     margin-bottom: 30px;
     border-radius: 6px;
@@ -111,18 +106,15 @@ const PasswordInput = styled.input`
 `;
 
 const BlockCheckboxes = styled.div`
-    margin-top: 20px;
-
-    & > div {
-        width: 100%;
-        height: 24px;
-        color: #393636;
-    }
+    margin: 20px 0;
 `;
 
 const ConsentCheckbox = styled.div`
     display: flex;
     justify-content: space-between;
+    width: 100%;
+    height: 24px;
+    color: #393636;
 `;
 
 const CheckboxLabel = styled.div`

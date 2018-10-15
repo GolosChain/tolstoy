@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { Login } from 'src/app/containers/login/Login';
 import transaction from 'app/redux/Transaction';
 import user from 'app/redux/User';
+import { userSelector } from 'src/app/redux/selectors/common';
 
 let saveLoginDefault = true;
 if (process.env.BROWSER) {
@@ -9,12 +10,10 @@ if (process.env.BROWSER) {
 }
 
 export default connect(
-    state => {
-        return {
-            loginBroadcastOperation: state.user.get('loginBroadcastOperation'),
-            loginError: state.user.get('login_error'),
-        };
-    },
+    state => ({
+        loginBroadcastOperation: userSelector('loginBroadcastOperation')(state),
+        loginError: userSelector('login_error')(state),
+    }),
     dispatch => {
         return {
             clearError: () => {
