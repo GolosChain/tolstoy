@@ -132,7 +132,7 @@ const LoginButton = styled(Button)`
 
 export class Login extends Component {
     static propTypes = {
-        onCancel: PropTypes.func.isRequired,
+        onClose: PropTypes.func.isRequired,
     };
 
     state = {
@@ -176,11 +176,11 @@ export class Login extends Component {
     };
 
     render() {
-        const { onCancel, loginError, className } = this.props;
+        const { onClose, loginError, className } = this.props;
         const { consent, saveCredentials, submitting } = this.state;
         return (
             <Wrapper className={className}>
-                <CloseButton onClick={onCancel}>
+                <CloseButton onClick={onClose}>
                     <Icon name="cross" width={16} height={16} />
                 </CloseButton>
                 <Form>
