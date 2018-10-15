@@ -98,5 +98,6 @@
   "openexchangerates_app_id": "SDC_OPENEXCHANGERATES_APP_ID",
   "gate_service_url": "SDC_GATE_SERVICE_URL",
   "facade_service_url": "SDC_FACADE_SERVICE_URL",
-  "rates_service_url": "SDC_RATES_SERVICE_URL"
+  "rates_service_url": "SDC_RATES_SERVICE_URL",
+  "relapio_token": "SDC_RELAPIO_TOKEN"
 }

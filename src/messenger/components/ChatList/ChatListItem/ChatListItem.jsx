@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import Avatar from 'src/app/components/common/Avatar';
 
-const ChatListItemWrapper = styled.div`
+const Wrapper = styled.div`
     display: flex;
     align-items: center;
     flex: 1;
     
     padding: 18px;
 
-    background-color: ${({unread}) => unread ? '#F8F8F8' : '#fff'};
+    background-color: ${({ selected }) => (selected ? '#aecaff' : '#fff')};
     border-bottom: 1px solid #fff;
     cursor: pointer;
     user-select: none;
@@ -45,20 +46,32 @@ const Sender = styled.div`
 `;
 
 export default class ChatListItem extends Component {
+    static propTypes = {
+        profileName: PropTypes.string,
+        profileImage: PropTypes.string,
+        selected: PropTypes.bool,
+        time: PropTypes.string,
+        lastMessage: PropTypes.string,
+        unread: PropTypes.bool,
+        onSelect: PropTypes.func.isRequired,
+    };
+
     render() {
         const {
+            profileName,
             profileImage,
             selected,
             unread,
-            profileName,
             time,
-            lastMessage
+            lastMessage,
+            onSelect,
         } = this.props;
 
         return (
-            <ChatListItemWrapper 
+            <Wrapper 
                 unread={unread}
                 selected={selected}
+                onClick={onSelect}
             >
                 <Avatar
                     avatarUrl={profileImage}
@@ -73,7 +86,7 @@ export default class ChatListItem extends Component {
                         {lastMessage}
                     </MessagePreview>
                 </Body>
-            </ChatListItemWrapper>
+            </Wrapper>
         );
     }
 }

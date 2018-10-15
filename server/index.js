@@ -28,6 +28,7 @@ global.$STM_Config = {
     /* isTestnet: config.get('is_testnet'), */
     is_sandbox: config.get('is_sandbox') === 'false' ? false : true,
     gate_service_url: config.get('gate_service_url'),
+    relapio_token: config.get('relapio_token'),
 };
 
 const WebpackIsomorphicTools = require('webpack-isomorphic-tools');

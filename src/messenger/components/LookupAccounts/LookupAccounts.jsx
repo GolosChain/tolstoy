@@ -7,8 +7,8 @@ import Icon from 'golos-ui/Icon';
 
 import {
     MIN_ACCOUNT_NAME_LENGTH,
-    MAX_ACCOUNT_NAME_LENGTH
-} from '../../utils/constants';
+    MAX_ACCOUNT_NAME_LENGTH,
+} from 'src/messenger/utils/constants';
 
 const LookupAccountsWrapper = styled.div`
     display: flex;

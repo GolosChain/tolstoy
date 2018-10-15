@@ -197,6 +197,11 @@
     "copied": "Скопировано!",
     "copy": "Скопировать"
   },
+  "footer": {
+    "mobile_apps": "Приложения",
+    "social_networks": "Социальные сети",
+    "total_paid": "Всего выплачено"
+  },
   "g": {
     "24_hour": "24 часа",
     "30_day": "30 дней",
@@ -427,7 +432,7 @@
     "tag": "Тэг",
     "tags_and_topics": "Тэги и топики",
     "tags_filter": "Фильтр",
-    "team": "Команда",
+    "team": "Команда Golos.io",
     "terms_and_conditions": "Условия и Соглашения",
     "the_rules_of_APP_NAME": {
       "fifth": "Используйте только сгенерированные случайным образом пароли.",
@@ -478,7 +483,7 @@
   },
   "generated_password_input": {
     "i_have_read_and_agree_to_the": "Я прочитал и согласен с",
-    "terms_of_service": "Условиями пользования"
+    "terms_of_service": "Условиями использования"
   },
   "header": {
     "account_price": "Стоимость аккаунта"
@@ -500,12 +505,12 @@
     "sort_order_posts": "%(sort_order)s посты",
     "sort_order_topic_posts": "%(sort_order)s %(topic)s посты",
     "stolen_account_recovery": "Возврат украденного аккаунта",
-    "terms_of_service": "Условия пользования"
+    "terms_of_service": "Условия использования"
   },
   "illegal_content": {
     "due_to_illegal_content": "из-за нарушений",
     "hidden": "скрыт",
-    "terms_of_service": "Условий пользования",
+    "terms_of_service": "Условий использования",
     "terms_of_service_section": "",
     "unavailable": "Пользователь заблокирован"
   },
@@ -520,6 +525,7 @@
     "however_you_can_use_it_to": "Тем не менее его можно использовать чтобы ",
     "join_our": "Присоединяйтесь к нашему",
     "keep_me_logged_in": "Оставить меня залогиненным",
+    "consent": "Согласие с условиями",
     "login_to_comment": "Пожалуйста, авторизуйтесь для выполнения следующих действий",
     "login_to_post": "Авторизуйтесь, чтобы написать пост",
     "login_to_vote": "Авторизуйтесь, чтобы проголосовать",
@@ -628,7 +634,7 @@
     "currency_market": "Внутренний рынок",
     "delegates": "Делегаты",
     "explore": "Исследовать",
-    "faq": "FAQ",
+    "faq": "Частые вопросы",
     "feedback": "Обратная связь",
     "market": "Купить или Продать",
     "payouts_by_tag": "Выплаты по тэгам",
@@ -638,7 +644,7 @@
     "sign_up": "СОЗДАТЬ АККАУНТ",
     "stolen_account_recovery": "Возврат украденного аккаунта",
     "telegram_support": "%(APP_NAME_UP)s Техподдержка",
-    "terms_of_service": "Условия пользования",
+    "terms_of_service": "Условия использования",
     "vote_for_witnesses": "Проголосовать за делегатов",
     "welcome": "Добро пожаловать",
     "wiki": "Вики",

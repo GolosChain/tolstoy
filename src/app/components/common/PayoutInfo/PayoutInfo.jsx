@@ -1,13 +1,10 @@
 import React, { PureComponent, Fragment } from 'react';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { injectIntl } from 'react-intl';
 import tt from 'counterpart';
 import capitalize from 'lodash/capitalize';
 
 import { renderValue } from 'src/app/helpers/currency';
-import { getHistoricalData } from 'src/app/redux/actions/rates';
-import payoutInfoSelector from './PayoutInfo.selector';
 
 const Root = styled.div`
     border-radius: 8px;
@@ -67,22 +64,59 @@ const Money = styled.span`
     font-weight: bold;
 `;
 
-const MoneyNative = styled.span``;
+const MoneyConvert = styled.span``;
+
+const Plus = styled.span`
+    margin: 0 4px;
+`;
 
 @injectIntl
-@connect(
-    payoutInfoSelector,
-    {
-        getHistoricalData,
-    }
-)
 export default class PayoutInfo extends PureComponent {
+    componentWillReceiveProps(newProps) {
+        const { needLoadRatesForDate } = this.props;
+        const needNew = newProps.needLoadRatesForDate;
+
+        if (needNew && needLoadRatesForDate !== needNew) {
+            this.props.getHistoricalData(needNew);
+        }
+    }
+
+    renderOverallValue() {
+        const { data, total, totalGbg, overallTotal } = this.props;
+
+        const lastPayout = data.get('last_payout');
+        const amount = renderValue(overallTotal, 'GOLOS', { date: lastPayout });
+        const amountGolos = `${total.toFixed(3)} GOLOS`;
+        const amountGbg = totalGbg ? `${totalGbg.toFixed(3)} GBG` : null;
+
+        const showOneCurrency = !amountGbg && amount.split(' ')[1] === 'GOLOS';
+
+        if (showOneCurrency) {
+            return <Money>{amount}</Money>;
+        }
+
+        let gbgSection = null;
+
+        if (amountGbg) {
+            gbgSection = (
+                <Fragment>
+                    {' + '}
+                    <Money>{amountGbg}</Money>{' '}
+                </Fragment>
+            );
+        }
+
+        return (
+            <Fragment>
+                <Money>{amountGolos}</Money>
+                {gbgSection} (<MoneyConvert>{amount}</MoneyConvert>)
+            </Fragment>
+        );
+    }
+
     render() {
-        const { data, intl, isPending, author, curator, benefactor } = this.props;
+        const { data, intl, isPending, author, authorGbg, curator, benefactor } = this.props;
 
-        const total = author + curator + benefactor;
-
-        const amount = renderValue(total, 'GOLOS', null, data.get('last_payout'));
         const duration = capitalize(intl.formatRelative(data.get('cashout_time')));
 
         return (
@@ -91,22 +125,19 @@ export default class PayoutInfo extends PureComponent {
                     <Title>
                         {isPending ? tt('payout_info.potential_payout') : tt('payout_info.payout')}
                     </Title>
-                    <Payout>
-                        {amount.endsWith('GOLOS') ? (
-                            <Money>{total.toFixed(3)} GOLOS</Money>
-                        ) : (
-                            <Fragment>
-                                <Money>{amount}</Money>{' '}
-                                <MoneyNative>({total.toFixed(3)} GOLOS)</MoneyNative>
-                            </Fragment>
-                        )}
-                    </Payout>
+                    <Payout>{this.renderOverallValue()}</Payout>
                     {isPending ? <Duration>{duration}</Duration> : null}
                 </Part>
                 <Part>
                     <Line>
                         <Label>{tt('payout_info.author')}</Label>
                         <Money>{author.toFixed(1)} GOLOS</Money>
+                        {authorGbg ? (
+                            <Fragment>
+                                <Plus>+</Plus>
+                                <Money>{authorGbg.toFixed(1)} GBG</Money>
+                            </Fragment>
+                        ) : null}
                     </Line>
                     <Line>
                         <Label>{tt('payout_info.curator')}</Label>

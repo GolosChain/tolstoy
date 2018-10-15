@@ -3,6 +3,7 @@ import cn from 'classnames';
 import { last } from 'ramda';
 import KEYS from 'app/utils/keyCodes';
 import CommonDialog from 'app/components/dialogs/CommonDialog';
+import Login from 'src/app/containers/login';
 
 let queue = [];
 let instance = null;
@@ -93,6 +94,12 @@ export default class DialogManager extends React.PureComponent {
                 },
                 onClose: resolve,
             });
+        });
+    }
+
+    static showLogin() {
+        return DialogManager.showDialog({
+            component: Login,
         });
     }
 
