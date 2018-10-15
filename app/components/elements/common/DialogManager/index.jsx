@@ -3,6 +3,7 @@ import cn from 'classnames';
 import { last } from 'ramda';
 import KEYS from 'app/utils/keyCodes';
 import CommonDialog from 'app/components/dialogs/CommonDialog';
+import Login from 'src/app/containers/login';
 
 let queue = [];
 let instance = null;
@@ -90,6 +91,19 @@ export default class DialogManager extends React.PureComponent {
                     title,
                     type: 'prompt',
                     text,
+                },
+                onClose: resolve,
+            });
+        });
+    }
+
+    static showLogin(afterLoginRedirectToWelcome) {
+        return new Promise(resolve => {
+            const dialog = DialogManager.showDialog({
+                component: Login,
+                props: {
+                    onCancel: () => dialog.close(),
+                    afterLoginRedirectToWelcome,
                 },
                 onClose: resolve,
             });

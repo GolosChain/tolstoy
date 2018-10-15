@@ -161,6 +161,7 @@ export class Login extends Component {
             this.props.loginBroadcastOperation,
             this.props.afterLoginRedirectToWelcome
         );
+        this.props.onCancel();
     };
 
     render() {
