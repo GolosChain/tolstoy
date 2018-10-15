@@ -1,16 +1,11 @@
 import { Map } from 'immutable';
 import { createSelector } from 'reselect';
 
-const emptyMap = Map();
+import { currentUserSelector } from 'src/app/redux/selectors/common';
 
 export const messengerSelector = type => state => state.messenger[type];
 
-export const showResults = createSelector(
-    messengerSelector('search'),
-    search => search.get('showResults')
-);
-
-export const getAccounts = createSelector(
-    messengerSelector('search'),
-    search => search.get('accounts', emptyMap)
+export const getCurrentUserPrivateMemoKey = createSelector(
+    currentUserSelector,
+    current => current.getIn(['private_keys', 'memo_private'])
 );

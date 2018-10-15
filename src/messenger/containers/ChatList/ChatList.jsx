@@ -1,42 +1,43 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+
 import { Map } from 'immutable';
 
-import { showResults, getAccounts } from '../../redux/selectors/common';
-import { getContactList } from '../../redux/selectors/contacts';
-
-import ChatList from '../../components/ChatList';
-import ChatListItem from '../../components/ChatList/ChatListItem';
-
-@connect(state => {
-    return {
-        searchAccounts: getAccounts(state),
-        showSearchResults: showResults(state),
-        contactList: getContactList(state),
-    };
-})
+import ChatList from 'src/messenger/components/ChatList';
+import ChatListItem from 'src/messenger/components/ChatList/ChatListItem';
 
 export default class ChatListContainer extends Component {
+    
     static propTypes = {
+        showSearchResults: PropTypes.bool,
+        searchContacts: PropTypes.instanceOf(Map),
         contactList: PropTypes.instanceOf(Map),
-        searchAccounts: PropTypes.instanceOf(Map),
-        showSearchResults: PropTypes.bool
+        selectedChat: PropTypes.instanceOf(Map),
+        selectChat: PropTypes.func.isRequired,
     };
 
-    renderChatList = list => {
+    onSelectChat = (contact, type) => {
+        this.props.selectChat(contact, type)
+    };
+
+    renderChatList = (list, listType) => {
+        const { selectedChat } = this.props;
+        
         return list
             .map(item => (
                 <ChatListItem
                     key={item.get('contact')}
-                    userName={item.get('contact')}
-                    profileImage={item.get('profileImage')}
                     profileName={item.get('profileName')}
+                    profileImage={item.get('profileImage')}
+                    selected={selectedChat.get('contact') === item.get('contact')}
                     time={item.get('time')}
                     lastMessage={
                         item.get('lastMessage') ? item.get('lastMessage') : `@${item.get('contact')}`
                     }
                     unread={item.get('unread')}
+                    onSelect={
+                        () => this.onSelectChat(item.get('contact'), listType)
+                    }
                 />
             ))
             .toArray();
@@ -44,13 +45,17 @@ export default class ChatListContainer extends Component {
 
     render() {
         const {
-            searchAccounts,
             showSearchResults,
-            contactList
+            searchContacts,
+            contactList,
         } = this.props;
-        
+
+        const listType = showSearchResults ? 'search' : 'contacts';
+
         return (
-            <ChatList>{this.renderChatList(showSearchResults ? searchAccounts : contactList)}</ChatList>
+            <ChatList>
+                {this.renderChatList(showSearchResults ? searchContacts : contactList, listType)}
+            </ChatList>
         );
     }
 }

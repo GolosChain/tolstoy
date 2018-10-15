@@ -1,18 +1,6 @@
-import {
-    CONTACTS_SEARCH,
-    CONTACTS_SEARCH_HIDE_RESULTS
-} from '../constants/contacts'
+import { CONTACTS_SEARCH } from 'src/messenger/redux/constants/contacts';
 
-export function searchAccounts(query) {
-    return {
-        type: CONTACTS_SEARCH,
-        payload: { query }
-    }
-}
-
-export function closeSearchResults() {
-    return {
-        type: CONTACTS_SEARCH_HIDE_RESULTS,
-        payload: {}
-    }
-}
+export const searchContacts = query => ({
+    type: CONTACTS_SEARCH,
+    payload: { query },
+});

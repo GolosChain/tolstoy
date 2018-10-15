@@ -1,23 +1,15 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+
 import tt from 'counterpart';
 import { Helmet } from 'react-helmet';
 
 import { authProtection } from 'src/app/helpers/hoc';
-import { Messenger, ChatListPanel } from '../../components/Messenger';
-import Chat from '../Chat';
-import ChatListContainer from '../ChatList';
-import LookupAccounts from '../LookupAccounts';
-import { dialogs, chatData } from '../../utils/_data';
-import { initMessenger } from '../../redux/actions/messenger';
+import { Messenger, ChatListPanel } from 'src/messenger/components/Messenger';
+import Chat from 'src/messenger/containers/Chat';
+import ChatListContainer from 'src/messenger/containers/ChatList';
+import LookupAccounts from 'src/messenger/containers/LookupAccounts';
 
 @authProtection()
-@connect(
-    null,
-    {
-        initMessenger,
-    }
-)
 export default class MessengerApp extends Component {
 
     componentDidMount() {
@@ -39,11 +31,9 @@ export default class MessengerApp extends Component {
                 </Helmet>
                 <ChatListPanel>
                     <LookupAccounts />
-                    <ChatListContainer 
-                        dialogs={dialogs}
-                    />
+                    <ChatListContainer />
                 </ChatListPanel>
-                <Chat data={chatData}/>
+                <Chat />
             </Messenger>
         );
     }
