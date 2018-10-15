@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import { Map } from 'immutable';
 
-import { messengerSelector } from 'src/messenger/redux/selectors/common';
+import { messengerSelector } from './common';
 
 const emptyMap = Map();
 

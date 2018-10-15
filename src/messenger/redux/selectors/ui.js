@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-import { messengerSelector } from 'src/messenger/redux/selectors/common';
+import { messengerSelector } from './common';
 
 export const showSearchResults = createSelector(
     messengerSelector('ui'),

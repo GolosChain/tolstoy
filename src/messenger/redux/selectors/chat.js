@@ -1,8 +1,8 @@
 import { createSelector } from 'reselect';
 import { Map } from 'immutable';
 
-import { messengerSelector } from 'src/messenger/redux/selectors/common';
-import { getSelectedChat } from 'src/messenger/redux/selectors/ui';
+import { messengerSelector } from './common';
+import { getSelectedChat } from './ui';
 
 export const getSelectedContact = createSelector(
     getSelectedChat,
