@@ -22,6 +22,7 @@ const Wrapper = styled.div.attrs({
     justify-content: center;
 
     color: #E1E1E1;
+    box-shadow: 0 0 1px #000;
 
     ${is('icon')`
         margin-left: 6px;
