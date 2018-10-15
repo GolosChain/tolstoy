@@ -133,11 +133,6 @@ const LoginButton = styled(Button)`
 export class Login extends Component {
     static propTypes = {
         onCancel: PropTypes.func.isRequired,
-        afterLoginRedirectToWelcome: PropTypes.bool,
-    };
-
-    static defaultProps = {
-        afterLoginRedirectToWelcome: false,
     };
 
     state = {
@@ -171,11 +166,7 @@ export class Login extends Component {
             password: this.password.current.value,
             saveLogin: this.state.saveCredentials,
         };
-        this.props.dispatchSubmit(
-            data,
-            this.props.loginBroadcastOperation,
-            this.props.afterLoginRedirectToWelcome
-        );
+        this.props.dispatchSubmit(data, this.props.loginBroadcastOperation);
     };
 
     clearError = () => {

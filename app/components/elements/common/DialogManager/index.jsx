@@ -97,12 +97,11 @@ export default class DialogManager extends React.PureComponent {
         });
     }
 
-    static showLogin(afterLoginRedirectToWelcome) {
+    static showLogin() {
         const dialog = DialogManager.showDialog({
             component: Login,
             props: {
                 onCancel: () => dialog.close(),
-                afterLoginRedirectToWelcome,
             },
         });
         return dialog;

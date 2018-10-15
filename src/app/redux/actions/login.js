@@ -1,7 +1,7 @@
 import transaction from 'app/redux/Transaction';
 import user from 'app/redux/User';
 
-export function dispatchLogin(data, loginBroadcastOperation, afterLoginRedirectToWelcome) {
+export function dispatchLogin(data, loginBroadcastOperation) {
     return dispatch => {
         const { username, password, saveLogin } = data;
         if (loginBroadcastOperation) {
@@ -26,7 +26,6 @@ export function dispatchLogin(data, loginBroadcastOperation, afterLoginRedirectT
                     username,
                     password,
                     saveLogin,
-                    afterLoginRedirectToWelcome,
                     operationType: type,
                 })
             );
@@ -37,7 +36,6 @@ export function dispatchLogin(data, loginBroadcastOperation, afterLoginRedirectT
                     username,
                     password,
                     saveLogin,
-                    afterLoginRedirectToWelcome,
                 })
             );
         }
