@@ -114,7 +114,7 @@ export default class AccountNameInput extends PureComponent {
     state = {
         focus: false,
         open: false,
-        valid: false,
+        valid: Boolean(this.props.value) && !utils.validateAccountName(this.props.value),
         index: null,
         list: null,
         popoverPos: null,
