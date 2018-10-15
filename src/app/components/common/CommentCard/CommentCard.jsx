@@ -68,8 +68,7 @@ const Title = styled.div`
 `;
 
 const PostBody = styled(({ isPostPage, ...otherProps }) => <Link {...otherProps} />)`
-    display: flex;
-    align-items: center;
+    display: block;
 
     margin-right: 18px;
 
@@ -86,6 +85,7 @@ const PostBody = styled(({ isPostPage, ...otherProps }) => <Link {...otherProps}
 const PostBodyWrapper = styled.div`
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
     padding: 0 18px;
 `;
@@ -123,6 +123,14 @@ const LoaderWrapper = styled.div`
 
 const CategoryTogglerWrapper = styled.div`
     display: flex;
+    align-items: center;
+`;
+
+const EmptyCloseOpenButton = styled.div`
+    flex-shrink: 0;
+
+    width: 30px;
+    height: 30px;
 `;
 
 export class CommentCard extends Component {
@@ -151,6 +159,20 @@ export class CommentCard extends Component {
 
     commentRef = createRef();
     replyRef = createRef();
+
+    componentDidMount() {
+        const { combCommentRef } = this.props;
+        if (combCommentRef) {
+            this.props.combCommentRef.current = this;
+        }
+    }
+
+    componentWillUnmount() {
+        const { combCommentRef } = this.props;
+        if (combCommentRef) {
+            this.props.combCommentRef.current = null;
+        }
+    }
 
     componentWillReceiveProps(newProps) {
         if (this.props.comment !== newProps.comment && this.props.dataLoaded) {
@@ -190,10 +212,7 @@ export class CommentCard extends Component {
                             isPostPage={isPostPage}
                         />
                     )}
-                    <CloseOpenButton
-                        isCommentOpen={isCommentOpen}
-                        toggleComment={this.toggleComment}
-                    />
+                    <EmptyCloseOpenButton />
                 </HeaderLine>
             </Header>
         );
@@ -205,7 +224,7 @@ export class CommentCard extends Component {
         const detransliteratedCategory = detransliterate(comment.get('category'));
 
         return (
-            <Header>
+            <Header isCommentOpen={isCommentOpen}>
                 <HeaderLine>
                     {isCommentOpen ? (
                         <CommentAuthor
@@ -339,8 +358,8 @@ export class CommentCard extends Component {
     };
 
     render() {
-        console.log('render');
         const { showReply, isCommentOpen, edit, myVote } = this.state;
+
         const {
             dataLoaded,
             comment,
