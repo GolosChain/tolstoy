@@ -24,11 +24,13 @@ const postUrlFromPathnameSelector = createDeepEqualSelector([pathnameSelector], 
 
 const getMyVote = (post, username) => {
     const votes = post.get('active_votes');
-    for (let vote of votes) {
-        if (vote.get('voter') === username) {
-            const myVote = vote.toJS();
-            myVote.weight = parseInt(myVote.weight || 0, 10);
-            return myVote;
+    if (votes) {
+        for (let vote of votes) {
+            if (vote.get('voter') === username) {
+                const myVote = vote.toJS();
+                myVote.weight = parseInt(myVote.weight || 0, 10);
+                return myVote;
+            }
         }
     }
     return 0;
