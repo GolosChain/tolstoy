@@ -8,7 +8,6 @@ export default connect(
     state => ({
         loginBroadcastOperation: userSelector('loginBroadcastOperation')(state),
         loginError: userSelector('login_error')(state),
-        saveLoginDefault: userSelector('saveLoginDefault')(state),
     }),
     dispatch => {
         return {
