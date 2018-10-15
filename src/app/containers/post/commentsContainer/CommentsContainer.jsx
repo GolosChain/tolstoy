@@ -7,7 +7,7 @@ import CommentsList from 'src/app/components/post/CommentsList';
 
 const Wrapper = styled.div`
     padding-top: 30px;
-    
+
     @media (max-width: 576px) {
         margin: 0 20px;
     }
@@ -24,25 +24,13 @@ export class CommentsContainer extends Component {
     };
 
     render() {
-        const {
-            commentsCount,
-            data,
-            comments,
-            isFetching,
-            postPermLink,
-            saveListScrollPosition,
-        } = this.props;
+        const { commentsCount, data } = this.props;
 
         return (
             <Wrapper>
                 <CommentsHeader commentsCount={commentsCount} />
                 <CreateComment data={data} updateComments={this.updateComments} />
-                <CommentsList
-                    comments={comments}
-                    isFetching={isFetching}
-                    saveListScrollPosition={saveListScrollPosition}
-                    postPermLink={postPermLink}
-                />
+                <CommentsList />
             </Wrapper>
         );
     }

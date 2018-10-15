@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment, createRef } from 'react';
+import React, { Component, Fragment, createRef } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { Map } from 'immutable';
@@ -125,7 +125,7 @@ const CategoryTogglerWrapper = styled.div`
     display: flex;
 `;
 
-export class CommentCard extends PureComponent {
+export class CommentCard extends Component {
     static propTypes = {
         permLink: PropTypes.string,
         grid: PropTypes.bool,
@@ -140,7 +140,6 @@ export class CommentCard extends PureComponent {
         }),
         isOwner: PropTypes.bool.isRequired,
         username: PropTypes.string,
-        insetDeep: PropTypes.number.isRequired,
     };
 
     state = {
@@ -174,7 +173,7 @@ export class CommentCard extends PureComponent {
 
     renderHeaderForPost() {
         const { isCommentOpen } = this.state;
-        const { comment, extractedContent, isPostPage, insetDeep } = this.props;
+        const { comment, extractedContent, isPostPage } = this.props;
 
         return (
             <Header isCommentOpen={isCommentOpen}>
@@ -191,12 +190,10 @@ export class CommentCard extends PureComponent {
                             isPostPage={isPostPage}
                         />
                     )}
-                    {insetDeep === 0 && (
-                        <CloseOpenButton
-                            isCommentOpen={isCommentOpen}
-                            toggleComment={this.toggleComment}
-                        />
-                    )}
+                    <CloseOpenButton
+                        isCommentOpen={isCommentOpen}
+                        toggleComment={this.toggleComment}
+                    />
                 </HeaderLine>
             </Header>
         );
@@ -342,6 +339,7 @@ export class CommentCard extends PureComponent {
     };
 
     render() {
+        console.log('render');
         const { showReply, isCommentOpen, edit, myVote } = this.state;
         const {
             dataLoaded,
@@ -360,7 +358,6 @@ export class CommentCard extends PureComponent {
                 </LoaderWrapper>
             );
         }
-
         return (
             <Root commentopen={isCommentOpen ? 1 : 0} className={className}>
                 {isPostPage ? this.renderHeaderForPost() : this.renderHeaderForProfile()}
