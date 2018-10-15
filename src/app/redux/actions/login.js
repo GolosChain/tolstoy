@@ -11,6 +11,7 @@ export function dispatchLogin(data, loginBroadcastOperation) {
                 successCallback,
                 errorCallback,
             } = loginBroadcastOperation.toJS();
+
             const success = () => {
                 successCallback();
                 dispatch(
