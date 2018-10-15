@@ -39,7 +39,7 @@ const ToggleButton = styled(CloseOpenButton)`
     `};
 `;
 
-export default class CombinedComment extends Component {
+export default class InsetComment extends Component {
     state = {
         isCommentOpen: true,
     };

@@ -1,4 +1,4 @@
-import React, { Component, Fragment, createRef } from 'react';
+import React, { PureComponent, Fragment, createRef } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { Map } from 'immutable';
@@ -133,7 +133,7 @@ const EmptyCloseOpenButton = styled.div`
     height: 30px;
 `;
 
-export class CommentCard extends Component {
+export class CommentCard extends PureComponent {
     static propTypes = {
         permLink: PropTypes.string,
         grid: PropTypes.bool,
@@ -163,14 +163,14 @@ export class CommentCard extends Component {
     componentDidMount() {
         const { combCommentRef } = this.props;
         if (combCommentRef) {
-            this.props.combCommentRef.current = this;
+            combCommentRef.current = this;
         }
     }
 
     componentWillUnmount() {
         const { combCommentRef } = this.props;
         if (combCommentRef) {
-            this.props.combCommentRef.current = null;
+            combCommentRef.current = null;
         }
     }
 
