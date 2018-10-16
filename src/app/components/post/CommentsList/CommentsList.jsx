@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import InsetComment from 'src/app/components/post/InsetComment';
+import InsetComment from 'src/app/components/post/InsetComments';
 
 export class CommentsList extends Component {
     static propTypes = {

@@ -7,6 +7,9 @@ import { CommentsList } from 'src/app/components/post/CommentsList/CommentsList'
 
 const INSET_COMMENTS_LEVELS_NUMBER = 6;
 
+// function receive original comments array, and reply on current cycle, searching this one in original array,
+// make it null for remove redundant cycles
+// return current reply object
 function getComment(comments, reply) {
     for (let i = 0; i < comments.length; i++) {
         let comment = comments[i];
@@ -20,6 +23,8 @@ function getComment(comments, reply) {
     }
 }
 
+// recursive function receive original comments array, comment object on current cycle, third param is deep of reply
+// return array with current comment object and replies (on this comment) objects
 function findReplies(comments, currentComment, insetDeep = 0) {
     const commentWithReplies = [];
     const authorAndPermLink = `${currentComment.author}/${currentComment.permlink}`;
@@ -45,6 +50,7 @@ function findReplies(comments, currentComment, insetDeep = 0) {
     return commentWithReplies;
 }
 
+// function receive comments from store and parent post permlink, return array of arrays with comments
 function mapComments(commentsFromStore, postPermLink) {
     const comments = [];
     const commentsCopy = [...commentsFromStore.toJS()];
