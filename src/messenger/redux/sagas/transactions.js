@@ -102,8 +102,8 @@ function* broadcastCustomJson({
         if (!signingKey) {
             // TODO ?
         }
-
-        yield broadcast.sendAsync({ extensions: [], operations }, [ signingKey ]);
+        // FIXME
+        // yield broadcast.sendAsync({ extensions: [], operations }, [ signingKey ]);
         if (successCallback) {
             successCallback();
         }
@@ -126,7 +126,7 @@ function* tryEncryptMessage(fromPrivateMemoKey, toPublicMemoKey, stringifyMessag
     const { nonce, message, checksum } = Aes.encrypt(fromPrivateKey, toPublicMemoKey, stringifyMessage, testNonce);
 
     return {
-        nonce: nonce.toNumber(),
+        nonce: nonce.toString(),
         from_memo_key: fromPublicKey,
         to_memo_key: toPublicMemoKey,
         checksum,
