@@ -1,4 +1,5 @@
 import React, { Component, Fragment, createRef } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { isNot } from 'styled-is';
 
@@ -40,6 +41,11 @@ const ToggleButton = styled(CloseOpenButton)`
 `;
 
 export default class InsetComment extends Component {
+    static propTypes = {
+        comment: PropTypes.array.isRequired,
+        saveListScrollPosition: PropTypes.func.isRequired,
+    };
+
     state = {
         isCommentOpen: true,
     };

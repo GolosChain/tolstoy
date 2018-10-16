@@ -21,10 +21,10 @@ function getComment(comments, reply) {
 }
 
 function findReplies(comments, currentComment, insetDeep = 0) {
-    const commentWithChildren = [];
+    const commentWithReplies = [];
     const authorAndPermLink = `${currentComment.author}/${currentComment.permlink}`;
 
-    commentWithChildren.push({
+    commentWithReplies.push({
         authorAndPermLink,
         insetDeep,
     });
@@ -38,16 +38,16 @@ function findReplies(comments, currentComment, insetDeep = 0) {
         replies.forEach(reply => {
             const comment = getComment(comments, reply);
             const insetReplies = findReplies(comments, comment, insetDeep);
-            commentWithChildren.push(...insetReplies);
+            commentWithReplies.push(...insetReplies);
         });
     }
 
-    return commentWithChildren;
+    return commentWithReplies;
 }
 
-function mapComments(comments, postPermLink) {
-    const commentsComponents = [];
-    const commentsCopy = [...comments.toJS()];
+function mapComments(commentsFromStore, postPermLink) {
+    const comments = [];
+    const commentsCopy = [...commentsFromStore.toJS()];
     for (let i = 0; i < commentsCopy.length; i++) {
         const currentComment = commentsCopy[i];
 
@@ -57,9 +57,9 @@ function mapComments(comments, postPermLink) {
 
         commentsCopy[i] = null;
 
-        commentsComponents.push(findReplies(commentsCopy, currentComment));
+        comments.push(findReplies(commentsCopy, currentComment));
     }
-    return commentsComponents;
+    return comments;
 }
 
 export default connect(
