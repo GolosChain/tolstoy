@@ -21,7 +21,7 @@ const Arrow = styled.div`
     top: -9px;
     right: 15px;
     background: #fff;
-    box-shadow: -3px -3px 3px 0px rgba(0, 0, 0, 0.015);
+    box-shadow: -3px -3px 3px 0px rgba(0, 0, 0, 0.035);
     transform: rotate(45deg);
 `;
 

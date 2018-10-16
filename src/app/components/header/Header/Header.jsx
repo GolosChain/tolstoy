@@ -7,9 +7,7 @@ import throttle from 'lodash/throttle';
 import tt from 'counterpart';
 
 import { REGISTRATION_URL } from 'app/client_config';
-import {
-    getNotificationsHistoryFreshCount,
-} from 'src/app/redux/actions/notifications';
+import { getNotificationsHistoryFreshCount } from 'src/app/redux/actions/notifications';
 
 import Icon from 'golos-ui/Icon';
 import IconBadge from 'golos-ui/IconBadge';
@@ -56,12 +54,12 @@ const Filler = styled.div`
     height: 60px;
 `;
 
-const Splitter = styled.div`
+/*const Splitter = styled.div`
     width: 2px;
     height: 44px;
     margin: 0 20px;
     background: #f0f0f0;
-`;
+`;*/
 
 const LogoLink = styled(Link)`
     display: flex;
@@ -102,8 +100,7 @@ const SearchBlock = styled(Link)`
     display: flex;
     align-items: center;
     flex-grow: 1;
-    margin-left: 8px;
-    padding-right: 10px;
+    margin: 0 20px 0 8px;
 
     ${is('mobile')`
         padding: 10px 20px;
@@ -126,6 +123,8 @@ const FlexFiller = styled.div`
 `;
 
 const SearchIcon = styled(Icon)`
+    flex-shrink: 0;
+
     width: 18px;
     height: 18px;
     color: #393636;
@@ -162,7 +161,7 @@ const AuthorizedBlock = styled.div`
 `;
 
 const NewPostLink = styled(Link)`
-    padding: 0 10px;
+    margin: 0 10px;
 `;
 
 const NewPostButton = styled(Button)``;
@@ -173,26 +172,34 @@ const NewPostIcon = styled(Icon)`
     margin-right: 7px !important;
 `;
 
-const AccountInfoWrapper = styled.div`
+/*const AccountInfoWrapper = styled.div`
     position: relative;
     display: flex;
     align-items: center;
     height: 100%;
-`;
+`;*/
 
-const AccountInfoBlock = styled.div`
+const AccountInfoBlock = styled(Link)`
     position: relative;
+    z-index: 1;
     display: flex;
     align-items: center;
+
     height: 100%;
-    padding: 0 10px;
-    cursor: pointer;
+    padding: 0 20px;
+
+    color: #393636;
     user-select: none;
-    z-index: 1;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+        color: #393636;
+    }
 `;
 
 const AccountText = styled.div`
-    margin: 0 12px;
+    margin: 0 0 0 12px;
 `;
 
 const AccountName = styled.div`
@@ -206,25 +213,33 @@ const AccountName = styled.div`
 `;
 
 const AccountPowerBlock = styled.div`
+    display: flex;
+
     line-height: 18px;
 `;
 
-const AccountPowerLabel = styled.span`
+/*const AccountPowerLabel = styled.span`
     margin-right: 3px;
     font-size: 13px;
     color: #999;
-`;
+`;*/
 
 const AccountPowerValue = styled.span`
+    color: #78c2d0;
     font-size: 13px;
 `;
 
-const AccountPowerBar = styled.div``;
+const AccountPowerBar = styled.div`
+    display: flex;
+    align-items: center;
+
+    margin-right: 8px;
+`;
 
 const AccountPowerChunk = styled.div`
-    width: 16px;
-    height: 4px;
-    margin: 2px 0;
+    width: 4px;
+    height: 14px;
+    margin: 0 1px;
     border-radius: 2px;
     background: #d8d8d8;
 
@@ -237,7 +252,7 @@ const Notifications = styled.div`
     display: flex;
     align-items: center;
     padding: 10px;
-    margin-right: 10px;
+    margin-left: 10px;
     user-select: none;
     cursor: pointer;
     color: #393636;
@@ -255,9 +270,27 @@ const Notifications = styled.div`
     `};
 `;
 
-const DotsWrapper = styled.div`
+const Messages = styled(Link)`
+    display: flex;
+    align-items: center;
     padding: 10px;
+    margin-left: 10px;
+    user-select: none;
     cursor: pointer;
+    color: #393636;
+    transition: none;
+
+    ${is('mobile')`
+        padding: 10px 20px;
+    `};
+
+    &:focus {
+        color: #393636;
+    }
+
+    &:hover {
+        color: #2879ff;
+    }
 `;
 
 const Dots = styled(Icon)`
@@ -266,6 +299,21 @@ const Dots = styled(Icon)`
     height: 20px;
     color: #393636;
     user-select: none;
+`;
+
+const DotsWrapper = styled.div`
+    padding: 10px;
+    cursor: pointer;
+
+    &:hover > ${Dots} {
+        color: #2879ff;
+    }
+
+    ${is('active')`
+        & > ${Dots} {
+            color: #2879ff;
+        }
+    `};
 `;
 
 const MobileAccountBlock = styled.div`
@@ -357,7 +405,6 @@ export default class Header extends PureComponent {
         });
     }, 100);
 
-
     onLoginClick = e => {
         e.preventDefault();
 
@@ -395,10 +442,9 @@ export default class Header extends PureComponent {
                         </NewPostButton>
                     </NewPostLink>
                 )}
-                {isMobile ? null : <Splitter />}
-                {isMobile ? null : this.renderFullAccountBlock()}
-                {isMobile ? null : <Splitter />}
                 {this.renderNotificationsBlock()}
+                {/*{this.renderMessagesBlock()} uncomment when messenger done*/}
+                {isMobile ? null : this.renderFullAccountBlock()}
                 {isMobile ? this.renderMobileAccountBlock() : null}
             </AuthorizedBlock>
         );
@@ -411,28 +457,22 @@ export default class Header extends PureComponent {
         const powerPercent = formatPower(votingPower);
 
         return (
-            <AccountInfoWrapper>
-                <AccountInfoBlock onClick={this.onAccountMenuToggle}>
-                    <Userpic account={currentAccountName} size={36} />
-                    <AccountText>
-                        <AccountName>{currentAccountName}</AccountName>
-                        <AccountPowerBlock>
-                            <AccountPowerLabel>Сила Голоса:</AccountPowerLabel>
-                            <AccountPowerValue>{powerPercent}%</AccountPowerValue>
-                        </AccountPowerBlock>
-                    </AccountText>
-                    <AccountPowerBar title={`Сила голоса: ${powerPercent}%`}>
-                        <AccountPowerChunk fill={votingPower > 90 ? 1 : 0} />
-                        <AccountPowerChunk fill={votingPower > 70 ? 1 : 0} />
-                        <AccountPowerChunk fill={votingPower > 50 ? 1 : 0} />
-                        <AccountPowerChunk fill={votingPower > 30 ? 1 : 0} />
-                        <AccountPowerChunk fill={votingPower > 10 ? 1 : 0} />
-                    </AccountPowerBar>
-                </AccountInfoBlock>
-                {isAccountOpen ? (
-                    <AccountMenuDesktopWrapper onClose={this.onAccountMenuToggle} />
-                ) : null}
-            </AccountInfoWrapper>
+            <AccountInfoBlock to={`/@${currentAccountName}`}>
+                <Userpic account={currentAccountName} size={36} />
+                <AccountText>
+                    <AccountName>{currentAccountName}</AccountName>
+                    <AccountPowerBlock>
+                        <AccountPowerBar title={`Сила голоса: ${powerPercent}%`}>
+                            <AccountPowerChunk fill={votingPower > 90 ? 1 : 0} />
+                            <AccountPowerChunk fill={votingPower > 70 ? 1 : 0} />
+                            <AccountPowerChunk fill={votingPower > 50 ? 1 : 0} />
+                            <AccountPowerChunk fill={votingPower > 30 ? 1 : 0} />
+                            <AccountPowerChunk fill={votingPower > 10 ? 1 : 0} />
+                        </AccountPowerBar>
+                        <AccountPowerValue>{powerPercent}%</AccountPowerValue>
+                    </AccountPowerBlock>
+                </AccountText>
+            </AccountInfoBlock>
         );
     }
 
@@ -441,16 +481,25 @@ export default class Header extends PureComponent {
         const { isMobile, isNotificationsOpen } = this.state;
 
         return (
-            <Fragment>
-                <Notifications
-                    mobile={isMobile ? 1 : 0}
-                    innerRef={this.noticationsRef}
-                    onClick={this.onNotificationsMenuToggle}
-                    active={isNotificationsOpen}
-                >
-                    <IconBadge name="bell" size={20} count={freshCount} />
-                </Notifications>
-            </Fragment>
+            <Notifications
+                mobile={isMobile ? 1 : 0}
+                innerRef={this.noticationsRef}
+                onClick={this.onNotificationsMenuToggle}
+                active={isNotificationsOpen}
+            >
+                <IconBadge name="bell" size={20} count={freshCount} />
+            </Notifications>
+        );
+    }
+
+    renderMessagesBlock() {
+        const { freshCount, currentAccountName } = this.props;
+        const { isMobile } = this.state;
+
+        return (
+            <Messages to={`/@${currentAccountName}/messages`} mobile={isMobile ? 1 : 0}>
+                <IconBadge name="messanger" size={21} count={0} />
+            </Messages>
         );
     }
 
@@ -513,7 +562,7 @@ export default class Header extends PureComponent {
                             {isMobile ? <FlexFiller /> : <SearchInput />}
                             <SearchIcon name="search" />
                         </SearchBlock>
-                        {isMobile ? null : <Splitter />}
+                        {/*{isMobile ? null : <Splitter />}*/}
                         {currentAccountName ? (
                             this.renderAuthorizedPart()
                         ) : (
@@ -527,7 +576,11 @@ export default class Header extends PureComponent {
                             </Buttons>
                         )}
                         {isMobile ? null : (
-                            <DotsWrapper innerRef={this.dotsRef} onClick={this.onMenuToggle}>
+                            <DotsWrapper
+                                innerRef={this.dotsRef}
+                                active={isMenuOpen}
+                                onClick={this.onMenuToggle}
+                            >
                                 <Dots name="dots" />
                             </DotsWrapper>
                         )}
