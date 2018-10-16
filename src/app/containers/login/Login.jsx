@@ -8,7 +8,7 @@ import Icon from 'golos-ui/Icon';
 import { Checkbox } from 'golos-ui/Form';
 
 const Wrapper = styled.div`
-    max-width: 90%;
+    max-width: 90vw;
     min-width: 460px;
 
     position: relative;
@@ -19,7 +19,7 @@ const Wrapper = styled.div`
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
 
     @media (max-width: 500px) {
-        width: calc(100% - 20px);
+        width: 100%;
         margin: 10px;
         min-width: 360px;
     }

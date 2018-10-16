@@ -7,24 +7,66 @@ import Login from 'src/app/containers/login';
 
 const HEADER_HEIGHT = 60;
 const FOOTER_HEIGHT = 324;
+const CONTAINER_WIDTH = 460;
 
 const Wrapper = styled(Container)`
-    margin: 10px auto;
+    position: relative;
     align-items: center;
     justify-content: center;
-
+    flex-direction: column;
     min-height: calc(100vh - ${HEADER_HEIGHT}px - ${FOOTER_HEIGHT}px);
+
+    @media (max-width: 650px) {
+        min-height: auto;
+    }
 `;
 
 const LeftImage = styled.div`
-    width: 100px;
-    height: 100px;
-    background: url('images/login/left.svg');
+    position: absolute;
+    right: calc(50% + ${CONTAINER_WIDTH / 2}px - 10px);
+    width: 330px;
+    height: 250px;
+    background: url('images/login/left.svg') no-repeat center;
+    background-size: contain;
+    z-index: 1;
+
+    @media (max-width: 650px) {
+        display: none;
+    }
 `;
+
 const RightImage = styled.div`
-    width: 100px;
-    height: 100px;
-    background: url('images/login/right.svg');
+    position: absolute;
+    left: calc(50% + ${CONTAINER_WIDTH / 2}px - 10px);
+    width: 285px;
+    height: 240px;
+    background: url('images/login/right.svg') no-repeat center;
+    background-size: contain;
+
+    @media (max-width: 650px) {
+        display: none;
+    }
+`;
+
+const BottomImage = styled.div`
+    display: none;
+    width: 460px;
+    height: calc(460px * 0.41);
+    background: url('images/login/bottom.svg') no-repeat center;
+    background-size: contain;
+
+    @media (max-width: 650px) {
+        display: block;
+    }
+
+    @media (max-width: 500px) {
+        width: calc(100vw - 20px * 2);
+        height: calc((100vw - 20px * 2) * 0.41);
+    }
+`;
+
+const LoginWrapper = styled(Login)`
+    margin: 10px 0;
 `;
 
 export class LoginPage extends Component {
@@ -38,8 +80,9 @@ export class LoginPage extends Component {
         return (
             <Wrapper>
                 <LeftImage />
-                <Login />
+                <LoginWrapper />
                 <RightImage />
+                <BottomImage />
             </Wrapper>
         );
     }
