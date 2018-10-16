@@ -15,7 +15,7 @@ import {
     PopoverBackgroundShade,
     PopoverStyled,
 } from 'src/app/components/post/PopoverAdditionalStyles';
-import PinnedOfFavorite from 'src/app/components/post/PinnedOrFavorite';
+import PostActions from 'src/app/components/post/PostActions';
 
 const Wrapper = styled.div`
     display: flex;
@@ -99,12 +99,21 @@ const UserpicStyled = styled(Userpic)`
     }
 `;
 
-const PinnedOfFavoriteWrapper = styled(PinnedOfFavorite)`
+const PostActionsWrapper = styled.div`
+    display: flex;
+    align-items: center;
     margin-left: auto;
+    margin-right: -7px;
+`;
+
+const PostActionsStyled = styled(PostActions)`
+    padding: 5px;
+    margin: 0 3px;
 `;
 
 export class PostHeader extends Component {
     static propTypes = {
+        url: PropTypes.string.isRequired,
         togglePin: PropTypes.func.isRequired,
         toggleFavorite: PropTypes.func.isRequired,
     };
@@ -151,6 +160,7 @@ export class PostHeader extends Component {
             author,
             isFollow,
             className,
+            postUrl,
         } = this.props;
 
         return (
@@ -184,13 +194,16 @@ export class PostHeader extends Component {
                             <Icon name="check" width={14} height={10} />
                         </FollowRound>
                     ))}
-                <PinnedOfFavoriteWrapper
-                    isFavorite={isFavorite}
-                    isPinned={isPinned}
-                    isOwner={isOwner}
-                    toggleFavorite={toggleFavorite}
-                    togglePin={togglePin}
-                />
+                <PostActionsWrapper>
+                    <PostActionsStyled
+                        postUrl={postUrl}
+                        isFavorite={isFavorite}
+                        isPinned={isPinned}
+                        isOwner={isOwner}
+                        toggleFavorite={toggleFavorite}
+                        togglePin={togglePin}
+                    />
+                </PostActionsWrapper>
             </Wrapper>
         );
     }

@@ -15,7 +15,7 @@ import {
     ClosePopoverButton,
     PopoverStyled,
 } from 'src/app/components/post/PopoverAdditionalStyles';
-import PinnedOfFavorite from 'src/app/components/post/PinnedOrFavorite';
+import PostActions from 'src/app/components/post/PostActions';
 
 const Wrapper = styled.div`
     display: flex;
@@ -304,7 +304,8 @@ export class ActivePanel extends Component {
                             <ClosePopoverButton onClick={this.closeDotsPopover} showCross={false}>
                                 <Icon name="cross" width={16} height={16} />
                             </ClosePopoverButton>
-                            <PinnedOfFavorite
+                            <PostActions
+                                postUrl={url}
                                 isFavorite={isFavorite}
                                 isPinned={isPinned}
                                 isOwner={isOwner}

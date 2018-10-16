@@ -8,10 +8,12 @@ import tt from 'counterpart';
 import Icon from 'golos-ui/Icon';
 import { TagLink } from 'golos-ui/Tag';
 
+import { parseJSON } from 'src/app/redux/selectors/common';
 import PostHeader from 'src/app/containers/post/postHeader';
 import MarkdownViewer from 'app/components/cards/MarkdownViewer';
+import PostFormLoader from 'app/components/modules/PostForm/loader';
 
-const Wrapper = styled.section`
+const Wrapper = styled.article`
     position: relative;
     padding: 40px 70px 30px;
     background-color: white;
@@ -37,6 +39,8 @@ const BackIcon = styled(Icon)`
     height: 50px;
     padding: 13px;
 `;
+
+const Preview = styled.div``;
 
 const Body = styled.div`
     margin-top: 27px;
@@ -116,12 +120,20 @@ export class PostContent extends Component {
         togglePin: PropTypes.func.isRequired,
         toggleFavorite: PropTypes.func.isRequired,
 
+        // connect
+        url: PropTypes.string.isRequired,
         relapioToken: PropTypes.string,
     };
 
     onBackClick = e => {
         e.preventDefault();
         browserHistory.goBack();
+    };
+
+    onEditFinish = () => {
+        const { url } = this.props;
+
+        browserHistory.push(url);
     };
 
     renderHelmet() {
@@ -139,7 +151,7 @@ export class PostContent extends Component {
         );
     }
 
-    render() {
+    renderPreview() {
         const {
             tags,
             payout,
@@ -150,24 +162,13 @@ export class PostContent extends Component {
             jsonMetadata,
             pictures,
             created,
-            className,
             isPromoted,
-            backUrl,
-            togglePin,
-            toggleFavorite,
         } = this.props;
 
         const formId = `postFull-${permLink}`;
 
         return (
-            <Wrapper className={className}>
-                {this.renderHelmet()}
-                {backUrl ? (
-                    <BackLink to={backUrl} onClick={this.onBackClick}>
-                        <BackIcon name="arrow_left" />
-                    </BackLink>
-                ) : null}
-                <PostHeader togglePin={togglePin} toggleFavorite={toggleFavorite} />
+            <Preview>
                 <Body>
                     <BodyHeaderWrapper>
                         <TagLink to={'/trending/' + category.origin} category={1}>
@@ -203,6 +204,52 @@ export class PostContent extends Component {
                         </TagLink>
                     ))}
                 </Tags>
+            </Preview>
+        );
+    }
+
+    renderEditor() {
+        const {
+            author,
+            permLink,
+            parentPermLink,
+            category,
+            title,
+            body,
+            jsonMetadata,
+        } = this.props;
+
+        return (
+            <PostFormLoader
+                editMode
+                editParams={{
+                    author,
+                    permlink: permLink,
+                    parent_permlink: parentPermLink,
+                    category: category.origin,
+                    title,
+                    body,
+                }}
+                jsonMetadata={parseJSON(jsonMetadata)}
+                onSuccess={this.onEditFinish}
+                onCancel={this.onEditFinish}
+            />
+        );
+    }
+
+    render() {
+        const { className, url, isAuthor, backUrl, togglePin, toggleFavorite, action } = this.props;
+
+        return (
+            <Wrapper className={className}>
+                {this.renderHelmet()}
+                {backUrl ? (
+                    <BackLink to={backUrl} onClick={this.onBackClick}>
+                        <BackIcon name="arrow_left" />
+                    </BackLink>
+                ) : null}
+                <PostHeader postUrl={url} togglePin={togglePin} toggleFavorite={toggleFavorite} />
+                {action === 'edit' && isAuthor ? this.renderEditor() : this.renderPreview()}
             </Wrapper>
         );
     }

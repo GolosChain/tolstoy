@@ -9,7 +9,7 @@ import { confirmVote } from 'src/app/helpers/votes';
 import { Action } from 'src/app/components/post/SidePanelAction';
 import SharePopover from 'src/app/components/post/SharePopover';
 import { PopoverStyled } from 'src/app/components/post/PopoverAdditionalStyles';
-import PinnedOfFavorite from 'src/app/components/post/PinnedOrFavorite';
+import PostActions from 'src/app/components/post/PostActions';
 
 const PANEL_MARGIN = 20;
 const FOOTER_HEIGHT = 403;
@@ -166,6 +166,7 @@ export class SidePanel extends Component {
             isOwner,
             isFavorite,
             toggleFavorite,
+            postUrl,
             myVote: voteType,
         } = this.props;
         const { showSharePopover, fixedOn } = this.state;
@@ -207,7 +208,8 @@ export class SidePanel extends Component {
                     dataTooltip={tt('g.reblog')}
                     onClick={this.reblog}
                 />
-                <PinnedOfFavorite
+                <PostActions
+                    postUrl={postUrl}
                     isFavorite={isFavorite}
                     isPinned={isPinned}
                     isOwner={isOwner}

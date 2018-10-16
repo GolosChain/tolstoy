@@ -1,4 +1,3 @@
-
 .PostForm {
   display: flex;
   flex-direction: column;
@@ -12,24 +11,18 @@
   }
 
   &_page &__work-area {
-    padding-top: 10px;
-  }
-
-  &_page &__work-area {
     height: calc(100% - 80px);
+    padding-top: 10px;
     overflow-y: auto;
   }
 
-  &__content {
+  &_page &__content {
     max-width: 808px;
+    padding: 0 8px;
     margin: 0 auto;
   }
 
-  &_page &__content {
-    padding: 0 8px;
-  }
-
-  &__preview {
+  &_page &__preview {
     max-width: 800px;
     margin: 0 auto;
   }
@@ -47,7 +40,7 @@
 
   &_page &__footer {
     background: #fff;
-    box-shadow: 0 -2px 12px 0 rgba(0,0,0, 0.07);
+    box-shadow: 0 -2px 12px 0 rgba(0, 0, 0, 0.07);
   }
 
   &__footer-content {
@@ -78,6 +71,6 @@
     height: unset !important;
     padding: 40px 60px;
     border-radius: 18px;
-    background: rgba(0,0,0, 0.1);
+    background: rgba(0, 0, 0, 0.1);
   }
 }

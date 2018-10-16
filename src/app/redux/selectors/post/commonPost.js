@@ -20,7 +20,10 @@ const pathnameSelector = state => {
 };
 
 const postUrlFromPathnameSelector = createDeepEqualSelector([pathnameSelector], pathname =>
-    pathname.substring(pathname.indexOf('#') + 1).substr(pathname.indexOf('@') + 1)
+    pathname
+        .substring(pathname.indexOf('#') + 1)
+        .substr(pathname.indexOf('@') + 1)
+        .replace(/\/edit\/?$/, '')
 );
 
 const getMyVote = (post, username) => {
@@ -39,7 +42,7 @@ const getMyVote = (post, username) => {
 
 export const postSelector = createDeepEqualSelector(
     [globalSelector('content'), postUrlFromPathnameSelector],
-    (content, url) => content.get(url) || emptyMap
+    (content, url) => content.get(url)
 );
 
 export const votesSummarySelector = createDeepEqualSelector(
@@ -52,7 +55,10 @@ export const votesSummarySelector = createDeepEqualSelector(
 export const currentPostSelector = createDeepEqualSelector(
     [postSelector, dataSelector('favorites'), currentUsernameSelector],
     (post, favorites, username) => {
-        if (!post) return null;
+        if (!post) {
+            return null;
+        }
+
         const author = post.get('author');
         const permLink = post.get('permlink');
         const myVote = getMyVote(post, username);

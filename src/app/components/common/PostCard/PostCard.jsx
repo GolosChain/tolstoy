@@ -91,6 +91,7 @@ const ToolbarAction = styled.div`
         margin-right: 0;
     }
 `;
+const ToolbarActionLink = ToolbarAction.withComponent(Link);
 const IconWrapper = styled.div`
     display: flex;
     align-items: center;
@@ -326,14 +327,14 @@ class PostCard extends PureComponent {
                 )}
                 grid={grid}
             >
-                {this._renderHeader(withImage)}
+                {this._renderHeader(withImage, p)}
                 {this._renderBody(withImage, p)}
                 {this._renderFooter(withImage, p)}
             </Root>
         );
     }
 
-    _renderHeader(withImage) {
+    _renderHeader(withImage, p) {
         const { data, grid } = this.props;
 
         const author = data.get('author');
@@ -356,7 +357,7 @@ class PostCard extends PureComponent {
                     <Filler />
                     {grid ? null : <Category>{category}</Category>}
                     <Toolbar>
-                        {this._renderEditButton(withImage)}
+                        {this._renderEditButton(withImage, p.link)}
                         {this._renderPinButton(withImage)}
                         {this._renderFavoriteButton(withImage)}
                     </Toolbar>
@@ -371,21 +372,20 @@ class PostCard extends PureComponent {
         );
     }
 
-    _renderEditButton(withImage) {
+    _renderEditButton(withImage, link) {
         const { data, myAccount, grid, showPinButton } = this.props;
 
         if (showPinButton && myAccount === data.get('author')) {
             return (
-                <ToolbarAction>
+                <ToolbarActionLink to={`${link}/edit`}>
                     <IconWrapper
                         color={withImage && !grid ? '#fff' : ''}
                         enabled
                         data-tooltip="Редактировать"
-                        onClick={this._onEditClick}
                     >
                         <Icon name="pen" width={23} height={23} />
                     </IconWrapper>
-                </ToolbarAction>
+                </ToolbarActionLink>
             );
         }
     }
@@ -516,8 +516,6 @@ class PostCard extends PureComponent {
             });
         }
     };
-
-    _onEditClick = () => {};
 
     _onFavoriteClick = () => {
         const { isFavorite, data } = this.props;

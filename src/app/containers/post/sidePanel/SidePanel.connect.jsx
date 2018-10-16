@@ -22,6 +22,7 @@ export default connect(
                 author: author.account,
                 permLink: post.permLink,
                 myVote: post.myVote,
+                postUrl: post.url,
                 isOwner: username === author.account,
                 isFavorite: post.isFavorite,
                 isPinned: author.pinnedPostsUrls.includes(author.account + '/' + post.permLink),
