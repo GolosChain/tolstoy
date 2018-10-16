@@ -25,26 +25,26 @@ function getComment(comments, reply) {
 
 // recursive function receive original comments array, comment object on current cycle, third param is deep of reply
 // return array with current comment object and replies (on this comment) objects
-function findReplies(comments, currentComment, insetDeep = 0) {
+function findReplies(comments, currentComment, innerDeep = 0) {
     const commentWithReplies = [];
     const authorAndPermLink = `${currentComment.author}/${currentComment.permlink}`;
 
     commentWithReplies.push({
         authorAndPermLink,
-        insetDeep,
+        innerDeep,
     });
 
     const replies = currentComment.replies;
 
     if (replies.length) {
-        if (insetDeep < INSET_COMMENTS_LEVELS_NUMBER) {
-            ++insetDeep;
+        if (innerDeep < INSET_COMMENTS_LEVELS_NUMBER) {
+            ++innerDeep;
         }
-        replies.forEach(reply => {
+        for (let reply of replies) {
             const comment = getComment(comments, reply);
-            const insetReplies = findReplies(comments, comment, insetDeep);
+            const insetReplies = findReplies(comments, comment, innerDeep);
             commentWithReplies.push(...insetReplies);
-        });
+        }
     }
 
     return commentWithReplies;
@@ -72,7 +72,7 @@ export default connect(
     createSelector([commentsSelector], commentsData => {
         const { comments, postPermLink, isFetching } = commentsData;
         const structuredComments = mapComments(comments, postPermLink);
-
+        console.log(structuredComments);
         return {
             structuredComments,
             isFetching,

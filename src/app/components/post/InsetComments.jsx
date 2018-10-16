@@ -1,7 +1,7 @@
 import React, { Component, Fragment, createRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { isNot } from 'styled-is';
+import is from 'styled-is';
 
 import { getScrollElement } from 'src/app/helpers/window';
 
@@ -23,20 +23,20 @@ const Comment = styled(CommentCard)`
     border-radius: 0;
     box-shadow: none;
 
-    margin-left: ${props => props.insetDeep * 20}px;
+    margin-left: ${props => props.innerDeep * 20}px;
 `;
 
 const ToggleButton = styled(CloseOpenButton)`
     position: absolute;
-    top: 13px;
+    top: 10px;
     right: 18px;
     z-index: 2;
 
     width: 30px;
     height: 30px;
 
-    ${isNot('isCommentOpen')`
-        top: 10px;
+    ${is('isCommentOpen')`
+        top: 13px;
     `};
 `;
 
@@ -70,7 +70,7 @@ export default class InsetComment extends Component {
                     permLink={insetComment.authorAndPermLink}
                     isPostPage={true}
                     onClick={this.onEntryClick}
-                    insetDeep={insetComment.insetDeep}
+                    innerDeep={insetComment.innerDeep}
                 />
             </Fragment>
         ));
@@ -87,7 +87,7 @@ export default class InsetComment extends Component {
                     permLink={comment[0].authorAndPermLink}
                     isPostPage={true}
                     onClick={this.onEntryClick}
-                    insetDeep={comment[0].insetDeep}
+                    innerDeep={comment[0].innerDeep}
                     innerRef={this.insetCommentRef}
                 />
                 {isCommentOpen && this.renderReplies(comment.slice(1))}
