@@ -58,11 +58,11 @@ export default combineReducers({
     routing: initReducer(routerReducer),
     app: initReducer(app),
     form: formReducer,
-    
+
     status: initReducer(status),
     entities: initReducer(entities),
     ui: initReducer(ui),
     data,
-    
-    messenger: initReducer(messenger)
+
+    messenger: initReducer(messenger),
 });

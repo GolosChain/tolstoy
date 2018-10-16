@@ -114,7 +114,7 @@ export default class AccountNameInput extends PureComponent {
     state = {
         focus: false,
         open: false,
-        valid: false,
+        valid: Boolean(this.props.value) && !utils.validateAccountName(this.props.value),
         index: null,
         list: null,
         popoverPos: null,
@@ -236,7 +236,7 @@ export default class AccountNameInput extends PureComponent {
                 console.error(err);
             }
         },
-        400,
+        300,
         { leading: false }
     );
 
@@ -279,12 +279,14 @@ export default class AccountNameInput extends PureComponent {
     };
 
     onBlur = e => {
-        this.setState({
-            focus: false,
-            open: false,
-            index: null,
-            popoverPos: null,
-        });
+        if (!this._dontCloseUntil || this._dontCloseUntil < Date.now()) {
+            this.setState({
+                focus: false,
+                open: false,
+                index: null,
+                popoverPos: null,
+            });
+        }
 
         if (this.props.onBlur) {
             this.props.onBlur(e);
@@ -348,6 +350,10 @@ export default class AccountNameInput extends PureComponent {
         }
     };
 
+    onItemMouseDown = () => {
+        this._dontCloseUntil = Date.now() + 1000;
+    };
+
     onItemClick = accountName => {
         this.setState({
             open: false,
@@ -390,6 +396,7 @@ export default class AccountNameInput extends PureComponent {
                     <Item
                         key={accountName}
                         selected={i === index}
+                        onMouseDown={this.onItemMouseDown}
                         onClick={() => this.onItemClick(accountName)}
                     >
                         {accountName}

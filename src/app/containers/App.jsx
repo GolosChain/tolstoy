@@ -16,7 +16,7 @@ import { locationChanged } from 'src/app/redux/actions/ui';
 import defaultTheme from 'src/app/themes';
 import Header from 'src/app/components/header/Header';
 import Notifications from 'src/app/components/common/Notifications';
-import Footer from 'app/components/modules/Footer';
+import Footer from 'src/app/components/common/Footer';
 import TooltipManager from 'app/components/elements/common/TooltipManager';
 import MobileAppButton from 'app/components/elements/MobileBanners/MobileAppButton';
 import DialogManager from 'app/components/elements/common/DialogManager';

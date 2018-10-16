@@ -1,21 +1,8 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 
 import { utils } from 'golos-js';
 
-import { 
-    searchAccounts,
-    closeSearchResults
-} from '../../redux/actions/search';
-import LookupAccounts from '../../components/LookupAccounts';
-
-@connect(
-    null,
-    {
-        searchAccounts,
-        closeSearchResults
-    }
-)
+import LookupAccounts from 'src/messenger/components/LookupAccounts';
 
 export default class LookupAccountsContainer extends Component {
 
@@ -23,7 +10,7 @@ export default class LookupAccountsContainer extends Component {
         const nameError = utils.validateAccountName(query);
 
         if (!nameError) {
-            this.props.searchAccounts(query);
+            this.props.searchContacts(query);
         }
     }
 

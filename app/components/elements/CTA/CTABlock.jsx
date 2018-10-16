@@ -35,7 +35,7 @@ import { REGISTRATION_URL } from 'app/client_config';
     const totalCuratorPayout = parsePayoutAmount(post.get('curator_payout_value'));
 
     const payout = pendingPayout + totalAuthorPayout + totalCuratorPayout;
-    const payoutString = renderValue(payout, 'GBG', 'short');
+    const payoutString = renderValue(payout, 'GBG', { decimals: 'short' });
 
     let visible = false;
 
@@ -137,7 +137,7 @@ export default class CTABlock extends PureComponent {
             <div className="ctablock__text-regular">
                 Сообщество <b>Golos.io</b> {ctaInfo.regularStartText} <b>{user}</b> заработал более{' '}
                 <span className="ctablock__text-regular">
-                    {renderValue(payout, 'GBG', 'adaptive')}
+                    {renderValue(payout, 'GBG', { decimals: 'adaptive' })}
                 </span>.{' '}
                 <a href={'/start'} onClick={() => popupClickUrl()}>
                     {ctaInfo.regularEndText}

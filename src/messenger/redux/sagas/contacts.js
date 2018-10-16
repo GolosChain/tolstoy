@@ -7,11 +7,11 @@ import normalizeProfile from 'app/utils/NormalizeProfile';
 import {
     CONTACTS_SEARCH,
     CONTACTS_SEARCH_SUCCESS,
-    CONTACTS_SEARCH_SHOW_RESULTS,
     CONTACTS_GET_CONTACTS_LIST_SIZE_SUCCESS,
     CONTACTS_GET_CONTACTS_LIST_SUCCESS
 } from 'src/messenger/redux/constants/contacts';
-import { hasUnknownContacts } from '../selectors/contacts';
+import { UI_SEARCH_SHOW_RESULTS } from 'src/messenger/redux/constants/ui';
+import { hasUnknownContacts } from 'src/messenger/redux/selectors/contacts';
 
 export default function* watch() {
     yield takeLatest(CONTACTS_SEARCH, contactsSearch);
@@ -37,7 +37,7 @@ export function* contactsSearch({
         payload: result
     });
     yield put({
-        type: CONTACTS_SEARCH_SHOW_RESULTS,
+        type: UI_SEARCH_SHOW_RESULTS,
         payload: {}
     });
 

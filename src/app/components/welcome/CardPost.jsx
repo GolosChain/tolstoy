@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import extractContent from 'app/utils/ExtractContent';
 import { objAccessor } from 'app/utils/Accessors';
 
-import PostPayout from '../common/PostPayout/PostPayout';
+import PostPayout from '../common/PostPayout';
 import Userpic from 'app/components/elements/Userpic';
 import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
 import Icon from 'app/components/elements/Icon';

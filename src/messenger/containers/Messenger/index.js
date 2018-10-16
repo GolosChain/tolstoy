@@ -1,1 +1,2 @@
-export { default } from './Messenger';
+export { default } from './Messenger.connect';
+export { default as MessengerApp } from './Messenger';

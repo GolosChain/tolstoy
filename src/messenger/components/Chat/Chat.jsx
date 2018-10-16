@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import Avatar from 'src/app/components/common/Avatar';
@@ -7,7 +8,7 @@ import Icon from 'golos-ui/Icon';
 import MessageBubble from './MessageBubble';
 import SendMessagePanel from './SendMessagePanel';
 
-const ChatWrapper= styled.div`
+const Wrapper = styled.div`
     display: flex;
     flex: 1 1 60%;
     flex-direction: column;
@@ -21,7 +22,7 @@ const Header = styled.div`
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
 `;
 
-const Sender = styled.div`
+const ContactInfo = styled.div`
     display: flex;
     flex: 1;
     align-items: center;
@@ -63,12 +64,24 @@ const Footer = styled.div`
 
 const Message = styled.div`
     display: flex;
-    justify-content: ${({self}) => self ? 'flex-end' : 'flex-start'};
+    justify-content: ${({ self }) => (self ? 'flex-end' : 'flex-start')};
 `;
 
 export default class Chat extends Component {
 
+    static propTypes = {
+        contactInfo: PropTypes.shape({
+            profileName: PropTypes.string,
+            profileImage: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+        }).isRequired,
+        // messages: PropTypes.instanceOf(Map),
+        onContactMenuClick: PropTypes.func.isRequired,
+        onMessageInput: PropTypes.func.isRequired,
+        onSendButtonClick: PropTypes.func.isRequired,
+    }
+
     renderMessages = messages => {
+        // TODO 
         return messages.map(message => (
                 <Message
                     key={message.time}
@@ -80,40 +93,35 @@ export default class Chat extends Component {
         );
     }
 
-    onMenuClick = () => {
-
-    }
-
     render() {
         const {
-            senderProfileImage,
-            senderName,
-            messages
+            contactInfo: { profileName, profileImage },
+            onContactMenuClick,
+            onMessageInput,
+            onSendButtonClick,
         } = this.props;
-        
+   
         return (
-            <ChatWrapper>
+            <Wrapper>
                 <Header>
-                    <Sender>
-                        <Avatar
-                            avatarUrl={senderProfileImage}
-                            size={35}
-                        />
-                        <Name>
-                            {senderName}
-                        </Name>
-                    </Sender>
-                    <DotsWrapper onClick={this.onMenuClick}>
+                    <ContactInfo>
+                        <Avatar avatarUrl={profileImage} size={35} />
+                        <Name>{profileName}</Name>
+                    </ContactInfo>
+                    <DotsWrapper onClick={onContactMenuClick}>
                         <Dots name="dots" />
                     </DotsWrapper>
                 </Header>
                 <Body>
-                    {this.renderMessages(messages)}
+                    {/* {this.renderMessages(messages)} */}
                 </Body>
                 <Footer>
-                    <SendMessagePanel />
+                    <SendMessagePanel
+                        onMessageInput={onMessageInput}
+                        onSendButtonClick={onSendButtonClick}
+                    />
                 </Footer>
-            </ChatWrapper>
+            </Wrapper>
         );
     }
 }
