@@ -13,7 +13,7 @@ import {
     accountHistory
 } from 'app/utils/test_fixtures/chain_data'
 
-import getState from 'app/utils/StateBuilder'
+import getState from './StateBuilder'
 
 const options = {
     IGNORE_TAGS: []
