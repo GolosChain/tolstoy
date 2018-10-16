@@ -160,20 +160,6 @@ export class CommentCard extends PureComponent {
     commentRef = createRef();
     replyRef = createRef();
 
-    /*componentDidMount() {
-        const { insetCommentRef } = this.props;
-        if (insetCommentRef) {
-            insetCommentRef.current = this;
-        }
-    }
-
-    componentWillUnmount() {
-        const { insetCommentRef } = this.props;
-        if (insetCommentRef) {
-            insetCommentRef.current = null;
-        }
-    }*/
-
     componentWillReceiveProps(newProps) {
         if (this.props.comment !== newProps.comment && this.props.dataLoaded) {
             this.setState({

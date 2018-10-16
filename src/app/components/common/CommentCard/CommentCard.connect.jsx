@@ -10,8 +10,8 @@ import { onVote } from 'src/app/redux/actions/vote';
 
 export default connect(
     createSelector(
-        [globalSelector('content'), currentUsernameSelector, (state, props) => props.permLink],
-        (content, username, permLink) => {
+        [currentUsernameSelector, globalSelector('content'), (state, props) => props.permLink],
+        (username, content, permLink) => {
             const comment = content.get(permLink);
             if (!comment) {
                 return {
