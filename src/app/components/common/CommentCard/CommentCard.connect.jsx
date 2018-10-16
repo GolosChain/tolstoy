@@ -58,5 +58,7 @@ export default connect(
                 },
             });
         },
-    })
+    }),
+    null,
+    { withRef: true }
 )(CommentCard);

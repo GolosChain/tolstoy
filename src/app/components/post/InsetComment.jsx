@@ -44,7 +44,7 @@ export default class InsetComment extends Component {
         isCommentOpen: true,
     };
 
-    combCommentRef = createRef();
+    insetCommentRef = createRef();
 
     onEntryClick = () => {
         this.props.saveListScrollPosition(getScrollElement().scrollTop);
@@ -54,7 +54,7 @@ export default class InsetComment extends Component {
         this.setState({
             isCommentOpen: !this.state.isCommentOpen,
         });
-        this.combCommentRef.current.toggleComment();
+        this.insetCommentRef.current.wrappedInstance.toggleComment();
     };
 
     renderReplies(comment) {
@@ -82,7 +82,7 @@ export default class InsetComment extends Component {
                     isPostPage={true}
                     onClick={this.onEntryClick}
                     insetDeep={comment[0].insetDeep}
-                    combCommentRef={this.combCommentRef}
+                    innerRef={this.insetCommentRef}
                 />
                 {isCommentOpen && this.renderReplies(comment.slice(1))}
             </Wrapper>

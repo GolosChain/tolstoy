@@ -1,26 +1,23 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
+
 import { commentsSelector } from 'src/app/redux/selectors/post/commonPost';
 import { saveListScrollPosition } from 'src/app/redux/actions/ui';
 import { CommentsList } from 'src/app/components/post/CommentsList/CommentsList';
 
 const INSET_COMMENTS_LEVELS_NUMBER = 6;
 
-function mapComments(comments, postPermLink) {
-    const commentsComponents = [];
-    const commentsCopy = [...comments.toJS()];
-    for (let i = 0; i < commentsCopy.length; i++) {
-        const currentComment = commentsCopy[i];
-
-        if (!currentComment || postPermLink !== currentComment.parent_permlink) {
+function getComment(comments, reply) {
+    for (let i = 0; i < comments.length; i++) {
+        let comment = comments[i];
+        if (comment === null) {
             continue;
         }
-
-        commentsCopy[i] = null;
-
-        commentsComponents.push(findReplies(commentsCopy, currentComment));
+        if (`${comment.author}/${comment.permlink}` === reply) {
+            comments[i] = null;
+            return comment;
+        }
     }
-    return commentsComponents;
 }
 
 function findReplies(comments, currentComment, insetDeep = 0) {
@@ -48,17 +45,21 @@ function findReplies(comments, currentComment, insetDeep = 0) {
     return commentWithChildren;
 }
 
-function getComment(comments, reply) {
-    for (let i = 0; i < comments.length; i++) {
-        let comment = comments[i];
-        if (comment === null) {
+function mapComments(comments, postPermLink) {
+    const commentsComponents = [];
+    const commentsCopy = [...comments.toJS()];
+    for (let i = 0; i < commentsCopy.length; i++) {
+        const currentComment = commentsCopy[i];
+
+        if (!currentComment || postPermLink !== currentComment.parent_permlink) {
             continue;
         }
-        if (`${comment.author}/${comment.permlink}` === reply) {
-            comments[i] = null;
-            return comment;
-        }
+
+        commentsCopy[i] = null;
+
+        commentsComponents.push(findReplies(commentsCopy, currentComment));
     }
+    return commentsComponents;
 }
 
 export default connect(
