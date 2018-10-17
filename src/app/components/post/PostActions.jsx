@@ -68,7 +68,7 @@ const PostActions = ({
                     }
                     onClick={togglePin}
                 >
-                    <ActionIcon name="pin" />
+                    <ActionIcon name="pin" className={className} />
                     {showText ? (
                         <ActionText>{tt('active_panel_tooltip.pin_post')}</ActionText>
                     ) : null}
