@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
+import { createSelector } from 'reselect';
 
 import { LoginPage } from 'src/app/containers/login/LoginPage';
-import { currentUserSelector } from 'src/app/redux/selectors/common';
+import { currentUsernameSelector } from 'src/app/redux/selectors/common';
 
-export default connect(state => ({ currentUser: currentUserSelector(state).get('username') }))(
+export default connect(createSelector([currentUsernameSelector], username => ({ username })))(
     LoginPage
 );
