@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import { LoginPage } from 'src/app/containers/login/LoginPage';
+import { LoginContainer } from 'src/app/containers/login/LoginContainer';
 import { currentUsernameSelector } from 'src/app/redux/selectors/common';
 
 export default connect(createSelector([currentUsernameSelector], username => ({ username })))(
-    LoginPage
+    LoginContainer
 );

@@ -69,7 +69,7 @@ const LoginWrapper = styled(Login)`
     margin: 10px 0;
 `;
 
-export class LoginPage extends Component {
+export class LoginContainer extends Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.username) {
             browserHistory.push('/welcome');

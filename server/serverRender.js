@@ -107,7 +107,7 @@ export default async function serverRender({ location, offchain, ErrorPage, sett
                 rates: {
                     actual: rates,
                     dates: [],
-                }
+                },
             },
         };
 

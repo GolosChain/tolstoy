@@ -1,3 +1,3 @@
 export { default } from './Login.connect';
 export { Login } from './Login';
-export { default as LoginPage } from './LoginPage.connect';
+export { default as LoginContainer } from './LoginContainer.connect';
