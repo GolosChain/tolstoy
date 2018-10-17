@@ -21,7 +21,14 @@ export default {
         } else if (route.page === 'Start') {
             cb(null, [require('@pages/Landings/Start').default]);
         } else if (route.page === 'Faq') {
-            cb(null, [require('@pages/Faq').default]);
+            cb(null, [
+                {
+                    path: 'faq',
+                    component: process.env.BROWSER
+                        ? require('@pages/FaqLoader').default
+                        : require('src/app/containers/Faq').default,
+                },
+            ]);
         } else if (route.page === 'Login') {
             cb(null, [{
                 path: 'login',

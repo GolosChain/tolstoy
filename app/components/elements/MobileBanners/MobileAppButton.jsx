@@ -10,13 +10,19 @@ if (process.env.BROWSER) {
     hide = Boolean(localStorage.getItem(STORE_KEY));
 }
 
+const ignoreRoutes = ['/welcome', '/faq', '/~witnesses', '/market'];
+
 export default class MobileAppButton extends PureComponent {
     render() {
         if (!process.env.BROWSER) {
             return null;
         }
 
-        if (hide || !navigator.userAgent.match(/android/i)) {
+        if (
+            hide ||
+            !navigator.userAgent.match(/android/i) ||
+            ignoreRoutes.includes(window.location.pathname)
+        ) {
             return null;
         }
 
