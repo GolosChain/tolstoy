@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react';
 import { Link } from 'react-router';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
+
 import Icon from 'golos-ui/Icon';
 
 const Ul = styled.ul`
@@ -37,6 +39,12 @@ const IconStyled = styled(Icon)`
 `;
 
 export default class Menu extends PureComponent {
+    static propTypes = {
+        onClose: PropTypes.func.isRequired,
+        accountName: PropTypes.string.isRequired,
+        onLogoutClick: PropTypes.func.isRequired,
+    };
+
     render() {
         const { accountName, onLogoutClick } = this.props;
 
