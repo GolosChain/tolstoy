@@ -25,7 +25,7 @@ export default {
         } else if (route.page === 'Login') {
             cb(null, [{
                 path: 'login',
-                component: require('src/app/containers/login').LoginContainer
+                component: require('src/app/containers/login').default
             }]);
         } else if (route.page === 'Privacy') {
             cb(null, [require('@pages/Privacy').default]);

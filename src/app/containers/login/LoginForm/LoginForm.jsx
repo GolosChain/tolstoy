@@ -130,7 +130,7 @@ const LoginButton = styled(Button)`
     margin-bottom: 0;
 `;
 
-export class Login extends Component {
+export class LoginForm extends Component {
     static propTypes = {
         onClose: PropTypes.func,
     };

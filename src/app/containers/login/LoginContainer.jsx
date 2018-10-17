@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { browserHistory } from 'react-router';
 
 import Container from 'src/app/components/common/Container/Container';
-import Login from 'src/app/containers/login';
+import LoginForm from './LoginForm';
 
 const HEADER_HEIGHT = 60;
 const FOOTER_HEIGHT = 324;
@@ -65,7 +65,7 @@ const BottomImage = styled.div`
     }
 `;
 
-const LoginWrapper = styled(Login)`
+const LoginWrapper = styled(LoginForm)`
     margin: 10px 0;
 `;
 
