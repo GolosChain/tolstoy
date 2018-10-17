@@ -7,13 +7,11 @@ import throttle from 'lodash/throttle';
 import tt from 'counterpart';
 
 import { REGISTRATION_URL } from 'app/client_config';
-import { getNotificationsHistoryFreshCount } from 'src/app/redux/actions/notifications';
 
 import Icon from 'golos-ui/Icon';
 import IconBadge from 'golos-ui/IconBadge';
 import Button from 'golos-ui/Button';
 import Userpic from 'app/components/elements/Userpic';
-import AccountMenuDesktopWrapper from '../AccountMenuDesktopWrapper';
 import MobilePopover from '../MobilePopover';
 import AdaptivePopover from '../AdaptivePopover';
 import AccountMenu from '../AccountMenu';
@@ -53,13 +51,6 @@ const Content = styled.div`
 const Filler = styled.div`
     height: 60px;
 `;
-
-/*const Splitter = styled.div`
-    width: 2px;
-    height: 44px;
-    margin: 0 20px;
-    background: #f0f0f0;
-`;*/
 
 const LogoLink = styled(Link)`
     display: flex;
@@ -172,13 +163,6 @@ const NewPostIcon = styled(Icon)`
     margin-right: 7px !important;
 `;
 
-/*const AccountInfoWrapper = styled.div`
-    position: relative;
-    display: flex;
-    align-items: center;
-    height: 100%;
-`;*/
-
 const AccountInfoBlock = styled(Link)`
     position: relative;
     z-index: 1;
@@ -205,7 +189,7 @@ const AccountText = styled.div`
 const AccountName = styled.div`
     max-width: 120px;
     line-height: 18px;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: bold;
     white-space: nowrap;
     overflow: hidden;
@@ -215,14 +199,9 @@ const AccountName = styled.div`
 const AccountPowerBlock = styled.div`
     display: flex;
 
+    margin-top: 3px;
     line-height: 18px;
 `;
-
-/*const AccountPowerLabel = styled.span`
-    margin-right: 3px;
-    font-size: 13px;
-    color: #999;
-`;*/
 
 const AccountPowerValue = styled.span`
     color: #78c2d0;
@@ -270,6 +249,7 @@ const Notifications = styled.div`
     `};
 `;
 
+/* uncomment when messenger done
 const Messages = styled(Link)`
     display: flex;
     align-items: center;
@@ -291,7 +271,7 @@ const Messages = styled(Link)`
     &:hover {
         color: #2879ff;
     }
-`;
+`;*/
 
 const Dots = styled(Icon)`
     display: block;
@@ -411,6 +391,12 @@ export default class Header extends PureComponent {
         this.props.onLogin();
     };
 
+    onLogoutClick = e => {
+        e.preventDefault();
+
+        this.props.onLogout();
+    };
+
     onAccountMenuToggle = () => {
         this.setState({
             isAccountOpen: !this.state.isAccountOpen,
@@ -452,7 +438,6 @@ export default class Header extends PureComponent {
 
     renderFullAccountBlock() {
         const { currentAccountName, votingPower } = this.props;
-        const { isAccountOpen } = this.state;
 
         const powerPercent = formatPower(votingPower);
 
@@ -492,6 +477,7 @@ export default class Header extends PureComponent {
         );
     }
 
+    /* uncomment when messenger done
     renderMessagesBlock() {
         const { freshCount, currentAccountName } = this.props;
         const { isMobile } = this.state;
@@ -501,7 +487,7 @@ export default class Header extends PureComponent {
                 <IconBadge name="messanger" size={21} count={0} />
             </Messages>
         );
-    }
+    }*/
 
     renderMobileAccountBlock() {
         const { currentAccountName, votingPower } = this.props;
@@ -562,7 +548,6 @@ export default class Header extends PureComponent {
                             {isMobile ? <FlexFiller /> : <SearchInput />}
                             <SearchIcon name="search" />
                         </SearchBlock>
-                        {/*{isMobile ? null : <Splitter />}*/}
                         {currentAccountName ? (
                             this.renderAuthorizedPart()
                         ) : (
@@ -604,7 +589,11 @@ export default class Header extends PureComponent {
                             target={this.dotsRef.current}
                             onClose={this.onMenuToggle}
                         >
-                            <Menu onClose={this.onMenuToggle} />
+                            <Menu
+                                onClose={this.onMenuToggle}
+                                accountName={currentAccountName}
+                                onLogoutClick={this.onLogoutClick}
+                            />
                         </AdaptivePopover>
                     ) : null}
                 </Fixed>

@@ -130,6 +130,7 @@ export class SidePanel extends Component {
 
     toggleFavorite = () => {
         const { author, permLink, isFavorite } = this.props;
+        console.log('favorite');
         this.props.toggleFavorite({ link: author + '/' + permLink, isAdd: !isFavorite });
     };
 

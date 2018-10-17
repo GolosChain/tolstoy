@@ -2,11 +2,11 @@ import React, { PureComponent } from 'react';
 import throttle from 'lodash/throttle';
 import styled from 'styled-components';
 
-const POPOVER_OFFSET = 24;
+const POPOVER_OFFSET = 14;
 
 const Root = styled.div`
     position: absolute;
-    top: 56px;
+    top: 60px;
     border-radius: 8px;
     background: #fff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
@@ -14,20 +14,11 @@ const Root = styled.div`
     animation: fade-in 0.15s;
 `;
 
-const Arrow = styled.div`
-    position: absolute;
-    width: 18px;
-    height: 18px;
-    top: -9px;
-    right: 15px;
-    background: #fff;
-    box-shadow: -3px -3px 3px 0px rgba(0, 0, 0, 0.035);
-    transform: rotate(45deg);
-`;
-
 const Content = styled.div`
     position: relative;
     z-index: 1;
+    
+    min-width: 180px;
 `;
 
 export default class Popover extends PureComponent {
@@ -54,7 +45,6 @@ export default class Popover extends PureComponent {
 
         return (
             <Root innerRef={this._onRef} style={{ right }}>
-                <Arrow />
                 <Content>{children}</Content>
             </Root>
         );

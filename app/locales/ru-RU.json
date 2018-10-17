@@ -514,10 +514,14 @@
     "terms_of_service_section": "",
     "unavailable": "Пользователь заблокирован"
   },
+  "link_to": {
+    "telegram": "//t.me/golos_support"
+  },
   "loginform_jsx": {
     "active_or_owner": "активный или владельца",
     "amazing_community": "удивительное сообщество",
     "are_well_tested_and_known_to_work_with": "хорошо протестированы и работают с %(APP_DOMAIN)s.",
+    "consent": "Согласие с условиями",
     "cryptography_test_failed": "Криптографический тест провален",
     "due_to_server_maintenance": "Из-за технического обслуживания сервера мы работаем в режиме чтения. Извините за неудобства.",
     "enter_your_username": "Введи свое имя пользователя",
@@ -525,7 +529,6 @@
     "however_you_can_use_it_to": "Тем не менее его можно использовать чтобы ",
     "join_our": "Присоединяйтесь к нашему",
     "keep_me_logged_in": "Оставить меня залогиненным",
-    "consent": "Согласие с условиями",
     "login_to_comment": "Пожалуйста, авторизуйтесь для выполнения следующих действий",
     "login_to_post": "Авторизуйтесь, чтобы написать пост",
     "login_to_vote": "Авторизуйтесь, чтобы проголосовать",
@@ -643,6 +646,7 @@
     "sell_LIQUID_TOKEN": "Продать %(LIQUID_TOKEN)s",
     "sign_up": "СОЗДАТЬ АККАУНТ",
     "stolen_account_recovery": "Возврат украденного аккаунта",
+    "technical_support": "Техподдержка",
     "telegram_support": "%(APP_NAME_UP)s Техподдержка",
     "terms_of_service": "Условия использования",
     "vote_for_witnesses": "Проголосовать за делегатов",

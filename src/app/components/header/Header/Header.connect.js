@@ -31,6 +31,7 @@ export default connect(
     },
     {
         onLogin: () => user.actions.showLogin(),
+        onLogout: () => user.actions.logout(),
         getNotificationsOnlineHistoryFreshCount,
         getNotificationsOnlineHistory,
     }

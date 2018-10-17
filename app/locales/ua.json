@@ -401,6 +401,9 @@
     "terms_of_service_section": ", пункт 5.5.7",
     "unavailable": "Користувача заблоковано"
   },
+  "link_to": {
+    "telegram": ""
+  },
   "loginform_jsx": {
     "active_or_owner": "активний або власника",
     "amazing_community": "дивне співтовариство",
@@ -503,6 +506,7 @@
     "sell_LIQUID_TOKEN": "Продати %(LIQUID_TOKEN)s",
     "sign_up": "Реєстрація",
     "stolen_account_recovery": "Повернення вкраденого акаунта",
+    "technical_support": "Техпідтримка",
     "telegram_support": "%(APP_NAME_UP)s Техпідтримка",
     "terms_of_service": "Умови користування",
     "vote_for_witnesses": "Проголосувати за делегатів",

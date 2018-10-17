@@ -29,48 +29,72 @@ const LinkStyled = styled(Link)`
 `;
 
 const IconStyled = styled(Icon)`
-    width: 20px;
-    height: 20px;
+    flex-shrink: 0;
+
     margin-right: 20px;
+
     color: #393636;
 `;
 
 export default class Menu extends PureComponent {
     render() {
+        const { accountName, onLogoutClick } = this.props;
+
         const items = [
             {
-                link: '/welcome',
-                icon: 'hand',
-                text: tt('navigation.welcome'),
-            },
-            {
-                link: '/faq',
-                icon: 'question',
-                text: tt('navigation.faq'),
-            },
-            {
-                link: '//wiki.golos.io/',
-                icon: 'wiki',
-                text: tt('navigation.wiki'),
+                link: `/@${accountName}/transfers`,
+                icon: 'wallet2',
+                text: tt('g.wallet'),
+                width: 18,
+                height: 18,
             },
             {
                 link: '/market',
                 icon: 'transfer',
                 text: tt('userwallet_jsx.market'),
+                width: 20,
+                height: 16,
             },
             {
                 link: '/~witnesses',
                 icon: 'delegates',
                 text: tt('navigation.delegates'),
+                width: 22,
+                height: 16,
+            },
+            {
+                link: tt('link_to.telegram'),
+                icon: 'technical-support',
+                text: tt('navigation.technical_support'),
+                width: 25,
+                height: 26,
+            },
+            {
+                link: `/@${accountName}/settings`,
+                icon: 'settings',
+                text: tt('g.settings'),
+                width: 22,
+                height: 22,
+            },
+            {
+                icon: 'logout',
+                text: tt('g.logout'),
+                onClick: onLogoutClick,
+                width: 18,
+                height: 19,
             },
         ];
 
         return (
             <Ul>
-                {items.map(({ link, target, icon, text }, i) => (
+                {items.map(({ link = '', target, icon, text, onClick, width, height }, i) => (
                     <Li key={i} onClick={this._onItemClick}>
-                        <LinkStyled to={link} target={link.startsWith('//') ? 'blank' : null}>
-                            <IconStyled name={icon} />
+                        <LinkStyled
+                            to={link}
+                            target={link.startsWith('//') ? 'blank' : null}
+                            onClick={onClick}
+                        >
+                            <IconStyled name={icon} width={width} height={height} />
                             {text}
                         </LinkStyled>
                     </Li>
