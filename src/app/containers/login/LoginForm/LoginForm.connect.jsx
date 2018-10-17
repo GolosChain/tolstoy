@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
-import { Login } from 'src/app/containers/login/Login';
-import user from 'app/redux/User';
+
 import { userSelector } from 'src/app/redux/selectors/common';
 import { dispatchLogin } from 'src/app/redux/actions/login';
+import user from 'app/redux/User';
+import { LoginForm } from './LoginForm';
 
 export default connect(
     state => ({
@@ -13,4 +14,4 @@ export default connect(
         clearError: () => user.actions.loginError({ error: null }),
         dispatchSubmit: dispatchLogin,
     }
-)(Login);
+)(LoginForm);

@@ -8,7 +8,7 @@ import Icon from 'golos-ui/Icon';
 import { Checkbox } from 'golos-ui/Form';
 
 const Wrapper = styled.div`
-    max-width: 90%;
+    max-width: 90vw;
     min-width: 460px;
 
     position: relative;
@@ -19,7 +19,7 @@ const Wrapper = styled.div`
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
 
     @media (max-width: 500px) {
-        width: calc(100% - 20px);
+        width: 100%;
         margin: 10px;
         min-width: 360px;
     }
@@ -130,9 +130,9 @@ const LoginButton = styled(Button)`
     margin-bottom: 0;
 `;
 
-export class Login extends Component {
+export class LoginForm extends Component {
     static propTypes = {
-        onClose: PropTypes.func.isRequired,
+        onClose: PropTypes.func,
     };
 
     state = {
@@ -180,9 +180,11 @@ export class Login extends Component {
         const { consent, saveCredentials, submitting } = this.state;
         return (
             <Wrapper className={className}>
-                <CloseButton onClick={onClose}>
-                    <Icon name="cross" width={16} height={16} />
-                </CloseButton>
+                {onClose ? (
+                    <CloseButton onClick={onClose}>
+                        <Icon name="cross" width={16} height={16} />
+                    </CloseButton>
+                ) : null}
                 <Form>
                     <Title>{tt('g.login')}</Title>
                     {loginError ? <ErrorMessage>{loginError}</ErrorMessage> : null}
