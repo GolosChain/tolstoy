@@ -162,8 +162,6 @@ async function getStateForPost(state, route, { api, accounts }) {
 
     const url = `${account}/${routeParams.permLink}`;
 
-    console.log('POST url', url);
-
     state.content[url] = await api.getContentAsync(
         account,
         routeParams.permLink,
