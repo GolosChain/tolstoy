@@ -113,7 +113,7 @@ const PostActionsStyled = styled(PostActions)`
 
 export class PostHeader extends Component {
     static propTypes = {
-        url: PropTypes.string.isRequired,
+        url: PropTypes.string,
         togglePin: PropTypes.func.isRequired,
         toggleFavorite: PropTypes.func.isRequired,
     };

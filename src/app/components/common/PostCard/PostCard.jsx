@@ -357,9 +357,9 @@ class PostCard extends PureComponent {
                     <Filler />
                     {grid ? null : <Category>{category}</Category>}
                     <Toolbar>
-                        {this._renderEditButton(withImage, p.link)}
-                        {this._renderPinButton(withImage)}
-                        {this._renderFavoriteButton(withImage)}
+                        {this.renderEditButton(withImage, p.link)}
+                        {this.renderPinButton(withImage)}
+                        {this.renderFavoriteButton(withImage)}
                     </Toolbar>
                 </HeaderLine>
                 {grid ? (
@@ -372,7 +372,7 @@ class PostCard extends PureComponent {
         );
     }
 
-    _renderEditButton(withImage, link) {
+    renderEditButton(withImage, link) {
         const { data, myAccount, grid, showPinButton } = this.props;
 
         if (showPinButton && myAccount === data.get('author')) {
@@ -390,7 +390,7 @@ class PostCard extends PureComponent {
         }
     }
 
-    _renderPinButton(withImage) {
+    renderPinButton(withImage) {
         const { data, myAccount, grid, showPinButton, isPinned, pinDisabled } = this.props;
 
         const showPin =
@@ -430,7 +430,7 @@ class PostCard extends PureComponent {
         );
     }
 
-    _renderFavoriteButton(withImage) {
+    renderFavoriteButton(withImage) {
         const { grid, isFavorite } = this.props;
 
         return (

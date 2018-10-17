@@ -10,7 +10,7 @@ import {
     authorSelector,
     currentPostSelector,
     votesSummarySelector,
-    postSelector,
+    routePostSelector,
 } from 'src/app/redux/selectors/post/commonPost';
 
 export default connect(
@@ -20,7 +20,7 @@ export default connect(
             authorSelector,
             currentUsernameSelector,
             votesSummarySelector,
-            postSelector,
+            routePostSelector,
         ],
         (post, author, username, votesSummary, data) => ({
             votesSummary,

@@ -209,28 +209,13 @@ export class PostContent extends Component {
     }
 
     renderEditor() {
-        const {
-            author,
-            permLink,
-            parentPermLink,
-            category,
-            title,
-            body,
-            jsonMetadata,
-        } = this.props;
+        const { author, permLink } = this.props;
 
         return (
             <PostFormLoader
                 editMode
-                editParams={{
-                    author,
-                    permlink: permLink,
-                    parent_permlink: parentPermLink,
-                    category: category.origin,
-                    title,
-                    body,
-                }}
-                jsonMetadata={parseJSON(jsonMetadata)}
+                author={author}
+                permLink={permLink}
                 onSuccess={this.onEditFinish}
                 onCancel={this.onEditFinish}
             />

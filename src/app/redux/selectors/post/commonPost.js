@@ -1,4 +1,5 @@
 import { Map, List } from 'immutable';
+import { createSelector } from 'reselect';
 import {
     createDeepEqualSelector,
     currentUsernameSelector,
@@ -19,12 +20,16 @@ const pathnameSelector = state => {
     return state.routing.locationBeforeTransitions.pathname;
 };
 
-const postUrlFromPathnameSelector = createDeepEqualSelector([pathnameSelector], pathname =>
-    pathname
-        .substring(pathname.indexOf('#') + 1)
-        .substr(pathname.indexOf('@') + 1)
-        .replace(/\/edit\/?$/, '')
-);
+const postUrlFromPathnameSelector = createDeepEqualSelector([pathnameSelector], pathname => {
+    // transform /test/@some-account/post-name/edit?kek=3#lol into some-account/post-name
+    const match = pathname.match(/@([^\/]+\/[^?#\/]+)/);
+
+    if (!match) {
+        return null;
+    }
+
+    return match[1];
+});
 
 const getMyVote = (post, username) => {
     const votes = post.get('active_votes');
@@ -40,20 +45,25 @@ const getMyVote = (post, username) => {
     return 0;
 };
 
-export const postSelector = createDeepEqualSelector(
+export const postSelector = createSelector(
+    [globalSelector('content'), (state, permLink) => permLink],
+    (content, permLink) => content.get(permLink)
+);
+
+export const routePostSelector = createDeepEqualSelector(
     [globalSelector('content'), postUrlFromPathnameSelector],
     (content, url) => content.get(url)
 );
 
 export const votesSummarySelector = createDeepEqualSelector(
-    [postSelector, currentUserSelector],
+    [routePostSelector, currentUserSelector],
     (post, currentUser) => {
         return calcVotesStats(post.get('active_votes').toJS(), currentUser);
     }
 );
 
 export const currentPostSelector = createDeepEqualSelector(
-    [postSelector, dataSelector('favorites'), currentUsernameSelector],
+    [routePostSelector, dataSelector('favorites'), currentUsernameSelector],
     (post, favorites, username) => {
         if (!post) {
             return null;
