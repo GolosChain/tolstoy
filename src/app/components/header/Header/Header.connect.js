@@ -13,11 +13,15 @@ export default connect(
     state => {
         const currentAccountName = state.user.getIn(['current', 'username']);
 
-        let votingPower = null;
+        let votingPower = null,
+            realName = null;
 
         if (currentAccountName) {
             votingPower =
                 state.global.getIn(['accounts', currentAccountName, 'voting_power']) / 100;
+            realName =
+                JSON.parse(state.global.getIn(['accounts', currentAccountName, 'json_metadata']))
+                    .profile.name || currentAccountName;
         }
 
         const notificationsOnlineStatus = statusSelector('notificationsOnline')(state);
@@ -26,6 +30,7 @@ export default connect(
             freshCount: notificationsOnlineStatus.get('freshCount'),
             currentAccountName,
             votingPower,
+            realName,
             offchainAccount: state.offchain.get('account'),
         };
     },

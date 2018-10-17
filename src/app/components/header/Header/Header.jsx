@@ -437,7 +437,7 @@ export default class Header extends PureComponent {
     }
 
     renderFullAccountBlock() {
-        const { currentAccountName, votingPower } = this.props;
+        const { currentAccountName, votingPower, realName } = this.props;
 
         const powerPercent = formatPower(votingPower);
 
@@ -445,7 +445,7 @@ export default class Header extends PureComponent {
             <AccountInfoBlock to={`/@${currentAccountName}`}>
                 <Userpic account={currentAccountName} size={36} />
                 <AccountText>
-                    <AccountName>{currentAccountName}</AccountName>
+                    <AccountName>{realName}</AccountName>
                     <AccountPowerBlock>
                         <AccountPowerBar title={`Сила голоса: ${powerPercent}%`}>
                             <AccountPowerChunk fill={votingPower > 90 ? 1 : 0} />
