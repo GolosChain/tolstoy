@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import cn from 'classnames';
 import { Link } from 'react-router';
 import styled from 'styled-components';
-import is, { isNot } from 'styled-is';
+import is from 'styled-is';
 
 import extractContent from 'app/utils/ExtractContent';
 import { immutableAccessor } from 'app/utils/Accessors';
-import Userpic from 'app/components/elements/Userpic';
 import { detransliterate } from 'app/utils/ParsersAndFormatters';
 import Icon from 'golos-ui/Icon';
 import { confirmVote } from 'src/app/helpers/votes';

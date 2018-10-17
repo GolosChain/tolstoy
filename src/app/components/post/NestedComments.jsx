@@ -6,7 +6,7 @@ import is from 'styled-is';
 import { getScrollElement } from 'src/app/helpers/window';
 
 import CommentCard from 'src/app/components/cards/CommentCard';
-import { CloseOpenButton } from 'src/app/components/cards/CloseOpenButton/CloseOpenButton';
+import CloseOpenButton from 'src/app/components/cards/CloseOpenButton';
 
 const Wrapper = styled.div`
     position: relative;
@@ -28,15 +28,15 @@ const Comment = styled(CommentCard)`
 
 const ToggleButton = styled(CloseOpenButton)`
     position: absolute;
-    top: 10px;
+    top: 13px;
     right: 18px;
     z-index: 2;
 
     width: 30px;
     height: 30px;
 
-    ${is('isCommentOpen')`
-        top: 13px;
+    ${is('collapsed')`
+        top: 10px;
     `};
 `;
 
@@ -47,7 +47,7 @@ export default class NestedComment extends Component {
     };
 
     state = {
-        isCommentOpen: true,
+        collapsed: false,
     };
 
     nestedCommentRef = createRef();
@@ -58,7 +58,7 @@ export default class NestedComment extends Component {
 
     toggleComment = () => {
         this.setState({
-            isCommentOpen: !this.state.isCommentOpen,
+            collapsed: !this.state.collapsed,
         });
         this.nestedCommentRef.current.wrappedInstance.toggleComment();
     };
@@ -77,12 +77,12 @@ export default class NestedComment extends Component {
     }
 
     render() {
-        const { isCommentOpen } = this.state;
         const { comment } = this.props;
+        const { collapsed } = this.state;
 
         return (
             <Wrapper>
-                <ToggleButton isCommentOpen={isCommentOpen} toggleComment={this.toggleComment} />
+                <ToggleButton collapsed={collapsed} toggleComment={this.toggleComment} />
                 <Comment
                     permLink={comment[0].authorAndPermLink}
                     isPostPage={true}
@@ -90,7 +90,7 @@ export default class NestedComment extends Component {
                     innerDeep={comment[0].innerDeep}
                     innerRef={this.nestedCommentRef}
                 />
-                {isCommentOpen && this.renderReplies(comment.slice(1))}
+                {!collapsed && this.renderReplies(comment.slice(1))}
             </Wrapper>
         );
     }

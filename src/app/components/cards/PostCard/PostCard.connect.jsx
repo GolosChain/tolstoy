@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 import tt from 'counterpart';
 
-import user from '../../../../../app/redux/User';
-import transaction from '../../../../../app/redux/Transaction';
-import { toggleFavoriteAction } from '../../../redux/actions/favorites';
-import { togglePinAction } from '../../../redux/actions/pinnedPosts';
-import { getPinnedPosts } from '../../../redux/selectors/account/pinnedPosts';
+import user from 'app/redux/User';
+import transaction from 'app/redux/Transaction';
+import { toggleFavoriteAction } from 'src/app/redux/actions/favorites';
+import { togglePinAction } from 'src/app/redux/actions/pinnedPosts';
+import { getPinnedPosts } from 'src/app/redux/selectors/account/pinnedPosts';
 import PostCard from './PostCard';
 
 export default connect(

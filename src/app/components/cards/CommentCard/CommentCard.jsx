@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { Map } from 'immutable';
 import styled from 'styled-components';
-import is, { isNot } from 'styled-is';
+import is from 'styled-is';
 import tt from 'counterpart';
 
 import { detransliterate } from 'app/utils/ParsersAndFormatters';
@@ -20,7 +20,7 @@ const Header = styled.div`
     padding: 12px 0 8px 0;
     flex-shrink: 0;
 
-    ${isNot('isCommentOpen')`
+    ${is('collapsed')`
         padding: 5px 0;
     `};
 `;
@@ -102,7 +102,7 @@ const Root = styled.div`
     overflow: hidden;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
 
-    ${isNot('commentopen')`
+    ${is('collapsed')`
         justify-content: center;
     `};
 `;
@@ -154,7 +154,7 @@ export class CommentCard extends PureComponent {
         myVote: this.props.dataLoaded ? this.getMyVote(this.props) : null,
         showReply: false,
         edit: false,
-        isCommentOpen: true,
+        collapsed: false,
     };
 
     commentRef = createRef();
@@ -180,14 +180,14 @@ export class CommentCard extends PureComponent {
     }
 
     renderHeaderForPost() {
-        const { isCommentOpen } = this.state;
         const { comment, extractedContent, isPostPage } = this.props;
+        const { collapsed } = this.state;
 
         return (
-            <Header isCommentOpen={isCommentOpen}>
+            <Header collapsed={collapsed}>
                 <HeaderLine>
                     <CardAuthor author={comment.get('author')} created={comment.get('created')} />
-                    {!isCommentOpen && (
+                    {collapsed && (
                         <PostBody
                             to={extractedContent.link}
                             onClick={this.rememberScrollPosition}
@@ -202,31 +202,28 @@ export class CommentCard extends PureComponent {
     }
 
     renderHeaderForProfile() {
-        const { isCommentOpen } = this.state;
         const { fullParentURL, title, comment } = this.props;
+        const { collapsed } = this.state;
         const detransliteratedCategory = detransliterate(comment.get('category'));
 
         return (
-            <Header isCommentOpen={isCommentOpen}>
+            <Header collapsed={collapsed}>
                 <HeaderLine>
-                    {isCommentOpen ? (
-                        <CardAuthor
-                            author={comment.get('author')}
-                            created={comment.get('created')}
-                        />
-                    ) : (
+                    {collapsed ? (
                         <ReLink
                             fullParentURL={fullParentURL}
                             title={title}
                             onClick={this.rememberScrollPosition}
                         />
+                    ) : (
+                        <CardAuthor
+                            author={comment.get('author')}
+                            created={comment.get('created')}
+                        />
                     )}
                     <CategoryTogglerWrapper>
                         <Category>{detransliteratedCategory}</Category>
-                        <CloseOpenButton
-                            isCommentOpen={isCommentOpen}
-                            toggleComment={this.toggleComment}
-                        />
+                        <CloseOpenButton collapsed={collapsed} toggleComment={this.toggleComment} />
                     </CategoryTogglerWrapper>
                 </HeaderLine>
             </Header>
@@ -250,8 +247,8 @@ export class CommentCard extends PureComponent {
     }
 
     renderBodyText() {
-        const { edit } = this.state;
         const { extractedContent, comment, isOwner, isPostPage } = this.props;
+        const { edit } = this.state;
 
         return (
             <Fragment>
@@ -336,12 +333,12 @@ export class CommentCard extends PureComponent {
 
     toggleComment = () => {
         this.setState({
-            isCommentOpen: !this.state.isCommentOpen,
+            collapsed: !this.state.collapsed,
         });
     };
 
     render() {
-        const { showReply, isCommentOpen, edit, myVote } = this.state;
+        const { showReply, collapsed, edit, myVote } = this.state;
 
         const {
             dataLoaded,
@@ -361,9 +358,9 @@ export class CommentCard extends PureComponent {
             );
         }
         return (
-            <Root commentopen={isCommentOpen ? 1 : 0} className={className}>
+            <Root collapsed={collapsed} className={className}>
                 {isPostPage ? this.renderHeaderForPost() : this.renderHeaderForProfile()}
-                {isCommentOpen ? (
+                {collapsed ? null : (
                     <Fragment>
                         {!isPostPage && this.renderTitle()}
                         {this.renderBodyText()}
@@ -382,7 +379,7 @@ export class CommentCard extends PureComponent {
                             onReplyClick={this.onReplyClick}
                         />
                     </Fragment>
-                ) : null}
+                )}
             </Root>
         );
     }
