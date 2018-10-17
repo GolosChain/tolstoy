@@ -196,6 +196,14 @@
     "copied": "Copied!",
     "copy": "COPY"
   },
+  "faq_jsq": {
+    "email": "email",
+    "footer_message": "Мы никогда не попросим ваши приватные ключи или деньги. Если кто-то представляется членами команды Golos.io и просит такую информацию, напишите нам на почту <a href='mailto:pr@golos.io' target='_blank'>pr@golos.io</a>.",
+    "official_channels": "Official channels",
+    "page_description": "There you can find answers on all questions you may be curious about.",
+    "page_title": "FAQ",
+    "telegram": "telegram"
+  },
   "footer": {
     "mobile_apps": "Mobile apps",
     "social_networks": "Social networks",
