@@ -30,12 +30,7 @@ const Wrapper = styled.div`
         padding: 10px 0;
     }
 
-    @media (max-width: 1407px) {
-        opacity: 0;
-        visibility: hidden;
-    }
-
-    @media (max-width: 1200px) {
+    @media (max-width: 1245px) {
         display: none;
     }
 

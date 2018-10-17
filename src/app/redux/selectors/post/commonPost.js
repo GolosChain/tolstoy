@@ -6,6 +6,7 @@ import {
     dataSelector,
     globalSelector,
 } from '../common';
+
 import { extractPinnedPosts } from 'src/app/redux/selectors/account/pinnedPosts';
 import { detransliterate, parsePayoutAmount } from 'app/utils/ParsersAndFormatters';
 import normalizeProfile from 'app/utils/NormalizeProfile';

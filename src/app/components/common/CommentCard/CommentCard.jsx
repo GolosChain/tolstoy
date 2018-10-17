@@ -68,8 +68,7 @@ const Title = styled.div`
 `;
 
 const PostBody = styled(({ isPostPage, ...otherProps }) => <Link {...otherProps} />)`
-    display: flex;
-    align-items: center;
+    display: block;
 
     margin-right: 18px;
 
@@ -86,6 +85,7 @@ const PostBody = styled(({ isPostPage, ...otherProps }) => <Link {...otherProps}
 const PostBodyWrapper = styled.div`
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
     padding: 0 18px;
 `;
@@ -123,6 +123,14 @@ const LoaderWrapper = styled.div`
 
 const CategoryTogglerWrapper = styled.div`
     display: flex;
+    align-items: center;
+`;
+
+const EmptyCloseOpenButton = styled.div`
+    flex-shrink: 0;
+
+    width: 30px;
+    height: 30px;
 `;
 
 export class CommentCard extends PureComponent {
@@ -190,10 +198,7 @@ export class CommentCard extends PureComponent {
                             isPostPage={isPostPage}
                         />
                     )}
-                    <CloseOpenButton
-                        isCommentOpen={isCommentOpen}
-                        toggleComment={this.toggleComment}
-                    />
+                    <EmptyCloseOpenButton />
                 </HeaderLine>
             </Header>
         );
@@ -205,7 +210,7 @@ export class CommentCard extends PureComponent {
         const detransliteratedCategory = detransliterate(comment.get('category'));
 
         return (
-            <Header>
+            <Header isCommentOpen={isCommentOpen}>
                 <HeaderLine>
                     {isCommentOpen ? (
                         <CommentAuthor
@@ -340,6 +345,7 @@ export class CommentCard extends PureComponent {
 
     render() {
         const { showReply, isCommentOpen, edit, myVote } = this.state;
+
         const {
             dataLoaded,
             comment,
@@ -357,7 +363,6 @@ export class CommentCard extends PureComponent {
                 </LoaderWrapper>
             );
         }
-
         return (
             <Root commentopen={isCommentOpen ? 1 : 0} className={className}>
                 {isPostPage ? this.renderHeaderForPost() : this.renderHeaderForProfile()}
