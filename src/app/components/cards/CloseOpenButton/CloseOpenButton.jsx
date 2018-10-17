@@ -26,7 +26,7 @@ const ChevronIcon = styled(Icon)`
     flex-shrink: 0;
 `;
 
-export const CloseOpenButton = ({ isCommentOpen, toggleComment, className }) => (
+const CloseOpenButton = ({ isCommentOpen, toggleComment, className }) => (
     <ToggleCommentOpen
         className={className}
         commentOpen={isCommentOpen ? 1 : 0}
@@ -40,3 +40,5 @@ CloseOpenButton.propTypes = {
     isCommentOpen: PropTypes.bool.isRequired,
     toggleComment: PropTypes.func.isRequired,
 };
+
+export default CloseOpenButton;

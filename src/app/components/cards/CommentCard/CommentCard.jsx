@@ -8,13 +8,13 @@ import tt from 'counterpart';
 
 import { detransliterate } from 'app/utils/ParsersAndFormatters';
 import CommentFormLoader from 'app/components/modules/CommentForm/loader';
-
-import CommentFooter from './CommentFooter';
-import { CommentAuthor } from './CommentAuthor';
-import { EditButton } from './EditButton';
-import { ReLink } from './ReLink';
-import { CloseOpenButton } from './CloseOpenButton';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
+
+import CloseOpenButton from '../CloseOpenButton';
+import CommentFooter from '../CommentFooter';
+import CardAuthor from '../CardAuthor';
+import EditButton from '../EditButton';
+import ReLink from '../ReLink';
 
 const Header = styled.div`
     padding: 12px 0 8px 0;
@@ -186,10 +186,7 @@ export class CommentCard extends PureComponent {
         return (
             <Header isCommentOpen={isCommentOpen}>
                 <HeaderLine>
-                    <CommentAuthor
-                        author={comment.get('author')}
-                        created={comment.get('created')}
-                    />
+                    <CardAuthor author={comment.get('author')} created={comment.get('created')} />
                     {!isCommentOpen && (
                         <PostBody
                             to={extractedContent.link}
@@ -213,7 +210,7 @@ export class CommentCard extends PureComponent {
             <Header isCommentOpen={isCommentOpen}>
                 <HeaderLine>
                     {isCommentOpen ? (
-                        <CommentAuthor
+                        <CardAuthor
                             author={comment.get('author')}
                             created={comment.get('created')}
                         />

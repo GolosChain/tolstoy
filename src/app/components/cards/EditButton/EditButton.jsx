@@ -26,7 +26,7 @@ const PenIcon = styled(Icon)`
     flex-shrink: 0;
 `;
 
-export const EditButton = ({ onEditClick }) => (
+const EditButton = ({ onEditClick }) => (
     <Wrapper data-tooltip={tt('g.edit_comment')} onClick={onEditClick}>
         <PenIcon name="pen" size={20} />
     </Wrapper>
@@ -35,3 +35,5 @@ export const EditButton = ({ onEditClick }) => (
 EditButton.propTypes = {
     onEditClick: PropTypes.func.isRequired,
 };
+
+export default EditButton;

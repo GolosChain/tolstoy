@@ -8,12 +8,12 @@ import is, { isNot } from 'styled-is';
 import extractContent from 'app/utils/ExtractContent';
 import { immutableAccessor } from 'app/utils/Accessors';
 import Userpic from 'app/components/elements/Userpic';
-import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
 import { detransliterate } from 'app/utils/ParsersAndFormatters';
 import Icon from 'golos-ui/Icon';
 import { confirmVote } from 'src/app/helpers/votes';
 import VotePanel from '../../common/VotePanel';
 import ReplyBlock from '../../common/ReplyBlock';
+import CardAuthor from '../CardAuthor';
 
 const Header = styled.div`
     padding: 10px 0 6px;
@@ -33,33 +33,6 @@ const HeaderLine = styled.div`
     }
 `;
 
-const AuthorBlock = styled.div`
-    display: flex;
-    align-items: center;
-`;
-const Avatar = styled(Link)`
-    display: block;
-    width: 46px;
-    height: 46px;
-    margin-right: 10px;
-    border-radius: 50%;
-`;
-const PostDesc = styled.div`
-    padding-bottom: 2px;
-    font-family: ${a => a.theme.fontFamily};
-`;
-const AuthorName = styled(Link)`
-    display: block;
-    font-size: 15px;
-    font-weight: 500;
-    color: #333;
-    text-decoration: none;
-`;
-const PostDate = styled.div`
-    font-size: 13px;
-    color: #959595;
-    cursor: default;
-`;
 const Category = styled.div`
     height: 28px;
     padding: 0 12px;
@@ -112,10 +85,6 @@ const BodyLink = styled(Link)`
         width: 62%;
     `};
 
-    ${isNot('grid')`
-        border-bottom: 2px solid #f3f3f3;
-    `};
-
     ${is('grid')`
         flex-shrink: 1;
         flex-grow: 1;
@@ -125,7 +94,7 @@ const BodyLink = styled(Link)`
 
 const Body = styled.div`
     position: relative;
-    padding: 0 18px 12px;
+    padding: 0 18px;
 `;
 const PostTitle = styled.div`
     font-size: 20px;
@@ -337,17 +306,7 @@ export default class PostCard extends PureComponent {
         return (
             <Header>
                 <HeaderLine>
-                    <AuthorBlock>
-                        <Avatar to={`/@${author}`}>
-                            <Userpic account={author} size={42} />
-                        </Avatar>
-                        <PostDesc>
-                            <AuthorName to={`/@${author}`}>{author}</AuthorName>
-                            <PostDate>
-                                <TimeAgoWrapper date={data.get('created')} />
-                            </PostDate>
-                        </PostDesc>
-                    </AuthorBlock>
+                    <CardAuthor author={author} created={data.get('created')} />
                     <Filler />
                     {grid ? null : <Category>{category}</Category>}
                     <Toolbar>
