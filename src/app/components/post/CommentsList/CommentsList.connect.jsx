@@ -5,7 +5,7 @@ import { commentsSelector } from 'src/app/redux/selectors/post/commonPost';
 import { saveListScrollPosition } from 'src/app/redux/actions/ui';
 import { CommentsList } from 'src/app/components/post/CommentsList/CommentsList';
 
-const INSET_COMMENTS_LEVELS_NUMBER = 6;
+const NESTED_COMMENTS_LEVELS_NUMBER = 6;
 
 // function receive original comments array, and reply on current cycle, searching this one in original array,
 // make it null for remove redundant cycles
@@ -37,13 +37,13 @@ function findReplies(comments, currentComment, innerDeep = 0) {
     const replies = currentComment.replies;
 
     if (replies.length) {
-        if (innerDeep < INSET_COMMENTS_LEVELS_NUMBER) {
+        if (innerDeep < NESTED_COMMENTS_LEVELS_NUMBER) {
             ++innerDeep;
         }
         for (let reply of replies) {
             const comment = getComment(comments, reply);
-            const insetReplies = findReplies(comments, comment, innerDeep);
-            commentWithReplies.push(...insetReplies);
+            const nestedReplies = findReplies(comments, comment, innerDeep);
+            commentWithReplies.push(...nestedReplies);
         }
     }
 
@@ -72,7 +72,7 @@ export default connect(
     createSelector([commentsSelector], commentsData => {
         const { comments, postPermLink, isFetching } = commentsData;
         const structuredComments = mapComments(comments, postPermLink);
-        console.log(structuredComments);
+
         return {
             structuredComments,
             isFetching,

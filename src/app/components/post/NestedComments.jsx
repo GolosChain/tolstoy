@@ -40,7 +40,7 @@ const ToggleButton = styled(CloseOpenButton)`
     `};
 `;
 
-export default class InsetComment extends Component {
+export default class NestedComment extends Component {
     static propTypes = {
         comment: PropTypes.array.isRequired,
         saveListScrollPosition: PropTypes.func.isRequired,
@@ -50,7 +50,7 @@ export default class InsetComment extends Component {
         isCommentOpen: true,
     };
 
-    insetCommentRef = createRef();
+    nestedCommentRef = createRef();
 
     onEntryClick = () => {
         this.props.saveListScrollPosition(getScrollElement().scrollTop);
@@ -60,17 +60,17 @@ export default class InsetComment extends Component {
         this.setState({
             isCommentOpen: !this.state.isCommentOpen,
         });
-        this.insetCommentRef.current.wrappedInstance.toggleComment();
+        this.nestedCommentRef.current.wrappedInstance.toggleComment();
     };
 
     renderReplies(comment) {
-        return comment.map((insetComment, index) => (
-            <Fragment key={insetComment.authorAndPermLink}>
+        return comment.map((nestedComment, index) => (
+            <Fragment key={nestedComment.authorAndPermLink}>
                 <Comment
-                    permLink={insetComment.authorAndPermLink}
+                    permLink={nestedComment.authorAndPermLink}
                     isPostPage={true}
                     onClick={this.onEntryClick}
-                    innerDeep={insetComment.innerDeep}
+                    innerDeep={nestedComment.innerDeep}
                 />
             </Fragment>
         ));
@@ -88,7 +88,7 @@ export default class InsetComment extends Component {
                     isPostPage={true}
                     onClick={this.onEntryClick}
                     innerDeep={comment[0].innerDeep}
-                    innerRef={this.insetCommentRef}
+                    innerRef={this.nestedCommentRef}
                 />
                 {isCommentOpen && this.renderReplies(comment.slice(1))}
             </Wrapper>
