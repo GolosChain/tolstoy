@@ -1,13 +1,46 @@
-import App from 'src/app/containers/App';
-import PostsIndex from '@pages/PostsIndex';
 import resolveRoute from './ResolveRoute';
+
+import App from 'src/app/containers/App';
+import HomeContainer from 'src/app/containers/home';
+import HomeContent from 'src/app/containers/home/content';
+import HomeSidebar from 'src/app/containers/home/sidebar';
 
 export default {
     path: '/',
     component: App,
     getChildRoutes(nextState, cb) {
         const route = resolveRoute(nextState.location.pathname);
-        if (route.page === 'Landing') {
+        if (route.page === 'PostsIndex') {
+            cb(null, [
+                {
+                    component: HomeContainer,
+                    indexRoute: {
+                        components: {
+                            content: HomeContent,
+                            sidebar: HomeSidebar,
+                        },
+                    },
+                    childRoutes: [
+                        {
+                            path: '/:order(/:category)',
+                            components: {
+                                content: HomeContent,
+                                sidebar: HomeSidebar,
+                            },
+                        },
+                    ],
+                },
+            ]);
+        } else if (route.page === 'UserProfile') {
+            cb(null, [require('src/app/containers/userProfile').UserProfileContainer]);
+        } else if (route.page === 'Post') {
+            cb(null, [
+                {
+                    path: '/(:category/)@:username/:slug(/:action)',
+                    component: require('src/app/containers/post').default,
+                },
+            ]);
+        } else if (route.page === 'Landing') {
             cb(null, [require('@pages/Landing').default]);
         } else if (route.page === 'Welcome') {
             cb(null, [
@@ -30,18 +63,17 @@ export default {
                 },
             ]);
         } else if (route.page === 'Login') {
-            cb(null, [{
-                path: 'login',
-                component: require('src/app/containers/login').default
-            }]);
+            cb(null, [
+                {
+                    path: 'login',
+                    component: require('src/app/containers/login').default,
+                },
+            ]);
         } else if (route.page === 'Privacy') {
             cb(null, [require('@pages/Privacy').default]);
         } else if (route.page === 'Support') {
             cb(null, [require('@pages/Support').default]);
-        } else if (
-            route.page === 'XSSTest' &&
-            process.env.NODE_ENV === 'development'
-        ) {
+        } else if (route.page === 'XSSTest' && process.env.NODE_ENV === 'development') {
             cb(null, [require('@pages/XSS').default]);
         } else if (route.page === 'Tags') {
             cb(null, [require('@pages/TagsIndex').default]);
@@ -60,29 +92,12 @@ export default {
         } else if (route.page === 'SubmitPost') {
             if (process.env.BROWSER) cb(null, [require('@pages/SubmitPost').default]);
             else cb(null, [require('@pages/SubmitPostServerRender').default]);
-        } else if (route.page === 'UserProfile') {
-            cb(null, [
-                require('src/app/containers/userProfile')
-                    .UserProfileContainer,
-            ]);
         } else if (route.page === 'Market') {
             cb(null, [require('@pages/MarketLoader').default]);
-        } else if (route.page === 'Post') {
-            cb(null, [{
-                path: '/(:category/)@:username/:slug(/:action)',
-                component: require('src/app/containers/post').default
-            }]);
         } else if (route.page === 'PostNoCategory') {
             cb(null, [require('@pages/PostPageNoCategory').default]);
-        } else if (route.page === 'PostsIndex') {
-            cb(null, [PostsIndex]);
         } else {
-            cb(process.env.BROWSER ? null : Error(404), [
-                require('@pages/NotFound').default,
-            ]);
+            cb(process.env.BROWSER ? null : Error(404), [require('@pages/NotFound').default]);
         }
-    },
-    indexRoute: {
-        component: PostsIndex.component,
     },
 };

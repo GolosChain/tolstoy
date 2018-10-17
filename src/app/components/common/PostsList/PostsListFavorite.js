@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import PostsList from './PostsList';
 import { favoritesLoadNextPageAction } from 'src/app/redux/actions/favorites';
-import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';
 
 export default connect(
     state => {
@@ -19,24 +18,6 @@ export default connect(
     dispatch => ({
         loadMore() {
             dispatch(favoritesLoadNextPageAction());
-        },
-        loadContent(permLink) {
-            return new Promise((resolve, reject) => {
-                const [author, permlink] = permLink.split('/');
-
-                dispatch({
-                    type: 'GET_CONTENT',
-                    payload: {
-                        author,
-                        permlink,
-                        resolve,
-                        reject,
-                    },
-                });
-            });
-        },
-        fetchState() {
-            dispatch(fetchCurrentStateAction());
         },
     })
 )(PostsList);
