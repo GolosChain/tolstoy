@@ -26,8 +26,7 @@ export default async function getState(api, url = '/', options, offchain) {
     const accounts = new Set();
 
     // by default trending tags limit=50, but if we in '/tags/' path then limit = 250
-    const tagsLimit = route.page === 'Tags' ? '250' : '50';
-
+    const tagsLimit = route.page === 'Tags' ? 250 : 50;
     const trendingTags = await api.getTrendingTagsAsync('', tagsLimit);
 
     state.tag_idx = {
@@ -55,6 +54,7 @@ export default async function getState(api, url = '/', options, offchain) {
             api,
             trendingTags,
             accounts,
+            options,
         });
     }
 
@@ -197,7 +197,7 @@ async function getStateForWitnesses(state) {
     }
 }
 
-async function getStateForApi(state, params, { offchain, routeParts, api }) {
+async function getStateForApi(state, params, { offchain, routeParts, options, api }) {
     const args = { limit: 20, truncate_body: 1024 };
     const discussionsType = routeParts[0];
 
