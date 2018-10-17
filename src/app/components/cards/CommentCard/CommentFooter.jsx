@@ -5,9 +5,9 @@ import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
 
-import VotePanel from '../VotePanel/index';
-import ReplyBlock from '../ReplyBlock/index';
 import { confirmVote } from 'src/app/helpers/votes';
+import VotePanel from '../../common/VotePanel';
+import ReplyBlock from '../../common/ReplyBlock';
 
 const Wrapper = styled.div`
     position: relative;

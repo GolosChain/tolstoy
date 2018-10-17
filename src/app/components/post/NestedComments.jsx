@@ -5,8 +5,8 @@ import is from 'styled-is';
 
 import { getScrollElement } from 'src/app/helpers/window';
 
-import CommentCard from 'src/app/components/common/CommentCard/index';
-import { CloseOpenButton } from 'src/app/components/common/CommentCard/CloseOpenButton';
+import CommentCard from 'src/app/components/cards/CommentCard';
+import { CloseOpenButton } from 'src/app/components/cards/CommentCard/CloseOpenButton';
 
 const Wrapper = styled.div`
     position: relative;
