@@ -26,7 +26,7 @@ export default {
                     path: 'faq',
                     component: process.env.BROWSER
                         ? require('@pages/FaqLoader').default
-                        : require('src/app/containers/Faq').default,
+                        : require('@pages/Faq').default,
                 },
             ]);
         } else if (route.page === 'Login') {
