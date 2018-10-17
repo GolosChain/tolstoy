@@ -66,7 +66,7 @@ export default class App extends Component {
             window.INIT_TIMESSTAMP = Date.now();
         }
 
-        this.props.locationChanged(this.props.location);
+        this.onLocationChange(this.props);
     }
 
     componentDidMount() {
@@ -93,7 +93,7 @@ export default class App extends Component {
         const { location } = this.props;
 
         if (location.key !== props.location.key || location.action !== props.location.action) {
-            this.props.locationChanged(props.location);
+            this.onLocationChange(props);
         }
     }
 
@@ -116,7 +116,6 @@ export default class App extends Component {
                 }
             } else {
                 this.props.logoutUser();
-
             }
         }
     };
@@ -127,6 +126,10 @@ export default class App extends Component {
         } else {
             console.log('onEntropyEvent Unknown', e.type, e);
         }
+    }
+
+    onLocationChange(props) {
+        props.locationChanged({ params: props.params, ...props.location });
     }
 
     renderWelcomeScreen() {

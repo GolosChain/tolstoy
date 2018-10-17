@@ -91,6 +91,7 @@ const ToolbarAction = styled.div`
         margin-right: 0;
     }
 `;
+const ToolbarActionLink = ToolbarAction.withComponent(Link);
 const IconWrapper = styled.div`
     display: flex;
     align-items: center;
@@ -326,14 +327,14 @@ class PostCard extends PureComponent {
                 )}
                 grid={grid}
             >
-                {this._renderHeader(withImage)}
+                {this._renderHeader(withImage, p)}
                 {this._renderBody(withImage, p)}
                 {this._renderFooter(withImage, p)}
             </Root>
         );
     }
 
-    _renderHeader(withImage) {
+    _renderHeader(withImage, p) {
         const { data, grid } = this.props;
 
         const author = data.get('author');
@@ -356,8 +357,9 @@ class PostCard extends PureComponent {
                     <Filler />
                     {grid ? null : <Category>{category}</Category>}
                     <Toolbar>
-                        {this._renderPinButton(withImage)}
-                        {this._renderFavoriteButton(withImage)}
+                        {this.renderEditButton(withImage, p.link)}
+                        {this.renderPinButton(withImage)}
+                        {this.renderFavoriteButton(withImage)}
                     </Toolbar>
                 </HeaderLine>
                 {grid ? (
@@ -370,7 +372,25 @@ class PostCard extends PureComponent {
         );
     }
 
-    _renderPinButton(withImage) {
+    renderEditButton(withImage, link) {
+        const { data, myAccount, grid, showPinButton } = this.props;
+
+        if (showPinButton && myAccount === data.get('author')) {
+            return (
+                <ToolbarActionLink to={`${link}/edit`}>
+                    <IconWrapper
+                        color={withImage && !grid ? '#fff' : ''}
+                        enabled
+                        data-tooltip="Редактировать"
+                    >
+                        <Icon name="pen" width={23} height={23} />
+                    </IconWrapper>
+                </ToolbarActionLink>
+            );
+        }
+    }
+
+    renderPinButton(withImage) {
         const { data, myAccount, grid, showPinButton, isPinned, pinDisabled } = this.props;
 
         const showPin =
@@ -404,13 +424,13 @@ class PostCard extends PureComponent {
                     data-tooltip={pinTip}
                     onClick={!pinDisabled ? this._onPinClick : null}
                 >
-                    <Icon name="pin" width={24} height={24} />
+                    <Icon name="pin" width={23} height={23} />
                 </IconWrapper>
             </ToolbarAction>
         );
     }
 
-    _renderFavoriteButton(withImage) {
+    renderFavoriteButton(withImage) {
         const { grid, isFavorite } = this.props;
 
         return (

@@ -1,14 +1,21 @@
 import { createSelector } from 'reselect';
 import { Set } from 'immutable';
 
-import { currentUserSelector, globalSelector } from '../common';
+import { currentUsernameSelector, globalSelector } from '../common';
 
 const emptySet = Set();
 
 export const followingSelector = type =>
-    createSelector([globalSelector('follow', emptySet), currentUserSelector], (follow, user) => {
-        return follow.getIn(['getFollowingAsync', user.get('username'), type], emptySet);
-    });
+    createSelector(
+        [globalSelector('follow', emptySet), currentUsernameSelector],
+        (follow, username) => {
+            if (!username) {
+                return emptySet;
+            }
+
+            return follow.getIn(['getFollowingAsync', username, type], emptySet);
+        }
+    );
 
 export const followSelector = createSelector(
     [followingSelector('blog_result'), (state, props) => props.following],
