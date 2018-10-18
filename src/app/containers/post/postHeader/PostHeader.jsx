@@ -134,11 +134,6 @@ export class PostHeader extends Component {
         });
     };
 
-    toggleFavorite = () => {
-        const { author, permLink, isFavorite } = this.props;
-        this.props.toggleFavorite({ link: author + '/' + permLink, isAdd: !isFavorite });
-    };
-
     follow = () => {
         this.props.updateFollow(this.props.username, this.props.author, 'blog');
     };

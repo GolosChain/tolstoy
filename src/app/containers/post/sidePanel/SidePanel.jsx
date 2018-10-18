@@ -123,11 +123,6 @@ export class SidePanel extends Component {
         this.props.reblog(username, author, permLink);
     };
 
-    toggleFavorite = () => {
-        const { author, permLink, isFavorite } = this.props;
-        this.props.toggleFavorite({ link: author + '/' + permLink, isAdd: !isFavorite });
-    };
-
     like = async () => {
         const { username, permLink, author, myVote } = this.props;
         const percent = 1;

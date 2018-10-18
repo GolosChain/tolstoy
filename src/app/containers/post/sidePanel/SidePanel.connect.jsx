@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
 import { currentUsernameSelector } from 'src/app/redux/selectors/common';
-import { toggleFavoriteAction } from 'src/app/redux/actions/favorites';
 import { onVote } from 'src/app/redux/actions/vote';
 import { reblog } from 'src/app/redux/actions/posts';
 import { SidePanel } from 'src/app/containers/post/sidePanel/SidePanel';
@@ -31,7 +30,6 @@ export default connect(
     ),
 
     {
-        toggleFavorite: toggleFavoriteAction,
         onVote,
         reblog,
     }
