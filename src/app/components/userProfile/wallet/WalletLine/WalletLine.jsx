@@ -364,9 +364,9 @@ export default class WalletLine extends PureComponent {
     }
 
     _renderPostLink(post) {
-        const fullLink = post.author + '/' + post.permLink;
+        const postLink = post.author + '/' + post.permLink;
 
-        return <WhoPostLink onClick={() => this._onPostClick(post)}>{fullLink}</WhoPostLink>;
+        return <WhoPostLink to={'/@' + postLink}>{postLink}</WhoPostLink>;
     }
 
     _renderEditDelegation() {
