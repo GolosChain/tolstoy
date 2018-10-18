@@ -52,11 +52,11 @@ export default function(state = initialState, { type, payload, meta }) {
                 let showList;
 
                 if (meta.isAdd) {
-                    list = state.list.push(meta.link);
+                    list = state.list.unshift(meta.link);
 
                     // Если мы на последней странице просмотра
                     if (Math.ceil(state.list.size / PAGE_SIZE) === state.pages && state.showList) {
-                        showList = state.showList.push(meta.link);
+                        showList = state.showList.unshift(meta.link);
                     } else {
                         showList = state.showList;
                     }
