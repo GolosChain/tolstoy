@@ -101,7 +101,6 @@ function extractFields(data, fieldsList) {
 
 const calculatePayout = memoize((rates, data) => {
     const result = { ...zeroedPayout };
-
     const lastPayout = data.get('last_payout');
     const max = parseFloat(data.get('max_accepted_payout', 0));
 
@@ -155,6 +154,8 @@ export const getPayout = createSelector(
 );
 
 export const getPayoutPermLink = createSelector(
-    [state => state.data.rates, (state, props) => state.global.getIn(['content', props.postLink])],
+    [state => state.data.rates, (state, props) => {
+        return state.global.getIn(['content', props.postLink])
+    }],
     calculatePayout
 );

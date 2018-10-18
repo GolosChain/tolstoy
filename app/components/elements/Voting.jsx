@@ -261,11 +261,12 @@ class Voting extends PureComponent {
                     renderValue(total_curator_payout, 'GBG'),
             });
         }
-
         const payoutEl = (
             <DropdownMenu el="div" items={payoutItems}>
                 <span>
-                    <PostPayout data={postData} />
+                    <PostPayout
+                        postLink={postData.get('author') + '/' + postData.get('permlink')}
+                    />
                     {payoutItems.length > 0 && <Icon name="dropdown-arrow" />}
                 </span>
             </DropdownMenu>
