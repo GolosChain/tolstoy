@@ -298,6 +298,8 @@ export default class VotePanel extends PureComponent {
         );
     }
 
+    getPayoutInfoComponent = () => <PayoutInfo data={this.props.data} />;
+
     _renderPayout() {
         const { data } = this.props;
         const { isMobile } = this.state;
@@ -310,7 +312,7 @@ export default class VotePanel extends PureComponent {
             );
         } else {
             return (
-                <Popover content={() => <PayoutInfo data={data} />}>
+                <Popover content={this.getPayoutInfoComponent}>
                     <Money>
                         <PostPayoutStyled postLink={postLink} />
                     </Money>
