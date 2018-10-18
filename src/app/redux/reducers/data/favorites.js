@@ -55,7 +55,7 @@ export default function(state = initialState, { type, payload, meta }) {
                     list = state.list.push(meta.link);
 
                     // Если мы на последней странице просмотра
-                    if (Math.ceil(state.list.size / PAGE_SIZE) === state.pages) {
+                    if (Math.ceil(state.list.size / PAGE_SIZE) === state.pages && state.showList) {
                         showList = state.showList.push(meta.link);
                     } else {
                         showList = state.showList;
@@ -63,7 +63,9 @@ export default function(state = initialState, { type, payload, meta }) {
 
                 } else {
                     list = state.list.filter(link => link !== meta.link);
-                    showList = state.showList.filter(link => link !== meta.link);
+                    if (state.showList) {
+                        showList = state.showList.filter(link => link !== meta.link);
+                    }
                 }
 
                 return {
