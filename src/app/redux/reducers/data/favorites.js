@@ -31,7 +31,7 @@ export default function(state = initialState, { type, payload, meta }) {
                 ...state,
                 isLoading: false,
                 isLoaded: true,
-                list: List(payload.list),
+                list: List(payload.list).reverse(),
                 set: Set(payload.list),
             };
         case FAVORITES_SET_PAGE_LOADING:
