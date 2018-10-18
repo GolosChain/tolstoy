@@ -38,8 +38,8 @@ export default function resolveRoute(path) {
         return { page: 'Landing' };
     }
 
-    if (path === '/faq.html') {
-        return { page: 'Faq' };
+    if (path === '/faq') {
+        return {page: 'Faq'};
     }
 
     if (path === '/login') {
