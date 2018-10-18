@@ -1,7 +1,7 @@
 [
   {
     "inscription": "основной сайт",
-    "thumbnail": "ic_monitor",
+    "thumbnail": "monitor",
     "link": "/",
     "width": "34",
     "height": "31",
@@ -9,7 +9,7 @@
   },
   {
     "inscription": "канал техподдержки",
-    "thumbnail": "ic_support_ru",
+    "thumbnail": "support_ru",
     "link": "https://t.me/golos_support",
     "width": "30",
     "height": "33",
@@ -17,7 +17,7 @@
   },
   {
     "inscription": "Новости и анонсы Golos.io",
-    "thumbnail": "ic_newspaper",
+    "thumbnail": "newspaper",
     "link": "/@golosio",
     "width": "26",
     "height": "26",
@@ -25,7 +25,7 @@
   },
   {
     "inscription": "Facebook",
-    "thumbnail": "ic_facebook",
+    "thumbnail": "facebook",
     "link": "https://www.facebook.com/www.golos.io/\n",
     "width": "14",
     "height": "30",
@@ -33,7 +33,7 @@
   },
   {
     "inscription": "github",
-    "thumbnail": "ic_github",
+    "thumbnail": "github",
     "link": "https://github.com/GolosChain/tolstoy",
     "width": "32",
     "height": "31",
@@ -41,7 +41,7 @@
   },
   {
     "inscription": "Официальное зеркало",
-    "thumbnail": "ic_mirror",
+    "thumbnail": "mirror",
     "link": "https://www.golos.blog",
     "width": "30",
     "height": "30",
@@ -49,7 +49,7 @@
   },
   {
     "inscription": "ENG support channel",
-    "thumbnail": "ic_support_eng",
+    "thumbnail": "support_eng",
     "link": "https://t.me/golos_eng",
     "width": "30",
     "height": "31",
@@ -57,7 +57,7 @@
   },
   {
     "inscription": "Лучшее на Golos.io",
-    "thumbnail": "ic_like",
+    "thumbnail": "like",
     "link": "https://t.me/golos_best",
     "width": "28",
     "height": "28",
@@ -65,7 +65,7 @@
   },
   {
     "inscription": "Вконтакте",
-    "thumbnail": "ic_vk",
+    "thumbnail": "vk",
     "link": "https://vk.com/goloschain",
     "width": "30",
     "height": "20",
@@ -73,7 +73,7 @@
   },
   {
     "inscription": "контакты для СМИ",
-    "thumbnail": "ic_mail",
+    "thumbnail": "mail",
     "link": "mailto:pr@golos.io",
     "width": "28",
     "height": "19",

@@ -17,7 +17,7 @@
   },
   {
     "inscription": "Facebook",
-    "thumbnail": "ic_facebook",
+    "thumbnail": "facebook",
     "link": "https://www.facebook.com/www.golos.io/\n",
     "width": "14",
     "height": "30",
@@ -25,7 +25,7 @@
   },
   {
     "inscription": "github",
-    "thumbnail": "ic_github",
+    "thumbnail": "github",
     "link": "https://github.com/GolosChain/tolstoy",
     "width": "32",
     "height": "31",
@@ -49,7 +49,7 @@
   },
   {
     "inscription": "Best of Golos.io",
-    "thumbnail": "ic_like",
+    "thumbnail": "like",
     "link": "https://t.me/golos_best",
     "width": "28",
     "height": "28",

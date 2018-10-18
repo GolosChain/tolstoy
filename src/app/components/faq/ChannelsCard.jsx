@@ -22,12 +22,14 @@ const Card = styled(LinkTo)`
     border-radius: 8.53px;
     background-color: #ffffff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .06);
+    color: #ffc80a;
     margin: 10px;
     cursor: pointer;
     transition: 0.2s;
-
+    
     &:hover {
         box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .3);
+        color: #ffc80a;
     }
 
     @media (max-width: 744px) {
