@@ -298,7 +298,10 @@ export default class VotePanel extends PureComponent {
         );
     }
 
-    getPayoutInfoComponent = () => <PayoutInfo data={this.props.data} />;
+    getPayoutInfoComponent = () => {
+        const { data } = this.props;
+        return <PayoutInfo postLink={data.get('author') + '/' + data.get('permlink')} />;
+    };
 
     _renderPayout() {
         const { data } = this.props;
@@ -414,7 +417,7 @@ export default class VotePanel extends PureComponent {
         DialogManager.showDialog({
             component: PayoutInfoDialog,
             props: {
-                data,
+                postLink: data.get('author') + '/' + data.get('permlink'),
             },
         });
     };
