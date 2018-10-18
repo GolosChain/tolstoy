@@ -29,14 +29,20 @@ const Fixed = styled.div`
     top: 0;
     left: 0;
     right: 0;
+    
     height: 60px;
-    background: #fff;
+    
+    background: #ffffff;
     border-bottom: 1px solid #e9e9e9;
     z-index: 10;
 
     ${is('mobile')`
         position: relative;
+        
         height: 56px;
+        
+        background-color: #f9f9f9;
+        border: none;
     `};
 `;
 
@@ -59,7 +65,7 @@ const LogoLink = styled(Link)`
     margin-left: -10px;
 
     @media (max-width: 1230px) {
-        margin-left: 8px;
+        margin-left: 10px;
     }
 `;
 
@@ -95,6 +101,7 @@ const SearchBlock = styled(Link)`
 
     ${is('mobile')`
         padding: 10px 20px;
+        margin-right: 0;
     `};
 `;
 
@@ -238,6 +245,7 @@ const Notifications = styled.div`
 
     ${is('mobile')`
         padding: 10px 20px;
+        margin-left: 0;
     `};
 
     &:hover {
@@ -262,6 +270,7 @@ const Messages = styled(Link)`
 
     ${is('mobile')`
         padding: 10px 20px;
+        margin-left: 0;
     `};
 
     &:focus {
@@ -294,15 +303,25 @@ const DotsWrapper = styled.div`
             color: #2879ff;
         }
     `};
+    
+    ${is('mobile')`
+        padding: 10px 20px;
+    `}
 `;
 
-const MobileAccountBlock = styled.div`
+const MobileAccountBlock = styled(Link)`
     display: flex;
     align-items: center;
+    
     height: 100%;
     padding: 0 15px 0 12px;
+    
     cursor: pointer;
     z-index: 1;
+    
+    ${is('mobile')`
+        padding: 0 10px;
+    `};
 `;
 
 const MobileAccountContainer = styled.div`
@@ -400,12 +419,6 @@ export default class Header extends PureComponent {
         this.props.onLogout();
     };
 
-    onAccountMenuToggle = () => {
-        this.setState({
-            isAccountOpen: !this.state.isAccountOpen,
-        });
-    };
-
     onMenuToggle = () => {
         this.setState({
             isMenuOpen: !this.state.isMenuOpen,
@@ -493,8 +506,8 @@ export default class Header extends PureComponent {
     }*/
 
     renderMobileAccountBlock() {
+        const { isMobile } = this.state;
         const { currentAccountName, votingPower } = this.props;
-        const { isAccountOpen } = this.state;
 
         const angle = 2 * Math.PI - 2 * Math.PI * (votingPower / 100);
 
@@ -502,30 +515,22 @@ export default class Header extends PureComponent {
 
         return (
             <Fragment>
-                <MobileAccountBlock onClick={this.onAccountMenuToggle}>
+                <MobileAccountBlock to={`/@${currentAccountName}`} mobile={isMobile ? 1 : 0}>
                     <MobileAccountContainer innerRef={this.accountRef}>
                         <PowerCircle>
                             <svg viewBox="-1 -1 2 2">
-                                <circle cx="0" cy="0" r="1" fill="#78c2d0" />
+                                <circle cx="0" cy="0" r="1" fill="#2879ff" />
                                 <path
                                     d={`M ${x * -1} ${y} A 1 1 0 ${
                                         angle > Math.PI ? 1 : 0
                                     } 1 0 -1 L 0 0`}
-                                    fill="#393636"
+                                    fill="#cde0ff"
                                 />
                             </svg>
                         </PowerCircle>
                         <UserpicMobile account={currentAccountName} size={44} />
                     </MobileAccountContainer>
                 </MobileAccountBlock>
-                {isAccountOpen ? (
-                    <MobilePopover
-                        target={this.accountRef.current}
-                        onClose={this.onAccountMenuToggle}
-                    >
-                        <AccountMenu onClose={this.onAccountMenuToggle} />
-                    </MobilePopover>
-                ) : null}
             </Fragment>
         );
     }
@@ -563,15 +568,14 @@ export default class Header extends PureComponent {
                                 </LoginLink>
                             </Buttons>
                         )}
-                        {isMobile ? null : (
-                            <DotsWrapper
-                                innerRef={this.dotsRef}
-                                active={isMenuOpen}
-                                onClick={this.onMenuToggle}
-                            >
-                                <Dots name="dots" />
-                            </DotsWrapper>
-                        )}
+                        <DotsWrapper
+                            innerRef={this.dotsRef}
+                            active={isMenuOpen}
+                            mobile={isMobile ? 1 : 0}
+                            onClick={this.onMenuToggle}
+                        >
+                            <Dots name="dots" />
+                        </DotsWrapper>
                     </Content>
                     {isNotificationsOpen ? (
                         <AdaptivePopover
