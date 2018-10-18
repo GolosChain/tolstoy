@@ -34,7 +34,7 @@ const TitleLink = styled(Link)`
     text-overflow: ellipsis;
 `;
 
-export const ReLink = ({ fullParentURL, title }) => (
+const ReLink = ({ fullParentURL, title }) => (
     <Wrapper>
         <TitleIcon name="comment" />
         {tt('g.re2')}
@@ -49,3 +49,5 @@ ReLink.propTypes = {
     fullParentURL: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
 };
+
+export default ReLink;

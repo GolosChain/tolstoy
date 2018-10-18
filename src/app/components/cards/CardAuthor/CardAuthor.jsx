@@ -9,7 +9,7 @@ import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
 const Wrapper = styled.div`
     display: flex;
     align-items: center;
-    
+
     margin-right: 18px;
 `;
 
@@ -32,7 +32,7 @@ const AuthorName = styled(Link)`
 `;
 
 const PostDate = styled.div`
-    font-size: 12px;
+    font-size: 13px;
     letter-spacing: 0.4px;
     line-height: 1.5;
     white-space: nowrap;
@@ -40,7 +40,7 @@ const PostDate = styled.div`
     cursor: default;
 `;
 
-export const CommentAuthor = ({ author, created }) => (
+const CardAuthor = ({ author, created }) => (
     <Wrapper>
         <Avatar to={`/@${author}`}>
             <Userpic account={author} size={37} />
@@ -54,6 +54,8 @@ export const CommentAuthor = ({ author, created }) => (
     </Wrapper>
 );
 
-CommentAuthor.propTypes = {
+CardAuthor.propTypes = {
     author: PropTypes.string.isRequired,
 };
+
+export default CardAuthor;
