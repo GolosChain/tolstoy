@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router';
+import {fromJS} from 'immutable';
 
 import extractContent from 'app/utils/ExtractContent';
 import { objAccessor } from 'app/utils/Accessors';
@@ -156,7 +157,7 @@ export default class CardPost extends Component {
                             {post.net_votes}
                         </FooterVotes>
                         <FooterPayout>
-                            <PostPayout data={post} />
+                            <PostPayout data={fromJS(post)} />
                         </FooterPayout>
                     </FooterActions>
                 </Footer>
