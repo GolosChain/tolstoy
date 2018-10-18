@@ -125,7 +125,7 @@ const Action = styled.div`
 
 const StyledPostActions = styled(PostActions)`
     transition: none;
-    
+
     &:hover {
         transform: none;
         color: #2879ff !important;
