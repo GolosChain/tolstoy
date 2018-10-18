@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router';
-import {fromJS} from 'immutable';
 
 import extractContent from 'app/utils/ExtractContent';
 import { objAccessor } from 'app/utils/Accessors';
@@ -129,7 +128,6 @@ const FooterPayout = styled.div`
 export default class CardPost extends Component {
     render() {
         const { post, className } = this.props;
-
         const p = extractContent(objAccessor, post);
 
         return (
@@ -157,7 +155,7 @@ export default class CardPost extends Component {
                             {post.net_votes}
                         </FooterVotes>
                         <FooterPayout>
-                            <PostPayout data={fromJS(post)} />
+                            <PostPayout postLink={post.author + '/' + post.permlink} />
                         </FooterPayout>
                     </FooterActions>
                 </Footer>

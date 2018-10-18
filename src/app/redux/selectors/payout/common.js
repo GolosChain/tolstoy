@@ -99,55 +99,62 @@ function extractFields(data, fieldsList) {
     };
 }
 
+const calculatePayout = memoize((rates, data) => {
+    const result = { ...zeroedPayout };
+
+    const lastPayout = data.get('last_payout');
+    const max = parseFloat(data.get('max_accepted_payout', 0));
+
+    // Date may be "1970-01-01..." or "1969-12-31..." in case of pending payout
+    result.isPending = !lastPayout || lastPayout.startsWith('19');
+    result.isDeclined = max === 0;
+
+    const fieldsList = result.isPending ? FIELDS_PENDING : FIELDS;
+    const totalGbg = parseFloat(data.get(fieldsList.TOTAL_GBG, 0));
+
+    result.isLimit = max != null && totalGbg > max;
+
+    if (totalGbg === 0 || result.isDeclined) {
+        return result;
+    }
+
+    const fields = extractFields(data, fieldsList);
+
+    const authorTotalGbg = totalGbg - fields.benefGbg;
+
+    // percent_steem_dollars stores in format like 10000, it's mean 100.00%.
+    // We divide on 10000 for converting to multiplier. (100.00% = 1)
+    const payoutPercent = data.get('percent_steem_dollars') / 10000;
+    const golosPowerFraction = payoutPercent / 2;
+
+    let golosPerGbg =
+        fields.authorGolos / (authorTotalGbg * golosPowerFraction - fields.authorGbg);
+
+    if (!golosPerGbg) {
+        golosPerGbg = calculateGolosPerGbg(result, lastPayout, rates);
+    }
+
+    const gestsPerGolos =
+        fields.authorGests / (authorTotalGbg * golosPerGbg * (1 - golosPowerFraction));
+
+    result.author = fields.authorGolos + fields.authorGests / gestsPerGolos;
+    result.authorGbg = fields.authorGbg;
+    result.curator = fields.curatGests / gestsPerGolos;
+    result.benefactor = fields.benefGests / gestsPerGolos;
+    result.total = result.author + result.curator + result.benefactor;
+    result.totalGbg = fields.authorGbg;
+    result.overallTotal = result.total + result.totalGbg * golosPerGbg;
+    result.limitedOverallTotal = result.isLimit ? max * golosPerGbg : result.overallTotal;
+    result.lastPayout = lastPayout;
+    return result;
+});
+
 export const getPayout = createSelector(
     [state => state.data.rates, (state, props) => props.data],
-    memoize((rates, data) => {
-        const result = { ...zeroedPayout };
+    calculatePayout
+);
 
-        const lastPayout = data.get('last_payout');
-        const max = parseFloat(data.get('max_accepted_payout', 0));
-
-        // Date may be "1970-01-01..." or "1969-12-31..." in case of pending payout
-        result.isPending = !lastPayout || lastPayout.startsWith('19');
-        result.isDeclined = max === 0;
-
-        const fieldsList = result.isPending ? FIELDS_PENDING : FIELDS;
-        const totalGbg = parseFloat(data.get(fieldsList.TOTAL_GBG, 0));
-
-        result.isLimit = max != null && totalGbg > max;
-
-        if (totalGbg === 0 || result.isDeclined) {
-            return result;
-        }
-
-        const fields = extractFields(data, fieldsList);
-
-        const authorTotalGbg = totalGbg - fields.benefGbg;
-
-        // percent_steem_dollars stores in format like 10000, it's mean 100.00%.
-        // We divide on 10000 for converting to multiplier. (100.00% = 1)
-        const payoutPercent = data.get('percent_steem_dollars') / 10000;
-        const golosPowerFraction = payoutPercent / 2;
-
-        let golosPerGbg =
-            fields.authorGolos / (authorTotalGbg * golosPowerFraction - fields.authorGbg);
-
-        if (!golosPerGbg) {
-            golosPerGbg = calculateGolosPerGbg(result, lastPayout, rates);
-        }
-
-        const gestsPerGolos =
-            fields.authorGests / (authorTotalGbg * golosPerGbg * (1 - golosPowerFraction));
-
-        result.author = fields.authorGolos + fields.authorGests / gestsPerGolos;
-        result.authorGbg = fields.authorGbg;
-        result.curator = fields.curatGests / gestsPerGolos;
-        result.benefactor = fields.benefGests / gestsPerGolos;
-        result.total = result.author + result.curator + result.benefactor;
-        result.totalGbg = fields.authorGbg;
-        result.overallTotal = result.total + result.totalGbg * golosPerGbg;
-        result.limitedOverallTotal = result.isLimit ? max * golosPerGbg : result.overallTotal;
-
-        return result;
-    })
+export const getPayoutPermLink = createSelector(
+    [state => state.data.rates, (state, props) => state.global.getIn(['content', props.postLink])],
+    calculatePayout
 );
