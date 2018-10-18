@@ -18,7 +18,7 @@ import AccountMenu from '../AccountMenu';
 import Menu from '../Menu';
 import NotificationsMenu from '../NotificationsMenu';
 
-const MIN_MOBILE_WIDTH = 500;
+const MIN_MOBILE_WIDTH = 768;
 
 const Root = styled.div``;
 
@@ -380,9 +380,12 @@ export default class Header extends PureComponent {
     }
 
     onResizeLazy = throttle(() => {
-        this.setState({
-            isMobile: window.innerWidth < MIN_MOBILE_WIDTH,
-        });
+        if (window.innerWidth <= MIN_MOBILE_WIDTH && !this.state.isMobile) {
+            this.setState({ isMobile: true });
+        }
+        if (window.innerWidth > MIN_MOBILE_WIDTH && this.state.isMobile) {
+            this.setState({ isMobile: false });
+        }
     }, 100);
 
     onLoginClick = e => {
