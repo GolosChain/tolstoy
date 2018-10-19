@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
+import tt from 'counterpart';
+
 import CollapsingBlock from 'golos-ui/CollapsingBlock';
 import PieChart from 'src/app/components/common/PieChart';
 
@@ -100,46 +102,46 @@ export default class AccountTokens extends PureComponent {
         const labels = [
             {
                 id: 'golos',
-                title: 'Голос',
+                title: tt('token_names.LIQUID_TOKEN'),
                 color: '#2879ff',
                 values: [
                     {
-                        title: 'Свои',
+                        title: tt('user_profile.account_tokens.tokens.wallet'),
                         value: golos,
                     },
                     {
-                        title: 'Сейф',
+                        title: tt('user_profile.account_tokens.tokens.savings'),
                         value: golosSafe,
                     },
                 ],
             },
             {
                 id: 'gold',
-                title: 'Золотой',
+                title: tt('token_names.DEBT_TOKEN'),
                 color: '#ffb839',
                 rate: gbgPerGolos,
                 values: [
                     {
-                        title: 'Свои',
+                        title: tt('user_profile.account_tokens.tokens.wallet'),
                         value: gold,
                     },
                     {
-                        title: 'Сейф',
+                        title: tt('user_profile.account_tokens.tokens.savings'),
                         value: goldSafe,
                     },
                 ],
             },
             {
                 id: 'power',
-                title: 'Сила голоса',
+                title: tt('token_names.VESTING_TOKEN'),
                 color: '#78c2d0',
                 values: [
                     {
-                        title: 'Свои',
+                        title: tt('user_profile.account_tokens.tokens.wallet'),
                         value: power,
                     },
                     {
-                        title: 'Делегированные',
+                        title: tt('user_profile.account_tokens.tokens.delegated'),
                         value: powerDelegated,
                     },
                 ],

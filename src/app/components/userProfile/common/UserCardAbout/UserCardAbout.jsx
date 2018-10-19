@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
 import { Link } from 'react-router';
-
 import tt from 'counterpart';
+
 import { FormattedDate } from 'react-intl';
 
 import { repLog10 } from 'app/utils/ParsersAndFormatters';
@@ -208,31 +208,31 @@ export default class UserCardAbout extends PureComponent {
         };
 
         return (
-            <CollapsingCardStyled title={'Краткая информация'} saveStateKey="info">
+            <CollapsingCardStyled title={tt('user_profile.account_summary.title')} saveStateKey="info">
                 <CardContentCounters>
                     <Row>
                         <ColumnClick onClick={this.onShowFollowers}>
                             <Bold>
                                 {followerCount} <IconTriangle />
                             </Bold>
-                            <Title>Подписчиков</Title>
+                            <Title>{tt('user_profile.account_summary.followers')}</Title>
                         </ColumnClick>
                         <ColumnClick onClick={this.onShowFollowing}>
                             <Bold>
                                 {followingCount} <IconTriangle />
                             </Bold>
-                            <Title>Подписок</Title>
+                            <Title>{tt('user_profile.account_summary.following')}</Title>
                         </ColumnClick>
                     </Row>
 
                     <Row>
                         <Column>
                             <Bold>{account.get('post_count')}</Bold>
-                            <Title>Постов</Title>
+                            <Title>{tt('user_profile.account_summary.post_count')}</Title>
                         </Column>
                         <Column>
                             <Bold>{reputation}</Bold>
-                            <Title>Рейтинг</Title>
+                            <Title>{tt('user_profile.account_summary.reputation')}</Title>
                         </Column>
                     </Row>
 
@@ -240,12 +240,12 @@ export default class UserCardAbout extends PureComponent {
                         {localizedGender[gender] && (
                             <Column>
                                 <Bold>{localizedGender[gender]}</Bold>
-                                <Title>Пол</Title>
+                                <Title>{tt('user_profile.account_summary.gender')}</Title>
                             </Column>
                         )}
                         <Column>
                             <Title>
-                                На Golos с{' '}
+                                {tt('user_profile.account_summary.registered')}{' '}
                                 <FormattedDate value={accountJoin} year="numeric" month="numeric" />
                             </Title>
                         </Column>
@@ -254,7 +254,7 @@ export default class UserCardAbout extends PureComponent {
 
                 {(website || about || location) && (
                     <CardTitle justify="space-between">
-                        О себе
+                        {tt('user_profile.account_summary.about')}
                         {location && <UserCardCity>{location}</UserCardCity>}
                     </CardTitle>
                 )}
