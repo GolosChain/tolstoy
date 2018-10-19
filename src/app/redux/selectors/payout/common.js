@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { globalSelector, dataSelector } from 'src/app/redux/selectors/common';
 
 const FIELDS = {
     AUTHOR_GOLOS: 'author_golos_payout_value',
@@ -100,7 +101,7 @@ function extractFields(data, fieldsList) {
 }
 
 export const getPayoutPermLink = createSelector(
-    [state => state.data.rates, (state, props) => state.global.getIn(['content', props.postLink])],
+    [dataSelector('rates'), (state, props) => globalSelector(['content', props.postLink])(state)],
     memoize((rates, data) => {
         const result = { ...zeroedPayout };
         const lastPayout = data.get('last_payout');
