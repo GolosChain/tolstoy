@@ -82,9 +82,8 @@ export default class PayoutInfo extends PureComponent {
     }
 
     renderOverallValue() {
-        const { data, total, totalGbg, overallTotal } = this.props;
+        const { total, totalGbg, overallTotal, lastPayout } = this.props;
 
-        const lastPayout = data.get('last_payout');
         const amount = renderValue(overallTotal, 'GOLOS', { date: lastPayout });
         const amountGolos = `${total.toFixed(3)} GOLOS`;
         const amountGbg = totalGbg ? `${totalGbg.toFixed(3)} GBG` : null;
@@ -115,9 +114,9 @@ export default class PayoutInfo extends PureComponent {
     }
 
     render() {
-        const { data, intl, isPending, author, authorGbg, curator, benefactor } = this.props;
+        const { intl, isPending, author, authorGbg, curator, benefactor, cashoutTime } = this.props;
 
-        const duration = capitalize(intl.formatRelative(data.get('cashout_time')));
+        const duration = capitalize(intl.formatRelative(cashoutTime));
 
         return (
             <Root>
