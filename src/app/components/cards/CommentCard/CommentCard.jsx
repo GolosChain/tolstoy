@@ -68,7 +68,7 @@ const Title = styled.div`
     margin-bottom: 8px;
 `;
 
-const CommentBody = styled(({ isPostPage, ...otherProps }) => <Link {...otherProps} />)`
+const CommentBody = styled(({ shortText, ...otherProps }) => <Link {...otherProps} />)`
     display: block;
 
     margin-right: 18px;
@@ -195,7 +195,7 @@ export class CommentCard extends PureComponent {
                             to={extractedContent.link}
                             onClick={this.rememberScrollPosition}
                             dangerouslySetInnerHTML={{ __html: extractedContent.desc }}
-                            shortText={true}
+                            shortText
                         />
                     )}
                     <EmptyCloseOpenButton />
@@ -273,7 +273,6 @@ export class CommentCard extends PureComponent {
                             onClick={this.rememberScrollPosition}
                         >
                             <MarkdownViewer
-                                formId={`postFull-${comment.get('permlink')}-viewer`}
                                 text={extractedContent.body}
                                 jsonMetadata={comment.get('json_metadata')}
                                 highQualityPost={payout > 10}

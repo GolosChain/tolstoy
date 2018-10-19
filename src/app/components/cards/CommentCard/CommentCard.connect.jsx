@@ -7,7 +7,6 @@ import { immutableAccessor } from 'app/utils/Accessors';
 import { CommentCard } from './CommentCard';
 import { currentUsernameSelector, globalSelector } from 'src/app/redux/selectors/common';
 import { onVote } from 'src/app/redux/actions/vote';
-import { parsePayoutAmount } from 'app/utils/ParsersAndFormatters';
 
 export default connect(
     createSelector(
@@ -25,8 +24,8 @@ export default connect(
             const extractedContent = extractContent(immutableAccessor, comment);
             const isOwner = username === comment.get('author');
             const payout =
-                parsePayoutAmount(comment.get('pending_payout_value')) +
-                parsePayoutAmount(comment.get('total_payout_value'));
+                parseFloat(comment.get('pending_payout_value')) +
+                parseFloat(comment.get('total_payout_value'));
 
             let fullParentURL = extractedContent.link;
             let title = extractedContent.title;
