@@ -5,12 +5,13 @@ import { Link } from 'react-router';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
+import im from 'immutable';
 
-import extractContent from 'app/utils/ExtractContent';
-import { immutableAccessor } from 'app/utils/Accessors';
+import extractContent, { extractRepost } from 'app/utils/ExtractContent';
 import { detransliterate } from 'app/utils/ParsersAndFormatters';
 import Icon from 'golos-ui/Icon';
 import { confirmVote } from 'src/app/helpers/votes';
+import { PostTitle, PostBody } from '../common';
 import VotePanel from '../../common/VotePanel';
 import ReplyBlock from '../../common/ReplyBlock';
 import CardAuthor from '../CardAuthor';
@@ -96,16 +97,9 @@ const Body = styled.div`
     position: relative;
     padding: 0 18px;
 `;
-const PostTitle = styled.div`
-    font-size: 20px;
-    font-family: ${({ theme }) => theme.fontFamilySerif};
-    color: #212121;
-    line-height: 29px;
+
+const RepostBody = styled(PostBody)`
     margin-bottom: 8px;
-`;
-const PostBody = styled.div`
-    font-family: ${({ theme }) => theme.fontFamily};
-    color: #959595;
 `;
 
 const Footer = styled.div`
@@ -227,6 +221,8 @@ export default class PostCard extends PureComponent {
         showPinButton: PropTypes.bool,
         pinDisabled: PropTypes.bool,
         isPinned: PropTypes.bool,
+        isRepost: PropTypes.bool,
+        repostData: PropTypes.instanceOf(im.Map),
         onClick: PropTypes.func,
     };
 
@@ -270,13 +266,23 @@ export default class PostCard extends PureComponent {
     }
 
     render() {
-        const { data, className, grid } = this.props;
+        const { data, className, isRepost, repostData, grid } = this.props;
 
-        const p = extractContent(immutableAccessor, data);
+        const p = extractContent(data);
         const withImage = Boolean(p.image_link);
 
         if (withImage) {
             p.desc = p.desc.replace(p.image_link, '');
+        }
+
+        let repost = null;
+
+        if (isRepost) {
+            const repostBody = repostData.get('body');
+
+            if (repostBody) {
+                repost = extractRepost(repostBody);
+            }
         }
 
         return (
@@ -291,22 +297,38 @@ export default class PostCard extends PureComponent {
                 grid={grid}
             >
                 {this._renderHeader(withImage, p)}
-                {this._renderBody(withImage, p)}
+                {this._renderBody(withImage, p, repost)}
                 {this._renderFooter(withImage, p)}
             </Root>
         );
     }
 
     _renderHeader(withImage, p) {
-        const { data, grid } = this.props;
+        const { data, isRepost, repostData, grid } = this.props;
 
-        const author = data.get('author');
         const category = detransliterate(data.get('category'));
+        let author;
+        let originalAuthor;
+        let created;
+
+        if (isRepost) {
+            author = repostData.get('repostAuthor');
+            created = repostData.get('date');
+            originalAuthor = data.get('author');
+        } else {
+            author = data.get('author');
+            created = data.get('created');
+        }
 
         return (
             <Header>
                 <HeaderLine>
-                    <CardAuthor author={author} created={data.get('created')} />
+                    <CardAuthor
+                        author={author}
+                        originalAuthor={originalAuthor}
+                        created={created}
+                        isRepost={isRepost}
+                    />
                     <Filler />
                     {grid ? null : <Category>{category}</Category>}
                     <Toolbar>
@@ -404,7 +426,7 @@ export default class PostCard extends PureComponent {
         );
     }
 
-    _renderBody(withImage, p) {
+    _renderBody(withImage, p, repost) {
         const { grid } = this.props;
 
         return (
@@ -415,6 +437,7 @@ export default class PostCard extends PureComponent {
                 onClick={this._onClick}
             >
                 <Body>
+                    {repost ? <RepostBody dangerouslySetInnerHTML={{ __html: repost }} /> : null}
                     <PostTitle>{p.title}</PostTitle>
                     <PostBody dangerouslySetInnerHTML={{ __html: p.desc }} />
                 </Body>

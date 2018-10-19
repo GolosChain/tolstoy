@@ -41,15 +41,32 @@ export async function processBlog(state, { uname, voteLimit }) {
         blog.push(entry);
     }
 
-    for (let i = 0; i < blog.length; ++i) {
-        const { author, permlink, reblog_on } = blog[i];
-        const link = `${author}/${permlink}`;
+    for (let post of blog) {
+        const { author, permlink } = post;
 
-        state.content[link] = await api.getContentAsync(author, permlink, voteLimit);
-        account.blog.push(link);
+        const postLink = `${author}/${permlink}`;
+        const postData = await api.getContentAsync(author, permlink, voteLimit);
 
-        if (reblog_on && reblog_on !== '1970-01-01T00:00:00') {
-            state.content[link].first_reblogged_on = reblog_on;
-        }
+        state.content[postLink] = postData;
+
+        const isRepost = Boolean(post.reblog_on) && post.reblog_on !== '1970-01-01T00:00:00';
+
+        account.blog.push({
+            author,
+            permlink,
+            postLink,
+            isRepost,
+            repostData: isRepost
+                ? {
+                      repostAuthor: post.blog,
+                      date: post.reblog_on,
+                      title: post.reblog_title,
+                      body: post.reblog_body,
+                      metadata: post.reblog_json_metadata
+                          ? JSON.parse(post.reblog_json_metadata)
+                          : {},
+                  }
+                : null,
+        });
     }
 }

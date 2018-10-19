@@ -29,3 +29,13 @@ export function changeProfileLayout(payload) {
 export function changeProfileActivityTab(payload) {
     return { type: UI_PROFILE_ACTIVITY_CHANGE_TAB, payload };
 }
+
+export function showNotification(text, dismissDelay = 5000) {
+    return {
+        type: 'ADD_NOTIFICATION',
+        payload: {
+            message: text,
+            dismissAfter: dismissDelay,
+        },
+    };
+}

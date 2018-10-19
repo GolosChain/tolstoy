@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { Link } from 'react-router';
 
 import extractContent from 'app/utils/ExtractContent';
-import { objAccessor } from 'app/utils/Accessors';
 
 import PostPayout from '../common/PostPayout';
 import Userpic from 'app/components/elements/Userpic';
@@ -128,7 +127,7 @@ const FooterPayout = styled.div`
 export default class CardPost extends Component {
     render() {
         const { post, className } = this.props;
-        const p = extractContent(objAccessor, post);
+        const p = extractContent(post);
 
         return (
             <Root className={className}>

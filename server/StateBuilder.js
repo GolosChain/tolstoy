@@ -137,7 +137,6 @@ async function getStateForProfile(state, route, { api }) {
                 if (entry.reblog_by.length > 0) {
                     postContent.first_reblogged_by = entry.reblog_by[0];
                     postContent.reblogged_by = entry.reblog_by;
-                    postContent.first_reblogged_on = entry.reblog_on;
                 }
             }
             break;

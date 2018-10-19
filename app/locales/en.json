@@ -302,6 +302,7 @@
     "email_recovery_hint": "Used to recover a hijacked or stolen GOLOS account",
     "empty": "So far empty",
     "enter_username": "Enter your username",
+    "error": "Error",
     "expand": "Expand",
     "favorites": "Favorites",
     "feed": "Feed",
@@ -782,7 +783,8 @@
     "remove_from_favorites": "Remove from favorites",
     "pin_post": "Pin post",
     "unpin_post": "Unpin",
-    "post_pinned": "Pinned post"
+    "post_pinned": "Pinned post",
+    "repost_on": "repost post"
   },
   "post_editor": {
     "add_image": "Add image",
@@ -940,6 +942,12 @@
     "update_post": "Update Post",
     "uploading": "Uploading",
     "use_limited_amount_of_tags": "You have %(tagsLength)s tags total %(includingCategory)s.  Please use only 5 in your post and category line."
+  },
+  "repost_dialog": {
+    "ok": "Repost",
+    "placeholder": "Write your comment",
+    "success": "Repost published",
+    "title": "Repost this post"
   },
   "savingswithdrawhistory_jsx": {
     "cancel_this_withdraw_request": "Cancel this withdraw request?",

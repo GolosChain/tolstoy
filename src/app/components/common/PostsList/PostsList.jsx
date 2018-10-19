@@ -193,13 +193,12 @@ export default class PostsList extends PureComponent {
         }
     }
 
-    render() {
+    renderCard = data => {
         const {
             pageAccountName,
             category,
             order,
             isFavorite,
-            posts,
             layout,
             allowInlineReply,
             showPinButton,
@@ -216,20 +215,45 @@ export default class PostsList extends PureComponent {
         const isGrid = isPosts && (layout === 'grid' || forceGrid);
         const EntryComponent = isPosts ? PostCard : CommentCard;
 
+        let permLink;
+        let isRepost = false;
+        let repostData = null;
+
+        if (data.asImmutable && isPosts) {
+            permLink = data.get('postLink');
+            isRepost = data.get('isRepost');
+            repostData = data.get('repostData');
+        } else {
+            permLink = data;
+        }
+
+        return (
+            <EntryWrapper key={permLink} grid={isGrid}>
+                <EntryComponent
+                    permLink={permLink}
+                    isRepost={isRepost}
+                    repostData={repostData}
+                    grid={isGrid}
+                    allowInlineReply={allowInlineReply}
+                    pageAccountName={pageAccountName}
+                    showPinButton={showPinButton}
+                    onClick={this.onEntryClick}
+                />
+            </EntryWrapper>
+        );
+    };
+
+    render() {
+        const { category, isFavorite, posts, layout } = this.props;
+
+        const { forceGrid } = this.state;
+
+        const isPosts = category === 'blog' || isFavorite;
+        const isGrid = isPosts && (layout === 'grid' || forceGrid);
+
         return (
             <Root innerRef={this.rootRef} grid={isGrid}>
-                {posts.map(permLink => (
-                    <EntryWrapper key={permLink} grid={isGrid}>
-                        <EntryComponent
-                            permLink={permLink}
-                            grid={isGrid}
-                            allowInlineReply={allowInlineReply}
-                            pageAccountName={pageAccountName}
-                            showPinButton={showPinButton}
-                            onClick={this.onEntryClick}
-                        />
-                    </EntryWrapper>
-                ))}
+                {posts.map(this.renderCard)}
                 {this.renderLoaderIfNeed()}
             </Root>
         );
