@@ -16,6 +16,7 @@ import tt from 'counterpart';
 
 import { settingsContentSelector } from 'src/app/redux/selectors/userProfile/settings';
 import { getSettingsOptions, setSettingsOptions } from 'src/app/redux/actions/settings';
+import { showNotification } from 'src/app/redux/actions/ui';
 
 import { SettingsShow } from 'src/app/components/userProfile';
 import { authProtection } from 'src/app/helpers/hoc';
@@ -55,14 +56,7 @@ import { authProtection } from 'src/app/helpers/hoc';
             );
         },
         notify: (message, dismiss = 3000) => {
-            dispatch({
-                type: 'ADD_NOTIFICATION',
-                payload: {
-                    key: 'settings_' + Date.now(),
-                    message,
-                    dismissAfter: dismiss,
-                },
-            });
+            dispatch(showNotification(message, 'settings', dismiss));
         },
         getSettingsOptions: () => dispatch(getSettingsOptions()),
         setSettingsOptions: values => dispatch(setSettingsOptions(values)),

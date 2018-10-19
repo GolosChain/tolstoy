@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import tt from 'counterpart';
 import transaction from 'app/redux/Transaction';
+import { showNotification } from 'src/app/redux/actions/ui';
 import TransactionError from 'app/components/elements/TransactionError';
 import DepthChart from 'app/components/elements/DepthChart';
 import Orderbook from 'app/components/elements/Orderbook';
@@ -876,14 +877,7 @@ export default connect(
     },
     dispatch => ({
         notify: message => {
-            dispatch({
-                type: 'ADD_NOTIFICATION',
-                payload: {
-                    key: 'mkt_' + Date.now(),
-                    message: message,
-                    dismissAfter: 5000,
-                },
-            });
+            dispatch(showNotification(message, 'mkt'));
         },
         reload: username => {
             dispatch({

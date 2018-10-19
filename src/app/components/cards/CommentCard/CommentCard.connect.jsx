@@ -6,6 +6,7 @@ import extractContent from 'app/utils/ExtractContent';
 import { CommentCard } from './CommentCard';
 import { currentUsernameSelector, globalSelector } from 'src/app/redux/selectors/common';
 import { onVote } from 'src/app/redux/actions/vote';
+import { showNotification } from 'src/app/redux/actions/ui';
 
 export default connect(
     createSelector(
@@ -52,15 +53,7 @@ export default connect(
         onVote: (username, author, permLink, percent) => {
             dispatch(onVote(username, author, permLink, percent));
         },
-        onNotify: text => {
-            dispatch({
-                type: 'ADD_NOTIFICATION',
-                payload: {
-                    message: text,
-                    dismissAfter: 5000,
-                },
-            });
-        },
+        onNotify: showNotification,
     }),
     null,
     { withRef: true }
