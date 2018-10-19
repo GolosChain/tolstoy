@@ -68,7 +68,7 @@ const Title = styled.div`
     margin-bottom: 8px;
 `;
 
-const CommentBody = styled(({ shortText, ...otherProps }) => <Link {...otherProps} />)`
+const CommentBody = styled(Link)`
     display: block;
 
     margin-right: 18px;
@@ -150,7 +150,7 @@ export class CommentCard extends PureComponent {
         }),
         isOwner: PropTypes.bool.isRequired,
         username: PropTypes.string,
-        payout: PropTypes.string.isRequired,
+        payout: PropTypes.number,
     };
 
     state = {
