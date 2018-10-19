@@ -12,7 +12,7 @@ export default class Linkify extends PureComponent {
 
         children.replace(/https?:\/\/[^\s)]+/g, (url, position) => {
             if (position > prevPosition) {
-                let stringWithoutLink = children.substring(prevPosition, position);
+                const stringWithoutLink = children.substring(prevPosition, position);
 
                 parts.push(addLinkToUser(stringWithoutLink));
             }
@@ -27,7 +27,7 @@ export default class Linkify extends PureComponent {
         });
 
         if (prevPosition < children.length) {
-            let tailString = children.substring(prevPosition, children.length);
+            const tailString = children.substring(prevPosition, children.length);
 
             parts.push(addLinkToUser(tailString));
         }
@@ -41,7 +41,7 @@ function addLinkToUser(str) {
 
     let prevPosition = 0;
 
-    str.replace(/@[a-z][a-z0-9.-]+[a-z0-9]+/gi, (accountName, position) => {
+    str.replace(/@[a-z][a-z0-9.-]+[a-z0-9]/gi, (accountName, position) => {
         if (position > prevPosition) {
             parts.push(str.substring(prevPosition, position));
         }
