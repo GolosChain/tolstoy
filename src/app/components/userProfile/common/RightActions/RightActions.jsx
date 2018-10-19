@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router';
+import tt from 'counterpart';
+
 import Icon from 'golos-ui/Icon';
 import DialogManager from 'app/components/elements/common/DialogManager';
 import TransferDialog from 'src/app/components/userProfile/dialogs/TransferDialog';
@@ -66,28 +68,30 @@ class RightActions extends PureComponent {
                     <LinkAction to="/market">
                         <Action>
                             <ActionIcon name="wallet" />
-                            <ActionTitle>Купить или продать</ActionTitle>
+                            <ActionTitle>{tt('user_profile.actions.buy_or_sell')}</ActionTitle>
                         </Action>
                     </LinkAction>
                 ) : null}
                 <Action onClick={this._onTransferClick}>
                     <ActionIcon name="coins" />
-                    <ActionTitle>Передать</ActionTitle>
+                    <ActionTitle>{tt('user_profile.actions.transfer')}</ActionTitle>
                 </Action>
                 {isOwner ? (
                     <Action onClick={this._onSafeClick}>
                         <ActionIcon name="locked" />
-                        <ActionTitle>Вывести/перевести в сейф</ActionTitle>
+                        <ActionTitle>
+                            {tt('user_profile.actions.transfer_to_savings')}
+                        </ActionTitle>
                     </Action>
                 ) : null}
                 <Action onClick={this._onDelegateClick}>
                     <ActionIcon name="voice" />
-                    <ActionTitle>Делегировать Силу Голоса</ActionTitle>
+                    <ActionTitle>{tt('user_profile.actions.delegate_vesting_shares')}</ActionTitle>
                 </Action>
                 {isOwner ? (
                     <Action onClick={this._onConvertClick}>
                         <ActionIcon name="refresh" />
-                        <ActionTitle>Конвертировать</ActionTitle>
+                        <ActionTitle>{tt('user_profile.actions.convert')}</ActionTitle>
                     </Action>
                 ) : null}
             </Root>
