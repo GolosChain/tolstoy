@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
 import Userpic from 'app/components/elements/Userpic';
