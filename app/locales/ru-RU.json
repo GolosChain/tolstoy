@@ -272,6 +272,7 @@
     "connection_lost_reconnecting": "Связь потеряна, переподключаемся",
     "continue": "продолжить",
     "convert": "Конвертировать",
+    "create_post": "Добавить пост",
     "created": "Сначала новые",
     "cryptography_test_failed": "Криптографический тест провален",
     "curation_rewards": "Кураторские награды",

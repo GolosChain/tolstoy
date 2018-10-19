@@ -270,6 +270,7 @@
     "connection_lost_reconnecting": "Connection lost, reconnecting",
     "continue": "continue",
     "convert": "Convert",
+    "create_post": "Create post",
     "created": "New First",
     "cryptography_test_failed": "Cryptography test failed",
     "curation_rewards": "Curation rewards",
