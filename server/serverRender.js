@@ -50,7 +50,7 @@ export default async function serverRender({ location, offchain, ErrorPage, sett
 
         const options = { IGNORE_TAGS };
 
-        onchain = await getState(api, url, options, offchain);
+        onchain = await getState(api, url, options, offchain, settings);
 
         // protect for invalid account
         if (

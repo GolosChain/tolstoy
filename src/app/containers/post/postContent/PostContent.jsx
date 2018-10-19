@@ -68,6 +68,10 @@ const Tags = styled.div`
     & > ${TagLink} {
        margin: 10px 10px 0 0; 
     }
+
+    ${TagLink} {
+        margin-bottom: 10px;
+    }
 `;
 
 const BodyHeaderWrapper = styled.div`

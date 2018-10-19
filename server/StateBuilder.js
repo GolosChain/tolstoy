@@ -1,11 +1,12 @@
 import { processBlog } from 'shared/state';
 import resolveRoute from 'app/ResolveRoute';
-import { reveseTag, prepareTrendingTags } from 'app/utils/tags';
-import { PUBLIC_API } from 'app/client_config';
+import { reverseTag, prepareTrendingTags } from 'app/utils/tags';
+import { IGNORE_TAGS, PUBLIC_API } from 'app/client_config';
+import { pathOr } from 'ramda';
 
 const DEFAULT_VOTE_LIMIT = 10000;
 
-export default async function getState(api, url = '/', options, offchain) {
+export default async function getState(api, url = '/', options, offchain, settings) {
     const route = resolveRoute(url);
 
     const normalizedUrl = url.replace(/^\//, '');
@@ -20,7 +21,6 @@ export default async function getState(api, url = '/', options, offchain) {
         accounts: {},
         witnesses: {},
         discussion_idx: {},
-        select_tags: [],
     };
 
     const accounts = new Set();
@@ -55,6 +55,7 @@ export default async function getState(api, url = '/', options, offchain) {
             trendingTags,
             accounts,
             options,
+            settings,
         });
     }
 
@@ -196,7 +197,7 @@ async function getStateForWitnesses(state) {
     }
 }
 
-async function getStateForApi(state, params, { offchain, routeParts, options, api }) {
+async function getStateForApi(state, params, { routeParts, api, settings }) {
     const args = { limit: 20, truncate_body: 1024 };
     const discussionsType = routeParts[0];
 
@@ -204,21 +205,43 @@ async function getStateForApi(state, params, { offchain, routeParts, options, ap
     const tag = routeParts[1] !== undefined ? decodeURIComponent(routeParts[1]) : '';
 
     if (typeof tag === 'string' && tag.length) {
-        const reversed = reveseTag(tag);
-        reversed ? (args.select_tags = [tag, reversed]) : (args.select_tags = [tag]);
+        const reversed = reverseTag(tag);
+        if (reversed) {
+            args.select_tags = [tag, reversed];
+        } else {
+            args.select_tags = [tag];
+        }
     } else {
-        if (typeof offchain.select_tags === 'object' && offchain.select_tags.length) {
+        const select_tags = pathOr(null, ['basic', 'selectedSelectTags'], settings);
+        if (select_tags && select_tags.length) {
             let selectTags = [];
 
-            offchain.select_tags.forEach(t => {
-                const reversed = reveseTag(t);
-                reversed
-                    ? (selectTags = [...selectTags, t, reversed])
-                    : (selectTags = [...selectTags, t]);
+            select_tags.forEach(t => {
+                const reversed = reverseTag(t);
+                if (reversed) {
+                    selectTags.push(t, reversed);
+                } else {
+                    selectTags.push(t);
+                }
             });
-            args.select_tags = state.select_tags = selectTags;
+            args.select_tags = selectTags;
+        }
+
+        const filter_tags = pathOr(null, ['basic', 'selectedFilterTags'], settings);
+        if (filter_tags && filter_tags.length) {
+            let filterTags = [];
+
+            filter_tags.forEach(t => {
+                const reversed = reverseTag(t);
+                if (reversed) {
+                    filterTags.push(t, reversed);
+                } else {
+                    filterTags.push(t);
+                }
+            });
+            args.filter_tags = filterTags;
         } else {
-            args.filter_tags = state.filter_tags = options.IGNORE_TAGS;
+            args.filter_tags = IGNORE_TAGS;
         }
     }
 
@@ -238,7 +261,8 @@ async function getStateForApi(state, params, { offchain, routeParts, options, ap
     if (typeof tag === 'string' && tag) {
         discussionsKey = tag;
     } else {
-        discussionsKey = state.select_tags
+        const select_tags = pathOr([], ['basic', 'selectedSelectTags'], settings);
+        discussionsKey = select_tags
             .sort()
             .filter(t => !t.startsWith('ru--'))
             .join('/');

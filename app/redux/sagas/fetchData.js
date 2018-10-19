@@ -3,9 +3,8 @@ import { loadFollows, fetchFollowCount } from 'app/redux/sagas/follow';
 import { getContent } from 'app/redux/sagas/shared';
 import GlobalReducer from './../GlobalReducer';
 import constants from './../constants';
-import { reveseTag } from 'app/utils/tags';
-import { IGNORE_TAGS, PUBLIC_API, SELECT_TAGS_KEY, ACCOUNT_OPERATIONS } from 'app/client_config';
-import cookie from 'react-cookie';
+import { reverseTag } from 'app/utils/tags';
+import { IGNORE_TAGS, PUBLIC_API, ACCOUNT_OPERATIONS } from 'app/client_config';
 import { api } from 'golos-js';
 import { processBlog } from 'shared/state';
 import { RATES_GET_ACTUAL } from 'src/app/redux/constants/rates';
@@ -308,27 +307,46 @@ function* fetchData(action) {
             start_permlink: permlink
         }
     ];
+
     if (category.length) {
-        const reversed = reveseTag(category)
-        reversed
-            ? args[0].select_tags = [ category, reversed ]
-            : args[0].select_tags = [ category ]
+        const reversed = reverseTag(category);
+        if (reversed) {
+            args[0].select_tags = [category, reversed];
+        } else {
+            args[0].select_tags = [category];
+        }
     } else {
-        let select_tags = cookie.load(SELECT_TAGS_KEY);
-        if (select_tags && select_tags.length) {
-            let selectTags = []
+        const select_tags = yield select(state => state.data.settings.getIn(['basic', 'selectedSelectTags']));
+        if (select_tags && select_tags.size) {
+            let selectTags = [];
 
-            select_tags.forEach( t => {
-                const reversed = reveseTag(t)
-                reversed
-                ? selectTags = [ ...selectTags, t, reversed ]
-                : selectTags = [ ...selectTags, t, ]
-
+            select_tags.forEach(t => {
+                const reversed = reverseTag(t);
+                if (reversed) {
+                    selectTags.push(t, reversed);
+                } else {
+                    selectTags.push(t);
+                }
             })
             args[0].select_tags = selectTags;
-            category = select_tags.sort().join('/')
+            category = select_tags.sort().join('/');
+        }
+
+        const filter_tags = yield select(state => state.data.settings.getIn(['basic', 'selectedFilterTags']));
+        if (filter_tags && filter_tags.size) {
+            let filterTags = [];
+
+            filter_tags.forEach(t => {
+                const reversed = reverseTag(t);
+                if (reversed) {
+                    filterTags.push(t, reversed);
+                } else {
+                    filterTags.push(t);
+                }
+            })
+            args[0].filter_tags = filterTags;
         } else {
-            args[0].filter_tags = IGNORE_TAGS
+            args[0].filter_tags = IGNORE_TAGS;
         }
     }
 

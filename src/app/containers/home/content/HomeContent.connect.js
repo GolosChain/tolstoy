@@ -1,8 +1,5 @@
 import { connect } from 'react-redux';
-import { List } from 'immutable';
-import cookie from 'react-cookie';
 
-import { SELECT_TAGS_KEY } from 'app/client_config';
 import constants from 'app/redux/constants';
 import {
     createDeepEqualSelector,
@@ -10,12 +7,12 @@ import {
     appSelector,
     userSelector,
     offchainSelector,
+    dataSelector,
     uiSelector,
 } from 'src/app/redux/selectors/common';
 
 import HomeContent from './HomeContent';
 
-const emptyList = List();
 const DEFAULT_LAYOUT = 'list';
 
 const currentUsernameSelector = createDeepEqualSelector(
@@ -33,6 +30,7 @@ export default connect(
             globalSelector('discussion_idx'),
             globalSelector('accounts'),
             uiSelector(['profile', 'layout'], DEFAULT_LAYOUT),
+            dataSelector('settings'),
             currentUsernameSelector,
             (_, props) => props.routeParams,
         ],
@@ -43,6 +41,7 @@ export default connect(
             discussions,
             accounts,
             layout,
+            settings,
             currentUsername,
             { category = '', order = constants.DEFAULT_SORT_ORDER }
         ) => {
@@ -53,13 +52,12 @@ export default connect(
                 posts = accounts.getIn([pageAccountName, 'feed']);
                 order = 'by_feed';
             } else {
-                let select_tags = cookie.load(SELECT_TAGS_KEY);
-                if (typeof select_tags === 'object') {
+                let select_tags = settings.getIn(['basic', 'selectedSelectTags']);
+                if (select_tags && select_tags.size) {
                     select_tags = select_tags.sort().join('/');
                 } else {
                     select_tags = '';
                 }
-                console.log(category, select_tags, order)
                 posts = discussions.getIn([category || select_tags, order]);
             }
 

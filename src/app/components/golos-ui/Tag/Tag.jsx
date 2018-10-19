@@ -1,34 +1,55 @@
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import is from 'styled-is';
+import is, { isOr } from 'styled-is';
 import { Link } from 'react-router';
 
 export const Tag = styled.div`
+    position: relative;
     display: table-cell;
     height: 28px;
-    padding: 0 12px;
-    margin-right: 14px;
-    border-radius: 6px;
-    line-height: 26px;
-    font-size: 14px;
-    white-space: nowrap;
-    overflow: hidden;
+    line-height: 28px;
+    padding: 0 15px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
     text-overflow: ellipsis;
-    color: #799921;
-    background-color: #f9f9f9;
+    text-align: center;
+    white-space: nowrap;
+    color: #2879ff;
+    border: solid 1px #cde0ff;
+    background-color: #ffffff;
 
-    &:hover {
-        color: #799921;
-        background-color: #f9f9f9;
+    :not(last-child) {
+        margin-right: 10px;
     }
 
-    ${is('category')`
+    &:hover {
         color: #fff;
-        background: #789821;
-        
+        background-color: #2879ff;
+        border-color: #2879ff;
+    }
+
+    ${is('filtered')`
+        color: #393636;
+        background-color: #e1e1e1;
+        border-color: #e1e1e1;
+
+        &:hover {
+            color: #393636;
+            background-color: #ddd;
+            border-color: #ddd;
+        }
+    `} 
+    
+    ${isOr('selected', 'category')`
+        color: #fff;
+        background-color: #2879ff;
+        border-color: #2879ff;
+
         &:hover {
             color: #fff;
-            background: #789821;
+            background-color: #2174ff;
+            border-color: #2174ff;
         }
     `};
 `;
