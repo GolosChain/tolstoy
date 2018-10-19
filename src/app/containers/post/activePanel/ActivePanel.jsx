@@ -123,6 +123,15 @@ const Action = styled.div`
     }
 `;
 
+const StyledPostActions = styled(PostActions)`
+    transition: none;
+
+    &:hover {
+        transform: none;
+        color: #2879ff !important;
+    }
+`;
+
 const ActionText = styled.div`
     margin-left: 25px;
     font-family: Roboto, sans-serif;
@@ -304,7 +313,7 @@ export class ActivePanel extends Component {
                             <ClosePopoverButton onClick={this.closeDotsPopover} showCross={false}>
                                 <Icon name="cross" width={16} height={16} />
                             </ClosePopoverButton>
-                            <PostActions
+                            <StyledPostActions
                                 postUrl={url}
                                 isFavorite={isFavorite}
                                 isPinned={isPinned}

@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
@@ -63,12 +64,17 @@ const ActionWrapper = styled(Action)`
 `;
 
 export class SidePanel extends Component {
+    static propTypes = {
+        togglePin: PropTypes.func.isRequired,
+        toggleFavorite: PropTypes.func.isRequired,
+    };
+
     state = {
         showSharePopover: false,
         fixedOn: 'center',
     };
 
-    sidePanelRef = React.createRef();
+    sidePanelRef = createRef();
 
     componentDidMount() {
         this.scrollScreenLazy();
@@ -121,11 +127,6 @@ export class SidePanel extends Component {
     reblog = () => {
         const { username, author, permLink } = this.props;
         this.props.reblog(username, author, permLink);
-    };
-
-    toggleFavorite = () => {
-        const { author, permLink, isFavorite } = this.props;
-        this.props.toggleFavorite({ link: author + '/' + permLink, isAdd: !isFavorite });
     };
 
     like = async () => {
