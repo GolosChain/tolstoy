@@ -100,9 +100,7 @@ function extractFields(data, fieldsList) {
 }
 
 export const getPayoutPermLink = createSelector(
-    [state => state.data.rates, (state, props) => {
-        return state.global.getIn(['content', props.postLink])
-    }],
+    [state => state.data.rates, (state, props) => state.global.getIn(['content', props.postLink])],
     memoize((rates, data) => {
         const result = { ...zeroedPayout };
         const lastPayout = data.get('last_payout');
@@ -149,6 +147,8 @@ export const getPayoutPermLink = createSelector(
         result.overallTotal = result.total + result.totalGbg * golosPerGbg;
         result.limitedOverallTotal = result.isLimit ? max * golosPerGbg : result.overallTotal;
         result.lastPayout = lastPayout;
+        result.cashoutTime = data.get('cashout_time');
+
         return result;
     })
 );
