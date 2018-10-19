@@ -24,9 +24,9 @@ export default connect(
         if (currentUsername) {
             votingPower = state.global.getIn(['accounts', currentUsername, 'voting_power']) / 100;
 
-            const userData = state.global.getIn(['accounts', currentUsername]) || emptyMap;
+            const jsonMetadata = state.global.getIn(['accounts', currentUsername, 'json_metadata'], emptyMap);
             const jsonData = normalizeProfile({
-                json_metadata: userData.get('json_metadata'),
+                json_metadata: jsonMetadata,
                 name: currentUsername,
             });
             realName = jsonData.name || currentUsername;

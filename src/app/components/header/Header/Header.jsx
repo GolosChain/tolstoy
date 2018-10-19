@@ -367,7 +367,7 @@ export default class Header extends PureComponent {
         isAccountOpen: false,
         isMenuOpen: false,
         isNotificationsOpen: false,
-        waitAuth: this.props.offchainAccount && !this.props.currentAccountName,
+        waitAuth: this.props.offchainAccount && !this.props.currentUsername,
         isPadScreen: process.env.BROWSER ? window.innerWidth < MIN_PAD_WIDTH : false,
         isMobile: process.env.BROWSER ? window.innerWidth < MIN_MOBILE_WIDTH : false,
     };
@@ -469,13 +469,13 @@ export default class Header extends PureComponent {
     }
 
     renderFullAccountBlock() {
-        const { currentAccountName, votingPower, realName } = this.props;
+        const { currentUsername, votingPower, realName } = this.props;
 
         const powerPercent = formatPower(votingPower);
 
         return (
-            <AccountInfoBlock to={`/@${currentAccountName}`}>
-                <Userpic account={currentAccountName} size={36} />
+            <AccountInfoBlock to={`/@${currentUsername}`}>
+                <Userpic account={currentUsername} size={36} />
                 <AccountText>
                     <AccountName>{realName}</AccountName>
                     <AccountPowerBlock>
@@ -511,11 +511,11 @@ export default class Header extends PureComponent {
 
     /* uncomment when messenger done
     renderMessagesBlock() {
-        const { freshCount, currentAccountName } = this.props;
+        const { freshCount, currentUsername } = this.props;
         const { isPadScreen } = this.state;
 
         return (
-            <Messages to={`/@${currentAccountName}/messages`} mobile={isPadScreen ? 1 : 0}>
+            <Messages to={`/@${currentUsername}/messages`} mobile={isPadScreen ? 1 : 0}>
                 <IconBadge name="messanger" size={21} count={0} />
             </Messages>
         );
@@ -523,7 +523,7 @@ export default class Header extends PureComponent {
 
     renderMobileAccountBlock() {
         const { isPadScreen } = this.state;
-        const { currentAccountName, votingPower } = this.props;
+        const { currentUsername, votingPower } = this.props;
 
         const angle = 2 * Math.PI - 2 * Math.PI * (votingPower / 100);
 
@@ -531,7 +531,7 @@ export default class Header extends PureComponent {
 
         return (
             <Fragment>
-                <MobileAccountBlock to={`/@${currentAccountName}`} mobile={isPadScreen ? 1 : 0}>
+                <MobileAccountBlock to={`/@${currentUsername}`} mobile={isPadScreen ? 1 : 0}>
                     <MobileAccountContainer innerRef={this.accountRef}>
                         <PowerCircle>
                             <svg viewBox="-1 -1 2 2">
@@ -544,7 +544,7 @@ export default class Header extends PureComponent {
                                 />
                             </svg>
                         </PowerCircle>
-                        <UserpicMobile account={currentAccountName} size={44} />
+                        <UserpicMobile account={currentUsername} size={44} />
                     </MobileAccountContainer>
                 </MobileAccountBlock>
             </Fragment>
@@ -552,7 +552,7 @@ export default class Header extends PureComponent {
     }
 
     render() {
-        const { currentAccountName, getNotificationsOnlineHistory } = this.props;
+        const { currentUsername, getNotificationsOnlineHistory } = this.props;
         const { isMenuOpen, isNotificationsOpen, waitAuth, isPadScreen, isMobile } = this.state;
 
         return (
@@ -572,7 +572,7 @@ export default class Header extends PureComponent {
                             {isPadScreen ? <FlexFiller /> : <SearchInput />}
                             <SearchIcon name="search" />
                         </SearchBlock>
-                        {currentAccountName ? (
+                        {currentUsername ? (
                             this.renderAuthorizedPart()
                         ) : (
                             <Buttons hidden={waitAuth}>
@@ -592,7 +592,7 @@ export default class Header extends PureComponent {
                             onClose={this.onNotificationsMenuToggle}
                         >
                             <NotificationsMenu
-                                params={{ accountName: currentAccountName }}
+                                params={{ accountName: currentUsername }}
                                 getNotificationsOnlineHistory={getNotificationsOnlineHistory}
                                 onClose={this.onNotificationsMenuToggle}
                                 isMobile={isMobile}
@@ -607,7 +607,7 @@ export default class Header extends PureComponent {
                         >
                             <Menu
                                 onClose={this.onMenuToggle}
-                                accountName={currentAccountName}
+                                accountName={currentUsername}
                                 onLogoutClick={this.onLogoutClick}
                             />
                         </Popover>
