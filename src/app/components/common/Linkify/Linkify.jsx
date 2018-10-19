@@ -45,12 +45,15 @@ function addLinkToUser(str) {
         if (position > prevPosition) {
             parts.push(str.substring(prevPosition, position));
         }
-
-        parts.push(
-            <Link key={position} to={`/${accountName}`}>
-                {accountName}
-            </Link>
-        );
+        if (utils.validateAccountName(accountName.substring(1)) === null) {
+            parts.push(
+                <Link key={position} to={`/${accountName}`}>
+                    {accountName}
+                </Link>
+            );
+        } else {
+            parts.push(accountName);
+        }
 
         prevPosition = position + accountName.length;
     });
