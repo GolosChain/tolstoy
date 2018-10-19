@@ -99,11 +99,12 @@ function extractFields(data, fieldsList) {
     };
 }
 
-export const getPayout = createSelector(
-    [state => state.data.rates, (state, props) => props.data],
+export const getPayoutPermLink = createSelector(
+    [state => state.data.rates, (state, props) => {
+        return state.global.getIn(['content', props.postLink])
+    }],
     memoize((rates, data) => {
         const result = { ...zeroedPayout };
-
         const lastPayout = data.get('last_payout');
         const max = parseFloat(data.get('max_accepted_payout', 0));
 
@@ -147,7 +148,7 @@ export const getPayout = createSelector(
         result.totalGbg = fields.authorGbg;
         result.overallTotal = result.total + result.totalGbg * golosPerGbg;
         result.limitedOverallTotal = result.isLimit ? max * golosPerGbg : result.overallTotal;
-
+        result.lastPayout = lastPayout;
         return result;
     })
 );

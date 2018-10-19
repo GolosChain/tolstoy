@@ -1,12 +1,17 @@
 import React, { PureComponent } from 'react';
+import styled from 'styled-components';
+
+const Stub = styled.div`
+    min-height: 650px;
+`;
 
 let PostForm = null;
 
 export default class PostFormLoader extends PureComponent {
     componentDidMount() {
         if (!PostForm) {
-            require.ensure('./PostForm', require => {
-                PostForm = require('./PostForm').default;
+            require.ensure('./PostForm.connect', require => {
+                PostForm = require('./PostForm.connect').default;
 
                 if (!this._unmount) {
                     this.forceUpdate();
@@ -21,9 +26,9 @@ export default class PostFormLoader extends PureComponent {
 
     render() {
         if (PostForm) {
-            return <PostForm {...this.props} />
+            return <PostForm {...this.props} />;
         }
 
-        return <div />;
+        return <Stub />;
     }
 }

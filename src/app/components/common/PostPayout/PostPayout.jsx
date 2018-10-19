@@ -16,15 +16,14 @@ const CurrencyValueStyled = styled(CurrencyValue)`
 
 export default class PostPayout extends PureComponent {
     render() {
-        const { data, limitedOverallTotal, isLimit, isDeclined, className } = this.props;
-
+        const { limitedOverallTotal, isLimit, isDeclined, lastPayout, className } = this.props;
         return (
             <CurrencyValueStyled
                 limited={isLimit ? 1 : 0}
                 declined={isDeclined ? 1 : 0}
                 value={limitedOverallTotal}
                 currency="GOLOS"
-                date={data.get('last_payout')}
+                date={lastPayout}
                 className={className}
             />
         );

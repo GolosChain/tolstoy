@@ -4,7 +4,6 @@ import { createSelector } from 'reselect';
 import { currentPostSelector, authorSelector } from 'src/app/redux/selectors/post/commonPost';
 import { currentUsernameSelector } from 'src/app/redux/selectors/common';
 import { followingSelector } from 'src/app/redux/selectors/follow/follow';
-import { toggleFavoriteAction } from 'src/app/redux/actions/favorites';
 import { updateFollow } from 'src/app/redux/actions/follow';
 import { PostHeader } from 'src/app/containers/post/postHeader/PostHeader';
 
@@ -30,7 +29,6 @@ export default connect(
     ),
 
     {
-        toggleFavorite: toggleFavoriteAction,
         updateFollow,
     }
 )(PostHeader);

@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
@@ -9,7 +10,7 @@ import { confirmVote } from 'src/app/helpers/votes';
 import { Action } from 'src/app/components/post/SidePanelAction';
 import SharePopover from 'src/app/components/post/SharePopover';
 import { PopoverStyled } from 'src/app/components/post/PopoverAdditionalStyles';
-import PinnedOfFavorite from 'src/app/components/post/PinnedOrFavorite';
+import PostActions from 'src/app/components/post/PostActions';
 
 const PANEL_MARGIN = 20;
 const FOOTER_HEIGHT = 403;
@@ -30,12 +31,7 @@ const Wrapper = styled.div`
         padding: 10px 0;
     }
 
-    @media (max-width: 1407px) {
-        opacity: 0;
-        visibility: hidden;
-    }
-
-    @media (max-width: 1200px) {
+    @media (max-width: 1245px) {
         display: none;
     }
 
@@ -68,12 +64,17 @@ const ActionWrapper = styled(Action)`
 `;
 
 export class SidePanel extends Component {
+    static propTypes = {
+        togglePin: PropTypes.func.isRequired,
+        toggleFavorite: PropTypes.func.isRequired,
+    };
+
     state = {
         showSharePopover: false,
         fixedOn: 'center',
     };
 
-    sidePanelRef = React.createRef();
+    sidePanelRef = createRef();
 
     componentDidMount() {
         this.scrollScreenLazy();
@@ -128,12 +129,6 @@ export class SidePanel extends Component {
         this.props.reblog(username, author, permLink);
     };
 
-    toggleFavorite = () => {
-        const { author, permLink, isFavorite } = this.props;
-        console.log('favorite');
-        this.props.toggleFavorite({ link: author + '/' + permLink, isAdd: !isFavorite });
-    };
-
     like = async () => {
         const { username, permLink, author, myVote } = this.props;
         const percent = 1;
@@ -172,6 +167,7 @@ export class SidePanel extends Component {
             isOwner,
             isFavorite,
             toggleFavorite,
+            postUrl,
             myVote: voteType,
         } = this.props;
         const { showSharePopover, fixedOn } = this.state;
@@ -213,7 +209,8 @@ export class SidePanel extends Component {
                     dataTooltip={tt('g.reblog')}
                     onClick={this.reblog}
                 />
-                <PinnedOfFavorite
+                <PostActions
+                    postUrl={postUrl}
                     isFavorite={isFavorite}
                     isPinned={isPinned}
                     isOwner={isOwner}
