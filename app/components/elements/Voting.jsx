@@ -103,7 +103,8 @@ class Voting extends PureComponent {
                 <p>
                     {tt(
                         'voting_jsx.flagging_post_can_remove_rewards_the_flag_should_be_used_for_the_following'
-                    )}:
+                    )}
+                    :
                 </p>
                 <ul>
                     <li>{tt('voting_jsx.disagreement_on_rewards')}</li>
@@ -261,11 +262,12 @@ class Voting extends PureComponent {
                     renderValue(total_curator_payout, 'GBG'),
             });
         }
-
         const payoutEl = (
             <DropdownMenu el="div" items={payoutItems}>
                 <span>
-                    <PostPayout data={postData} />
+                    <PostPayout
+                        postLink={postData.get('author') + '/' + postData.get('permlink')}
+                    />
                     {payoutItems.length > 0 && <Icon name="dropdown-arrow" />}
                 </span>
             </DropdownMenu>
