@@ -131,21 +131,21 @@ export default class PayoutInfo extends PureComponent {
                 <Part>
                     <Line>
                         <Label>{tt('payout_info.author')}</Label>
-                        <Money>{author.toFixed(1)} GOLOS</Money>
+                        <Money>{author.toFixed(3)} GOLOS</Money>
                         {authorGbg ? (
                             <Fragment>
                                 <Plus>+</Plus>
-                                <Money>{authorGbg.toFixed(1)} GBG</Money>
+                                <Money>{authorGbg.toFixed(3)} GBG</Money>
                             </Fragment>
                         ) : null}
                     </Line>
                     <Line>
                         <Label>{tt('payout_info.curator')}</Label>
-                        <Money>{curator.toFixed(1)} GOLOS</Money>
+                        <Money>{curator.toFixed(3)} GOLOS</Money>
                     </Line>
                     <Line>
                         <Label>{tt('payout_info.beneficiary')}</Label>
-                        <Money>{benefactor.toFixed(1)} GOLOS</Money>
+                        <Money>{benefactor.toFixed(3)} GOLOS</Money>
                     </Line>
                 </Part>
             </Root>
