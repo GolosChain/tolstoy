@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { List } from 'immutable';
 import styled from 'styled-components';
 
 import Avatar from 'src/app/components/common/Avatar';
 import Icon from 'golos-ui/Icon';
 
-import MessageBubble from './MessageBubble';
 import SendMessagePanel from './SendMessagePanel';
+
+import Message from './Message';
 
 const Wrapper = styled.div`
     display: flex;
@@ -54,53 +56,60 @@ const Dots = styled(Icon)`
 const Body = styled.div`
     display: flex;
     flex: 1;
-    flex-direction: column;
+    flex-direction: column-reverse;
 
+`;
+
+const ScrollPanel = styled.div`
     padding: 15px;
+    overflow-y: auto;
 `;
 
 const Footer = styled.div`
 `;
 
-const Message = styled.div`
-    display: flex;
-    justify-content: ${({ self }) => (self ? 'flex-end' : 'flex-start')};
-`;
-
 export default class Chat extends Component {
-
     static propTypes = {
         contactInfo: PropTypes.shape({
             profileName: PropTypes.string,
             profileImage: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
         }).isRequired,
-        // messages: PropTypes.instanceOf(Map),
+        messages: PropTypes.instanceOf(List),
         onContactMenuClick: PropTypes.func.isRequired,
         onMessageInput: PropTypes.func.isRequired,
         onSendButtonClick: PropTypes.func.isRequired,
-    }
+        currentUserProfileImage: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    };
 
     renderMessages = messages => {
-        // TODO 
-        return messages.map(message => (
+        const { contactInfo, currentUserProfileImage } = this.props;
+        
+        return messages.map(message => {
+            const type = message.get('type');
+            const contactImage = (type === 'messageIn') ? contactInfo.profileImage : currentUserProfileImage;
+
+            return (
                 <Message
-                    key={message.time}
-                    self={message.sender === 'self'}
-                >
-                    <MessageBubble {...message}/>
-                </Message>
-            )
-        );
-    }
+                    key={message.get('nonce')}
+                    contactImage={contactImage}
+                    messageText={message.get('message')}
+                    date={message.get('create_date')}
+                    type={type}
+                    metadata={message.get('metadata')}
+                />
+            );
+        });
+    };
 
     render() {
         const {
             contactInfo: { profileName, profileImage },
+            messages,
             onContactMenuClick,
             onMessageInput,
             onSendButtonClick,
         } = this.props;
-   
+
         return (
             <Wrapper>
                 <Header>
@@ -113,7 +122,9 @@ export default class Chat extends Component {
                     </DotsWrapper>
                 </Header>
                 <Body>
-                    {/* {this.renderMessages(messages)} */}
+                    <ScrollPanel>
+                        {this.renderMessages(messages)}
+                    </ScrollPanel>
                 </Body>
                 <Footer>
                     <SendMessagePanel

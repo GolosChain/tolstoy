@@ -1,4 +1,5 @@
 import { call, takeEvery, select } from 'redux-saga/effects';
+import ByteBuffer from 'bytebuffer';
 
 import { broadcast, ecc } from 'golos-js';
 
@@ -23,19 +24,18 @@ function* preBroadcast_sendMessage({
     message,
 }) {
     const from = yield select(currentUsernameSelector);
+    
+    const memoPrivate = yield select(getCurrentUserPrivateMemoKey);
+    if (!memoPrivate){
+        // TODO
+        throw new Error('Unable to encrypte message, missing memo private key');
+    }
 
     const messageObj = {
         subject: '',
         body: message,
         app: 'golosio',
     };
-
-    const memoPrivate = yield select(getCurrentUserPrivateMemoKey);
-
-    if (!memoPrivate){
-        // TODO
-        throw new Error('Unable to encrypte message, missing memo private key');
-    }
 
     const {
         nonce,
@@ -103,7 +103,7 @@ function* broadcastCustomJson({
             // TODO ?
         }
 
-        yield broadcast.sendAsync({ extensions: [], operations }, [ signingKey ]);
+      yield broadcast.sendAsync({ extensions: [], operations }, [ signingKey ]);
         if (successCallback) {
             successCallback();
         }
@@ -123,10 +123,13 @@ function* tryEncryptMessage(fromPrivateMemoKey, toPublicMemoKey, stringifyMessag
     const fromPrivateKey = fromPrivateMemoKey.d ? fromPrivateMemoKey : PrivateKey.fromWif(fromPrivateMemoKey);
     const fromPublicKey = fromPrivateKey.toPublicKey().toString();
 
-    const { nonce, message, checksum } = Aes.encrypt(fromPrivateKey, toPublicMemoKey, stringifyMessage, testNonce);
+    const mbuf = new ByteBuffer(ByteBuffer.DEFAULT_CAPACITY, ByteBuffer.LITTLE_ENDIAN);
+    mbuf.writeVString(stringifyMessage);
+    const buff = new Buffer(mbuf.copy(0, mbuf.offset).toBinary(), 'binary');
 
+    const { nonce, message, checksum } = Aes.encrypt(fromPrivateKey, toPublicMemoKey, buff, testNonce);
     return {
-        nonce: nonce.toNumber(),
+        nonce: nonce.toString(),
         from_memo_key: fromPublicKey,
         to_memo_key: toPublicMemoKey,
         checksum,

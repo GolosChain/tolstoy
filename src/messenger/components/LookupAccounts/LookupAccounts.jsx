@@ -17,7 +17,7 @@ const LookupAccountsWrapper = styled.div`
     padding: 10px 20px 10px 10px;
 `;
 
-const SearchInpit = styled.input`
+const SearchInput = styled.input`
     width: 100%;
     height: 30px;
     padding: 5px 35px 5px 20px;
@@ -38,7 +38,7 @@ const IconStyled = styled.div`
     right: 35px;
 `;
 
-SearchInpit.defaultProps = {
+SearchInput.defaultProps = {
     type: 'text'
 }
 
@@ -89,7 +89,7 @@ export default class LookupAccounts extends Component {
 
         return (
             <LookupAccountsWrapper>
-                <SearchInpit
+                <SearchInput
                     placeholder={tt('messenger.placeholder.search')}
                     onChange={this.handleChange}
                     maxLength={MAX_ACCOUNT_NAME_LENGTH}
