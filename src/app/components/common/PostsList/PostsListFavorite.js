@@ -1,13 +1,16 @@
 import { connect } from 'react-redux';
+import { createSelector } from 'reselect';
+
 import PostsList from './PostsList';
 import { favoritesLoadNextPageAction } from 'src/app/redux/actions/favorites';
 import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';
+import { dataSelector, uiSelector } from 'src/app/redux/selectors/common';
 
 export default connect(
-    state => {
-        const { isLoading, isPageLoading, showList } = state.data.favorites;
+    createSelector([dataSelector('favorites'), uiSelector('profile')], (favorites, profileUI) => {
+        const { isLoading, isPageLoading, showList } = favorites;
 
-        const layout = state.ui.profile && state.ui.profile.get('layout') || 'list';
+        const layout = (profileUI && profileUI.get('layout')) || 'list';
 
         return {
             isFavorite: true,
@@ -15,7 +18,7 @@ export default connect(
             isLoading: isLoading || isPageLoading,
             posts: showList,
         };
-    },
+    }),
     dispatch => ({
         loadMore() {
             dispatch(favoritesLoadNextPageAction());

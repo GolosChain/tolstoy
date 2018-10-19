@@ -128,7 +128,6 @@ const FooterPayout = styled.div`
 export default class CardPost extends Component {
     render() {
         const { post, className } = this.props;
-
         const p = extractContent(objAccessor, post);
 
         return (
@@ -156,7 +155,7 @@ export default class CardPost extends Component {
                             {post.net_votes}
                         </FooterVotes>
                         <FooterPayout>
-                            <PostPayout data={post} />
+                            <PostPayout postLink={post.author + '/' + post.permlink} />
                         </FooterPayout>
                     </FooterActions>
                 </Footer>

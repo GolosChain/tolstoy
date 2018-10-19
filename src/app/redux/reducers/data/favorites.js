@@ -31,7 +31,7 @@ export default function(state = initialState, { type, payload, meta }) {
                 ...state,
                 isLoading: false,
                 isLoaded: true,
-                list: List(payload.list),
+                list: List(payload.list).reverse(),
                 set: Set(payload.list),
             };
         case FAVORITES_SET_PAGE_LOADING:
@@ -52,18 +52,20 @@ export default function(state = initialState, { type, payload, meta }) {
                 let showList;
 
                 if (meta.isAdd) {
-                    list = state.list.push(meta.link);
+                    list = state.list.unshift(meta.link);
 
                     // Если мы на последней странице просмотра
-                    if (Math.ceil(state.list.size / PAGE_SIZE) === state.pages) {
-                        showList = state.showList.push(meta.link);
+                    if (Math.ceil(state.list.size / PAGE_SIZE) === state.pages && state.showList) {
+                        showList = state.showList.unshift(meta.link);
                     } else {
                         showList = state.showList;
                     }
 
                 } else {
                     list = state.list.filter(link => link !== meta.link);
-                    showList = state.showList.filter(link => link !== meta.link);
+                    if (state.showList) {
+                        showList = state.showList.filter(link => link !== meta.link);
+                    }
                 }
 
                 return {

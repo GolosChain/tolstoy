@@ -1,2 +1,1 @@
-export { default } from './Login.connect';
-export { Login } from './Login';
+export { default } from './LoginContainer.connect';

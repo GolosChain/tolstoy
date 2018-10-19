@@ -125,7 +125,7 @@ export default class Questions extends PureComponent {
                                     <center>
                                         <LoadingIndicator
                                             type="circle"
-                                            size="90px"
+                                            size={90}
                                         />
                                     </center>
                                 </div>

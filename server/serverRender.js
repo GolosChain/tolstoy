@@ -9,7 +9,7 @@ import { Helmet } from 'react-helmet';
 import RootRoute from 'app/RootRoute';
 import { TITLE_SUFFIX, IGNORE_TAGS, SEO_TITLE } from 'app/client_config';
 import NotFound from 'app/components/pages/NotFound';
-import getState from 'app/utils/StateBuilder';
+import getState from 'server/StateBuilder';
 import { routeRegex } from 'app/ResolveRoute';
 import { contentStats, calcVotesStats } from 'app/utils/StateFunctions';
 import rootReducer from 'app/redux/reducers';
@@ -107,7 +107,7 @@ export default async function serverRender({ location, offchain, ErrorPage, sett
                 rates: {
                     actual: rates,
                     dates: [],
-                }
+                },
             },
         };
 

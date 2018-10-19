@@ -1,0 +1,66 @@
+[
+    {
+        "title": "Why should I send a text message when registering? Will my money be safe?",
+        "answer": "SMS verification aims to eliminate spam user registration. We will not charge any fee, the message cost depends on your phone company’s rate."
+    },
+    {
+        "title": "I cannot send a SMS, what should I do?",
+        "answer": "Please, make sure that you have enough funds in your account to cover a message fee and the phone number is specified correctly. If you still have a problem, please contact your phone company or try to sign up by using another phone number."
+    },
+    {
+        "title": "A text message was successfully sent but I cannot complete the sign-up form, what should I do?",
+        "answer": "Please, contact the Support Chat [https://t.me/golos_eng](https://t.me/golos_eng) to report a problem about it or send a direct message to @dankinescop or @chinpu"
+    },
+    {
+        "title": "I’ve completed the registration but there occurred an error. What should I do?",
+        "answer": "Please, contact the Support Chat [https://t.me/golos_eng](https://t.me/golos_eng) to report a problem about it or send a direct message to @dankinescop or @chinpu"
+    },
+    {
+        "title": "I’ve completed the registration but when I try to log in I see a message that there’s no such account name.",
+        "answer": "Please, contact the Support Chat [https://t.me/golos_eng](https://t.me/golos_eng) to report a problem about it or send a direct message to @dankinescop or @chinpu"
+    },
+    {
+        "title": "What should a newcomer read to easily use Golos.io platform? Is there any guide?",
+        "answer": "We advise to read the Welcome and Wiki sections."
+    },
+    {
+        "title": "What actions can I perform with the minimum Golos Power, that I receive after registration? Can I write posts, comment, vote?",
+        "answer": "You can easily post, comment and vote. Please note, you shouldn’t make a lot of actions at once because there are limits on the platform: no more than 4 posts per day and 40 upvotes with 100% of Golos Power are allowed. <br/>Also pay attention to the expense of your Voting Power, it is limited and decreases with each given vote by up to 5%. The rate of decreasing depends on the voting frequency: the more you vote, the faster it decreases. Go to the site header to find the battery charge of your current Voting Power. <br/>Please, stop voting for a while to increase the voting power, usually it takes a day or two, but sometimes it can take a week."
+    },
+    {
+        "title": "I found a lot of keys in my wallet in the permissions tab. Which ones should I save? Where can I get more info about this page?",
+        "answer": "Keys are like your passport or id in the blockchain, your password is linked not only with your posting account but also with a wallet where you store your tokens. Therefore, you should take to care for them and store in several places, preferably not only as digital ones, but also paper copies.<br/>The owner's key is the most important, it can replace all the other keys or can be used to update the password if it has been compromised. It should be used if you have no choice. Please use a posting key to post and vote and an active key to make transactions. <br/>Find more info about the keys in [Golos Wiki](https://wiki.golos.io/1-introduction/koshelek-klyuchi-viplati.html)."
+    },
+    {
+        "title": "I did not save or forgot my password. How can I reset it?",
+        "answer": "The password recovery is impossible, we warn about this multiple times during the sign-up procedure. Your browser might have saved your password automatically if this option is allowed in the settings, please check there. If it didn’t help, you should set up a new account with other username, phone number and email address."
+    },
+    {
+        "title": "I forgot my username. What do I do?",
+        "answer": "If you specified your email address while signing up, please report the issue to [https://t.me/golos_eng](https://t.me/golos_eng)  in a private message  to @dankinescop or @chinpu in Telegram."
+    },
+    {
+        "title": "I’ve got “Account exceeded maximum allowed bandwidth per vesting share” error message. What does it mean?",
+        "answer": "It means that you don’t have enough voice power to perform any action on the website. You should fund it through an exchange (or ask someone to transfer some tokens to your voice power) or just wait for its recovery (may take up to 7 days)."
+    },
+    {
+        "title": "I can’t sign in to the app, it says “Wrong password”. What do I do?",
+        "answer": "There are two ways for signing in to the app: with private active or posting key. In this regard, if you choose an active key authorization, you should use a private active key as password and a posting key in case of choosing a posting key authorization. All the keys are accessible in your account at golos.io website in “Wallet” -> “Permissions”."
+    },
+    {
+        "title": "Why should I wait 20 seconds to post another comment?",
+        "answer": "This restriction aims to eliminate spam actions due to blockchain technology."
+    },
+    {
+        "title": "I can’t open golos.io website. What do I do?",
+        "answer": "Please use the mirror website  [https://golos.blog](https://golos.blog/)."
+    },
+    {
+        "title": "How can I delete my account?",
+        "answer": "All information about your account are recorded and stored in blockchain, all changes or deleting are impossible."
+    },
+    {
+        "title": "How can I change my account name?",
+        "answer": "All information about your account are recorded and stored in blockchain, all changes or deleting are impossible."
+    }
+]

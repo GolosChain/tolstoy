@@ -2,6 +2,7 @@ import { createSelectorCreator, defaultMemoize, createSelector } from 'reselect'
 import isEqual from 'react-fast-compare';
 import { Map } from 'immutable';
 import { pathOr } from 'ramda';
+import memorize from 'lodash/memoize';
 
 const emptyMap = Map();
 const toArray = data => (Array.isArray(data) ? data : [data]);
@@ -13,20 +14,29 @@ export const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isE
 // export const routerSelector = state => state.router;
 
 // old
-export const globalSelector = (path, defaultValue) => state => state.global.getIn(toArray(path), defaultValue);
-export const userSelector = (path, defaultValue) => state => state.user.getIn(toArray(path), defaultValue);
-export const appSelector = (path, defaultValue) => state => state.app.getIn(toArray(path), defaultValue);
-export const offchainSelector = (path, defaultValue) => state => state.offchain.getIn(toArray(path), defaultValue);
+export const globalSelector = (path, defaultValue) => state =>
+    state.global.getIn(toArray(path), defaultValue);
+export const userSelector = (path, defaultValue) => state =>
+    state.user.getIn(toArray(path), defaultValue);
+export const appSelector = (path, defaultValue) => state =>
+    state.app.getIn(toArray(path), defaultValue);
+export const offchainSelector = (path, defaultValue) => state =>
+    state.offchain.getIn(toArray(path), defaultValue);
 // new and our future
-export const statusSelector = (path, defaultValue) => state => pathOr(defaultValue, toArray(path))(state.status);
-export const entitiesSelector = (path, defaultValue) => state => pathOr(defaultValue, toArray(path))(state.entities);
-export const dataSelector = (path, defaultValue) => state => pathOr(defaultValue, toArray(path))(state.data);
-export const uiSelector = (path, defaultValue) => state => pathOr(defaultValue, toArray(path))(state.ui);
+export const statusSelector = (path, defaultValue) => state =>
+    pathOr(defaultValue, toArray(path))(state.status);
+export const entitiesSelector = (path, defaultValue) => state =>
+    pathOr(defaultValue, toArray(path))(state.entities);
+export const dataSelector = (path, defaultValue) => state =>
+    pathOr(defaultValue, toArray(path))(state.data);
+export const uiSelector = (path, defaultValue) => state =>
+    pathOr(defaultValue, toArray(path))(state.ui);
 
 // Router selectors
 
 export const routerParamSelector = name => (state, props) => props.params[name];
-
+export const routeParamSelector = name => state =>
+    state.ui.location.getIn(['current', 'params', name]);
 // Entities selectors
 
 // Возвращает сущности определенного типа (type) в виде массива.
@@ -44,14 +54,14 @@ export const pageAccountSelector = createDeepEqualSelector(
     (accounts, userName) => accounts.get(userName)
 );
 
-export const currentUserSelector = createDeepEqualSelector(
-    [userSelector('current')],
-    currentUser => currentUser || emptyMap
+export const currentUserSelector = userSelector('current');
+
+export const currentUsernameSelector = createSelector(
+    [currentUserSelector],
+    user => (user ? user.get('username') : null)
 );
 
-export const currentUsernameSelector = createDeepEqualSelector([currentUserSelector], user =>
-    user.get('username')
-);
+export const parseJSON = memorize(JSON.parse);
 
 // Utils
 

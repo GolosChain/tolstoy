@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash/throttle';
-import { connect } from 'react-redux';
 import Turndown from 'turndown';
 import cn from 'classnames';
 import tt from 'counterpart';
-import transaction from 'app/redux/Transaction';
 import HtmlReady, { getTags } from 'shared/HtmlReady';
 import DialogManager from 'app/components/elements/common/DialogManager';
 import Icon from 'app/components/elements/Icon';
@@ -15,9 +13,7 @@ import EditorSwitcher from 'app/components/elements/postEditor/EditorSwitcher/Ed
 import PostFooter from 'app/components/elements/postEditor/PostFooter/PostFooter';
 import PostTitle from 'app/components/elements/postEditor/PostTitle/PostTitle';
 import PreviewButton from 'app/components/elements/postEditor/PreviewButton';
-import MarkdownViewer, {
-    getRemarkable,
-} from 'app/components/cards/MarkdownViewer';
+import MarkdownViewer, { getRemarkable } from 'app/components/cards/MarkdownViewer';
 import { checkPostHtml } from 'app/utils/validator';
 import { DEBT_TICKER } from 'app/client_config';
 import {
@@ -59,13 +55,20 @@ export const PAYOUT_OPTIONS = [
     },
 ];
 
-class PostForm extends React.Component {
+export default class PostForm extends React.Component {
     static propTypes = {
         editMode: PropTypes.bool,
-        editParams: PropTypes.object,
-        jsonMetadata: PropTypes.object,
+        author: PropTypes.string.isRequired,
         onCancel: PropTypes.func,
         onSuccess: PropTypes.func,
+
+        // for editMode = true
+        permLink: PropTypes.string,
+        parentPermLink: PropTypes.string,
+        category: PropTypes.string,
+        title: PropTypes.string,
+        body: PropTypes.string,
+        jsonMetadata: PropTypes.object,
     };
 
     constructor(props) {
@@ -120,7 +123,7 @@ class PostForm extends React.Component {
         if (json) {
             const draft = JSON.parse(json);
 
-            if (editMode && draft.permLink !== this.props.editParams.permlink) {
+            if (editMode && draft.permLink !== this.props.permLink) {
                 return;
             }
 
@@ -147,29 +150,29 @@ class PostForm extends React.Component {
     }
 
     _fillFromMetadata() {
-        const { editParams, jsonMetadata } = this.props;
+        const { title, body, category, jsonMetadata } = this.props;
 
         if (jsonMetadata.format === 'markdown') {
             this.state.editorId = EDITORS_TYPES.MARKDOWN;
-        } else if (editParams.body.startsWith('<html')) {
+        } else if (body.startsWith('<html')) {
             this.state.editorId = EDITORS_TYPES.HTML;
         }
 
-        this.state.title = editParams.title;
+        this.state.title = title;
 
         if (this.state.editorId === EDITORS_TYPES.HTML) {
             this.state.text = null;
-            this.state.rteState = HtmlEditor.getStateFromHtml(editParams.body);
+            this.state.rteState = HtmlEditor.getStateFromHtml(body);
         } else {
-            this.state.text = editParams.body;
+            this.state.text = body;
         }
 
         this.state.emptyBody = false;
 
         const tagsFromData = [...(jsonMetadata.tags || [])];
 
-        if (tagsFromData[0] !== editParams.category) {
-            tagsFromData.unshift(editParams.category);
+        if (tagsFromData[0] !== category) {
+            tagsFromData.unshift(category);
         }
 
         this.state.tags = processTagsFromData(tagsFromData);
@@ -226,9 +229,7 @@ class PostForm extends React.Component {
                         {isPreview ? null : (
                             <PostTitle
                                 value={title}
-                                placeholder={tt(
-                                    'post_editor.title_placeholder'
-                                )}
+                                placeholder={tt('post_editor.title_placeholder')}
                                 validate={this._validateTitle}
                                 onTab={this._onTitleTab}
                                 onChange={this._onTitleChange}
@@ -240,8 +241,7 @@ class PostForm extends React.Component {
                         {isPreview ? (
                             <div className="PostForm__preview">
                                 <h1 className="PostForm__title-preview">
-                                    {title.trim() ||
-                                        tt('post_editor.title_placeholder')}
+                                    {title.trim() || tt('post_editor.title_placeholder')}
                                 </h1>
                                 <MarkdownViewer text={text} large />
                             </div>
@@ -258,14 +258,8 @@ class PostForm extends React.Component {
                             onTagsChange={this._onTagsChange}
                             payoutType={payoutType}
                             onPayoutTypeChange={this._onPayoutTypeChange}
-                            postDisabled={
-                                Boolean(disallowPostCode) || isPosting
-                            }
-                            disabledHint={
-                                disallowPostCode
-                                    ? tt(disallowPostCode)
-                                    : null
-                            }
+                            postDisabled={Boolean(disallowPostCode) || isPosting}
+                            disabledHint={disallowPostCode ? tt(disallowPostCode) : null}
                             onPostClick={this._postSafe}
                             onResetClick={this._onResetClick}
                             onCancelClick={this._onCancelClick}
@@ -274,11 +268,7 @@ class PostForm extends React.Component {
                 </div>
                 {uploadingCount > 0 || isPosting ? (
                     <div className="PostForm__spinner">
-                        <Icon
-                            name="clock"
-                            size="4x"
-                            className="PostForm__spinner-inner"
-                        />
+                        <Icon name="clock" size="4x" className="PostForm__spinner-inner" />
                     </div>
                 ) : null}
             </div>
@@ -320,11 +310,7 @@ class PostForm extends React.Component {
                 newText = '';
                 newRteState = null;
             } else {
-                if (
-                    !(await DialogManager.dangerConfirm(
-                        tt('post_editor.convert_to_md_warning')
-                    ))
-                ) {
+                if (!(await DialogManager.dangerConfirm(tt('post_editor.convert_to_md_warning')))) {
                     return;
                 }
 
@@ -354,9 +340,7 @@ class PostForm extends React.Component {
 
             if (body.trim()) {
                 if (
-                    !(await DialogManager.dangerConfirm(
-                        tt('post_editor.convert_to_html_warning')
-                    ))
+                    !(await DialogManager.dangerConfirm(tt('post_editor.convert_to_html_warning')))
                 ) {
                     return;
                 }
@@ -435,15 +419,8 @@ class PostForm extends React.Component {
     };
 
     _saveDraft = () => {
-        const { editMode, editParams } = this.props;
-        const {
-            isPreview,
-            editorId,
-            title,
-            text,
-            tags,
-            payoutType,
-        } = this.state;
+        const { editMode, permLink } = this.props;
+        const { isPreview, editorId, title, text, tags, payoutType } = this.state;
 
         try {
             let body;
@@ -455,7 +432,7 @@ class PostForm extends React.Component {
             }
 
             const save = {
-                permLink: editMode ? editParams.permlink : undefined,
+                permLink: editMode ? permLink : undefined,
                 editorId,
                 title,
                 text: body,
@@ -478,11 +455,7 @@ class PostForm extends React.Component {
     _validateTitle = title => {
         const _title = title.trim();
 
-        if (
-            /\*[\w\s]*\*|#[\w\s]*#|_[\w\s]*_|~[\w\s]*~|]\s*\(|]\s*\[/.test(
-                _title
-            )
-        ) {
+        if (/\*[\w\s]*\*|#[\w\s]*#|_[\w\s]*_|~[\w\s]*~|]\s*\(|]\s*\[/.test(_title)) {
             return tt('submit_a_story.markdown_not_supported');
         }
     };
@@ -504,23 +477,17 @@ class PostForm extends React.Component {
         let error;
 
         if (!title.trim()) {
-            this.refs.footer.showPostError(
-                tt('category_selector_jsx.title_is_required')
-            );
+            this.refs.footer.showPostError(tt('category_selector_jsx.title_is_required'));
             return;
         }
 
         if (this._validateTitle(title)) {
-            this.refs.footer.showPostError(
-                tt('category_selector_jsx.title_is_not_valid')
-            );
+            this.refs.footer.showPostError(tt('category_selector_jsx.title_is_not_valid'));
             return;
         }
 
         if (!tags.length) {
-            this.refs.footer.showPostError(
-                tt('category_selector_jsx.must_set_category')
-            );
+            this.refs.footer.showPostError(tt('category_selector_jsx.must_set_category'));
             return;
         }
 
@@ -580,7 +547,6 @@ class PostForm extends React.Component {
             body,
             category: processedTags[0],
             parent_author: '',
-            parent_permlink: undefined, // ???
             json_metadata: meta,
             __config: {
                 autoVote: false,
@@ -588,11 +554,11 @@ class PostForm extends React.Component {
         };
 
         if (editMode) {
-            const { editParams } = this.props;
+            const { permLink, parentPermLink, body } = this.props;
 
-            data.permlink = editParams.permlink;
-            data.parent_permlink = editParams.parent_permlink;
-            data.__config.originalBody = editParams.body;
+            data.permlink = permLink;
+            data.parent_permlink = parentPermLink;
+            data.__config.originalBody = body;
         } else {
             const commentOptions = {};
 
@@ -688,8 +654,7 @@ class PostForm extends React.Component {
                         if (!this._unmount) {
                             if (data && (data.url || data.error)) {
                                 this.setState({
-                                    uploadingCount:
-                                        this.state.uploadingCount - 1,
+                                    uploadingCount: this.state.uploadingCount - 1,
                                 });
                             }
 
@@ -744,43 +709,3 @@ function markdownToHtmlEditorState(markdown) {
 
     return HtmlEditor.getStateFromHtml(html);
 }
-
-export default connect(
-    state => ({
-        author: state.user.getIn(['current', 'username']),
-    }),
-    dispatch => ({
-        onPost(payload, onSuccess, onError) {
-            dispatch(
-                transaction.actions.broadcastOperation({
-                    type: 'comment',
-                    operation: payload,
-                    hideErrors: true,
-                    errorCallback: onError,
-                    successCallback: onSuccess,
-                })
-            );
-        },
-        uploadImage({ file, progress }) {
-            dispatch({
-                type: 'user/UPLOAD_IMAGE',
-                payload: {
-                    file,
-                    progress: data => {
-                        if (data && data.error) {
-                            dispatch({
-                                type: 'ADD_NOTIFICATION',
-                                payload: {
-                                    message: data.error,
-                                    dismissAfter: 5000,
-                                },
-                            });
-                        }
-
-                        progress(data);
-                    },
-                },
-            });
-        },
-    })
-)(PostForm);
