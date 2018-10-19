@@ -2,6 +2,7 @@ import { fork, call, put, select, takeEvery } from 'redux-saga/effects';
 import {fromJS, Set, Map} from 'immutable'
 import {getAccount, getContent} from 'app/redux/sagas/shared'
 import {findSigningKey} from 'app/redux/sagas/auth'
+import { showNotification } from 'src/app/redux/actions/ui';
 import g from 'app/redux/GlobalReducer'
 import user from 'app/redux/User'
 import tr from 'app/redux/Transaction'
@@ -163,11 +164,7 @@ function* broadcastOperation(
 
 function* broadcastPayload({payload: {operations, keys, username, hideErrors, successCallback, errorCallback}}) {
     if ($STM_Config.read_only_mode) {
-        yield put({type: 'ADD_NOTIFICATION', payload: {
-            key: "trx_" + Date.now(),
-            message: tt('g.read_only_mode_notify'),
-            dismissAfter: 5000
-        }})
+        yield put(showNotification(tt('g.read_only_mode_notify'), 'trx'));
         return;
     }
 
@@ -226,11 +223,7 @@ function* broadcastPayload({payload: {operations, keys, username, hideErrors, su
             }
             const config = operation.__config
             if (config && config.successMessage) {
-                yield put({type: 'ADD_NOTIFICATION', payload: {
-                    key: "trx_" + Date.now(),
-                    message: config.successMessage,
-                    dismissAfter: 5000
-                }})
+                yield put(showNotification(config.successMessage, 'trx'));
             }
         }
         if (successCallback) try { successCallback() } catch (error) { console.error(error) }
