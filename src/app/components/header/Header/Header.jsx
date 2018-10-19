@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent, Fragment, createRef } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import styled from 'styled-components';
@@ -12,13 +12,12 @@ import Icon from 'golos-ui/Icon';
 import IconBadge from 'golos-ui/IconBadge';
 import Button from 'golos-ui/Button';
 import Userpic from 'app/components/elements/Userpic';
-import MobilePopover from '../MobilePopover';
-import AdaptivePopover from '../AdaptivePopover';
-import AccountMenu from '../AccountMenu';
 import Menu from '../Menu';
 import NotificationsMenu from '../NotificationsMenu';
+import Popover from 'src/app/components/header/Popover/Popover';
 
-const MIN_MOBILE_WIDTH = 768;
+const MIN_PAD_WIDTH = 768;
+const MIN_MOBILE_WIDTH = 576;
 
 const Root = styled.div``;
 
@@ -29,9 +28,9 @@ const Fixed = styled.div`
     top: 0;
     left: 0;
     right: 0;
-    
+
     height: 60px;
-    
+
     background: #ffffff;
     border-bottom: 1px solid #e9e9e9;
     z-index: 10;
@@ -41,7 +40,6 @@ const Fixed = styled.div`
         
         height: 56px;
         
-        background-color: #f9f9f9;
         border: none;
     `};
 `;
@@ -211,7 +209,7 @@ const AccountPowerBlock = styled.div`
 `;
 
 const AccountPowerValue = styled.span`
-    color: #78c2d0;
+    color: #2879ff;
     font-size: 13px;
 `;
 
@@ -227,10 +225,10 @@ const AccountPowerChunk = styled.div`
     height: 14px;
     margin: 0 1px;
     border-radius: 2px;
-    background: #d8d8d8;
+    background: #cde0ff;
 
     ${is('fill')`
-        background: #78c2d0;
+        background: #2879ff;
     `};
 `;
 
@@ -303,22 +301,22 @@ const DotsWrapper = styled.div`
             color: #2879ff;
         }
     `};
-    
+
     ${is('mobile')`
         padding: 10px 20px;
-    `}
+    `};
 `;
 
 const MobileAccountBlock = styled(Link)`
     display: flex;
     align-items: center;
-    
+
     height: 100%;
     padding: 0 15px 0 12px;
-    
+
     cursor: pointer;
     z-index: 1;
-    
+
     ${is('mobile')`
         padding: 0 10px;
     `};
@@ -370,14 +368,15 @@ export default class Header extends PureComponent {
         isMenuOpen: false,
         isNotificationsOpen: false,
         waitAuth: this.props.offchainAccount && !this.props.currentAccountName,
+        isPadScreen: process.env.BROWSER ? window.innerWidth < MIN_PAD_WIDTH : false,
         isMobile: process.env.BROWSER ? window.innerWidth < MIN_MOBILE_WIDTH : false,
     };
 
     timeoutId = null;
 
-    accountRef = React.createRef();
-    dotsRef = React.createRef();
-    noticationsRef = React.createRef();
+    accountRef = createRef();
+    dotsRef = createRef();
+    noticationsRef = createRef();
 
     componentDidMount() {
         window.addEventListener('resize', this.onResizeLazy);
@@ -399,10 +398,19 @@ export default class Header extends PureComponent {
     }
 
     onResizeLazy = throttle(() => {
-        if (window.innerWidth <= MIN_MOBILE_WIDTH && !this.state.isMobile) {
+        const { isPadScreen, isMobile } = this.state;
+        const windowWidth = window.innerWidth;
+
+        if (windowWidth <= MIN_PAD_WIDTH && !isPadScreen) {
+            this.setState({ isPadScreen: true });
+        }
+        if (windowWidth > MIN_PAD_WIDTH && isPadScreen) {
+            this.setState({ isPadScreen: false });
+        }
+        if (windowWidth <= MIN_MOBILE_WIDTH && !isMobile) {
             this.setState({ isMobile: true });
         }
-        if (window.innerWidth > MIN_MOBILE_WIDTH && this.state.isMobile) {
+        if (windowWidth > MIN_MOBILE_WIDTH && isMobile) {
             this.setState({ isMobile: false });
         }
     }, 100);
@@ -432,11 +440,11 @@ export default class Header extends PureComponent {
     };
 
     renderAuthorizedPart() {
-        const { isMobile, waitAuth } = this.state;
+        const { isPadScreen, waitAuth, isMenuOpen } = this.state;
 
         return (
             <AuthorizedBlock appear={waitAuth}>
-                {isMobile ? null : (
+                {isPadScreen ? null : (
                     <NewPostLink to="/submit">
                         <NewPostButton>
                             <NewPostIcon name="new-post" />
@@ -446,8 +454,16 @@ export default class Header extends PureComponent {
                 )}
                 {this.renderNotificationsBlock()}
                 {/*{this.renderMessagesBlock()} uncomment when messenger done*/}
-                {isMobile ? null : this.renderFullAccountBlock()}
-                {isMobile ? this.renderMobileAccountBlock() : null}
+                {isPadScreen ? null : this.renderFullAccountBlock()}
+                {isPadScreen ? this.renderMobileAccountBlock() : null}
+                <DotsWrapper
+                    innerRef={this.dotsRef}
+                    active={isMenuOpen}
+                    mobile={isPadScreen ? 1 : 0}
+                    onClick={this.onMenuToggle}
+                >
+                    <Dots name="dots" />
+                </DotsWrapper>
             </AuthorizedBlock>
         );
     }
@@ -479,11 +495,11 @@ export default class Header extends PureComponent {
 
     renderNotificationsBlock() {
         const { freshCount } = this.props;
-        const { isMobile, isNotificationsOpen } = this.state;
+        const { isPadScreen, isNotificationsOpen } = this.state;
 
         return (
             <Notifications
-                mobile={isMobile ? 1 : 0}
+                mobile={isPadScreen ? 1 : 0}
                 innerRef={this.noticationsRef}
                 onClick={this.onNotificationsMenuToggle}
                 active={isNotificationsOpen}
@@ -496,17 +512,17 @@ export default class Header extends PureComponent {
     /* uncomment when messenger done
     renderMessagesBlock() {
         const { freshCount, currentAccountName } = this.props;
-        const { isMobile } = this.state;
+        const { isPadScreen } = this.state;
 
         return (
-            <Messages to={`/@${currentAccountName}/messages`} mobile={isMobile ? 1 : 0}>
+            <Messages to={`/@${currentAccountName}/messages`} mobile={isPadScreen ? 1 : 0}>
                 <IconBadge name="messanger" size={21} count={0} />
             </Messages>
         );
     }*/
 
     renderMobileAccountBlock() {
-        const { isMobile } = this.state;
+        const { isPadScreen } = this.state;
         const { currentAccountName, votingPower } = this.props;
 
         const angle = 2 * Math.PI - 2 * Math.PI * (votingPower / 100);
@@ -515,7 +531,7 @@ export default class Header extends PureComponent {
 
         return (
             <Fragment>
-                <MobileAccountBlock to={`/@${currentAccountName}`} mobile={isMobile ? 1 : 0}>
+                <MobileAccountBlock to={`/@${currentAccountName}`} mobile={isPadScreen ? 1 : 0}>
                     <MobileAccountContainer innerRef={this.accountRef}>
                         <PowerCircle>
                             <svg viewBox="-1 -1 2 2">
@@ -537,23 +553,23 @@ export default class Header extends PureComponent {
 
     render() {
         const { currentAccountName, getNotificationsOnlineHistory } = this.props;
-        const { isMobile, isMenuOpen, isNotificationsOpen, waitAuth } = this.state;
+        const { isMenuOpen, isNotificationsOpen, waitAuth, isPadScreen, isMobile } = this.state;
 
         return (
             <Root>
-                <Fixed mobile={isMobile ? 1 : 0}>
+                <Fixed mobile={isPadScreen ? 1 : 0}>
                     <Content>
                         <LogoLink to="/">
                             <LogoIcon name="logo" />
-                            {isMobile ? null : (
+                            {isPadScreen ? null : (
                                 <LogoTextBlock>
                                     <LogoTitle>GOLOS</LogoTitle>
                                     <LogoSub>beta</LogoSub>
                                 </LogoTextBlock>
                             )}
                         </LogoLink>
-                        <SearchBlock href="/static/search.html" mobile={isMobile ? 1 : 0}>
-                            {isMobile ? <FlexFiller /> : <SearchInput />}
+                        <SearchBlock href="/static/search.html" mobile={isPadScreen ? 1 : 0}>
+                            {isPadScreen ? <FlexFiller /> : <SearchInput />}
                             <SearchIcon name="search" />
                         </SearchBlock>
                         {currentAccountName ? (
@@ -568,18 +584,10 @@ export default class Header extends PureComponent {
                                 </LoginLink>
                             </Buttons>
                         )}
-                        <DotsWrapper
-                            innerRef={this.dotsRef}
-                            active={isMenuOpen}
-                            mobile={isMobile ? 1 : 0}
-                            onClick={this.onMenuToggle}
-                        >
-                            <Dots name="dots" />
-                        </DotsWrapper>
                     </Content>
                     {isNotificationsOpen ? (
-                        <AdaptivePopover
-                            isMobile={isMobile}
+                        <Popover
+                            notificationMobile={isMobile}
                             target={this.noticationsRef.current}
                             onClose={this.onNotificationsMenuToggle}
                         >
@@ -587,12 +595,13 @@ export default class Header extends PureComponent {
                                 params={{ accountName: currentAccountName }}
                                 getNotificationsOnlineHistory={getNotificationsOnlineHistory}
                                 onClose={this.onNotificationsMenuToggle}
+                                isMobile={isMobile}
                             />
-                        </AdaptivePopover>
+                        </Popover>
                     ) : null}
                     {isMenuOpen ? (
-                        <AdaptivePopover
-                            isMobile={isMobile}
+                        <Popover
+                            menuMobile={isPadScreen}
                             target={this.dotsRef.current}
                             onClose={this.onMenuToggle}
                         >
@@ -601,10 +610,10 @@ export default class Header extends PureComponent {
                                 accountName={currentAccountName}
                                 onLogoutClick={this.onLogoutClick}
                             />
-                        </AdaptivePopover>
+                        </Popover>
                     ) : null}
                 </Fixed>
-                {isMobile ? null : <Filler />}
+                {isPadScreen ? null : <Filler />}
             </Root>
         );
     }

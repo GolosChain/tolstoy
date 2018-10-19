@@ -1,68 +1,110 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, createRef } from 'react';
+import PropTypes from 'prop-types';
 import throttle from 'lodash/throttle';
 import styled from 'styled-components';
+import is from 'styled-is';
 
 const POPOVER_OFFSET = 14;
+const HALF_ARROW_WIDTH = 11;
 
 const Root = styled.div`
     position: absolute;
     top: 60px;
+    z-index: 2;
+
     border-radius: 8px;
     background: #fff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
-    z-index: 2;
     animation: fade-in 0.15s;
+
+    ${is('notificationMobile')`
+        top: 56px;
+        
+        width: 100%;
+        
+        border-radius: 0;
+    `};
 `;
 
 const Content = styled.div`
     position: relative;
     z-index: 1;
-    
+
     min-width: 180px;
 `;
 
+const Arrow = styled.div`
+    position: absolute;
+
+    margin-top: -${HALF_ARROW_WIDTH * 2}px;
+
+    border: ${HALF_ARROW_WIDTH}px solid transparent;
+    border-bottom-color: #f5f5f5;
+`;
+
 export default class Popover extends PureComponent {
-    state = {
-        right: this._calcRight(),
+    static propTypes = {
+        notificationMobile: PropTypes.bool,
+        menuMobile: PropTypes.bool,
+        onClose: PropTypes.func.isRequired,
     };
 
+    state = {
+        right: this.calcRight(),
+    };
+
+    root = createRef();
+
     componentDidMount() {
-        window.addEventListener('mousedown', this._onAwayClick);
-        window.addEventListener('click', this._onAwayClick);
-        window.addEventListener('resize', this._onResizeLazy);
+        window.addEventListener('mousedown', this.onAwayClick);
+        window.addEventListener('click', this.onAwayClick);
+        window.addEventListener('resize', this.onResizeLazy);
     }
 
     componentWillUnmount() {
-        window.removeEventListener('mousedown', this._onAwayClick);
-        window.removeEventListener('click', this._onAwayClick);
-        window.removeEventListener('resize', this._onResizeLazy);
-        this._onResizeLazy.cancel();
+        window.removeEventListener('mousedown', this.onAwayClick);
+        window.removeEventListener('click', this.onAwayClick);
+        window.removeEventListener('resize', this.onResizeLazy);
+        this.onResizeLazy.cancel();
     }
 
     render() {
-        const { children } = this.props;
+        const { children, menuMobile, notificationMobile } = this.props;
         const { right } = this.state;
 
+        let popoverRight = right;
+        if (menuMobile || notificationMobile) {
+            popoverRight = 0;
+        }
+
         return (
-            <Root innerRef={this._onRef} style={{ right }}>
+            <Root
+                innerRef={this.root}
+                style={{ right: popoverRight }}
+                menuMobile={menuMobile}
+                notificationMobile={notificationMobile}
+            >
+                {notificationMobile && (
+                    <Arrow style={{ right: right + (POPOVER_OFFSET - HALF_ARROW_WIDTH) }} />
+                )}
                 <Content>{children}</Content>
             </Root>
         );
     }
 
-    _onRef = el => {
-        this._root = el;
-    };
-
-    _onAwayClick = e => {
+    onAwayClick = e => {
         const { target } = this.props;
 
-        if (this._root && !this._root.contains(e.target) && !target.contains(e.target)) {
+        if (
+            this.root.current &&
+            !this.root.current.contains(e.target) &&
+            !target.contains(e.target)
+        ) {
             this.props.onClose();
         }
     };
 
-    _calcRight() {
+    calcRight() {
         const { target } = this.props;
 
         if (!target) {
@@ -73,11 +115,14 @@ export default class Popover extends PureComponent {
         return document.body.clientWidth - Math.round(box.left + box.width / 2) - POPOVER_OFFSET;
     }
 
-    _onResize = () => {
+    onResize = () => {
+        const { menuMobile, notificationMobile } = this.props;
+        if (menuMobile || notificationMobile) return;
+
         this.setState({
-            right: this._calcRight(),
+            right: this.calcRight(),
         });
     };
 
-    _onResizeLazy = throttle(this._onResize, 50);
+    onResizeLazy = throttle(this.onResize, 50);
 }
