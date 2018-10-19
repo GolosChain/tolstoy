@@ -3,7 +3,6 @@ import { createSelector } from 'reselect';
 
 import PostsList from './PostsList';
 import { favoritesLoadNextPageAction } from 'src/app/redux/actions/favorites';
-import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';
 import { dataSelector, uiSelector } from 'src/app/redux/selectors/common';
 
 export default connect(
@@ -22,24 +21,6 @@ export default connect(
     dispatch => ({
         loadMore() {
             dispatch(favoritesLoadNextPageAction());
-        },
-        loadContent(permLink) {
-            return new Promise((resolve, reject) => {
-                const [author, permlink] = permLink.split('/');
-
-                dispatch({
-                    type: 'GET_CONTENT',
-                    payload: {
-                        author,
-                        permlink,
-                        resolve,
-                        reject,
-                    },
-                });
-            });
-        },
-        fetchState() {
-            dispatch(fetchCurrentStateAction());
         },
     })
 )(PostsList);

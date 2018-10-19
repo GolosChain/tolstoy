@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import PostsList from './PostsList';
-import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';
 
 export default connect(
     (state, props) => {
@@ -13,24 +12,6 @@ export default connect(
     dispatch => ({
         loadMore(params) {
             dispatch({ type: 'REQUEST_DATA', payload: params });
-        },
-        loadContent(permLink) {
-            return new Promise((resolve, reject) => {
-                const [author, permlink] = permLink.split('/');
-
-                dispatch({
-                    type: 'GET_CONTENT',
-                    payload: {
-                        author,
-                        permlink,
-                        resolve,
-                        reject,
-                    },
-                });
-            });
-        },
-        fetchState() {
-            dispatch(fetchCurrentStateAction());
         },
     })
 )(PostsList);
