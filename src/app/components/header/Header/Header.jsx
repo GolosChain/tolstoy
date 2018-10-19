@@ -391,7 +391,7 @@ export default class Header extends PureComponent {
                     <NewPostLink to="/submit">
                         <NewPostButton>
                             <NewPostIcon name="new-post" />
-                            Добавить пост
+                            {tt('g.create_post')}
                         </NewPostButton>
                     </NewPostLink>
                 )}
@@ -417,11 +417,11 @@ export default class Header extends PureComponent {
                     <AccountText>
                         <AccountName>{currentAccountName}</AccountName>
                         <AccountPowerBlock>
-                            <AccountPowerLabel>Сила Голоса:</AccountPowerLabel>
+                            <AccountPowerLabel>{tt('token_names.VESTING_TOKEN')}:</AccountPowerLabel>
                             <AccountPowerValue>{powerPercent}%</AccountPowerValue>
                         </AccountPowerBlock>
                     </AccountText>
-                    <AccountPowerBar title={`Сила голоса: ${powerPercent}%`}>
+                    <AccountPowerBar title={`${tt('token_names.VESTING_TOKEN')}: ${powerPercent}%`}>
                         <AccountPowerChunk fill={votingPower > 90 ? 1 : 0} />
                         <AccountPowerChunk fill={votingPower > 70 ? 1 : 0} />
                         <AccountPowerChunk fill={votingPower > 50 ? 1 : 0} />
