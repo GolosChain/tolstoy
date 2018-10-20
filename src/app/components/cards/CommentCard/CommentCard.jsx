@@ -15,6 +15,7 @@ import CommentFooter from '../CommentFooter';
 import CardAuthor from '../CardAuthor';
 import EditButton from '../EditButton';
 import ReLink from '../ReLink';
+import MarkdownViewer from 'app/components/cards/MarkdownViewer';
 
 const Header = styled.div`
     padding: 12px 0 8px 0;
@@ -67,7 +68,7 @@ const Title = styled.div`
     margin-bottom: 8px;
 `;
 
-const PostBody = styled(({ isPostPage, ...otherProps }) => <Link {...otherProps} />)`
+const CommentBody = styled(Link)`
     display: block;
 
     margin-right: 18px;
@@ -75,14 +76,14 @@ const PostBody = styled(({ isPostPage, ...otherProps }) => <Link {...otherProps}
     font-family: ${a => a.theme.fontFamily};
     color: #959595 !important;
 
-    ${is('isPostPage')`
+    ${is('shortText')`
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     `};
 `;
 
-const PostBodyWrapper = styled.div`
+const CommentBodyWrapper = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -145,9 +146,11 @@ export class CommentCard extends PureComponent {
         extractedContent: PropTypes.shape({
             link: PropTypes.string,
             desc: PropTypes.string,
+            body: PropTypes.string,
         }),
         isOwner: PropTypes.bool.isRequired,
         username: PropTypes.string,
+        payout: PropTypes.number,
     };
 
     state = {
@@ -188,11 +191,11 @@ export class CommentCard extends PureComponent {
                 <HeaderLine>
                     <CardAuthor author={comment.get('author')} created={comment.get('created')} />
                     {collapsed && (
-                        <PostBody
+                        <CommentBody
                             to={extractedContent.link}
                             onClick={this.rememberScrollPosition}
                             dangerouslySetInnerHTML={{ __html: extractedContent.desc }}
-                            isPostPage={isPostPage}
+                            shortText
                         />
                     )}
                     <EmptyCloseOpenButton />
@@ -247,7 +250,7 @@ export class CommentCard extends PureComponent {
     }
 
     renderBodyText() {
-        const { extractedContent, comment, isOwner, isPostPage } = this.props;
+        const { extractedContent, comment, isOwner, isPostPage, payout } = this.props;
         const { edit } = this.state;
 
         return (
@@ -264,14 +267,21 @@ export class CommentCard extends PureComponent {
                         onCancel={this.onEditDone}
                     />
                 ) : (
-                    <PostBodyWrapper>
-                        <PostBody
+                    <CommentBodyWrapper>
+                        <CommentBody
                             to={extractedContent.link}
                             onClick={this.rememberScrollPosition}
-                            dangerouslySetInnerHTML={{ __html: extractedContent.desc }}
-                        />
+                        >
+                            <MarkdownViewer
+                                text={extractedContent.body}
+                                jsonMetadata={comment.get('json_metadata')}
+                                highQualityPost={payout > 10}
+                                noImage={!comment.getIn(['stats', 'pictures'])}
+                                timeCteated={new Date(comment.get('created'))}
+                            />
+                        </CommentBody>
                         {isOwner && isPostPage && <EditButton onEditClick={this.onEditClick} />}
-                    </PostBodyWrapper>
+                    </CommentBodyWrapper>
                 )}
             </Fragment>
         );

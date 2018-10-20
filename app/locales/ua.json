@@ -174,6 +174,7 @@
     "connection_lost_reconnecting": "Зв'язок втрачений, перепідключення",
     "continue": "продовжити",
     "convert": "Конвертувати",
+    "create_post": "Додати пост",
     "created": "Cпочатку нові",
     "cryptography_test_failed": "Криптографічний тест провалений",
     "curation_rewards": "Кураторські винагороди",
@@ -196,6 +197,10 @@
     "follow": "Підписатися",
     "for": " для ",
     "from": " від ",
+    "gender": {
+      "female": "Жіноча",
+      "male": "Чоловіча\n"
+    },
     "generated_password": "Згенерований пароль",
     "golos_fest": "Новости Golos.io",
     "hide": "Приховати",
@@ -755,6 +760,31 @@
     "withdraw_funds_after_the_required_3_day_waiting_period": "Зняти кошти після необхідного 3-х денного періоду очікування."
   },
   "user_profile": {
+    "account_summary": {
+      "title": "Коротка інформація",
+      "followers": "Підписники",
+      "following": "Підписок",
+      "post_count": "Постів",
+      "reputation": "Рейтинг",
+      "gender": "Стать",
+      "registered": "На Golos з",
+      "about": "Про себе"
+    },
+    "actions": {
+      "buy_or_sell": "Купити або Продати",
+      "transfer": "Передати",
+      "transfer_to_savings": "Зняти/перевести в сейф",
+      "delegate_vesting_shares": "Делегувати Силу Голосу",
+      "convert": "Конвертувати"
+    },
+    "account_tokens": {
+      "title": "Вартість аккаунта",
+      "tokens": {
+        "wallet": "Свої",
+        "savings": "Сейф",
+        "delegated": "Делеговані"
+      }
+    },
     "explore_APP_NAME": "Дослідити %(APP_NAME)s",
     "follower_count": {
       "one": "1 підписник",
@@ -813,7 +843,7 @@
     "sign": "Увійти",
     "this_memo_is_private": "Ця замітка є приватною",
     "this_memo_is_public": "Ця замітка є публічною",
-    "transfer": "Передатм",
+    "transfer": "Передати",
     "transfer_to_account": "Передати користувачу",
     "trending_24_hour": "популярне (24 години)"
   },
