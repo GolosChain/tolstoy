@@ -1,7 +1,8 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
+import { SUPPORT_EMAIL_2 } from 'app/client_config';
 import Container from 'src/app/components/common/Container/Container';
 
 const Wrapper = styled(Container).attrs({
@@ -54,19 +55,15 @@ const Image = styled.div`
     }
 `;
 
-export default class Footer extends PureComponent {
-    state = {
-        footer_message: {
-            __html: tt('faq_jsq.footer_message'),
-        },
-    };
+const Footer = () => (
+    <Wrapper>
+        <Text >
+            {tt('faq_jsq.footer_message')}
+            {' '}
+            <a href={`mailto:${SUPPORT_EMAIL_2}`} target='_blank'>{SUPPORT_EMAIL_2}</a>
+        </Text>
+        <Image />
+    </Wrapper>
+);
 
-    render() {
-        return (
-            <Wrapper>
-                <Text dangerouslySetInnerHTML={this.state.footer_message} />
-                <Image />
-            </Wrapper>
-        );
-    }
-}
+export default Footer;

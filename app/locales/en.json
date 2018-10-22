@@ -198,7 +198,7 @@
   },
   "faq_jsq": {
     "email": "email",
-    "footer_message": "Мы никогда не попросим ваши приватные ключи или деньги. Если кто-то представляется членами команды Golos.io и просит такую информацию, напишите нам на почту <a href='mailto:pr@golos.io' target='_blank'>pr@golos.io</a>.",
+    "footer_message": "We will never ask for your private keys or money. If someone appears to be a member of the Golos.io team and asks for such information, please inform us",
     "official_channels": "Official channels",
     "page_description": "There you can find answers on all questions you may be curious about.",
     "page_title": "FAQ",
@@ -758,6 +758,13 @@
       "other": "%(count)s views",
       "zero": "no views"
     }
+  },
+  "post_card": {
+    "add_to_favorites": "Add to favorites",
+    "remove_from_favorites": "Remove from favorites",
+    "pin_post": "Pin post",
+    "unpin_post": "Unpin",
+    "post_pinned": "Pinned post"
   },
   "post_editor": {
     "add_image": "Add image",
