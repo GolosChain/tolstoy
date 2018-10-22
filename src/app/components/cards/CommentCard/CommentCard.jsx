@@ -68,7 +68,7 @@ const Title = styled.div`
     margin-bottom: 8px;
 `;
 
-const CommentBody = styled(Link)`
+const CommentBody = styled(({ shortText, ...otherProps }) => <Link {...otherProps} />)`
     display: block;
 
     margin-right: 18px;
