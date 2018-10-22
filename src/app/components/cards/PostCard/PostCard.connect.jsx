@@ -6,6 +6,7 @@ import transaction from 'app/redux/Transaction';
 import { toggleFavoriteAction } from 'src/app/redux/actions/favorites';
 import { togglePinAction } from 'src/app/redux/actions/pinnedPosts';
 import { getPinnedPosts } from 'src/app/redux/selectors/account/pinnedPosts';
+import { sanitizeCardPostData, sanitizeRepostData } from 'src/app/redux/selectors/post/commonPost';
 import PostCard from './PostCard';
 
 export default connect(
@@ -17,10 +18,24 @@ export default connect(
         if (props.showPinButton) {
             isPinned = getPinnedPosts(state, props.pageAccountName).includes(props.permLink);
         }
+
         const data = state.global.getIn(['content', props.permLink]);
+
+        let repostHtml = null;
+
+        if (props.isRepost) {
+            const body = props.repostData.get('body');
+
+            if (body) {
+                repostHtml = sanitizeRepostData(body);
+            }
+        }
+
         return {
             myAccount: myAccountName,
             data,
+            sanitizedData: sanitizeCardPostData(data),
+            repostHtml,
             isFavorite: state.data.favorites.set
                 ? state.data.favorites.set.includes(props.permLink)
                 : false,

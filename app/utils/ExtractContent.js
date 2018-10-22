@@ -1,8 +1,10 @@
-import remarkableStripper from 'app/utils/RemarkableStripper';
 import sanitize from 'sanitize-html';
+import Remarkable from 'remarkable';
+import memoize from 'lodash/memoize';
+
+import remarkableStripper from 'app/utils/RemarkableStripper';
 import { htmlDecode } from 'app/utils/Html';
 import { getTags } from 'shared/HtmlReady';
-import Remarkable from 'remarkable';
 
 const FIELDS = [
     'author',
@@ -36,6 +38,8 @@ export default function extractContent(_data) {
 
     return data;
 }
+
+export const extractContentMemoized = memoize(extractContent);
 
 export function extractRepost(body) {
     return extractDescBody(body.trim());

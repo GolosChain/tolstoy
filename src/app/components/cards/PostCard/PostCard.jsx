@@ -1,13 +1,11 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 import { Link } from 'react-router';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
 import im from 'immutable';
 
-import extractContent, { extractRepost } from 'app/utils/ExtractContent';
 import { detransliterate } from 'app/utils/ParsersAndFormatters';
 import Icon from 'golos-ui/Icon';
 import { confirmVote } from 'src/app/helpers/votes';
@@ -266,44 +264,25 @@ export default class PostCard extends PureComponent {
     }
 
     render() {
-        const { data, className, isRepost, repostData, grid } = this.props;
-
-        const p = extractContent(data);
-        const withImage = Boolean(p.image_link);
-
-        if (withImage) {
-            p.desc = p.desc.replace(p.image_link, '');
-        }
-
-        let repost = null;
-
-        if (isRepost) {
-            const repostBody = repostData.get('body');
-
-            if (repostBody) {
-                repost = extractRepost(repostBody);
-            }
-        }
+        const {
+            sanitizedData,
+            className,
+            isRepost,
+            repostData,
+            sanitizedRepost,
+            grid,
+        } = this.props;
 
         return (
-            <Root
-                className={cn(
-                    {
-                        PostCard_image: withImage,
-                        PostCard_grid: grid,
-                    },
-                    className
-                )}
-                grid={grid}
-            >
-                {this._renderHeader(withImage, p)}
-                {this.renderBody(withImage, p, repost)}
-                {this.renderFooter(withImage, p)}
+            <Root className={className} grid={grid}>
+                {this.renderHeader()}
+                {this.renderBody()}
+                {this.renderFooter()}
             </Root>
         );
     }
 
-    _renderHeader(withImage, p) {
+    renderHeader() {
         const { data, isRepost, repostData, grid } = this.props;
 
         const category = detransliterate(data.get('category'));
@@ -332,9 +311,9 @@ export default class PostCard extends PureComponent {
                     <Filler />
                     {grid ? null : <Category>{category}</Category>}
                     <Toolbar>
-                        {this.renderEditButton(withImage, p.link)}
-                        {this.renderPinButton(withImage)}
-                        {this.renderFavoriteButton(withImage)}
+                        {this.renderEditButton()}
+                        {this.renderPinButton()}
+                        {this.renderFavoriteButton()}
                     </Toolbar>
                 </HeaderLine>
                 {grid ? (
@@ -347,14 +326,14 @@ export default class PostCard extends PureComponent {
         );
     }
 
-    renderEditButton(withImage, link) {
-        const { isOwner, grid, showPinButton } = this.props;
+    renderEditButton() {
+        const { isOwner, grid, sanitizedData, showPinButton } = this.props;
 
         if (showPinButton && isOwner) {
             return (
-                <ToolbarActionLink to={`${link}/edit`}>
+                <ToolbarActionLink to={`${sanitizedData.link}/edit`}>
                     <IconWrapper
-                        color={withImage && !grid ? '#fff' : ''}
+                        color={sanitizedData.image_link && !grid ? '#fff' : ''}
                         enabled
                         data-tooltip={tt('g.edit')}
                     >
@@ -365,8 +344,8 @@ export default class PostCard extends PureComponent {
         }
     }
 
-    renderPinButton(withImage) {
-        const { data, myAccount, grid, showPinButton, isPinned, pinDisabled } = this.props;
+    renderPinButton() {
+        const { data, myAccount, showPinButton, isPinned, pinDisabled } = this.props;
 
         const showPin =
             showPinButton && myAccount === data.get('author') && (!pinDisabled || isPinned);
@@ -394,7 +373,6 @@ export default class PostCard extends PureComponent {
         return (
             <ToolbarAction>
                 <IconWrapper
-                    color={isPinned ? '#3684ff' : withImage && !grid ? '#fff' : ''}
                     enabled={!pinDisabled}
                     data-tooltip={pinTip}
                     onClick={!pinDisabled ? this._onPinClick : null}
@@ -405,13 +383,17 @@ export default class PostCard extends PureComponent {
         );
     }
 
-    renderFavoriteButton(withImage) {
-        const { isOwner, grid, isFavorite } = this.props;
+    renderFavoriteButton() {
+        const { isOwner, grid, isFavorite, sanitizedData } = this.props;
 
-        return isOwner ? null : (
+        if (isOwner) {
+            return null;
+        }
+
+        return (
             <ToolbarAction>
                 <IconWrapper
-                    color={withImage && !grid ? '#fff' : ''}
+                    color={sanitizedData.image_link && !grid ? '#fff' : ''}
                     data-tooltip={
                         isFavorite
                             ? tt('post_card.remove_from_favorites')
@@ -426,22 +408,27 @@ export default class PostCard extends PureComponent {
         );
     }
 
-    renderBody(withImage, p, repost) {
-        const { grid } = this.props;
+    renderBody() {
+        const { grid, isRepost, sanitizedData, repostHtml } = this.props;
+        const withImage = sanitizedData.image_link;
 
         return (
             <BodyLink
-                to={p.link}
+                to={sanitizedData.link}
                 half={withImage && !grid ? 1 : 0}
                 grid={grid ? 1 : 0}
                 onClick={this._onClick}
             >
                 <Body>
-                    {repost ? <RepostBody dangerouslySetInnerHTML={{ __html: repost }} /> : null}
-                    <PostTitle>{p.title}</PostTitle>
-                    <PostBody dangerouslySetInnerHTML={{ __html: p.desc }} />
+                    {isRepost && repostHtml ? (
+                        <RepostBody dangerouslySetInnerHTML={repostHtml} />
+                    ) : null}
+                    <PostTitle>{sanitizedData.title}</PostTitle>
+                    <PostBody dangerouslySetInnerHTML={sanitizedData.html} />
                 </Body>
-                {withImage ? <PostImage grid={grid} src={this._getImageSrc(p.image_link)} /> : null}
+                {withImage ? (
+                    <PostImage grid={grid} src={this._getImageSrc(sanitizedData.image_link)} />
+                ) : null}
             </BodyLink>
         );
     }
@@ -456,8 +443,9 @@ export default class PostCard extends PureComponent {
         }
     }
 
-    renderFooter(withImage, p) {
-        const { data, myAccount, grid } = this.props;
+    renderFooter() {
+        const { data, myAccount, sanitizedData, grid } = this.props;
+        const withImage = Boolean(sanitizedData.image_link);
 
         return (
             <Footer grid={grid}>
@@ -473,7 +461,7 @@ export default class PostCard extends PureComponent {
                     withImage={withImage}
                     grid={grid}
                     count={data.get('children')}
-                    link={p.link}
+                    link={sanitizedData.link}
                     text={tt('g.reply')}
                 />
             </Footer>

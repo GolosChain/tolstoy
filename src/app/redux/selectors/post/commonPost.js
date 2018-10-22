@@ -1,4 +1,5 @@
 import { Map, List } from 'immutable';
+import memoize from 'lodash/memoize';
 import { createSelector } from 'reselect';
 import {
     createDeepEqualSelector,
@@ -12,6 +13,7 @@ import { extractPinnedPosts } from 'src/app/redux/selectors/account/pinnedPosts'
 import { detransliterate, parsePayoutAmount } from 'app/utils/ParsersAndFormatters';
 import normalizeProfile from 'app/utils/NormalizeProfile';
 import { calcVotesStats } from 'app/utils/StateFunctions';
+import { extractContentMemoized, extractRepost } from 'app/utils/ExtractContent';
 
 const emptyMap = Map();
 const emptyList = List();
@@ -155,3 +157,25 @@ export const commentsSelector = createDeepEqualSelector(
         };
     }
 );
+
+export const sanitizeCardPostData = memoize(data => {
+    const result = extractContentMemoized(data);
+
+    let desc = result.desc;
+
+    if (result.image_link) {
+        desc = desc.replace(result.image_link, '');
+    }
+
+    return {
+        ...result,
+        desc,
+        html: { __html: desc },
+    };
+});
+
+export const sanitizeRepostData = memoize(data => {
+    return {
+        __html: extractRepost(data),
+    };
+});
