@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
 import DialogManager from 'app/components/elements/common/DialogManager';
-import extractContent from 'app/utils/ExtractContent';
 import { PostTitle, PostBody } from 'src/app/components/cards/common';
 import CardAuthor from 'src/app/components/cards/CardAuthor';
 import DialogButton from 'src/app/components/common/DialogButton';
@@ -29,7 +29,7 @@ const CloseIcon = styled(Icon)`
     color: #e1e1e1;
     cursor: pointer;
     transition: color 0.15s;
-    
+
     &:hover {
         color: #999;
     }
@@ -97,6 +97,14 @@ const Footer = styled.div`
 `;
 
 export default class RepostDialog extends Component {
+    static propTypes = {
+        myAccountName: PropTypes.string.isRequired,
+        postLink: PropTypes.string.isRequired,
+        sanitizedPost: PropTypes.object.isRequired,
+        onClose: PropTypes.func.isRequired,
+        showNotification: PropTypes.func.isRequired,
+    };
+
     state = {
         text: '',
     };
@@ -155,10 +163,8 @@ export default class RepostDialog extends Component {
     };
 
     render() {
-        const { post } = this.props;
+        const { sanitizedPost } = this.props;
         const { text } = this.state;
-
-        const p = extractContent(post);
 
         return (
             <Root>
@@ -180,9 +186,13 @@ export default class RepostDialog extends Component {
                     />
                 </InputWrapper>
                 <PostPreview>
-                    <CardAuthorStyled author={p.author} created={p.created} noLinks />
-                    <PostTitle>{p.title}</PostTitle>
-                    <PostBody dangerouslySetInnerHTML={{ __html: p.desc }} />
+                    <CardAuthorStyled
+                        author={sanitizedPost.author}
+                        created={sanitizedPost.created}
+                        noLinks
+                    />
+                    <PostTitle>{sanitizedPost.title}</PostTitle>
+                    <PostBody dangerouslySetInnerHTML={sanitizedPost.html} />
                 </PostPreview>
                 <Footer>
                     <DialogButton text={tt('g.cancel')} onClick={this.onCancelClick} />
