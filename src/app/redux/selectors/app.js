@@ -6,7 +6,7 @@ import {
 
 // App selectors
 
-const newVisitorSelector = createDeepEqualSelector(
+export const newVisitorSelector = createDeepEqualSelector(
     [state => state.user, state => state.offchain],
     (user, offchain) =>
         !user.get('current') &&
