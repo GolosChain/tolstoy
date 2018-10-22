@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { Map } from 'immutable';
 
 import normalizeProfile from 'app/utils/NormalizeProfile';
 
@@ -12,19 +11,18 @@ import { statusSelector } from 'src/app/redux/selectors/common';
 
 import Header from './Header';
 
-const emptyMap = Map();
-
 export default connect(
     state => {
         const currentUsername = state.user.getIn(['current', 'username']);
 
-        let votingPower = null,
-            realName = null;
+        let votingPower = null;
+        let realName = null;
 
         if (currentUsername) {
             votingPower = state.global.getIn(['accounts', currentUsername, 'voting_power']) / 100;
 
-            const jsonMetadata = state.global.getIn(['accounts', currentUsername, 'json_metadata'], emptyMap);
+            const jsonMetadata = state.global.getIn(['accounts', currentUsername, 'json_metadata']);
+
             const jsonData = normalizeProfile({
                 json_metadata: jsonMetadata,
                 name: currentUsername,

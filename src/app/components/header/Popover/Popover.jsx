@@ -19,9 +19,7 @@ const Root = styled.div`
 
     ${is('notificationMobile')`
         top: 56px;
-        
         width: 100%;
-        
         border-radius: 0;
     `};
 `;
@@ -113,11 +111,13 @@ export default class Popover extends PureComponent {
 
         const box = target.getBoundingClientRect();
         return document.body.clientWidth - Math.round(box.left + box.width / 2) - POPOVER_OFFSET;
-    }
+    };
 
     onResize = () => {
         const { menuMobile, notificationMobile } = this.props;
-        if (menuMobile || notificationMobile) return;
+        if (menuMobile || notificationMobile) {
+            return;
+        }
 
         this.setState({
             right: this.calcRight(),
