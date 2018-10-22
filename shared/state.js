@@ -86,9 +86,9 @@ export function dataToBlogItem(post) {
         author,
         permlink,
         postLink,
-        isRepost,
         repostData: isRepost
             ? {
+                  isRepost: true,
                   repostAuthor: post.reblog_author || post.blog,
                   date: repostDate,
                   title: post.reblog_title,

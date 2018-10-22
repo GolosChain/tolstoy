@@ -22,12 +22,17 @@ export default connect(
         const data = state.global.getIn(['content', props.permLink]);
 
         let repostHtml = null;
+        let isRepost = false;
 
-        if (props.isRepost) {
-            const body = props.repostData.get('body');
+        if (props.additionalData) {
+            if (props.additionalData.get('isRepost')) {
+                isRepost = true;
 
-            if (body) {
-                repostHtml = sanitizeRepostData(body);
+                const body = props.additionalData.get('body');
+
+                if (body) {
+                    repostHtml = sanitizeRepostData(body);
+                }
             }
         }
 
@@ -35,6 +40,7 @@ export default connect(
             myAccount: myAccountName,
             data,
             sanitizedData: sanitizeCardPostData(data),
+            isRepost,
             repostHtml,
             isFavorite: state.data.favorites.set
                 ? state.data.favorites.set.includes(props.permLink)

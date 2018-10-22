@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
-import im from 'immutable';
+import Immutable from 'immutable';
 
 import { detransliterate } from 'app/utils/ParsersAndFormatters';
 import Icon from 'golos-ui/Icon';
@@ -220,7 +220,7 @@ export default class PostCard extends PureComponent {
         pinDisabled: PropTypes.bool,
         isPinned: PropTypes.bool,
         isRepost: PropTypes.bool,
-        repostData: PropTypes.instanceOf(im.Map),
+        additionalData: PropTypes.instanceOf(Immutable.Map),
         onClick: PropTypes.func,
     };
 
@@ -264,14 +264,7 @@ export default class PostCard extends PureComponent {
     }
 
     render() {
-        const {
-            sanitizedData,
-            className,
-            isRepost,
-            repostData,
-            sanitizedRepost,
-            grid,
-        } = this.props;
+        const { className, grid } = this.props;
 
         return (
             <Root className={className} grid={grid}>
@@ -283,7 +276,7 @@ export default class PostCard extends PureComponent {
     }
 
     renderHeader() {
-        const { data, isRepost, repostData, grid } = this.props;
+        const { data, isRepost, additionalData, grid } = this.props;
 
         const category = detransliterate(data.get('category'));
         let author;
@@ -291,8 +284,8 @@ export default class PostCard extends PureComponent {
         let created;
 
         if (isRepost) {
-            author = repostData.get('repostAuthor');
-            created = repostData.get('date');
+            author = additionalData.get('repostAuthor');
+            created = additionalData.get('date');
             originalAuthor = data.get('author');
         } else {
             author = data.get('author');

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { List } from 'immutable';
+import Immutable, { List } from 'immutable';
 import throttle from 'lodash/throttle';
 import styled from 'styled-components';
 import is from 'styled-is';
@@ -155,7 +155,7 @@ export default class PostsList extends PureComponent {
             }
 
             const lastPost = this.props.posts.last();
-            const postLink = lastPost.asImmutable ? lastPost.get('postLink') : lastPost;
+            const postLink = typeof lastPost === 'string' ? lastPost : lastPost.get('postLink');
 
             const [author, permlink] = postLink.split('/');
 
@@ -218,23 +218,20 @@ export default class PostsList extends PureComponent {
         const EntryComponent = isPosts ? PostCard : CommentCard;
 
         let permLink;
-        let isRepost = false;
-        let repostData = null;
+        let additionalData = null;
 
-        if (data.asImmutable && isPosts) {
-            permLink = data.get('postLink');
-            isRepost = data.get('isRepost');
-            repostData = data.get('repostData');
-        } else {
+        if (typeof data === 'string') {
             permLink = data;
+        } else {
+            permLink = data.get('postLink');
+            additionalData = data.get('repostData');
         }
 
         return (
             <EntryWrapper key={permLink} grid={isGrid}>
                 <EntryComponent
                     permLink={permLink}
-                    isRepost={isRepost}
-                    repostData={repostData}
+                    additionalData={additionalData}
                     grid={isGrid}
                     allowInlineReply={allowInlineReply}
                     pageAccountName={pageAccountName}
