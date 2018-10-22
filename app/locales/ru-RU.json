@@ -524,6 +524,9 @@
     "terms_of_service_section": "",
     "unavailable": "Пользователь заблокирован"
   },
+  "link_to": {
+    "telegram": "//t.me/golos_support"
+  },
   "loginform_jsx": {
     "active_or_owner": "активный или владельца",
     "amazing_community": "удивительное сообщество",
@@ -653,6 +656,7 @@
     "sell_LIQUID_TOKEN": "Продать %(LIQUID_TOKEN)s",
     "sign_up": "СОЗДАТЬ АККАУНТ",
     "stolen_account_recovery": "Возврат украденного аккаунта",
+    "technical_support": "Техподдержка",
     "telegram_support": "%(APP_NAME_UP)s Техподдержка",
     "terms_of_service": "Условия использования",
     "vote_for_witnesses": "Проголосовать за делегатов",

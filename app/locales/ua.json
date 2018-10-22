@@ -516,6 +516,7 @@
     "sell_LIQUID_TOKEN": "Продати %(LIQUID_TOKEN)s",
     "sign_up": "Реєстрація",
     "stolen_account_recovery": "Повернення вкраденого акаунта",
+    "technical_support": "Техпідтримка",
     "telegram_support": "%(APP_NAME_UP)s Техпідтримка",
     "terms_of_service": "Умови користування",
     "vote_for_witnesses": "Проголосувати за делегатів",

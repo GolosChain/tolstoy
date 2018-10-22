@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Link } from 'react-router';
 import styled from 'styled-components';
+import is from 'styled-is';
 import { List, Map } from 'immutable';
 import tt from 'counterpart';
 
@@ -16,6 +17,12 @@ const NOTIFICATIONS_PER_PAGE = 5;
 
 const Wrapper = styled.div`
     width: 370px;
+    
+    ${is('mobile')`
+        width: auto;
+        
+        box-shadow: inset 0 0 18px 4px rgba(0, 0, 0, 0.05);
+    `}
 `;
 
 const WrapperActivity = styled.div`
@@ -77,11 +84,12 @@ export default class NotificationsMenu extends PureComponent {
             isFetching,
             notifications,
             accounts,
+            isMobile,
             params: { accountName },
         } = this.props;
 
         return (
-            <Wrapper>
+            <Wrapper mobile={isMobile}>
                 <WrapperActivity>
                     {isFetching ? (
                         <WrapperLoader>

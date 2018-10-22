@@ -519,6 +519,9 @@
     "terms_of_service_section": ", section 5.5.7",
     "unavailable": "User is blocked"
   },
+  "link_to": {
+    "telegram": "//t.me/golos_eng"
+  },
   "loginform_jsx": {
     "active_or_owner": "Active or Owner",
     "amazing_community": "amazing community",
@@ -647,6 +650,7 @@
     "sell_LIQUID_TOKEN": "Sell %(LIQUID_TOKEN)s",
     "sign_up": "Sign Up",
     "stolen_account_recovery": "Stolen Accounts Recovery",
+    "technical_support": "Support",
     "telegram_support": "%(APP_NAME_UP)s Support",
     "terms_of_service": "Terms of Service",
     "vote_for_witnesses": "Vote for Witnesses",
