@@ -270,6 +270,7 @@
     "connection_lost_reconnecting": "Connection lost, reconnecting",
     "continue": "continue",
     "convert": "Convert",
+    "create_post": "Create post",
     "created": "New First",
     "cryptography_test_failed": "Cryptography test failed",
     "curation_rewards": "Curation rewards",
@@ -1056,7 +1057,7 @@
     "tradeable_tokens_that_may_be_transferred_anywhere_at_anytime": "Tradeable tokens that may be transferred anywhere at anytime."
   },
   "token_names": {
-    "DEBT_TOKEN": "GOLD BACKED GOLOS",
+    "DEBT_TOKEN": "Gold Backed Golos",
     "DEBT_TOKENS": "GOLD BACKED GOLOS",
     "LIQUID_TOKEN": "Golos",
     "LIQUID_TOKEN_PLURALIZE": {
@@ -1098,6 +1099,31 @@
     "withdraw_funds_after_the_required_3_day_waiting_period": "Withdraw funds after the required 3 day waiting period."
   },
   "user_profile": {
+    "account_summary": {
+      "title": "Account Summary",
+      "followers": "Followers",
+      "following": "Following",
+      "post_count": "Постов",
+      "reputation": "Reputation",
+      "gender": "Gender",
+      "registered": "Registered on",
+      "about": "About"
+    },
+    "actions": {
+      "buy_or_sell": "Buy or Sell",
+      "transfer": "Transfer",
+      "transfer_to_savings": "Transfer to savings",
+      "delegate_vesting_shares": "Delegate Golos Power",
+      "convert": "Convert"
+    },
+    "account_tokens": {
+      "title": "Account Value",
+      "tokens": {
+        "wallet": "Wallet",
+        "savings": "Savings",
+        "delegated": "Delegated"
+      }
+    },
     "change_cover": "Change cover",
     "explore_APP_NAME": "Explore %(APP_NAME)s",
     "follower_count": {

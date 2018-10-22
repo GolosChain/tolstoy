@@ -448,7 +448,7 @@ export default class Header extends PureComponent {
                     <NewPostLink to="/submit">
                         <NewPostButton>
                             <NewPostIcon name="new-post" />
-                            Добавить пост
+                            {tt('g.create_post')}
                         </NewPostButton>
                     </NewPostLink>
                 )}

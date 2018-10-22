@@ -23,6 +23,9 @@ export default connect(
             }
             const extractedContent = extractContent(immutableAccessor, comment);
             const isOwner = username === comment.get('author');
+            const payout =
+                parseFloat(comment.get('pending_payout_value')) +
+                parseFloat(comment.get('total_payout_value'));
 
             let fullParentURL = extractedContent.link;
             let title = extractedContent.title;
@@ -41,6 +44,7 @@ export default connect(
                 extractedContent,
                 isOwner,
                 username,
+                payout,
                 dataLoaded: true,
             };
         }

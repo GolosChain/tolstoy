@@ -165,8 +165,6 @@ export class PostContent extends Component {
             isPromoted,
         } = this.props;
 
-        const formId = `postFull-${permLink}`;
-
         return (
             <Preview>
                 <Body>
@@ -183,7 +181,6 @@ export class PostContent extends Component {
                     <PostTitle>{title}</PostTitle>
                     <PostBody>
                         <MarkdownViewer
-                            formId={formId + '-viewer'}
                             text={body}
                             jsonMetadata={jsonMetadata}
                             large

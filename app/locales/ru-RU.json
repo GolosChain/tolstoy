@@ -272,6 +272,7 @@
     "connection_lost_reconnecting": "Связь потеряна, переподключаемся",
     "continue": "продолжить",
     "convert": "Конвертировать",
+    "create_post": "Добавить пост",
     "created": "Сначала новые",
     "cryptography_test_failed": "Криптографический тест провален",
     "curation_rewards": "Кураторские награды",
@@ -1105,6 +1106,31 @@
     "withdraw_funds_after_the_required_3_day_waiting_period": "Снять средства после необходимого 3-х дневного периода ожидания."
   },
   "user_profile": {
+    "account_summary": {
+      "title": "Краткая информация",
+      "followers": "Подписчиков",
+      "following": "Подписок",
+      "post_count": "Постов",
+      "reputation": "Рейтинг",
+      "gender": "Пол",
+      "registered": "На Golos с",
+      "about": "О себе"
+    },
+    "actions": {
+      "buy_or_sell": "Купить или Продать",
+      "transfer": "Передать",
+      "withdraw_ransfer_to_savings": "Вывести/перевести в сейф",
+      "delegate_vesting_shares": "Делегировать Силу Голоса",
+      "convert": "Конвертировать"
+    },
+    "account_tokens": {
+      "title": "Стоимость аккаунта",
+      "tokens": {
+        "wallet": "Свои",
+        "savings": "Сейф",
+        "delegated": "Делегированные"
+      }
+    },
     "change_cover": "Изменить фон",
     "explore_APP_NAME": "Исследовать %(APP_NAME)s",
     "follower_count": {
