@@ -1,6 +1,8 @@
 import { api } from 'golos-js';
 import { is, clone } from 'ramda';
 
+const DEFAULT_DATE = '1970-01-01T00:00:00';
+
 export async function processBlog(state, { uname, voteLimit }) {
     const blogEntries = await api.getBlogEntriesAsync(uname, 0, 20);
 
@@ -62,10 +64,10 @@ export function dataToBlogItem(post) {
 
     // In Api method getDiscussionsByBlog repost date comes in first_reblogged_on field,
     // but in getBlogEntries repost date comes in field reblog_on.
-    // 1970-01-01T00:00:00 is date default (none) in some methods.
-    const hasReblogDate = Boolean(post.reblog_on) && post.reblog_on !== '1970-01-01T00:00:00';
+    // 1970-01-01T00:00:00 is date default (like null) in some methods.
+    const hasReblogDate = Boolean(post.reblog_on) && post.reblog_on !== DEFAULT_DATE;
     const hasFirstReblogDate =
-        Boolean(post.first_reblogged_on) && post.first_reblogged_on !== '1970-01-01T00:00:00';
+        Boolean(post.first_reblogged_on) && post.first_reblogged_on !== DEFAULT_DATE;
     const isRepost = hasReblogDate || hasFirstReblogDate || Boolean(post.reblog_author);
 
     let repostDate;

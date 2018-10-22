@@ -297,8 +297,8 @@ export default class PostCard extends PureComponent {
                 grid={grid}
             >
                 {this._renderHeader(withImage, p)}
-                {this._renderBody(withImage, p, repost)}
-                {this._renderFooter(withImage, p)}
+                {this.renderBody(withImage, p, repost)}
+                {this.renderFooter(withImage, p)}
             </Root>
         );
     }
@@ -426,7 +426,7 @@ export default class PostCard extends PureComponent {
         );
     }
 
-    _renderBody(withImage, p, repost) {
+    renderBody(withImage, p, repost) {
         const { grid } = this.props;
 
         return (
@@ -456,7 +456,7 @@ export default class PostCard extends PureComponent {
         }
     }
 
-    _renderFooter(withImage, p) {
+    renderFooter(withImage, p) {
         const { data, myAccount, grid } = this.props;
 
         return (
