@@ -374,6 +374,7 @@ function* fetchData(action) {
 
     try {
         const data = yield call([api, api[call_name]], ...args);
+
         yield put(
             GlobalReducer.actions.receiveData({
                 data,

@@ -10,14 +10,16 @@ export async function processBlog(state, { uname, voteLimit }) {
 
     let pinnedPosts = [];
 
-    try {
-        const pinned = JSON.parse(account.json_metadata).pinnedPosts;
+    if (account.json_metadata) {
+        try {
+            const pinned = JSON.parse(account.json_metadata).pinnedPosts;
 
-        if (Array.isArray(pinned) && pinned.every(is(String))) {
-            pinnedPosts = pinned;
+            if (Array.isArray(pinned) && pinned.every(is(String))) {
+                pinnedPosts = pinned;
+            }
+        } catch (err) {
+            console.error(err);
         }
-    } catch (err) {
-        console.error(err);
     }
 
     const pinnedEntries = pinnedPosts.map(link => {
@@ -58,8 +60,25 @@ export function dataToBlogItem(post) {
 
     const postLink = `${author}/${permlink}`;
 
+    // In Api method getDiscussionsByBlog repost date comes in first_reblogged_on field,
+    // but in getBlogEntries repost date comes in field reblog_on.
+    // 1970-01-01T00:00:00 is date default (none) in some methods.
     const hasReblogDate = Boolean(post.reblog_on) && post.reblog_on !== '1970-01-01T00:00:00';
-    const isRepost = hasReblogDate || Boolean(post.reblog_author);
+    const hasFirstReblogDate =
+        Boolean(post.first_reblogged_on) && post.first_reblogged_on !== '1970-01-01T00:00:00';
+    const isRepost = hasReblogDate || hasFirstReblogDate || Boolean(post.reblog_author);
+
+    let repostDate;
+
+    if (isRepost) {
+        if (hasReblogDate) {
+            repostDate = post.reblog_on;
+        } else if (hasFirstReblogDate) {
+            repostDate = post.first_reblogged_on;
+        } else {
+            repostDate = post.created;
+        }
+    }
 
     return {
         author,
@@ -69,7 +88,7 @@ export function dataToBlogItem(post) {
         repostData: isRepost
             ? {
                   repostAuthor: post.reblog_author || post.blog,
-                  date: hasReblogDate ? post.reblog_on : post.created,
+                  date: repostDate,
                   title: post.reblog_title,
                   body: post.reblog_body,
                   metadata: post.reblog_json_metadata ? JSON.parse(post.reblog_json_metadata) : {},
