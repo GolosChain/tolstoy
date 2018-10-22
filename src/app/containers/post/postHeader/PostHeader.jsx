@@ -87,9 +87,10 @@ const FollowRound = styled(Button)`
     }
 `;
 
-const UserInfoWrapper = styled(Link)`
+const UserInfoWrapper = styled.div`
     display: flex;
     align-items: center;
+    cursor: pointer;
 `;
 
 const UserpicStyled = styled(Userpic)`
@@ -175,7 +176,7 @@ export class PostHeader extends Component {
 
         return (
             <Wrapper className={className}>
-                <UserInfoWrapper onClick={this.onUserInfoClick}>
+                <UserInfoWrapper tabIndex="0" onClick={this.onUserInfoClick}>
                     <Avatar>
                         <PopoverBackgroundShade show={showPopover} />
                         <BlockLink to={`/@${author}`} onClick={this.prevent}>
