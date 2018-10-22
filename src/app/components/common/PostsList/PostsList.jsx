@@ -155,7 +155,9 @@ export default class PostsList extends PureComponent {
             }
 
             const lastPost = this.props.posts.last();
-            const [author, permlink] = lastPost.split('/');
+            const postLink = lastPost.asImmutable ? lastPost.get('postLink') : lastPost;
+
+            const [author, permlink] = postLink.split('/');
 
             this.props.loadMore({
                 order,

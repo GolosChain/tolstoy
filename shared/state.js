@@ -49,24 +49,31 @@ export async function processBlog(state, { uname, voteLimit }) {
 
         state.content[postLink] = postData;
 
-        const isRepost = Boolean(post.reblog_on) && post.reblog_on !== '1970-01-01T00:00:00';
-
-        account.blog.push({
-            author,
-            permlink,
-            postLink,
-            isRepost,
-            repostData: isRepost
-                ? {
-                      repostAuthor: post.blog,
-                      date: post.reblog_on,
-                      title: post.reblog_title,
-                      body: post.reblog_body,
-                      metadata: post.reblog_json_metadata
-                          ? JSON.parse(post.reblog_json_metadata)
-                          : {},
-                  }
-                : null,
-        });
+        account.blog.push(dataToBlogItem(post));
     }
+}
+
+export function dataToBlogItem(post) {
+    const { author, permlink } = post;
+
+    const postLink = `${author}/${permlink}`;
+
+    const hasReblogDate = Boolean(post.reblog_on) && post.reblog_on !== '1970-01-01T00:00:00';
+    const isRepost = hasReblogDate || Boolean(post.reblog_author);
+
+    return {
+        author,
+        permlink,
+        postLink,
+        isRepost,
+        repostData: isRepost
+            ? {
+                  repostAuthor: post.reblog_author || post.blog,
+                  date: hasReblogDate ? post.reblog_on : post.created,
+                  title: post.reblog_title,
+                  body: post.reblog_body,
+                  metadata: post.reblog_json_metadata ? JSON.parse(post.reblog_json_metadata) : {},
+              }
+            : null,
+    };
 }

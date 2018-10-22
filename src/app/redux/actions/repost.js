@@ -1,5 +1,4 @@
 import transaction from 'app/redux/Transaction';
-import tt from 'counterpart';
 
 export const repost = ({ myAccountName, author, permLink, comment, onSuccess, onError }) => {
     const json = [
@@ -23,7 +22,6 @@ export const repost = ({ myAccountName, author, permLink, comment, onSuccess, on
             id: 'follow',
             required_posting_auths: [myAccountName],
             json: JSON.stringify(json),
-            __config: { title: tt('g.resteem_this_post') },
         },
         successCallback: onSuccess,
         errorCallback: onError,

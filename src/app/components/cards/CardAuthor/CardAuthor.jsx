@@ -85,7 +85,7 @@ const CardAuthor = ({ author, originalAuthor, created, isRepost, className, noLi
                     {isRepost ? (
                         <Fragment>
                             {' '}
-                            <RepostText>{tt('repost_dialog.repost_on')}</RepostText>{' '}
+                            <RepostText>{tt('post_card.repost_on')}</RepostText>{' '}
                             <AuthorNameComp to={`/@${originalAuthor}`}>
                                 {originalAuthor}
                             </AuthorNameComp>
