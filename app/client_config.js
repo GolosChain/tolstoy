@@ -58,6 +58,7 @@ export const REGISTRATION_URL = 'https://reg.golos.io/';
 
 // various
 export const SUPPORT_EMAIL = 'support@' + APP_DOMAIN
+export const SUPPORT_EMAIL_2 = 'pr@golos.io'
 // ignore special tags, dev-tags, partners tags
 export const IGNORE_TAGS = ['test', 'bm-open', 'bm-ceh23', 'bm-tasks', 'bm-taskceh1']
 export const SELECT_TAGS_KEY = 'gls.select.tags'

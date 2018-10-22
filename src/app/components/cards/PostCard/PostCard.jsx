@@ -4,6 +4,7 @@ import cn from 'classnames';
 import { Link } from 'react-router';
 import styled from 'styled-components';
 import is from 'styled-is';
+import tt from 'counterpart';
 
 import extractContent from 'app/utils/ExtractContent';
 import { immutableAccessor } from 'app/utils/Accessors';
@@ -333,7 +334,7 @@ export default class PostCard extends PureComponent {
                     <IconWrapper
                         color={withImage && !grid ? '#fff' : ''}
                         enabled
-                        data-tooltip="Редактировать"
+                        data-tooltip={tt('g.edit')}
                     >
                         <Icon name="pen" width={23} height={23} />
                     </IconWrapper>
@@ -357,13 +358,13 @@ export default class PostCard extends PureComponent {
         if (showPinButton) {
             if (pinDisabled) {
                 if (isPinned) {
-                    pinTip = 'Пост закреплен';
+                    pinTip = tt('post_card.post_pinned');
                 }
             } else {
                 if (isPinned) {
-                    pinTip = 'Открепить';
+                    pinTip = tt('post_card.unpin_post');
                 } else {
-                    pinTip = 'Закрепить пост';
+                    pinTip = tt('post_card.pin_post');
                 }
             }
         }
@@ -389,7 +390,11 @@ export default class PostCard extends PureComponent {
             <ToolbarAction>
                 <IconWrapper
                     color={withImage && !grid ? '#fff' : ''}
-                    data-tooltip={isFavorite ? 'Убрать из избранного' : 'В избранное'}
+                    data-tooltip={
+                        isFavorite
+                            ? tt('post_card.remove_from_favorites')
+                            : tt('post_card.add_to_favorites')
+                    }
                     enabled
                     onClick={this._onFavoriteClick}
                 >
@@ -446,7 +451,7 @@ export default class PostCard extends PureComponent {
                     grid={grid}
                     count={data.get('children')}
                     link={p.link}
-                    text="Ответить"
+                    text={tt('g.reply')}
                 />
             </Footer>
         );
