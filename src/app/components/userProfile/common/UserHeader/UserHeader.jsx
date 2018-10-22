@@ -221,12 +221,6 @@ export default class UserHeader extends Component {
                                     <ButtonMute muting={currentAccount.get('name')} />
                                 </Fragment>
                             )}
-                            <ButtonLink
-                                light
-                                href={`https://preview.golos.io/@${currentAccount.get('name')}`}
-                            >
-                                Вернуть старый профиль
-                            </ButtonLink>
                         </Buttons>
                     </Details>
                     {isOwner && isSettingsPage && this._renderCoverDropDown()}
