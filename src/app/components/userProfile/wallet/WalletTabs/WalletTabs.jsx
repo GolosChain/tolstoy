@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
+import tt from 'counterpart';
+
 import { TabContainer, Tabs } from 'golos-ui/Tabs';
 import { CardContent } from 'golos-ui/Card';
 import {
@@ -23,13 +25,22 @@ export default class WalletTabs extends PureComponent {
         return (
             <Tabs activeTab={{ id: mainTab }} onChange={this.props.onMainTabChange}>
                 <CardContentStyled>
-                    <TabContainer id={MAIN_TABS.TRANSACTIONS} title="История транзакций">
+                    <TabContainer
+                        id={MAIN_TABS.TRANSACTIONS}
+                        title={tt('user_wallet.tab_title.transaction_history')}
+                    >
                         {this._renderTransactionsTabs()}
                     </TabContainer>
-                    <TabContainer id={MAIN_TABS.POWER} title="Делегирование">
+                    <TabContainer
+                        id={MAIN_TABS.POWER}
+                        title={tt('user_wallet.tab_title.delegation')}
+                    >
                         {this._renderTransactionsType()}
                     </TabContainer>
-                    <TabContainer id={MAIN_TABS.REWARDS} title="Награды">
+                    <TabContainer
+                        id={MAIN_TABS.REWARDS}
+                        title={tt('user_wallet.tab_title.rewards')}
+                    >
                         {this._renderRewardsTabs()}
                     </TabContainer>
                 </CardContentStyled>
@@ -45,19 +56,22 @@ export default class WalletTabs extends PureComponent {
         return (
             <Tabs activeTab={{ id: currency }} onChange={this.props.onCurrencyChange}>
                 <TabsContent>
-                    <TabContainer id={CURRENCY.ALL} title="Все">
+                    <TabContainer id={CURRENCY.ALL} title={tt('user_wallet.tab_title.all')}>
                         {innerTabs}
                     </TabContainer>
-                    <TabContainer id={CURRENCY.GOLOS} title="Голос">
+                    <TabContainer id={CURRENCY.GOLOS} title={tt('user_wallet.tab_title.golos')}>
                         {innerTabs}
                     </TabContainer>
-                    <TabContainer id={CURRENCY.GBG} title="Золото">
+                    <TabContainer id={CURRENCY.GBG} title={tt('user_wallet.tab_title.gbg')}>
                         {innerTabs}
                     </TabContainer>
-                    <TabContainer id={CURRENCY.GOLOS_POWER} title="Сила Голоса">
+                    <TabContainer
+                        id={CURRENCY.GOLOS_POWER}
+                        title={tt('user_wallet.tab_title.golos_power')}
+                    >
                         {innerTabs}
                     </TabContainer>
-                    <TabContainer id={CURRENCY.SAFE} title="Сейф">
+                    <TabContainer id={CURRENCY.SAFE} title={tt('user_wallet.tab_title.savings')}>
                         {innerTabs}
                     </TabContainer>
                 </TabsContent>
@@ -90,8 +104,14 @@ export default class WalletTabs extends PureComponent {
         return (
             <Tabs activeTab={{ id: rewardType }} onChange={this.props.onRewardTypeChange}>
                 <TabsContent>
-                    <TabContainer id={REWARDS_TYPES.CURATORIAL} title="Кураторские" />
-                    <TabContainer id={REWARDS_TYPES.AUTHOR} title="Авторские" />
+                    <TabContainer
+                        id={REWARDS_TYPES.CURATORIAL}
+                        title={tt('user_wallet.tab_title.curation_rewards')}
+                    />
+                    <TabContainer
+                        id={REWARDS_TYPES.AUTHOR}
+                        title={tt('user_wallet.tab_title.author_rewards')}
+                    />
                 </TabsContent>
             </Tabs>
         );
@@ -103,9 +123,12 @@ export default class WalletTabs extends PureComponent {
         return (
             <Tabs activeTab={{ id: direction }} onChange={this.props.onDirectionChange}>
                 <TabsContent>
-                    <TabContainer id={DIRECTION.ALL} title="Все" />
-                    <TabContainer id={DIRECTION.SENT} title="Отправленные" />
-                    <TabContainer id={DIRECTION.RECEIVE} title="Полученные" />
+                    <TabContainer id={DIRECTION.ALL} title={tt('user_wallet.tab_title.all')} />
+                    <TabContainer id={DIRECTION.SENT} title={tt('user_wallet.tab_title.sent')} />
+                    <TabContainer
+                        id={DIRECTION.RECEIVE}
+                        title={tt('user_wallet.tab_title.received')}
+                    />
                 </TabsContent>
             </Tabs>
         );

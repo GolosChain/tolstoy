@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 import { Helmet } from 'react-helmet';
 import { api } from 'golos-js';
+
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import Card from 'golos-ui/Card';
 import { vestsToGolosEasy } from 'app/utils/StateFunctions';
@@ -33,9 +34,9 @@ export const CURRENCY = {
 };
 
 export const CURRENCY_TRANSLATE = {
-    GOLOS: 'Голос',
-    GBG: 'Золото',
-    GOLOS_POWER: 'Сила Голоса',
+    GOLOS: tt('token_names.LIQUID_TOKEN'),
+    GBG: tt('token_names.DEBT_TOKEN2'),
+    GOLOS_POWER: tt('token_names.VESTING_TOKEN'),
 };
 
 export const CURRENCY_COLOR = {
@@ -169,7 +170,7 @@ class WalletContent extends Component {
 
         if (mainTab === MAIN_TABS.POWER) {
             if (delegationError) {
-                return <Stub>Ошибка при загрузке данных</Stub>;
+                return <Stub>{tt('user_wallet.content.failed_load')}</Stub>;
             } else if (!delegationData) {
                 return <Loader />;
             }
@@ -187,7 +188,7 @@ class WalletContent extends Component {
         }
 
         if (mainTab === MAIN_TABS.REWARDS && rewardTab === REWARDS_TABS.STATISTIC) {
-            return <EmptyBlock>Функционал пока что не готов</EmptyBlock>;
+            return <EmptyBlock>{tt('user_wallet.content.feature_not_implemented')}</EmptyBlock>;
         }
 
         let list;
@@ -236,29 +237,29 @@ class WalletContent extends Component {
                 if (rewardType === REWARDS_TYPES.AUTHOR) {
                     return (
                         <EmptyBlock>
-                            Тут пока пусто
+                            {tt('user_wallet.content.nothing_here_yet')}
                             <EmptySubText>
                                 {isOwner
-                                    ? 'Начни писать посты, чтобы получать награду.'
-                                    : 'Пользователь еще не начал писать посты, чтобы получать награду.'}
+                                    ? tt('user_wallet.content.tip.start_writing')
+                                    : tt('user_wallet.content.tip.user_has_no_posts')}
                             </EmptySubText>
                         </EmptyBlock>
                     );
                 } else {
                     return (
                         <EmptyBlock>
-                            Тут пока пусто
+                            {tt('user_wallet.content.nothing_here_yet')}
                             <EmptySubText>
                                 {isOwner
-                                    ? 'Начни комментировать и ставить лайки, чтобы получать награду.'
-                                    : 'Пользователь еще не начал комментировать и оценивать посты, чтобы получать награду.'}
+                                    ? tt('user_wallet.content.tip.start_commenting')
+                                    : tt('user_wallet.content.tip.user_has_no_comments')}
                             </EmptySubText>
                         </EmptyBlock>
                     );
                 }
             }
 
-            return <EmptyBlock>Список пуст</EmptyBlock>;
+            return <EmptyBlock>{tt('user_wallet.content.empty_list')}</EmptyBlock>;
         }
     }
 
@@ -446,7 +447,7 @@ class WalletContent extends Component {
                     const options = {};
 
                     if (samePerson) {
-                        options.title = 'Увеличение Силы Голоса';
+                        options.title = tt('user_wallet.content.power_up');
                         options.currencies = [
                             {
                                 amount: '-' + amount,
@@ -480,7 +481,7 @@ class WalletContent extends Component {
 
                             if (data.donate && data.donate.post) {
                                 memo = `https://${APP_DOMAIN}${data.donate.post}`;
-                                memoIconText = 'Благодарность';
+                                memoIconText = tt('user_wallet.content.donate');
                             }
                         } catch (err) {}
                     }
@@ -491,8 +492,8 @@ class WalletContent extends Component {
                         title:
                             samePerson && isSafe
                                 ? type === 'transfer_to_savings'
-                                    ? 'Перевод в сейф'
-                                    : 'Возврат из сейфа'
+                                    ? tt('user_wallet.content.transfer_to_savings.to')
+                                    : tt('user_wallet.content.transfer_to_savings.from')
                                 : null,
                         amount: sign + amount,
                         currency: opCurrency,

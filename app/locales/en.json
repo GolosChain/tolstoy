@@ -276,6 +276,20 @@
     "curation_rewards": "Curation rewards",
     "current_password": "Current Password",
     "date": "Date",
+    "date_months": {
+      "0": "January",
+      "1": "February",
+      "2": "March ",
+      "3": "April ",
+      "4": "May",
+      "5": "June ",
+      "6": "July",
+      "7": "August",
+      "8": "September",
+      "9": "October",
+      "10": "November",
+      "11": "December "
+    },
     "delegated_vesting": "%(VESTING_TOKEN)s delegated from this account",
     "delete": "Delete",
     "dismiss": "Dismiss",
@@ -1065,6 +1079,7 @@
   },
   "token_names": {
     "DEBT_TOKEN": "Gold Backed Golos",
+    "DEBT_TOKEN2": "Gold",
     "DEBT_TOKENS": "GOLD BACKED GOLOS",
     "LIQUID_TOKEN": "Golos",
     "LIQUID_TOKEN_PLURALIZE": {
@@ -1221,6 +1236,53 @@
     "the_memo_key_is_used_to_create_and_read_memos": "The memo key is used to create and read memos.",
     "the_owner_key_is_required_to_change_other_keys": "The owner key is the master key for the account and is required to change the other keys.",
     "the_private_key_or_password_should_be_kept_offline": "The private key or password for the owner key should be kept offline as much as possible."
+  },
+  "user_wallet": {
+    "tab_title": {
+      "transaction_history": "Transaction History",
+      "delegation": "Delegation",
+      "rewards": "Rewards",
+      "all": "All",
+      "golos": "Golos",
+      "gbg": "GBG",
+      "golos_power": "Golos Power",
+      "savings": "Savings",
+      "sent": "Sent",
+      "received": "Received",
+      "curation_rewards": "Curation Rewards",
+      "author_rewards": "Author Rewards"
+    },
+    "content": {
+      "from": "From",
+      "to": "To",
+      "nothing_here_yet": "Nothing here yet",
+      "empty_list": "List is empty",
+      "feature_not_implemented": "This feature is not yet implemented",
+      "failed_load": "Failed to load",
+      "transfer_to_savings": {
+        "to": "Transfer to savings",
+        "from": "Withdraw from savings"
+      },
+      "donate": "Donate",
+      "power_up": "Power Up",
+      "tip": {
+        "edit_delegation": "Edit delegation",
+        "cancel_delegation": "Cancel delegation",
+        "start_writing": "Start writing posts to get rewards",
+        "start_commenting": "Start commenting and upvoting to get rewards",
+        "user_has_no_posts": "User haven't started writing posts to get rewards.",
+        "user_has_no_comments": "User haven't started commenting and upvoting to get rewards"
+      }
+    }
+  },
+  "activity": {
+    "tab_title": {
+      "all": "All",
+      "rewards": "Rewards",
+      "replies": "Replies",
+      "social": "Social",
+      "mention": "Mentions"
+    }
   },
   "userwallet_jsx": {
     "balances": "BALANCES",

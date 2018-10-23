@@ -86,11 +86,11 @@ export default class ActivityContent extends PureComponent {
     renderTabs = () => {
         const { isFetching, notifications, accounts } = this.props;
         const tabs = [
-            { id: 'all', title: 'Все' },
-            { id: 'awards', title: 'Награды' },
-            { id: 'answers', title: 'Ответы' },
-            { id: 'social', title: 'Социальные' },
-            { id: 'mentions', title: 'Упоминания' },
+            { id: 'all', title: tt('activity.tab_title.all') },
+            { id: 'awards', title: tt('activity.tab_title.rewards') },
+            { id: 'answers', title: tt('activity.tab_title.replies') },
+            { id: 'social', title: tt('activity.tab_title.social') },
+            { id: 'mentions', title: tt('activity.tab_title.mention') },
         ];
 
         return tabs.map(({ id, title }, key) => (
