@@ -915,6 +915,9 @@
     "thanks_for_submitting_request_for_account_recovery_3": "Пожалуйста, будьте готовы подтвердить свою личность.",
     "unable_to_recover_account_not_change_ownership_recently": "Мы не можем восстановить эту учетную запись, она не изменила владельца в последнее время."
   },
+  "reply": {
+    "comments_count": "Количество комментариев"
+  },
   "reply_editor": {
     "are_you_sure_you_want_to_clear_this_form": "Вы уверены, что хотите очистить эту форму?",
     "check_this_to_auto_upvote_your_post": "Отметьте, чтобы проголосовать за свой пост",

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import styled from 'styled-components';
 import is, { isNot } from 'styled-is';
+import tt from 'counterpart';
 import Icon from 'golos-ui/Icon';
 
 const ReplyCounterBlock = styled(Link)`
@@ -80,7 +81,7 @@ ReplyBlock.defaultProps = {
 export default function ReplyBlock({ grid, count, link, text, className, showText }) {
     return (
         <Root grid={grid} className={className}>
-            <ReplyCounterBlock to={`${link}#comments`} data-tooltip="Количество комментариев">
+            <ReplyCounterBlock to={`${link}#comments`} data-tooltip={tt('reply.comments_count')}>
                 <ReplyIcon name="reply" />
                 <ReplyCount>{count}</ReplyCount>
             </ReplyCounterBlock>
