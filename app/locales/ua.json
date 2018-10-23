@@ -207,6 +207,11 @@
     "page_title": "Часто задавані питання",
     "telegram": "телеграм"
   },
+  "footer": {
+    "mobile_apps": "Додатки",
+    "social_networks": "Соціальні мережі",
+    "total_paid": "Всього виплачено"
+  },
   "g": {
     "24_hour": "24 години",
     "30_day": "30 днів",
@@ -600,8 +605,9 @@
     "buy_LIQUID_TOKEN": "Купити %(LIQUID_TOKEN)s",
     "change_account_password": "Змінити пароль акаунта",
     "currency_market": "Внутрішній ринок",
+    "delegates": "Делегати",
     "explore": "Дослідити",
-    "faq": "FAQ",
+    "faq": "Часті питання",
     "feedback": "Зворотній зв'язок",
     "market": "Купити або Продати",
     "payouts_by_tag": "Виплати за тегами",
