@@ -8,7 +8,6 @@ import tt from 'counterpart';
 import Icon from 'golos-ui/Icon';
 import { TagLink } from 'golos-ui/Tag';
 
-import { parseJSON } from 'src/app/redux/selectors/common';
 import PostHeader from 'src/app/containers/post/postHeader';
 import MarkdownViewer from 'app/components/cards/MarkdownViewer';
 import PostFormLoader from 'app/components/modules/PostForm/loader';
@@ -155,7 +154,6 @@ export class PostContent extends Component {
         const {
             tags,
             payout,
-            permLink,
             category,
             title,
             body,
