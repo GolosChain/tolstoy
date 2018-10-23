@@ -20,7 +20,6 @@ const PANEL_MARGIN = 20;
 const FOOTER_HEIGHT = 324;
 const HEADER_HEIGHT = 60;
 const SIDE_PANEL_WIDTH = 64;
-const SIDE_BLOCK_HEIGHT = 429;
 
 const PanelWrapper = styled.div`
     padding: 15px 22px;
@@ -35,21 +34,17 @@ const PanelWrapper = styled.div`
 `;
 
 const Wrapper = styled.div`
-    display: none;
+    visibility: hidden;
     position: fixed;
     left: calc(50% - ${() => POST_MAX_WIDTH / 2 + SIDE_PANEL_WIDTH / 2}px);
     z-index: 2;
-    
+
     width: ${SIDE_PANEL_WIDTH}px;
     min-height: 50px;
-    
-    ${is('showSideBlock')`
-        display: block
-    `}
 
-    @media (max-height: ${SIDE_BLOCK_HEIGHT + PANEL_MARGIN * 2 + HEADER_HEIGHT}px) {
-        display: none;
-    }
+    ${is('showSideBlock')`
+        visibility: visible
+    `};
 
     ${by('fixedOn', {
         center: `
@@ -105,7 +100,8 @@ export class SidePanel extends Component {
     state = {
         showSharePopover: false,
         fixedOn: 'center',
-        showSideBlock: true,
+        showSideBlockByWidth: true,
+        showSideBlockByHeight: true,
     };
 
     sideBlockRef = createRef();
@@ -151,15 +147,26 @@ export class SidePanel extends Component {
     scrollScreenLazy = throttle(this.scrollScreen, 20);
 
     resizeScreen = () => {
-        const windowInnerWidth = document.documentElement.clientWidth;
-        const { showSideBlock } = this.state;
+        const { showSideBlockByWidth, showSideBlockByHeight } = this.state;
+        const panelRect = this.sideBlockRef.current.getBoundingClientRect();
         const leftBorder = POST_MAX_WIDTH + SIDE_PANEL_WIDTH + PANEL_MARGIN * 2;
+        const topBorder = panelRect.height + HEADER_HEIGHT + PANEL_MARGIN * 2;
 
-        if (windowInnerWidth < leftBorder && showSideBlock) {
-            this.setState({ showSideBlock: false });
+        const documentElem = document.documentElement;
+        const documentWidth = documentElem.clientWidth;
+        const documentHeight = documentElem.clientHeight;
+
+        if (documentHeight < topBorder && showSideBlockByHeight) {
+            this.setState({ showSideBlockByHeight: false });
         }
-        if (windowInnerWidth >= leftBorder && !showSideBlock) {
-            this.setState({ showSideBlock: true }, () => this.scrollScreenLazy());
+        if (documentHeight >= topBorder && !showSideBlockByHeight) {
+            this.setState({ showSideBlockByHeight: true }, () => this.scrollScreenLazy());
+        }
+        if (documentWidth < leftBorder && showSideBlockByWidth) {
+            this.setState({ showSideBlockByWidth: false });
+        }
+        if (documentWidth >= leftBorder && !showSideBlockByWidth) {
+            this.setState({ showSideBlockByWidth: true }, () => this.scrollScreenLazy());
         }
     };
 
@@ -222,11 +229,24 @@ export class SidePanel extends Component {
             toggleFavorite,
             postUrl,
             myVote: voteType,
+            backURL,
         } = this.props;
-        const { showSharePopover, fixedOn, showSideBlock } = this.state;
-        const { likes, firstLikes, dislikes, firstDislikes, backURL } = votesSummary;
+
+        const {
+            showSharePopover,
+            fixedOn,
+            showSideBlockByWidth,
+            showSideBlockByHeight,
+        } = this.state;
+
+        const { likes, firstLikes, dislikes, firstDislikes } = votesSummary;
+
         return (
-            <Wrapper innerRef={this.sideBlockRef} fixedOn={fixedOn} showSideBlock={showSideBlock}>
+            <Wrapper
+                innerRef={this.sideBlockRef}
+                fixedOn={fixedOn}
+                showSideBlock={showSideBlockByWidth && showSideBlockByHeight}
+            >
                 <PanelWrapper>
                     <Action
                         activeType={voteType.percent > 0 ? 'like' : ''}
@@ -274,9 +294,15 @@ export class SidePanel extends Component {
                         togglePin={togglePin}
                     />
                 </PanelWrapper>
-                <BackLink to={backURL} onClick={this.onBackClick} data-tooltip={tt('g.turn_back')}>
-                    <BackIcon name="arrow_left" />
-                </BackLink>
+                {backURL && (
+                    <BackLink
+                        to={backURL}
+                        onClick={this.onBackClick}
+                        data-tooltip={tt('g.turn_back')}
+                    >
+                        <BackIcon name="arrow_left" />
+                    </BackLink>
+                )}
             </Wrapper>
         );
     }
