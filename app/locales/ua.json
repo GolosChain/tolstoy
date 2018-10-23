@@ -666,6 +666,8 @@
     "pin_post": "Закріпити пост",
     "post_pinned": "Пост закріплений",
     "remove_from_favorites": "Видалити з обраного",
+    "repost": "Поділитися",
+    "repost_on": "поділився (лась) постом",
     "unpin_post": "Відкріпити"
   },
   "post_editor": {
@@ -807,6 +809,12 @@
     "update_post": "Оновити пост",
     "uploading": "Завантаження",
     "use_limited_amount_of_tags": "У вас %(tagsLength)s тегів, включаючи %(includingCategory)s. Будь ласка, використовуйте не більше 5 в пості і категорії."
+  },
+  "repost_dialog": {
+    "ok": "Поділитися",
+    "placeholder": "Напишіть свій коментар",
+    "success": "Репост успішно доданий",
+    "title": "Поділитися цим постом"
   },
   "savingswithdrawhistory_jsx": {
     "cancel_this_withdraw_request": "Скасувати запит виведення коштів?",
