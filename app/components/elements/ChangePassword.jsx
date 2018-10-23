@@ -6,6 +6,7 @@ import LoadingIndicator from 'app/components/elements/LoadingIndicator'
 import {PrivateKey, PublicKey, key_utils} from 'golos-js/lib/auth/ecc'
 import {validate_account_name} from 'app/utils/ChainValidation'
 import {cleanReduxInput} from 'app/utils/ReduxForms'
+import { showNotification } from 'src/app/redux/actions/ui';
 import tt from 'counterpart';
 import { APP_NAME } from 'app/client_config';
 import {api} from 'golos-js'
@@ -262,12 +263,8 @@ export default reduxForm(
                 // notifySuccess: 'Change password success'
             }))
         },
-        notify: (message) => {
-            dispatch({type: 'ADD_NOTIFICATION', payload: {
-                key: "chpwd_" + Date.now(),
-                message,
-                dismissAfter: 5000}
-            });
+        notify: message => {
+            dispatch(showNotification(message, 'chpwd'));
         },
     })
 )(ChangePassword)

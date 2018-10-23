@@ -6,6 +6,7 @@ import { normalize as normalizr } from 'normalizr';
 
 import { makeFakeAuthTransaction } from './utils';
 import { addNotificationOnline } from 'src/app/redux/actions/notificationsOnline';
+import { showNotification } from 'src/app/redux/actions/ui';
 
 import {
     GATE_SEND_MESSAGE,
@@ -117,13 +118,7 @@ function* write(socket, writeChannel) {
         } catch (e) {
             console.error('Gate error:', e);
 
-            yield put({
-                type: 'ADD_NOTIFICATION',
-                payload: {
-                    message: e.message,
-                    dismissAfter: 5000,
-                },
-            });
+            yield put(showNotification(e.message));
 
             yield put(actionWith({ type: failureType, error: e.message }));
             if (errorCallback) errorCallback(e.message);
