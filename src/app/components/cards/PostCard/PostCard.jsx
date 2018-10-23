@@ -326,9 +326,9 @@ export default class PostCard extends PureComponent {
     }
 
     renderEditButton(withImage, link) {
-        const { data, myAccount, grid, showPinButton } = this.props;
+        const { isOwner, grid, showPinButton } = this.props;
 
-        if (showPinButton && myAccount === data.get('author')) {
+        if (showPinButton && isOwner) {
             return (
                 <ToolbarActionLink to={`${link}/edit`}>
                     <IconWrapper
@@ -384,9 +384,9 @@ export default class PostCard extends PureComponent {
     }
 
     renderFavoriteButton(withImage) {
-        const { grid, isFavorite } = this.props;
+        const { isOwner, grid, isFavorite } = this.props;
 
-        return (
+        return isOwner ? null : (
             <ToolbarAction>
                 <IconWrapper
                     color={withImage && !grid ? '#fff' : ''}

@@ -17,15 +17,16 @@ export default connect(
         if (props.showPinButton) {
             isPinned = getPinnedPosts(state, props.pageAccountName).includes(props.permLink);
         }
-
+        const data = state.global.getIn(['content', props.permLink]);
         return {
             myAccount: myAccountName,
-            data: state.global.getIn(['content', props.permLink]),
+            data,
             isFavorite: state.data.favorites.set
                 ? state.data.favorites.set.includes(props.permLink)
                 : false,
             pinDisabled: props.pageAccountName !== myAccountName,
             isPinned,
+            isOwner: myAccountName === data.get('author'),
         };
     },
     dispatch => ({
