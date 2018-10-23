@@ -10,7 +10,7 @@ export default class TimeAgoWrapper extends Component {
         }
 
         return (
-            <span title={new Date(date).toLocaleString()} className={className}>
+            <span className={className} data-tooltip={new Date(date).toLocaleString()}>
                 <FormattedRelative {...this.props} value={date} />
             </span>
         );

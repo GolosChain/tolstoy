@@ -139,7 +139,6 @@ export class PostContent extends Component {
         const {
             tags,
             payout,
-            permLink,
             category,
             title,
             body,

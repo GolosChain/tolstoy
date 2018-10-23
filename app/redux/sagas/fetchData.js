@@ -144,7 +144,6 @@ function* fetchState(action) {
                             if (feedEntries[key].reblog_by.length > 0) {
                                 state.content[link].first_reblogged_by = feedEntries[key].reblog_by[0]
                                 state.content[link].reblogged_by = feedEntries[key].reblog_by
-                                state.content[link].first_reblogged_on = feedEntries[key].reblog_on
                             }
                         }
                     break
@@ -375,6 +374,7 @@ function* fetchData(action) {
 
     try {
         const data = yield call([api, api[call_name]], ...args);
+
         yield put(
             GlobalReducer.actions.receiveData({
                 data,

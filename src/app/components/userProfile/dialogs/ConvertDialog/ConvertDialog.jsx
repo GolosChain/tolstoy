@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
+
 import { MIN_VOICE_POWER } from 'app/client_config';
 import transaction from 'app/redux/Transaction';
 import DialogFrame from 'app/components/dialogs/DialogFrame';
@@ -24,24 +25,6 @@ const TYPES = {
     GOLOS: 'GOLOS',
     POWER: 'POWER',
     GBG: 'GBG',
-};
-
-const TYPES_SELECT_TRANSLATE = {
-    GOLOS: ['Голос', 'Сила голоса'],
-    POWER: ['Сила голоса', 'Голос'],
-    GBG: ['GBG', 'Голос'],
-};
-
-const TYPES_TRANSLATE = {
-    GOLOS: 'Голос',
-    POWER: 'Сила Голоса',
-    GBG: 'GBG',
-};
-
-const TYPES_SUCCESS_TEXT = {
-    GOLOS: 'Операция успешно завершена!',
-    POWER: 'Операция запущена!',
-    GBG: 'Операция запущена!',
 };
 
 const DialogFrameStyled = styled(DialogFrame)`
@@ -150,6 +133,12 @@ class ConvertDialog extends PureComponent {
         const { myAccount } = this.props;
         const { target, amount, loader, disabled, amountInFocus, type, saveTo } = this.state;
 
+        const TYPES_TRANSLATE = {
+            GOLOS: tt('token_names.LIQUID_TOKEN'),
+            POWER: tt('token_names.VESTING_TOKEN'),
+            GBG: 'GBG',
+        };
+
         let balance = null;
         let balanceString = null;
 
@@ -180,12 +169,12 @@ class ConvertDialog extends PureComponent {
             const perWeek = value / POWER_TO_GOLOS_INTERVAL;
             const perWeekStr = perWeek.toFixed(3);
 
-            hint = `Выплаты составят примерно ${perWeekStr} GOLOS в неделю.`;
+            hint = tt('dialogs_transfer.convert.tabs.gp_golos.per_week', { amount: perWeekStr });
         }
 
         return (
             <DialogFrameStyled
-                title={'Конвертировать'}
+                title={tt('dialogs_transfer.convert.title')}
                 titleSize={20}
                 icon="refresh"
                 buttons={[
@@ -194,7 +183,7 @@ class ConvertDialog extends PureComponent {
                         onClick: this._onCloseClick,
                     },
                     {
-                        text: 'Конвертировать',
+                        text: tt('dialogs_transfer.convert.convert_button'),
                         primary: true,
                         disabled: !allow,
                         onClick: this._onOkClick,
@@ -209,13 +198,16 @@ class ConvertDialog extends PureComponent {
                         buttons={[
                             {
                                 id: TYPES.GOLOS,
-                                title: makeTitle(TYPES_SELECT_TRANSLATE[TYPES.GOLOS]),
+                                title: tt('dialogs_transfer.convert.tabs.golos_gp.title'),
                             },
                             {
                                 id: TYPES.POWER,
-                                title: makeTitle(TYPES_SELECT_TRANSLATE[TYPES.POWER]),
+                                title: tt('dialogs_transfer.convert.tabs.gp_golos.title'),
                             },
-                            { id: TYPES.GBG, title: makeTitle(TYPES_SELECT_TRANSLATE[TYPES.GBG]) },
+                            {
+                                id: TYPES.GBG,
+                                title: tt('dialogs_transfer.convert.tabs.gbg_golos.title'),
+                            },
                         ]}
                         onClick={this._onClickType}
                     />
@@ -225,9 +217,11 @@ class ConvertDialog extends PureComponent {
                     <Content>
                         <Body style={{ height: this._getBodyHeight() }}>
                             <Section>
-                                <Label>Сколько</Label>
+                                <Label>{tt('dialogs_transfer.amount')}</Label>
                                 <ComplexInput
-                                    placeholder={`Доступно ${balanceString2}`}
+                                    placeholder={tt('dialogs_transfer.amount_placeholder', {
+                                        amount: balanceString2,
+                                    })}
                                     spellCheck="false"
                                     value={amount}
                                     onChange={this._onAmountChange}
@@ -262,7 +256,7 @@ class ConvertDialog extends PureComponent {
                     <Fragment>
                         <Section flex>
                             <Checkbox
-                                title="Перевести на другой аккаунт"
+                                title={tt('dialogs_transfer.transfer_check')}
                                 inline
                                 value={saveTo}
                                 onChange={this._onSaveTypeChange}
@@ -270,11 +264,11 @@ class ConvertDialog extends PureComponent {
                         </Section>
                         {saveTo ? (
                             <Section>
-                                <Label>Кому</Label>
+                                <Label>{tt('dialogs_transfer.to')}</Label>
                                 <SimpleInput
                                     name="account"
                                     spellCheck="false"
-                                    placeholder={'Отправить аккаунту'}
+                                    placeholder={tt('dialogs_transfer.to_placeholder')}
                                     value={target}
                                     onChange={this._onTargetChange}
                                 />
@@ -304,7 +298,7 @@ class ConvertDialog extends PureComponent {
         const { amount, saveTo, target } = this.state;
 
         if (amount.trim() || (saveTo ? target.trim() : false)) {
-            DialogManager.dangerConfirm('Вы действительно хотите закрыть окно?').then(y => {
+            DialogManager.dangerConfirm(tt('dialogs_transfer.confirm_dialog_close')).then(y => {
                 if (y) {
                     this.props.onClose();
                 }
@@ -339,40 +333,36 @@ class ConvertDialog extends PureComponent {
                 return (
                     <Fragment>
                         <SubHeaderLine>
-                            Переведите токены Голоса в Силу Голоса, чтобы увеличить свой вес при
-                            голосовании за посты, комментарии и делегатов.
+                            {tt('dialogs_transfer.convert.tabs.golos_gp.tip_1')}
                         </SubHeaderLine>
                         <SubHeaderLine>
-                            Силу Голоса нельзя перевести другим пользователям, но можно делегировать{' '}
-                            <Hint data-hint="Делегирование — передача части своей Силы Голоса под управление другому аккаунту. Делегирование можно отменить в любой момент.">
+                            {tt('dialogs_transfer.convert.tabs.golos_gp.tip_2')}{' '}
+                            <Hint data-hint={tt('dialogs_transfer.convert.tabs.golos_gp.hint')}>
                                 (?)
                             </Hint>
-                            . Количество Силы Голоса растет при хранении.
+                            {'. '}
+                            {tt('dialogs_transfer.convert.tabs.golos_gp.tip_3')}
                         </SubHeaderLine>
                     </Fragment>
                 );
             case TYPES.POWER:
                 return (
                     <SubHeaderLine>
-                        Переведите Силу Голоса в токены Голоса, чтобы получить более ликвидный
-                        токен, который можно перемещать между пользователями. При этом вы уменьшаете
-                        ваш вес при голосовании. Конвертация из Силы Голоса в токены Голоса занимает
-                        13 недель.
+                        {tt('dialogs_transfer.convert.tabs.gp_golos.tip_1')}
                     </SubHeaderLine>
                 );
             case TYPES.GBG:
                 return (
                     <Fragment>
                         <SubHeaderLine>
-                            Переведите Золотые (GBG) в токены Голоса чтобы получить возможность
-                            увеличить свою Силу Голоса или продать их на внешних биржах.
+                            {tt('dialogs_transfer.convert.tabs.gbg_golos.tip_1')}
                         </SubHeaderLine>
                         <SubHeaderLine>
-                            Конвертация занимает 3,5 дня{' '}
-                            <Hint data-hint="Отсрочка при конвертации Золотого (GBG) в токены Голоса необходима для предотвращения злоупотреблений спекуляцией.">
+                            {tt('dialogs_transfer.convert.tabs.gbg_golos.tip_2')}{' '}
+                            <Hint data-hint={tt('dialogs_transfer.convert.tabs.gbg_golos.hint')}>
                                 (?)
                             </Hint>{' '}
-                            и ее нельзя отменить после запуска.
+                            {tt('dialogs_transfer.convert.tabs.gbg_golos.tip_3')}
                         </SubHeaderLine>
                     </Fragment>
                 );
@@ -416,6 +406,12 @@ class ConvertDialog extends PureComponent {
     _onOkClick = () => {
         const { myUser } = this.props;
         const { target, amount, type, saveTo, loader, disabled } = this.state;
+
+        const TYPES_SUCCESS_TEXT = {
+            GOLOS: tt('dialogs.operation_success'),
+            POWER: tt('dialogs.operation_started'),
+            GBG: tt('dialogs.operation_started'),
+        };
 
         if (loader || disabled) {
             return;
@@ -544,8 +540,4 @@ function getVesting(account, props) {
     return {
         golos: vestsToGolos(availableVesting.toFixed(6) + ' GESTS', props),
     };
-}
-
-function makeTitle([a, b]) {
-    return a + ' → ' + b;
 }

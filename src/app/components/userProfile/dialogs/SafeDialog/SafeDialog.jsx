@@ -136,7 +136,7 @@ class SafeDialog extends PureComponent {
 
         return (
             <DialogFrameStyled
-                title={'Сейф'}
+                title={tt('dialogs_transfer.transfer_to_savings.title')}
                 titleSize={20}
                 icon="locked"
                 buttons={[
@@ -145,7 +145,7 @@ class SafeDialog extends PureComponent {
                         onClick: this._onCloseClick,
                     },
                     {
-                        text: 'Передать',
+                        text: tt('dialogs_transfer.transfer_to_savings.transfer_button'),
                         primary: true,
                         disabled: !allow,
                         onClick: this._onOkClick,
@@ -156,22 +156,30 @@ class SafeDialog extends PureComponent {
                 <DialogTypeSelect
                     activeId={type}
                     buttons={[
-                        { id: TYPES.SAVE, title: 'Перевести' },
-                        { id: TYPES.RECEIVE, title: 'Вывести' },
+                        {
+                            id: TYPES.SAVE,
+                            title: tt('dialogs_transfer.transfer_to_savings.transfer'),
+                        },
+                        {
+                            id: TYPES.RECEIVE,
+                            title: tt('dialogs_transfer.transfer_to_savings.withdraw'),
+                        },
                     ]}
                     onClick={this._onTypeClick}
                 />
                 <Content>
                     <SubHeader>
                         {type === TYPES.SAVE
-                            ? 'Перевод в сейф делается для безопасности и сохранности ваших средств, если есть подозрение, что пароль мог быть скомпрометирован. Токены в сейф попадают мгновенно.'
-                            : 'Вывод средств происходит в течение трех дней'}
+                            ? tt('dialogs_transfer.transfer_to_savings.tip_transfer')
+                            : tt('dialogs_transfer.transfer_to_savings.tip_withdraw')}
                     </SubHeader>
                     <Body>
                         <Section>
-                            <Label>Сколько</Label>
+                            <Label>{tt('dialogs_transfer.amount')}</Label>
                             <ComplexInput
-                                placeholder={`Доступно ${balance.toFixed(3)}`}
+                                placeholder={tt('dialogs_transfer.amount_placeholder', {
+                                    amount: balance.toFixed(3),
+                                })}
                                 spellCheck="false"
                                 value={amount}
                                 activeId={currency}
@@ -184,7 +192,7 @@ class SafeDialog extends PureComponent {
                         </Section>
                         <Section flex>
                             <Checkbox
-                                title="Перевести на другой аккаунт"
+                                title={tt('dialogs_transfer.transfer_check')}
                                 inline
                                 value={saveTo}
                                 onChange={this._onSaveTypeChange}
@@ -192,11 +200,11 @@ class SafeDialog extends PureComponent {
                         </Section>
                         {saveTo ? (
                             <Section>
-                                <Label>Кому</Label>
+                                <Label>{tt('dialogs_transfer.to')}</Label>
                                 <AccountNameInput
                                     name="account"
                                     block
-                                    placeholder={'Отправить аккаунту'}
+                                    placeholder={tt('dialogs_transfer.to_placeholder')}
                                     value={target}
                                     onChange={this._onTargetChange}
                                 />
@@ -212,7 +220,7 @@ class SafeDialog extends PureComponent {
 
     confirmClose() {
         if (this.state.amount.trim() || (this.state.saveTo ? this.state.target.trim() : false)) {
-            DialogManager.dangerConfirm('Вы действительно хотите закрыть окно?').then(y => {
+            DialogManager.dangerConfirm(tt('dialogs_transfer.confirm_dialog_close')).then(y => {
                 if (y) {
                     this.props.onClose();
                 }
@@ -304,7 +312,7 @@ class SafeDialog extends PureComponent {
                     loader: false,
                 });
 
-                DialogManager.info('Операция успешно завершена!').then(() => {
+                DialogManager.info(tt('dialogs_transfer.operation_success')).then(() => {
                     this.props.onClose();
                 });
             }

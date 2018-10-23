@@ -62,7 +62,7 @@ export class PostContainer extends Component {
     };
 
     render() {
-        const { postLoaded, isUserAuth, isOwner } = this.props;
+        const { postLoaded, newVisitor, isOwner } = this.props;
         if (!postLoaded) return <Loader type="circle" center size={40} />;
         return (
             <Wrapper>
@@ -72,7 +72,7 @@ export class PostContainer extends Component {
                     {!isOwner ? <AboutPanel /> : null}
                     <SidePanel togglePin={this.togglePin} toggleFavorite={this.toggleFavorite} />
                     <CommentsContainer />
-                    {!isUserAuth && <RegistrationPanel />}
+                    {newVisitor && <RegistrationPanel />}
                 </ContentWrapper>
             </Wrapper>
         );

@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
+
 import Icon from 'golos-ui/Icon';
+import DialogButton from 'src/app/components/common/DialogButton';
 
 export default class DialogFrame extends PureComponent {
     static propTypes = {
@@ -17,7 +19,11 @@ export default class DialogFrame extends PureComponent {
 
         return (
             <div className={cn('Dialog', className)}>
-                <Icon name="cross" className="Dialog__close" onClick={this.props.onCloseClick} />
+                <Icon
+                    name="cross_thin"
+                    className="Dialog__close"
+                    onClick={this.props.onCloseClick}
+                />
                 {title || icon ? (
                     <div className="Dialog__header">
                         {icon ? (
@@ -35,28 +41,13 @@ export default class DialogFrame extends PureComponent {
                 ) : null}
                 <div className="Dialog__content">{children}</div>
                 {buttons && buttons.length ? (
-                    <div className="Dialog__footer">{buttons.map(this._renderButton)}</div>
+                    <div className="Dialog__footer">
+                        {buttons.map((button, i) => (
+                            <DialogButton key={i} {...button} />
+                        ))}
+                    </div>
                 ) : null}
             </div>
         );
     }
-
-    _renderButton = ({ text, autoFocus, disabled, primary, warning, onClick }, index) => {
-        return (
-            <div className="Dialog__footer-button-wrapper" key={index}>
-                <button
-                    className={cn('Dialog__footer-button', {
-                        'Dialog__footer-button_primary': primary,
-                        'Dialog__footer-button_warning': warning,
-                    })}
-                    type="button"
-                    disabled={disabled}
-                    autoFocus={autoFocus}
-                    onClick={onClick}
-                >
-                    {text}
-                </button>
-            </div>
-        );
-    };
 }

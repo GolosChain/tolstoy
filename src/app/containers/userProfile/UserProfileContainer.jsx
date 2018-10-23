@@ -12,6 +12,7 @@ import { blockedUsers, blockedUsersContent } from 'app/utils/IllegalContent';
 
 import user from 'app/redux/User';
 import transaction from 'app/redux/Transaction';
+import { showNotification } from 'src/app/redux/actions/ui';
 
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import IllegalContentMessage from 'app/components/elements/IllegalContentMessage';
@@ -140,14 +141,7 @@ const SmallUserNavigation = styled(UserNavigation)`
             );
         },
         notify: (message, dismiss = 3000) => {
-            dispatch({
-                type: 'ADD_NOTIFICATION',
-                payload: {
-                    key: 'settings_' + Date.now(),
-                    message,
-                    dismissAfter: dismiss,
-                },
-            });
+            dispatch(showNotification(message, 'settings', dismiss));
         },
         loadFavorites() {
             dispatch({
@@ -276,6 +270,7 @@ class UserProfileContainer extends Component {
 
 export default {
     path: '@:accountName',
+    component: UserProfileContainer,
     getIndexRoute(nextState, cb) {
         cb(null, {
             components: {
@@ -347,6 +342,4 @@ export default {
             },
         },
     ],
-
-    component: UserProfileContainer,
 };

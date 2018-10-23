@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import { currentUsernameSelector, parseJSON } from 'src/app/redux/selectors/common';
 import transaction from 'app/redux/Transaction';
+import { showNotification } from 'src/app/redux/actions/ui';
 import PostForm from './PostForm';
 import { postSelector } from 'src/app/redux/selectors/post/commonPost';
 
@@ -47,13 +48,7 @@ export default connect(
                     file,
                     progress: data => {
                         if (data && data.error) {
-                            dispatch({
-                                type: 'ADD_NOTIFICATION',
-                                payload: {
-                                    message: data.error,
-                                    dismissAfter: 5000,
-                                },
-                            });
+                            dispatch(showNotification(data.error));
                         }
 
                         progress(data);

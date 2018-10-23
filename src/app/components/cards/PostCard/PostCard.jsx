@@ -1,22 +1,22 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 import { Link } from 'react-router';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
+import { Map } from 'immutable';
 
-import extractContent from 'app/utils/ExtractContent';
-import { immutableAccessor } from 'app/utils/Accessors';
 import { detransliterate } from 'app/utils/ParsersAndFormatters';
+import { openRepostDialog } from 'src/app/components/dialogs/actions';
 import Icon from 'golos-ui/Icon';
 import { confirmVote } from 'src/app/helpers/votes';
+import { PostTitle, PostBody } from '../common';
 import VotePanel from '../../common/VotePanel';
 import ReplyBlock from '../../common/ReplyBlock';
 import CardAuthor from '../CardAuthor';
 
 const Header = styled.div`
-    padding: 10px 0 6px;
+    padding: 10px 0;
     flex-shrink: 0;
 `;
 
@@ -33,6 +33,10 @@ const HeaderLine = styled.div`
     }
 `;
 
+const HeaderLineGrid = styled(HeaderLine)`
+    padding: 4px 18px;
+`;
+
 const Category = styled.div`
     height: 28px;
     padding: 0 12px;
@@ -47,25 +51,34 @@ const Category = styled.div`
     background: #789821;
     cursor: default;
 `;
+
 const Toolbar = styled.div`
     display: flex;
     align-items: center;
 `;
+
 const ToolbarAction = styled.div`
-    margin-right: 6px;
+    flex-shrink: 0;
+    margin-right: 10px;
 
     &:last-child {
-        margin-right: 0;
+        margin-right: 0 !important;
+    }
+
+    @media (max-width: 700px) {
+        margin-right: 6px;
     }
 `;
+
 const ToolbarActionLink = ToolbarAction.withComponent(Link);
+
 const IconWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
     width: 32px;
     height: 32px;
-    color: ${({ color }) => color || '#393636'};
+    color: #393636;
 
     ${is('enabled')`
         cursor: pointer;
@@ -81,10 +94,6 @@ const BodyLink = styled(Link)`
     display: block;
     transition: none !important;
 
-    ${is('half')`
-        width: 62%;
-    `};
-
     ${is('grid')`
         flex-shrink: 1;
         flex-grow: 1;
@@ -94,18 +103,11 @@ const BodyLink = styled(Link)`
 
 const Body = styled.div`
     position: relative;
-    padding: 0 18px;
+    padding: 0 18px 12px;
 `;
-const PostTitle = styled.div`
-    font-size: 20px;
-    font-family: ${({ theme }) => theme.fontFamilySerif};
-    color: #212121;
-    line-height: 29px;
+
+const RepostBody = styled(PostBody)`
     margin-bottom: 8px;
-`;
-const PostBody = styled.div`
-    font-family: ${({ theme }) => theme.fontFamily};
-    color: #959595;
 `;
 
 const Footer = styled.div`
@@ -129,40 +131,27 @@ const Footer = styled.div`
 const VotePanelStyled = styled(VotePanel)`
     ${is('grid')`
         padding: 0;
-        padding-bottom: 20px;
+        padding-bottom: 15px;
         justify-content: space-around;
     `};
 `;
 
-const PostImage = styled.div`
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 38%;
-    border-radius: 0 8px 8px 0;
-    background: url('${a => a.src}') no-repeat center;
+const PostImage = styled.div.attrs({
+    style: ({ src }) => ({
+        backgroundImage: `url(${src})`,
+    }),
+})`
+    width: 100%;
+    height: 356px;
+    max-height: 45vh;
+    margin-bottom: 14px;
+    background-repeat: no-repeat;
+    background-position: center;
     background-size: cover;
-    z-index: 0;
-    overflow: hidden;
-    
-    &:after {
-        position: absolute;
-        content: '';
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background-color: rgba(100, 100, 100, 0.15);
-    }
-    
+
     ${is('grid')`
-        top: unset;
-        left: 0;
-        width: unset;
-        height: 173px;
-        border-radius: 0 0 8px 8px;
-    `}
+        height: 183px;
+    `};
 `;
 
 const Filler = styled.div`
@@ -175,51 +164,16 @@ const Root = styled.div`
     background: #fff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
 
-    ${PostImage}:after {
-        background-color: rgba(0, 0, 0, 0);
-        transition: background-color 0.15s;
-    }
-
-    &:hover ${PostImage}:after {
-        background-color: rgba(0, 0, 0, 0.3);
-    }
-
     ${is('grid')`
         display: flex;
         flex-direction: column;
-        height: 338px;
-
-        @media (max-width: 890px) {
-            height: 355px;
-        }
     `};
-
-    &.PostCard_image.PostCard_grid {
-        ${VotePanelStyled} {
-            opacity: 0;
-            transition: opacity 0.25s;
-        }
-
-        &:hover ${VotePanelStyled} {
-            opacity: 1;
-        }
-
-        &:after {
-            position: absolute;
-            content: '';
-            height: 30px;
-            left: 0;
-            right: 0;
-            bottom: 173px;
-            background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
-            pointer-events: none;
-        }
-    }
 `;
 
 export default class PostCard extends PureComponent {
     static propTypes = {
-        permLink: PropTypes.string,
+        permLink: PropTypes.string.isRequired,
+        postLink: PropTypes.string.isRequired,
         myAccount: PropTypes.string,
         data: PropTypes.object,
         grid: PropTypes.bool,
@@ -227,6 +181,8 @@ export default class PostCard extends PureComponent {
         showPinButton: PropTypes.bool,
         pinDisabled: PropTypes.bool,
         isPinned: PropTypes.bool,
+        isRepost: PropTypes.bool,
+        additionalData: PropTypes.instanceOf(Map),
         onClick: PropTypes.func,
     };
 
@@ -270,72 +226,69 @@ export default class PostCard extends PureComponent {
     }
 
     render() {
-        const { data, className, grid } = this.props;
-
-        const p = extractContent(immutableAccessor, data);
-        const withImage = Boolean(p.image_link);
-
-        if (withImage) {
-            p.desc = p.desc.replace(p.image_link, '');
-        }
+        const { className, grid } = this.props;
 
         return (
-            <Root
-                className={cn(
-                    {
-                        PostCard_image: withImage,
-                        PostCard_grid: grid,
-                    },
-                    className
-                )}
-                grid={grid}
-            >
-                {this._renderHeader(withImage, p)}
-                {this._renderBody(withImage, p)}
-                {this._renderFooter(withImage, p)}
+            <Root className={className} grid={grid}>
+                {this.renderHeader()}
+                {this.renderBody()}
+                {this.renderFooter()}
             </Root>
         );
     }
 
-    _renderHeader(withImage, p) {
-        const { data, grid } = this.props;
+    renderHeader() {
+        const { data, isRepost, additionalData, grid } = this.props;
 
-        const author = data.get('author');
         const category = detransliterate(data.get('category'));
+        let author;
+        let originalAuthor;
+        let created;
+
+        if (isRepost) {
+            author = additionalData.get('repostAuthor');
+            created = additionalData.get('date');
+            originalAuthor = data.get('author');
+        } else {
+            author = data.get('author');
+            created = data.get('created');
+        }
 
         return (
             <Header>
                 <HeaderLine>
-                    <CardAuthor author={author} created={data.get('created')} />
+                    <CardAuthor
+                        author={author}
+                        originalAuthor={originalAuthor}
+                        created={created}
+                        isRepost={isRepost}
+                    />
                     <Filler />
                     {grid ? null : <Category>{category}</Category>}
                     <Toolbar>
-                        {this.renderEditButton(withImage, p.link)}
-                        {this.renderPinButton(withImage)}
-                        {this.renderFavoriteButton(withImage)}
+                        {this.renderEditButton()}
+                        {this.renderPinButton()}
+                        {this.renderRepostButton()}
+                        {this.renderFavoriteButton()}
                     </Toolbar>
                 </HeaderLine>
                 {grid ? (
-                    <HeaderLine>
+                    <HeaderLineGrid>
                         <Category>{category}</Category>
                         <Filler />
-                    </HeaderLine>
+                    </HeaderLineGrid>
                 ) : null}
             </Header>
         );
     }
 
-    renderEditButton(withImage, link) {
-        const { data, myAccount, grid, showPinButton } = this.props;
+    renderEditButton() {
+        const { isOwner, sanitizedData, showPinButton } = this.props;
 
-        if (showPinButton && myAccount === data.get('author')) {
+        if (showPinButton && isOwner) {
             return (
-                <ToolbarActionLink to={`${link}/edit`}>
-                    <IconWrapper
-                        color={withImage && !grid ? '#fff' : ''}
-                        enabled
-                        data-tooltip={tt('g.edit')}
-                    >
+                <ToolbarActionLink to={`${sanitizedData.link}/edit`}>
+                    <IconWrapper enabled data-tooltip={tt('g.edit')}>
                         <Icon name="pen" width={23} height={23} />
                     </IconWrapper>
                 </ToolbarActionLink>
@@ -343,8 +296,8 @@ export default class PostCard extends PureComponent {
         }
     }
 
-    renderPinButton(withImage) {
-        const { data, myAccount, grid, showPinButton, isPinned, pinDisabled } = this.props;
+    renderPinButton() {
+        const { data, myAccount, showPinButton, isPinned, pinDisabled } = this.props;
 
         const showPin =
             showPinButton && myAccount === data.get('author') && (!pinDisabled || isPinned);
@@ -372,7 +325,6 @@ export default class PostCard extends PureComponent {
         return (
             <ToolbarAction>
                 <IconWrapper
-                    color={isPinned ? '#3684ff' : withImage && !grid ? '#fff' : ''}
                     enabled={!pinDisabled}
                     data-tooltip={pinTip}
                     onClick={!pinDisabled ? this._onPinClick : null}
@@ -383,13 +335,36 @@ export default class PostCard extends PureComponent {
         );
     }
 
-    renderFavoriteButton(withImage) {
-        const { grid, isFavorite } = this.props;
+    renderRepostButton() {
+        const { isOwner, isRepost, myAccount, additionalData } = this.props;
+
+        if (isOwner || (isRepost && additionalData.get('repostAuthor') === myAccount)) {
+            return;
+        }
 
         return (
             <ToolbarAction>
                 <IconWrapper
-                    color={withImage && !grid ? '#fff' : ''}
+                    data-tooltip={tt('post_card.repost')}
+                    enabled
+                    onClick={this._onRepostClick}
+                >
+                    <Icon name="repost" width={25} />
+                </IconWrapper>
+            </ToolbarAction>
+        );
+    }
+
+    renderFavoriteButton() {
+        const { isOwner, isFavorite } = this.props;
+
+        if (isOwner) {
+            return;
+        }
+
+        return (
+            <ToolbarAction>
+                <IconWrapper
                     data-tooltip={
                         isFavorite
                             ? tt('post_card.remove_from_favorites')
@@ -398,27 +373,28 @@ export default class PostCard extends PureComponent {
                     enabled
                     onClick={this._onFavoriteClick}
                 >
-                    <Icon name={isFavorite ? 'star_filled' : 'star'} width={20} height={20} />
+                    <Icon name={isFavorite ? 'star_filled' : 'star'} width={24} />
                 </IconWrapper>
             </ToolbarAction>
         );
     }
 
-    _renderBody(withImage, p) {
-        const { grid } = this.props;
+    renderBody() {
+        const { grid, isRepost, sanitizedData, repostHtml } = this.props;
+        const withImage = sanitizedData.image_link;
 
         return (
-            <BodyLink
-                to={p.link}
-                half={withImage && !grid ? 1 : 0}
-                grid={grid ? 1 : 0}
-                onClick={this._onClick}
-            >
+            <BodyLink to={sanitizedData.link} grid={grid ? 1 : 0} onClick={this._onClick}>
+                {withImage ? (
+                    <PostImage grid={grid} src={this._getImageSrc(sanitizedData.image_link)} />
+                ) : null}
                 <Body>
-                    <PostTitle>{p.title}</PostTitle>
-                    <PostBody dangerouslySetInnerHTML={{ __html: p.desc }} />
+                    {isRepost && repostHtml ? (
+                        <RepostBody dangerouslySetInnerHTML={repostHtml} />
+                    ) : null}
+                    <PostTitle>{sanitizedData.title}</PostTitle>
+                    <PostBody dangerouslySetInnerHTML={sanitizedData.html} />
                 </Body>
-                {withImage ? <PostImage grid={grid} src={this._getImageSrc(p.image_link)} /> : null}
             </BodyLink>
         );
     }
@@ -426,31 +402,35 @@ export default class PostCard extends PureComponent {
     _getImageSrc(url) {
         const proxy = $STM_Config.img_proxy_prefix;
 
+        let size = '900x356';
+
+        if (process.env.BROWSER && document.body.offsetWidth < 500) {
+            size = '488x183';
+        }
+
         if (proxy) {
-            return `${proxy}346x194/${url}`;
+            return `${proxy}${size}/${url}`;
         } else {
             return url;
         }
     }
 
-    _renderFooter(withImage, p) {
-        const { data, myAccount, grid } = this.props;
+    renderFooter() {
+        const { data, myAccount, sanitizedData, grid } = this.props;
 
         return (
             <Footer grid={grid}>
                 <VotePanelStyled
                     data={data}
                     me={myAccount}
-                    whiteTheme={withImage && grid}
                     grid={grid}
                     onChange={this._onVoteChange}
                 />
                 {grid ? null : <Filler />}
                 <ReplyBlock
-                    withImage={withImage}
                     grid={grid}
                     count={data.get('children')}
-                    link={p.link}
+                    link={sanitizedData.link}
                     text={tt('g.reply')}
                 />
             </Footer>
@@ -475,14 +455,20 @@ export default class PostCard extends PureComponent {
     };
 
     _onFavoriteClick = () => {
-        const { isFavorite, data } = this.props;
+        const { postLink, isFavorite } = this.props;
 
-        this.props.toggleFavorite(data.get('author') + '/' + data.get('permlink'), !isFavorite);
+        this.props.toggleFavorite(postLink, !isFavorite);
+    };
+
+    _onRepostClick = () => {
+        const { postLink } = this.props;
+
+        openRepostDialog(postLink);
     };
 
     _onPinClick = () => {
-        const { data, isPinned } = this.props;
+        const { postLink, isPinned } = this.props;
 
-        this.props.togglePin(data.get('author') + '/' + data.get('permlink'), !isPinned);
+        this.props.togglePin(postLink, !isPinned);
     };
 }

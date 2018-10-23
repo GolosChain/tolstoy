@@ -9,6 +9,7 @@ import throttle from 'lodash/throttle';
 
 import Icon from 'src/app/components/golos-ui/Icon';
 
+import { openRepostDialog } from 'src/app/components/dialogs/actions';
 import { confirmVote } from 'src/app/helpers/votes';
 import { Action } from 'src/app/components/post/SidePanelAction';
 import SharePopover from 'src/app/components/post/SharePopover';
@@ -184,9 +185,9 @@ export class SidePanel extends Component {
         });
     };
 
-    reblog = () => {
-        const { username, author, permLink } = this.props;
-        this.props.reblog(username, author, permLink);
+    repost = () => {
+        const { author, permLink } = this.props;
+        openRepostDialog(`${author}/${permLink}`);
     };
 
     like = async () => {
@@ -285,6 +286,9 @@ export class SidePanel extends Component {
                         dataTooltip={tt('g.reblog')}
                         onClick={this.reblog}
                     />
+                    {isOwner ? null : (
+                        <Action iconName="repost" dataTooltip={tt('g.reblog')} onClick={this.repost} />
+                    )}
                     <PostActions
                         postUrl={postUrl}
                         isFavorite={isFavorite}

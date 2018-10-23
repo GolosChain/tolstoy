@@ -3,7 +3,6 @@ import { createSelector } from 'reselect';
 
 import { currentUsernameSelector, uiSelector } from 'src/app/redux/selectors/common';
 import { onVote } from 'src/app/redux/actions/vote';
-import { reblog } from 'src/app/redux/actions/posts';
 import { SidePanel } from 'src/app/containers/post/sidePanel/SidePanel';
 import {
     currentPostSelector,
@@ -44,6 +43,5 @@ export default connect(
     ),
     {
         onVote,
-        reblog,
     }
 )(SidePanel);

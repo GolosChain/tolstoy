@@ -14,6 +14,15 @@
     "promote_post": "Promote post",
     "unpin_post": "Unpin post"
   },
+  "activity": {
+    "tab_title": {
+      "all": "All",
+      "mention": "Mentions",
+      "replies": "Replies",
+      "rewards": "Rewards",
+      "social": "Social"
+    }
+  },
   "auth_protection": {
     "need_auth": "Not allowed, please authorize.",
     "not_allowed": "Not allowed."
@@ -152,6 +161,77 @@
     "info": "Information",
     "prompt": "Enter the data"
   },
+  "dialogs_transfer": {
+    "amount": "Amount",
+    "amount_placeholder": "Available %(amount)s",
+    "confirm_dialog_close": "Are you sure you want to close this window?",
+    "convert": {
+      "convert_button": "Convert",
+      "tabs": {
+        "gbg_golos": {
+          "hint": "Delay at converting Gold (GBG) to Golos tokens is necessary to prevent abuse of speculation.",
+          "tip_1": "Transfer GBG into Golos tokens in order to increase your Voice Power or sell them on external exchanges.",
+          "tip_2": "Conversion takes 3.5 days",
+          "tip_3": "and cannot be canceled.",
+          "title": "GBG → Golos"
+        },
+        "golos_gp": {
+          "hint": "Delegation - transfer some amount of your Golos Power to other users account. Delegation can be canceled at any time.",
+          "tip_1": "Transfer Golos tokens into Golos Power to increase your voting power while you vote for posts, comments and delegates.",
+          "tip_2": "Golos Power cannot be transferred to other users, but you can delegate it",
+          "tip_3": "The amount of Golos Power increases during storage.",
+          "title": "Golos → Golos Power"
+        },
+        "gp_golos": {
+          "per_week": "Payments will be about %(amount)s GOLOS per week.",
+          "tip_1": "Transfer Golos Power into Golos tokens to get a more liquid token that can be moved between users. At the same time, you reduce your voting power. The conversion takes 13 weeks.",
+          "title": "Golos Power → Golos"
+        }
+      },
+      "title": "Convert"
+    },
+    "delegate_vesting": {
+      "delegate_button": "Delegate",
+      "tabs": {
+        "delegate": {
+          "tip_1": "You can delegate some amount of your Golos Power to other users.",
+          "tip_2": "You can cancel delegation or change the amount at any time. Upon cancellation, the delegated Golos Power will be returned to your account in 7 days.",
+          "title": "Delegate"
+        },
+        "delegated": {
+          "actions": "Action",
+          "amount": "Golos Power",
+          "amount_label": "Amount to gelegate",
+          "cancel": "Cancel",
+          "edit": "Edit",
+          "title": "Delegated",
+          "to_placeholder": "Dellegate to account"
+        }
+      },
+      "title": "Delegate Golos Power"
+    },
+    "operation_started": "Operation started!",
+    "operation_success": "Operation completed successfully!",
+    "to": "To",
+    "to_placeholder": "Transfer to account",
+    "transfer": {
+      "memo": "memo",
+      "memo_placeholder": "This memo is public",
+      "tip": "Transfer to another account",
+      "title": "Transfer to account",
+      "transfer_button": "Transfer",
+      "transfer_success": "Transfer to account %(to)s successfully completed!"
+    },
+    "transfer_check": "Transfer to another account",
+    "transfer_to_savings": {
+      "tip_transfer": "Transfer your funds to savings in order to safe your funds if there is a suspicion that the password could have been compromised.",
+      "tip_withdraw": "You funds will be withdrawn within 3 days",
+      "title": "Savings",
+      "transfer": "Transfer",
+      "transfer_button": "Transfer",
+      "withdraw": "Withdraw"
+    }
+  },
   "editor_toolbar": {
     "add_image": "Add image",
     "add_image_from_computer": "Add image from computer",
@@ -276,6 +356,20 @@
     "curation_rewards": "Curation rewards",
     "current_password": "Current Password",
     "date": "Date",
+    "date_months": {
+      "0": "January",
+      "1": "February",
+      "2": "March ",
+      "3": "April ",
+      "4": "May",
+      "5": "June ",
+      "6": "July",
+      "7": "August",
+      "8": "September",
+      "9": "October",
+      "10": "November",
+      "11": "December "
+    },
     "delegated_vesting": "%(VESTING_TOKEN)s delegated from this account",
     "delete": "Delete",
     "dismiss": "Dismiss",
@@ -287,7 +381,9 @@
     "email": "Email",
     "email_recovery_hint": "Used to recover a hijacked or stolen GOLOS account",
     "empty": "So far empty",
+    "empty_list": "Empty list",
     "enter_username": "Enter your username",
+    "error": "Error",
     "expand": "Expand",
     "favorites": "Favorites",
     "feed": "Feed",
@@ -769,6 +865,8 @@
     "pin_post": "Pin post",
     "post_pinned": "Pinned post",
     "remove_from_favorites": "Remove from favorites",
+    "repost": "Repost",
+    "repost_on": "repost post",
     "unpin_post": "Unpin"
   },
   "post_editor": {
@@ -894,6 +992,9 @@
     "thanks_for_submitting_request_for_account_recovery_3": "Please be prepared to verify your identity.",
     "unable_to_recover_account_not_change_ownership_recently": "We are unable to recover this account, it has not changed ownership recently."
   },
+  "reply": {
+    "comments_count": "Comments count"
+  },
   "reply_editor": {
     "are_you_sure_you_want_to_clear_this_form": "Are you sure you want to clear this form?",
     "check_this_to_auto_upvote_your_post": "Check this to auto-upvote your post",
@@ -927,6 +1028,12 @@
     "update_post": "Update Post",
     "uploading": "Uploading",
     "use_limited_amount_of_tags": "You have %(tagsLength)s tags total %(includingCategory)s.  Please use only 5 in your post and category line."
+  },
+  "repost_dialog": {
+    "ok": "Repost",
+    "placeholder": "Write your comment",
+    "success": "Repost published",
+    "title": "Repost this post"
   },
   "savingswithdrawhistory_jsx": {
     "cancel_this_withdraw_request": "Cancel this withdraw request?",
@@ -1066,6 +1173,7 @@
   },
   "token_names": {
     "DEBT_TOKEN": "Gold Backed Golos",
+    "DEBT_TOKEN2": "Gold",
     "DEBT_TOKENS": "GOLD BACKED GOLOS",
     "LIQUID_TOKEN": "Golos",
     "LIQUID_TOKEN_PLURALIZE": {
@@ -1077,6 +1185,7 @@
     "TOKEN_WORTH": "~1 mg of gold",
     "VESTING_TOKEN": "Golos Power",
     "VESTING_TOKEN2": "Golos Power",
+    "VESTING_TOKEN3": "GP",
     "VESTING_TOKENS": "Golos Power",
     "VESTING_TOKEN_PLURALIZE": {
       "one": "Golos Power",
@@ -1210,6 +1319,44 @@
         "upload_only_images": "Upload only images"
       },
       "uploading": "Uploading"
+    }
+  },
+  "user_wallet": {
+    "content": {
+      "donate": "Donate",
+      "empty_list": "List is empty",
+      "failed_load": "Failed to load",
+      "feature_not_implemented": "This feature is not yet implemented",
+      "from": "From",
+      "nothing_here_yet": "Nothing here yet",
+      "power_up": "Power Up",
+      "tip": {
+        "cancel_delegation": "Cancel delegation",
+        "edit_delegation": "Edit delegation",
+        "start_commenting": "Start commenting and upvoting to get rewards",
+        "start_writing": "Start writing posts to get rewards",
+        "user_has_no_comments": "User haven't started commenting and upvoting to get rewards",
+        "user_has_no_posts": "User haven't started writing posts to get rewards."
+      },
+      "to": "To",
+      "transfer_to_savings": {
+        "from": "Withdraw from savings",
+        "to": "Transfer to savings"
+      }
+    },
+    "tab_title": {
+      "all": "All",
+      "author_rewards": "Author Rewards",
+      "curation_rewards": "Curation Rewards",
+      "delegation": "Delegation",
+      "gbg": "GBG",
+      "golos": "Golos",
+      "golos_power": "Golos Power",
+      "received": "Received",
+      "rewards": "Rewards",
+      "savings": "Savings",
+      "sent": "Sent",
+      "transaction_history": "Transaction History"
     }
   },
   "userkeys_jsx": {

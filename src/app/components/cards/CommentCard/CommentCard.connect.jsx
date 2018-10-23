@@ -2,11 +2,11 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
 import extractContent from 'app/utils/ExtractContent';
-import { immutableAccessor } from 'app/utils/Accessors';
 
 import { CommentCard } from './CommentCard';
 import { currentUsernameSelector, globalSelector } from 'src/app/redux/selectors/common';
 import { onVote } from 'src/app/redux/actions/vote';
+import { showNotification } from 'src/app/redux/actions/ui';
 
 export default connect(
     createSelector(
@@ -21,7 +21,7 @@ export default connect(
                     isOwner: true,
                 };
             }
-            const extractedContent = extractContent(immutableAccessor, comment);
+            const extractedContent = extractContent(comment);
             const isOwner = username === comment.get('author');
             const payout =
                 parseFloat(comment.get('pending_payout_value')) +
@@ -53,15 +53,7 @@ export default connect(
         onVote: (username, author, permLink, percent) => {
             dispatch(onVote(username, author, permLink, percent));
         },
-        onNotify: text => {
-            dispatch({
-                type: 'ADD_NOTIFICATION',
-                payload: {
-                    message: text,
-                    dismissAfter: 5000,
-                },
-            });
-        },
+        onNotify: showNotification,
     }),
     null,
     { withRef: true }
