@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 
 import Icon from 'golos-ui/Icon';
 
+import { openRepostDialog } from 'src/app/components/dialogs/actions';
 import VotePanel from 'src/app/components/common/VotePanel/VotePanel';
 import ReplyBlock from 'src/app/components/common/ReplyBlock/ReplyBlock';
 import { confirmVote } from 'src/app/helpers/votes';
@@ -233,9 +234,9 @@ export class ActivePanel extends Component {
         });
     };
 
-    reblog = () => {
-        const { username, account, permLink } = this.props;
-        this.props.reblog(username, account, permLink);
+    repost = () => {
+        const { account, permLink } = this.props;
+        openRepostDialog(`${account}/${permLink}`);
     };
 
     render() {
@@ -263,7 +264,7 @@ export class ActivePanel extends Component {
                 <Divider />
                 <RepostSharingWrapper>
                     <Repost data-tooltip={tt('g.reblog')}>
-                        <Icon width="30" height="27" name="repost-right" onClick={this.reblog} />
+                        <Icon width="30" height="27" name="repost-right" onClick={this.repost} />
                     </Repost>
                     <Divider />
                     <SharingTriangle

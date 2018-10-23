@@ -304,6 +304,7 @@
     "email_recovery_hint": "Используется для сброса пароля в случае если аккаунт был украден",
     "empty": "Тут пока пусто",
     "enter_username": "Введи свое имя пользователя",
+    "error": "Ошибка",
     "expand": "Развернуть",
     "favorites": "Избранное",
     "feed": "Лента",
@@ -788,7 +789,8 @@
     "remove_from_favorites": "Убрать из избранного",
     "pin_post": "Закрепить пост",
     "unpin_post": "Открепить",
-    "post_pinned": "Пост закреплен"
+    "post_pinned": "Пост закреплен",
+    "repost_on": "поделился(сь) постом"
   },
   "post_editor": {
     "add_image": "Добавить изображение",
@@ -946,6 +948,12 @@
     "update_post": "Обновить пост",
     "uploading": "Загрузка",
     "use_limited_amount_of_tags": "У вас %(tagsLength)s тэгов, включая %(includingCategory)s. Пожалуйста, используйте не более 5 в посте и категории."
+  },
+  "repost_dialog": {
+    "ok": "Поделиться",
+    "placeholder": "Напишите свой комменатрий",
+    "success": "Репост успешно добавлен",
+    "title": "Поделиться этим постом"
   },
   "savingswithdrawhistory_jsx": {
     "cancel_this_withdraw_request": "Отменить запрос вывода средств?",

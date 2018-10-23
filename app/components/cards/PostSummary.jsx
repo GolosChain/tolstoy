@@ -7,7 +7,6 @@ import { Map } from 'immutable';
 
 import { APP_ICON } from 'app/client_config';
 import user from 'app/redux/User';
-import { immutableAccessor } from 'app/utils/Accessors';
 import { detransliterate } from 'app/utils/ParsersAndFormatters';
 import { blockedUsers } from 'app/utils/IllegalContent';
 import extractContent from 'app/utils/ExtractContent';
@@ -92,7 +91,7 @@ class PostSummary extends Component {
         const { gray, pictures, authorRepLog10, flagWeight, isNsfw } = content
             .get('stats', Map())
             .toJS();
-        const p = extractContent(immutableAccessor, content);
+        const p = extractContent(content);
         const nsfwTags = ['nsfw', 'ru--mat', '18+'];
         let nsfwTitle = nsfwTags[0];
         let currentNsfw = [];

@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
 import extractContent from 'app/utils/ExtractContent';
-import { immutableAccessor } from 'app/utils/Accessors';
 
 import { CommentCard } from './CommentCard';
 import { currentUsernameSelector, globalSelector } from 'src/app/redux/selectors/common';
@@ -21,7 +20,7 @@ export default connect(
                     isOwner: true,
                 };
             }
-            const extractedContent = extractContent(immutableAccessor, comment);
+            const extractedContent = extractContent(comment);
             const isOwner = username === comment.get('author');
             const payout =
                 parseFloat(comment.get('pending_payout_value')) +

@@ -276,6 +276,7 @@ class UserProfileContainer extends Component {
 
 export default {
     path: '@:accountName',
+    component: UserProfileContainer,
     getIndexRoute(nextState, cb) {
         cb(null, {
             components: {
@@ -347,6 +348,4 @@ export default {
             },
         },
     ],
-
-    component: UserProfileContainer,
 };

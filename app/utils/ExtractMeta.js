@@ -1,5 +1,4 @@
 import extractContent from 'app/utils/ExtractContent';
-import { objAccessor } from 'app/utils/Accessors';
 import normalizeProfile from 'app/utils/NormalizeProfile';
 import {
     SEO_TITLE,
@@ -25,7 +24,7 @@ export default function extractMeta(chainData, routeParams) {
 
         // API currently returns 'false' data with id 0.0.0 for posts that do not exist
         if (content && content.id !== '0.0.0') {
-            const d = extractContent(objAccessor, content, false);
+            const d = extractContent(content);
             const url = 'https://' + APP_DOMAIN + d.link;
             const title = d.title + ' | ' + SEO_TITLE;
             const desc = d.desc + ' by ' + d.author;

@@ -237,7 +237,6 @@ describe('StateBuilder', function() {
                     author: 'lyke',
                     permlink: 'new-hope',
                     category: 'rebel',
-                    first_reblogged_on: '2017-06-14T14:32:42',
                     replies: []
                 },
                 'rey/the-force-awakens': {
@@ -283,7 +282,6 @@ describe('StateBuilder', function() {
                     author: 'lyke',
                     permlink: 'new-hope',
                     category: 'rebel',
-                    first_reblogged_on: '2017-06-14T14:32:42',
                     replies: []
                 },
                 'rey/the-force-awakens': {
@@ -337,7 +335,6 @@ describe('StateBuilder', function() {
                     permlink: 'new-hope',
                     category: 'rebel',
                     first_reblogged_by: 'rey',
-                    first_reblogged_on: '2017-08-18T15:55:12',
                     reblogged_by: [ 'rey' ],
                     replies: []
                 }
