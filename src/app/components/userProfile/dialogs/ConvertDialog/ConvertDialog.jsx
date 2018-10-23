@@ -27,18 +27,6 @@ const TYPES = {
     GBG: 'GBG',
 };
 
-const TYPES_TRANSLATE = {
-    GOLOS: tt('token_names.LIQUID_TOKEN'),
-    POWER: tt('token_names.VESTING_TOKEN'),
-    GBG: 'GBG',
-};
-
-const TYPES_SUCCESS_TEXT = {
-    GOLOS: tt('dialogs.operation_success'),
-    POWER: tt('dialogs.operation_started'),
-    GBG: tt('dialogs.operation_started'),
-};
-
 const DialogFrameStyled = styled(DialogFrame)`
     flex-basis: 580px;
 `;
@@ -144,6 +132,12 @@ class ConvertDialog extends PureComponent {
     render() {
         const { myAccount } = this.props;
         const { target, amount, loader, disabled, amountInFocus, type, saveTo } = this.state;
+
+        const TYPES_TRANSLATE = {
+            GOLOS: tt('token_names.LIQUID_TOKEN'),
+            POWER: tt('token_names.VESTING_TOKEN'),
+            GBG: 'GBG',
+        };
 
         let balance = null;
         let balanceString = null;
@@ -412,6 +406,12 @@ class ConvertDialog extends PureComponent {
     _onOkClick = () => {
         const { myUser } = this.props;
         const { target, amount, type, saveTo, loader, disabled } = this.state;
+
+        const TYPES_SUCCESS_TEXT = {
+            GOLOS: tt('dialogs.operation_success'),
+            POWER: tt('dialogs.operation_started'),
+            GBG: tt('dialogs.operation_started'),
+        };
 
         if (loader || disabled) {
             return;
