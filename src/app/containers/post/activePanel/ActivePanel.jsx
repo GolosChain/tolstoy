@@ -264,7 +264,7 @@ export class ActivePanel extends Component {
                 <Divider />
                 <RepostSharingWrapper>
                     <Repost data-tooltip={tt('g.reblog')}>
-                        <Icon width="30" height="27" name="repost-right" onClick={this.repost} />
+                        <Icon width="30" height="27" name="repost" onClick={this.repost} />
                     </Repost>
                     <Divider />
                     <SharingTriangle

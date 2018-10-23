@@ -206,7 +206,7 @@ export class SidePanel extends Component {
                     </PopoverStyled>
                 </ActionWrapper>
                 <Action
-                    iconName="repost-right"
+                    iconName="repost"
                     dataTooltip={tt('g.reblog')}
                     onClick={this.repost}
                 />

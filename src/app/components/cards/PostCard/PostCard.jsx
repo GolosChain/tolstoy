@@ -7,6 +7,7 @@ import tt from 'counterpart';
 import { Map } from 'immutable';
 
 import { detransliterate } from 'app/utils/ParsersAndFormatters';
+import { openRepostDialog } from 'src/app/components/dialogs/actions';
 import Icon from 'golos-ui/Icon';
 import { confirmVote } from 'src/app/helpers/votes';
 import { PostTitle, PostBody } from '../common';
@@ -57,10 +58,15 @@ const Toolbar = styled.div`
 `;
 
 const ToolbarAction = styled.div`
-    margin-right: 6px;
+    flex-shrink: 0;
+    margin-right: 10px;
 
     &:last-child {
-        margin-right: 0;
+        margin-right: 0 !important;
+    }
+
+    @media (max-width: 700px) {
+        margin-right: 6px;
     }
 `;
 
@@ -166,7 +172,8 @@ const Root = styled.div`
 
 export default class PostCard extends PureComponent {
     static propTypes = {
-        permLink: PropTypes.string,
+        permLink: PropTypes.string.isRequired,
+        postLink: PropTypes.string.isRequired,
         myAccount: PropTypes.string,
         data: PropTypes.object,
         grid: PropTypes.bool,
@@ -261,6 +268,7 @@ export default class PostCard extends PureComponent {
                     <Toolbar>
                         {this.renderEditButton()}
                         {this.renderPinButton()}
+                        {this.renderRepostButton()}
                         {this.renderFavoriteButton()}
                     </Toolbar>
                 </HeaderLine>
@@ -327,11 +335,31 @@ export default class PostCard extends PureComponent {
         );
     }
 
+    renderRepostButton() {
+        const { isOwner, isRepost, myAccount, additionalData } = this.props;
+
+        if (isOwner || (isRepost && additionalData.get('repostAuthor') === myAccount)) {
+            return;
+        }
+
+        return (
+            <ToolbarAction>
+                <IconWrapper
+                    data-tooltip={tt('post_card.repost')}
+                    enabled
+                    onClick={this._onRepostClick}
+                >
+                    <Icon name="repost" width={25} />
+                </IconWrapper>
+            </ToolbarAction>
+        );
+    }
+
     renderFavoriteButton() {
         const { isOwner, isFavorite } = this.props;
 
         if (isOwner) {
-            return null;
+            return;
         }
 
         return (
@@ -345,7 +373,7 @@ export default class PostCard extends PureComponent {
                     enabled
                     onClick={this._onFavoriteClick}
                 >
-                    <Icon name={isFavorite ? 'star_filled' : 'star'} width={20} height={20} />
+                    <Icon name={isFavorite ? 'star_filled' : 'star'} width={24} />
                 </IconWrapper>
             </ToolbarAction>
         );
@@ -427,14 +455,20 @@ export default class PostCard extends PureComponent {
     };
 
     _onFavoriteClick = () => {
-        const { isFavorite, data } = this.props;
+        const { postLink, isFavorite } = this.props;
 
-        this.props.toggleFavorite(data.get('author') + '/' + data.get('permlink'), !isFavorite);
+        this.props.toggleFavorite(postLink, !isFavorite);
+    };
+
+    _onRepostClick = () => {
+        const { postLink } = this.props;
+
+        openRepostDialog(postLink);
     };
 
     _onPinClick = () => {
-        const { data, isPinned } = this.props;
+        const { postLink, isPinned } = this.props;
 
-        this.props.togglePin(data.get('author') + '/' + data.get('permlink'), !isPinned);
+        this.props.togglePin(postLink, !isPinned);
     };
 }
