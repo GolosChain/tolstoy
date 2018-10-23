@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import tt from 'counterpart';
+
 import Header from '../../components/faq/Header';
 import QuestionsList from '../../components/faq/QuestionsList';
 import Channels from '../../components/faq/Channels';
@@ -12,11 +14,8 @@ const Wrapper = styled.div`
 export default class Faq extends Component {
     constructor() {
         super();
-        let lang;
-        if (process.env.BROWSER) {
-            lang = localStorage.getItem('language');
-        }
-
+        const lang = tt.getLocale();
+        
         this.questions = require(lang === 'en'
             ? './questions_EN.json'
             : './questions_RU.json');
