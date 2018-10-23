@@ -276,6 +276,11 @@
     "copied": "Copied!",
     "copy": "COPY"
   },
+  "favorites":{
+    "info_block": "Favorites are private data",
+    "empty_block": "No favorites yet",
+    "empty_sub_text": ""
+  },
   "faq_jsq": {
     "email": "email",
     "footer_message": "We will never ask for your private keys or money. If someone appears to be a member of the Golos.io team and asks for such information, please inform us",
