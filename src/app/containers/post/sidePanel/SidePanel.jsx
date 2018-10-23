@@ -205,11 +205,9 @@ export class SidePanel extends Component {
                         <SharePopover />
                     </PopoverStyled>
                 </ActionWrapper>
-                <Action
-                    iconName="repost"
-                    dataTooltip={tt('g.reblog')}
-                    onClick={this.repost}
-                />
+                {isOwner ? null : (
+                    <Action iconName="repost" dataTooltip={tt('g.reblog')} onClick={this.repost} />
+                )}
                 <PostActions
                     postUrl={postUrl}
                     isFavorite={isFavorite}

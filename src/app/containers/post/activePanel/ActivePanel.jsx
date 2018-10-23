@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
@@ -263,10 +263,14 @@ export class ActivePanel extends Component {
                 />
                 <Divider />
                 <RepostSharingWrapper>
-                    <Repost data-tooltip={tt('g.reblog')}>
-                        <Icon width="30" height="27" name="repost" onClick={this.repost} />
-                    </Repost>
-                    <Divider />
+                    {isOwner ? null : (
+                        <Fragment>
+                            <Repost data-tooltip={tt('g.reblog')}>
+                                <Icon width="30" height="27" name="repost" onClick={this.repost} />
+                            </Repost>
+                            <Divider />
+                        </Fragment>
+                    )}
                     <SharingTriangle
                         isOpen={showSharePopover}
                         data-tooltip={
