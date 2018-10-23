@@ -5,47 +5,47 @@ import { List } from 'immutable';
 import styled from 'styled-components';
 import is from 'styled-is';
 
-import { TAGS_MAX_LENGTH } from 'app/utils/tags';
+// import { TAGS_MAX_LENGTH } from 'app/utils/tags';
 
 import Icon from 'golos-ui/Icon';
 import TagSelect from 'src/app/components/common/TagSelect';
 
 const Wrapper = styled.div``;
 
-const SearchTagsWrapper = styled.div`
-    display: flex;
-    position: relative;
+// const SearchTagsWrapper = styled.div`
+//     display: flex;
+//     position: relative;
 
-    margin-bottom: 40px;
-`;
+//     margin-bottom: 40px;
+// `;
 
-const SearchInput = styled.input`
-    width: 100%;
-    height: 34px;
-    padding: 5px 35px 5px 20px;
+// const SearchInput = styled.input`
+//     width: 100%;
+//     height: 34px;
+//     padding: 5px 35px 5px 20px;
 
-    font-size: 14px;
-    border-radius: 6px;
-    border: solid 1px #e1e1e1 !important;
+//     font-size: 14px;
+//     border-radius: 6px;
+//     border: solid 1px #e1e1e1 !important;
 
-    font-size: 14px;
-    color: #b7b7ba !important;
-    box-shadow: none !important;
-    background: none !important;
+//     font-size: 14px;
+//     color: #b7b7ba !important;
+//     box-shadow: none !important;
+//     background: none !important;
 
-    ::placeholder {
-        color: #b7b7ba;
-    }
-`;
+//     ::placeholder {
+//         color: #b7b7ba;
+//     }
+// `;
 
-const IconStyled = styled(Icon)`
-    position: absolute;
-    display: flex;
+// const IconStyled = styled(Icon)`
+//     position: absolute;
+//     display: flex;
 
-    top: 9px;
-    right: 14px;
-    color: #393636;
-`;
+//     top: 9px;
+//     right: 14px;
+//     color: #393636;
+// `;
 
 const Title = styled.div`
     position: relative;
@@ -155,7 +155,7 @@ export default class TagsCard extends Component {
 
         return (
             <Wrapper>
-                <SearchTagsWrapper>
+                {/* <SearchTagsWrapper>
                     <SearchInput
                         type="text"
                         placeholder="Введите тэг"
@@ -166,7 +166,7 @@ export default class TagsCard extends Component {
                     ) : (
                         <IconStyled name="search" width="16" height="16" />
                     )}
-                </SearchTagsWrapper>
+                </SearchTagsWrapper> */}
 
                 <Title>Популярные теги</Title>
                 <TagsWrapper>{tags.map(this.renderTag)}</TagsWrapper>
