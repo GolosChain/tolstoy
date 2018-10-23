@@ -72,7 +72,7 @@ export const getVestsToGolosRatio = createSelector(
         parseFloat(globalProps.get('total_vesting_shares'))
 );
 
-export const newVisitorSelector = createDeepEqualSelector(
+export const newVisitorSelector = createSelector(
     [state => state.user, state => state.offchain],
     (user, offchain) =>
         !user.get('current') &&

@@ -14,7 +14,7 @@ export default connect(
         [currentPostSelector, authorSelector, currentUsernameSelector, newVisitorSelector],
         (post, author, username, newVisitor) => {
             return {
-                newVisitor,
+                newVisitor: newVisitor,
                 author: author.account,
                 postLoaded: Boolean(post),
                 isPinned: author.pinnedPostsUrls.includes(author.account + '/' + post.permLink),
