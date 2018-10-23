@@ -27,13 +27,13 @@ const Wrapper = styled.div`
 
 const CloseButton = styled.div`
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 22px;
+    right: 22px;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
     cursor: pointer;
     margin: -6px;
     color: #e1e1e1;
@@ -77,49 +77,59 @@ const LoginBlock = styled.div`
 `;
 
 const LoginLabel = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
     width: 30px;
+    line-height: 26px;
     border-right: solid 1px #e1e1e1;
     color: #bebebe;
     font-weight: 500;
-    line-height: 16px;
+    text-align: center;
 `;
 
-const LoginInput = styled.input`
-    flex: 1;
+const Input = styled.input`
     padding-left: 14px;
     padding-right: 14px;
-    border: none;
+    font-size: 14px;
     color: #393636;
+    box-shadow: none !important;
+    -webkit-appearance: none;
 `;
 
-const PasswordInput = styled.input`
+const LoginInput = styled(Input)`
+    flex: 1;
+    border: none;
+    border-radius: 0 6px 6px 0;
+    background: transparent;
+`;
+
+const PasswordInput = styled(Input)`
     height: 30px;
     width: 100%;
-    padding-left: 14px;
-    padding-right: 14px;
     border-radius: 6px;
     border: solid 1px #e1e1e1;
-    color: #393636;
 `;
 
 const BlockCheckboxes = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     margin: 20px 0;
 `;
 
-const ConsentCheckbox = styled.div`
+const ConsentCheckbox = styled.label`
     display: flex;
     justify-content: space-between;
-    width: 100%;
     height: 24px;
+    padding: 0 4px;
+    margin: 0 -4px 4px;
+    text-transform: none;
+    user-select: none;
     color: #393636;
 `;
 
 const CheckboxLabel = styled.div`
     display: flex;
     align-items: center;
+    white-space: nowrap;
     flex: 1;
     margin-left: 14px;
 `;
@@ -182,7 +192,7 @@ export class LoginForm extends Component {
             <Wrapper className={className}>
                 {onClose ? (
                     <CloseButton onClick={onClose}>
-                        <Icon name="cross" width={16} height={16} />
+                        <Icon name="cross_thin" width={16} height={16} />
                     </CloseButton>
                 ) : null}
                 <Form>
@@ -207,15 +217,12 @@ export class LoginForm extends Component {
                         onChange={this.clearError}
                     />
                     <BlockCheckboxes>
-                        <ConsentCheckbox>
-                            <Checkbox value={consent} onChange={this.changeConsent} />
+                        <ConsentCheckbox tabIndex="0" onClick={this.changeConsent}>
+                            <Checkbox value={consent} />
                             <CheckboxLabel>{tt('loginform_jsx.consent')}</CheckboxLabel>
                         </ConsentCheckbox>
-                        <ConsentCheckbox>
-                            <Checkbox
-                                value={saveCredentials}
-                                onChange={this.changeSaveCredentials}
-                            />
+                        <ConsentCheckbox tabIndex="0" onClick={this.changeSaveCredentials}>
+                            <Checkbox value={saveCredentials} />
                             <CheckboxLabel>{tt('loginform_jsx.keep_me_logged_in')}</CheckboxLabel>
                         </ConsentCheckbox>
                     </BlockCheckboxes>
