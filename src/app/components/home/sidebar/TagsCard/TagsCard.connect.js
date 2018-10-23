@@ -31,7 +31,7 @@ export default connect(
                 order = 'by_feed';
             }
 
-            const tagsCollapsed = uiHome.get('tagsCollapsed');
+            const collapsed = uiHome.get('tagsCollapsed');
 
             const tags = trendingTags
                 // filter wrong tags
@@ -44,12 +44,12 @@ export default connect(
                 // filter ignore tags and wrong tags
                 .filter(tag => tag !== null && IGNORE_TAGS.indexOf(tag) === -1)
                 // take only nedeed count of tags
-                .take(tagsCollapsed ? 9 : 50);
- 
+                .take(collapsed ? 9 : 50);
+
             return {
                 order,
                 tags,
-                tagsCollapsed,
+                collapsed,
                 selectedFilterTags: settings.getIn(['basic', 'selectedFilterTags']),
                 selectedSelectTags: settings.getIn(['basic', 'selectedSelectTags']),
                 order,
