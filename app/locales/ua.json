@@ -625,6 +625,13 @@
     "wiki": "Вікі",
     "witnesses": "Голосувати за делегатів"
   },
+  "payout_info": {
+    "author": "Авторські виплати",
+    "beneficiary": "Бенефіціарскі виплати",
+    "curator": "Кураторські виплати",
+    "payout": "Выплата",
+    "potential_payout": "Потенційна виплата"
+  },
   "plurals": {
     "author_rewards_last_24_hours": "Авторські винагороди за останні 24 години",
     "balance": "Баланс",
