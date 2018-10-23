@@ -10,6 +10,8 @@ import AboutPanel from 'src/app/containers/post/aboutPanel';
 import ActivePanel from 'src/app/containers/post/activePanel';
 import CommentsContainer from 'src/app/containers/post/commentsContainer';
 
+export const POST_MAX_WIDTH = 1024;
+
 const Wrapper = styled.div`
     width: 100%;
     height: 100%;
@@ -20,7 +22,7 @@ const ContentWrapper = styled(Container)`
     position: relative;
     display: flex;
     flex-direction: column;
-    max-width: 1024px;
+    max-width: ${POST_MAX_WIDTH}px;
     padding-top: 22px;
     padding-bottom: 17px;
 

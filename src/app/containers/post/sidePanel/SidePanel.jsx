@@ -3,26 +3,29 @@ import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
-import tt from 'counterpart';
 import by from 'styled-by';
+import tt from 'counterpart';
 import throttle from 'lodash/throttle';
 
 import Icon from 'src/app/components/golos-ui/Icon';
+
 import { confirmVote } from 'src/app/helpers/votes';
 import { Action } from 'src/app/components/post/SidePanelAction';
 import SharePopover from 'src/app/components/post/SharePopover';
 import { PopoverStyled } from 'src/app/components/post/PopoverAdditionalStyles';
 import PostActions from 'src/app/components/post/PostActions';
+import { POST_MAX_WIDTH } from 'src/app/containers/post/PostContainer';
 
 const PANEL_MARGIN = 20;
 const FOOTER_HEIGHT = 403;
 const HEADER_HEIGHT = 60;
+const SIDE_PANEL_WIDTH = 64;
 
 const PanelWrapper = styled.div`
     padding: 15px 22px;
     border-radius: 32px;
     background-color: #ffffff;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     opacity: 1;
 
     & > * {
@@ -32,10 +35,12 @@ const PanelWrapper = styled.div`
 
 const Wrapper = styled.div`
     position: fixed;
-    left: calc(50% - 596px);
-    width: 64px;
+    left: calc(50% - ${() => POST_MAX_WIDTH / 2 + SIDE_PANEL_WIDTH / 2}px);
+    z-index: 2;
+    
+    width: ${SIDE_PANEL_WIDTH}px;
     min-height: 50px;
-
+    
     @media (max-width: 1245px) {
         display: none;
     }
@@ -72,14 +77,14 @@ const BackLink = styled(Link)`
     display: flex;
     justify-content: center;
     align-items: center;
-    
-    width: 64px;
-    height: 64px;
+
+    width: ${SIDE_PANEL_WIDTH}px;
+    height: ${SIDE_PANEL_WIDTH}px;
     margin-top: 40px;
-    
+
     border-radius: 50%;
     background-color: #ffffff;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 `;
 
 const BackIcon = styled(Icon)`
