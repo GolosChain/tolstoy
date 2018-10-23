@@ -188,7 +188,7 @@ class DelegateVestingDialog extends PureComponent {
                     onClick: this._onCloseClick,
                 },
                 {
-                    text: 'Делегировать',
+                    text: tt('dialogs_transfer.delegate_vesting.delegate_button'),
                     primary: true,
                     disabled: !allow,
                     onClick: this._onOkClick,
@@ -205,7 +205,7 @@ class DelegateVestingDialog extends PureComponent {
 
         return (
             <DialogFrameStyled
-                title={'Делегировать Силу Голоса'}
+                title={tt('dialogs_transfer.delegate_vesting.title')}
                 titleSize={20}
                 icon="refresh"
                 buttons={buttons}
@@ -215,8 +215,14 @@ class DelegateVestingDialog extends PureComponent {
                     <DialogTypeSelect
                         activeId={type}
                         buttons={[
-                            { id: TYPES.DELEGATE, title: 'Делегировать' },
-                            { id: TYPES.CANCEL, title: 'Отправленные' },
+                            {
+                                id: TYPES.DELEGATE,
+                                title: tt('dialogs_transfer.delegate_vesting.tabs.delegate.title'),
+                            },
+                            {
+                                id: TYPES.CANCEL,
+                                title: tt('dialogs_transfer.delegate_vesting.tabs.delegated.title'),
+                            },
                         ]}
                         onClick={this._onTypeClick}
                     />
@@ -258,11 +264,13 @@ class DelegateVestingDialog extends PureComponent {
             <Columns>
                 <Column>
                     <Section>
-                        <Label>Кому</Label>
+                        <Label>{tt('dialogs_transfer.to')}</Label>
                         <AccountNameInput
                             name="account"
                             block
-                            placeholder={'Делегировать аккаунту'}
+                            placeholder={tt(
+                                'dialogs_transfer.delegate_vesting.tabs.delegated.to_placeholder'
+                            )}
                             autoFocus={!autoFocusValue}
                             value={target}
                             onChange={this._onTargetChange}
@@ -271,13 +279,17 @@ class DelegateVestingDialog extends PureComponent {
                 </Column>
                 <Column>
                     <Section>
-                        <Label>Сколько</Label>
+                        <Label>
+                            {tt('dialogs_transfer.delegate_vesting.tabs.delegated.amount_label')}
+                        </Label>
                         <ComplexInput
-                            placeholder={`Доступно ${availableBalanceString}`}
+                            placeholder={tt('dialogs_transfer.amount_placeholder', {
+                                amount: availableBalanceString,
+                            })}
                             spellCheck="false"
                             value={amount}
                             activeId="power"
-                            buttons={[{ id: 'power', title: 'СГ' }]}
+                            buttons={[{ id: 'power', title: tt('token_names.VESTING_TOKEN3') }]}
                             autoFocus={autoFocusValue}
                             onChange={this._onAmountChange}
                             onFocus={this._onAmountFocus}
@@ -344,7 +356,7 @@ class DelegateVestingDialog extends PureComponent {
         const { amount, target } = this.state;
 
         if (amount.trim() || target) {
-            DialogManager.dangerConfirm('Вы действительно хотите закрыть окно?').then(y => {
+            DialogManager.dangerConfirm(tt('dialogs_transfer.confirm_dialog_close')).then(y => {
                 if (y) {
                     this.props.onClose();
                 }
@@ -362,9 +374,8 @@ class DelegateVestingDialog extends PureComponent {
         switch (type) {
             case TYPES.DELEGATE:
                 return [
-                    'Вы можете делегировать другим пользователям часть своей Силы Голоса.',
-                    'Отменить делегирование или изменить сумму возможно в любой момент. ' +
-                        'При отмене делегированная Сила Голоса вернется вам через 7 дней.',
+                    tt('dialogs_transfer.delegate_vesting.tabs.delegate.tip_1'),
+                    tt('dialogs_transfer.delegate_vesting.tabs.delegate.tip_2'),
                 ];
         }
 
@@ -450,7 +461,7 @@ class DelegateVestingDialog extends PureComponent {
                     loader: false,
                 });
 
-                DialogManager.info('Операция успешно завершена!');
+                DialogManager.info(tt('dialogs_transfer.operation_success'));
 
                 this._loadDelegationsData();
             }

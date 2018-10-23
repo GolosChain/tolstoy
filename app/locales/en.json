@@ -152,6 +152,77 @@
     "info": "Information",
     "prompt": "Enter the data"
   },
+  "dialogs_transfer": {
+    "to": "To",
+    "to_placeholder": "Transfer to account",
+    "amount": "Amount",
+    "amount_placeholder": "Available %(amount)s",
+    "transfer_check": "Transfer to another account",
+    "confirm_dialog_close": "Are you sure you want to close this window?",
+    "operation_started": "Operation started!",
+    "operation_success": "Operation completed successfully!",
+    "transfer": {
+      "title": "Transfer to account",
+      "tip": "Transfer to another account",
+      "memo": "memo",
+      "memo_placeholder": "This memo is public",
+      "transfer_button": "Transfer",
+      "transfer_success": "Transfer to account %(to)s successfully completed!"
+    },
+    "transfer_to_savings": {
+      "title": "Savings",
+      "transfer": "Transfer",
+      "withdraw": "Withdraw",
+      "tip_transfer": "Transfer your funds to savings in order to safe your funds if there is a suspicion that the password could have been compromised.",
+      "tip_withdraw": "You funds will be withdrawn within 3 days",
+      "transfer_button": "Transfer"
+    },
+    "delegate_vesting": {
+      "title": "Delegate Golos Power",
+      "tabs": {
+        "delegate": {
+          "title": "Delegate",
+          "tip_1": "You can delegate some amount of your Golos Power to other users.",
+          "tip_2": "You can cancel delegation or change the amount at any time. Upon cancellation, the delegated Golos Power will be returned to your account in 7 days."
+        },
+        "delegated": {
+          "title": "Delegated",
+          "to_placeholder": "Dellegate to account",
+          "amount_label": "Amount to gelegate",
+          "amount": "Golos Power",
+          "actions": "Action",
+          "edit": "Edit",
+          "cancel": "Cancel"
+        }
+      },
+      "delegate_button": "Delegate"
+    },
+    "convert": {
+      "title": "Convert",
+      "tabs":{
+        "golos_gp": {
+          "title": "Golos → Golos Power",
+          "tip_1": "Transfer Golos tokens into Golos Power to increase your voting power while you vote for posts, comments and delegates.",
+          "tip_2": "Golos Power cannot be transferred to other users, but you can delegate it",
+          "tip_3": "The amount of Golos Power increases during storage.",
+          "hint": "Delegation - transfer some amount of your Golos Power to other users account. Delegation can be canceled at any time."
+        },
+        "gp_golos": {
+          "title": "Golos Power → Golos",
+          "tip_1": "Transfer Golos Power into Golos tokens to get a more liquid token that can be moved between users. At the same time, you reduce your voting power. The conversion takes 13 weeks.",
+          "per_week": "Payments will be about %(amount)s GOLOS per week."
+        },
+        "gbg_golos": {
+          "title": "GBG → Golos",
+          "tip_1": "Transfer GBG into Golos tokens in order to increase your Voice Power or sell them on external exchanges.",
+          "tip_2": "Conversion takes 3.5 days",
+          "tip_3": "and cannot be canceled.",
+          "hint": "Delay at converting Gold (GBG) to Golos tokens is necessary to prevent abuse of speculation."
+        }
+      },
+      "convert_button": "Convert"
+    }
+  },
   "editor_toolbar": {
     "add_image": "Add image",
     "add_image_from_computer": "Add image from computer",
@@ -287,6 +358,7 @@
     "email": "Email",
     "email_recovery_hint": "Used to recover a hijacked or stolen GOLOS account",
     "empty": "So far empty",
+    "empty_list": "Empty list",
     "enter_username": "Enter your username",
     "expand": "Expand",
     "favorites": "Favorites",
@@ -1065,6 +1137,7 @@
     "TOKEN_WORTH": "~1 mg of gold",
     "VESTING_TOKEN": "Golos Power",
     "VESTING_TOKEN2": "Golos Power",
+    "VESTING_TOKEN3": "GP",
     "VESTING_TOKENS": "Golos Power",
     "VESTING_TOKEN_PLURALIZE": {
       "one": "Golos Power",

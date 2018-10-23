@@ -2,6 +2,8 @@ import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import styled from 'styled-components';
+import tt from 'counterpart';
+
 import Icon from 'golos-ui/Icon';
 import { vestsToGolos } from 'app/utils/StateFunctions';
 
@@ -96,9 +98,11 @@ export default class DelegationsList extends PureComponent {
                 {data.length ? (
                     <Fragment>
                         <DelegationsHeader>
-                            <Delegatee>Кому</Delegatee>
-                            <Value>Силы Голоса</Value>
-                            <Action>Действия</Action>
+                            <Delegatee>{tt('dialogs_transfer.to')}</Delegatee>
+                            <Value>{tt('token_names.VESTING_TOKENS')}</Value>
+                            <Action>
+                                {tt('dialogs_transfer.delegate_vesting.tabs.delegated.actions')}
+                            </Action>
                         </DelegationsHeader>
                         <DelegationLines>
                             {data.map(info => (
@@ -114,14 +118,18 @@ export default class DelegationsList extends PureComponent {
                                     </Value>
                                     <Action>
                                         <ActionButton
-                                            data-tooltip="Изменить"
+                                            data-tooltip={tt(
+                                                'dialogs_transfer.delegate_vesting.tabs.delegated.edit'
+                                            )}
                                             onClick={() => this.props.onEditClick(info.delegatee)}
                                         >
                                             <Icon name="pen" size={14} />
                                         </ActionButton>
                                         <ActionButton
                                             red
-                                            data-tooltip="Отозвать"
+                                            data-tooltip={tt(
+                                                'dialogs_transfer.delegate_vesting.tabs.delegated.cancel'
+                                            )}
                                             onClick={() => this.props.onCancelClick(info.delegatee)}
                                         >
                                             <Icon name="cross" size={12} />
@@ -132,7 +140,7 @@ export default class DelegationsList extends PureComponent {
                         </DelegationLines>
                     </Fragment>
                 ) : (
-                    <EmptyList>Список пуст</EmptyList>
+                    <EmptyList>{tt('g.empty_list')}</EmptyList>
                 )}
             </Root>
         );
