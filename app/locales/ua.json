@@ -148,7 +148,7 @@
           "amount_label": "Скільки",
           "cancel": "Скасувати",
           "edit": "Редагувати",
-          "title": "Надіслані",
+          "title": "Перекази",
           "to_placeholder": "Делегувати користувачу"
         }
       },
@@ -157,22 +157,22 @@
     "operation_started": "Операція запущена!",
     "operation_success": "Операція успішно завершена!",
     "to": "До",
-    "to_placeholder": "Надіслати користувачу",
+    "to_placeholder": "Переказати користувачу",
     "transfer": {
       "memo": "Замітка",
       "memo_placeholder": "Ця замітка є приватною",
-      "tip": "Надіслати кошти на інший рахунок",
-      "title": "Надіслати користувачу",
-      "transfer_button": "Надіслати",
+      "tip": "Переказати кошти на інший рахунок",
+      "title": "Переказати користувачу",
+      "transfer_button": "Переказати",
       "transfer_success": "Переказ користувачу %(to)s успішно завершений!"
     },
-    "transfer_check": "Надіслати на інший аккаунт",
+    "transfer_check": "Переказати на інший аккаунт",
     "transfer_to_savings": {
       "tip_transfer": "Переказ в сейф робиться для безпеки і збереження ваших коштів, якщо є підозра, що пароль міг бути скомпрометований. Токени в сейф потрапляють миттєво",
       "tip_withdraw": "Виведення коштів відбувається протягом трьох днів",
       "title": "Сейф",
-      "transfer": "Надіслати",
-      "transfer_button": "Надіслати",
+      "transfer": "Переказати",
+      "transfer_button": "Переказати",
       "withdraw": "Вивести"
     }
   },
@@ -761,33 +761,86 @@
   },
   "settings_jsx": {
     "about_is_too_long": "Інформація про Ваш блог занадто довга",
+    "account": {
+      "placeholders": {
+        "about": "Чому вчився. Де і ким працюю. Мої проекти. Інтереси. Сім'я. Життєве кредо",
+        "gender": "Виберіть вашу стать",
+        "location": "Вкажіть своє місто",
+        "name": "Ім'я Прізвище",
+        "social_facebook": "Посилання на Facebook",
+        "social_instagram": "Посилання на Instagram",
+        "social_twitter": "Посилання на Twitter",
+        "social_vkontakte": "Посилання на Вконтакте",
+        "website": "Посилання на сайт"
+      }
+    },
     "always_hide": "Завжди приховувати",
     "always_show": "Відображати завжди",
     "always_warn": "Завжди попереджати",
     "choose_currency": "Виберіть валюту",
     "choose_language": "Виберіть мову інтерфейсу",
-    "cover_image_url": "Додайте URL Вашої обкладинки",
+    "cover_image_url": "Додайте URL Вашої обкладинки або завантажте її",
     "invalid_url": "Неприпустима URL-адреса",
+    "keys": {
+      "info": "Важливо зберегти свій ключ-пароль. Golos.io не зберігає ваші паролі. Переконайтеся, що надійно зберегли ваші ключі.",
+      "tabs": {
+        "keys": "Ключі",
+        "new": "Новий ключ"
+      }
+    },
     "location_is_too_long": "Місцезнаходження задовге",
     "muted_users": "Заблоковані користувачі",
     "name_is_too_long": "Ім'я задовге",
     "name_must_not_begin_with": "Ім'я не повинно починатися з @",
-    "not_safe_for_work_nsfw_content": "Контент для дорослих",
+    "not_safe_for_work_nsfw_content": "Відображення NSFW контенту",
+    "notifications": {
+      "allOnline": "Увімкнути/вимкнути всі онлайн повідомлення",
+      "allOnlineLabel": "Миттєві повідомлення на сайті",
+      "award": "Авторська винагорода",
+      "curatorAward": "Кураторська винагорода",
+      "flag": "Дізлайк (прапор)",
+      "mention": "Згадка у пості або коментарі",
+      "message": "Приватне повідомлення",
+      "reply": "Відповідь на пост або коментар",
+      "repost": "Репост",
+      "subscribe": "Підписка на блог",
+      "transfer": "Переказ коштів",
+      "unsubscribe": "Відписка від блогу",
+      "vote": "Лайк (голос)"
+    },
     "private_post_display_settings": "Налаштування відображення приватних постів",
-    "profile_about": "Про проект",
+    "profile_about": "Про себе",
+    "profile_email": "Електронна пошта",
     "profile_gender": {
       "genders": {
         "female": "Жіночий",
         "male": "Чоловічий",
-        "undefined": "Невизначено"
+        "undefined": "Не вказано"
       },
       "title": "Стать"
     },
-    "profile_image_url": "Додайте URL Вашого зображення",
-    "profile_location": "Місцезнаходження",
-    "profile_name": "Відображаєме ім'я ",
-    "profile_website": "Веб-сайт",
+    "profile_image_url": "Вставте посилання на зображення або завантажте його",
+    "profile_location": "Місто",
+    "profile_name": "Відображене ім'я",
+    "profile_username": "Юзернейм",
+    "profile_website": "Сайт",
     "public_profile_settings": "Налаштування Публічного Профілю",
+    "reset": "Скинути",
+    "rounding_numbers": {
+      "info_message": "Відображення винагород",
+      "integer": "Округляти до цілого числа",
+      "one_decimal": "Один знак після коми",
+      "three_decimal": "Три знака після коми",
+      "two_decimal": "Два знака після коми"
+    },
+    "self_vote_default": "Голосувати за замовчуванням за свою публікацію",
+    "social_networks": "Соціальні мережі",
+    "tabs": {
+      "account": "Обліковий запис",
+      "common": "Загальні",
+      "keys": "Ключі",
+      "notifications": "Повідомлення"
+    },
     "update": "Оновити",
     "website_url_is_too_long": "URL-адреса веб-сайту занадто довга"
   },
@@ -891,7 +944,7 @@
       "delegate_vesting_shares": "Делегувати Силу Голосу",
       "reputation": "Рейтинг",
       "title": "Коротка інформація",
-      "transfer": "Надіслати",
+      "transfer": "Переказати",
       "transfer_to_savings": "Зняти/перевести в сейф"
     },
     "explore_APP_NAME": "Дослідити %(APP_NAME)s",
@@ -1005,7 +1058,7 @@
       "golos": "Голос",
       "golos_power": "Сила Голосу",
       "received": "Отримані",
-      "rewards": "Нагороди",
+      "rewards": "Винагороди",
       "savings": "Сейф",
       "sent": "Відправлені",
       "transaction_history": "Исторія транзакцій"
