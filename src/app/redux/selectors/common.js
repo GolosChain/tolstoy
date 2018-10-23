@@ -71,3 +71,12 @@ export const getVestsToGolosRatio = createSelector(
         parseFloat(globalProps.get('total_vesting_fund_steem')) /
         parseFloat(globalProps.get('total_vesting_shares'))
 );
+
+export const newVisitorSelector = createSelector(
+    [state => state.user, state => state.offchain],
+    (user, offchain) =>
+        !user.get('current') &&
+        !offchain.get('user') &&
+        !offchain.get('account') &&
+        offchain.get('new_visit')
+);

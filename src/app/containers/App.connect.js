@@ -1,0 +1,27 @@
+import { connect } from 'react-redux';
+import { App } from 'src/app/containers/App';
+import { createSelector } from 'reselect';
+
+import { locationChanged } from 'src/app/redux/actions/ui';
+import user from 'app/redux/User';
+import {
+    newVisitorSelector,
+    offchainSelector,
+    appSelector as appStateSelector,
+} from 'src/app/redux/selectors/common';
+
+export default connect(
+    createSelector(
+        [appStateSelector('error'), offchainSelector('flash'), newVisitorSelector],
+        (error, flash, newVisitor) => ({
+            error,
+            flash,
+            newVisitor,
+        })
+    ),
+    {
+        loginUser: user.actions.usernamePasswordLogin,
+        logoutUser: user.actions.logout,
+        locationChanged,
+    }
+)(App);

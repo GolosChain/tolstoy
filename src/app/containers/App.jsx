@@ -1,17 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { ThemeProvider, injectGlobal } from 'styled-components';
 import { Helmet } from 'react-helmet';
 import tt from 'counterpart';
 import { key_utils } from 'golos-js/lib/auth/ecc';
 import CloseButton from 'react-foundation-components/lib/global/close-button'; // TODO: make new component and delete
 
-import { appSelector } from 'src/app/redux/selectors/app';
-import user from 'app/redux/User';
 import { REGISTRATION_URL } from 'app/client_config';
 import { init as initAnchorHelper } from 'app/utils/anchorHelper';
-import { locationChanged } from 'src/app/redux/actions/ui';
 
 import defaultTheme from 'src/app/themes';
 import Header from 'src/app/components/header/Header';
@@ -35,15 +31,7 @@ injectGlobal`
     }
 `;
 
-@connect(
-    appSelector,
-    {
-        loginUser: user.actions.usernamePasswordLogin,
-        logoutUser: user.actions.logout,
-        locationChanged,
-    }
-)
-export default class App extends Component {
+export class App extends Component {
     static propTypes = {
         error: PropTypes.string,
         children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
