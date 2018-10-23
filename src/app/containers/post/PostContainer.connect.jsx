@@ -1,14 +1,13 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import { currentUsernameSelector } from 'src/app/redux/selectors/common';
+import { currentUsernameSelector, newVisitorSelector } from 'src/app/redux/selectors/common';
 import { currentPostSelector, authorSelector } from 'src/app/redux/selectors/post/commonPost';
 import { USER_FOLLOW_DATA_LOAD } from 'src/app/redux/constants/followers';
 import { FAVORITES_LOAD } from 'src/app/redux/constants/favorites';
 import { PostContainer } from 'src/app/containers/post/PostContainer';
 import { togglePinAction } from 'src/app/redux/actions/pinnedPosts';
 import { toggleFavoriteAction } from 'src/app/redux/actions/favorites';
-import { newVisitorSelector } from 'src/app/redux/selectors/app';
 
 export default connect(
     createSelector(
