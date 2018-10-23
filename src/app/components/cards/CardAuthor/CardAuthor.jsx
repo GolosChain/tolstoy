@@ -77,7 +77,7 @@ const CardAuthor = ({ author, originalAuthor, created, isRepost, className, noLi
         <Wrapper className={className}>
             <AvatarComp to={`/@${author}`}>
                 <Userpic account={author} size={37} />
-                {isRepost ? <RepostIcon name="repost" /> : null}
+                {isRepost ? <RepostIcon name="repost-avatar" /> : null}
             </AvatarComp>
             <PostDesc>
                 <AuthorLine>

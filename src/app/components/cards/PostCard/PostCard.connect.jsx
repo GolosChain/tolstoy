@@ -39,6 +39,7 @@ export default connect(
         return {
             myAccount: myAccountName,
             data,
+            postLink: data.get('author') + '/' + data.get('permlink'),
             sanitizedData: sanitizeCardPostData(data),
             isRepost,
             repostHtml,
