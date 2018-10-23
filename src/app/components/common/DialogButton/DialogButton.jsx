@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import is from 'styled-is';
-import cn from 'classnames';
 
 const ButtonWrapper = styled.div`
     position: relative;
@@ -62,8 +61,8 @@ const Button = styled.button`
             color: #60a0ff;
         }
         
-        [disabled] {
-            #8fc3ff;
+        &[disabled] {
+            color: #8fc3ff;
         }
     `};
 
@@ -78,7 +77,7 @@ const Button = styled.button`
             background: #ffe3dd;
         }
         
-        [disabled] {
+        &[disabled] {
             color: #ffe3dd;
             background: none;
         }

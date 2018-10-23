@@ -163,6 +163,15 @@
     "info": "Информация",
     "prompt": "Введите данные"
   },
+  "dialogs_promote": {
+    "active_key": "Активный ключ",
+    "amount": "Количество",
+    "description": "Используйте Ваши GBG, чтобы прорекламировать этот пост в секции продвигаемого контента.",
+    "fill_form_error": "Заполните все поля корректно",
+    "promote_button": "Продвинуть",
+    "success": "Продвижение прошло успешно",
+    "title": "Продвинуть пост"
+  },
   "dialogs_transfer": {
     "amount": "Сколько",
     "amount_placeholder": "Доступно %(amount)s",
@@ -969,20 +978,6 @@
     "per_week": "Это ~%(AMOUNT)s %(LIQUID_TICKER)s в неделю.",
     "power_down": "Уменьшить силу голоса",
     "warning": "Оставлять меньше чем %(AMOUNT)s %(LIQUID_TICKER)s не рекомендуется, т.к. это может остановить все транзакции с использованием это аккаунта."
-  },
-  "promote_post_jsx": {
-    "created": "новое",
-    "crowdsale": "Краудсейл",
-    "following": "Подписки",
-    "leave_this_unchecked_to_receive_half_your_reward": "Оставьте неотмеченным для получения 1/2 вознаграждения в %(VESTING_TOKEN)s и 1/2 %(DEBT_TOKEN)s",
-    "pay_me_100_in_VESTING_TOKEN": "Заплатить мне 100%% в %(VESTING_TOKEN3)s",
-    "promote_post": "Продвинуть пост",
-    "reblogged_by": "Репостнуто",
-    "settings": "Настройки",
-    "spend_your_DEBT_TOKEN_to_advertise_this_post": "Используйте Ваши %(DEBT_TOKEN)s, чтобы прорекламировать этот пост в секции продвигаемого контента",
-    "this_post_was_hidden_due_to_low_ratings": "Этот пост был скрыт из-за низкого рейтинга",
-    "updated": "обновленное",
-    "you_successfully_promoted_this_post": "Вы успешно продвинули этот пост"
   },
   "recoveraccountstep1_jsx": {
     "account_name_is_not_found": "Имя аккаунта не найдено",

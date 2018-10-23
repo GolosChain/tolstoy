@@ -61,6 +61,13 @@ export const currentUsernameSelector = createSelector(
     user => (user ? user.get('username') : null)
 );
 
+export const accountSelector = (state, accountName) => state.global.accounts.get(accountName);
+
+export const currentAccountSelector = createSelector(
+    [globalSelector('accounts'), currentUsernameSelector],
+    (accounts, username) => accounts.get(username)
+);
+
 export const parseJSON = memorize(JSON.parse);
 
 // Utils

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 import Icon from 'golos-ui/Icon';
 
-import { openRepostDialog } from 'src/app/components/dialogs/actions';
+import { openRepostDialog, openPromoteDialog } from 'src/app/components/dialogs/actions';
 import VotePanel from 'src/app/components/common/VotePanel/VotePanel';
 import ReplyBlock from 'src/app/components/common/ReplyBlock/ReplyBlock';
 import { confirmVote } from 'src/app/helpers/votes';
@@ -205,7 +205,7 @@ export class ActivePanel extends Component {
 
     promotePost = () => {
         const { account, permLink } = this.props;
-        this.props.showPromotePost(account, permLink);
+        openPromoteDialog(`${account}/${permLink}`);
     };
 
     flagPost = () => {};
@@ -325,12 +325,16 @@ export class ActivePanel extends Component {
                                 isOwner={isOwner}
                                 toggleFavorite={toggleFavorite}
                                 togglePin={togglePin}
-                                showText={true}
+                                showText
                             />
-                            <Action onClick={this.promotePost}>
-                                <ActionIcon name="brilliant" />
-                                <ActionText>{tt('active_panel_tooltip.promote_post')}</ActionText>
-                            </Action>
+                            {username ? (
+                                <Action onClick={this.promotePost}>
+                                    <ActionIcon name="brilliant" />
+                                    <ActionText>
+                                        {tt('active_panel_tooltip.promote_post')}
+                                    </ActionText>
+                                </Action>
+                            ) : null}
                             {/*TODO после реализации функционала
                             <Action onClick={this._flagPost}>
                                 <ActionIcon name="complain_normal" />
