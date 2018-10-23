@@ -7,6 +7,13 @@
     "mobileBannerAlt": "Доступно в Google Play",
     "resources": "Ресурси"
   },
+  "active_panel_tooltip": {
+    "complain_about_post": "Поскаржитись на пост",
+    "edit": "Рредагувати",
+    "pin_post": "Закріпити пост",
+    "promote_post": "Просунути пост",
+    "unpin_post": "Відкріпити пост"
+  },
   "activity": {
     "tab_title": {
       "all": "Усе",
@@ -712,6 +719,7 @@
     "recieve_amount_from": "Отримано %(amount)s від",
     "recieve_interest_of": "Отримано відсотки в розмірі %(interest)s",
     "share": "Поділитись",
+    "share_in_social_networks": "Поділитися у соціальних мережах",
     "share_on_facebook": "Поділитись у Facebook",
     "share_on_lj": "Поділитись у LiveJournal",
     "share_on_twitter": "Поділитись у Twitter",
