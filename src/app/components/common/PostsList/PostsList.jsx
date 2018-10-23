@@ -15,7 +15,7 @@ import PostCard from 'src/app/components/cards/PostCard';
 import CommentCard from 'src/app/components/cards/CommentCard';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 
-const FORCE_GRID_WIDTH = 1200;
+const FORCE_GRID_WIDTH = 650;
 
 const Root = styled.div`
     ${is('grid')`
@@ -34,25 +34,13 @@ const EntryWrapper = styled.div`
     margin-bottom: 16px;
 
     ${is('grid')`
-        max-width: 33.3333%;
+        max-width: 50%;
         flex-basis: 317px;
         flex-grow: 1;
         vertical-align: top;
         padding: 0 8px;
         
-        @media (max-width: 1180px) {
-            max-width: 50%;
-        }
-
-        @media (max-width: 890px) {
-            max-width: 33.3333%;
-        }
-
-        @media (max-width: 750px) {
-            max-width: 50%;
-        }
-
-        @media (max-width: 600px) {
+        @media (max-width: 950px) {
             max-width: 100%;
         }
     `};

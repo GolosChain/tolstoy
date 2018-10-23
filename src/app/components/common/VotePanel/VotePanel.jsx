@@ -129,17 +129,6 @@ const Root = styled.div`
     padding: 12px 18px;
     display: flex;
     align-items: center;
-
-    ${is('whiteTheme')`
-        ${Money} {
-            color: #fff;
-            border-color: #fff;
-        }
-
-        ${LikeCount}, ${LikeIcon}, ${LikeIconNeg} {
-            color: #fff !important;
-        }    
-    `};
 `;
 
 const IconTriangle = Icon.extend`
@@ -196,7 +185,6 @@ export default class VotePanel extends PureComponent {
     static propTypes = {
         data: PropTypes.object, // Immutable.Map
         me: PropTypes.string,
-        whiteTheme: PropTypes.bool,
         onChange: PropTypes.func.isRequired,
     };
 
@@ -212,7 +200,7 @@ export default class VotePanel extends PureComponent {
     }
 
     render() {
-        const { data, me, whiteTheme, className } = this.props;
+        const { data, me, className } = this.props;
         const { showSlider, sliderAction } = this.state;
 
         const votes = data.get('active_votes');
@@ -222,7 +210,7 @@ export default class VotePanel extends PureComponent {
             : calcVotesStats(votes.toJS(), me);
         this._myVote = votesSummary.myVote;
         return (
-            <Root whiteTheme={whiteTheme} className={className} innerRef={this._onRef}>
+            <Root className={className} innerRef={this._onRef}>
                 <LikeBlock
                     active={this._myVote === 'like' || sliderAction === 'like'}
                     data-tooltip={

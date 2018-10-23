@@ -3,10 +3,10 @@ import is from 'styled-is';
 import Flex from 'golos-ui/Flex';
 
 const Container = styled(Flex)`
-    max-width: 1200px;
+    max-width: 1150px;
     margin: 0 auto;
 
-    @media (max-width: 1200px) {
+    @media (max-width: 1190px) {
         margin: 0 20px;
     }
 
