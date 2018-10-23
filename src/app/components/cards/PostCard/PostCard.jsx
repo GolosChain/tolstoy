@@ -15,7 +15,7 @@ import ReplyBlock from '../../common/ReplyBlock';
 import CardAuthor from '../CardAuthor';
 
 const Header = styled.div`
-    padding: 10px 0 6px;
+    padding: 10px 0;
     flex-shrink: 0;
 `;
 
@@ -32,6 +32,10 @@ const HeaderLine = styled.div`
     }
 `;
 
+const HeaderLineGrid = styled(HeaderLine)`
+    padding: 4px 18px;
+`;
+
 const Category = styled.div`
     height: 28px;
     padding: 0 12px;
@@ -46,10 +50,12 @@ const Category = styled.div`
     background: #789821;
     cursor: default;
 `;
+
 const Toolbar = styled.div`
     display: flex;
     align-items: center;
 `;
+
 const ToolbarAction = styled.div`
     margin-right: 6px;
 
@@ -57,14 +63,16 @@ const ToolbarAction = styled.div`
         margin-right: 0;
     }
 `;
+
 const ToolbarActionLink = ToolbarAction.withComponent(Link);
+
 const IconWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
     width: 32px;
     height: 32px;
-    color: ${({ color }) => color || '#393636'};
+    color: #393636;
 
     ${is('enabled')`
         cursor: pointer;
@@ -80,10 +88,6 @@ const BodyLink = styled(Link)`
     display: block;
     transition: none !important;
 
-    ${is('half')`
-        width: 62%;
-    `};
-
     ${is('grid')`
         flex-shrink: 1;
         flex-grow: 1;
@@ -93,7 +97,7 @@ const BodyLink = styled(Link)`
 
 const Body = styled.div`
     position: relative;
-    padding: 0 18px;
+    padding: 0 18px 12px;
 `;
 
 const RepostBody = styled(PostBody)`
@@ -121,40 +125,27 @@ const Footer = styled.div`
 const VotePanelStyled = styled(VotePanel)`
     ${is('grid')`
         padding: 0;
-        padding-bottom: 20px;
+        padding-bottom: 15px;
         justify-content: space-around;
     `};
 `;
 
-const PostImage = styled.div`
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 38%;
-    border-radius: 0 8px 8px 0;
-    background: url('${a => a.src}') no-repeat center;
+const PostImage = styled.div.attrs({
+    style: ({ src }) => ({
+        backgroundImage: `url(${src})`,
+    }),
+})`
+    width: 100%;
+    height: 356px;
+    max-height: 45vh;
+    margin-bottom: 14px;
+    background-repeat: no-repeat;
+    background-position: center;
     background-size: cover;
-    z-index: 0;
-    overflow: hidden;
-    
-    &:after {
-        position: absolute;
-        content: '';
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background-color: rgba(100, 100, 100, 0.15);
-    }
-    
+
     ${is('grid')`
-        top: unset;
-        left: 0;
-        width: unset;
-        height: 173px;
-        border-radius: 0 0 8px 8px;
-    `}
+        height: 183px;
+    `};
 `;
 
 const Filler = styled.div`
@@ -167,46 +158,10 @@ const Root = styled.div`
     background: #fff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
 
-    ${PostImage}:after {
-        background-color: rgba(0, 0, 0, 0);
-        transition: background-color 0.15s;
-    }
-
-    &:hover ${PostImage}:after {
-        background-color: rgba(0, 0, 0, 0.3);
-    }
-
     ${is('grid')`
         display: flex;
         flex-direction: column;
-        height: 338px;
-
-        @media (max-width: 890px) {
-            height: 355px;
-        }
     `};
-
-    &.PostCard_image.PostCard_grid {
-        ${VotePanelStyled} {
-            opacity: 0;
-            transition: opacity 0.25s;
-        }
-
-        &:hover ${VotePanelStyled} {
-            opacity: 1;
-        }
-
-        &:after {
-            position: absolute;
-            content: '';
-            height: 30px;
-            left: 0;
-            right: 0;
-            bottom: 173px;
-            background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
-            pointer-events: none;
-        }
-    }
 `;
 
 export default class PostCard extends PureComponent {
@@ -310,26 +265,22 @@ export default class PostCard extends PureComponent {
                     </Toolbar>
                 </HeaderLine>
                 {grid ? (
-                    <HeaderLine>
+                    <HeaderLineGrid>
                         <Category>{category}</Category>
                         <Filler />
-                    </HeaderLine>
+                    </HeaderLineGrid>
                 ) : null}
             </Header>
         );
     }
 
     renderEditButton() {
-        const { isOwner, grid, sanitizedData, showPinButton } = this.props;
+        const { isOwner, sanitizedData, showPinButton } = this.props;
 
         if (showPinButton && isOwner) {
             return (
                 <ToolbarActionLink to={`${sanitizedData.link}/edit`}>
-                    <IconWrapper
-                        color={sanitizedData.image_link && !grid ? '#fff' : ''}
-                        enabled
-                        data-tooltip={tt('g.edit')}
-                    >
+                    <IconWrapper enabled data-tooltip={tt('g.edit')}>
                         <Icon name="pen" width={23} height={23} />
                     </IconWrapper>
                 </ToolbarActionLink>
@@ -377,7 +328,7 @@ export default class PostCard extends PureComponent {
     }
 
     renderFavoriteButton() {
-        const { isOwner, grid, isFavorite, sanitizedData } = this.props;
+        const { isOwner, isFavorite } = this.props;
 
         if (isOwner) {
             return null;
@@ -386,7 +337,6 @@ export default class PostCard extends PureComponent {
         return (
             <ToolbarAction>
                 <IconWrapper
-                    color={sanitizedData.image_link && !grid ? '#fff' : ''}
                     data-tooltip={
                         isFavorite
                             ? tt('post_card.remove_from_favorites')
@@ -406,12 +356,10 @@ export default class PostCard extends PureComponent {
         const withImage = sanitizedData.image_link;
 
         return (
-            <BodyLink
-                to={sanitizedData.link}
-                half={withImage && !grid ? 1 : 0}
-                grid={grid ? 1 : 0}
-                onClick={this._onClick}
-            >
+            <BodyLink to={sanitizedData.link} grid={grid ? 1 : 0} onClick={this._onClick}>
+                {withImage ? (
+                    <PostImage grid={grid} src={this._getImageSrc(sanitizedData.image_link)} />
+                ) : null}
                 <Body>
                     {isRepost && repostHtml ? (
                         <RepostBody dangerouslySetInnerHTML={repostHtml} />
@@ -419,9 +367,6 @@ export default class PostCard extends PureComponent {
                     <PostTitle>{sanitizedData.title}</PostTitle>
                     <PostBody dangerouslySetInnerHTML={sanitizedData.html} />
                 </Body>
-                {withImage ? (
-                    <PostImage grid={grid} src={this._getImageSrc(sanitizedData.image_link)} />
-                ) : null}
             </BodyLink>
         );
     }
@@ -429,8 +374,14 @@ export default class PostCard extends PureComponent {
     _getImageSrc(url) {
         const proxy = $STM_Config.img_proxy_prefix;
 
+        let size = '900x356';
+
+        if (process.env.BROWSER && document.body.offsetWidth < 500) {
+            size = '488x183';
+        }
+
         if (proxy) {
-            return `${proxy}346x194/${url}`;
+            return `${proxy}${size}/${url}`;
         } else {
             return url;
         }
@@ -438,20 +389,17 @@ export default class PostCard extends PureComponent {
 
     renderFooter() {
         const { data, myAccount, sanitizedData, grid } = this.props;
-        const withImage = Boolean(sanitizedData.image_link);
 
         return (
             <Footer grid={grid}>
                 <VotePanelStyled
                     data={data}
                     me={myAccount}
-                    whiteTheme={withImage && grid}
                     grid={grid}
                     onChange={this._onVoteChange}
                 />
                 {grid ? null : <Filler />}
                 <ReplyBlock
-                    withImage={withImage}
                     grid={grid}
                     count={data.get('children')}
                     link={sanitizedData.link}

@@ -6,6 +6,9 @@ import remarkableStripper from 'app/utils/RemarkableStripper';
 import { htmlDecode } from 'app/utils/Html';
 import { getTags } from 'shared/HtmlReady';
 
+const DESC_LENGTH = 600;
+const DESC_LENGTH_WITH_IMAGE = 300;
+
 const FIELDS = [
     'author',
     'permlink',
@@ -32,7 +35,7 @@ export default function extractContent(_data) {
     processLinks(data);
     tryExtractMetadata(data);
     tryExtractImage(data);
-    data.desc = extractDescBody(data.body, data.depth);
+    data.desc = extractDescBody(data);
 
     data.pending_payout = data.pending_payout_value;
 
@@ -42,7 +45,7 @@ export default function extractContent(_data) {
 export const extractContentMemoized = memoize(extractContent);
 
 export function extractRepost(body) {
-    return extractDescBody(body.trim());
+    return extractDescBody({ body: body.trim() });
 }
 
 function extractFields(_data, list) {
@@ -114,7 +117,9 @@ function tryExtractImage(data) {
     }
 }
 
-function extractDescBody(body, depth = 0) {
+function extractDescBody(data) {
+    const { body, depth = 0 } = data;
+
     if (!body) {
         return;
     }
@@ -131,25 +136,25 @@ function extractDescBody(body, depth = 0) {
     desc = sanitize(body2, { allowedTags: [] }); // remove all html, leaving text
     desc = htmlDecode(desc);
 
+    desc = desc.replace(/\s{2,}/g, ' ');
+
     // Strip any raw URLs from preview text
     desc = desc.replace(/https?:\/\/[^\s]+/g, '');
+    desc = desc.trim();
 
-    // Grab only the first line (not working as expected. does rendering/sanitizing strip newlines?)
-    desc = desc.trim().split('\n')[0];
+    const limit = data.image_link ? DESC_LENGTH_WITH_IMAGE : DESC_LENGTH;
 
-    if (desc.length > 140) {
-        desc = desc.substring(0, 140).trim();
+    if (desc.length > limit) {
+        desc = desc.substring(0, limit).trim();
 
-        const dotSpace = desc.lastIndexOf('. ');
+        const dotIndex = desc.lastIndexOf('. ');
 
-        if (dotSpace > 80 && depth <= 1) {
-            desc = desc.substring(0, dotSpace + 1);
+        // If dot near end of characters limit
+        if (dotIndex > limit - 40 && depth <= 1) {
+            desc = desc.substring(0, dotIndex + 1);
         } else {
             // Truncate, remove the last (likely partial) word (along with random punctuation), and add ellipses
-            desc = desc
-                .substring(0, 120)
-                .trim()
-                .replace(/[,!\?]?\s+[^\s]+$/, '…');
+            desc = desc.replace(/[,!\?]?\s+[^\s]+$/, '…');
         }
     }
 
