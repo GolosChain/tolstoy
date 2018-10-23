@@ -14,7 +14,6 @@ import Icon from 'golos-ui/Icon';
 import Flex from 'golos-ui/Flex';
 
 import Follow from 'src/app/components/common/FollowMute';
-import Mute from 'src/app/components/common/Mute';
 import StyledContainer from 'src/app/components/common/Container';
 import UserProfileAvatar from './../UserProfileAvatar';
 import Dropdown from 'src/app/components/common/Dropdown';
@@ -170,10 +169,6 @@ const ButtonFollow = styled(Follow)`
     margin-right: 5px;
 `;
 
-const ButtonMute = styled(Mute)`
-    margin-right: 5px;
-`;
-
 // Component
 export default class UserHeader extends Component {
     static propTypes = {
@@ -218,15 +213,8 @@ export default class UserHeader extends Component {
                                     <Icon name="reply" height="17" width="18" />Написать
                                     </Button> */}
                                     <ButtonFollow following={currentAccount.get('name')} />
-                                    <ButtonMute muting={currentAccount.get('name')} />
                                 </Fragment>
                             )}
-                            <ButtonLink
-                                light
-                                href={`https://preview.golos.io/@${currentAccount.get('name')}`}
-                            >
-                                Вернуть старый профиль
-                            </ButtonLink>
                         </Buttons>
                     </Details>
                     {isOwner && isSettingsPage && this._renderCoverDropDown()}
