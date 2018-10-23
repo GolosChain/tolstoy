@@ -873,6 +873,8 @@
       "following": "Підписок",
       "gender": "Стать",
       "post_count": "Постів",
+      "reputation": "Рейтинг",
+      "title": "Коротка інформація",
       "registered": "На Golos з"
     },
     "account_tokens": {

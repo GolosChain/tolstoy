@@ -1,10 +1,13 @@
 import React, { Component, createRef } from 'react';
+import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
-import tt from 'counterpart';
 import by from 'styled-by';
+import tt from 'counterpart';
 import throttle from 'lodash/throttle';
+
+import Icon from 'src/app/components/golos-ui/Icon';
 
 import { openRepostDialog } from 'src/app/components/dialogs/actions';
 import { confirmVote } from 'src/app/helpers/votes';
@@ -12,33 +15,37 @@ import { Action } from 'src/app/components/post/SidePanelAction';
 import SharePopover from 'src/app/components/post/SharePopover';
 import { PopoverStyled } from 'src/app/components/post/PopoverAdditionalStyles';
 import PostActions from 'src/app/components/post/PostActions';
+import { POST_MAX_WIDTH } from 'src/app/containers/post/PostContainer';
 
 const PANEL_MARGIN = 20;
-const FOOTER_HEIGHT = 403;
+const FOOTER_HEIGHT = 324;
 const HEADER_HEIGHT = 60;
+const SIDE_PANEL_WIDTH = 64;
 
-const Wrapper = styled.div`
-    position: fixed;
-    left: calc(50% - 596px);
-    width: 64px;
-    min-height: 50px;
+const PanelWrapper = styled.div`
     padding: 15px 22px;
     border-radius: 32px;
     background-color: #ffffff;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     opacity: 1;
 
     & > * {
         padding: 10px 0;
     }
+`;
 
-    @media (max-width: 1245px) {
-        display: none;
-    }
+const Wrapper = styled.div`
+    visibility: hidden;
+    position: fixed;
+    left: calc(50% - ${() => POST_MAX_WIDTH / 2 + SIDE_PANEL_WIDTH / 2}px);
+    z-index: 2;
 
-    @media (max-height: 430px) {
-        display: none;
-    }
+    width: ${SIDE_PANEL_WIDTH}px;
+    min-height: 50px;
+
+    ${is('showSideBlock')`
+        visibility: visible
+    `};
 
     ${by('fixedOn', {
         center: `
@@ -64,6 +71,27 @@ const ActionWrapper = styled(Action)`
     `};
 `;
 
+const BackLink = styled(Link)`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: ${SIDE_PANEL_WIDTH}px;
+    height: ${SIDE_PANEL_WIDTH}px;
+    margin-top: 40px;
+
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+`;
+
+const BackIcon = styled(Icon)`
+    display: block;
+    width: 50px;
+    height: 50px;
+    padding: 13px;
+`;
+
 export class SidePanel extends Component {
     static propTypes = {
         togglePin: PropTypes.func.isRequired,
@@ -73,22 +101,28 @@ export class SidePanel extends Component {
     state = {
         showSharePopover: false,
         fixedOn: 'center',
+        showSideBlockByWidth: true,
+        showSideBlockByHeight: true,
     };
 
-    sidePanelRef = createRef();
+    sideBlockRef = createRef();
 
     componentDidMount() {
         this.scrollScreenLazy();
+        this.resizeScreenLazy();
         window.addEventListener('scroll', this.scrollScreenLazy);
+        window.addEventListener('resize', this.resizeScreenLazy);
     }
 
     componentWillUnmount() {
         window.removeEventListener('scroll', this.scrollScreenLazy);
+        window.removeEventListener('resize', this.resizeScreenLazy);
         this.scrollScreenLazy.cancel();
+        this.resizeScreenLazy.cancel();
     }
 
     scrollScreen = () => {
-        const panelRect = this.sidePanelRef.current.getBoundingClientRect();
+        const panelRect = this.sideBlockRef.current.getBoundingClientRect();
 
         const documentElem = document.documentElement;
         const bottomBorder = documentElem.scrollHeight - FOOTER_HEIGHT;
@@ -111,7 +145,33 @@ export class SidePanel extends Component {
         }
     };
 
-    scrollScreenLazy = throttle(this.scrollScreen, 25);
+    scrollScreenLazy = throttle(this.scrollScreen, 20);
+
+    resizeScreen = () => {
+        const { showSideBlockByWidth, showSideBlockByHeight } = this.state;
+        const panelRect = this.sideBlockRef.current.getBoundingClientRect();
+        const leftBorder = POST_MAX_WIDTH + SIDE_PANEL_WIDTH + PANEL_MARGIN * 2;
+        const topBorder = panelRect.height + HEADER_HEIGHT + PANEL_MARGIN * 2;
+
+        const documentElem = document.documentElement;
+        const documentWidth = documentElem.clientWidth;
+        const documentHeight = documentElem.clientHeight;
+
+        if (documentHeight < topBorder && showSideBlockByHeight) {
+            this.setState({ showSideBlockByHeight: false });
+        }
+        if (documentHeight >= topBorder && !showSideBlockByHeight) {
+            this.setState({ showSideBlockByHeight: true }, () => this.scrollScreenLazy());
+        }
+        if (documentWidth < leftBorder && showSideBlockByWidth) {
+            this.setState({ showSideBlockByWidth: false });
+        }
+        if (documentWidth >= leftBorder && !showSideBlockByWidth) {
+            this.setState({ showSideBlockByWidth: true }, () => this.scrollScreenLazy());
+        }
+    };
+
+    resizeScreenLazy = throttle(this.resizeScreen, 20);
 
     openSharePopover = () => {
         this.setState({
@@ -170,52 +230,77 @@ export class SidePanel extends Component {
             toggleFavorite,
             postUrl,
             myVote: voteType,
+            backURL,
         } = this.props;
-        const { showSharePopover, fixedOn } = this.state;
+
+        const {
+            showSharePopover,
+            fixedOn,
+            showSideBlockByWidth,
+            showSideBlockByHeight,
+        } = this.state;
+
         const { likes, firstLikes, dislikes, firstDislikes } = votesSummary;
+
         return (
-            <Wrapper innerRef={this.sidePanelRef} fixedOn={fixedOn}>
-                <Action
-                    activeType={voteType.percent > 0 ? 'like' : ''}
-                    iconName="like"
-                    count={likes}
-                    onClick={this.like}
-                    dataTooltip={this.tooltipContent(firstLikes, likes > 10)}
-                />
-                <Action
-                    activeType={voteType.percent < 0 ? 'dislike' : ''}
-                    iconName="dislike"
-                    count={dislikes}
-                    onClick={this.dislike}
-                    dataTooltip={this.tooltipContent(firstDislikes, dislikes > 10)}
-                />
-                <ActionWrapper
-                    iconName="sharing_triangle"
-                    dataTooltip={
-                        showSharePopover ? undefined : tt('postfull_jsx.share_in_social_networks')
-                    }
-                    isOpen={showSharePopover}
-                    onClick={this.openSharePopover}
-                >
-                    <PopoverStyled
-                        position="right"
-                        onClose={this.closeSharePopover}
-                        show={showSharePopover}
+            <Wrapper
+                innerRef={this.sideBlockRef}
+                fixedOn={fixedOn}
+                showSideBlock={showSideBlockByWidth && showSideBlockByHeight}
+            >
+                <PanelWrapper>
+                    <Action
+                        activeType={voteType.percent > 0 ? 'like' : ''}
+                        iconName="like"
+                        count={likes}
+                        onClick={this.like}
+                        dataTooltip={this.tooltipContent(firstLikes, likes > 10)}
+                    />
+                    <Action
+                        activeType={voteType.percent < 0 ? 'dislike' : ''}
+                        iconName="dislike"
+                        count={dislikes}
+                        onClick={this.dislike}
+                        dataTooltip={this.tooltipContent(firstDislikes, dislikes > 10)}
+                    />
+                    {isOwner ? null : (
+                        <Action iconName="repost" dataTooltip={tt('g.reblog')} onClick={this.repost} />
+                    )}
+                    <ActionWrapper
+                        iconName="sharing_triangle"
+                        dataTooltip={
+                            showSharePopover
+                                ? undefined
+                                : tt('postfull_jsx.share_in_social_networks')
+                        }
+                        isOpen={showSharePopover}
+                        onClick={this.openSharePopover}
                     >
-                        <SharePopover />
-                    </PopoverStyled>
-                </ActionWrapper>
-                {isOwner ? null : (
-                    <Action iconName="repost" dataTooltip={tt('g.reblog')} onClick={this.repost} />
+                        <PopoverStyled
+                            position="right"
+                            onClose={this.closeSharePopover}
+                            show={showSharePopover}
+                        >
+                            <SharePopover />
+                        </PopoverStyled>
+                    </ActionWrapper>
+                    <PostActions
+                        postUrl={postUrl}
+                        isFavorite={isFavorite}
+                        isPinned={isPinned}
+                        isOwner={isOwner}
+                        toggleFavorite={toggleFavorite}
+                        togglePin={togglePin}
+                    />
+                </PanelWrapper>
+                {backURL && (
+                    <BackLink
+                        to={backURL}
+                        data-tooltip={tt('g.turn_back')}
+                    >
+                        <BackIcon name="arrow_left" />
+                    </BackLink>
                 )}
-                <PostActions
-                    postUrl={postUrl}
-                    isFavorite={isFavorite}
-                    isPinned={isPinned}
-                    isOwner={isOwner}
-                    toggleFavorite={toggleFavorite}
-                    togglePin={togglePin}
-                />
             </Wrapper>
         );
     }

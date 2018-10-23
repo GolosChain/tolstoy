@@ -558,6 +558,7 @@
     "transfer": "Передать ",
     "trending": "Популярное",
     "trending_topics": "Популярное",
+    "turn_back": "Вернуться назад",
     "type": "Тип",
     "unable_to_log_you_in": "У нас не получится залогинить Вас в этом браузере",
     "understand_that_APP_NAME_cannot_recover_password": "Я понимаю, что %(APP_NAME)s не может восстановить потерянные пароли",
@@ -1245,7 +1246,8 @@
       "convert": "Конвертировать",
       "delegate_vesting_shares": "Делегировать Силу Голоса",
       "transfer": "Передать",
-      "transfer_to_savings": "Вывести/перевести в сейф"
+      "transfer_to_savings": "Вывести/перевести в сейф",
+      "withdraw_ransfer_to_savings": "Вывести/перевести в сейф"
     },
     "change_cover": "Изменить фон",
     "explore_APP_NAME": "Исследовать %(APP_NAME)s",
