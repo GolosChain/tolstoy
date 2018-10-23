@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import { currentUsernameSelector } from 'src/app/redux/selectors/common';
+import { currentUsernameSelector, uiSelector } from 'src/app/redux/selectors/common';
 import { onVote } from 'src/app/redux/actions/vote';
 import { reblog } from 'src/app/redux/actions/posts';
 import { SidePanel } from 'src/app/containers/post/sidePanel/SidePanel';
@@ -13,11 +13,25 @@ import {
 
 export default connect(
     createSelector(
-        [currentPostSelector, authorSelector, currentUsernameSelector, votesSummarySelector],
-        (post, author, username, votesSummary) => {
+        [
+            currentPostSelector,
+            authorSelector,
+            currentUsernameSelector,
+            votesSummarySelector,
+            uiSelector('location'),
+        ],
+        (post, author, username, votesSummary, location) => {
+            const prev = location.get('previous');
+            let backURL = null;
+
+            if (prev) {
+                backURL = prev.get('pathname') + prev.get('search') + prev.get('hash');
+            }
+
             return {
                 votesSummary,
                 username,
+                backURL,
                 author: author.account,
                 permLink: post.permLink,
                 myVote: post.myVote,
@@ -28,7 +42,6 @@ export default connect(
             };
         }
     ),
-
     {
         onVote,
         reblog,

@@ -3,7 +3,6 @@ import { createSelector } from 'reselect';
 
 import { currentPostSelector } from 'src/app/redux/selectors/post/commonPost';
 import {
-    uiSelector,
     offchainSelector,
     routeParamSelector,
     currentUsernameSelector,
@@ -16,18 +15,10 @@ export default connect(
         [
             currentPostSelector,
             currentUsernameSelector,
-            uiSelector('location'),
             routeParamSelector('action'),
             offchainSelector(['config', 'relapio_token']),
         ],
-        (post, username, location, action, relapioToken) => {
-            const prev = location.get('previous');
-            let backUrl = null;
-
-            if (prev) {
-                backUrl = prev.get('pathname') + prev.get('search') + prev.get('hash');
-            }
-
+        (post, username, action, relapioToken) => {
             return {
                 isAuthor: username === post.author,
                 author: post.author,
@@ -44,7 +35,6 @@ export default connect(
                 isPromoted: post.promotedAmount > 0,
                 url: post.url,
                 action,
-                backUrl,
                 relapioToken,
             };
         }

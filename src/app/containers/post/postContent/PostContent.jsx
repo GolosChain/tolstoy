@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link, browserHistory } from 'react-router';
+import { browserHistory } from 'react-router';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import tt from 'counterpart';
@@ -8,7 +8,6 @@ import tt from 'counterpart';
 import Icon from 'golos-ui/Icon';
 import { TagLink } from 'golos-ui/Tag';
 
-import { parseJSON } from 'src/app/redux/selectors/common';
 import PostHeader from 'src/app/containers/post/postHeader';
 import MarkdownViewer from 'app/components/cards/MarkdownViewer';
 import PostFormLoader from 'app/components/modules/PostForm/loader';
@@ -23,21 +22,6 @@ const Wrapper = styled.article`
     @media (max-width: 576px) {
         padding: 15px 16px;
     }
-`;
-
-const BackLink = styled(Link)`
-    position: absolute;
-    top: 0;
-    left: 0;
-    border-radius: 8px 0 25px 0;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
-`;
-
-const BackIcon = styled(Icon)`
-    display: block;
-    width: 50px;
-    height: 50px;
-    padding: 13px;
 `;
 
 const Preview = styled.div``;
@@ -220,16 +204,11 @@ export class PostContent extends Component {
     }
 
     render() {
-        const { className, url, isAuthor, backUrl, togglePin, toggleFavorite, action } = this.props;
+        const { className, url, isAuthor, togglePin, toggleFavorite, action } = this.props;
 
         return (
             <Wrapper className={className}>
                 {this.renderHelmet()}
-                {backUrl ? (
-                    <BackLink to={backUrl} onClick={this.onBackClick}>
-                        <BackIcon name="arrow_left" />
-                    </BackLink>
-                ) : null}
                 <PostHeader postUrl={url} togglePin={togglePin} toggleFavorite={toggleFavorite} />
                 {action === 'edit' && isAuthor ? this.renderEditor() : this.renderPreview()}
             </Wrapper>
