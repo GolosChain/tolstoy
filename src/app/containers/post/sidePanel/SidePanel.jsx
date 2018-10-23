@@ -263,6 +263,9 @@ export class SidePanel extends Component {
                         onClick={this.dislike}
                         dataTooltip={this.tooltipContent(firstDislikes, dislikes > 10)}
                     />
+                    {isOwner ? null : (
+                        <Action iconName="repost" dataTooltip={tt('g.reblog')} onClick={this.repost} />
+                    )}
                     <ActionWrapper
                         iconName="sharing_triangle"
                         dataTooltip={
@@ -281,14 +284,6 @@ export class SidePanel extends Component {
                             <SharePopover />
                         </PopoverStyled>
                     </ActionWrapper>
-                    <Action
-                        iconName="repost-right"
-                        dataTooltip={tt('g.reblog')}
-                        onClick={this.reblog}
-                    />
-                    {isOwner ? null : (
-                        <Action iconName="repost" dataTooltip={tt('g.reblog')} onClick={this.repost} />
-                    )}
                     <PostActions
                         postUrl={postUrl}
                         isFavorite={isFavorite}
@@ -301,7 +296,6 @@ export class SidePanel extends Component {
                 {backURL && (
                     <BackLink
                         to={backURL}
-                        onClick={this.onBackClick}
                         data-tooltip={tt('g.turn_back')}
                     >
                         <BackIcon name="arrow_left" />

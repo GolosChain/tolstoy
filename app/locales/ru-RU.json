@@ -1246,8 +1246,8 @@
       "convert": "Конвертировать",
       "delegate_vesting_shares": "Делегировать Силу Голоса",
       "transfer": "Передать",
+      "transfer_to_savings": "Вывести/перевести в сейф",
       "withdraw_ransfer_to_savings": "Вывести/перевести в сейф"
-      "transfer_to_savings": "Вывести/перевести в сейф"
     },
     "change_cover": "Изменить фон",
     "explore_APP_NAME": "Исследовать %(APP_NAME)s",

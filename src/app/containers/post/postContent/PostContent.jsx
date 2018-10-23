@@ -109,11 +109,6 @@ export class PostContent extends Component {
         relapioToken: PropTypes.string,
     };
 
-    onBackClick = e => {
-        e.preventDefault();
-        browserHistory.goBack();
-    };
-
     onEditFinish = () => {
         const { url } = this.props;
 

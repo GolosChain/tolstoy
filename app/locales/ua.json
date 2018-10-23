@@ -873,9 +873,8 @@
       "following": "Підписок",
       "gender": "Стать",
       "post_count": "Постів",
-      "registered": "На Golos з",
       "reputation": "Рейтинг",
-      "title": "Коротка інформація"
+      "title": "Коротка інформація",
       "registered": "На Golos з"
     },
     "account_tokens": {
@@ -890,7 +889,6 @@
       "buy_or_sell": "Купити або Продати",
       "convert": "Конвертувати",
       "delegate_vesting_shares": "Делегувати Силу Голосу",
-      "transfer": "Передати",
       "reputation": "Рейтинг",
       "title": "Коротка інформація",
       "transfer": "Надіслати",
