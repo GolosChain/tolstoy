@@ -11,6 +11,7 @@ import ActivePanel from 'src/app/containers/post/activePanel';
 import CommentsContainer from 'src/app/containers/post/commentsContainer';
 
 export const POST_MAX_WIDTH = 1024;
+const POST_MARGINS_MOBILE = 20;
 
 const Wrapper = styled.div`
     width: 100%;
@@ -25,6 +26,14 @@ const ContentWrapper = styled(Container)`
     max-width: ${POST_MAX_WIDTH}px;
     padding-top: 22px;
     padding-bottom: 17px;
+
+    @media (max-width: 1200px) {
+        margin: 0 auto;
+    }
+
+    @media (max-width: ${POST_MAX_WIDTH + POST_MARGINS_MOBILE * 2}px) {
+        margin: 0 ${POST_MARGINS_MOBILE}px;
+    }
 
     @media (max-width: 576px) {
         margin: 0;

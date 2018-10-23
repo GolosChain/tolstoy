@@ -458,6 +458,7 @@
     "transfer": "Transfer ",
     "trending": "Trending",
     "trending_topics": "Trending Topics",
+    "turn_back": "Turn back",
     "type": "Type",
     "unable_to_log_you_in": "We will be unable to log you in with this browser",
     "understand_that_APP_NAME_cannot_recover_password": "I understand that %(APP_NAME)s cannot recover lost passwords",
@@ -765,10 +766,10 @@
   },
   "post_card": {
     "add_to_favorites": "Add to favorites",
-    "remove_from_favorites": "Remove from favorites",
     "pin_post": "Pin post",
-    "unpin_post": "Unpin",
-    "post_pinned": "Pinned post"
+    "post_pinned": "Pinned post",
+    "remove_from_favorites": "Remove from favorites",
+    "unpin_post": "Unpin"
   },
   "post_editor": {
     "add_image": "Add image",
@@ -1107,29 +1108,29 @@
   },
   "user_profile": {
     "account_summary": {
-      "title": "Account Summary",
+      "about": "About",
       "followers": "Followers",
       "following": "Following",
-      "post_count": "Постов",
-      "reputation": "Reputation",
       "gender": "Gender",
+      "post_count": "Постов",
       "registered": "Registered on",
-      "about": "About"
-    },
-    "actions": {
-      "buy_or_sell": "Buy or Sell",
-      "transfer": "Transfer",
-      "transfer_to_savings": "Transfer to savings",
-      "delegate_vesting_shares": "Delegate Golos Power",
-      "convert": "Convert"
+      "reputation": "Reputation",
+      "title": "Account Summary"
     },
     "account_tokens": {
       "title": "Account Value",
       "tokens": {
-        "wallet": "Wallet",
+        "delegated": "Delegated",
         "savings": "Savings",
-        "delegated": "Delegated"
+        "wallet": "Wallet"
       }
+    },
+    "actions": {
+      "buy_or_sell": "Buy or Sell",
+      "convert": "Convert",
+      "delegate_vesting_shares": "Delegate Golos Power",
+      "transfer": "Transfer",
+      "transfer_to_savings": "Transfer to savings"
     },
     "change_cover": "Change cover",
     "explore_APP_NAME": "Explore %(APP_NAME)s",

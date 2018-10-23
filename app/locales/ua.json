@@ -545,10 +545,10 @@
   },
   "post_card": {
     "add_to_favorites": "Додати в обране",
-    "remove_from_favorites": "Видалити з обраного",
     "pin_post": "Закріпити пост",
-    "unpin_post": "Відкріпити",
-    "post_pinned": "Пост закріплений"
+    "post_pinned": "Пост закріплений",
+    "remove_from_favorites": "Видалити з обраного",
+    "unpin_post": "Відкріпити"
   },
   "post_jsx": {
     "comments_were_hidden_due_to_low_ratings": "Коментарі були закриті через низький рейтинг",
@@ -773,29 +773,29 @@
   },
   "user_profile": {
     "account_summary": {
-      "title": "Коротка інформація",
+      "about": "Про себе",
       "followers": "Підписники",
       "following": "Підписок",
-      "post_count": "Постів",
-      "reputation": "Рейтинг",
       "gender": "Стать",
+      "post_count": "Постів",
       "registered": "На Golos з",
-      "about": "Про себе"
-    },
-    "actions": {
-      "buy_or_sell": "Купити або Продати",
-      "transfer": "Передати",
-      "transfer_to_savings": "Зняти/перевести в сейф",
-      "delegate_vesting_shares": "Делегувати Силу Голосу",
-      "convert": "Конвертувати"
+      "reputation": "Рейтинг",
+      "title": "Коротка інформація"
     },
     "account_tokens": {
       "title": "Вартість аккаунта",
       "tokens": {
-        "wallet": "Свої",
+        "delegated": "Делеговані",
         "savings": "Сейф",
-        "delegated": "Делеговані"
+        "wallet": "Свої"
       }
+    },
+    "actions": {
+      "buy_or_sell": "Купити або Продати",
+      "convert": "Конвертувати",
+      "delegate_vesting_shares": "Делегувати Силу Голосу",
+      "transfer": "Передати",
+      "transfer_to_savings": "Зняти/перевести в сейф"
     },
     "explore_APP_NAME": "Дослідити %(APP_NAME)s",
     "follower_count": {

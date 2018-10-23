@@ -462,6 +462,7 @@
     "transfer": "Передать ",
     "trending": "Популярное",
     "trending_topics": "Популярное",
+    "turn_back": "Вернуться назад",
     "type": "Тип",
     "unable_to_log_you_in": "У нас не получится залогинить Вас в этом браузере",
     "understand_that_APP_NAME_cannot_recover_password": "Я понимаю, что %(APP_NAME)s не может восстановить потерянные пароли",
@@ -771,10 +772,10 @@
   },
   "post_card": {
     "add_to_favorites": "В избранное",
-    "remove_from_favorites": "Убрать из избранного",
     "pin_post": "Закрепить пост",
-    "unpin_post": "Открепить",
-    "post_pinned": "Пост закреплен"
+    "post_pinned": "Пост закреплен",
+    "remove_from_favorites": "Убрать из избранного",
+    "unpin_post": "Открепить"
   },
   "post_editor": {
     "add_image": "Добавить изображение",
@@ -1114,29 +1115,29 @@
   },
   "user_profile": {
     "account_summary": {
-      "title": "Краткая информация",
+      "about": "О себе",
       "followers": "Подписчиков",
       "following": "Подписок",
-      "post_count": "Постов",
-      "reputation": "Рейтинг",
       "gender": "Пол",
+      "post_count": "Постов",
       "registered": "На Golos с",
-      "about": "О себе"
-    },
-    "actions": {
-      "buy_or_sell": "Купить или Продать",
-      "transfer": "Передать",
-      "withdraw_ransfer_to_savings": "Вывести/перевести в сейф",
-      "delegate_vesting_shares": "Делегировать Силу Голоса",
-      "convert": "Конвертировать"
+      "reputation": "Рейтинг",
+      "title": "Краткая информация"
     },
     "account_tokens": {
       "title": "Стоимость аккаунта",
       "tokens": {
-        "wallet": "Свои",
+        "delegated": "Делегированные",
         "savings": "Сейф",
-        "delegated": "Делегированные"
+        "wallet": "Свои"
       }
+    },
+    "actions": {
+      "buy_or_sell": "Купить или Продать",
+      "convert": "Конвертировать",
+      "delegate_vesting_shares": "Делегировать Силу Голоса",
+      "transfer": "Передать",
+      "withdraw_ransfer_to_savings": "Вывести/перевести в сейф"
     },
     "change_cover": "Изменить фон",
     "explore_APP_NAME": "Исследовать %(APP_NAME)s",
