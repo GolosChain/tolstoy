@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
-import Immutable from 'immutable';
+import { Map } from 'immutable';
 
 import { detransliterate } from 'app/utils/ParsersAndFormatters';
 import Icon from 'golos-ui/Icon';
@@ -220,7 +220,7 @@ export default class PostCard extends PureComponent {
         pinDisabled: PropTypes.bool,
         isPinned: PropTypes.bool,
         isRepost: PropTypes.bool,
-        additionalData: PropTypes.instanceOf(Immutable.Map),
+        additionalData: PropTypes.instanceOf(Map),
         onClick: PropTypes.func,
     };
 

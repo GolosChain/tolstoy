@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Immutable, { List } from 'immutable';
+import { List } from 'immutable';
 import throttle from 'lodash/throttle';
 import styled from 'styled-components';
 import is from 'styled-is';
