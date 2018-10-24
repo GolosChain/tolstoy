@@ -7,15 +7,22 @@ export class CommentsList extends Component {
         isFetching: PropTypes.bool.isRequired,
         structuredComments: PropTypes.array.isRequired,
         saveListScrollPosition: PropTypes.func.isRequired,
+        updateComments: PropTypes.func.isRequired,
     };
 
     render() {
-        const { isFetching, structuredComments, saveListScrollPosition } = this.props;
+        const {
+            isFetching,
+            structuredComments,
+            saveListScrollPosition,
+            updateComments,
+        } = this.props;
         return structuredComments.map((comment, index) => (
             <NestedComment
                 key={index}
                 comment={comment}
                 saveListScrollPosition={saveListScrollPosition}
+                updateComments={updateComments}
             />
         ));
     }
