@@ -248,6 +248,7 @@ export class ActivePanel extends Component {
             isOwner,
             isFavorite,
             toggleFavorite,
+            showVotedUsersList,
             children,
         } = this.props;
 
@@ -258,6 +259,7 @@ export class ActivePanel extends Component {
                     me={username}
                     whiteTheme={false}
                     onChange={this.voteChange}
+                    onNumberClick={showVotedUsersList}
                 />
                 <Divider />
                 <RepostSharingWrapper>

@@ -9,6 +9,7 @@ import { openRepostDialog } from 'src/app/redux/actions/dialogs';
 import { getPinnedPosts } from 'src/app/redux/selectors/account/pinnedPosts';
 import { sanitizeCardPostData, sanitizeRepostData } from 'src/app/redux/selectors/post/commonPost';
 import PostCard from './PostCard';
+import { showVotedUsersList } from 'src/app/redux/actions/vote';
 
 export default connect(
     (state, props) => {
@@ -75,6 +76,9 @@ export default connect(
         },
         togglePin: (link, isPin) => {
             dispatch(togglePinAction(link, isPin));
+        },
+        showVotedUsersList: (postLink, isLikes) => {
+            dispatch(showVotedUsersList(postLink, isLikes));
         },
         openRepostDialog: postLink => {
             dispatch(openRepostDialog(postLink));

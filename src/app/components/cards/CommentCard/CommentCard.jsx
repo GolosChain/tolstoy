@@ -164,6 +164,7 @@ export class CommentCard extends PureComponent {
         isOwner: PropTypes.bool.isRequired,
         username: PropTypes.string,
         payout: PropTypes.number,
+        showVotedUsersList: PropTypes.func.isRequired,
     };
 
     static defaultProps = {
@@ -384,6 +385,7 @@ export class CommentCard extends PureComponent {
             isOwner,
             onVote,
             isPostPage,
+            showVotedUsersList,
             className,
         } = this.props;
         if (!dataLoaded) {
@@ -413,6 +415,7 @@ export class CommentCard extends PureComponent {
                             replyRef={this.replyRef}
                             commentRef={this.commentRef}
                             onReplyClick={this.onReplyClick}
+                            showVotedUsersList={showVotedUsersList}
                             highlighted={highlighted}
                         />
                     </Fragment>

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import { onVote } from 'src/app/redux/actions/vote';
+import { onVote, showVotedUsersList } from 'src/app/redux/actions/vote';
 import { togglePinAction } from 'src/app/redux/actions/pinnedPosts';
 import { ActivePanel } from 'src/app/containers/post/activePanel/ActivePanel';
 import { openPromoteDialog, openRepostDialog } from 'src/app/redux/actions/dialogs';
@@ -38,6 +38,7 @@ export default connect(
     {
         onVote,
         togglePinAction,
+        showVotedUsersList,
         openPromoteDialog,
         openRepostDialog,
     }
