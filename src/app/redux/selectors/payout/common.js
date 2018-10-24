@@ -115,6 +115,7 @@ export const getPayoutPermLink = createSelector(
         const totalGbg = parseFloat(data.get(fieldsList.TOTAL_GBG, 0));
 
         result.isLimit = max != null && totalGbg > max;
+        result.cashoutTime = data.get('cashout_time');
 
         if (totalGbg === 0 || result.isDeclined) {
             return result;
@@ -148,7 +149,6 @@ export const getPayoutPermLink = createSelector(
         result.overallTotal = result.total + result.totalGbg * golosPerGbg;
         result.limitedOverallTotal = result.isLimit ? max * golosPerGbg : result.overallTotal;
         result.lastPayout = lastPayout;
-        result.cashoutTime = data.get('cashout_time');
 
         return result;
     })

@@ -554,7 +554,7 @@
       "fifth": "Use only randomly-generated passwords.",
       "fourth": "If you can remember the password, it's not secure.",
       "one": "Do not lose your password.",
-      "second": "Do <strong>not</strong> lose your password.",
+      "second": "Do not lose your password",
       "seventh": "Always back up your password.",
       "sixth": "Do not tell anyone your password.",
       "third": "We cannot recover your password."
