@@ -44,6 +44,7 @@ export default class NestedComment extends Component {
     static propTypes = {
         comment: PropTypes.array.isRequired,
         saveListScrollPosition: PropTypes.func.isRequired,
+        updateComments: PropTypes.func.isRequired,
     };
 
     state = {
@@ -71,13 +72,14 @@ export default class NestedComment extends Component {
                     isPostPage={true}
                     onClick={this.onEntryClick}
                     innerDeep={nestedComment.innerDeep}
+                    updateComments={this.props.updateComments}
                 />
             </Fragment>
         ));
     }
 
     render() {
-        const { comment } = this.props;
+        const { comment, updateComments } = this.props;
         const { collapsed } = this.state;
 
         return (
@@ -89,6 +91,7 @@ export default class NestedComment extends Component {
                     onClick={this.onEntryClick}
                     innerDeep={comment[0].innerDeep}
                     innerRef={this.nestedCommentRef}
+                    updateComments={updateComments}
                 />
                 {!collapsed && this.renderReplies(comment.slice(1))}
             </Wrapper>

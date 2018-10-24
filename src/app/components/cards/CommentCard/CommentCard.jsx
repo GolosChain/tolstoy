@@ -139,6 +139,7 @@ export class CommentCard extends PureComponent {
         permLink: PropTypes.string,
         grid: PropTypes.bool,
         isPostPage: PropTypes.bool,
+        updateComments: PropTypes.func,
 
         comment: PropTypes.instanceOf(Map),
         title: PropTypes.string.isRequired,
@@ -151,6 +152,10 @@ export class CommentCard extends PureComponent {
         isOwner: PropTypes.bool.isRequired,
         username: PropTypes.string,
         payout: PropTypes.number,
+    };
+
+    static defaultProps = {
+        updateComments: () => {},
     };
 
     state = {
@@ -315,6 +320,7 @@ export class CommentCard extends PureComponent {
         });
 
         this.props.onNotify(tt('g.reply_has_published'));
+        this.props.updateComments();
     };
 
     onReplyCancel = () => {

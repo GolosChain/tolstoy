@@ -30,7 +30,7 @@ export class CommentsContainer extends Component {
             <Wrapper>
                 <CommentsHeader commentsCount={commentsCount} />
                 <CreateComment data={data} updateComments={this.updateComments} />
-                <CommentsList />
+                <CommentsList updateComments={this.updateComments} />
             </Wrapper>
         );
     }
