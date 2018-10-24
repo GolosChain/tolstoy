@@ -276,8 +276,7 @@ export default class UserCardAbout extends PureComponent {
                     </CardContent>
                 )}
 
-                {social &&
-                    Object.keys(social).length && (
+                {social && Boolean(Object.keys(social).length) && (
                         <SocialBlock justify="space-between">
                             {social.facebook && (
                                 <SocialLink
