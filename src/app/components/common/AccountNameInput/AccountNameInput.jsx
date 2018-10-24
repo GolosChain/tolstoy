@@ -83,7 +83,7 @@ const Item = styled.li`
     list-style: none;
     white-space: nowrap;
     font-size: 14px;
-    color: #7c7c7c;
+    color: #555;
     overflow: hidden;
     text-overflow: ellipsis;
     text-transform: none;
@@ -97,7 +97,7 @@ const Item = styled.li`
     }
 
     ${is('selected')`
-        color: #505050 !important;
+        color: #333 !important;
         background: #b3d2f0 !important;
     `};
 `;
