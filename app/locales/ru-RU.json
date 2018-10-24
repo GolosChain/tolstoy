@@ -278,6 +278,11 @@
     "copied": "Скопировано!",
     "copy": "Скопировать"
   },
+  "favorites":{
+    "info_block": "Избранное является приватными данными",
+    "empty_block": "Пока нет избранных постов",
+    "empty_sub_text": "Нажми на звездочку у поста, чтобы добавить пост в избранное."
+  },
   "faq_jsq": {
     "email": "почта",
     "footer_message": "Мы никогда не попросим ваши приватные ключи или деньги. Если кто-то представляется членами команды Golos.io и просит такую информацию, напишите нам на почту",
@@ -929,7 +934,7 @@
     "recieve_amount_from": "Получено %(amount)s от",
     "recieve_interest_of": "Получены проценты в размере %(interest)s",
     "share": "Поделиться",
-    "share_in_social_networks": "Поделится в соц. сети",
+    "share_in_social_networks": "Поделиться в соц. сети",
     "share_on_facebook": "Поделитесь в Facebook",
     "share_on_lj": "Поделиться в LiveJournal",
     "share_on_twitter": "Поделиться в Twitter",

@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
+import tt from 'counterpart';
+
 import Icon from 'src/app/components/golos-ui/Icon';
 import Slider from 'src/app/components/golos-ui/Slider';
 import ComplexInput from 'src/app/components/golos-ui/ComplexInput';
@@ -86,7 +88,9 @@ export default class EditGolosPower extends PureComponent {
             <Root>
                 <Field>
                     <ComplexInput
-                        placeholder={`Доступно ${max.toFixed(3)}`}
+                        placeholder={tt('dialogs_transfer.amount_placeholder', {
+                            amount: max.toFixed(3),
+                        })}
                         spellCheck="false"
                         autoFocus
                         error={isError ? 1 : 0}
@@ -111,13 +115,13 @@ export default class EditGolosPower extends PureComponent {
                         right={1}
                         onClick={isError ? null : this._onSaveClick}
                     >
-                        Сохранить
+                        {tt('g.save')}
                         <DelegationEditButtonIcon name="check" right={1} size={16} />
                     </Button>
                     <DelegationEditSplitter />
                     <Button onClick={this.props.onCancel}>
                         <DelegationEditButtonIcon name="cross" size={13} />
-                        Отмена
+                        {tt('g.cancel')}
                     </Button>
                 </Footer>
             </Root>
