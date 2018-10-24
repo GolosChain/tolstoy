@@ -1,2 +1,1 @@
-export const SHOW_REPOST = 'dialogs/SHOW_REPOST';
-export const SHOW_PROMOTE = 'dialogs/SHOW_PROMOTE';
+export const SHOW_DIALOG = 'dialogs/SHOW_DIALOG';

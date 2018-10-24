@@ -1,4 +1,4 @@
-import { takeEvery, call, select, put } from 'redux-saga/effects';
+import { takeEvery, select, put } from 'redux-saga/effects';
 import { SHOW_LOGIN, LOGIN_SUCCESS } from 'src/app/redux/constants/login';
 import DialogManager from 'app/components/elements/common/DialogManager';
 import { showLogin } from '../actions/login';

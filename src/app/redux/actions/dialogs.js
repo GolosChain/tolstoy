@@ -1,19 +1,29 @@
-import { SHOW_PROMOTE, SHOW_REPOST } from '../constants/dialogs';
+import { SHOW_DIALOG } from '../constants/dialogs';
+import PromoteDialog from 'src/app/components/dialogs/PromoteDialog';
+import RepostDialog from 'src/app/components/dialogs/RepostDialog';
 
 export function openPromoteDialog(postLink) {
     return {
-        type: SHOW_PROMOTE,
+        type: SHOW_DIALOG,
         payload: {
-            postLink,
+            needAuth: true,
+            component: PromoteDialog,
+            props: {
+                postLink,
+            },
         },
     };
 }
 
 export function openRepostDialog(postLink) {
     return {
-        type: SHOW_REPOST,
+        type: SHOW_DIALOG,
         payload: {
-            postLink,
+            needAuth: true,
+            component: RepostDialog,
+            props: {
+                postLink,
+            },
         },
     };
 }
