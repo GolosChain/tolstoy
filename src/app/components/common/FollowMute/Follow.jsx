@@ -20,6 +20,10 @@ const ButtonStyled = styled(Button)`
     }
 `;
 
+const IconStyled = styled(Icon)`
+    margin-right: 6px;
+`;
+
 class Follow extends Component {
     static propTypes = {
         following: PropTypes.string,
@@ -76,7 +80,7 @@ class Follow extends Component {
         if (!follower || !following)
             return (
                 <ButtonStyled onClick={this.followLoggedOut}>
-                    <Icon name="subscribe" height="10" width="14" />
+                    <IconStyled name="subscribe" height="10" width="14" />
                     {tt('g.follow')}
                 </ButtonStyled>
             );
@@ -91,12 +95,12 @@ class Follow extends Component {
             <Fragment>
                 {showFollow && followingWhat !== 'blog' ? (
                     <ButtonStyled disabled={busy} onClick={this.follow}>
-                        <Icon name="subscribe" height="10" width="14" />
+                        <IconStyled name="subscribe" height="10" width="14" />
                         {tt('g.follow')}
                     </ButtonStyled>
                 ) : (
                     <ButtonStyled disabled={busy} light onClick={this.unfollow}>
-                        <Icon name="cross" height="10" width="10" />
+                        <IconStyled name="cross" height="10" width="10" />
                         {tt('g.unfollow')}
                     </ButtonStyled>
                 )}

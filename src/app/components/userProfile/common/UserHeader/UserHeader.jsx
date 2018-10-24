@@ -9,7 +9,6 @@ import proxifyImageUrl from 'app/utils/ProxifyUrl';
 import normalizeProfile from 'app/utils/NormalizeProfile';
 
 import Dropzone from 'react-dropzone';
-import { BaseButton } from 'golos-ui/Button';
 import Icon from 'golos-ui/Icon';
 import Flex from 'golos-ui/Flex';
 
@@ -111,8 +110,6 @@ const Buttons = styled(Flex)`
         margin-top: 16px;
     }
 `;
-
-const ButtonLink = BaseButton.withComponent('a');
 
 const AvatarDropzone = styled(Dropzone)`
     position: absolute !important;
