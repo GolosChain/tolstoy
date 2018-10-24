@@ -96,6 +96,7 @@ const UserInfoWrapper = styled.div`
     display: flex;
     align-items: center;
     cursor: pointer;
+    outline: none;
 `;
 
 const UserpicStyled = styled(Userpic)`

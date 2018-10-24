@@ -16,4 +16,6 @@ export const PostTitle = styled.div`
 export const PostBody = styled.div`
     font-size: 16px;
     color: #959595;
+    overflow: hidden;
+    word-wrap: break-word;
 `;
