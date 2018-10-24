@@ -107,15 +107,16 @@ const ButtonInPanel = styled(Button)`
     width: 167px;
     text-transform: uppercase;
 
-    svg {
-        min-width: 17px;
-        min-height: 15px;
-    }
-
     @media (max-width: 768px) {
         width: 100%;
         margin-top: 20px;
     }
+`;
+
+const IconStyled = styled(Icon)`
+    min-width: 17px;
+    min-height: 15px;
+    margin-right: 6px;
 `;
 
 const FollowButton = styled(Follow)`
@@ -166,7 +167,7 @@ export class AboutPanel extends Component {
                 </Cake>
                 <Buttons>
                     <ButtonInPanel light onClick={this.showTransferDialog}>
-                        <Icon width="17" height="15" name="coins_plus" />
+                        <IconStyled width="17" height="15" name="coins_plus" />
                         {tt('g.donate')}
                     </ButtonInPanel>
                     <FollowButton following={account} />

@@ -74,11 +74,10 @@ const CustomIcon = styled(Icon)`
     min-width: 12px;
     min-height: 12px;
     flex-shrink: 0;
-    margin: 0 !important;
 `;
 
 const FollowedIcon = styled(CustomIcon)`
-    margin: 1px 0 0 1px !important;
+    margin: 1px 0 0 1px;
 `;
 
 const FollowRound = styled(Button)`

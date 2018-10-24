@@ -6,13 +6,13 @@ import is from 'styled-is';
 import tt from 'counterpart';
 
 import Flex from 'golos-ui/Flex';
-import StyledButton from 'golos-ui/Button';
+import Button from 'golos-ui/Button';
 
 const Wrapper = styled.div``;
 
 const ImageQR = styled.img`
+    width: 58px;
     height: 58px;
-    widht: 58px;
     cursor: pointer;
     margin-right: 18px;
 `;
@@ -49,7 +49,7 @@ const Hint = styled.div`
     margin-top: 12px;
 `;
 
-const Button = styled(StyledButton)`
+const ButtonStyled = styled(Button)`
     margin-top: 25px;
 `;
 
@@ -133,12 +133,14 @@ export default class ShowKey extends Component {
 
         if (wif) {
             return (
-                <Button onClick={this.handleToggleShow} light={showPrivate}>
+                <ButtonStyled onClick={this.handleToggleShow} light={showPrivate}>
                     {showPrivate ? tt('g.hide_private_key') : tt('g.show_private_key')}
-                </Button>
+                </ButtonStyled>
             );
         } else if (!['memo', 'owner'].includes(authType)) {
-            return <Button onClick={this.handleShowLogin}>{tt('g.login_to_show')}</Button>;
+            return (
+                <ButtonStyled onClick={this.handleShowLogin}>{tt('g.login_to_show')}</ButtonStyled>
+            );
         }
 
         return null;

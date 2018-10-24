@@ -80,7 +80,6 @@
     "node-statsd": "^0.1.1",
     "normalizr": "^3.2.4",
     "numeral": "^2.0.6",
-    "polished": "^1.9.2",
     "postmark": "^1.4.1",
     "prop-types": "^15.6.1",
     "qr-image": "^3.2.0",
