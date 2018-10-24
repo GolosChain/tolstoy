@@ -80,10 +80,15 @@ const FollowRound = styled(Button)`
     border-radius: 50%;
     cursor: pointer;
 
-    svg {
+    & > svg {
         min-width: 12px;
         min-height: 12px;
+        flex-shrink: 0;
         margin: 0;
+    }
+
+    & > svg.subscribe-icon {
+        margin: 1px 0 0 1px;
     }
 `;
 
@@ -196,11 +201,16 @@ export class PostHeader extends Component {
                 {!isMy &&
                     (isFollow ? (
                         <FollowRound light onClick={this.unfollow} data-tooltip={tt('g.unfollow')}>
-                            <Icon name="cross" width={12} height={12} />
+                            <Icon
+                                name="subscribe"
+                                width={18}
+                                height={14}
+                                className="subscribe-icon"
+                            />
                         </FollowRound>
                     ) : (
                         <FollowRound onClick={this.follow} data-tooltip={tt('g.follow')}>
-                            <Icon name="check" width={14} height={10} />
+                            <Icon name="plus" width={12} height={12} />
                         </FollowRound>
                     ))}
                 <PostActionsWrapper>
