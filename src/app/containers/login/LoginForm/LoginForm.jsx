@@ -93,6 +93,7 @@ const LoginInput = styled.input`
     padding-right: 14px;
     border: none;
     color: #393636;
+    outline: none;
 `;
 
 const PasswordInput = styled.input`
