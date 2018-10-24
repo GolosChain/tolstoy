@@ -14,9 +14,9 @@ import { parseAmount } from 'src/app/helpers/currency';
 import { vestsToGolos, golosToVests } from 'app/utils/StateFunctions';
 import Shrink from 'src/app/components/golos-ui/Shrink';
 import Slider from 'src/app/components/golos-ui/Slider';
-import SimpleInput from 'src/app/components/golos-ui/SimpleInput';
 import ComplexInput from 'src/app/components/golos-ui/ComplexInput';
 import DialogTypeSelect from 'src/app/components/userProfile/common/DialogTypeSelect';
+import AccountNameInput from 'src/app/components/common/AccountNameInput';
 import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';
 
 const POWER_TO_GOLOS_INTERVAL = 13; // weeks
@@ -265,9 +265,10 @@ class ConvertDialog extends PureComponent {
                         {saveTo ? (
                             <Section>
                                 <Label>{tt('dialogs_transfer.to')}</Label>
-                                <SimpleInput
+                                <AccountNameInput
                                     name="account"
-                                    spellCheck="false"
+                                    block
+                                    autoFocus
                                     placeholder={tt('dialogs_transfer.to_placeholder')}
                                     value={target}
                                     onChange={this._onTargetChange}
@@ -393,9 +394,9 @@ class ConvertDialog extends PureComponent {
         });
     };
 
-    _onTargetChange = e => {
+    _onTargetChange = value => {
         this.setState({
-            target: e.target.value,
+            target: value,
         });
     };
 
