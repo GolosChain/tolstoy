@@ -18,8 +18,8 @@ import MobileAppButton from 'app/components/elements/MobileBanners/MobileAppButt
 import DialogManager from 'app/components/elements/common/DialogManager';
 import Dialogs from '@modules/Dialogs';
 import Modals from '@modules/Modals';
-import ScrollButton from '@elements/ScrollButton';
 import PageViewsCounter from '@elements/PageViewsCounter';
+import ScrollUpstairsButton from 'src/app/components/common/ScrollUpstairsButton';
 
 injectGlobal`
     html {
@@ -215,7 +215,7 @@ export class App extends Component {
                         {this.renderCallout()}
                         {children}
                         {location.pathname.startsWith('/submit') ? null : <Footer />}
-                        <ScrollButton />
+                        <ScrollUpstairsButton />
                         <MobileAppButton />
                     </div>
                     <Dialogs />

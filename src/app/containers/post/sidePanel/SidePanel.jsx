@@ -79,7 +79,6 @@ const BackIcon = styled(Icon)`
     color: #393636;
 `;
 
-
 const BackLink = styled(Link)`
     display: flex;
     justify-content: center;
@@ -92,11 +91,11 @@ const BackLink = styled(Link)`
     border-radius: 50%;
     background-color: rgba(255, 255, 255, 0.7);
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-    
+
     &:hover {
         background-color: #ffffff;
     }
-    
+
     &:hover ${BackIcon} {
         color: #2879ff;
     }
@@ -274,7 +273,11 @@ export class SidePanel extends Component {
                         dataTooltip={this.tooltipContent(firstDislikes, dislikes > 10)}
                     />
                     {isOwner ? null : (
-                        <Action iconName="repost" dataTooltip={tt('g.reblog')} onClick={this.repost} />
+                        <Action
+                            iconName="repost"
+                            dataTooltip={tt('g.reblog')}
+                            onClick={this.repost}
+                        />
                     )}
                     <ActionWrapper
                         iconName="sharing_triangle"
@@ -303,14 +306,11 @@ export class SidePanel extends Component {
                         togglePin={togglePin}
                     />
                 </PanelWrapper>
-
-                    <BackLink
-                        to={backURL}
-                        data-tooltip={tt('g.turn_back')}
-                    >
+                {backURL ? (
+                    <BackLink to={backURL} data-tooltip={tt('g.turn_back')}>
                         <BackIcon name="arrow_left" />
                     </BackLink>
-
+                ) : null}
             </Wrapper>
         );
     }
