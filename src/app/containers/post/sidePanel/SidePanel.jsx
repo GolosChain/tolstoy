@@ -66,9 +66,17 @@ const ActionWrapper = styled(Action)`
     ${is('isOpen')`
         & > div > svg {
             transition: color 0s;
-            color: #2578be;
+            color: #2879ff;
         }
     `};
+`;
+
+const BackIcon = styled(Icon)`
+    display: block;
+    width: 50px;
+    height: 50px;
+    padding: 13px;
+    color: #393636;
 `;
 
 const BackLink = styled(Link)`
@@ -83,13 +91,14 @@ const BackLink = styled(Link)`
     border-radius: 50%;
     background-color: rgba(255, 255, 255, 0.7);
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-`;
 
-const BackIcon = styled(Icon)`
-    display: block;
-    width: 50px;
-    height: 50px;
-    padding: 13px;
+    &:hover {
+        background-color: #ffffff;
+    }
+
+    &:hover ${BackIcon} {
+        color: #2879ff;
+    }
 `;
 
 export class SidePanel extends Component {
@@ -264,7 +273,11 @@ export class SidePanel extends Component {
                         dataTooltip={this.tooltipContent(firstDislikes, dislikes > 10)}
                     />
                     {isOwner ? null : (
-                        <Action iconName="repost" dataTooltip={tt('g.reblog')} onClick={this.repost} />
+                        <Action
+                            iconName="repost"
+                            dataTooltip={tt('g.reblog')}
+                            onClick={this.repost}
+                        />
                     )}
                     <ActionWrapper
                         iconName="sharing_triangle"
@@ -293,14 +306,11 @@ export class SidePanel extends Component {
                         togglePin={togglePin}
                     />
                 </PanelWrapper>
-                {backURL && (
-                    <BackLink
-                        to={backURL}
-                        data-tooltip={tt('g.turn_back')}
-                    >
+                {backURL ? (
+                    <BackLink to={backURL} data-tooltip={tt('g.turn_back')}>
                         <BackIcon name="arrow_left" />
                     </BackLink>
-                )}
+                ) : null}
             </Wrapper>
         );
     }

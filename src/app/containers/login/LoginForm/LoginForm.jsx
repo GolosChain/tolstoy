@@ -90,6 +90,7 @@ const Input = styled.input`
     padding-right: 14px;
     font-size: 14px;
     color: #393636;
+    outline: none;
     box-shadow: none !important;
     -webkit-appearance: none;
 `;
