@@ -202,14 +202,14 @@ export default class VotePanel extends PureComponent {
 
     onLikesNumberClick = () => {
         this.props.onNumberClick(
-            `${this.props.data.get('author')}\\${this.props.data.get('permlink')}`,
+            `${this.props.data.get('author')}/${this.props.data.get('permlink')}`,
             true
         );
     };
 
     onDislikesNumberClick = () => {
         this.props.onNumberClick(
-            `${this.props.data.get('author')}\\${this.props.data.get('permlink')}`,
+            `${this.props.data.get('author')}/${this.props.data.get('permlink')}`,
             false
         );
     };

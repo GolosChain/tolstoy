@@ -262,11 +262,12 @@ export class SidePanel extends Component {
     };
 
     showLikedUsersList = () => {
-        this.props.showVotedUsersList(this.props.postUrl, true);
+        this.props.showVotedUsersList(`${this.props.author}/${this.props.permLink}`, true);
     };
 
     showDislikedUsersList = () => {
-        this.props.showVotedUsersList(this.props.postUrl, false);
+        console.log(this.props);
+        this.props.showVotedUsersList(`${this.props.author}/${this.props.permLink}`, false);
     };
 
     onBackClick = () => {
@@ -281,7 +282,7 @@ export class SidePanel extends Component {
             isOwner,
             isFavorite,
             toggleFavorite,
-            postUrl,
+            fullUrl,
             myVote: voteType,
             backURL,
         } = this.props;
@@ -363,7 +364,7 @@ export class SidePanel extends Component {
                     </ShareWrapper>
 
                     <PostActions
-                        postUrl={postUrl}
+                        fullUrl={fullUrl}
                         isFavorite={isFavorite}
                         isPinned={isPinned}
                         isOwner={isOwner}
