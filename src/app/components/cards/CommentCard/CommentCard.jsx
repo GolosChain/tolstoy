@@ -70,6 +70,7 @@ const Title = styled.div`
 
 const CommentBody = styled(({ shortText, ...otherProps }) => <Link {...otherProps} />)`
     display: block;
+    width: 100%;
 
     margin-right: 18px;
 
