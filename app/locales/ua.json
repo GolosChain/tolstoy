@@ -206,11 +206,6 @@
     "copied": "Скопійовано!",
     "copy": "Скопіювати"
   },
-  "favorites":{
-    "info_block": "Обране є приватними даними",
-    "empty_block": "Поки немає обраних постів",
-    "empty_sub_text": "Натисни на зірочку біля посту, щоб додати пост до обранного."
-  },
   "faq_jsq": {
     "email": "пошта",
     "footer_message": "Ми ніколи не попросимо ваші приватні ключі або гроші. Якщо хтось представляється членами команди Golos.io і просить таку інформацію, напишіть нам на пошту",
@@ -218,6 +213,11 @@
     "page_description": "На цій сторінці зібрані найпопулярніші питання користувачів, які зверталися в техпідтримку Golos.io",
     "page_title": "Часто задавані питання",
     "telegram": "телеграм"
+  },
+  "favorites": {
+    "empty_block": "Поки немає обраних постів",
+    "empty_sub_text": "Натисни на зірочку біля посту, щоб додати пост до обранного.",
+    "info_block": "Обране є приватними даними"
   },
   "footer": {
     "mobile_apps": "Додатки",
@@ -856,20 +856,6 @@
     "to_save_your_preferences": "зберегти ваші налаштування",
     "you_can": "Ви можете"
   },
-  "promote_post_jsx": {
-    "created": "нове",
-    "crowdsale": "Краудсейл",
-    "following": "Підписки",
-    "leave_this_unchecked_to_receive_half_your_reward": "Залиште невідміченим для отримання 1/2 винагороди у %(VESTING_TOKEN)s та 1/2 %(DEBT_TOKEN)s",
-    "pay_me_100_in_VESTING_TOKEN": "Заплатіть мені 100%% у %(VESTING_TOKEN)s",
-    "promote_post": "Просунути пост",
-    "reblogged_by": "Репостнуто",
-    "settings": "Налаштування",
-    "spend_your_DEBT_TOKEN_to_advertise_this_post": "Використовуйте Ваші %(DEBT_TOKEN)s, щоб прорекламувати цей пост в секції просувного контенту",
-    "this_post_was_hidden_due_to_low_ratings": "Цей пост був прихований через низький рейтинг",
-    "updated": "оновлене",
-    "you_successfully_promoted_this_post": "Ви успішно просунули цей пост"
-  },
   "recoveraccountstep1_jsx": {
     "account_name_is_not_found": "Ім'я акаунту, не знайдено",
     "account_recovery_request_not_confirmed": "Запит на відновлення акаунта ще не підтверджений, будь ласка перевірте пізніше. Дякуємо за ваше терпіння.",
@@ -1092,14 +1078,10 @@
       "followers": "Підписники",
       "following": "Підписок",
       "gender": "Стать",
-      "post_count": {
-        "one": "Пост",
-        "other": "Постів",
-        "zero": "Постів"
-      },
+      "post_count": "Постів",
+      "registered": "На Golos з",
       "reputation": "Рейтинг",
-      "title": "Коротка інформація",
-      "registered": "На Golos з"
+      "title": "Коротка інформація"
     },
     "account_tokens": {
       "title": "Вартість аккаунта",
