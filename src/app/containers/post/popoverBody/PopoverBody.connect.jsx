@@ -14,7 +14,7 @@ export default connect(
         followerCount: author.followerCount,
         pinnedPosts: author.pinnedPosts,
         pinnedPostsUrls: author.pinnedPostsUrls,
-        showFollowBlock: author.name !== currentUsername,
+        showFollowBlock: author.account !== currentUsername,
     })),
 
     {

@@ -13,7 +13,6 @@ import { confirmVote } from 'src/app/helpers/votes';
 import SharePopover from 'src/app/components/post/SharePopover';
 import {
     PopoverBackgroundShade,
-    ClosePopoverButton,
     PopoverStyled,
 } from 'src/app/components/post/PopoverAdditionalStyles';
 import PostActions from 'src/app/components/post/PostActions';
@@ -315,9 +314,6 @@ export class ActivePanel extends Component {
                         show={showDotsPopover}
                     >
                         <Actions>
-                            <ClosePopoverButton onClick={this.closeDotsPopover} showCross={false}>
-                                <Icon name="cross" width={16} height={16} />
-                            </ClosePopoverButton>
                             <StyledPostActions
                                 postUrl={url}
                                 isFavorite={isFavorite}
