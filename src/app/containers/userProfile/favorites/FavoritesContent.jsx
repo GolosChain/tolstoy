@@ -64,7 +64,7 @@ export default class FavoritesContent extends Component {
         const { isOwner, list, isLoading, pageAccountName } = this.props;
 
         if (!isOwner) {
-            return <InfoBlock>Избранное является приватными данными</InfoBlock>;
+            return <InfoBlock>{tt('favorites.info_block')}</InfoBlock>;
         }
 
         if (!list || isLoading) {
@@ -75,10 +75,8 @@ export default class FavoritesContent extends Component {
             return (
                 <InfoBlock>
                     <EmptyBlock>
-                        Пока нет избранных постов
-                        <EmptySubText>
-                            Нажми на звездочку у поста. чтобы добавить пост в избранное.
-                        </EmptySubText>
+                        {tt('favorites.empty_block')}
+                        <EmptySubText>{tt('favorites.empty_sub_text')}</EmptySubText>
                     </EmptyBlock>
                 </InfoBlock>
             );

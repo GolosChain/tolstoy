@@ -1,9 +1,12 @@
-
-export function fetchCurrentStateAction() {
+export function fetchPathStateAction(pathname) {
     return {
         type: 'FETCH_STATE',
         payload: {
-            pathname: location.pathname,
+            pathname,
         },
     };
+}
+
+export function fetchCurrentStateAction() {
+    return fetchPathStateAction(location.pathname);
 }

@@ -38,9 +38,5 @@ export default connect(
     {
         onVote,
         togglePinAction,
-        showPromotePost: (author, permlink) => ({
-            type: 'global/SHOW_DIALOG',
-            payload: { name: 'promotePost', params: { author, permlink } },
-        }),
     }
 )(ActivePanel);
