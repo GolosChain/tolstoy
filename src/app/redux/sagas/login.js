@@ -10,12 +10,8 @@ export default function* watch() {
 
 let dialog = null;
 
-function* showLoginWorker({ payload }) {
-    dialog = DialogManager.showLogin();
-
-    if (payload.onClose) {
-        dialog.result.then(payload.onClose);
-    }
+function* showLoginWorker({ payload } = {}) {
+    dialog = DialogManager.showLogin({ onClose: payload.onClose });
 }
 
 export function* loginIfNeed() {
@@ -25,23 +21,25 @@ export function* loginIfNeed() {
         return true;
     }
 
-    let _resolve;
-    const promise = new Promise(resolve => (_resolve = resolve));
+    let action;
 
-    yield put(
-        showLogin({
-            onClose: username => {
-                _resolve(Boolean(username));
-            },
-        })
-    );
+    const promise = new Promise(resolve => {
+        action = put(
+            showLogin({
+                onClose: username => {
+                    resolve(Boolean(username));
+                },
+            })
+        );
+    });
+
+    yield action;
 
     return yield promise;
 }
 
 function* loginSuccessWorker({ payload }) {
     if (dialog) {
-        dialog._resolve(payload.username);
-        yield call([dialog, dialog.close]);
+        dialog.close(payload.username);
     }
 }
