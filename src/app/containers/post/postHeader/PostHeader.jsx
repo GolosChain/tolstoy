@@ -70,6 +70,17 @@ const AuthorName = styled.div`
     }
 `;
 
+const CustomIcon = styled(Icon)`
+    min-width: 12px;
+    min-height: 12px;
+    flex-shrink: 0;
+    margin: 0 !important;
+`;
+
+const FollowedIcon = styled(CustomIcon)`
+    margin: 1px 0 0 1px !important;
+`;
+
 const FollowRound = styled(Button)`
     width: 34px;
     height: 34px;
@@ -79,17 +90,6 @@ const FollowRound = styled(Button)`
     margin-left: 30px;
     border-radius: 50%;
     cursor: pointer;
-
-    & > svg {
-        min-width: 12px;
-        min-height: 12px;
-        flex-shrink: 0;
-        margin: 0;
-    }
-
-    & > svg.subscribe-icon {
-        margin: 1px 0 0 1px;
-    }
 `;
 
 const UserInfoWrapper = styled.div`
@@ -201,16 +201,11 @@ export class PostHeader extends Component {
                 {!isMy &&
                     (isFollow ? (
                         <FollowRound light onClick={this.unfollow} data-tooltip={tt('g.unfollow')}>
-                            <Icon
-                                name="subscribe"
-                                width={18}
-                                height={14}
-                                className="subscribe-icon"
-                            />
+                            <FollowedIcon name="subscribe" width={18} height={14} />
                         </FollowRound>
                     ) : (
                         <FollowRound onClick={this.follow} data-tooltip={tt('g.follow')}>
-                            <Icon name="plus" width={12} height={12} />
+                            <CustomIcon name="plus" width={12} height={12} />
                         </FollowRound>
                     ))}
                 <PostActionsWrapper>
