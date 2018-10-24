@@ -123,7 +123,7 @@ export default class SelectTag extends Component {
 
         return (
             <Wrapper className={className}>
-                <Popover innerRef={this.popoverRef} content={this.renderActions}>
+                <Popover innerRef={this.popoverRef} content={this.renderActions} up>
                     <TagStyled selected={isSelected ? 1 : 0} filtered={isFiltered ? 1 : 0}>
                         {tag}
                     </TagStyled>
