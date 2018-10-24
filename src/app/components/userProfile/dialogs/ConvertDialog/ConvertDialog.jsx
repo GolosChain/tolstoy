@@ -408,9 +408,9 @@ class ConvertDialog extends PureComponent {
         const { target, amount, type, saveTo, loader, disabled } = this.state;
 
         const TYPES_SUCCESS_TEXT = {
-            GOLOS: tt('dialogs.operation_success'),
-            POWER: tt('dialogs.operation_started'),
-            GBG: tt('dialogs.operation_started'),
+            GOLOS: tt('dialogs_transfer.operation_success'),
+            POWER: tt('dialogs_transfer.operation_started'),
+            GBG: tt('dialogs_transfer.operation_started'),
         };
 
         if (loader || disabled) {
