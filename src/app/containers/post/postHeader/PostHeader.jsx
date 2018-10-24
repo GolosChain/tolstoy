@@ -17,6 +17,7 @@ import {
 import PostActions from 'src/app/components/post/PostActions';
 
 const Wrapper = styled.div`
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -35,12 +36,7 @@ const Avatar = styled.div`
     align-items: center;
 `;
 
-const BlockLink = styled(Link)`
-    display: block;
-`;
-
-const InfoBlock = styled(Link)`
-    display: block;
+const InfoBlock = styled.div`
     margin: 0 10px;
     letter-spacing: 0.4px;
     line-height: 18px;
@@ -87,7 +83,7 @@ const FollowRound = styled(Button)`
     }
 `;
 
-const UserInfoWrapper = styled.div`
+const UserInfoWrapper = styled(Link)`
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -112,6 +108,12 @@ const PostActionsWrapper = styled.div`
 const PostActionsStyled = styled(PostActions)`
     padding: 5px;
     margin: 0 3px;
+`;
+
+const AvatarBox = styled.div`
+    position: absolute;
+    top: 50px;
+    width: 50px;
 `;
 
 export class PostHeader extends Component {
@@ -153,10 +155,6 @@ export class PostHeader extends Component {
         this.props.updateFollow(this.props.username, this.props.author, null);
     };
 
-    prevent = e => {
-        e.preventDefault();
-    };
-
     render() {
         const {
             isMy,
@@ -176,19 +174,12 @@ export class PostHeader extends Component {
 
         return (
             <Wrapper className={className}>
-                <UserInfoWrapper tabIndex="0" onClick={this.onUserInfoClick}>
+                <UserInfoWrapper to={`/@${author}`} onClick={this.onUserInfoClick}>
                     <Avatar>
                         <PopoverBackgroundShade show={showPopover} />
-                        <BlockLink to={`/@${author}`} onClick={this.prevent}>
-                            <UserpicStyled account={author} size={50} />
-                        </BlockLink>
-                        {showPopover ? (
-                            <PopoverStyled onClose={this.closePopover} show>
-                                <PopoverBody close={this.closePopover} author={author} />
-                            </PopoverStyled>
-                        ) : null}
+                        <UserpicStyled account={author} size={50} />
                     </Avatar>
-                    <InfoBlock to={`/@${author}`} onClick={this.prevent}>
+                    <InfoBlock>
                         <AuthorName>{author}</AuthorName>
                         <TimeAgoWrapper date={created} />
                     </InfoBlock>
@@ -213,6 +204,13 @@ export class PostHeader extends Component {
                         togglePin={togglePin}
                     />
                 </PostActionsWrapper>
+                {showPopover ? (
+                    <AvatarBox>
+                        <PopoverStyled onClose={this.closePopover} show>
+                            <PopoverBody close={this.closePopover} author={author} />
+                        </PopoverStyled>
+                    </AvatarBox>
+                ) : null}
             </Wrapper>
         );
     }

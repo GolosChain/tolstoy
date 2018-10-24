@@ -161,8 +161,7 @@ export class PopoverBody extends Component {
 
         return (
             <Wrapper className={className}>
-                <Link />
-                <ClosePopoverButton onClick={this.closePopover} showCross={true}>
+                <ClosePopoverButton onClick={this.closePopover}>
                     <Icon name="cross" width={16} height={16} />
                 </ClosePopoverButton>
                 <Block>
