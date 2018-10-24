@@ -120,7 +120,7 @@ export default class Online extends PureComponent {
             {
                 name: 'notify.show.repost',
                 label: tt('settings_jsx.notifications.repost'),
-                icon: { name: 'repost-right', width: '19', height: '15' },
+                icon: { name: 'repost', width: '19', height: '15' },
             },
             {
                 name: 'notify.show.reward',

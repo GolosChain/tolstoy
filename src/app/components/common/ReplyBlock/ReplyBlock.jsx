@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import styled from 'styled-components';
 import is, { isNot } from 'styled-is';
+import tt from 'counterpart';
 import Icon from 'golos-ui/Icon';
 
 const ReplyCounterBlock = styled(Link)`
@@ -66,19 +67,9 @@ const Root = styled.div`
         height: 56px;
         justify-content: center;
         border-top: 1px solid #e9e9e9;
-    `};
-
-    ${is('whitetheme')`
-        color: #fff;
-        border-top-color: rgba(255, 255, 255, 0.3);
         
-        ${ReplyCount}, ${ReplyLink}, ${ReplyIcon} {
-            color: #fff !important;
-        }
-        
-        ${Splitter} {
-            height: 12px;
-            background: #fff;
+        @media (max-width: 700px) {
+            height: 50px;
         }
     `};
 `;
@@ -87,19 +78,15 @@ ReplyBlock.defaultProps = {
     showText: true,
 };
 
-export default function ReplyBlock({ withImage, grid, count, link, text, className, showText }) {
+export default function ReplyBlock({ grid, count, link, text, className, showText }) {
     return (
-        <Root whitetheme={withImage} grid={grid} className={className}>
-            <ReplyCounterBlock to={`${link}#comments`} data-tooltip="Количество комментариев">
+        <Root grid={grid} className={className}>
+            <ReplyCounterBlock to={`${link}#comments`} data-tooltip={tt('reply.comments_count')}>
                 <ReplyIcon name="reply" />
                 <ReplyCount>{count}</ReplyCount>
             </ReplyCounterBlock>
             <Splitter />
-            <ReplyLink
-                to={`${link}#comments`}
-                whitetheme={withImage ? 1 : 0}
-                showtext={showText ? 1 : 0}
-            >
+            <ReplyLink to={`${link}#comments`} showtext={showText ? 1 : 0}>
                 {text}
             </ReplyLink>
         </Root>

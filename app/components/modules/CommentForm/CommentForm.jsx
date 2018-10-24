@@ -15,6 +15,7 @@ import CommentFooter from 'app/components/elements/postEditor/CommentFooter';
 import PreviewButton from 'app/components/elements/postEditor/PreviewButton';
 import MarkdownViewer, { getRemarkable } from 'app/components/cards/MarkdownViewer';
 import { checkPostHtml } from 'app/utils/validator';
+import { showNotification } from 'src/app/redux/actions/ui';
 import { getTags } from 'shared/HtmlReady';
 import './CommentForm.scss';
 
@@ -423,13 +424,7 @@ export default connect(
                     file,
                     progress: data => {
                         if (data && data.error) {
-                            dispatch({
-                                type: 'ADD_NOTIFICATION',
-                                payload: {
-                                    message: data.error,
-                                    dismissAfter: 5000,
-                                },
-                            });
+                            dispatch(showNotification(data.error));
                         }
 
                         progress(data);

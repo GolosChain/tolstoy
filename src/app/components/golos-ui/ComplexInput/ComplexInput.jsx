@@ -31,7 +31,7 @@ const ComplexInnerInput = styled.input`
 
     ${is('error')`
         border-color: #fc544e !important;
-    `}
+    `};
 `;
 
 const ComplexButton = styled.button`
@@ -65,6 +65,7 @@ export default props => (
         {props.buttons.map(button => (
             <ComplexButton
                 key={button.id}
+                tabIndex="-1"
                 active={props.activeId === button.id}
                 onClick={props.onActiveChange ? () => props.onActiveChange(button.id) : null}
             >

@@ -17,7 +17,6 @@ export const extractPinnedPosts = memorize(jsonMetadata => {
     return [];
 });
 
-
 export const getPinnedPosts = createSelector(
     (state, accountName) => state.global.getIn(['accounts', accountName, 'json_metadata']),
     extractPinnedPosts

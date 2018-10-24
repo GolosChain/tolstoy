@@ -1,78 +1,78 @@
 .Landing {
-	font-family: Verdana, Geneva, sans-serif;
-	.blue 	{ color: #6191cf; } // font-family: ProximaNova;
-	.red 	{ color: #f12b24; }
-	.Landing__button_big { font-size: 47px; }
-	h2 {
-		font-weight: bold;
-		margin-top: 3rem;
-		a {
-			color: inherit!important;
-		}
-	}
-	hr {
-		margin: 0;
-		max-width: 100%;
-		background-color: #e0dfdf;
-	}
-	.button {
-		padding: 23px 63px;
-		text-transform: none;
-		font-weight: bold;
-		margin: 0;
-	}
-	.btn_block {
-		.button {
-			margin-right: 30px;
-			&:last-child {
-				margin-right: 0;
-			}
-		}
-	}
-	.button-blue { background-color: $mainly-blue; }
-	.Landing__supporting-text { color: #a8a8a8; }
-	@include breakpoint(small only) {
-		h2 { font-size: 2.38095rem; }
-		.btn_block {
-			display: flex;
-			flex-direction: column;
-			.button {
-				margin-right: 0;
-			}
-		}
-	}
+  font-family: Verdana, Geneva, sans-serif;
+  .blue 	{ color: #6191cf; } // font-family: ProximaNova;
+  .red 	{ color: #f12b24; }
+  .Landing__button_big { font-size: 47px; }
+  h2 {
+    font-weight: bold;
+    margin-top: 3rem;
+    a {
+      color: inherit!important;
+    }
+  }
+  hr {
+    margin: 0;
+    max-width: 100%;
+    background-color: #e0dfdf;
+  }
+  .button {
+    padding: 23px 63px;
+    text-transform: none;
+    font-weight: bold;
+    margin: 0;
+  }
+  .btn_block {
+    .button {
+      margin-right: 30px;
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+  .button-blue { background-color: $mainly-blue; }
+  .Landing__supporting-text { color: #a8a8a8; }
+  @include breakpoint(small only) {
+    h2 { font-size: 2.38095rem; }
+    .btn_block {
+      display: flex;
+      flex-direction: column;
+      .button {
+        margin-right: 0;
+      }
+    }
+  }
 }
 
 /* SECTIONS */
 .Faq {
-	.Faq__headers {
-		margin-bottom: 80px;
-		.Faq__supporting-text {
-			color: #a8a8a8;
-		}
-	}
-	.Faq__accordion { margin-bottom: 100px;}
-	.Faq__action {
-		margin-bottom: 80px;
-		.Faq__p {
-			font-size: 17px;
-			color: #656565;
-		}
-		.button { margin-right: 0 !important; }
-	}
+  .Faq__headers {
+    margin-bottom: 80px;
+    .Faq__supporting-text {
+      color: #a8a8a8;
+    }
+  }
+  .Faq__accordion { margin-bottom: 100px;}
+  .Faq__action {
+    margin-bottom: 80px;
+    .Faq__p {
+      font-size: 17px;
+      color: #656565;
+    }
+    .button { margin-right: 0 !important; }
+  }
 }
 
 .JoinUs {
-	.JoinUs__reasons {
-		margin-top: 50px;
-		margin-bottom: 50px;
+  .JoinUs__reasons {
+    margin-top: 50px;
+    margin-bottom: 50px;
 
-		.JoinUs__item {
-			margin-bottom: 20px;
-		}
+    .JoinUs__item {
+      margin-bottom: 20px;
+    }
 
-		.JoinUs__more {
-			margin-top: 30px;
-		}
-	}
+    .JoinUs__more {
+      margin-top: 30px;
+    }
+  }
 }

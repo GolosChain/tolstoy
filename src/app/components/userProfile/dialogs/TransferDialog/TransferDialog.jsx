@@ -161,17 +161,11 @@ class TransferDialog extends PureComponent {
 
         let { value, error } = parseAmount(amount, balance, !amountInFocus);
 
-        if (!error) {
-            if (myUser.get('username') === target) {
-                error = 'Нельзя выполнить перевод самому себе';
-            }
-        }
-
         const allow = target && value > 0 && !error && !loader && !disabled;
 
         return (
             <DialogFrameStyled
-                title={'Передать пользователю'}
+                title={tt('dialogs_transfer.transfer.title')}
                 titleSize={20}
                 icon="coins"
                 buttons={[
@@ -180,7 +174,7 @@ class TransferDialog extends PureComponent {
                         onClick: this._onCloseClick,
                     },
                     {
-                        text: 'Передать',
+                        text: tt('dialogs_transfer.transfer.transfer_button'),
                         primary: true,
                         disabled: !allow,
                         onClick: this._onOkClick,
@@ -189,24 +183,26 @@ class TransferDialog extends PureComponent {
                 onCloseClick={this._onCloseClick}
             >
                 <Content>
-                    <SubHeader>Отправить средства на другой аккаунт</SubHeader>
+                    <SubHeader>{tt('dialogs_transfer.transfer.tip')}</SubHeader>
                     <Body>
                         <Column>
                             <Section>
-                                <Label>Кому</Label>
+                                <Label>{tt('dialogs_transfer.to')}</Label>
                                 <AccountNameInput
                                     name="account"
                                     block
                                     autoFocus
-                                    placeholder={'Отправить аккаунту'}
+                                    placeholder={tt('dialogs_transfer.to_placeholder')}
                                     value={target}
                                     onChange={this._onTargetChange}
                                 />
                             </Section>
                             <Section>
-                                <Label>Сколько</Label>
+                                <Label>{tt('dialogs_transfer.amount')}</Label>
                                 <ComplexInput
-                                    placeholder={`Доступно ${balance.toFixed(3)}`}
+                                    placeholder={tt('dialogs_transfer.amount_placeholder', {
+                                        amount: balance.toFixed(3),
+                                    })}
                                     spellCheck="false"
                                     value={amount}
                                     activeId={currency}
@@ -221,10 +217,10 @@ class TransferDialog extends PureComponent {
                         <Column>
                             <Section>
                                 <Label>
-                                    <NoteIcon name="note" /> Заметка
+                                    <NoteIcon name="note" /> {tt('dialogs_transfer.transfer.memo')}
                                 </Label>
                                 <Note
-                                    placeholder={'Эта заметка является публичной'}
+                                    placeholder={tt('dialogs_transfer.transfer.memo_placeholder')}
                                     value={note}
                                     onChange={this._onNoteChange}
                                 />
@@ -242,7 +238,7 @@ class TransferDialog extends PureComponent {
         const { target, note, amount } = this.state;
 
         if (target || note.trim() || amount.trim()) {
-            DialogManager.dangerConfirm('Вы действительно хотите закрыть окно?').then(y => {
+            DialogManager.dangerConfirm(tt('dialogs_transfer.confirm_dialog_close')).then(y => {
                 if (y) {
                     this.props.onClose();
                 }
@@ -323,7 +319,7 @@ class TransferDialog extends PureComponent {
                 const errStr = err.toString();
 
                 if (errStr === 'Missing object (1020200)') {
-                    DialogManager.alert('Аккаунт не существует');
+                    DialogManager.alert(tt('g.account_not_found'));
                 } else if (errStr !== 'Canceled') {
                     DialogManager.alert(errStr);
                 }
@@ -332,11 +328,11 @@ class TransferDialog extends PureComponent {
                     loader: false,
                 });
 
-                DialogManager.info(`Перевод на аккаунт ${operation.to} успешно завершен!`).then(
-                    () => {
-                        this.props.onClose();
-                    }
-                );
+                DialogManager.info(
+                    tt('dialogs_transfer.transfer.transfer_success', { to: operation.to })
+                ).then(() => {
+                    this.props.onClose();
+                });
             }
         });
     };

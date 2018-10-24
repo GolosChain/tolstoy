@@ -58,8 +58,10 @@ export default class MarkdownEditorToolbar extends React.PureComponent {
         this._delayedListenTimeout = setTimeout(() => {
             this._cm.on('cursorActivity', this._onCursorActivityDelayed);
             this._cm.on('focus', this._onCursorActivityDelayed);
+            this._cm.on('blur', this._onBlur);
         }, 700);
         document.addEventListener('keydown', this._onGlobalKeyDown);
+        document.addEventListener('mousedown', this._onGlobalMouseDown);
 
         this._initTimeout = setTimeout(() => {
             if (this._cm.hasFocus()) {
@@ -75,7 +77,9 @@ export default class MarkdownEditorToolbar extends React.PureComponent {
         clearTimeout(this._delayedListenTimeout);
         this._cm.off('cursorActivity', this._onCursorActivityDelayed);
         this._cm.off('focus', this._onCursorActivityDelayed);
+        this._cm.off('blur', this._onBlur);
         document.removeEventListener('keydown', this._onGlobalKeyDown);
+        document.removeEventListener('mousedown', this._onGlobalMouseDown);
         clearTimeout(this._timeoutId);
     }
 
@@ -102,9 +106,7 @@ export default class MarkdownEditorToolbar extends React.PureComponent {
 
         const editor = this._editor;
 
-        const toolbarWidth = commentMode
-            ? TOOLBAR_COMMENT_WIDTH
-            : TOOLBAR_WIDTH;
+        const toolbarWidth = commentMode ? TOOLBAR_COMMENT_WIDTH : TOOLBAR_WIDTH;
 
         const style = {
             width: toolbarWidth,
@@ -245,9 +247,7 @@ export default class MarkdownEditorToolbar extends React.PureComponent {
         const { newLineOpen, selected } = this.state;
         const { root } = this.refs;
 
-        const action = selected
-            ? PLUS_ACTIONS.find(a => a.id === selected)
-            : null;
+        const action = selected ? PLUS_ACTIONS.find(a => a.id === selected) : null;
 
         return (
             <div
@@ -257,12 +257,9 @@ export default class MarkdownEditorToolbar extends React.PureComponent {
                     'MET__new-line-helper_selected': newLineOpen && selected,
                 })}
                 style={{
-                    top: Math.round(
-                        pos.top -
-                            root.getBoundingClientRect().top -
-                            window.scrollY
-                    ),
+                    top: Math.round(pos.top - root.getBoundingClientRect().top - window.scrollY),
                 }}
+                onMouseDown={this._onMouseDown}
             >
                 <i
                     className="MET__plus"
@@ -285,10 +282,7 @@ export default class MarkdownEditorToolbar extends React.PureComponent {
                     ))}
                 </div>
                 {action ? (
-                    <div
-                        className="MET__new-line-input-wrapper"
-                        key={action.id}
-                    >
+                    <div className="MET__new-line-input-wrapper" key={action.id}>
                         <Icon
                             className="MET__new-line-icon"
                             name={`editor-toolbar/${action.icon}`}
@@ -349,9 +343,7 @@ export default class MarkdownEditorToolbar extends React.PureComponent {
                 top: Math.round(pos.top),
             };
 
-            const selectionNode = document.querySelector(
-                '.CodeMirror-selectedtext'
-            );
+            const selectionNode = document.querySelector('.CodeMirror-selectedtext');
 
             if (selectionNode) {
                 const bound = selectionNode.getBoundingClientRect();
@@ -416,25 +408,17 @@ export default class MarkdownEditorToolbar extends React.PureComponent {
         const selection = cm.getSelection();
         const selectionTrimmed = selection.trim();
 
-        if (
-            selection !== selectionTrimmed &&
-            selectionTrimmed &&
-            !selection.includes('\n')
-        ) {
+        if (selection !== selectionTrimmed && selectionTrimmed && !selection.includes('\n')) {
             const start = cm.getCursor('start');
             const end = cm.getCursor('end');
 
             cm.setSelection(
                 {
-                    ch:
-                        start.ch +
-                        (selection.length - selection.trimLeft().length),
+                    ch: start.ch + (selection.length - selection.trimLeft().length),
                     line: start.line,
                 },
                 {
-                    ch:
-                        end.ch -
-                        (selection.length - selection.trimRight().length),
+                    ch: end.ch - (selection.length - selection.trimRight().length),
                     line: end.line,
                 }
             );
@@ -545,9 +529,7 @@ export default class MarkdownEditorToolbar extends React.PureComponent {
     };
 
     _drawVideo = async () => {
-        const url = await DialogManager.prompt(
-            tt('editor_toolbar.enter_the_link') + ':'
-        );
+        const url = await DialogManager.prompt(tt('editor_toolbar.enter_the_link') + ':');
 
         if (url) {
             this._cm.replaceSelection(this._processVideoUrl(url));
@@ -557,9 +539,7 @@ export default class MarkdownEditorToolbar extends React.PureComponent {
 
     _processVideoUrl(url) {
         // Parse https://vimeo.com/channels/staffpicks/273652603
-        const match = url.match(
-            /^(?:https?:\/\/)?vimeo\.com\/[a-z0-9]+\/[a-z0-9]+\/(\d+.*)$/
-        );
+        const match = url.match(/^(?:https?:\/\/)?vimeo\.com\/[a-z0-9]+\/[a-z0-9]+\/(\d+.*)$/);
 
         if (match) {
             return `https://vimeo.com/${match[1]}`;
@@ -651,13 +631,9 @@ export default class MarkdownEditorToolbar extends React.PureComponent {
         let selectionLines = cm.getSelection().split('\n');
 
         if (/^\d+\. /.test(selectionLines[0])) {
-            selectionLines = selectionLines.map(line =>
-                line.replace(/^\d+\.\s+/, '')
-            );
+            selectionLines = selectionLines.map(line => line.replace(/^\d+\.\s+/, ''));
         } else {
-            selectionLines = selectionLines.map(
-                (line, i) => `${i + 1}. ${line}`
-            );
+            selectionLines = selectionLines.map((line, i) => `${i + 1}. ${line}`);
         }
 
         cm.replaceSelection(selectionLines.join('\n'));
@@ -698,6 +674,28 @@ export default class MarkdownEditorToolbar extends React.PureComponent {
         if (this.state.toolbarShow && e.which === KEYS.ESCAPE) {
             this.setState({
                 toolbarShow: false,
+            });
+        }
+    };
+
+    _onGlobalMouseDown = e => {
+        const target = e.target;
+
+        if (!target.closest('.MarkdownEditor')) {
+            this.setState({
+                newLineHelper: null,
+            });
+        }
+    };
+
+    _onMouseDown = () => {
+        this._newLineHelperActivation = Date.now();
+    };
+
+    _onBlur = () => {
+        if (!this._newLineHelperActivation || Date.now() > this._newLineHelperActivation + 500) {
+            this.setState({
+                newLineHelper: null,
             });
         }
     };

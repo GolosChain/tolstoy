@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
@@ -6,16 +6,16 @@ import PropTypes from 'prop-types';
 
 import Icon from 'golos-ui/Icon';
 
+import { openRepostDialog, openPromoteDialog } from 'src/app/components/dialogs/actions';
 import VotePanel from 'src/app/components/common/VotePanel/VotePanel';
 import ReplyBlock from 'src/app/components/common/ReplyBlock/ReplyBlock';
 import { confirmVote } from 'src/app/helpers/votes';
 import SharePopover from 'src/app/components/post/SharePopover';
 import {
     PopoverBackgroundShade,
-    ClosePopoverButton,
     PopoverStyled,
 } from 'src/app/components/post/PopoverAdditionalStyles';
-import PinnedOfFavorite from 'src/app/components/post/PinnedOrFavorite';
+import PostActions from 'src/app/components/post/PostActions';
 
 const Wrapper = styled.div`
     display: flex;
@@ -123,6 +123,15 @@ const Action = styled.div`
     }
 `;
 
+const StyledPostActions = styled(PostActions)`
+    transition: none;
+
+    &:hover {
+        transform: none;
+        color: #2879ff !important;
+    }
+`;
+
 const ActionText = styled.div`
     margin-left: 25px;
     font-family: Roboto, sans-serif;
@@ -195,7 +204,7 @@ export class ActivePanel extends Component {
 
     promotePost = () => {
         const { account, permLink } = this.props;
-        this.props.showPromotePost(account, permLink);
+        openPromoteDialog(`${account}/${permLink}`);
     };
 
     flagPost = () => {};
@@ -224,9 +233,9 @@ export class ActivePanel extends Component {
         });
     };
 
-    reblog = () => {
-        const { username, account, permLink } = this.props;
-        this.props.reblog(username, account, permLink);
+    repost = () => {
+        const { account, permLink } = this.props;
+        openRepostDialog(`${account}/${permLink}`);
     };
 
     render() {
@@ -253,10 +262,14 @@ export class ActivePanel extends Component {
                 />
                 <Divider />
                 <RepostSharingWrapper>
-                    <Repost data-tooltip={tt('g.reblog')}>
-                        <Icon width="30" height="27" name="repost-right" onClick={this.reblog} />
-                    </Repost>
-                    <Divider />
+                    {isOwner ? null : (
+                        <Fragment>
+                            <Repost data-tooltip={tt('g.reblog')}>
+                                <Icon width="30" height="27" name="repost" onClick={this.repost} />
+                            </Repost>
+                            <Divider />
+                        </Fragment>
+                    )}
                     <SharingTriangle
                         isOpen={showSharePopover}
                         data-tooltip={
@@ -301,21 +314,23 @@ export class ActivePanel extends Component {
                         show={showDotsPopover}
                     >
                         <Actions>
-                            <ClosePopoverButton onClick={this.closeDotsPopover} showCross={false}>
-                                <Icon name="cross" width={16} height={16} />
-                            </ClosePopoverButton>
-                            <PinnedOfFavorite
+                            <StyledPostActions
+                                postUrl={url}
                                 isFavorite={isFavorite}
                                 isPinned={isPinned}
                                 isOwner={isOwner}
                                 toggleFavorite={toggleFavorite}
                                 togglePin={togglePin}
-                                showText={true}
+                                showText
                             />
-                            <Action onClick={this.promotePost}>
-                                <ActionIcon name="brilliant" />
-                                <ActionText>{tt('active_panel_tooltip.promote_post')}</ActionText>
-                            </Action>
+                            {username ? (
+                                <Action onClick={this.promotePost}>
+                                    <ActionIcon name="brilliant" />
+                                    <ActionText>
+                                        {tt('active_panel_tooltip.promote_post')}
+                                    </ActionText>
+                                </Action>
+                            ) : null}
                             {/*TODO после реализации функционала
                             <Action onClick={this._flagPost}>
                                 <ActionIcon name="complain_normal" />

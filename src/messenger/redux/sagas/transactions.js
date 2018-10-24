@@ -85,7 +85,8 @@ function* broadcastCustomJson({
             // TODO ?
         }
 
-        // yield broadcast.sendAsync({ extensions: [], operations }, [signingKey]);
+        // FIXME
+        // yield broadcast.sendAsync({ extensions: [], operations }, [ signingKey ]);
         if (successCallback) {
             successCallback();
         }

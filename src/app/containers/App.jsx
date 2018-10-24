@@ -1,17 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { ThemeProvider, injectGlobal } from 'styled-components';
 import { Helmet } from 'react-helmet';
 import tt from 'counterpart';
 import { key_utils } from 'golos-js/lib/auth/ecc';
 import CloseButton from 'react-foundation-components/lib/global/close-button'; // TODO: make new component and delete
 
-import { appSelector } from 'src/app/redux/selectors/app';
-import user from 'app/redux/User';
 import { REGISTRATION_URL } from 'app/client_config';
 import { init as initAnchorHelper } from 'app/utils/anchorHelper';
-import { locationChanged } from 'src/app/redux/actions/ui';
 
 import defaultTheme from 'src/app/themes';
 import Header from 'src/app/components/header/Header';
@@ -22,8 +18,8 @@ import MobileAppButton from 'app/components/elements/MobileBanners/MobileAppButt
 import DialogManager from 'app/components/elements/common/DialogManager';
 import Dialogs from '@modules/Dialogs';
 import Modals from '@modules/Modals';
-import ScrollButton from '@elements/ScrollButton';
 import PageViewsCounter from '@elements/PageViewsCounter';
+import ScrollUpstairsButton from 'src/app/components/common/ScrollUpstairsButton';
 
 injectGlobal`
     html {
@@ -35,15 +31,7 @@ injectGlobal`
     }
 `;
 
-@connect(
-    appSelector,
-    {
-        loginUser: user.actions.usernamePasswordLogin,
-        logoutUser: user.actions.logout,
-        locationChanged,
-    }
-)
-export default class App extends Component {
+export class App extends Component {
     static propTypes = {
         error: PropTypes.string,
         children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
@@ -66,7 +54,7 @@ export default class App extends Component {
             window.INIT_TIMESSTAMP = Date.now();
         }
 
-        this.props.locationChanged(this.props.location);
+        this.onLocationChange(this.props);
     }
 
     componentDidMount() {
@@ -93,7 +81,7 @@ export default class App extends Component {
         const { location } = this.props;
 
         if (location.key !== props.location.key || location.action !== props.location.action) {
-            this.props.locationChanged(props.location);
+            this.onLocationChange(props);
         }
     }
 
@@ -116,7 +104,6 @@ export default class App extends Component {
                 }
             } else {
                 this.props.logoutUser();
-
             }
         }
     };
@@ -127,6 +114,10 @@ export default class App extends Component {
         } else {
             console.log('onEntropyEvent Unknown', e.type, e);
         }
+    }
+
+    onLocationChange(props) {
+        props.locationChanged({ params: props.params, ...props.location });
     }
 
     renderWelcomeScreen() {
@@ -224,7 +215,7 @@ export default class App extends Component {
                         {this.renderCallout()}
                         {children}
                         {location.pathname.startsWith('/submit') ? null : <Footer />}
-                        <ScrollButton />
+                        <ScrollUpstairsButton />
                         <MobileAppButton />
                     </div>
                     <Dialogs />

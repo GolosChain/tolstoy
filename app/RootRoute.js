@@ -1,4 +1,4 @@
-import App from 'src/app/containers/App';
+import App from 'src/app/containers';
 import PostsIndex from '@pages/PostsIndex';
 import resolveRoute from './ResolveRoute';
 
@@ -21,9 +21,19 @@ export default {
         } else if (route.page === 'Start') {
             cb(null, [require('@pages/Landings/Start').default]);
         } else if (route.page === 'Faq') {
-            cb(null, [require('@pages/Faq').default]);
+            cb(null, [
+                {
+                    path: 'faq',
+                    component: process.env.BROWSER
+                        ? require('@pages/FaqLoader').default
+                        : require('@pages/Faq').default,
+                },
+            ]);
         } else if (route.page === 'Login') {
-            cb(null, [require('@pages/Login').default]);
+            cb(null, [{
+                path: 'login',
+                component: require('src/app/containers/login').default
+            }]);
         } else if (route.page === 'Privacy') {
             cb(null, [require('@pages/Privacy').default]);
         } else if (route.page === 'Support') {
@@ -59,7 +69,7 @@ export default {
             cb(null, [require('@pages/MarketLoader').default]);
         } else if (route.page === 'Post') {
             cb(null, [{
-                path: '/(:category/)@:username/:slug',
+                path: '/(:category/)@:username/:slug(/:action)',
                 component: require('src/app/containers/post').default
             }]);
         } else if (route.page === 'PostNoCategory') {

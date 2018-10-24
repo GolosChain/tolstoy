@@ -160,7 +160,7 @@ const Email = ({ isChanging, onSubmitGate }) => {
                             {({ input }) => (
                                 <FormGroupRow>
                                     <LabelIcon active={input.value}>
-                                        <Icon name="repost-right" width="19" height="15" />
+                                        <Icon name="repost" width="19" height="15" />
                                     </LabelIcon>
                                     <LabelRow dark>Репост</LabelRow>
                                     <Switcher {...input} />

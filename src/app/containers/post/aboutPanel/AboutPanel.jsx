@@ -26,7 +26,7 @@ const Avatar = styled.div`
     display: flex;
     align-items: center;
     flex-grow: 1;
-    padding-left: 20px;
+    flex-shrink: 0;
 
     @media (max-width: 768px) {
         padding-left: 0;

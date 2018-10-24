@@ -3,7 +3,7 @@ import cn from 'classnames';
 import { last } from 'ramda';
 import KEYS from 'app/utils/keyCodes';
 import CommonDialog from 'app/components/dialogs/CommonDialog';
-import Login from 'src/app/containers/login';
+import LoginForm from 'src/app/containers/login/LoginForm/LoginForm.connect';
 
 let queue = [];
 let instance = null;
@@ -99,7 +99,7 @@ export default class DialogManager extends React.PureComponent {
 
     static showLogin() {
         return DialogManager.showDialog({
-            component: Login,
+            component: LoginForm,
         });
     }
 

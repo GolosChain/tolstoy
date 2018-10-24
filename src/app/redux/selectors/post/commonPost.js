@@ -1,4 +1,6 @@
 import { Map, List } from 'immutable';
+import memoize from 'lodash/memoize';
+import { createSelector } from 'reselect';
 import {
     createDeepEqualSelector,
     currentUsernameSelector,
@@ -6,10 +8,12 @@ import {
     dataSelector,
     globalSelector,
 } from '../common';
+
 import { extractPinnedPosts } from 'src/app/redux/selectors/account/pinnedPosts';
 import { detransliterate, parsePayoutAmount } from 'app/utils/ParsersAndFormatters';
 import normalizeProfile from 'app/utils/NormalizeProfile';
 import { calcVotesStats } from 'app/utils/StateFunctions';
+import { extractContentMemoized, extractRepost } from 'app/utils/ExtractContent';
 
 const emptyMap = Map();
 const emptyList = List();
@@ -18,9 +22,16 @@ const pathnameSelector = state => {
     return state.routing.locationBeforeTransitions.pathname;
 };
 
-const postUrlFromPathnameSelector = createDeepEqualSelector([pathnameSelector], pathname =>
-    pathname.substring(pathname.indexOf('#') + 1).substr(pathname.indexOf('@') + 1)
-);
+const postUrlFromPathnameSelector = createDeepEqualSelector([pathnameSelector], pathname => {
+    // transform /test/@some-account/post-name/edit?kek=3#lol into some-account/post-name
+    const match = pathname.match(/@([^\/]+\/[^?#\/]+)/);
+
+    if (!match) {
+        return null;
+    }
+
+    return match[1];
+});
 
 const getMyVote = (post, username) => {
     const votes = post.get('active_votes');
@@ -36,22 +47,30 @@ const getMyVote = (post, username) => {
     return 0;
 };
 
-export const postSelector = createDeepEqualSelector(
+export const postSelector = createSelector(
+    [globalSelector('content'), (state, permLink) => permLink],
+    (content, permLink) => content.get(permLink)
+);
+
+export const routePostSelector = createDeepEqualSelector(
     [globalSelector('content'), postUrlFromPathnameSelector],
-    (content, url) => content.get(url) || emptyMap
+    (content, url) => content.get(url)
 );
 
 export const votesSummarySelector = createDeepEqualSelector(
-    [postSelector, currentUserSelector],
+    [routePostSelector, currentUserSelector],
     (post, currentUser) => {
         return calcVotesStats(post.get('active_votes').toJS(), currentUser);
     }
 );
 
 export const currentPostSelector = createDeepEqualSelector(
-    [postSelector, dataSelector('favorites'), currentUsernameSelector],
+    [routePostSelector, dataSelector('favorites'), currentUsernameSelector],
     (post, favorites, username) => {
-        if (!post) return null;
+        if (!post) {
+            return null;
+        }
+
         const author = post.get('author');
         const permLink = post.get('permlink');
         const myVote = getMyVote(post, username);
@@ -138,3 +157,25 @@ export const commentsSelector = createDeepEqualSelector(
         };
     }
 );
+
+export const sanitizeCardPostData = memoize(data => {
+    const result = extractContentMemoized(data);
+
+    let desc = result.desc;
+
+    if (result.image_link) {
+        desc = desc.replace(result.image_link, '');
+    }
+
+    return {
+        ...result,
+        desc,
+        html: { __html: desc },
+    };
+});
+
+export const sanitizeRepostData = memoize(data => {
+    return {
+        __html: extractRepost(data),
+    };
+});

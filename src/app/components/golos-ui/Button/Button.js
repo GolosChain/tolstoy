@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import styled from 'styled-components';
-import is from 'styled-is';
+import is, { isNot } from 'styled-is';
 import { darken } from 'polished';
 
 export const BaseButton = styled.button`
@@ -39,10 +39,12 @@ export const BaseButton = styled.button`
         padding: 0;
         border: 0;
     }
-
-    &:hover {
-        background: ${darken(0.05, '#2879FF')};
-    }
+    
+    ${isNot('disabled')`
+        &:hover {
+            background: ${darken(0.05, '#2879FF')};
+        }
+    `};
 
     svg {
         margin-right: 6px;

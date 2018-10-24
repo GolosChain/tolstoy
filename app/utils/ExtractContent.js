@@ -1,122 +1,162 @@
-import remarkableStripper from 'app/utils/RemarkableStripper'
-import sanitize from 'sanitize-html'
-import {htmlDecode} from 'app/utils/Html'
-import { getTags } from 'shared/HtmlReady'
-import Remarkable from 'remarkable'
+import sanitize from 'sanitize-html';
+import Remarkable from 'remarkable';
+import memoize from 'lodash/memoize';
 
-const remarkable = new Remarkable({ html: true, linkify: false })
+import remarkableStripper from 'app/utils/RemarkableStripper';
+import { htmlDecode } from 'app/utils/Html';
+import { getTags } from 'shared/HtmlReady';
 
-export default function extractContent(get, content) {
-    const {
-        author,
-        permlink,
-        parent_author,
-        parent_permlink,
-        json_metadata,
-        category,
-        title,
-        created,
-        net_rshares,
-        children
-    } = get(
-        content,
-        'author',
-        'permlink',
-        'parent_author',
-        'parent_permlink',
-        'json_metadata',
-        'category',
-        'title',
-        'created',
-        'net_rshares',
-        'children'
-    );
-    const author_link = '/@' + get(content, 'author');
-    let link = `/@${author}/${permlink}`;
-    if (category) link = `/${category}${link}`;
-    const body = get(content, 'body').trim();
-    let jsonMetadata = {}
-    let image_link
+const DESC_LENGTH = 600;
+const DESC_LENGTH_WITH_IMAGE = 300;
+
+const FIELDS = [
+    'author',
+    'permlink',
+    'parent_author',
+    'parent_permlink',
+    'json_metadata',
+    'category',
+    'title',
+    'body',
+    'created',
+    'net_rshares',
+    'children',
+    'pending_payout_value',
+    'depth',
+];
+
+const remarkable = new Remarkable({ html: true, linkify: false });
+
+export default function extractContent(_data) {
+    const data = extractFields(_data, FIELDS);
+
+    data.body = data.body.trim();
+
+    processLinks(data);
+    tryExtractMetadata(data);
+    tryExtractImage(data);
+    data.desc = extractDescBody(data);
+
+    data.pending_payout = data.pending_payout_value;
+
+    return data;
+}
+
+export const extractContentMemoized = memoize(extractContent);
+
+export function extractRepost(body) {
+    return extractDescBody({ body: body.trim() });
+}
+
+function extractFields(_data, list) {
+    const data = {};
+
+    if (_data.asImmutable) {
+        for (let field of list) {
+            data[field] = _data.get(field);
+        }
+    } else {
+        for (let field of list) {
+            data[field] = _data[field];
+        }
+    }
+
+    return data;
+}
+
+function processLinks(data) {
+    data.author_link = `/@${data.author}`;
+    data.link = `/@${data.author}/${data.permlink}`;
+
+    if (data.category) {
+        data.link = `/${data.category}${data.link}`;
+    }
+}
+
+function tryExtractMetadata(data) {
     try {
-        jsonMetadata = JSON.parse(json_metadata)
-        if(typeof jsonMetadata == 'string') {
+        let jsonMetadata = JSON.parse(data.json_metadata);
+
+        if (typeof jsonMetadata == 'string') {
             // At least one case where jsonMetadata was double-encoded: #895
-            jsonMetadata = JSON.parse(jsonMetadata)
+            jsonMetadata = JSON.parse(jsonMetadata);
         }
-        // First, attempt to find an image url in the json metadata
-        if(jsonMetadata) {
-            if(jsonMetadata.image && Array.isArray(jsonMetadata.image)) {
-                [image_link] = jsonMetadata.image
-            }
+
+        data.json_metadata = jsonMetadata || {};
+    } catch (err) {
+        data.json_metadata = {};
+    }
+}
+
+function tryExtractImage(data) {
+    const meta = data.json_metadata;
+
+    // First, attempt to find an image url in the json metadata
+    if (meta) {
+        if (meta.image && Array.isArray(meta.image)) {
+            data.image_link = meta.image[0] || null;
         }
-    } catch(error) {
-        // console.error('Invalid json metadata string', json_metadata, 'in post', author, permlink);
     }
 
     // If nothing found in json metadata, parse body and check images/links
-    if(!image_link && body) {
-        let rtags
-        {
-            const isHtml = /^<html>([\S\s]*)<\/html>$/.test(body)
-            const htmlText = isHtml ? body : remarkable.render(body.replace(/<!--([\s\S]+?)(-->|$)/g, '(html comment removed: $1)'))
-            rtags = getTags(htmlText);
-        }
+    if (!data.image_link && data.body) {
+        const isHtml = /^<html>([\S\s]*)<\/html>$/.test(data.body);
+        const htmlText = isHtml
+            ? data.body
+            : remarkable.render(
+                  data.body.replace(/<!--([\s\S]+?)(-->|$)/g, '(html comment removed: $1)')
+              );
 
-        [image_link] = Array.from(rtags.images)
+        const bodyInfo = getTags(htmlText);
+
+        data.image_link = Array.from(bodyInfo.images)[0];
+
+        // Was causing broken thumnails.  IPFS was not finding images uploaded to another server until a restart.
+        // if(config.ipfs_prefix && data.image_link) // allow localhost nodes to see ipfs images
+        //     data.image_link = data.image_link.replace(links.ipfsPrefix, config.ipfs_prefix)
+    }
+}
+
+function extractDescBody(data) {
+    const { body, depth = 0 } = data;
+
+    if (!body) {
+        return;
     }
 
-    // Was causing broken thumnails.  IPFS was not finding images uploaded to another server until a restart.
-    // if(config.ipfs_prefix && image_link) // allow localhost nodes to see ipfs images
-    //     image_link = image_link.replace(links.ipfsPrefix, config.ipfs_prefix)
+    let desc;
+    // Short description.
+    // Remove bold and header, etc.
+    // Stripping removes links with titles (so we got the links above)..
+    // Remove block quotes if detected comment preview
+    const body2 = remarkableStripper.render(
+        depth > 1 ? body.replace(/>([\s\S]*?).*\s*/g, '') : body
+    );
 
-    let desc
-    let desc_complete = false
-    if(body) {
-        // Short description.
-        // Remove bold and header, etc.
-        // Stripping removes links with titles (so we got the links above)..
-        // Remove block quotes if detected comment preview
-        const body2 = remarkableStripper.render(get(content, 'depth') > 1 ? body.replace(/>([\s\S]*?).*\s*/g,'') : body);
-        desc = sanitize(body2, {allowedTags: []})// remove all html, leaving text
-        desc = htmlDecode(desc)
+    desc = sanitize(body2, { allowedTags: [] }); // remove all html, leaving text
+    desc = htmlDecode(desc);
 
-        // Strip any raw URLs from preview text
-        desc = desc.replace(/https?:\/\/[^\s]+/g, '');
+    desc = desc.replace(/\s{2,}/g, ' ');
 
-        // Grab only the first line (not working as expected. does rendering/sanitizing strip newlines?)
-        desc = desc.trim().split("\n")[0];
+    // Strip any raw URLs from preview text
+    desc = desc.replace(/https?:\/\/[^\s]+/g, '');
+    desc = desc.trim();
 
-        if(desc.length > 140) {
-          desc = desc.substring(0, 140).trim();
+    const limit = data.image_link ? DESC_LENGTH_WITH_IMAGE : DESC_LENGTH;
 
-          const dotSpace = desc.lastIndexOf('. ')
-          if(dotSpace > 80 && !get(content, 'depth') > 1) {
-              desc = desc.substring(0, dotSpace + 1)
-          } else {
+    if (desc.length > limit) {
+        desc = desc.substring(0, limit).trim();
+
+        const dotIndex = desc.lastIndexOf('. ');
+
+        // If dot near end of characters limit
+        if (dotIndex > limit - 40 && depth <= 1) {
+            desc = desc.substring(0, dotIndex + 1);
+        } else {
             // Truncate, remove the last (likely partial) word (along with random punctuation), and add ellipses
-            desc = desc.substring(0, 120).trim().replace(/[,!\?]?\s+[^\s]+$/, "…");
-          }
+            desc = desc.replace(/[,!\?]?\s+[^\s]+$/, '…');
         }
-        desc_complete = body2 === desc // is the entire body in desc?
     }
-    const pending_payout = get(content, 'pending_payout_value');
-    return {
-        author,
-        author_link,
-        permlink,
-        parent_author,
-        parent_permlink,
-        json_metadata: jsonMetadata,
-        category,
-        title,
-        created,
-        net_rshares,
-        children,
-        link,
-        image_link,
-        desc,
-        desc_complete,
-        body,
-        pending_payout,
-    };
+
+    return desc;
 }

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import { currentUsernameSelector } from 'src/app/redux/selectors/common';
+import { currentUsernameSelector, newVisitorSelector } from 'src/app/redux/selectors/common';
 import { currentPostSelector, authorSelector } from 'src/app/redux/selectors/post/commonPost';
 import { USER_FOLLOW_DATA_LOAD } from 'src/app/redux/constants/followers';
 import { FAVORITES_LOAD } from 'src/app/redux/constants/favorites';
@@ -11,12 +11,12 @@ import { toggleFavoriteAction } from 'src/app/redux/actions/favorites';
 
 export default connect(
     createSelector(
-        [currentPostSelector, authorSelector, currentUsernameSelector],
-        (post, author, username) => {
+        [currentPostSelector, authorSelector, currentUsernameSelector, newVisitorSelector],
+        (post, author, username, newVisitor) => {
             return {
+                newVisitor: newVisitor,
                 author: author.account,
                 postLoaded: Boolean(post),
-                isUserAuth: Boolean(username),
                 isPinned: author.pinnedPostsUrls.includes(author.account + '/' + post.permLink),
                 permLink: post.permLink,
                 isFavorite: post.isFavorite,

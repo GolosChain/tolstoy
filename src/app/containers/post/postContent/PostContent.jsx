@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link, browserHistory } from 'react-router';
+import { browserHistory } from 'react-router';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import tt from 'counterpart';
@@ -10,8 +10,9 @@ import { TagLink } from 'golos-ui/Tag';
 
 import PostHeader from 'src/app/containers/post/postHeader';
 import MarkdownViewer from 'app/components/cards/MarkdownViewer';
+import PostFormLoader from 'app/components/modules/PostForm/loader';
 
-const Wrapper = styled.section`
+const Wrapper = styled.article`
     position: relative;
     padding: 40px 70px 30px;
     background-color: white;
@@ -23,20 +24,7 @@ const Wrapper = styled.section`
     }
 `;
 
-const BackLink = styled(Link)`
-    position: absolute;
-    top: 0;
-    left: 0;
-    border-radius: 8px 0 25px 0;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
-`;
-
-const BackIcon = styled(Icon)`
-    display: block;
-    width: 50px;
-    height: 50px;
-    padding: 13px;
-`;
+const Preview = styled.div``;
 
 const Body = styled.div`
     margin-top: 27px;
@@ -116,12 +104,15 @@ export class PostContent extends Component {
         togglePin: PropTypes.func.isRequired,
         toggleFavorite: PropTypes.func.isRequired,
 
+        // connect
+        url: PropTypes.string.isRequired,
         relapioToken: PropTypes.string,
     };
 
-    onBackClick = e => {
-        e.preventDefault();
-        browserHistory.goBack();
+    onEditFinish = () => {
+        const { url } = this.props;
+
+        browserHistory.push(url);
     };
 
     renderHelmet() {
@@ -139,35 +130,21 @@ export class PostContent extends Component {
         );
     }
 
-    render() {
+    renderPreview() {
         const {
             tags,
             payout,
-            permLink,
             category,
             title,
             body,
             jsonMetadata,
             pictures,
             created,
-            className,
             isPromoted,
-            backUrl,
-            togglePin,
-            toggleFavorite,
         } = this.props;
 
-        const formId = `postFull-${permLink}`;
-
         return (
-            <Wrapper className={className}>
-                {this.renderHelmet()}
-                {backUrl ? (
-                    <BackLink to={backUrl} onClick={this.onBackClick}>
-                        <BackIcon name="arrow_left" />
-                    </BackLink>
-                ) : null}
-                <PostHeader togglePin={togglePin} toggleFavorite={toggleFavorite} />
+            <Preview>
                 <Body>
                     <BodyHeaderWrapper>
                         <TagLink to={'/trending/' + category.origin} category={1}>
@@ -182,7 +159,6 @@ export class PostContent extends Component {
                     <PostTitle>{title}</PostTitle>
                     <PostBody>
                         <MarkdownViewer
-                            formId={formId + '-viewer'}
                             text={body}
                             jsonMetadata={jsonMetadata}
                             large
@@ -203,6 +179,32 @@ export class PostContent extends Component {
                         </TagLink>
                     ))}
                 </Tags>
+            </Preview>
+        );
+    }
+
+    renderEditor() {
+        const { author, permLink } = this.props;
+
+        return (
+            <PostFormLoader
+                editMode
+                author={author}
+                permLink={permLink}
+                onSuccess={this.onEditFinish}
+                onCancel={this.onEditFinish}
+            />
+        );
+    }
+
+    render() {
+        const { className, url, isAuthor, togglePin, toggleFavorite, action } = this.props;
+
+        return (
+            <Wrapper className={className}>
+                {this.renderHelmet()}
+                <PostHeader postUrl={url} togglePin={togglePin} toggleFavorite={toggleFavorite} />
+                {action === 'edit' && isAuthor ? this.renderEditor() : this.renderPreview()}
             </Wrapper>
         );
     }

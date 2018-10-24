@@ -80,9 +80,9 @@ const LikeIconNeg = LikeIcon.extend`
 const LikeBlock = styled.div`
     display: flex;
     align-items: center;
-    
+
     padding-right: 4px;
-    
+
     cursor: pointer;
     user-select: none;
     white-space: nowrap;
@@ -116,7 +116,7 @@ const Money = styled.div`
     height: 26px;
     padding: 0 9px;
     margin: 0 10px;
-    
+
     border: 1px solid #959595;
     border-radius: 100px;
     color: #393636;
@@ -129,17 +129,6 @@ const Root = styled.div`
     padding: 12px 18px;
     display: flex;
     align-items: center;
-
-    ${is('whiteTheme')`
-        ${Money} {
-            color: #fff;
-            border-color: #fff;
-        }
-
-        ${LikeCount}, ${LikeIcon}, ${LikeIconNeg} {
-            color: #fff !important;
-        }    
-    `};
 `;
 
 const IconTriangle = Icon.extend`
@@ -196,7 +185,6 @@ export default class VotePanel extends PureComponent {
     static propTypes = {
         data: PropTypes.object, // Immutable.Map
         me: PropTypes.string,
-        whiteTheme: PropTypes.bool,
         onChange: PropTypes.func.isRequired,
     };
 
@@ -212,7 +200,7 @@ export default class VotePanel extends PureComponent {
     }
 
     render() {
-        const { data, me, whiteTheme, className } = this.props;
+        const { data, me, className } = this.props;
         const { showSlider, sliderAction } = this.state;
 
         const votes = data.get('active_votes');
@@ -222,7 +210,7 @@ export default class VotePanel extends PureComponent {
             : calcVotesStats(votes.toJS(), me);
         this._myVote = votesSummary.myVote;
         return (
-            <Root whiteTheme={whiteTheme} className={className} innerRef={this._onRef}>
+            <Root className={className} innerRef={this._onRef}>
                 <LikeBlock
                     active={this._myVote === 'like' || sliderAction === 'like'}
                     data-tooltip={
@@ -298,21 +286,26 @@ export default class VotePanel extends PureComponent {
         );
     }
 
+    getPayoutInfoComponent = () => {
+        const { data } = this.props;
+        return <PayoutInfo postLink={data.get('author') + '/' + data.get('permlink')} />;
+    };
+
     _renderPayout() {
         const { data } = this.props;
         const { isMobile } = this.state;
-
+        const postLink = data.get('author') + '/' + data.get('permlink');
         if (isMobile) {
             return (
                 <Money onClick={this._onPayoutClick}>
-                    <PostPayoutStyled data={data} />
+                    <PostPayoutStyled postLink={postLink} />
                 </Money>
             );
         } else {
             return (
-                <Popover content={() => <PayoutInfo data={data} />}>
+                <Popover content={this.getPayoutInfoComponent}>
                     <Money>
-                        <PostPayoutStyled data={data} />
+                        <PostPayoutStyled postLink={postLink} />
                     </Money>
                 </Popover>
             );
@@ -412,7 +405,7 @@ export default class VotePanel extends PureComponent {
         DialogManager.showDialog({
             component: PayoutInfoDialog,
             props: {
-                data,
+                postLink: data.get('author') + '/' + data.get('permlink'),
             },
         });
     };

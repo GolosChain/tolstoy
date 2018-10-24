@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import styled from 'styled-components';
 import is from 'styled-is';
+import tt from 'counterpart';
 
 import { MIN_VOICE_POWER } from 'app/client_config';
 import DialogManager from 'app/components/elements/common/DialogManager';
@@ -20,21 +21,6 @@ import {
     CURRENCY_TRANSLATE,
     CURRENCY_COLOR,
 } from 'src/app/containers/userProfile/wallet/WalletContent';
-
-const MONTHS = [
-    'января',
-    'февраля',
-    'марта',
-    'апреля',
-    'мая',
-    'июня',
-    'июля',
-    'августа',
-    'сентября',
-    'октября',
-    'ноября',
-    'декабря',
-];
 
 const Root = styled.div`
     &:nth-child(even) {
@@ -298,52 +284,68 @@ export default class WalletLine extends PureComponent {
     render() {
         const { data } = this.props;
         const { loader } = this.state;
+        const {
+            addDate,
+            stamp,
+            icon,
+            color,
+            name,
+            type,
+            title,
+            post,
+            memo,
+            memoIconText,
+            link,
+            showDelegationActions,
+            currencies,
+            amount,
+            currency,
+        } = data;
 
         return (
             <Root>
-                {data.addDate ? (
+                {addDate ? (
                     <DateWrapper>
                         <DateSplitter>
-                            {data.stamp.getDate() + ' ' + MONTHS[data.stamp.getMonth()]}
+                            {/* TODO use counterpart */}
+                            {`${stamp.getDate()} ${tt(`g.date_months.${stamp.getMonth()}`)}`}
                         </DateSplitter>
                     </DateWrapper>
                 ) : null}
                 <Line>
-                    <LineIcon name={data.icon} color={data.color} />
+                    <LineIcon name={icon} color={color} />
                     <Who>
-                        {data.name ? (
+                        {name ? (
                             <WhoName>
-                                {data.type === DIRECTION.SENT ? 'Для ' : 'От '}
-                                <WhoLink to={`/@${data.name}`}>@{data.name}</WhoLink>
+                                {type === DIRECTION.SENT
+                                    ? tt('user_wallet.content.to')
+                                    : tt('user_wallet.content.from')}{' '}
+                                <WhoLink to={`/@${name}`}>@{name}</WhoLink>
                             </WhoName>
                         ) : null}
-                        {data.title ? <WhoTitle>{data.title}</WhoTitle> : null}
-                        {data.post ? this._renderPostLink(data.post) : null}
+                        {title ? <WhoTitle>{title}</WhoTitle> : null}
+                        {post ? this._renderPostLink(post) : null}
                         <TimeStamp>
-                            <TimeAgoWrapper date={data.stamp} />
+                            <TimeAgoWrapper date={stamp} />
                         </TimeStamp>
                     </Who>
-                    {data.memo ? (
+                    {memo ? (
                         <Memo>
-                            <MemoIcon
-                                name="note"
-                                text={data.memoIconText}
-                                data-hint={data.memoIconText}
-                            />
+                            <MemoIcon name="note" text={memoIconText} data-hint={memoIconText} />
                             <MemoCut height={50}>
                                 <MemoCentrer>
                                     <MemoText>
-                                        <Linkify>{data.memo}</Linkify>
+                                        <Linkify>{memo}</Linkify>
                                     </MemoText>
                                 </MemoCentrer>
                             </MemoCut>
                         </Memo>
                     ) : null}
-                    {data.data ? <DataLink to={data.link}>{data.data}</DataLink> : null}
-                    {data.showDelegationActions ? this._renderDelegationActions() : null}
-                    {data.currencies ? (
+                    {data.data ? <DataLink to={link}>{data.data}</DataLink> : null}
+                    {showDelegationActions ? this._renderDelegationActions() : null}
+                    {currencies ? (
                         <Currencies>
-                            {data.currencies.map(({ amount, currency }) => (
+                            {currencies.map(({ amount, currency }) => (
                                 <ListValue key={currency}>
                                     <Amount color={CURRENCY_COLOR[currency]}>{amount}</Amount>
                                     <Currency>{CURRENCY_TRANSLATE[currency]}</Currency>
@@ -352,8 +354,8 @@ export default class WalletLine extends PureComponent {
                         </Currencies>
                     ) : (
                         <Value>
-                            <Amount color={data.color}>{data.amount}</Amount>
-                            <Currency>{CURRENCY_TRANSLATE[data.currency]}</Currency>
+                            <Amount color={color}>{amount}</Amount>
+                            <Currency>{CURRENCY_TRANSLATE[currency]}</Currency>
                         </Value>
                     )}
                 </Line>
@@ -364,9 +366,9 @@ export default class WalletLine extends PureComponent {
     }
 
     _renderPostLink(post) {
-        const fullLink = post.author + '/' + post.permLink;
+        const postLink = post.author + '/' + post.permLink;
 
-        return <WhoPostLink onClick={() => this._onPostClick(post)}>{fullLink}</WhoPostLink>;
+        return <WhoPostLink to={'/@' + postLink}>{postLink}</WhoPostLink>;
     }
 
     _renderEditDelegation() {
@@ -410,13 +412,13 @@ export default class WalletLine extends PureComponent {
                 <ActionIcon
                     color="#3684ff"
                     name="pen"
-                    data-tooltip="Редактировать делегирование"
+                    data-tooltip={tt('user_wallet.content.tip.edit_delegation')}
                     onClick={loader ? null : () => this._onEditDelegationClick()}
                 />
                 <ActionIcon
                     color="#fc544e"
                     name="round-cross"
-                    data-tooltip="Отменить делегирование"
+                    data-tooltip={tt('user_wallet.content.tip.cancel_delegation')}
                     onClick={loader ? null : () => this._onCancelDelegationClick()}
                 />
             </Actions>
