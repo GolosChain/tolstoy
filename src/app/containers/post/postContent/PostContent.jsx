@@ -65,7 +65,7 @@ const Tags = styled.div`
     display: flex;
     flex-wrap: wrap;
     
-    & > a {
+    & > ${TagLink} {
        margin: 10px 10px 0 0; 
     }
 `;
