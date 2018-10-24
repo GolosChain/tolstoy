@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { List } from 'immutable';
 
 import Container from 'src/app/components/common/Container';
 import Navigation from 'src/app/components/main/Navigation';
@@ -13,35 +12,46 @@ const Wrapper = styled.div`
 
 const ContainerStyled = styled(Container)`
     padding: 20px 0 40px;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+    }
 `;
 
 const Content = styled.div`
     flex: 1;
+
+    @media (max-width: 768px) {
+        order: 2;
+    }
 `;
 
 const Sidebar = styled.div`
     width: 262px;
     margin-left: 30px;
+
+    @media (max-width: 768px) {
+        width: auto;
+        margin-left: 0;
+        order: 1;
+    }
 `;
 
 export default class HomeContainer extends Component {
     static propTypes = {
         content: PropTypes.node,
         sidebar: PropTypes.node,
-
-        selectedSelectTags: PropTypes.instanceOf(List),
-        selectedFilterTags: PropTypes.instanceOf(List),
     };
 
     render() {
-        const { content, sidebar, selectedSelectTags, selectedFilterTags } = this.props;
+        const { content, sidebar } = this.props;
 
         return (
             <Wrapper>
                 <Navigation />
                 <ContainerStyled>
                     <Content>
-                        <TagsBox selectedSelectTags={selectedSelectTags} selectedFilterTags={selectedFilterTags} />
+                        <TagsBox />
                         {content}
                     </Content>
                     <Sidebar>{sidebar}</Sidebar>

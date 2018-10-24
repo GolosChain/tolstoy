@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+// import { Link } from 'react-router';
 import { List } from 'immutable';
 import styled from 'styled-components';
 import is from 'styled-is';
@@ -8,9 +8,12 @@ import is from 'styled-is';
 // import { TAGS_MAX_LENGTH } from 'app/utils/tags';
 
 import Icon from 'golos-ui/Icon';
+import Button from 'golos-ui/Button';
 import TagSelect from 'src/app/components/common/TagSelect';
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+    margin-bottom: 20px;
+`;
 
 // const SearchTagsWrapper = styled.div`
 //     display: flex;
@@ -47,8 +50,15 @@ const Wrapper = styled.div``;
 //     color: #393636;
 // `;
 
+const TagSelectStyled = styled(TagSelect)`
+    @media (max-width: 768px) {
+        margin-bottom: 20px;
+    }
+`;
+
 const Title = styled.div`
     position: relative;
+    line-height: 1;
     font-size: 12px;
     font-weight: 500;
     letter-spacing: 0.7px;
@@ -66,7 +76,9 @@ const TagsWrapper = styled.div`
     display: flex;
     flex-wrap: wrap;
 
-    margin-bottom: 10px;
+    @media (min-width: 768px) {
+        margin-bottom: 10px;
+    }
 `;
 
 const CollapseIcon = styled(Icon).attrs({
@@ -75,32 +87,28 @@ const CollapseIcon = styled(Icon).attrs({
 })`
     position: absolute;
     right: 0;
-    transform: rotate(0);
+    transform: rotate(0.5turn);
     transition: transform 0.4s;
 
     &:hover {
         color: #000;
     }
-
-    ${is('flip')`
-        transform: rotate(0.5turn);
-    `};
 `;
 
-const ButtonLink = styled(Link)`
-    display: flex;
-    align-items: center;
-    justify-content: center;
+// const ButtonLink = styled(Link)`
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
 
-    height: 34px;
-    font-size: 12px;
-    font-weight: bold;
-    text-transform: uppercase;
-    color: #393636 !important;
+//     height: 34px;
+//     font-size: 12px;
+//     font-weight: bold;
+//     text-transform: uppercase;
+//     color: #393636 !important;
 
-    border-radius: 17px;
-    border: solid 1px rgba(117, 117, 117, 0.3);
-`;
+//     border-radius: 17px;
+//     border: solid 1px rgba(117, 117, 117, 0.3);
+// `;
 
 const emptyList = List();
 
@@ -140,7 +148,7 @@ export default class TagsCard extends Component {
         const isFiltered = selectedFilterTags.indexOf(tag) !== -1;
 
         return (
-            <TagSelect
+            <TagSelectStyled
                 key={key}
                 tag={tag}
                 isSelected={isSelected}
@@ -170,11 +178,18 @@ export default class TagsCard extends Component {
 
                 <Title>Популярные теги</Title>
                 <TagsWrapper>{tags.map(this.renderTag)}</TagsWrapper>
-                <Title onClick={this.onToggleClick}>
-                    {collapsed ? 'Показать больше' : 'Свернуть'}
-                    <CollapseIcon name="chevron" flip={collapsed ? 1 : 0} />
-                </Title>
-                {!collapsed && <ButtonLink to="/tags">Показать все</ButtonLink>}
+                {collapsed ? (
+                    <Title onClick={this.onToggleClick}>
+                        Показать больше
+                        <CollapseIcon name="chevron" />
+                    </Title>
+                ) : (
+                    <Button auto onClick={this.onToggleClick}>
+                        Свернуть
+                    </Button>
+                )}
+
+                {/* {!collapsed && <ButtonLink to="/tags">Показать все</ButtonLink>} */}
             </Wrapper>
         );
     }

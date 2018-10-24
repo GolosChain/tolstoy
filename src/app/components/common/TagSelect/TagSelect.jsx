@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import is from 'styled-is';
 
 import Tag from 'golos-ui/Tag';
+import Popover from 'src/app/components/common/Popover';
 
 const SLIDER_OFFSET = 8;
 
@@ -19,11 +20,9 @@ const TagStyled = styled(Tag)`
 `;
 
 const TooltipWrapper = styled.div`
-    position: absolute;
     display: flex;
+    flex: 1;
     height: 40px;
-    top: -50px;
-    left: 0;
     width: 100%;
     min-width: 174px;
     margin: 0 -${SLIDER_OFFSET}px;
@@ -32,24 +31,6 @@ const TooltipWrapper = styled.div`
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
     background: #fff;
     animation: from-down 0.2s;
-`;
-
-const TooltipBody = styled.div`
-    display: flex;
-    flex: 1;
-`;
-
-const TooltipTip = styled.div`
-    position: absolute;
-    bottom: 0;
-    left: ${props => props.left || '50%'};
-    margin-left: -5px;
-    margin-bottom: -5px;
-    width: 10px;
-    height: 10px;
-    transform: rotate(45deg);
-    background: #fff;
-    box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.1);
 `;
 
 const Action = styled.div`
@@ -89,72 +70,64 @@ export default class SelectTag extends Component {
         tag: PropTypes.string,
         onTagClick: PropTypes.func,
         onlyRemove: PropTypes.bool,
+        className: PropTypes.string,
     };
 
     static defaultProps = {
         onlyRemove: false,
     };
 
-    state = {
-        showActions: false,
-        currentTag: '',
-    };
-
-    rootRef = createRef();
-    tagRef = createRef();
-
-    toggleShowActions = () => this.setState({ showActions: !this.state.showActions });
+    popoverRef = createRef();
 
     handleTagClick = action => () => {
         this.props.onTagClick(this.props.tag, action);
-        this.toggleShowActions();
+        this.popoverRef.current.close();
     };
 
-    renderActions() {
+    renderActions = () => {
         const { isSelected, isFiltered, onlyRemove } = this.props;
-        const box = this.rootRef.current.getBoundingClientRect();
-        const tagBox = this.tagRef.current.getBoundingClientRect();
-
-        const tipLeft = SLIDER_OFFSET + (tagBox.left - box.left + tagBox.width / 2);
 
         return (
             <TooltipWrapper>
-                <TooltipBody>
-                    {onlyRemove ? (
-                        <Action onClick={this.handleTagClick(isSelected ? 'select' : 'filter')} remove={true}>
-                            Удалить
-                        </Action>
-                    ) : (
-                        [
-                            <Action key="exclude" onClick={this.handleTagClick('filter')} active={isFiltered}>
-                                Исключить
-                            </Action>,
-                            <Action key="add" onClick={this.handleTagClick('select')} active={isSelected}>
-                                Добавить
-                            </Action>,
-                        ]
-                    )}
-                </TooltipBody>
-                <TooltipTip left={`${tipLeft}px`} />
+                {onlyRemove ? (
+                    <Action
+                        onClick={this.handleTagClick(isSelected ? 'select' : 'filter')}
+                        remove={true}
+                    >
+                        Удалить
+                    </Action>
+                ) : (
+                    [
+                        <Action
+                            key="exclude"
+                            onClick={this.handleTagClick('filter')}
+                            active={isFiltered}
+                        >
+                            Исключить
+                        </Action>,
+                        <Action
+                            key="add"
+                            onClick={this.handleTagClick('select')}
+                            active={isSelected}
+                        >
+                            Добавить
+                        </Action>,
+                    ]
+                )}
             </TooltipWrapper>
         );
-    }
+    };
 
     render() {
-        const { tag, isSelected, isFiltered } = this.props;
-        const { showActions } = this.state;
+        const { tag, isSelected, isFiltered, className } = this.props;
 
         return (
-            <Wrapper innerRef={this.rootRef}>
-                <TagStyled
-                    onClick={this.toggleShowActions}
-                    selected={isSelected ? 1 : 0}
-                    filtered={isFiltered ? 1 : 0}
-                    innerRef={this.tagRef}
-                >
-                    {tag}
-                </TagStyled>
-                {showActions && this.renderActions()}
+            <Wrapper className={className}>
+                <Popover innerRef={this.popoverRef} content={this.renderActions}>
+                    <TagStyled selected={isSelected ? 1 : 0} filtered={isFiltered ? 1 : 0}>
+                        {tag}
+                    </TagStyled>
+                </Popover>
             </Wrapper>
         );
     }

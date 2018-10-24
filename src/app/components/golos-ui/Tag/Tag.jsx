@@ -5,7 +5,6 @@ import { Link } from 'react-router';
 
 export const Tag = styled.div`
     position: relative;
-    display: table-cell;
     height: 28px;
     line-height: 28px;
     padding: 0 15px;

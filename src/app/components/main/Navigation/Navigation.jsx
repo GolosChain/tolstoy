@@ -6,9 +6,23 @@ import { connect } from 'react-redux';
 
 import { TabLink } from 'golos-ui/Tab';
 import SlideContainer from 'src/app/components/common/SlideContainer';
+import Container from 'src/app/components/common/Container';
+
+const SlideContainerStyled = styled(SlideContainer)`
+    background: #fff;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
+`;
 
 const TabLinkStyled = styled(TabLink)`
     padding: 0 12px;
+
+    &:first-child {
+        padding-left: 0;
+    }
+
+    &:last-child {
+        padding-right: 0;
+    }
 
     &.${({ activeClassName }) => activeClassName} {
         :after {
@@ -51,13 +65,15 @@ export default class Navigation extends PureComponent {
         );
 
         return (
-            <SlideContainer className={className}>
-                {tabLinks.map(({ value, to }) => (
-                    <TabLinkStyled key={to} to={to}>
-                        {value}
-                    </TabLinkStyled>
-                ))}
-            </SlideContainer>
+            <SlideContainerStyled className={className}>
+                <Container>
+                    {tabLinks.map(({ value, to }) => (
+                        <TabLinkStyled key={to} to={to}>
+                            {value}
+                        </TabLinkStyled>
+                    ))}
+                </Container>
+            </SlideContainerStyled>
         );
     }
 }

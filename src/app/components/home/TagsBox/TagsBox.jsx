@@ -3,12 +3,39 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { List } from 'immutable';
 
+import SlideContainer from 'src/app/components/common/SlideContainer';
 import TagSelect from 'src/app/components/common/TagSelect';
 
 const Wrapper = styled.div`
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     margin-bottom: 10px;
+`;
+
+const Title = styled.div`
+    position: relative;
+    line-height: 1;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.7px;
+    color: #333333;
+    text-transform: uppercase;
+
+    margin-bottom: 20px;
+`;
+
+const TagSelectStyled = styled(TagSelect)`
+    @media (max-width: 768px) {
+        margin-bottom: 0;
+    }
+`;
+
+const Tags = styled.div`
+    display: flex;
+
+    @media (min-width: 768px) {
+        flex-wrap: wrap;
+    }
 `;
 
 export default class TagsBox extends Component {
@@ -50,12 +77,30 @@ export default class TagsBox extends Component {
 
         return (
             <Wrapper>
-                {selectedSelectTags.map((tag, key) => (
-                    <TagSelect key={key} tag={tag} isSelected onlyRemove onTagClick={this.onTagClick} />
-                ))}
-                {selectedFilterTags.map((tag, key) => (
-                    <TagSelect key={key} tag={tag} isFiltered onlyRemove onTagClick={this.onTagClick} />
-                ))}
+                <Title>теги, которые вы выбрали</Title>
+
+                <SlideContainer>
+                    <Tags>
+                        {selectedSelectTags.map((tag, key) => (
+                            <TagSelectStyled
+                                key={key}
+                                tag={tag}
+                                isSelected
+                                onlyRemove
+                                onTagClick={this.onTagClick}
+                            />
+                        ))}
+                        {selectedFilterTags.map((tag, key) => (
+                            <TagSelectStyled
+                                key={key}
+                                tag={tag}
+                                isFiltered
+                                onlyRemove
+                                onTagClick={this.onTagClick}
+                            />
+                        ))}
+                    </Tags>
+                </SlideContainer>
             </Wrapper>
         );
     }
