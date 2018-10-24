@@ -66,7 +66,7 @@ const ActionWrapper = styled(Action)`
     ${is('isOpen')`
         & > div > svg {
             transition: color 0s;
-            color: #2578be;
+            color: #2879ff;
         }
     `};
 `;
