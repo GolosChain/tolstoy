@@ -98,9 +98,22 @@ export default class DialogManager extends React.PureComponent {
     }
 
     static showLogin() {
-        return DialogManager.showDialog({
-            component: LoginForm,
+        let handle;
+        let _resolve;
+
+        const promise = new Promise(resolve => {
+            _resolve = resolve;
+
+            handle = DialogManager.showDialog({
+                component: LoginForm,
+                onClose: resolve,
+            });
         });
+
+        handle.result = promise;
+        handle._resolve = _resolve;
+
+        return handle;
     }
 
     constructor(props) {

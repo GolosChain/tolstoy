@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 
 import Icon from 'golos-ui/Icon';
 
-import { openRepostDialog, openPromoteDialog } from 'src/app/components/dialogs/actions';
 import VotePanel from 'src/app/components/common/VotePanel/VotePanel';
 import ReplyBlock from 'src/app/components/common/ReplyBlock/ReplyBlock';
 import { confirmVote } from 'src/app/helpers/votes';
@@ -204,7 +203,7 @@ export class ActivePanel extends Component {
 
     promotePost = () => {
         const { account, permLink } = this.props;
-        openPromoteDialog(`${account}/${permLink}`);
+        this.props.openPromoteDialog(`${account}/${permLink}`);
     };
 
     flagPost = () => {};
@@ -235,7 +234,7 @@ export class ActivePanel extends Component {
 
     repost = () => {
         const { account, permLink } = this.props;
-        openRepostDialog(`${account}/${permLink}`);
+        this.props.openRepostDialog(`${account}/${permLink}`);
     };
 
     render() {
