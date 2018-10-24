@@ -7,6 +7,7 @@ import { getScrollElement } from 'src/app/helpers/window';
 
 const POPOVER_OFFSET = 25;
 const POINTER_HEIGHT = 10;
+const POPOVER_VERTICAL_OFFSET = POINTER_HEIGHT + 1;
 const MINIMAL_SPACE = 160;
 
 const Root = styled.div`
@@ -197,7 +198,7 @@ export default class Popover extends PureComponent {
 
         const x = scrollLeft + target.left + target.width / 2;
 
-        const shift = toUp ? -POINTER_HEIGHT : target.height + POINTER_HEIGHT;
+        const shift = toUp ? -POPOVER_VERTICAL_OFFSET : target.height + POPOVER_VERTICAL_OFFSET;
 
         const top = Math.round(scrollTop + target.top + shift);
 
@@ -263,7 +264,7 @@ export default class Popover extends PureComponent {
             pointerStyle.left = POPOVER_OFFSET;
         } else if (xPart > 0.8) {
             align = 'right';
-            left -= POPOVER_OFFSET;
+            left += POPOVER_OFFSET;
             pointerStyle.right = POPOVER_OFFSET;
         } else {
             align = 'center';
