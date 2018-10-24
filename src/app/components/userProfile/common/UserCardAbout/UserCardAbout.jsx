@@ -208,7 +208,10 @@ export default class UserCardAbout extends PureComponent {
         };
 
         return (
-            <CollapsingCardStyled title={tt('user_profile.account_summary.title')} saveStateKey="info">
+            <CollapsingCardStyled
+                title={tt('user_profile.account_summary.title')}
+                saveStateKey="info"
+            >
                 <CardContentCounters>
                     <Row>
                         <ColumnClick onClick={this.onShowFollowers}>
@@ -228,7 +231,11 @@ export default class UserCardAbout extends PureComponent {
                     <Row>
                         <Column>
                             <Bold>{account.get('post_count')}</Bold>
-                            <Title>{tt('user_profile.account_summary.post_count')}</Title>
+                            <Title>
+                                {tt('user_profile.account_summary.post_count', {
+                                    count: account.get('post_count'),
+                                })}
+                            </Title>
                         </Column>
                         <Column>
                             <Bold>{reputation}</Bold>

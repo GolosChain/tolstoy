@@ -1221,7 +1221,11 @@
       "followers": "Followers",
       "following": "Following",
       "gender": "Gender",
-      "post_count": "Постов",
+      "post_count": {
+        "one": "Post",
+        "other": "Posts",
+        "zero": "posts"
+      },
       "registered": "Registered on",
       "reputation": "Reputation",
       "title": "Account Summary"

@@ -1228,7 +1228,11 @@
       "followers": "Подписчиков",
       "following": "Подписок",
       "gender": "Пол",
-      "post_count": "Постов",
+      "post_count": {
+        "one": "Пост",
+        "other": "Постов",
+        "zero": "постов"
+      },
       "registered": "На Golos с",
       "reputation": "Рейтинг",
       "title": "Краткая информация"

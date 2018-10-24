@@ -872,7 +872,11 @@
       "followers": "Підписники",
       "following": "Підписок",
       "gender": "Стать",
-      "post_count": "Постів",
+      "post_count": {
+        "one": "Пост",
+        "other": "Постів",
+        "zero": "Постів"
+      },
       "reputation": "Рейтинг",
       "title": "Коротка інформація",
       "registered": "На Golos з"
