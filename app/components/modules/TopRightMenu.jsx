@@ -42,7 +42,7 @@ const calculateEstimateOutput = ({ account, price_per_golos, savings_withdraws, 
     })
   }
 
-  const total_sbd = 0 
+  const total_sbd = 0
     + parseFloat(account.get('sbd_balance'))
     + parseFloat(toAsset(account.get('savings_sbd_balance')).amount)
     + savings_sbd_pending
@@ -58,7 +58,7 @@ const calculateEstimateOutput = ({ account, price_per_golos, savings_withdraws, 
 
 function TopRightMenu({account, savings_withdraws, price_per_golos, globalprops, username, showLogin, logout, loggedIn, vertical, navigate, probablyLoggedIn, location, locationQueryParams, showMessages}) {
     const APP_NAME = tt('g.APP_NAME');
-    
+
     const mcn = 'menu' + (vertical ? ' vertical show-for-small-only' : '');
     const mcl = vertical ? '' : ' sub-menu';
     const lcn = vertical ? '' : 'show-for-large';
@@ -109,7 +109,7 @@ function TopRightMenu({account, savings_withdraws, price_per_golos, globalprops,
     if (!loggedIn) {
         additional_menu.push(
             { link: '/login.html', onClick: showLogin, value: tt('g.login'), className: 'show-for-small-only' },
-            { link: REGISTRATION_URL, value: tt('g.sign_up'), className: 'show-for-small-only' }
+            { link: REGISTRATION_URL, value: tt('g.sign_up'), target: 'blank', className: 'show-for-small-only' }
         )
     }
     additional_menu.push(
@@ -154,7 +154,7 @@ function TopRightMenu({account, savings_withdraws, price_per_golos, globalprops,
         if ($STM_Config.is_sandbox) {
             user_menu.splice(2, 0, {link: '#', icon: 'chatboxes', onClick: showMessages, value: tt('g.messages')});
         }
-      
+
         const voting_power_percent = account.get('voting_power') / 100
 
         return (
