@@ -79,8 +79,8 @@ const MessageOut = ({ contactImage, messageText, date, metadata }) => {
                 <Meta>
                     <Time>{date}</Time>
                     <Status>
-                        {status === 'sent' && <Icon name="ic-sent" width="9" height="8" />}
-                        {status === 'viewed' && <Icon name="ic-viewed" width="15" height="8" />}
+                        {status === 'sent' && <Icon name="message-sent" width="9" height="8" />}
+                        {status === 'viewed' && <Icon name="message-viewed" width="15" height="8" />}
                     </Status>
                 </Meta>
             </Body>

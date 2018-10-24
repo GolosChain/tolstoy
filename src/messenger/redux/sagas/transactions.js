@@ -18,15 +18,11 @@ const hook = {
     preBroadcast_sendMessage,
 };
 
-function* preBroadcast_sendMessage({
-    to,
-    toMemokey,
-    message,
-}) {
+function* preBroadcast_sendMessage({ to, toMemokey, message }) {
     const from = yield select(currentUsernameSelector);
-    
+
     const memoPrivate = yield select(getCurrentUserPrivateMemoKey);
-    if (!memoPrivate){
+    if (!memoPrivate) {
         // TODO
         throw new Error('Unable to encrypte message, missing memo private key');
     }
@@ -37,17 +33,11 @@ function* preBroadcast_sendMessage({
         app: 'golosio',
     };
 
-    const {
-        nonce,
-        from_memo_key,
-        to_memo_key,
-        checksum,
-        encrypted_message,
-    } = yield call(
+    const { nonce, from_memo_key, to_memo_key, checksum, encrypted_message } = yield call(
         tryEncryptMessage,
-        memoPrivate, 
+        memoPrivate,
         toMemokey,
-        JSON.stringify(messageObj),
+        JSON.stringify(messageObj)
     );
 
     const operation = [
@@ -68,12 +58,7 @@ function* preBroadcast_sendMessage({
 }
 
 function* broadcastCustomJson({
-    payload: {
-        broadcastType,
-        broadcastPayload,
-        successCallback,
-        errorCallback,
-    }
+    payload: { broadcastType, broadcastPayload, successCallback, errorCallback },
 }) {
     const operation = yield call(hook[`preBroadcast_${broadcastType}`], broadcastPayload);
     const currentUsername = yield select(currentUsernameSelector);
@@ -83,51 +68,58 @@ function* broadcastCustomJson({
             'custom_json',
             {
                 required_auths: [],
-                required_posting_auths: [ currentUsername ],
+                required_posting_auths: [currentUsername],
                 id: 'private_message',
                 json: JSON.stringify(operation),
-            }
-        ]
+            },
+        ],
     ];
 
     try {
-        const signingKey = yield call(
-            findSigningKey,
-            {
-                opType: 'custom_json',
-                username: currentUsername,
-            }
-        );
+        const signingKey = yield call(findSigningKey, {
+            opType: 'custom_json',
+            username: currentUsername,
+        });
 
         if (!signingKey) {
             // TODO ?
         }
 
-      yield broadcast.sendAsync({ extensions: [], operations }, [ signingKey ]);
+        // yield broadcast.sendAsync({ extensions: [], operations }, [signingKey]);
         if (successCallback) {
             successCallback();
         }
 
-        if (__DEBUG__) console.warn(`${broadcastType} success`, operation)
+        if (__DEBUG__) console.warn(`${broadcastType} success`, operation);
     } catch (error) {
         if (errorCallback) {
             errorCallback();
         }
 
-        if (__DEBUG__) console.error(error, operation)
+        if (__DEBUG__) console.error(error, operation);
     }
 }
 
 function* tryEncryptMessage(fromPrivateMemoKey, toPublicMemoKey, stringifyMessage, testNonce) {
     const { Aes, PrivateKey } = ecc;
-    const fromPrivateKey = fromPrivateMemoKey.d ? fromPrivateMemoKey : PrivateKey.fromWif(fromPrivateMemoKey);
+
+    const fromPrivateKey = fromPrivateMemoKey.d
+        ? fromPrivateMemoKey
+        : PrivateKey.fromWif(fromPrivateMemoKey);
+
     const fromPublicKey = fromPrivateKey.toPublicKey().toString();
 
     const mbuf = new ByteBuffer(ByteBuffer.DEFAULT_CAPACITY, ByteBuffer.LITTLE_ENDIAN);
     mbuf.writeVString(stringifyMessage);
     const buff = new Buffer(mbuf.copy(0, mbuf.offset).toBinary(), 'binary');
 
-    const { nonce, message, checksum } = Aes.encrypt(fromPrivateKey, toPublicMemoKey, buff, testNonce);
+    const { nonce, message, checksum } = Aes.encrypt(
+        fromPrivateKey,
+        toPublicMemoKey,
+        buff,
+        testNonce
+    );
+
     return {
         nonce: nonce.toString(),
         from_memo_key: fromPublicKey,

@@ -1,21 +1,14 @@
 import ByteBuffer from 'bytebuffer';
 import { ecc } from 'golos-js';
 
-const isJson = str => {
-    try {
-        JSON.parse(str);
-    } catch (e) {
-        return false;
-    }
-    return true;
-};
+import { EPOCH_TIME } from './constants';
 
 const addMeatadata = message => {
     const { create_date, receive_date, read_date, remove_date } = message;
 
-    const status = read_date === '1970-01-01T00:00:00' ? 'sent' : 'viewed';
+    const status = read_date === EPOCH_TIME ? 'sent' : 'viewed';
     const isEdited = receive_date !== create_date;
-    const isRemoved = remove_date !== '1970-01-01T00:00:00';
+    const isRemoved = remove_date !== EPOCH_TIME;
 
     return {
         status,
@@ -25,10 +18,14 @@ const addMeatadata = message => {
 };
 
 const parseJsonMessage = json => {
-    if (isJson(json)) {
+    try {
         const messageObj = JSON.parse(json);
-        return (typeof messageObj.body === 'string') ? messageObj.body : 'Error: object';
-    } else {
+        if (typeof messageObj.body === 'string') {
+            return messageObj.body;
+        } else {
+            return 'Error: object';
+        }
+    } catch (e) {
         return 'Error: JSON.parse';
     }
 };
@@ -49,19 +46,22 @@ export const processMessages = (currentUserName, currentUserPrivateMemoKey, mess
         );
         const messageText = parseJsonMessage(jsonMessage);
 
-        return Object.assign(
-                {},
-                message,
-                {
-                    type,
-                    metadata,
-                    message: messageText,
-                }
-            )
+        return {
+            ...message,
+            type,
+            metadata,
+            message: messageText,
+        };
     });
 };
 
-export const tryDecryptMessage = (toPrivateMemoKey, fromPublickMemoKey, nonce, encrypted, check) => {
+export const tryDecryptMessage = (
+    toPrivateMemoKey,
+    fromPublickMemoKey,
+    nonce,
+    encrypted,
+    check
+) => {
     const { Aes } = ecc;
     if (typeof nonce === 'number') {
         nonce = nonce.toString();
@@ -69,14 +69,18 @@ export const tryDecryptMessage = (toPrivateMemoKey, fromPublickMemoKey, nonce, e
     const enc = new Buffer(encrypted, 'hex');
     try {
         const message = Aes.decrypt(toPrivateMemoKey, fromPublickMemoKey, nonce, enc, check);
-        const mbuf = ByteBuffer.fromBinary(message.toString('binary'), ByteBuffer.DEFAULT_CAPACITY, ByteBuffer.LITTLE_ENDIAN);
-        
+        const mbuf = ByteBuffer.fromBinary(
+            message.toString('binary'),
+            ByteBuffer.DEFAULT_CAPACITY,
+            ByteBuffer.LITTLE_ENDIAN
+        );
+
         try {
             mbuf.mark();
             return mbuf.readVString();
-        } catch(e) {
+        } catch (e) {
             mbuf.reset();
-            return new  Buffer(mbuf.toString('binary'), 'binary').toString('utf-8');
+            return new Buffer(mbuf.toString('binary'), 'binary').toString('utf-8');
         }
     } catch (error) {
         console.error(error);
