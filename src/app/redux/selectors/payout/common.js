@@ -23,6 +23,8 @@ const FIELDS_PENDING = {
     TOTAL_GBG: 'total_pending_payout_value',
 };
 
+const DEFAULT_VESTS_PER_GBG = 3200;
+
 const MEMO_LIMIT = 50;
 
 function memoize(func) {
@@ -94,6 +96,7 @@ function extractFields(data, fieldsList) {
         benefGests: extract(fieldsList.BENEF_GESTS),
         benefGbg: extract(fieldsList.BENEF_GBG),
         curatGests: extract(fieldsList.CURAT_GESTS),
+        curatGbg: extract(fieldsList.CURAT_GBG),
         authorGbg: extract(fieldsList.AUTHOR_GBG),
         authorGolos: extract(fieldsList.AUTHOR_GOLOS),
         authorGests: extract(fieldsList.AUTHOR_GESTS),
@@ -137,8 +140,23 @@ export const getPayoutPermLink = createSelector(
             golosPerGbg = calculateGolosPerGbg(result, lastPayout, rates);
         }
 
-        const gestsPerGolos =
-            fields.authorGests / (authorTotalGbg * golosPerGbg * (1 - golosPowerFraction));
+        let gestsPerGbg;
+        let gestsPerGolos;
+
+        if (fields.authorGests) {
+            gestsPerGolos =
+                fields.authorGests / (authorTotalGbg * golosPerGbg * (1 - golosPowerFraction));
+        } else {
+            let gestsPerGbg;
+
+            if (fields.curatGests) {
+                gestsPerGbg = fields.curatGests / fields.curatGbg;
+            } else if (fields.benefGests) {
+                gestsPerGbg = fields.benefGests / fields.benefGbg;
+            }
+
+            gestsPerGolos = (gestsPerGbg || DEFAULT_VESTS_PER_GBG) / golosPerGbg;
+        }
 
         result.author = fields.authorGolos + fields.authorGests / gestsPerGolos;
         result.authorGbg = fields.authorGbg;
