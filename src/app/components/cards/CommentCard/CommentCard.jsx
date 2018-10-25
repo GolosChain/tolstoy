@@ -16,11 +16,8 @@ import CardAuthor from '../CardAuthor';
 import EditButton from '../EditButton';
 import ReLink from '../ReLink';
 import MarkdownViewer from 'app/components/cards/MarkdownViewer';
-import { HEADER_HEIGHT } from 'src/app/constants/constants';
 
 const Header = styled.div`
-    position: relative;
-
     padding: 12px 0 8px 0;
     flex-shrink: 0;
 
@@ -42,11 +39,6 @@ const HeaderLine = styled.div`
     & > * {
         pointer-events: initial;
     }
-`;
-
-const AnchorBlock = styled.div`
-    position: absolute;
-    top: -${() => HEADER_HEIGHT + 20}px;
 `;
 
 const Category = styled.div`
@@ -201,8 +193,7 @@ export class CommentCard extends PureComponent {
         const { collapsed } = this.state;
 
         return (
-            <Header collapsed={collapsed}>
-                <AnchorBlock id={anchorID} />
+            <Header collapsed={collapsed} id={anchorID}>
                 <HeaderLine>
                     <CardAuthor author={comment.get('author')} created={comment.get('created')} />
                     {collapsed && (
@@ -225,8 +216,7 @@ export class CommentCard extends PureComponent {
         const detransliteratedCategory = detransliterate(comment.get('category'));
 
         return (
-            <Header collapsed={collapsed}>
-                <AnchorBlock id={anchorID} />
+            <Header collapsed={collapsed} id={anchorID}>
                 <HeaderLine>
                     {collapsed ? (
                         <ReLink
