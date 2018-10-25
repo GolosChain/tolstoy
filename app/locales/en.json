@@ -76,6 +76,25 @@
     "confirm": "Confirm",
     "ok": "Ok"
   },
+  "content": {
+    "tip": {
+      "blog": {
+        "start_writing": "Create your first post using",
+        "start_writing_2": " hashtags.",
+        "tag_1": "golos",
+        "tag_2": "introducemyself",
+        "user_has_no_post": "User haven't started posting."
+      },
+      "comments": {
+        "start_writing": "Start commenting.",
+        "user_has_no_comments": "User haven't started commenting."
+      },
+      "replies": {
+        "start_writing": "Get started by writing posts and receiving comments.",
+        "user_has_no_replies": "User haven't received comments. Write your comment."
+      }
+    }
+  },
   "converttosteem_jsx": {
     "DEBT_TOKEN_will_be_unavailable": "This action will take place 3.5 days from now and can not be canceled. These %(DEBT_TOKEN)s will immediately become unavailable",
     "confirm_title": "Confirm Convert",
@@ -285,11 +304,6 @@
     "copied": "Copied!",
     "copy": "COPY"
   },
-  "favorites":{
-    "info_block": "Favorites are private data",
-    "empty_block": "No favorites yet",
-    "empty_sub_text": ""
-  },
   "faq_jsq": {
     "email": "email",
     "footer_message": "We will never ask for your private keys or money. If someone appears to be a member of the Golos.io team and asks for such information, please inform us",
@@ -297,6 +311,11 @@
     "page_description": "There you can find answers on all questions you may be curious about.",
     "page_title": "FAQ",
     "telegram": "telegram"
+  },
+  "favorites": {
+    "empty_block": "No favorites yet",
+    "empty_sub_text": "",
+    "info_block": "Favorites are private data"
   },
   "footer": {
     "mobile_apps": "Mobile apps",
@@ -569,7 +588,6 @@
     "trending": "Trending",
     "trending_topics": "Trending Topics",
     "turn_back": "Turn back",
-    "upstairs": "Upstairs",
     "type": "Type",
     "unable_to_log_you_in": "We will be unable to log you in with this browser",
     "understand_that_APP_NAME_cannot_recover_password": "I understand that %(APP_NAME)s cannot recover lost passwords",
@@ -579,6 +597,7 @@
     "update": "Update",
     "update_password": "Update Password",
     "update_your_password": "update your password",
+    "upstairs": "Upstairs",
     "upvote": "Upvote",
     "upvote_post": "Upvote post",
     "username": "Username",
