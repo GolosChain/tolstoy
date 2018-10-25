@@ -44,25 +44,23 @@ export default class TagsBox extends Component {
         selectedTags: PropTypes.instanceOf(Map),
     };
 
-    onTagClick = (tag) => {
-        const {
-            selectedTags,
-            setSettingsOptions,
-            loadMore,
-            order,
-        } = this.props;
+    onTagClick = tag => {
+        const { selectedTags, setSettingsOptions, loadMore, order } = this.props;
 
-
-        setSettingsOptions({ 
+        setSettingsOptions({
             basic: {
-                selectedTags: selectedTags.delete(tag)
-            }
+                selectedTags: selectedTags.delete(tag),
+            },
         });
         loadMore({ order });
     };
 
     render() {
         const { selectedSelectTags, selectedFilterTags } = this.props;
+
+        if (!selectedSelectTags.length && !selectedFilterTags.length) {
+            return null;
+        }
 
         return (
             <Wrapper>
