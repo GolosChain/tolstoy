@@ -7,6 +7,7 @@ import {
     currentUserSelector,
     dataSelector,
     globalSelector,
+    parseJSON,
 } from '../common';
 
 import { extractPinnedPosts } from 'src/app/redux/selectors/account/pinnedPosts';
@@ -74,7 +75,14 @@ export const currentPostSelector = createDeepEqualSelector(
         const author = post.get('author');
         const permLink = post.get('permlink');
         const myVote = getMyVote(post, username);
-        const tags = JSON.parse(post.get('json_metadata')).tags || [];
+
+        let metadata;
+
+        try {
+            metadata = parseJSON(post.get('json_metadata'));
+        } catch (err) {}
+
+        const tags = (metadata && metadata.tags || []).filter(tag => tag);
 
         return {
             created: post.get('created'),
@@ -92,7 +100,7 @@ export const currentPostSelector = createDeepEqualSelector(
             },
             title: post.get('title'),
             body: post.get('body'),
-            jsonMetadata: post.get('json_metadata'),
+            metadata,
             pictures: post.getIn(['stats', 'pictures']),
             author,
             permLink,
