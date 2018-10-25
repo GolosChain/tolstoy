@@ -1,6 +1,6 @@
 import { fromJS } from 'immutable';
 import { createDeepEqualSelector, globalSelector, currentUserSelector } from './common';
-import {getStoreState} from 'app/clientRender';
+import { getStoreState } from 'app/clientRender';
 
 // Notifications selectors
 
@@ -16,7 +16,7 @@ export const hydrateNotification = (
     account,
     accounts,
     contents,
-    prevNotify = null,
+    prevNotify = null
 ) => {
     return notification.withMutations(notify => {
         // Add content title and link from store data
@@ -28,13 +28,13 @@ export const hydrateNotification = (
         ) {
             let author = '';
             if (['vote', 'flag', 'reward'].includes(eventType)) {
-                author = account.get('username')
+                author = account.get('username');
             } else if (['reply', 'mention'].includes(eventType)) {
-                author = notify.get('fromUsers').get(0)
+                author = notify.get('fromUsers').get(0);
             } else if ('repost' === eventType) {
-                author = getStoreState().user.getIn(['current', 'username'])
+                author = getStoreState().user.getIn(['current', 'username']);
             } else if (eventType === 'curatorReward') {
-                author = notify.get('curatorTargetAuthor')
+                author = notify.get('curatorTargetAuthor');
             }
 
             const content = contents.getIn([`${author}/${notify.get('permlink')}`]);

@@ -59,7 +59,7 @@ const ActivityText = styled.div`
         color: #757575;
     `};
     
-    & > div > a {
+    & > a {
         color: #959595;
         font-weight: 500;
         text-decoration: underline;
