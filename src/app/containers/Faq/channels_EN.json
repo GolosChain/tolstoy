@@ -1,7 +1,7 @@
 [
   {
     "inscription": "Main website",
-    "thumbnail": "ic_monitor",
+    "thumbnail": "monitor",
     "link": "/",
     "width": "34",
     "height": "31",
@@ -9,7 +9,7 @@
   },
   {
     "inscription": "Golos.io news and updates",
-    "thumbnail": "ic_newspaper",
+    "thumbnail": "newspaper",
     "link": "/@golosio",
     "width": "26",
     "height": "26",
@@ -33,7 +33,7 @@
   },
   {
     "inscription": "Official mirror website",
-    "thumbnail": "ic_mirror",
+    "thumbnail": "mirror",
     "link": "https://www.golos.blog",
     "width": "30",
     "height": "30",
@@ -41,7 +41,7 @@
   },
   {
     "inscription": "ENG support channel",
-    "thumbnail": "ic_support_eng",
+    "thumbnail": "support_eng",
     "link": "https://t.me/golos_eng",
     "width": "30",
     "height": "31",
@@ -57,7 +57,7 @@
   },
   {
     "inscription": "Vkontakte",
-    "thumbnail": "ic_vk",
+    "thumbnail": "vk",
     "link": "https://vk.com/goloschain",
     "width": "30",
     "height": "20",
@@ -65,7 +65,7 @@
   },
   {
     "inscription": "Partnership, press and media enquiries",
-    "thumbnail": "ic_mail",
+    "thumbnail": "mail",
     "link": "mailto:pr@golos.io",
     "width": "28",
     "height": "19",
