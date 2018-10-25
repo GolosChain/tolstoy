@@ -114,7 +114,10 @@ export const authorSelector = createDeepEqualSelector(
         globalSelector('content'),
     ],
     (accounts, followCount, post, content) => {
-        const authorAccountName = post.author;
+        let authorAccountName = '';
+        if (post) {
+            authorAccountName = post.author;
+        }
         const authorData = accounts.get(authorAccountName) || emptyMap;
         const jsonData = normalizeProfile({
             json_metadata: authorData.get('json_metadata'),
