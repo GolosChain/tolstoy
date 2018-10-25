@@ -17,13 +17,13 @@ export default class DialogManager extends React.PureComponent {
             queue.push(options);
 
             return {
-                close: () => {
+                close: result => {
                     const inQueueIndex = queue.indexOf(options);
 
                     if (inQueueIndex !== -1) {
                         queue.splice(inQueueIndex, 1);
                     } else if (instance) {
-                        instance._closeByOptions(options);
+                        instance._closeByOptions(options, result);
                     }
                 },
             };
@@ -97,9 +97,10 @@ export default class DialogManager extends React.PureComponent {
         });
     }
 
-    static showLogin() {
+    static showLogin({ onClose } = {}) {
         return DialogManager.showDialog({
             component: LoginForm,
+            onClose,
         });
     }
 
@@ -189,10 +190,10 @@ export default class DialogManager extends React.PureComponent {
         }
     }
 
-    _closeByOptions(options) {
+    _closeByOptions(options, result) {
         for (let dialog of this._dialogs) {
             if (dialog.options === options) {
-                this._closeDialog(dialog);
+                this._closeDialog(dialog, result);
                 return;
             }
         }
@@ -211,8 +212,8 @@ export default class DialogManager extends React.PureComponent {
         }
 
         return {
-            close: () => {
-                this._closeDialog(dialog);
+            close: result => {
+                this._closeDialog(dialog, result);
             },
         };
     }

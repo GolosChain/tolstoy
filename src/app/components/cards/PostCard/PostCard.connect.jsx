@@ -5,6 +5,7 @@ import user from 'app/redux/User';
 import transaction from 'app/redux/Transaction';
 import { toggleFavoriteAction } from 'src/app/redux/actions/favorites';
 import { togglePinAction } from 'src/app/redux/actions/pinnedPosts';
+import { openRepostDialog } from 'src/app/redux/actions/dialogs';
 import { getPinnedPosts } from 'src/app/redux/selectors/account/pinnedPosts';
 import { sanitizeCardPostData, sanitizeRepostData } from 'src/app/redux/selectors/post/commonPost';
 import PostCard from './PostCard';
@@ -74,6 +75,9 @@ export default connect(
         },
         togglePin: (link, isPin) => {
             dispatch(togglePinAction(link, isPin));
+        },
+        openRepostDialog: postLink => {
+            dispatch(openRepostDialog(postLink));
         },
     })
 )(PostCard);

@@ -7,7 +7,6 @@ import tt from 'counterpart';
 import { Map } from 'immutable';
 
 import { detransliterate } from 'app/utils/ParsersAndFormatters';
-import { openRepostDialog } from 'src/app/components/dialogs/actions';
 import Icon from 'golos-ui/Icon';
 import { confirmVote } from 'src/app/helpers/votes';
 import { PostTitle, PostBody } from '../common';
@@ -463,7 +462,7 @@ export default class PostCard extends PureComponent {
     _onRepostClick = () => {
         const { postLink } = this.props;
 
-        openRepostDialog(postLink);
+        this.props.openRepostDialog(postLink);
     };
 
     _onPinClick = () => {
