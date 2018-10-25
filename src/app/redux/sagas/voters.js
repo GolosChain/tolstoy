@@ -20,7 +20,7 @@ function* showVotedUserWorker({payload: {postLink, isLikes}}) {
         component: VotersDialog,
         props: {
             postLink,
-            type: isLikes ? 'likes' : 'dislikes'
+            isLikes
         }
     });
 }

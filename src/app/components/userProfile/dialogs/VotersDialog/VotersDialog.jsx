@@ -118,15 +118,15 @@ export default class VotersDialog extends PureComponent {
     static propTypes = {
         onRef: PropTypes.func.isRequired,
 
-        loading: PropTypes.bool,
-        users: PropTypes.instanceOf(Set),
+        loading: PropTypes.bool.isRequired,
+        users: PropTypes.arrayOf(PropTypes.object).isRequired,
     };
 
     rootRef = null;
 
     componentDidMount() {
         this.props.onRef(this);
-        this.props.getVoters(this.props.postLink, 20);
+        this.props.getVoters(this.props.postLink, 50);
     }
 
     componentWillUnmount() {
@@ -137,7 +137,6 @@ export default class VotersDialog extends PureComponent {
 
     render() {
         const { loading, users } = this.props;
-        if (!users) return null;
         return (
             <Dialog>
                 <Header>
@@ -146,19 +145,17 @@ export default class VotersDialog extends PureComponent {
                 </Header>
                 <Content innerRef={this.setRootRef}>
                     {users.map(user => {
-                        const profile = normalizeProfile(user.toJS());
-
                         return (
-                            <UserItem key={user.get('name')}>
+                            <UserItem key={user.voter}>
                                 <UserLink
-                                    to={`/@${user.get('name')}`}
-                                    title={user.get('name')}
+                                    to={`/@${user.voter}`}
+                                    title={user.voter}
                                     onClick={this.props.onClose}
                                 >
-                                    <Avatar avatarUrl={profile.profile_image} />
-                                    <Name>{profile.name || user.get('name')}</Name>
+                                    <Avatar avatarUrl="/" />
+                                    <Name>{user.voter}</Name>
                                 </UserLink>
-                                <Follow following={user.get('name')} />
+                                <Follow following={user.voter} />
                             </UserItem>
                         );
                     })}
