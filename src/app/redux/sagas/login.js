@@ -1,17 +1,18 @@
-import { takeEvery, select, put } from 'redux-saga/effects';
+import { takeEvery, take, select, put } from 'redux-saga/effects';
 import { SHOW_LOGIN, LOGIN_SUCCESS } from 'src/app/redux/constants/login';
 import DialogManager from 'app/components/elements/common/DialogManager';
 import { showLogin } from '../actions/login';
 
 export default function* watch() {
     yield takeEvery(SHOW_LOGIN, showLoginWorker);
-    yield takeEvery(LOGIN_SUCCESS, loginSuccessWorker);
 }
 
-let dialog = null;
-
 function* showLoginWorker({ payload } = {}) {
-    dialog = DialogManager.showLogin({ onClose: payload.onClose });
+    const dialog = DialogManager.showLogin({ onClose: payload.onClose });
+
+    const action = yield take(LOGIN_SUCCESS);
+
+    dialog.close(action.payload.username);
 }
 
 export function* loginIfNeed() {
@@ -36,10 +37,4 @@ export function* loginIfNeed() {
     yield action;
 
     return yield promise;
-}
-
-function* loginSuccessWorker({ payload }) {
-    if (dialog) {
-        dialog.close(payload.username);
-    }
 }
