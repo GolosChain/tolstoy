@@ -1,6 +1,13 @@
-import { SHOW_DIALOG } from '../constants/dialogs';
-import PromoteDialog from 'src/app/components/dialogs/PromoteDialog';
-import RepostDialog from 'src/app/components/dialogs/RepostDialog';
+import { SHOW_DIALOG } from 'src/app/redux/constants/dialogs';
+
+import {
+    PromoteDialog,
+    RepostDialog,
+    ConvertDialog,
+    DelegateVestingDialog,
+    TransferDialog,
+    SafeDialog,
+} from 'src/app/components/dialogs';
 
 export function openPromoteDialog(postLink) {
     return {
@@ -24,6 +31,52 @@ export function openRepostDialog(postLink) {
             props: {
                 postLink,
             },
+        },
+    };
+}
+
+export function openConvertDialog() {
+    return {
+        type: SHOW_DIALOG,
+        payload: {
+            needAuth: true,
+            component: ConvertDialog,
+        },
+    };
+}
+
+export function openDelegateVestingDialog(toAccountName) {
+    return {
+        type: SHOW_DIALOG,
+        payload: {
+            needAuth: true,
+            component: DelegateVestingDialog,
+            props: {
+                toAccountName,
+            },
+        },
+    };
+}
+
+export function openTransferDialog(toAccountName) {
+    return {
+        type: SHOW_DIALOG,
+        payload: {
+            needAuth: true,
+            component: TransferDialog,
+            props: {
+                toAccountName,
+            },
+        },
+    };
+}
+
+export function openSafeDialog() {
+    return {
+        type: SHOW_DIALOG,
+        payload: {
+            needAuth: true,
+            component: SafeDialog,
         },
     };
 }

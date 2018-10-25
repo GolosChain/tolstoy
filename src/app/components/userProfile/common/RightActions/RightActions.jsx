@@ -1,15 +1,9 @@
 import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router';
 import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
-import DialogManager from 'app/components/elements/common/DialogManager';
-import TransferDialog from 'src/app/components/userProfile/dialogs/TransferDialog';
-import SafeDialog from 'src/app/components/userProfile/dialogs/SafeDialog';
-import ConvertDialog from 'src/app/components/userProfile/dialogs/ConvertDialog';
-import DelegateVestingDialog from 'src/app/components/userProfile/dialogs/DelegateVestingDialog';
 
 const Root = styled.div``;
 
@@ -58,7 +52,7 @@ const ActionTitle = styled.div`
     text-overflow: ellipsis;
 `;
 
-class RightActions extends PureComponent {
+export default class RightActions extends PureComponent {
     render() {
         const { isOwner } = this.props;
 
@@ -79,9 +73,7 @@ class RightActions extends PureComponent {
                 {isOwner ? (
                     <Action onClick={this._onSafeClick}>
                         <ActionIcon name="locked" />
-                        <ActionTitle>
-                            {tt('user_profile.actions.transfer_to_savings')}
-                        </ActionTitle>
+                        <ActionTitle>{tt('user_profile.actions.transfer_to_savings')}</ActionTitle>
                     </Action>
                 ) : null}
                 <Action onClick={this._onDelegateClick}>
@@ -99,43 +91,18 @@ class RightActions extends PureComponent {
     }
 
     _onTransferClick = () => {
-        DialogManager.showDialog({
-            component: TransferDialog,
-            props: {
-                pageAccountName: this.props.pageAccountName,
-            },
-        });
+        this.props.openTransferDialog(this.props.pageAccountName);
     };
 
     _onSafeClick = () => {
-        DialogManager.showDialog({
-            component: SafeDialog,
-        });
+        this.props.openSafeDialog();
     };
 
     _onConvertClick = () => {
-        DialogManager.showDialog({
-            component: ConvertDialog,
-        });
+        this.props.openConvertDialog();
     };
 
     _onDelegateClick = () => {
-        DialogManager.showDialog({
-            component: DelegateVestingDialog,
-            props: {
-                pageAccountName: this.props.pageAccountName,
-            },
-        });
+        this.props.openDelegateVestingDialog(this.props.pageAccountName);
     };
 }
-
-const mapStateToProps = (state, props) => {
-    const isOwner =
-        state.user.getIn(['current', 'username']) === props.pageAccountName.toLowerCase();
-
-    return {
-        isOwner,
-    };
-};
-
-export default connect(mapStateToProps)(RightActions);

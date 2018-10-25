@@ -16,7 +16,7 @@ import { CardTitle } from 'golos-ui/Card';
 import CollapsingCard from 'golos-ui/CollapsingCard';
 
 import DialogManager from 'app/components/elements/common/DialogManager';
-import FollowersDialog from 'src/app/components/userProfile/dialogs/FollowersDialog';
+import FollowersDialog from 'src/app/components/dialogs/FollowersDialog';
 
 const CollapsingCardStyled = styled(CollapsingCard)`
     margin-bottom: 18px;
