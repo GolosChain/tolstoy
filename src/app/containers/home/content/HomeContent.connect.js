@@ -11,7 +11,7 @@ import {
     dataSelector,
     uiSelector,
 } from 'src/app/redux/selectors/common';
-import { TAGS_FILTER_TYPE_SELECT, TAGS_FILTER_TYPE_EXCLUDE } from 'src/app/redux/constants/common';
+import { TAGS_FILTER_TYPES } from 'src/app/redux/constants/common';
 
 import HomeContent from './HomeContent';
 
@@ -56,12 +56,12 @@ export default connect(
             } else {
                 const selectedTags = settings.getIn(['basic', 'selectedTags'], Map());
                 const selectedSelectTags = selectedTags
-                    .filter(tag => tag === TAGS_FILTER_TYPE_SELECT)
+                    .filter(tag => tag === TAGS_FILTER_TYPES.SELECT)
                     .keySeq()
                     .sort()
                     .join('/');
                 const selectedFilterTags = selectedTags
-                    .filter(tag => tag === TAGS_FILTER_TYPE_EXCLUDE)
+                    .filter(tag => tag === TAGS_FILTER_TYPES.EXCLUDE)
                     .keySeq()
                     .sort()
                     .join('/');
@@ -87,9 +87,7 @@ export default connect(
             };
         }
     ),
-    dispatch => ({
-        loadMore(params) {
-            dispatch({ type: 'REQUEST_DATA', payload: params });
-        },
-    })
+    {
+        loadMore: params => ({ type: 'REQUEST_DATA', payload: params }),
+    }
 )(HomeContent);

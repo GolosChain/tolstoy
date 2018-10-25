@@ -8,7 +8,7 @@ import {
     routeParamSelector,
 } from 'src/app/redux/selectors/common';
 import { setSettingsOptions } from 'src/app/redux/actions/settings';
-import { TAGS_FILTER_TYPE_SELECT, TAGS_FILTER_TYPE_EXCLUDE } from 'src/app/redux/constants/common';
+import { TAGS_FILTER_TYPES } from 'src/app/redux/constants/common';
 
 import TagsBox from './TagsBox';
 
@@ -29,18 +29,18 @@ export default connect(
                 order,
                 selectedTags,
                 selectedSelectTags: selectedTags
-                    .filter(tag => tag === TAGS_FILTER_TYPE_SELECT)
+                    .filter(tag => tag === TAGS_FILTER_TYPES.SELECT)
                     .keySeq()
                     .toArray(),
                 selectedFilterTags: selectedTags
-                    .filter(tag => tag === TAGS_FILTER_TYPE_EXCLUDE)
+                    .filter(tag => tag === TAGS_FILTER_TYPES.EXCLUDE)
                     .keySeq()
                     .toArray(),
             };
         }
     ),
-    dispatch => ({
-        loadMore: payload => dispatch({ type: 'REQUEST_DATA', payload }),
-        setSettingsOptions: payload => dispatch(setSettingsOptions(payload)),
-    })
+    {
+        loadMore: payload => ({ type: 'REQUEST_DATA', payload }),
+        setSettingsOptions,
+    }
 )(TagsBox);

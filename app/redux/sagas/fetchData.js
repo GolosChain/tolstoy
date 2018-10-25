@@ -2,7 +2,7 @@ import { call, put, select, fork, cancelled, takeLatest, takeEvery } from 'redux
 import { api } from 'golos-js';
 import { Map } from 'immutable';
 
-import { TAGS_FILTER_TYPE_SELECT, TAGS_FILTER_TYPE_EXCLUDE } from 'src/app/redux/constants/common';
+import { TAGS_FILTER_TYPES } from 'src/app/redux/constants/common';
 import { loadFollows, fetchFollowCount } from 'app/redux/sagas/follow';
 import { getContent } from 'app/redux/sagas/shared';
 import GlobalReducer from './../GlobalReducer';
@@ -345,7 +345,7 @@ function* fetchData(action) {
             state.data.settings.getIn(['basic', 'selectedTags'], Map())
         );
 
-        const select_tags = selectedTags.filter(type => type === TAGS_FILTER_TYPE_SELECT).keySeq();
+        const select_tags = selectedTags.filter(type => type === TAGS_FILTER_TYPES.SELECT).keySeq();
 
         if (select_tags && select_tags.size) {
             let selectTags = [];
@@ -363,7 +363,7 @@ function* fetchData(action) {
             arrSelectedTags.push(select_tags.sort().join('/'));
         }
 
-        const filter_tags = selectedTags.filter(type => type === TAGS_FILTER_TYPE_EXCLUDE).keySeq();
+        const filter_tags = selectedTags.filter(type => type === TAGS_FILTER_TYPES.EXCLUDE).keySeq();
         if (filter_tags && filter_tags.size) {
             let filterTags = [];
 

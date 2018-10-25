@@ -7,7 +7,7 @@ import is from 'styled-is';
 import tt from 'counterpart';
 
 // import { TAGS_MAX_LENGTH } from 'app/utils/tags';
-import { TAGS_FILTER_TYPE_SELECT, TAGS_FILTER_TYPE_EXCLUDE } from 'src/app/redux/constants/common';
+import { TAGS_FILTER_TYPES } from 'src/app/redux/constants/common';
 
 import Icon from 'golos-ui/Icon';
 import Button from 'golos-ui/Button';
@@ -70,7 +70,7 @@ const Title = styled.div`
     margin-bottom: 20px;
 
     ${is('onClick')`
-      cursor: pointer;
+        cursor: pointer;
     `};
 `;
 
@@ -84,6 +84,7 @@ const TagsWrapper = styled.div`
 `;
 
 const CollapseIcon = styled(Icon).attrs({
+    name: 'chevron',
     width: 12,
     height: 7,
 })`
@@ -141,8 +142,8 @@ export default class TagsCard extends Component {
     renderTag = (tag, key) => {
         const { selectedTags } = this.props;
 
-        const isSelected = selectedTags.get(tag) === TAGS_FILTER_TYPE_SELECT;
-        const isFiltered = selectedTags.get(tag) === TAGS_FILTER_TYPE_EXCLUDE;
+        const isSelected = selectedTags.get(tag) === TAGS_FILTER_TYPES.SELECT;
+        const isFiltered = selectedTags.get(tag) === TAGS_FILTER_TYPES.EXCLUDE;
 
         return (
             <TagSelectStyled
@@ -178,7 +179,7 @@ export default class TagsCard extends Component {
                 {collapsed ? (
                     <Title onClick={this.onToggleClick}>
                         {tt('tags.show_more_tags')}
-                        <CollapseIcon name="chevron" />
+                        <CollapseIcon />
                     </Title>
                 ) : (
                     <Button auto onClick={this.onToggleClick}>

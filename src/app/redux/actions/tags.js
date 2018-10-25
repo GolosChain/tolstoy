@@ -1,6 +1,6 @@
 import { Map } from 'immutable';
 
-import { TAGS_FILTER_TYPE_SELECT, TAGS_FILTER_TYPE_EXCLUDE } from 'src/app/redux/constants/common';
+import { TAGS_FILTER_TYPES } from 'src/app/redux/constants/common';
 import { dataSelector } from 'src/app/redux/selectors/common';
 import { setSettingsOptions } from './settings';
 
@@ -16,14 +16,14 @@ export function saveTag(tag, action) {
         const value = selectedTags.get(tag);
 
         if (action === 'filter') {
-            if (!value || value === TAGS_FILTER_TYPE_SELECT) {
-                basic.selectedTags = selectedTags.set(tag, 2);
+            if (!value || value === TAGS_FILTER_TYPES.SELECT) {
+                basic.selectedTags = selectedTags.set(tag, TAGS_FILTER_TYPES.EXCLUDE);
             } else {
                 basic.selectedTags = selectedTags.delete(tag);
             }
         } else if (action === 'select') {
-            if (!value || value === TAGS_FILTER_TYPE_EXCLUDE) {
-                basic.selectedTags = selectedTags.set(tag, 1);
+            if (!value || value === TAGS_FILTER_TYPES.EXCLUDE) {
+                basic.selectedTags = selectedTags.set(tag, TAGS_FILTER_TYPES.SELECT);
             } else {
                 basic.selectedTags = selectedTags.delete(tag);
             }

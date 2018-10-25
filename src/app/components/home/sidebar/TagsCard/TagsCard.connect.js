@@ -42,7 +42,7 @@ export default connect(
                     return tag;
                 })
                 // filter ignore tags and wrong tags
-                .filter(tag => tag !== null && IGNORE_TAGS.indexOf(tag) === -1)
+                .filter(tag => tag !== null && !IGNORE_TAGS.includes(tag))
                 // take only nedeed count of tags
                 .take(collapsed ? 9 : 50);
 
@@ -55,9 +55,9 @@ export default connect(
             };
         }
     ),
-    dispatch => ({
-        loadMore: payload => dispatch({ type: 'REQUEST_DATA', payload }),
-        changeHomeTagsCardCollapse: payload => dispatch(changeHomeTagsCardCollapse(payload)),
-        saveTag: (tag, action) => dispatch(saveTag(tag, action)),
-    })
+    {
+        loadMore: payload => ({ type: 'REQUEST_DATA', payload }),
+        changeHomeTagsCardCollapse,
+        saveTag,
+    }
 )(TagsCard);

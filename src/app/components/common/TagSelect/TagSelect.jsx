@@ -80,8 +80,13 @@ export default class SelectTag extends Component {
 
     popoverRef = createRef();
 
-    handleTagClick = action => () => {
-        this.props.onTagClick(this.props.tag, action);
+    handleTagSelectClick = () => {
+        this.props.onTagClick(this.props.tag, 'select');
+        this.popoverRef.current.close();
+    };
+
+    handleTagFilterClick = () => {
+        this.props.onTagClick(this.props.tag, 'filter');
         this.popoverRef.current.close();
     };
 
@@ -92,8 +97,8 @@ export default class SelectTag extends Component {
             <TooltipWrapper>
                 {onlyRemove ? (
                     <Action
-                        onClick={this.handleTagClick(isSelected ? 'select' : 'filter')}
-                        remove={true}
+                        onClick={isSelected ? this.handleTagSelectClick : this.handleTagFilterClick}
+                        remove
                     >
                         {tt('g.delete')}
                     </Action>
@@ -101,14 +106,14 @@ export default class SelectTag extends Component {
                     [
                         <Action
                             key="exclude"
-                            onClick={this.handleTagClick('filter')}
+                            onClick={this.handleTagFilterClick}
                             active={isFiltered}
                         >
                             {tt('g.exclude')}
                         </Action>,
                         <Action
                             key="add"
-                            onClick={this.handleTagClick('select')}
+                            onClick={this.handleTagSelectClick}
                             active={isSelected}
                         >
                             {tt('g.add')}
