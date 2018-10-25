@@ -23,8 +23,6 @@ const FIELDS_PENDING = {
     TOTAL_GBG: 'total_pending_payout_value',
 };
 
-const DEFAULT_VESTS_PER_GBG = 3200;
-
 const MEMO_LIMIT = 50;
 
 function memoize(func) {
@@ -75,14 +73,14 @@ const zeroedPayout = {
     isDeclined: false,
 };
 
-function calculateGolosPerGbg(result, date, rates) {
+function calculateGolosPerGbg(result, rates) {
     if (!result.isPending) {
-        const dateRates = rates.dates.get(date);
+        const dateRates = rates.dates.get(result.lastPayout);
 
         if (dateRates) {
             return dateRates.GBG.GOLOS;
         } else {
-            result.needLoadRatesForDate = date;
+            result.needLoadRatesForDate = result.lastPayout;
         }
     }
 
@@ -107,11 +105,12 @@ export const getPayoutPermLink = createSelector(
     [dataSelector('rates'), (state, props) => globalSelector(['content', props.postLink])(state)],
     memoize((rates, data) => {
         const result = { ...zeroedPayout };
-        const lastPayout = data.get('last_payout');
+
+        result.lastPayout = data.get('last_payout');
         const max = parseFloat(data.get('max_accepted_payout', 0));
 
         // Date may be "1970-01-01..." or "1969-12-31..." in case of pending payout
-        result.isPending = !lastPayout || lastPayout.startsWith('19');
+        result.isPending = !result.lastPayout || result.lastPayout.startsWith('19');
         result.isDeclined = max === 0;
 
         const fieldsList = result.isPending ? FIELDS_PENDING : FIELDS;
@@ -137,7 +136,7 @@ export const getPayoutPermLink = createSelector(
             fields.authorGolos / (authorTotalGbg * golosPowerFraction - fields.authorGbg);
 
         if (!golosPerGbg) {
-            golosPerGbg = calculateGolosPerGbg(result, lastPayout, rates);
+            golosPerGbg = calculateGolosPerGbg(result, rates);
         }
 
         let gestsPerGbg;
@@ -155,7 +154,12 @@ export const getPayoutPermLink = createSelector(
                 gestsPerGbg = fields.benefGests / fields.benefGbg;
             }
 
-            gestsPerGolos = (gestsPerGbg || DEFAULT_VESTS_PER_GBG) / golosPerGbg;
+            if (!gestsPerGbg) {
+                // Not enough values for calculation, it means what values are 0
+                return result;
+            }
+
+            gestsPerGolos = gestsPerGbg / golosPerGbg;
         }
 
         result.author = fields.authorGolos + fields.authorGests / gestsPerGolos;
@@ -166,7 +170,6 @@ export const getPayoutPermLink = createSelector(
         result.totalGbg = fields.authorGbg;
         result.overallTotal = result.total + result.totalGbg * golosPerGbg;
         result.limitedOverallTotal = result.isLimit ? max * golosPerGbg : result.overallTotal;
-        result.lastPayout = lastPayout;
 
         return result;
     })
