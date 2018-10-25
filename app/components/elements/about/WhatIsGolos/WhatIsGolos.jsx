@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import tt from 'counterpart';
 
 export default class WhatIsGolos extends PureComponent {
     render() {
@@ -6,9 +7,7 @@ export default class WhatIsGolos extends PureComponent {
             <section className="WhatIsGolos text-center" id="what-is-golos">
                 <div className="row">
                     <div className="small-12 medium-12 large-centered columns columns WhatIsGolos__video">
-                        <h1>
-                            Golos.io — это блог-платформа, построенная на медиаблокчейне Голос.
-                        </h1>
+                        <h1>{tt('about_page.header')}</h1>
                         <div>
                             <iframe
                                 width="853"
@@ -23,13 +22,9 @@ export default class WhatIsGolos extends PureComponent {
                 <div className="row WhatIsGolos__action">
                     <div className="small-12 columns">
                         <p>
-                            Платформа начала работу в октябре 2016 года. <br />
-                            Изначально блокчейн Голос был создан по лицензии от
-                            STEEM.inc и рассчитан, в основном, на русскоязычное
-                            сообщество. В процессе роста и развития появилось
-                            множество различных нововведений, и сейчас Golos.io
-                            - это проект со своей структурой, экономикой и
-                            правилами, география которого постоянно расширяется.
+                            {tt('about_page.decription_1')}
+                            <br />
+                            {tt('about_page.decription_2')}
                         </p>
                     </div>
                 </div>

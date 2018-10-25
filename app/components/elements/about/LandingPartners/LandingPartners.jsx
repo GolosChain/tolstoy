@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import tt from 'counterpart';
 
 export default class LandingPartners extends PureComponent {
     render() {
@@ -6,16 +7,13 @@ export default class LandingPartners extends PureComponent {
             <section className="LandingPartners">
                 <div className="row text-center">
                     <div className="small-12 columns">
-                        <h2 id="partners">Партнеры</h2>
+                        <h2 id="partners">{tt('about_page.partners')}</h2>
                     </div>
                 </div>
                 <div className="row text-center LandingPartners__logos align-center align-middle">
                     <div className="small-6 medium-3 columns">
                         <a href="https://explorer.golos.io/" target="blank">
-                            <img
-                                src="images/landing/l7.jpg"
-                                alt="Golos Explorer"
-                            />
+                            <img src="images/landing/l7.jpg" alt="Golos Explorer" />
                         </a>
                     </div>
                     <div className="small-6 medium-3 columns">
@@ -53,18 +51,12 @@ export default class LandingPartners extends PureComponent {
                     </div>
                     <div className="small-6 medium-3 columns">
                         <a href="https://golos.today/" target="blank">
-                            <img
-                                src="images/landing/l16.jpg"
-                                alt="Golos Today"
-                            />
+                            <img src="images/landing/l16.jpg" alt="Golos Today" />
                         </a>
                     </div>
                     <div className="small-6 medium-3 columns">
                         <a href="https://cpeda.space/" target="blank">
-                            <img
-                                src="images/landing/l12.jpg"
-                                alt="CPEDA.SPACE"
-                            />
+                            <img src="images/landing/l12.jpg" alt="CPEDA.SPACE" />
                         </a>
                     </div>
                 </div>
