@@ -93,7 +93,14 @@ export default class New extends PureComponent {
 
         return (
             <Form onSubmit={onSubmitChangePassword} initialValues={data} validate={validate}>
-                {({ handleSubmit, submitError, form, submitting, pristine, hasValidationErrors }) => (
+                {({
+                    handleSubmit,
+                    submitError,
+                    form,
+                    submitting,
+                    pristine,
+                    hasValidationErrors,
+                }) => (
                     <form onSubmit={handleSubmit}>
                         {submitting && <SplashLoader />}
 
@@ -106,22 +113,15 @@ export default class New extends PureComponent {
                                 }}
                             >
                                 <Ol>
-                                    {[
-                                        'one',
-                                        'second',
-                                        'third',
-                                        'fourth',
-                                        'fifth',
-                                        'sixth',
-                                        'seventh',
-                                    ].map(value => (
-                                        <Li
-                                            key={value}
-                                            dangerouslySetInnerHTML={{
-                                                __html: tt(`g.the_rules_of_APP_NAME.${value}`),
-                                            }}
-                                        />
-                                    ))}
+                                    <Li>{tt('g.the_rules_of_APP_NAME.one')}</Li>
+                                    <Li>
+                                        <strong>{tt('g.the_rules_of_APP_NAME.second')}</strong>
+                                    </Li>
+                                    <Li>{tt('g.the_rules_of_APP_NAME.third')}</Li>
+                                    <Li>{tt('g.the_rules_of_APP_NAME.fourth')}</Li>
+                                    <Li>{tt('g.the_rules_of_APP_NAME.fifth')}</Li>
+                                    <Li>{tt('g.the_rules_of_APP_NAME.sixth')}</Li>
+                                    <Li>{tt('g.the_rules_of_APP_NAME.seventh')}</Li>
                                 </Ol>
                             </RulesBlock>
 
