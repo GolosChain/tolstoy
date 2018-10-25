@@ -1,5 +1,7 @@
 import { connect } from 'react-redux';
+import { createSelector } from 'reselect';
 
+import { currentUsernameSelector } from 'src/app/redux/selectors/common';
 import {
     openConvertDialog,
     openDelegateVestingDialog,
@@ -10,14 +12,12 @@ import {
 import RightActions from './RightActions';
 
 export default connect(
-    (state, props) => {
-        const isOwner =
-            state.user.getIn(['current', 'username']) === props.pageAccountName.toLowerCase();
-
-        return {
-            isOwner,
-        };
-    },
+    createSelector(
+        [currentUsernameSelector, (state, props) => props.pageAccountName.toLowerCase()],
+        (currentUsername, pageUsername) => ({
+            isOwner: currentUsername === pageUsername,
+        })
+    ),
     {
         openConvertDialog,
         openDelegateVestingDialog,
