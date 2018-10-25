@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import tt from 'counterpart';
 
+import { translateError } from 'app/utils/ParsersAndFormatters';
 import Button from 'golos-ui/Button';
 import Icon from 'golos-ui/Icon';
 import { Checkbox } from 'golos-ui/Form';
@@ -189,6 +190,9 @@ export class LoginForm extends Component {
     render() {
         const { onClose, loginError, className } = this.props;
         const { consent, saveCredentials, submitting } = this.state;
+
+        const translatedError = translateError(loginError);
+
         return (
             <Wrapper className={className}>
                 {onClose ? (
@@ -198,7 +202,7 @@ export class LoginForm extends Component {
                 ) : null}
                 <Form>
                     <Title>{tt('g.login')}</Title>
-                    {loginError ? <ErrorMessage>{loginError}</ErrorMessage> : null}
+                    {loginError ? <ErrorMessage>{translatedError}</ErrorMessage> : null}
                     <LoginBlock>
                         <LoginLabel>@</LoginLabel>
                         <LoginInput

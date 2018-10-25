@@ -657,6 +657,7 @@
     "active_or_owner": "Active or Owner",
     "amazing_community": "amazing community",
     "are_well_tested_and_known_to_work_with": "are well tested and known to work with %(APP_DOMAIN)s.",
+    "consent": "I agree to the Terms and Conditions",
     "cryptography_test_failed": "Cryptography test failed",
     "due_to_server_maintenance": "Due to server maintenance we are running in read only mode. We are sorry for the inconvenience.",
     "enter_your_username": "Enter your username",
