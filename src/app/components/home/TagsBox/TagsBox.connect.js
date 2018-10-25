@@ -8,6 +8,7 @@ import {
     routeParamSelector,
 } from 'src/app/redux/selectors/common';
 import { setSettingsOptions } from 'src/app/redux/actions/settings';
+import { TAGS_FILTER_TYPE_SELECT, TAGS_FILTER_TYPE_EXCLUDE } from 'src/app/redux/constants/common';
 
 import TagsBox from './TagsBox';
 
@@ -23,19 +24,18 @@ export default connect(
                 order = 'by_feed';
             }
 
+            const selectedTags = settings.getIn(['basic', 'selectedTags'], Map());
             return {
-                selectedTags: settings.getIn(['basic', 'selectedTags'], Map()),
-                selectedFilterTags: settings
-                    .getIn(['basic', 'selectedTags'], Map())
-                    .filter(tag => tag === 2)
-                    .keySeq()
-                    .toArray(),
-                selectedSelectTags: settings
-                    .getIn(['basic', 'selectedTags'], Map())
-                    .filter(tag => tag === 1)
-                    .keySeq()
-                    .toArray(),
                 order,
+                selectedTags,
+                selectedSelectTags: selectedTags
+                    .filter(tag => tag === TAGS_FILTER_TYPE_SELECT)
+                    .keySeq()
+                    .toArray(),
+                selectedFilterTags: selectedTags
+                    .filter(tag => tag === TAGS_FILTER_TYPE_EXCLUDE)
+                    .keySeq()
+                    .toArray(),
             };
         }
     ),

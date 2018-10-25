@@ -1,2 +1,1 @@
-export { default } from './HomeSidebar.connect';
-export { default as HomeSidebar } from './HomeSidebar';
+export { default } from './HomeSidebar';

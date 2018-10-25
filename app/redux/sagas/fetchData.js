@@ -2,6 +2,7 @@ import { call, put, select, fork, cancelled, takeLatest, takeEvery } from 'redux
 import { api } from 'golos-js';
 import { Map } from 'immutable';
 
+import { TAGS_FILTER_TYPE_SELECT, TAGS_FILTER_TYPE_EXCLUDE } from 'src/app/redux/constants/common';
 import { loadFollows, fetchFollowCount } from 'app/redux/sagas/follow';
 import { getContent } from 'app/redux/sagas/shared';
 import GlobalReducer from './../GlobalReducer';
@@ -75,9 +76,9 @@ function* fetchState(action) {
 
     // `ignoreFetch` case should only trigger on initial page load. No need to call
     // fetchState immediately after loading fresh state from the server. Details: #593
-    const server_location = yield select(state => state.offchain.get('server_location'))
-    const ignoreFetch = (pathname === server_location && is_initial_state)
-    is_initial_state = false
+    const server_location = yield select(state => state.offchain.get('server_location'));
+    const ignoreFetch = pathname === server_location && is_initial_state;
+    is_initial_state = false;
 
     if (ignoreFetch) {
         return;
@@ -87,67 +88,87 @@ function* fetchState(action) {
     yield put({ type: RATES_GET_ACTUAL });
 
     try {
-        const parts = url.split('/')
-        const state = {}
-        state.current_route = location
-        state.content = {}
-        state.accounts = {}
+        const parts = url.split('/');
+        const state = {};
+        state.current_route = location;
+        state.content = {};
+        state.accounts = {};
 
-        const accounts = new Set()
+        const accounts = new Set();
 
         if (parts[0][0] === '@') {
-            const uname = parts[0].substr(1)
-            const [ account ] = yield call([api, api.getAccountsAsync], [uname])
-            state.accounts[uname] = account
+            const uname = parts[0].substr(1);
+            const [account] = yield call([api, api.getAccountsAsync], [uname]);
+            state.accounts[uname] = account;
 
             if (account) {
-                account.tags_usage = yield call([api, api.getTagsUsedByAuthorAsync], uname)
-                account.guest_bloggers = yield call([api, api.getBlogAuthorsAsync], uname)
+                account.tags_usage = yield call([api, api.getTagsUsedByAuthorAsync], uname);
+                account.guest_bloggers = yield call([api, api.getBlogAuthorsAsync], uname);
 
                 switch (parts[1]) {
                     case 'transfers':
                         // Загрузка данных происходит выше (безусловно, до ignoreFetch выхода).
-                        break
+                        break;
 
                     case 'recent-replies':
-                        const replies = yield call([api, api.getRepliesByLastUpdateAsync], uname, '', 50, constants.DEFAULT_VOTE_LIMIT)
-                        account.recent_replies = []
+                        const replies = yield call(
+                            [api, api.getRepliesByLastUpdateAsync],
+                            uname,
+                            '',
+                            50,
+                            constants.DEFAULT_VOTE_LIMIT
+                        );
+                        account.recent_replies = [];
 
                         replies.forEach(reply => {
-                            const link = `${reply.author}/${reply.permlink}`
-                            state.content[link] = reply
-                            account.recent_replies.push(link)
-                        })
-                    break
+                            const link = `${reply.author}/${reply.permlink}`;
+                            state.content[link] = reply;
+                            account.recent_replies.push(link);
+                        });
+                        break;
 
                     case 'posts':
                     case 'comments':
-                        const comments = yield call([api, api.getDiscussionsByCommentsAsync], { start_author: uname, limit: 20 })
-                        account.comments = []
+                        const comments = yield call([api, api.getDiscussionsByCommentsAsync], {
+                            start_author: uname,
+                            limit: 20,
+                        });
+                        account.comments = [];
 
                         comments.forEach(comment => {
-                            const link = `${comment.author}/${comment.permlink}`
-                            state.content[link] = comment
-                            account.comments.push(link)
-                        })
-                    break
+                            const link = `${comment.author}/${comment.permlink}`;
+                            state.content[link] = comment;
+                            account.comments.push(link);
+                        });
+                        break;
 
                     case 'feed':
-                        const feedEntries = yield call([api, api.getFeedEntriesAsync], uname, 0, 20)
-                        account.feed = []
+                        const feedEntries = yield call(
+                            [api, api.getFeedEntriesAsync],
+                            uname,
+                            0,
+                            20
+                        );
+                        account.feed = [];
 
                         for (let key in feedEntries) {
-                            const { author, permlink } = feedEntries[key]
-                            const link = `${author}/${permlink}`
-                            account.feed.push(link)
-                            state.content[link] = yield call([api, api.getContentAsync], author, permlink, constants.DEFAULT_VOTE_LIMIT)
+                            const { author, permlink } = feedEntries[key];
+                            const link = `${author}/${permlink}`;
+                            account.feed.push(link);
+                            state.content[link] = yield call(
+                                [api, api.getContentAsync],
+                                author,
+                                permlink,
+                                constants.DEFAULT_VOTE_LIMIT
+                            );
 
                             if (feedEntries[key].reblog_by.length > 0) {
-                                state.content[link].first_reblogged_by = feedEntries[key].reblog_by[0]
-                                state.content[link].reblogged_by = feedEntries[key].reblog_by
+                                state.content[link].first_reblogged_by =
+                                    feedEntries[key].reblog_by[0];
+                                state.content[link].reblogged_by = feedEntries[key].reblog_by;
                             }
                         }
-                    break
+                        break;
 
                     case 'blog':
                     default:
@@ -155,68 +176,75 @@ function* fetchState(action) {
                             uname,
                             voteLimit: constants.DEFAULT_VOTE_LIMIT,
                         });
-                    break
+                        break;
                 }
             }
         } else if (parts.length === 3 && parts[1].length > 0 && parts[1][0] === '@') {
-            const account = parts[1].substr(1)
-            const category = parts[0]
-            const permlink = parts[2]
+            const account = parts[1].substr(1);
+            const category = parts[0];
+            const permlink = parts[2];
 
-            const curl = `${account}/${permlink}`
-            state.content[curl] = yield call([api, api.getContentAsync], account, permlink, constants.DEFAULT_VOTE_LIMIT)
-            accounts.add(account)
+            const curl = `${account}/${permlink}`;
+            state.content[curl] = yield call(
+                [api, api.getContentAsync],
+                account,
+                permlink,
+                constants.DEFAULT_VOTE_LIMIT
+            );
+            accounts.add(account);
 
-            const replies =  yield call([api, api.getAllContentRepliesAsync], account, permlink, constants.DEFAULT_VOTE_LIMIT)
+            const replies = yield call(
+                [api, api.getAllContentRepliesAsync],
+                account,
+                permlink,
+                constants.DEFAULT_VOTE_LIMIT
+            );
 
             for (let key in replies) {
-                let reply = replies[key]
-                const link = `${reply.author}/${reply.permlink}`
+                let reply = replies[key];
+                const link = `${reply.author}/${reply.permlink}`;
 
-                accounts.add(reply.author)
+                accounts.add(reply.author);
 
-                state.content[link] = reply
+                state.content[link] = reply;
                 if (reply.parent_permlink === permlink) {
-                    state.content[curl].replies.push(link)
+                    state.content[curl].replies.push(link);
                 }
             }
-
         } else if (parts[0] === 'witnesses' || parts[0] === '~witnesses') {
             state.witnesses = {};
-            const witnesses =  yield call([api, api.getWitnessesByVoteAsync], '', 100)
+            const witnesses = yield call([api, api.getWitnessesByVoteAsync], '', 100);
 
-            witnesses.forEach( witness => {
-                state.witnesses[witness.owner] = witness
-            })
-
+            witnesses.forEach(witness => {
+                state.witnesses[witness.owner] = witness;
+            });
         } else if (Object.keys(PUBLIC_API).includes(parts[0])) {
             const tag = parts[1] == null ? '' : parts[1];
 
-            yield call(fetchData, {payload: { order: parts[0], category : tag }})
-
+            yield call(fetchData, { payload: { order: parts[0], category: tag } });
         } else if (parts[0] == 'tags') {
-            const tags = {}
-            const trending_tags = yield call([api, api.getTrendingTagsAsync], '', 250)
-            trending_tags.forEach (tag => tags[tag.name] = tag)
-            state.tags = tags
+            const tags = {};
+            const trending_tags = yield call([api, api.getTrendingTagsAsync], '', 250);
+            trending_tags.forEach(tag => (tags[tag.name] = tag));
+            state.tags = tags;
         }
 
         if (accounts.size > 0) {
-            const acc = yield call([api, api.getAccountsAsync], Array.from(accounts))
+            const acc = yield call([api, api.getAccountsAsync], Array.from(accounts));
             for (let i in acc) {
-                state.accounts[ acc[i].name ] = acc[i]
+                state.accounts[acc[i].name] = acc[i];
             }
         }
 
-        yield put(GlobalReducer.actions.receiveState(state))
-        yield put({type: 'FETCH_DATA_END'})
+        yield put(GlobalReducer.actions.receiveState(state));
+        yield put({ type: 'FETCH_DATA_END' });
     } catch (error) {
         console.error('~~ Saga fetchState error ~~>', url, error);
-        yield put({type: 'global/FETCHING_STATE', payload: false});
-        yield put({type: 'global/CHAIN_API_ERROR', payload: false, error: error.message});
+        yield put({ type: 'global/FETCHING_STATE', payload: false });
+        yield put({ type: 'global/CHAIN_API_ERROR', payload: false, error: error.message });
 
         if (!(yield cancelled())) {
-            yield put({type: 'FETCH_DATA_END'})
+            yield put({ type: 'FETCH_DATA_END' });
         }
     }
 }
@@ -288,16 +316,10 @@ export function* watchDataRequests() {
 }
 
 function* fetchData(action) {
-    const {
-        order,
-        author,
-        permlink,
-        accountname,
-        keys
-    } = action.payload;
+    const { order, author, permlink, accountname, keys } = action.payload;
     let { category } = action.payload;
 
-    if( !category ) category = "";
+    if (!category) category = '';
     category = category.toLowerCase();
 
     let call_name, args;
@@ -306,8 +328,8 @@ function* fetchData(action) {
             limit: constants.FETCH_DATA_BATCH_SIZE,
             truncate_body: constants.FETCH_DATA_TRUNCATE_BODY,
             start_author: author,
-            start_permlink: permlink
-        }
+            start_permlink: permlink,
+        },
     ];
 
     if (category.length) {
@@ -318,9 +340,13 @@ function* fetchData(action) {
             args[0].select_tags = [category];
         }
     } else {
-        const arrSelectedTags = []
+        const arrSelectedTags = [];
+        const selectedTags = yield select(state =>
+            state.data.settings.getIn(['basic', 'selectedTags'], Map())
+        );
 
-        const select_tags = yield select(state => state.data.settings.getIn(['basic', 'selectedTags'], Map()).filter(type => type === 1).keySeq());
+        const select_tags = selectedTags.filter(type => type === TAGS_FILTER_TYPE_SELECT).keySeq();
+
         if (select_tags && select_tags.size) {
             let selectTags = [];
 
@@ -331,13 +357,13 @@ function* fetchData(action) {
                 } else {
                     selectTags.push(t);
                 }
-            })
+            });
             args[0].select_tags = selectTags;
 
             arrSelectedTags.push(select_tags.sort().join('/'));
         }
 
-        const filter_tags = yield select(state => state.data.settings.getIn(['basic', 'selectedTags'], Map()).filter(type => type === 2).keySeq());
+        const filter_tags = selectedTags.filter(type => type === TAGS_FILTER_TYPE_EXCLUDE).keySeq();
         if (filter_tags && filter_tags.size) {
             let filterTags = [];
 
@@ -348,7 +374,7 @@ function* fetchData(action) {
                 } else {
                     filterTags.push(t);
                 }
-            })
+            });
             args[0].filter_tags = filterTags;
 
             arrSelectedTags.push(filter_tags.sort().join('/'));
@@ -367,23 +393,23 @@ function* fetchData(action) {
         call_name = PUBLIC_API.trending;
     } else if (order === 'promoted') {
         call_name = PUBLIC_API.promoted;
-    } else if( order === 'active' /*|| order === 'updated'*/) {
+    } else if (order === 'active' /*|| order === 'updated'*/) {
         call_name = PUBLIC_API.active;
-    } else if( order === 'cashout' ) {
+    } else if (order === 'cashout') {
         call_name = PUBLIC_API.cashout;
-    } else if( order === 'payout' ) {
+    } else if (order === 'payout') {
         call_name = PUBLIC_API.payout;
-    } else if( order === 'created' || order === 'recent' ) {
+    } else if (order === 'created' || order === 'recent') {
         call_name = PUBLIC_API.created;
-    } else if( order === 'responses' ) {
+    } else if (order === 'responses') {
         call_name = PUBLIC_API.responses;
-    } else if( order === 'votes' ) {
+    } else if (order === 'votes') {
         call_name = PUBLIC_API.votes;
-    } else if( order === 'hot' ) {
+    } else if (order === 'hot') {
         call_name = PUBLIC_API.hot;
-    } else if( order === 'by_feed' ) {
+    } else if (order === 'by_feed') {
         call_name = 'getDiscussionsByFeedAsync';
-        delete args[0].select_tags
+        delete args[0].select_tags;
         args[0].select_authors = [accountname];
     } else if (order === 'by_author') {
         call_name = 'getDiscussionsByBlogAsync';
@@ -392,7 +418,7 @@ function* fetchData(action) {
     } else if (order === 'by_comments') {
         delete args[0].select_tags;
         call_name = 'getDiscussionsByCommentsAsync';
-    } else if( order === 'by_replies' ) {
+    } else if (order === 'by_replies') {
         call_name = 'getRepliesByLastUpdateAsync';
         args = [author, permlink, constants.FETCH_DATA_BATCH_SIZE, constants.DEFAULT_VOTE_LIMIT];
     } else {
@@ -435,40 +461,46 @@ function* watchFetchJsonRequests() {
     @arg {string} url
     @arg {object} body (for JSON.stringify)
 */
-function* fetchJson({payload: {id, url, body, successCallback, skipLoading = false}}) {
+function* fetchJson({ payload: { id, url, body, successCallback, skipLoading = false } }) {
     try {
         const payload = {
             method: body ? 'POST' : 'GET',
             headers: {
                 Accept: 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
-            body: body ? JSON.stringify(body) : undefined
-        }
-        yield put({type: 'global/FETCHING_JSON', payload: true});
-        let result = yield skipLoading ? fetch(url, payload) : call(fetch, url, payload)
-        result = yield result.json()
-        if (successCallback) result = successCallback(result)
-        yield put({type: 'global/FETCHING_JSON', payload: false});
-        yield put(GlobalReducer.actions.fetchJsonResult({id, result}))
-    } catch(error) {
-        console.error('fetchJson', error)
-        yield put({type: 'global/FETCHING_JSON', payload: false});
-        yield put(GlobalReducer.actions.fetchJsonResult({id, error}))
+            body: body ? JSON.stringify(body) : undefined,
+        };
+        yield put({ type: 'global/FETCHING_JSON', payload: true });
+        let result = yield skipLoading ? fetch(url, payload) : call(fetch, url, payload);
+        result = yield result.json();
+        if (successCallback) result = successCallback(result);
+        yield put({ type: 'global/FETCHING_JSON', payload: false });
+        yield put(GlobalReducer.actions.fetchJsonResult({ id, result }));
+    } catch (error) {
+        console.error('fetchJson', error);
+        yield put({ type: 'global/FETCHING_JSON', payload: false });
+        yield put(GlobalReducer.actions.fetchJsonResult({ id, error }));
     }
 }
 
 export function* watchFetchVestingDelegations() {
-    yield takeLatest('global/FETCH_VESTING_DELEGATIONS', fetchVestingDelegations)
+    yield takeLatest('global/FETCH_VESTING_DELEGATIONS', fetchVestingDelegations);
 }
 
 function* fetchVestingDelegations({ payload: { account, type } }) {
-    const r = yield call([ api, api.getVestingDelegationsAsync ], account, '', 100, type)
+    const r = yield call([api, api.getVestingDelegationsAsync], account, '', 100, type);
 
-    const vesting_delegations = {}
+    const vesting_delegations = {};
     for (let v in r) {
-        vesting_delegations[ type === 'delegated' ? r[v].delegatee : r[v].delegator ] = r[v]
+        vesting_delegations[type === 'delegated' ? r[v].delegatee : r[v].delegator] = r[v];
     }
 
-    yield put(GlobalReducer.actions.receiveAccountVestingDelegations({ account, type, vesting_delegations }))
+    yield put(
+        GlobalReducer.actions.receiveAccountVestingDelegations({
+            account,
+            type,
+            vesting_delegations,
+        })
+    );
 }

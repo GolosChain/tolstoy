@@ -1,8 +1,10 @@
+import { pathOr, filter } from 'ramda';
+
 import { processBlog } from 'shared/state';
 import resolveRoute from 'app/ResolveRoute';
 import { reverseTag, prepareTrendingTags } from 'app/utils/tags';
 import { IGNORE_TAGS, PUBLIC_API } from 'app/client_config';
-import { pathOr, filter } from 'ramda';
+import { TAGS_FILTER_TYPE_SELECT, TAGS_FILTER_TYPE_EXCLUDE } from 'src/app/redux/constants/common';
 
 const DEFAULT_VOTE_LIMIT = 10000;
 
@@ -214,7 +216,7 @@ async function getStateForApi(state, params, { routeParts, api, settings }) {
     } else {
         const selectedTags = pathOr({}, ['basic', 'selectedTags'], settings);
         const select_tags = Object.keys(
-            filter(type => type === 1, selectedTags)
+            filter(type => type === TAGS_FILTER_TYPE_SELECT, selectedTags)
         );
         if (select_tags && select_tags.length) {
             let selectTags = [];
@@ -231,7 +233,7 @@ async function getStateForApi(state, params, { routeParts, api, settings }) {
         }
 
         const filter_tags = Object.keys(
-            filter(type => type === 2, selectedTags)
+            filter(type => type === TAGS_FILTER_TYPE_EXCLUDE, selectedTags)
         );
         if (filter_tags && filter_tags.length) {
             let filterTags = [];
@@ -267,14 +269,24 @@ async function getStateForApi(state, params, { routeParts, api, settings }) {
         discussionsKey = tag;
     } else {
         const selectedTags = pathOr({}, ['basic', 'selectedTags'], settings);
-        const selectedSelectTags = Object.keys(filter(type => type === 1, selectedTags)).filter(tag => !tag.startsWith('ru--')).sort().join('/');
-        const selectedFilterTags = Object.keys(filter(type => type === 2, selectedTags)).filter(tag => !tag.startsWith('ru--')).sort().join('/');
+        const selectedSelectTags = Object.keys(
+            filter(type => type === TAGS_FILTER_TYPE_SELECT, selectedTags)
+        )
+            .filter(tag => !tag.startsWith('ru--'))
+            .sort()
+            .join('/');
+        const selectedFilterTags = Object.keys(
+            filter(type => type === TAGS_FILTER_TYPE_EXCLUDE, selectedTags)
+        )
+            .filter(tag => !tag.startsWith('ru--'))
+            .sort()
+            .join('/');
 
         const arrSelectedTags = [];
         if (selectedSelectTags) {
             arrSelectedTags.push(selectedSelectTags);
         }
-        
+
         if (selectedFilterTags) {
             arrSelectedTags.push(selectedFilterTags);
         }

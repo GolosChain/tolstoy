@@ -11,6 +11,7 @@ import {
     dataSelector,
     uiSelector,
 } from 'src/app/redux/selectors/common';
+import { TAGS_FILTER_TYPE_SELECT, TAGS_FILTER_TYPE_EXCLUDE } from 'src/app/redux/constants/common';
 
 import HomeContent from './HomeContent';
 
@@ -55,12 +56,12 @@ export default connect(
             } else {
                 const selectedTags = settings.getIn(['basic', 'selectedTags'], Map());
                 const selectedSelectTags = selectedTags
-                    .filter(tag => tag === 1)
+                    .filter(tag => tag === TAGS_FILTER_TYPE_SELECT)
                     .keySeq()
                     .sort()
                     .join('/');
                 const selectedFilterTags = selectedTags
-                    .filter(tag => tag === 2)
+                    .filter(tag => tag === TAGS_FILTER_TYPE_EXCLUDE)
                     .keySeq()
                     .sort()
                     .join('/');
