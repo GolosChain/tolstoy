@@ -1,10 +1,8 @@
 import { createSelectorCreator, defaultMemoize, createSelector } from 'reselect';
 import isEqual from 'react-fast-compare';
-import { Map } from 'immutable';
 import { pathOr } from 'ramda';
 import memorize from 'lodash/memoize';
 
-const emptyMap = Map();
 const toArray = data => (Array.isArray(data) ? data : [data]);
 
 // Create a "selector creator" that uses react-fast-compare instead of '==='
@@ -35,8 +33,8 @@ export const uiSelector = (path, defaultValue) => state =>
 // Router selectors
 
 export const routerParamSelector = name => (state, props) => props.params[name];
-export const routeParamSelector = name => state =>
-    state.ui.location.getIn(['current', 'params', name]);
+export const routeParamSelector = (name, defaultValue) => state =>
+    state.ui.location.getIn(['current', 'params', name], defaultValue);
 // Entities selectors
 
 // Возвращает сущности определенного типа (type) в виде массива.

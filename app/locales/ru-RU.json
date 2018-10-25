@@ -400,6 +400,7 @@
     "empty_list": "Список пуст",
     "enter_username": "Введи свое имя пользователя",
     "error": "Ошибка",
+    "exclude": "Исключить",
     "expand": "Развернуть",
     "favorites": "Избранное",
     "feed": "Лента",
@@ -1156,6 +1157,11 @@
     "APP_NAME_password_backup": "%(APP_NAME)s резервное копирование пароля",
     "APP_NAME_password_backup_required": "%(APP_NAME)s резервное копирование пароля (обязательно!)",
     "after_printing_write_down_your_user_name": "После печати запишите ваше имя пользователя"
+  },
+  "tags": {
+    "popularTags": "Популярные теги",
+    "selectedTags": "теги, которые вы выбрали",
+    "show_more_tags": "Показать больше"
   },
   "tags_page": {
     "payouts": "Выплаты",

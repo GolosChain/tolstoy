@@ -398,6 +398,7 @@
     "empty_list": "Empty list",
     "enter_username": "Enter your username",
     "error": "Error",
+    "exclude": "Exclude",
     "expand": "Expand",
     "favorites": "Favorites",
     "feed": "Feed",
@@ -1150,6 +1151,11 @@
     "APP_NAME_password_backup": "%(APP_NAME)s Password Backup",
     "APP_NAME_password_backup_required": "%(APP_NAME)s Password Backup (required)",
     "after_printing_write_down_your_user_name": "After printing, write down your user name"
+  },
+  "tags": {
+    "popularTags": "Popular tags",
+    "selectedTags": "Tags, that you choosed",
+    "show_more_tags": "Show more"
   },
   "tags_page": {
     "payouts": "Payouts",

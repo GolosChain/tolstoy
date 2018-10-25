@@ -64,9 +64,9 @@ const PostBody = styled.div`
 const Tags = styled.div`
     display: flex;
     flex-wrap: wrap;
-    
-    & > ${TagLink} {
-       margin: 10px 10px 0 0; 
+
+    ${TagLink} {
+        margin: 10px 10px 0 0;
     }
 `;
 
