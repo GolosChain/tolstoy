@@ -80,7 +80,7 @@ const SharingTriangle = styled(Repost)`
     ${is('isOpen')`
         & > svg {
             transition: color 0s;
-            color: #2578be;
+            color: #2879ff;
         }
     `};
 `;
@@ -89,14 +89,14 @@ const DotsMore = styled(Repost)`
     position: relative;
     padding: 0 18px;
 
-    & > svg {
+    & > ${Icon} {
         padding: 12px 4px;
     }
 
     ${is('isOpen')`
-        & > svg {
+        & > ${Icon} {
             transition: color 0s;
-            color: #2578be;
+            color: #2879ff;
         }
     `};
 
