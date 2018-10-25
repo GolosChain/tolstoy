@@ -149,7 +149,6 @@ export default class ActivityItem extends Component {
         if (account) {
             const userName = account.get('name');
             const { name, profile_image } = normalizeProfile(account.toJS());
-            console.log(icons[notification.get('eventType')]);
             leftSide = (
                 <Link to={`/@${userName}`}>
                     <Avatar
