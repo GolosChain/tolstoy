@@ -136,7 +136,6 @@ export class PostContent extends Component {
             category,
             title,
             body,
-            jsonMetadata,
             pictures,
             created,
             isPromoted,
@@ -159,7 +158,6 @@ export class PostContent extends Component {
                     <PostBody>
                         <MarkdownViewer
                             text={body}
-                            jsonMetadata={jsonMetadata}
                             large
                             highQualityPost={payout > 10}
                             noImage={!pictures}
