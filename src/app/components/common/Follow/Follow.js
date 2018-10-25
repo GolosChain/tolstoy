@@ -21,6 +21,10 @@ const Wrapper = styled(Button)`
     }
 `;
 
+const IconStyled = styled(Icon)`
+    margin-right: 6px;
+`;
+
 @connect(
     (state, props) => {
         return {
@@ -49,12 +53,12 @@ export default class Follow extends Component {
         const { isFollow, className } = this.props;
         return isFollow ? (
             <Wrapper light onClick={this._unfollow} className={className}>
-                <Icon width="10" height="10" name="cross" />
+                <IconStyled width="10" height="10" name="cross" />
                 <span>{tt('g.unfollow')}</span>
             </Wrapper>
         ) : (
             <Wrapper onClick={this._follow} className={className}>
-                <Icon width="11" height="8" name="subscribe" />
+                <IconStyled width="11" height="8" name="subscribe" />
                 <span>{tt('g.follow')}</span>
             </Wrapper>
         );
