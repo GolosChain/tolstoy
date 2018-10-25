@@ -238,7 +238,11 @@ export default class VotePanel extends PureComponent {
                     <LikeWrapper innerRef={this._onLikeRef} onClick={this._onLikeClick}>
                         <LikeIcon name="like" />
                     </LikeWrapper>
-                    <LikeCount onClick={this.onLikesNumberClick}>
+                    <LikeCount
+                        onClick={
+                            votesSummary.likes > 0 ? this.onLikesNumberClick : this._onLikeClick
+                        }
+                    >
                         {votesSummary.likes}
                         <IconTriangle name="triangle" />
                     </LikeCount>
@@ -256,7 +260,13 @@ export default class VotePanel extends PureComponent {
                     <LikeWrapper innerRef={this._onDisLikeRef} onClick={this._onDislikeClick}>
                         <LikeIconNeg name="like" />
                     </LikeWrapper>
-                    <LikeCount onClick={this.onDislikesNumberClick}>
+                    <LikeCount
+                        onClick={
+                            votesSummary.dislikes > 0
+                                ? this.onDislikesNumberClick
+                                : this._onDislikeClick
+                        }
+                    >
                         {votesSummary.dislikes}
                         <IconTriangle name="triangle" />
                     </LikeCount>

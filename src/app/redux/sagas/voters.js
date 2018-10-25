@@ -36,6 +36,17 @@ function* getVotersWorker({payload: {postLink, limit}}) {
             limit
         );
 
+        if (voters.length) {
+            const names = voters.map(item => item.voter);
+            const accounts = yield call([api, api.getAccountsAsync], names);
+            yield put({
+                type: 'global/RECEIVE_ACCOUNTS',
+                payload: {
+                    accounts,
+                },
+            });
+        }
+
         yield put(GlobalReducer.actions.getVotersUsersSuccess({voters, postLink}))
     } catch (error) {
         yield put({

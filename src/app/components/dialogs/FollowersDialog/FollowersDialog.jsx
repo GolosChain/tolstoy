@@ -16,7 +16,7 @@ import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import Avatar from 'src/app/components/common/Avatar';
 import Follow from 'src/app/components/common/Follow';
 
-const Dialog = styled.div`
+export const Dialog = styled.div`
     position: relative;
     flex-basis: 800px;
     color: #333;
@@ -31,7 +31,7 @@ const Dialog = styled.div`
     }
 `;
 
-const IconClose = styled(Icon).attrs({
+export const IconClose = styled(Icon).attrs({
     name: 'cross',
     size: 30,
 })`
@@ -49,7 +49,7 @@ const IconClose = styled(Icon).attrs({
     }
 `;
 
-const Header = styled.div`
+export const Header = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
@@ -59,19 +59,19 @@ const Header = styled.div`
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
 `;
 
-const Title = styled.div`
+export const Title = styled.div`
     text-align: center;
     font-size: 16px;
     font-weight: 600;
     color: #333333;
 `;
 
-const Content = styled.div`
+export const Content = styled.div`
     position: relative;
     padding: 20px;
 `;
 
-const UserItem = styled.div`
+export const UserItem = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -86,12 +86,12 @@ const UserItem = styled.div`
     }
 `;
 
-const UserLink = styled(Link)`
+export const UserLink = styled(Link)`
     display: flex;
     align-items: center;
 `;
 
-const Name = styled.div`
+export const Name = styled.div`
     color: #393636;
     font-size: 14px;
     font-weight: 600;
@@ -100,7 +100,7 @@ const Name = styled.div`
     margin-left: 9px;
 `;
 
-const LoaderWrapper = styled.div`
+export const LoaderWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;

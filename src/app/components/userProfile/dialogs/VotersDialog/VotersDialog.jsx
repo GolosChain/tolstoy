@@ -1,111 +1,35 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Set } from 'immutable';
 import styled from 'styled-components';
-import { Link } from 'react-router';
 
-import Icon from 'golos-ui/Icon';
-
-import normalizeProfile from 'app/utils/NormalizeProfile';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import Avatar from 'src/app/components/common/Avatar';
 import Follow from 'src/app/components/common/Follow';
 import { votersDialogSelector } from 'src/app/redux/selectors/dialogs/votesDialog';
 import { getVoters } from 'src/app/redux/actions/vote';
+import {
+    Dialog,
+    Header,
+    Title,
+    IconClose,
+    Content,
+    UserItem,
+    UserLink,
+    Name,
+    LoaderWrapper,
+} from 'src/app/components/userProfile/dialogs/FollowersDialog/FollowersDialog';
 
-const Dialog = styled.div`
-    position: relative;
-    flex-basis: 800px;
-    color: #333;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 19px 3px rgba(0, 0, 0, 0.2);
-
-    @media (max-width: 890px) {
-        min-width: unset;
-        max-width: unset;
-        width: 100%;
-    }
-`;
-
-const IconClose = styled(Icon).attrs({
-    name: 'cross',
-    size: 30,
-})`
-    position: absolute;
-    right: 8px;
-    top: 8px;
-    padding: 8px;
-    text-align: center;
-    color: #e1e1e1;
-    cursor: pointer;
-    transition: color 0.1s;
-
-    &:hover {
-        color: #000;
-    }
-`;
-
-const Header = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
+const ShowAll = styled.button`
+    width: 100%;
     height: 50px;
-    border-radius: 8px 8px 0 0;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 -2px 12px 0 rgba(0, 0, 0, 0.15);
     background-color: #ffffff;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
-`;
 
-const Title = styled.div`
-    text-align: center;
-    font-size: 16px;
-    font-weight: 600;
-    color: #333333;
-`;
-
-const Content = styled.div`
-    position: relative;
-    padding: 20px;
-`;
-
-const UserItem = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 10px 0;
-
-    &:first-child {
-        margin-top: 0;
-    }
-
-    &:last-child {
-        margin-bottom: 0;
-    }
-`;
-
-const UserLink = styled(Link)`
-    display: flex;
-    align-items: center;
-`;
-
-const Name = styled.div`
-    color: #393636;
+    color: #111111;
     font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 0.4px;
-    line-height: 18px;
-    margin-left: 9px;
-`;
-
-const LoaderWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 90px;
-    opacity: 0;
-    animation: fade-in 0.25s forwards;
-    animation-delay: 0.25s;
+    font-weight: bold;
 `;
 
 @connect(
@@ -120,6 +44,7 @@ export default class VotersDialog extends PureComponent {
 
         loading: PropTypes.bool.isRequired,
         users: PropTypes.arrayOf(PropTypes.object).isRequired,
+        username: PropTypes.string.isRequired,
     };
 
     rootRef = null;
@@ -129,14 +54,24 @@ export default class VotersDialog extends PureComponent {
         this.props.getVoters(this.props.postLink, 50);
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.users.length === 0 && nextProps.hasMore) {
+            this.props.getVoters(this.props.postLink);
+        }
+    }
+
     componentWillUnmount() {
         this.props.onRef(null);
     }
 
+    showAll = () => {
+        this.props.getVoters(this.props.postLink);
+    };
+
     setRootRef = el => (this.rootRef = el);
 
     render() {
-        const { loading, users } = this.props;
+        const { loading, users, hasMore, username } = this.props;
         return (
             <Dialog>
                 <Header>
@@ -144,27 +79,28 @@ export default class VotersDialog extends PureComponent {
                     <IconClose onClick={this.props.onClose} />
                 </Header>
                 <Content innerRef={this.setRootRef}>
-                    {users.map(user => {
-                        return (
-                            <UserItem key={user.voter}>
-                                <UserLink
-                                    to={`/@${user.voter}`}
-                                    title={user.voter}
-                                    onClick={this.props.onClose}
-                                >
-                                    <Avatar avatarUrl="/" />
-                                    <Name>{user.voter}</Name>
-                                </UserLink>
-                                <Follow following={user.voter} />
-                            </UserItem>
-                        );
-                    })}
+                    {users.map(user => (
+                        <UserItem key={user.name}>
+                            <UserLink
+                                to={`/@${user.name}`}
+                                title={user.name}
+                                onClick={this.props.onClose}
+                            >
+                                <Avatar avatarUrl={user.avatar} />
+                                <Name>{user.name}</Name>
+                            </UserLink>
+                            {user.name !== username ? <Follow following={user.name} /> : null}
+                        </UserItem>
+                    ))}
                     {loading && (
                         <LoaderWrapper>
                             <LoadingIndicator type="circle" size={40} />
                         </LoaderWrapper>
                     )}
                 </Content>
+                {hasMore && !loading && users.length > 0 ? (
+                    <ShowAll onClick={this.showAll}>показать все</ShowAll>
+                ) : null}
             </Dialog>
         );
     }
