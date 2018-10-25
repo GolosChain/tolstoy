@@ -7,7 +7,7 @@ import tt from 'counterpart';
 import Icon from 'src/app/components/golos-ui/Icon';
 import Slider from 'src/app/components/golos-ui/Slider';
 import ComplexInput from 'src/app/components/golos-ui/ComplexInput';
-import { parseAmount2 } from 'src/app/helpers/currency';
+import { parseAmount3 } from 'src/app/helpers/currency';
 
 const Root = styled.div`
     position: absolute;
@@ -80,7 +80,7 @@ export default class EditGolosPower extends PureComponent {
         const { max } = this.props;
         const { inputValue } = this.state;
 
-        const { value, error } = parseAmount2(inputValue, max, false, 1000);
+        const { value, error } = parseAmount3(inputValue, max, false, 1000);
 
         const isError = Boolean(error);
 
@@ -144,7 +144,7 @@ export default class EditGolosPower extends PureComponent {
         const { max } = this.props;
         const { inputValue } = this.state;
 
-        const { value, error } = parseAmount2(inputValue, max, false, 1000);
+        const { value, error } = parseAmount3(inputValue, max, false, 1000);
 
         if (!error) {
             this.props.onSave(value);
