@@ -16,11 +16,7 @@ import SplashLoader from 'golos-ui/SplashLoader';
 import Linkify from 'src/app/components/common/Linkify';
 import TextCut from 'src/app/components/common/TextCut';
 import EditGolosPower from 'src/app/components/userProfile/common/EditGolosPower';
-import {
-    DIRECTION,
-    CURRENCY_TRANSLATE,
-    CURRENCY_COLOR,
-} from 'src/app/containers/userProfile/wallet/WalletContent';
+import { DIRECTION, CURRENCY_COLOR } from 'src/app/containers/userProfile/wallet/WalletContent';
 
 const Root = styled.div`
     &:nth-child(even) {
@@ -301,6 +297,12 @@ export default class WalletLine extends PureComponent {
             amount,
             currency,
         } = data;
+
+        const CURRENCY_TRANSLATE = {
+            GOLOS: tt('token_names.LIQUID_TOKEN'),
+            GBG: tt('token_names.DEBT_TOKEN2'),
+            GOLOS_POWER: tt('token_names.VESTING_TOKEN'),
+        };
 
         return (
             <Root>
