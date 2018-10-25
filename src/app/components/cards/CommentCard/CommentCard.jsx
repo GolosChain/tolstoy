@@ -24,6 +24,10 @@ const Header = styled.div`
     ${is('collapsed')`
         padding: 5px 0;
     `};
+    
+    ${is('highlighted')`
+        background-color: #e7eef9; 
+    `};
 `;
 
 const HeaderLine = styled.div`
@@ -90,6 +94,10 @@ const CommentBodyWrapper = styled.div`
     align-items: center;
 
     padding: 0 18px;
+    
+    ${is('highlighted')`
+        background-color: #e7eef9;
+    `}
 `;
 
 const Root = styled.div`
@@ -133,16 +141,6 @@ const EmptyCloseOpenButton = styled.div`
 
     width: 30px;
     height: 30px;
-`;
-
-const HighlightedCover = styled.div`
-    position: absolute;
-    
-    width: 100%;
-    height: 100%;
-    
-    background-color: #e7eef9;
-    border-radius: 8px;
 `;
 
 export class CommentCard extends PureComponent {
@@ -206,10 +204,10 @@ export class CommentCard extends PureComponent {
 
     renderHeaderForPost() {
         const { comment, extractedContent, anchorID } = this.props;
-        const { collapsed } = this.state;
+        const { collapsed, highlighted } = this.state;
 
         return (
-            <Header collapsed={collapsed} id={anchorID}>
+            <Header collapsed={collapsed} id={anchorID} highlighted={highlighted}>
                 <HeaderLine>
                     <CardAuthor author={comment.get('author')} created={comment.get('created')} />
                     {collapsed && (
@@ -228,11 +226,11 @@ export class CommentCard extends PureComponent {
 
     renderHeaderForProfile() {
         const { fullParentURL, title, comment, anchorID } = this.props;
-        const { collapsed } = this.state;
+        const { collapsed, highlighted } = this.state;
         const detransliteratedCategory = detransliterate(comment.get('category'));
 
         return (
-            <Header collapsed={collapsed} id={anchorID}>
+            <Header collapsed={collapsed} id={anchorID} highlighted={highlighted}>
                 <HeaderLine>
                     {collapsed ? (
                         <ReLink
@@ -273,7 +271,7 @@ export class CommentCard extends PureComponent {
 
     renderBodyText() {
         const { extractedContent, comment, isOwner, isPostPage, payout } = this.props;
-        const { edit } = this.state;
+        const { edit, highlighted } = this.state;
 
         return (
             <Fragment>
@@ -289,7 +287,7 @@ export class CommentCard extends PureComponent {
                         onCancel={this.onEditDone}
                     />
                 ) : (
-                    <CommentBodyWrapper>
+                    <CommentBodyWrapper highlighted={highlighted}>
                         <CommentBody
                             to={extractedContent.link}
                             onClick={this.rememberScrollPosition}
@@ -395,7 +393,6 @@ export class CommentCard extends PureComponent {
                 {isPostPage ? this.renderHeaderForPost() : this.renderHeaderForProfile()}
                 {collapsed ? null : (
                     <Fragment>
-                        {highlighted && <HighlightedCover />}
                         {!isPostPage && this.renderTitle()}
                         {this.renderBodyText()}
                         {showReply && this.renderReplyEditor()}
@@ -411,6 +408,7 @@ export class CommentCard extends PureComponent {
                             replyRef={this.replyRef}
                             commentRef={this.commentRef}
                             onReplyClick={this.onReplyClick}
+                            highlighted={highlighted}
                         />
                     </Fragment>
                 )}

@@ -16,8 +16,9 @@ import SharePopover from 'src/app/components/post/SharePopover';
 import { PopoverStyled } from 'src/app/components/post/PopoverAdditionalStyles';
 import PostActions from 'src/app/components/post/PostActions';
 import { POST_MAX_WIDTH } from 'src/app/containers/post/PostContainer';
-import { DESKTOP_FOOTER_HEIGHT, HEADER_HEIGHT } from 'src/app/constants/constants';
 
+const HEADER_HEIGHT = 60;
+const DESKTOP_FOOTER_HEIGHT = 324;
 const PANEL_MARGIN = 20;
 const SIDE_PANEL_WIDTH = 64;
 
@@ -48,7 +49,7 @@ const Wrapper = styled.div`
 
     ${by('fixedOn', {
         center: `
-            bottom: calc(50% - ${() => HEADER_HEIGHT / 2}px);
+            bottom: calc(50% - ${HEADER_HEIGHT / 2}px);
             transform: translateY(50%);
         `,
         bottom: `

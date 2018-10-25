@@ -106,7 +106,7 @@ const icons = {
         size: 14,
     },
     repost: {
-        name: 'avatar',
+        name: 'repost-avatar',
         size: 14,
     },
     reward: {
@@ -149,7 +149,7 @@ export default class ActivityItem extends Component {
         if (account) {
             const userName = account.get('name');
             const { name, profile_image } = normalizeProfile(account.toJS());
-
+            console.log(icons[notification.get('eventType')]);
             leftSide = (
                 <Link to={`/@${userName}`}>
                     <Avatar

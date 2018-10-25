@@ -26,6 +26,10 @@ const Wrapper = styled.div`
     @media (min-width: 890px) and (max-width: 1087px), (max-width: 639px) {
         flex-direction: column;
     }
+    
+    ${is('highlighted')`
+        background-color: #e7eef9;
+    `}
 `;
 
 const CommentVotePanel = styled(VotePanel)`
@@ -128,6 +132,7 @@ export default class CommentFooter extends Component {
         replyRef: PropTypes.object.isRequired,
         showReply: PropTypes.bool.isRequired,
         username: PropTypes.string,
+        highlighted: PropTypes.bool.isRequired,
     };
 
     onCancelReplyClick = () => {
@@ -167,6 +172,7 @@ export default class CommentFooter extends Component {
             showReply,
             edit,
             onReplyClick,
+            highlighted,
         } = this.props;
 
         if (showReply) {
@@ -194,7 +200,7 @@ export default class CommentFooter extends Component {
         }
 
         return (
-            <Wrapper>
+            <Wrapper highlighted={highlighted}>
                 <CommentVotePanel data={comment} me={username} onChange={this.onVoteChange} />
                 <CommentReplyWrapper>
                     <CommentReplyBlock
