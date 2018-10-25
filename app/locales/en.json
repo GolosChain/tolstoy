@@ -285,11 +285,6 @@
     "copied": "Copied!",
     "copy": "COPY"
   },
-  "favorites":{
-    "info_block": "Favorites are private data",
-    "empty_block": "No favorites yet",
-    "empty_sub_text": ""
-  },
   "faq_jsq": {
     "email": "email",
     "footer_message": "We will never ask for your private keys or money. If someone appears to be a member of the Golos.io team and asks for such information, please inform us",
@@ -297,6 +292,11 @@
     "page_description": "There you can find answers on all questions you may be curious about.",
     "page_title": "FAQ",
     "telegram": "telegram"
+  },
+  "favorites": {
+    "empty_block": "No favorites yet",
+    "empty_sub_text": "",
+    "info_block": "Favorites are private data"
   },
   "footer": {
     "mobile_apps": "Mobile apps",
@@ -398,6 +398,7 @@
     "empty_list": "Empty list",
     "enter_username": "Enter your username",
     "error": "Error",
+    "exclude": "Exclude",
     "expand": "Expand",
     "favorites": "Favorites",
     "feed": "Feed",
@@ -569,7 +570,6 @@
     "trending": "Trending",
     "trending_topics": "Trending Topics",
     "turn_back": "Turn back",
-    "upstairs": "Upstairs",
     "type": "Type",
     "unable_to_log_you_in": "We will be unable to log you in with this browser",
     "understand_that_APP_NAME_cannot_recover_password": "I understand that %(APP_NAME)s cannot recover lost passwords",
@@ -579,6 +579,7 @@
     "update": "Update",
     "update_password": "Update Password",
     "update_your_password": "update your password",
+    "upstairs": "Upstairs",
     "upvote": "Upvote",
     "upvote_post": "Upvote post",
     "username": "Username",
@@ -1151,6 +1152,11 @@
     "APP_NAME_password_backup": "%(APP_NAME)s Password Backup",
     "APP_NAME_password_backup_required": "%(APP_NAME)s Password Backup (required)",
     "after_printing_write_down_your_user_name": "After printing, write down your user name"
+  },
+  "tags": {
+    "popularTags": "Popular tags",
+    "selectedTags": "Tags, that you choosed",
+    "show_more_tags": "Show more"
   },
   "tags_page": {
     "payouts": "Payouts",

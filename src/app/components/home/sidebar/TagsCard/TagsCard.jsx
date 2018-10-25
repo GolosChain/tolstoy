@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { List, Map } from 'immutable';
 import styled from 'styled-components';
 import is from 'styled-is';
+import tt from 'counterpart';
 
 // import { TAGS_MAX_LENGTH } from 'app/utils/tags';
 
@@ -137,7 +138,7 @@ export default class TagsCard extends Component {
     };
 
     renderTag = (tag, key) => {
-        const { selectedTags } = this.props
+        const { selectedTags } = this.props;
 
         const isSelected = selectedTags.get(tag) === 1;
         const isFiltered = selectedTags.get(tag) === 2;
@@ -171,16 +172,16 @@ export default class TagsCard extends Component {
                     )}
                 </SearchTagsWrapper> */}
 
-                <Title>Популярные теги</Title>
+                <Title>{tt('tags.popularTags')}</Title>
                 <TagsWrapper>{tags.map(this.renderTag)}</TagsWrapper>
                 {collapsed ? (
                     <Title onClick={this.onToggleClick}>
-                        Показать больше
+                        {tt('tags.show_more_tags')}
                         <CollapseIcon name="chevron" />
                     </Title>
                 ) : (
                     <Button auto onClick={this.onToggleClick}>
-                        Свернуть
+                        {tt('g.collapse')}
                     </Button>
                 )}
 

@@ -2,6 +2,7 @@ import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
+import tt from 'counterpart';
 
 import Tag from 'golos-ui/Tag';
 import Popover from 'src/app/components/common/Popover';
@@ -94,7 +95,7 @@ export default class SelectTag extends Component {
                         onClick={this.handleTagClick(isSelected ? 'select' : 'filter')}
                         remove={true}
                     >
-                        Удалить
+                        {tt('g.delete')}
                     </Action>
                 ) : (
                     [
@@ -103,14 +104,14 @@ export default class SelectTag extends Component {
                             onClick={this.handleTagClick('filter')}
                             active={isFiltered}
                         >
-                            Исключить
+                            {tt('g.exclude')}
                         </Action>,
                         <Action
                             key="add"
                             onClick={this.handleTagClick('select')}
                             active={isSelected}
                         >
-                            Добавить
+                            {tt('g.add')}
                         </Action>,
                     ]
                 )}

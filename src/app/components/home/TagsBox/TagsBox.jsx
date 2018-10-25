@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Map } from 'immutable';
+import tt from 'counterpart';
 
 import SlideContainer from 'src/app/components/common/SlideContainer';
 import TagSelect from 'src/app/components/common/TagSelect';
@@ -65,7 +66,7 @@ export default class TagsBox extends Component {
 
         return (
             <Wrapper>
-                <Title>теги, которые вы выбрали</Title>
+                <Title>{tt('tags.selectedTags')}</Title>
 
                 <SlideContainer>
                     <Tags>
