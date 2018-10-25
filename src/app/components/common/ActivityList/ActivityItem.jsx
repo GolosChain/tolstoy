@@ -58,6 +58,12 @@ const ActivityText = styled.div`
     ${is('isCompact')`
         color: #757575;
     `};
+    
+    & > div > a {
+        color: #959595;
+        font-weight: 500;
+        text-decoration: underline;
+    }
 `;
 
 const LeftSide = styled.div`

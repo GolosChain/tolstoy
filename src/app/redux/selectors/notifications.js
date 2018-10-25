@@ -35,26 +35,17 @@ export const hydrateNotification = (
             }
 
             const content = contents.getIn([`${author}/${notify.get('permlink')}`]);
-
             if (content) {
                 // if it isn't post
-                if (content.get('parent_author')) {
-                    notify.setIn(
-                        ['computed'],
-                        fromJS({
-                            title: content.get('root_title'),
-                            link: content.get('url'),
-                        })
-                    );
-                } else {
-                    notify.setIn(
-                        ['computed'],
-                        fromJS({
-                            title: content.get('title'),
-                            link: content.get('url'),
-                        })
-                    );
-                }
+                notify.setIn(
+                    ['computed'],
+                    fromJS({
+                        title: content.get('parent_author')
+                            ? content.get('root_title')
+                            : content.get('title'),
+                        link: content.get('url'),
+                    })
+                );
             }
         }
 

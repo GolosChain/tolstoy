@@ -773,22 +773,22 @@
   "notifications": {
     "activity": {
       "curatorReward": {
-        "one": "Curation reward of entry %(content)s %(amount)s Golos Power "
+        "one": "Curation reward of entry \"%(content)s\" %(amount)s Golos Power "
       },
       "flag": {
-        "one": "Disliked your entry %(content)s"
+        "one": "Disliked your \"%(content)s\""
       },
       "mention": {
-        "one": "Mentioned you in entry %(content)s"
+        "one": "Mentioned you in entry \"%(content)s\""
       },
       "reply": {
-        "one": "Repliend your entry %(content)s"
+        "one": "Repliend your entry \"%(content)s\""
       },
       "repost": {
-        "one": "Made the repost of your entry %(content)s"
+        "one": "Made the repost of your entry \"%(content)s\""
       },
       "reward": {
-        "one": "Author reward of entry %(content)s %(amount)s"
+        "one": "Author reward of entry \"%(content)s\" %(amount)s"
       },
       "subscribe": {
         "one": "Has subscribed to your blog"
@@ -800,7 +800,7 @@
         "one": "Unsubscribed from your blog"
       },
       "vote": {
-        "one": "Liked your entry %(content)s"
+        "one": "Liked your \"%(content)s\""
       },
       "witnessCancelVote": {
         "one": "Has removed your voice from your delegate node"
