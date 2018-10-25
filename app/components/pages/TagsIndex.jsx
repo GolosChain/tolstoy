@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import { numberWithCommas } from 'app/utils/StateFunctions';
 import tt from 'counterpart';
 import { detransliterate } from 'app/utils/ParsersAndFormatters';
-import { IGNORE_TAGS, SELECT_TAGS_KEY } from 'app/client_config';
+import { IGNORE_TAGS } from 'app/client_config';
 import cookie from "react-cookie";
 
 class TagsIndex extends React.Component {
@@ -15,7 +15,7 @@ class TagsIndex extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {order: props.order || 'name', selected: cookie.load(SELECT_TAGS_KEY) || []};
+        this.state = {order: props.order || 'name', selected: []};
         this.onChangeSort = this.onChangeSort.bind(this)
     }
 
@@ -48,7 +48,6 @@ class TagsIndex extends React.Component {
         keys.push(key)
 
       this.setState({selected: keys})
-      cookie.save(SELECT_TAGS_KEY, keys, {path: "/", expires: new Date(Date.now() + 60 * 60 * 24 * 365 * 10 * 1000)});
     }
 
     render() {

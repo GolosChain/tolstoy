@@ -187,6 +187,10 @@ export class LoginForm extends Component {
         }
     };
 
+    onCrossClick = () => {
+        this.props.onClose();
+    };
+
     render() {
         const { onClose, loginError, className } = this.props;
         const { consent, saveCredentials, submitting } = this.state;
@@ -196,7 +200,7 @@ export class LoginForm extends Component {
         return (
             <Wrapper className={className}>
                 {onClose ? (
-                    <CloseButton onClick={onClose}>
+                    <CloseButton onClick={this.onCrossClick}>
                         <Icon name="cross_thin" width={16} height={16} />
                     </CloseButton>
                 ) : null}

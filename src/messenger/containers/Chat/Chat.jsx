@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Map } from 'immutable';
+import { Map, List } from 'immutable';
 
 import DefaultChat from 'src/messenger/components/Chat/DefaultChat';
 import Chat from 'src/messenger/components/Chat';
@@ -10,6 +10,8 @@ export default class ChatContainer extends Component {
     static propTypes = {
         selectedContact: PropTypes.instanceOf(Map),
         sendMessage: PropTypes.func.isRequired,
+        messages: PropTypes.instanceOf(List),
+        currentUserProfileImage: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     };
 
     state = {
@@ -39,6 +41,8 @@ export default class ChatContainer extends Component {
     render() {
         const {
             selectedContact,
+            messages,
+            currentUserProfileImage,
         } = this.props;
 
         if (!selectedContact.size) {
@@ -56,6 +60,8 @@ export default class ChatContainer extends Component {
                 onContactMenuClick={this.onContactMenuClick}
                 onMessageInput={this.onMessageInput}
                 onSendButtonClick={this.onSendButtonClick}
+                messages={messages}
+                currentUserProfileImage={currentUserProfileImage}
             />
         );
     }

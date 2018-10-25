@@ -1,5 +1,15 @@
 import transaction from 'app/redux/Transaction';
 import user from 'app/redux/User';
+import { SHOW_LOGIN } from '../constants/login';
+
+export function showLogin({ onClose } = {}) {
+    return {
+        type: SHOW_LOGIN,
+        payload: {
+            onClose,
+        },
+    };
+}
 
 export function dispatchLogin(data, loginBroadcastOperation) {
     return dispatch => {

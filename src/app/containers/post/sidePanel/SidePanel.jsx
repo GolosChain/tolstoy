@@ -9,7 +9,6 @@ import throttle from 'lodash/throttle';
 
 import Icon from 'src/app/components/golos-ui/Icon';
 
-import { openRepostDialog } from 'src/app/components/dialogs/actions';
 import { confirmVote } from 'src/app/helpers/votes';
 import { Action } from 'src/app/components/post/SidePanelAction';
 import SharePopover from 'src/app/components/post/SharePopover';
@@ -37,7 +36,7 @@ const PanelWrapper = styled.div`
 const Wrapper = styled.div`
     visibility: hidden;
     position: fixed;
-    left: calc(50% - ${() => POST_MAX_WIDTH / 2 + SIDE_PANEL_WIDTH / 2}px);
+    left: calc(50% - ${() => POST_MAX_WIDTH / 2 + SIDE_PANEL_WIDTH * 1.5}px);
     z-index: 2;
 
     width: ${SIDE_PANEL_WIDTH}px;
@@ -159,7 +158,7 @@ export class SidePanel extends Component {
     resizeScreen = () => {
         const { showSideBlockByWidth, showSideBlockByHeight } = this.state;
         const panelRect = this.sideBlockRef.current.getBoundingClientRect();
-        const leftBorder = POST_MAX_WIDTH + SIDE_PANEL_WIDTH + PANEL_MARGIN * 2;
+        const leftBorder = POST_MAX_WIDTH + SIDE_PANEL_WIDTH * 2.8 + PANEL_MARGIN * 2;
         const topBorder = panelRect.height + HEADER_HEIGHT + PANEL_MARGIN * 2;
 
         const documentElem = document.documentElement;
@@ -196,7 +195,7 @@ export class SidePanel extends Component {
 
     repost = () => {
         const { author, permLink } = this.props;
-        openRepostDialog(`${author}/${permLink}`);
+        this.props.openRepostDialog(`${author}/${permLink}`);
     };
 
     like = async () => {

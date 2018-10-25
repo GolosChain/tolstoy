@@ -37,7 +37,7 @@ const ContentWrapper = styled(Container)`
 
     @media (max-width: 576px) {
         margin: 0;
-        padding-top: 0;
+        padding-top: 8px;
     }
 `;
 

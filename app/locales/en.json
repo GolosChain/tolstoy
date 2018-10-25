@@ -434,6 +434,7 @@
     "empty_list": "Empty list",
     "enter_username": "Enter your username",
     "error": "Error",
+    "exclude": "Exclude",
     "expand": "Expand",
     "favorites": "Favorites",
     "feed": "Feed",
@@ -590,7 +591,7 @@
       "fifth": "Use only randomly-generated passwords.",
       "fourth": "If you can remember the password, it's not secure.",
       "one": "Do not lose your password.",
-      "second": "Do <strong>not</strong> lose your password.",
+      "second": "Do not lose your password",
       "seventh": "Always back up your password.",
       "sixth": "Do not tell anyone your password.",
       "third": "We cannot recover your password."
@@ -918,7 +919,6 @@
     "post_pinned": "Pinned post",
     "remove_from_favorites": "Remove from favorites",
     "repost": "Repost",
-    "repost_on": "repost post",
     "unpin_post": "Unpin"
   },
   "post_editor": {
@@ -1188,6 +1188,11 @@
     "APP_NAME_password_backup": "%(APP_NAME)s Password Backup",
     "APP_NAME_password_backup_required": "%(APP_NAME)s Password Backup (required)",
     "after_printing_write_down_your_user_name": "After printing, write down your user name"
+  },
+  "tags": {
+    "popularTags": "Popular tags",
+    "selectedTags": "Tags, that you choosed",
+    "show_more_tags": "Show more"
   },
   "tags_page": {
     "payouts": "Payouts",

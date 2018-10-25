@@ -3,17 +3,12 @@ import styled from 'styled-components';
 import is from 'styled-is';
 import throttle from 'lodash/throttle';
 import Icon from 'golos-ui/Icon';
-import Container from '../Container';
 
 const SHIFT_SPEED = 0.7;
 const SHIFT_AMOUNT = 150;
 
 const Root = styled.div`
     position: relative;
-    height: 50px;
-    background: #fff;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
-    overflow: hidden;
 
     ${is('leftshade')`
         &:before {
@@ -42,7 +37,7 @@ const Root = styled.div`
     `};
 `;
 
-const Wrapper = styled(Container)`
+const Wrapper = styled.div`
     position: relative;
     display: block;
     overflow-x: auto;

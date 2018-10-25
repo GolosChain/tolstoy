@@ -14,10 +14,12 @@ export default class ChatListContainer extends Component {
         contactList: PropTypes.instanceOf(Map),
         selectedChat: PropTypes.instanceOf(Map),
         selectChat: PropTypes.func.isRequired,
+        getThread: PropTypes.func.isRequired,
     };
 
     onSelectChat = (contact, type) => {
-        this.props.selectChat(contact, type)
+        this.props.selectChat(contact, type);
+        this.props.getThread(contact);
     };
 
     renderChatList = (list, listType) => {

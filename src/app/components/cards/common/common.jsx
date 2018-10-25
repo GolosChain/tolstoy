@@ -13,7 +13,7 @@ export const PostTitle = styled.div`
     }
 `;
 
-export const PostBody = styled.div`
+export const PostContent = styled.div`
     font-size: 16px;
     color: #959595;
     overflow: hidden;

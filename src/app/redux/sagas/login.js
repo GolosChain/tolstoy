@@ -1,20 +1,40 @@
-import { takeEvery, call } from 'redux-saga/effects';
-import {SHOW_LOGIN, LOGIN_SUCCESS} from 'src/app/redux/constants/login';
+import { takeEvery, take, select, put } from 'redux-saga/effects';
+import { SHOW_LOGIN, LOGIN_SUCCESS } from 'src/app/redux/constants/login';
 import DialogManager from 'app/components/elements/common/DialogManager';
+import { showLogin } from '../actions/login';
 
 export default function* watch() {
     yield takeEvery(SHOW_LOGIN, showLoginWorker);
-    yield takeEvery(LOGIN_SUCCESS, loginSuccessWorker);
 }
 
-let dialog = null;
+function* showLoginWorker({ payload } = {}) {
+    const dialog = DialogManager.showLogin({ onClose: payload.onClose });
 
-function* showLoginWorker() {
-    dialog = yield call([DialogManager, 'showLogin']);
+    const action = yield take(LOGIN_SUCCESS);
+
+    dialog.close(action.payload.username);
 }
 
-function* loginSuccessWorker() {
-    if (dialog) {
-        yield call([dialog, dialog.close]);
+export function* loginIfNeed() {
+    const authorized = yield select(state => state.user.hasIn(['current', 'username']));
+
+    if (authorized) {
+        return true;
     }
+
+    let action;
+
+    const promise = new Promise(resolve => {
+        action = put(
+            showLogin({
+                onClose: username => {
+                    resolve(Boolean(username));
+                },
+            })
+        );
+    });
+
+    yield action;
+
+    return yield promise;
 }

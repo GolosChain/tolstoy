@@ -1,7 +1,7 @@
 import tt from 'counterpart';
 import { detransliterate } from './ParsersAndFormatters';
 
-const TAGS_MAX_LENGTH = 24;
+export const TAGS_MAX_LENGTH = 24;
 export const NSFW_TAG = 'nsfw';
 const NSFW_TAG_NUMERIC = '18+';
 
@@ -129,7 +129,7 @@ export function updateFavoriteTags(tags) {
     }
 }
 
-export function reveseTag(tag) {
+export function reverseTag(tag) {
     if (isCyrillicTag(tag)) {
         return processCyrillicTag(tag)
     } else if (startsWithRU(tag)){

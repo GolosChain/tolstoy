@@ -40,24 +40,36 @@
       "social": "Соціальні"
     }
   },
+  "auth_protection": {
+    "need_auth": "Немає доступу, авторизуйтесь.",
+    "not_allowed": "Немає доступу."
+  },
   "category_selector_jsx": {
     "denied_to_publish_the_posts_with_tag": "Заборонено публікувати пости з тегом 'stihi-io'",
+    "main_tag_hint": "Перший тег - основний. Пост буде опублікований в цій темі.",
     "maximum_tag_length_is_24_characters": "Максимальна довжина категорії 24 знака",
     "must_end_with_a_letter_or_number": "Має закінчуватися буквою або цифрою",
+    "must_set_category": "Необхідно додати хоча б один тег",
     "must_start_with_a_letter": "Має починатися з літери",
     "select_a_tag": "Вибрати тег",
     "tag_your_story": "Додайте теги (до 5 штук), перший тег стане основною категорією.",
+    "title_is_not_valid": "Заголовок неправильно заповнений",
+    "title_is_required": "Не заповнене поле заголовок",
     "use_one_dash": "Використовуйте тільки одне тире",
     "use_only_allowed_characters": "Використовуйте тільки малі літери, цифри і одне тире",
     "use_only_lowercase_letters": "Використовуйте тільки символи нижнього регістра",
     "use_spaces_to_separate_tags": "Використовуйте пробіл, щоб розділити теги"
   },
   "chain_errors": {
+    "account_does_not_have_sufficient_power_for_withdraw": "Кількість Сили Голосу недостатньо для зниження",
     "already_voted": "Ви вже голосували за цей пост",
     "exceeded_maximum_allowed_bandwidth": "Недостатньо пропускної спроможності аккаунта. Поповніть Силу Голоса або дочекайтеся відновлення",
+    "missing_active_authority": "Введено невірний активний ключ",
     "only_comment_once_every": "Коментувати можна не частіше, ніж раз в 20 секунд",
     "only_post_once_every": "Публікувати пости можна не частіше, ніж раз в 5 хвилин",
-    "only_vote_once_every": "Голосувати можна не частіше, ніж раз в 3 секунди"
+    "only_vote_once_every": "Голосувати можна не частіше, ніж раз в 3 секунди",
+    "tx_missing_owner_auth": "Введено невірний головний ключ",
+    "voting_weight_is_too_small": "Вашої потужності голосування недостатньо. Будь ласка, дочекайтеся її відновлення"
   },
   "chainvalidation_js": {
     "account_name_should": "Ім'я акаунта має бути ",
@@ -69,6 +81,9 @@
     "have_only_one_dash_in_a_row": "мати тільки одне тире.",
     "not_be_empty": "не може бути порожнім.",
     "start_with_a_letter": "починатися з літери."
+  },
+  "comment_editor": {
+    "cancel_comment": "Текст буде втрачено. Ви впевнені?"
   },
   "comment_jsx": {
     "collapse_or_expand": "Згорнути/Розгорнути",
@@ -148,6 +163,21 @@
     "you_can_change_your_number": "You can change your number at any time if we didn't receive your sms with verification code. ",
     "you_need_to": "Вам потрібно "
   },
+  "dialog": {
+    "alert": "Попередження",
+    "confirm": "Підтвердження",
+    "info": "Iнформація",
+    "prompt": "Введіть дані"
+  },
+  "dialogs_promote": {
+    "active_key": "Активний ключ",
+    "amount": "Кількість",
+    "description": "Використовуйте Ваші GBG, щоб прорекламувати цю посаду в секції продукту, що просувається контенту.",
+    "fill_form_error": "Заповніть всі поля коректно",
+    "promote_button": "Просунути",
+    "success": "Просування пройшло успішно",
+    "title": "Просунути пост"
+  },
   "dialogs_transfer": {
     "amount": "Скільки",
     "amount_placeholder": "Доступно %(amount)s",
@@ -219,6 +249,25 @@
       "withdraw": "Вивести"
     }
   },
+  "editor_toolbar": {
+    "add_image": "Додати зображення",
+    "add_image_from_computer": "Додати зображення з комп'ютера",
+    "add_image_via_link": "Додати зображення посиланням",
+    "add_link": "Додати посилання",
+    "add_video": "Додати мультимедіа (youtube/vimeo/coub...)",
+    "bold": "Виділення жирним",
+    "enter_link": "Вставте посилання",
+    "enter_the_link": "Введіть посилання",
+    "enter_video_link": "Вставте посилання на YouTube/Vimeo",
+    "header": "Зробити заголовок",
+    "italic": "Відокремити курсивом",
+    "link_text": "Текст відображення",
+    "link_value": "Посилання",
+    "ordered_list": "Упорядкований список",
+    "quote": "Цитата",
+    "strikethrough": "Підкреслений текст",
+    "unordered_list": "Список"
+  },
   "enter_confirm_email_jsx": {
     "email_address": "Адреса електронної пошти",
     "email_address_cannot_be_changed_at_this_moment_sorry_for_inconvenience": "Адреса електронної пошти на данний момент не може бути змінена, вибачте за незручності",
@@ -264,6 +313,7 @@
     "24_hour": "24 години",
     "30_day": "30 днів",
     "APP_NAME": "Голос",
+    "APP_NAME_account": "%(APP_NAME)s аккаунт",
     "APP_NAME_support": "%(APP_NAME)s підтримка",
     "about_project": "Про проект",
     "account_creation_succes": "Ваш акаунт успішно створений!",
@@ -278,6 +328,7 @@
     "active": "Активний ключ",
     "activity": "Активність",
     "add": "Додати",
+    "add_to_favorites": "В обране",
     "advanced": "Розширені опції",
     "age": "вік",
     "amount": "Кількість",
@@ -285,6 +336,7 @@
     "are_you_sure": "Ви впевнені?",
     "ask": "Продаж",
     "author_rewards": "Авторські винагороди",
+    "authors_posts": "пости автора",
     "authors_receive_rewards_for_upvotes": "",
     "auto": "автоматично",
     "auto_login_question_mark": "Входити автоматично?",
@@ -341,6 +393,7 @@
     "dismiss": "Приховати",
     "do_you_need_to": "Вам потрібно",
     "documentation": "Документація",
+    "donate": "Віддячити",
     "edit": "Редагувати",
     "edit_comment": "",
     "email": "Електронна пошта",
@@ -447,6 +500,7 @@
     "promoted": "Промо",
     "publish": "",
     "re": "RE",
+    "re2": "Re",
     "re_enter_generate_password": "Повторно введіть пароль",
     "reblog": "Поділитися",
     "receive": "Отримано",
@@ -455,6 +509,7 @@
     "recover_your_account": "відновити ваш аккаунт",
     "remember_voting_and_posting_key": "Запам'ятати голос і постинг ключ",
     "remove": "Видалити",
+    "remove_from_favorites": "Видалити з обраного",
     "remove_vote": "Прибрати голос",
     "replied_to": "відповів",
     "replies": "Відповіді",
@@ -496,13 +551,13 @@
     "team": "Команда",
     "terms_and_conditions": "Умови та Угоди",
     "the_rules_of_APP_NAME": {
-      "fifth": "П'яте правило: використовуйте тільки згенеровані випадковим чином паролі.",
-      "fourth": "Четверте правило: якщо ви можете запам'ятати свій пароль, значить він не надійний.",
-      "one": "Перше правило мережі %(APP_NAME)s: не втрачайте свій пароль.",
-      "second": "Друге правило %(APP_NAME)s: Не втрачайте свій пароль.",
-      "seventh": "Сьоме правило: Завжди надійно зберігайте свій пароль.",
-      "sixth": "Шосте правило: Нікому не кажіть свій пароль.",
-      "third": "Третє правило %(APP_NAME)s: ми не можемо відновити Ваш пароль."
+      "fifth": "Використовуйте тільки згенеровані випадковим чином паролі.",
+      "fourth": "Якщо ви можете запам'ятати свій пароль, значить він не надійний.",
+      "one": "Не втрачайте свій пароль.",
+      "second": "Не втрачайте свій пароль.",
+      "seventh": "Завжди надійно зберігайте свій пароль.",
+      "sixth": "Нікому не кажіть свій пароль.",
+      "third": "Ми не можемо відновити ваш пароль."
     },
     "this_is_wrong_password": "Це неправильний пароль",
     "this_will_update_usernames_authtype_key": "Це оновить %(username)s %(authType)s ключ",
@@ -512,6 +567,7 @@
     "transaction_history": "Історія транзакцій",
     "transfer": "Передати ",
     "trending_topics": "Популярні",
+    "turn_back": "Повернутися назад",
     "type": "Тип",
     "unable_to_log_you_in": "У нас не вийде авторизувати Вас в цьому браузері",
     "understand_that_APP_NAME_cannot_recover_password": "Я розумію, що %(APP_NAME)s не зможе відновити втрачений пароль",
@@ -520,6 +576,7 @@
     "unmute": "Розблокувати",
     "update_password": "Оновити пароль",
     "update_your_password": "Оновіть свій пароль",
+    "upstairs": "Нагору",
     "upvote": "Голосувати за",
     "upvote_post": "Проголосувати за пост",
     "username": "Ім'я користувача",
@@ -776,6 +833,7 @@
       }
     }
   },
+  "on_golos_from": "На Golos з",
   "payout_info": {
     "author": "Авторські виплати",
     "beneficiary": "Бенефіціарскі виплати",
@@ -808,7 +866,6 @@
     "post_pinned": "Пост закріплений",
     "remove_from_favorites": "Видалити з обраного",
     "repost": "Поділитися",
-    "repost_on": "поділився (лась) постом",
     "unpin_post": "Відкріпити"
   },
   "post_editor": {
@@ -910,6 +967,9 @@
     "thanks_for_submitting_request_for_account_recovery_2": "Ми відповімо Вам якнайшвидше, проте, будь ласка, очікуйте що може бути деяка затримка через великий обсяг листів.",
     "thanks_for_submitting_request_for_account_recovery_3": "Будь ласка, будьте готові підтвердити свою особистість.",
     "unable_to_recover_account_not_change_ownership_recently": "Ми не можемо відновити цей акаунт, вона не змінила власника останнім часом."
+  },
+  "reply": {
+    "comments_count": "Кількість коментарів"
   },
   "reply_editor": {
     "are_you_sure_you_want_to_clear_this_form": "Ви впевнені, що хочете очистити цю форму?",
@@ -1033,6 +1093,11 @@
     "update": "Оновити",
     "website_url_is_too_long": "URL-адреса веб-сайту занадто довга"
   },
+  "start_mobile_app": {
+    "close_forever": "Закрити назавжди",
+    "close_once": "Закрити один раз",
+    "open_in_app": "Відкрити в додатку"
+  },
   "submit_a_story": {
     "all_accounts_refunded": "Всі втрати по відновлюваним акаунтам були повністю компенсовані",
     "editor": "Редактор",
@@ -1083,6 +1148,7 @@
     "TOKEN_WORTH": "~1 мг золота",
     "VESTING_TOKEN": "Сила Голосу",
     "VESTING_TOKEN2": "Силу Голосу",
+    "VESTING_TOKEN3": "СГ",
     "VESTING_TOKENS": "Сили Голосу"
   },
   "transfer_jsx": {
@@ -1157,6 +1223,7 @@
       "zero": "0 постів"
     },
     "recent_replies_to_users_posts": "Недавні відповіді до постів користувача %(name)s",
+    "select_image": "Вибрати зображення",
     "this_is_users_reputations_score_it_is_based_on_history_of_votes": "Це кількість очок репутації користувача %(name)s.\n\nКількість очок підраховується на основі історії отриманих голосів і використовується, щоб приховати неякісне вміст.",
     "unknown_account": "Невідомий аккаунт",
     "user_hasnt_followed_anything_yet": "Схоже, що %(name)s ще ні на кого не підписаний! Якщо, %(name)s недавно підписався на нових користувачів, їх персоналізований канал буде заповнюватися відразу після появи нового контенту.",

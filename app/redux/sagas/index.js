@@ -14,6 +14,7 @@ import pinnedPostsWatch from 'src/app/redux/sagas/pinnedPosts';
 import ratesWatch from 'src/app/redux/sagas/rates';
 import followersWatch from 'src/app/redux/sagas/followers';
 import loginWatch from 'src/app/redux/sagas/login';
+import dialogsWatch from 'src/app/redux/sagas/dialogs';
 
 import messenger from 'src/messenger/redux/sagas';
 
@@ -32,6 +33,7 @@ export default function* rootSaga() {
     yield fork(ratesWatch);
     yield fork(followersWatch);
     yield fork(loginWatch);
+    yield fork(dialogsWatch);
 
     yield fork(messenger);
 }

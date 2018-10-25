@@ -7,10 +7,9 @@ import tt from 'counterpart';
 import { Map } from 'immutable';
 
 import { detransliterate } from 'app/utils/ParsersAndFormatters';
-import { openRepostDialog } from 'src/app/components/dialogs/actions';
 import Icon from 'golos-ui/Icon';
 import { confirmVote } from 'src/app/helpers/votes';
-import { PostTitle, PostBody } from '../common';
+import { PostTitle, PostContent } from '../common';
 import VotePanel from '../../common/VotePanel';
 import ReplyBlock from '../../common/ReplyBlock';
 import CardAuthor from '../CardAuthor';
@@ -106,9 +105,11 @@ const Body = styled.div`
     padding: 0 18px 12px;
 `;
 
-const RepostBody = styled(PostBody)`
-    margin-bottom: 8px;
+const RepostBody = styled(Body)`
+    border-bottom: 1px solid #e1e1e1;
 `;
+
+const RepostBlock = styled.div``;
 
 const Footer = styled.div`
     position: relative;
@@ -226,11 +227,12 @@ export default class PostCard extends PureComponent {
     }
 
     render() {
-        const { className, grid } = this.props;
+        const { className, isRepost, grid } = this.props;
 
         return (
             <Root className={className} grid={grid}>
                 {this.renderHeader()}
+                {isRepost ? this.renderRepostPart() : null}
                 {this.renderBody()}
                 {this.renderFooter()}
             </Root>
@@ -257,12 +259,7 @@ export default class PostCard extends PureComponent {
         return (
             <Header>
                 <HeaderLine>
-                    <CardAuthor
-                        author={author}
-                        originalAuthor={originalAuthor}
-                        created={created}
-                        isRepost={isRepost}
-                    />
+                    <CardAuthor author={author} created={created} />
                     <Filler />
                     {grid ? null : <Category>{category}</Category>}
                     <Toolbar>
@@ -379,6 +376,30 @@ export default class PostCard extends PureComponent {
         );
     }
 
+    renderRepostPart() {
+        const { repostHtml, data } = this.props;
+
+        return (
+            <RepostBlock>
+                {repostHtml ? (
+                    <RepostBody>
+                        <PostContent dangerouslySetInnerHTML={repostHtml} />
+                    </RepostBody>
+                ) : null}
+                <Header>
+                    <HeaderLine>
+                        <CardAuthor
+                            author={data.get('author')}
+                            created={data.get('created')}
+                            isRepost
+                        />
+                        <Filler />
+                    </HeaderLine>
+                </Header>
+            </RepostBlock>
+        );
+    }
+
     renderBody() {
         const { grid, isRepost, sanitizedData, repostHtml } = this.props;
         const withImage = sanitizedData.image_link;
@@ -389,11 +410,8 @@ export default class PostCard extends PureComponent {
                     <PostImage grid={grid} src={this._getImageSrc(sanitizedData.image_link)} />
                 ) : null}
                 <Body>
-                    {isRepost && repostHtml ? (
-                        <RepostBody dangerouslySetInnerHTML={repostHtml} />
-                    ) : null}
                     <PostTitle>{sanitizedData.title}</PostTitle>
-                    <PostBody dangerouslySetInnerHTML={sanitizedData.html} />
+                    <PostContent dangerouslySetInnerHTML={sanitizedData.html} />
                 </Body>
             </BodyLink>
         );
@@ -463,7 +481,7 @@ export default class PostCard extends PureComponent {
     _onRepostClick = () => {
         const { postLink } = this.props;
 
-        openRepostDialog(postLink);
+        this.props.openRepostDialog(postLink);
     };
 
     _onPinClick = () => {
