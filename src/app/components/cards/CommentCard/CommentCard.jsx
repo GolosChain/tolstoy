@@ -135,6 +135,16 @@ const EmptyCloseOpenButton = styled.div`
     height: 30px;
 `;
 
+const HighlightedCover = styled.div`
+    position: absolute;
+    
+    width: 100%;
+    height: 100%;
+    
+    background-color: #e7eef9;
+    border-radius: 8px;
+`;
+
 export class CommentCard extends PureComponent {
     static propTypes = {
         permLink: PropTypes.string,
@@ -164,13 +174,19 @@ export class CommentCard extends PureComponent {
         showReply: false,
         edit: false,
         collapsed: false,
+        highlighted: false,
     };
 
     commentRef = createRef();
     replyRef = createRef();
 
     componentWillReceiveProps(newProps) {
-        if (this.props.comment !== newProps.comment && this.props.dataLoaded) {
+        const { anchorID, comment, dataLoaded } = this.props;
+        const { highlighted } = this.state;
+        if (window.location.hash.replace('#', '') === anchorID && !highlighted) {
+            this.setState({ highlighted: true });
+        }
+        if (comment !== newProps.comment && dataLoaded) {
             this.setState({
                 myVote: this.getMyVote(newProps),
             });
@@ -355,7 +371,7 @@ export class CommentCard extends PureComponent {
     };
 
     render() {
-        const { showReply, collapsed, edit, myVote } = this.state;
+        const { showReply, collapsed, edit, myVote, highlighted } = this.state;
 
         const {
             dataLoaded,
@@ -379,6 +395,7 @@ export class CommentCard extends PureComponent {
                 {isPostPage ? this.renderHeaderForPost() : this.renderHeaderForProfile()}
                 {collapsed ? null : (
                     <Fragment>
+                        {highlighted && <HighlightedCover />}
                         {!isPostPage && this.renderTitle()}
                         {this.renderBodyText()}
                         {showReply && this.renderReplyEditor()}

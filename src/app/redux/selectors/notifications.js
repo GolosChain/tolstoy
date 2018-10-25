@@ -35,6 +35,7 @@ export const hydrateNotification = (
             }
 
             const content = contents.getIn([`${author}/${notify.get('permlink')}`]);
+
             if (content) {
                 // if it isn't post
                 notify.setIn(
