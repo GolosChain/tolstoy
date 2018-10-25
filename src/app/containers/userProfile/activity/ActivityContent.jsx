@@ -8,8 +8,9 @@ import throttle from 'lodash/throttle';
 
 import { NOTIFICATIONS_FILTER_TYPES, NOTIFICATIONS_PER_PAGE } from 'src/app/redux/constants/common';
 
-import Card, { CardContent } from 'golos-ui/Card';
+import Card from 'golos-ui/Card';
 import { TabContainer, Tabs } from 'golos-ui/Tabs';
+import Flex from 'golos-ui/Flex';
 
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import ActivityList from 'src/app/components/common/ActivityList';
@@ -20,6 +21,9 @@ const WrapperLoader = styled.div`
     height: 80px;
     padding-top: 20px;
 `;
+
+const CardContent = styled(Flex)``;
+
 export default class ActivityContent extends PureComponent {
     static propTypes = {
         isFetching: PropTypes.bool,

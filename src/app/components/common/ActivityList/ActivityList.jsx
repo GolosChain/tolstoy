@@ -10,7 +10,6 @@ import ActivityItem from './ActivityItem';
 const DateWrapper = styled.div`
     display: flex;
     justify-content: center;
-    padding-bottom: 10px;
 `;
 
 const Date = styled.div`

@@ -18,9 +18,11 @@ const Wrapper = styled.div`
     display: flex;
     flex: 1;
     align-items: center;
-
-    :not(:last-child) {
-        margin-bottom: 15px;
+    
+    padding: 17px;
+    
+    &:hover {
+        background-color: #eff1f4;
     }
 `;
 
@@ -59,7 +61,7 @@ const ActivityText = styled.div`
         color: #757575;
     `};
     
-    & > a {
+    & a {
         color: #959595;
         font-weight: 500;
         text-decoration: underline;
@@ -106,7 +108,7 @@ const icons = {
         size: 14,
     },
     repost: {
-        name: 'repost-avatar',
+        name: 'repost',
         size: 14,
     },
     reward: {
