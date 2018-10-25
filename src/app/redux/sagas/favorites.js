@@ -124,7 +124,7 @@ function* toggleFavorite({ payload }) {
     const logged = yield loginIfNeed();
 
     if (logged) {
-        yield put(toggleFavoriteRequestAction(payload.link, payload.isAdd));
+        yield put(toggleFavoriteRequestAction(payload));
     }
 }
 
