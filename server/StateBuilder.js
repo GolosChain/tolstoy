@@ -2,7 +2,7 @@ import { processBlog } from 'shared/state';
 import resolveRoute from 'app/ResolveRoute';
 import { reverseTag, prepareTrendingTags } from 'app/utils/tags';
 import { IGNORE_TAGS, PUBLIC_API } from 'app/client_config';
-import { pathOr } from 'ramda';
+import { pathOr, filter } from 'ramda';
 
 const DEFAULT_VOTE_LIMIT = 10000;
 
@@ -212,7 +212,10 @@ async function getStateForApi(state, params, { routeParts, api, settings }) {
             args.select_tags = [tag];
         }
     } else {
-        const select_tags = pathOr(null, ['basic', 'selectedSelectTags'], settings);
+        const selectedTags = pathOr({}, ['basic', 'selectedTags'], settings);
+        const select_tags = Object.keys(
+            filter(type => type === 1, selectedTags)
+        );
         if (select_tags && select_tags.length) {
             let selectTags = [];
 
@@ -227,7 +230,9 @@ async function getStateForApi(state, params, { routeParts, api, settings }) {
             args.select_tags = selectTags;
         }
 
-        const filter_tags = pathOr(null, ['basic', 'selectedFilterTags'], settings);
+        const filter_tags = Object.keys(
+            filter(type => type === 2, selectedTags)
+        );
         if (filter_tags && filter_tags.length) {
             let filterTags = [];
 
@@ -261,11 +266,20 @@ async function getStateForApi(state, params, { routeParts, api, settings }) {
     if (typeof tag === 'string' && tag) {
         discussionsKey = tag;
     } else {
-        const select_tags = pathOr([], ['basic', 'selectedSelectTags'], settings);
-        discussionsKey = select_tags
-            .sort()
-            .filter(t => !t.startsWith('ru--'))
-            .join('/');
+        const selectedTags = pathOr({}, ['basic', 'selectedTags'], settings);
+        const selectedSelectTags = Object.keys(filter(type => type === 1, selectedTags)).filter(tag => !tag.startsWith('ru--')).sort().join('/');
+        const selectedFilterTags = Object.keys(filter(type => type === 2, selectedTags)).filter(tag => !tag.startsWith('ru--')).sort().join('/');
+
+        const arrSelectedTags = [];
+        if (selectedSelectTags) {
+            arrSelectedTags.push(selectedSelectTags);
+        }
+        
+        if (selectedFilterTags) {
+            arrSelectedTags.push(selectedFilterTags);
+        }
+
+        discussionsKey = arrSelectedTags.join('|');
     }
 
     state.discussion_idx[discussionsKey] = discussion_idxes;

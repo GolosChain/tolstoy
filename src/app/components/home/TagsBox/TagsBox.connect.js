@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { Map } from 'immutable';
 
 import constants from 'app/redux/constants';
 import {
@@ -23,8 +24,17 @@ export default connect(
             }
 
             return {
-                selectedSelectTags: settings.getIn(['basic', 'selectedSelectTags']),
-                selectedFilterTags: settings.getIn(['basic', 'selectedFilterTags']),
+                selectedTags: settings.getIn(['basic', 'selectedTags'], Map()),
+                selectedFilterTags: settings
+                    .getIn(['basic', 'selectedTags'], Map())
+                    .filter(tag => tag === 2)
+                    .keySeq()
+                    .toArray(),
+                selectedSelectTags: settings
+                    .getIn(['basic', 'selectedTags'], Map())
+                    .filter(tag => tag === 1)
+                    .keySeq()
+                    .toArray(),
                 order,
             };
         }

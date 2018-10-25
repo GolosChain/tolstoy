@@ -1,11 +1,13 @@
 import { call, put, select, fork, cancelled, takeLatest, takeEvery } from 'redux-saga/effects';
+import { api } from 'golos-js';
+import { Map } from 'immutable';
+
 import { loadFollows, fetchFollowCount } from 'app/redux/sagas/follow';
 import { getContent } from 'app/redux/sagas/shared';
 import GlobalReducer from './../GlobalReducer';
 import constants from './../constants';
 import { reverseTag } from 'app/utils/tags';
 import { IGNORE_TAGS, PUBLIC_API, ACCOUNT_OPERATIONS } from 'app/client_config';
-import { api } from 'golos-js';
 import { processBlog } from 'shared/state';
 import { RATES_GET_ACTUAL } from 'src/app/redux/constants/rates';
 
@@ -316,7 +318,9 @@ function* fetchData(action) {
             args[0].select_tags = [category];
         }
     } else {
-        const select_tags = yield select(state => state.data.settings.getIn(['basic', 'selectedSelectTags']));
+        const arrSelectedTags = []
+
+        const select_tags = yield select(state => state.data.settings.getIn(['basic', 'selectedTags'], Map()).filter(type => type === 1).keySeq());
         if (select_tags && select_tags.size) {
             let selectTags = [];
 
@@ -329,10 +333,11 @@ function* fetchData(action) {
                 }
             })
             args[0].select_tags = selectTags;
-            category = select_tags.sort().join('/');
+
+            arrSelectedTags.push(select_tags.sort().join('/'));
         }
 
-        const filter_tags = yield select(state => state.data.settings.getIn(['basic', 'selectedFilterTags']));
+        const filter_tags = yield select(state => state.data.settings.getIn(['basic', 'selectedTags'], Map()).filter(type => type === 2).keySeq());
         if (filter_tags && filter_tags.size) {
             let filterTags = [];
 
@@ -345,8 +350,14 @@ function* fetchData(action) {
                 }
             })
             args[0].filter_tags = filterTags;
+
+            arrSelectedTags.push(filter_tags.sort().join('/'));
         } else {
             args[0].filter_tags = IGNORE_TAGS;
+        }
+
+        if (arrSelectedTags.length) {
+            category = arrSelectedTags.join('|');
         }
     }
 

@@ -6,7 +6,7 @@ import { Link } from 'react-router';
 export const Tag = styled.div`
     position: relative;
     height: 28px;
-    line-height: 28px;
+    line-height: 26px;
     padding: 0 15px;
     border-radius: 4px;
     font-size: 12px;

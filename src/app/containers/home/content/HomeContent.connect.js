@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { Map } from 'immutable';
 
 import constants from 'app/redux/constants';
 import {
@@ -52,13 +53,24 @@ export default connect(
                 posts = accounts.getIn([pageAccountName, 'feed']);
                 order = 'by_feed';
             } else {
-                let select_tags = settings.getIn(['basic', 'selectedSelectTags']);
-                if (select_tags && select_tags.size) {
-                    select_tags = select_tags.sort().join('/');
-                } else {
-                    select_tags = '';
+                const selectedTags = settings.getIn(['basic', 'selectedTags'], Map());
+                const selectedSelectTags = selectedTags
+                    .filter(tag => tag === 1)
+                    .keySeq()
+                    .sort()
+                    .join('/');
+                const selectedFilterTags = selectedTags
+                    .filter(tag => tag === 2)
+                    .keySeq()
+                    .sort()
+                    .join('/');
+
+                let joinedTags = selectedSelectTags;
+                if (selectedFilterTags) {
+                    joinedTags = joinedTags.concat('|', selectedFilterTags);
                 }
-                posts = discussions.getIn([category || select_tags, order]);
+
+                posts = discussions.getIn([category || joinedTags, order]);
             }
 
             const status = globalStatus && globalStatus.getIn([category, order], null);

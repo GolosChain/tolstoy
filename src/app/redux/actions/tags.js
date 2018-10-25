@@ -1,39 +1,30 @@
+import { Map } from 'immutable';
 import { dataSelector } from 'src/app/redux/selectors/common';
 import { setSettingsOptions } from './settings';
+
+const emptyMap = Map();
 
 export function saveTag(tag, action) {
     return (dispatch, getState) => {
         const settings = dataSelector('settings')(getState());
 
-        const selectedFilterTags = settings.getIn(['basic', 'selectedFilterTags']);
-        const selectedSelectTags = settings.getIn(['basic', 'selectedSelectTags']);
-
-        const filterTagIndex = selectedFilterTags.indexOf(tag);
-        const selectTagIndex = selectedSelectTags.indexOf(tag);
+        const selectedTags = settings
+            .getIn(['basic', 'selectedTags'], emptyMap);
 
         const basic = {};
+        const value = selectedTags.get(tag);
 
         if (action === 'filter') {
-            if (filterTagIndex !== -1) {
-                basic.selectedFilterTags = selectedFilterTags.remove(filterTagIndex);
+            if (!value || value === 1) {
+                basic.selectedTags = selectedTags.set(tag, 2);
             } else {
-                basic.selectedFilterTags = selectedFilterTags.push(tag);
-
-                // remove from select tags if exists
-                if (selectTagIndex !== -1) {
-                    basic.selectedSelectTags = selectedSelectTags.remove(selectTagIndex);
-                }
+                basic.selectedTags = selectedTags.delete(tag);
             }
         } else if (action === 'select') {
-            if (selectTagIndex !== -1) {
-                basic.selectedSelectTags = selectedSelectTags.remove(selectTagIndex);
+            if (!value || value === 2) {
+                basic.selectedTags = selectedTags.set(tag, 1);
             } else {
-                basic.selectedSelectTags = selectedSelectTags.push(tag);
-
-                // remove from filter tags if exists
-                if (filterTagIndex !== -1) {
-                    basic.selectedFilterTags = selectedFilterTags.remove(filterTagIndex);
-                }
+                basic.selectedTags = selectedTags.delete(tag);
             }
         }
 

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { List } from 'immutable';
+import { List, Map } from 'immutable';
 
 import constants from 'app/redux/constants';
 import { IGNORE_TAGS } from 'app/client_config';
@@ -49,9 +49,8 @@ export default connect(
             return {
                 order,
                 tags,
+                selectedTags: settings.getIn(['basic', 'selectedTags'], Map()),
                 collapsed,
-                selectedFilterTags: settings.getIn(['basic', 'selectedFilterTags']),
-                selectedSelectTags: settings.getIn(['basic', 'selectedSelectTags']),
                 order,
             };
         }

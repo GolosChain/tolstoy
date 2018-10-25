@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { List } from 'immutable';
+import { Map } from 'immutable';
 
 import SlideContainer from 'src/app/components/common/SlideContainer';
 import TagSelect from 'src/app/components/common/TagSelect';
@@ -40,35 +40,23 @@ const Tags = styled.div`
 
 export default class TagsBox extends Component {
     static propTypes = {
-        selectedSelectTags: PropTypes.instanceOf(List),
-        selectedFilterTags: PropTypes.instanceOf(List),
+        selectedTags: PropTypes.instanceOf(Map),
     };
 
-    onTagClick = (tag, action) => {
+    onTagClick = (tag) => {
         const {
-            selectedFilterTags,
-            selectedSelectTags,
+            selectedTags,
             setSettingsOptions,
             loadMore,
             order,
         } = this.props;
 
-        const filterTagIndex = selectedFilterTags.indexOf(tag);
-        const selectTagIndex = selectedSelectTags.indexOf(tag);
 
-        const basic = {};
-
-        if (action === 'filter') {
-            if (filterTagIndex !== -1) {
-                basic.selectedFilterTags = selectedFilterTags.remove(filterTagIndex);
+        setSettingsOptions({ 
+            basic: {
+                selectedTags: selectedTags.delete(tag)
             }
-        } else if (action === 'select') {
-            if (selectTagIndex !== -1) {
-                basic.selectedSelectTags = selectedSelectTags.remove(selectTagIndex);
-            }
-        }
-
-        setSettingsOptions({ basic });
+        });
         loadMore({ order });
     };
 

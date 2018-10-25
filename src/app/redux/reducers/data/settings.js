@@ -17,8 +17,7 @@ const initialState = fromJS({
         lang: DEFAULT_LANGUAGE,
         currency: DEFAULT_CURRENCY,
         award: 0,
-        selectedFilterTags: [],
-        selectedSelectTags: [],
+        selectedTags: {},
     },
 });
 

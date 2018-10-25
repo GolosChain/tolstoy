@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 // import { Link } from 'react-router';
-import { List } from 'immutable';
+import { List, Map } from 'immutable';
 import styled from 'styled-components';
 import is from 'styled-is';
 
@@ -110,14 +110,11 @@ const CollapseIcon = styled(Icon).attrs({
 //     border: solid 1px rgba(117, 117, 117, 0.3);
 // `;
 
-const emptyList = List();
-
 export default class TagsCard extends Component {
     static propTypes = {
         order: PropTypes.string,
         tags: PropTypes.instanceOf(List),
-        selectedFilterTags: PropTypes.instanceOf(List),
-        selectedSelectTags: PropTypes.instanceOf(List),
+        selectedTags: PropTypes.instanceOf(Map),
         collapsed: PropTypes.bool,
         changeHomeTagsCardCollapse: PropTypes.func,
         saveTag: PropTypes.func,
@@ -126,8 +123,6 @@ export default class TagsCard extends Component {
 
     static defaultProps = {
         tags: [],
-        selectedFilterTags: emptyList,
-        selectedSelectTags: emptyList,
     };
 
     onToggleClick = () => {
@@ -142,10 +137,10 @@ export default class TagsCard extends Component {
     };
 
     renderTag = (tag, key) => {
-        const { selectedSelectTags, selectedFilterTags } = this.props;
+        const { selectedTags } = this.props
 
-        const isSelected = selectedSelectTags.indexOf(tag) !== -1;
-        const isFiltered = selectedFilterTags.indexOf(tag) !== -1;
+        const isSelected = selectedTags.get(tag) === 1;
+        const isFiltered = selectedTags.get(tag) === 2;
 
         return (
             <TagSelectStyled
