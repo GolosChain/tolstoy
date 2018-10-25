@@ -51,11 +51,6 @@ const PostDate = styled.div`
     cursor: default;
 `;
 
-const RepostText = styled.span`
-    font-size: 14px;
-    color: #757575;
-`;
-
 const RepostIcon = styled(Icon)`
     position: absolute;
     bottom: 0;
@@ -64,7 +59,7 @@ const RepostIcon = styled(Icon)`
     height: 20px;
 `;
 
-const CardAuthor = ({ author, originalAuthor, created, isRepost, className, noLinks }) => {
+const CardAuthor = ({ author, isRepost, created, className, noLinks }) => {
     let AvatarComp = AvatarLink;
     let AuthorNameComp = AuthorNameLink;
 
@@ -82,15 +77,6 @@ const CardAuthor = ({ author, originalAuthor, created, isRepost, className, noLi
             <PostDesc>
                 <AuthorLine>
                     <AuthorNameComp to={`/@${author}`}>{author}</AuthorNameComp>
-                    {isRepost ? (
-                        <Fragment>
-                            {' '}
-                            <RepostText>{tt('post_card.repost_on')}</RepostText>{' '}
-                            <AuthorNameComp to={`/@${originalAuthor}`}>
-                                {originalAuthor}
-                            </AuthorNameComp>
-                        </Fragment>
-                    ) : null}
                 </AuthorLine>
                 <PostDate>
                     <TimeAgoWrapper date={created} />

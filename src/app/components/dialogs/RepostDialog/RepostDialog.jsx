@@ -5,7 +5,7 @@ import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
 import DialogManager from 'app/components/elements/common/DialogManager';
-import { PostTitle, PostBody } from 'src/app/components/cards/common';
+import { PostTitle, PostContent } from 'src/app/components/cards/common';
 import CardAuthor from 'src/app/components/cards/CardAuthor';
 import DialogButton from 'src/app/components/common/DialogButton';
 
@@ -192,7 +192,7 @@ export default class RepostDialog extends Component {
                         noLinks
                     />
                     <PostTitle>{sanitizedPost.title}</PostTitle>
-                    <PostBody dangerouslySetInnerHTML={sanitizedPost.html} />
+                    <PostContent dangerouslySetInnerHTML={sanitizedPost.html} />
                 </PostPreview>
                 <Footer>
                     <DialogButton text={tt('g.cancel')} onClick={this.onCancelClick} />
