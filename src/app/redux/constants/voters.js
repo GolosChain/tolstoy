@@ -1,4 +1,4 @@
-export const SHOW_VOTED_USERS = 'users/SHOW_VOTED';
-export const GET_VOTERS_USERS_REQUEST = 'users/GET_VOTERS_REQUEST';
-export const GET_VOTERS_USERS_SUCCESS = 'users/GET_VOTERS_SUCCESS';
-export const GET_VOTERS_USERS_ERROR = 'users/GET_VOTERS_ERROR';
+export const SHOW_VOTED_USERS = 'dialog/SHOW_VOTED';
+export const GET_VOTERS_USERS_REQUEST = 'global/GET_VOTERS_REQUEST';
+export const GET_VOTERS_USERS_SUCCESS = 'global/GET_VOTERS_USERS_SUCCESS';
+export const GET_VOTERS_USERS_ERROR = 'global/GET_VOTERS_ERROR';

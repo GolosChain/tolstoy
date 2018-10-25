@@ -5,10 +5,10 @@ import {
     SHOW_VOTED_USERS,
     GET_VOTERS_USERS_REQUEST,
     GET_VOTERS_USERS_ERROR,
-    GET_VOTERS_USERS_SUCCESS
 } from 'src/app/redux/constants/voters';
 import DialogManager from 'app/components/elements/common/DialogManager';
 import VotersDialog from 'src/app/components/userProfile/dialogs/VotersDialog/VotersDialog';
+import GlobalReducer from 'app/redux/GlobalReducer';
 
 export default function* showVotedUserWatcher() {
     yield takeLatest(SHOW_VOTED_USERS, showVotedUserWorker);
@@ -36,13 +36,7 @@ function* getVotersWorker({payload: {postLink, limit}}) {
             limit
         );
 
-        yield put({
-            type: GET_VOTERS_USERS_SUCCESS,
-            payload: {
-                voters,
-                postLink
-            }
-        })
+        yield put(GlobalReducer.actions.getVotersUsersSuccess({voters, postLink}))
     } catch (error) {
         yield put({
             type: GET_VOTERS_USERS_ERROR,
