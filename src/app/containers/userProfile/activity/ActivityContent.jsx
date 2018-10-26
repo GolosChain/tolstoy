@@ -51,7 +51,7 @@ export default class ActivityContent extends PureComponent {
 
     componentDidUpdate(prevProps) {
         if (this.props.currentTabId !== prevProps.currentTabId) {
-            this.loadMore();
+            this.loadMore(true);
         }
     }
 
@@ -70,13 +70,16 @@ export default class ActivityContent extends PureComponent {
         }
     }, 1000);
 
-    loadMore = () => {
+    loadMore = (force = false) => {
         const { notifications } = this.props;
 
-        const lastNotification = notifications && notifications.get(-1);
-        const fromId = (lastNotification && lastNotification.get('_id')) || null;
+        let fromId = null;
+        if (!force) {
+            const lastNotification = notifications && notifications.get(-1);
+            fromId = (lastNotification && lastNotification.get('_id')) || null;
+        }
 
-        if (!this.lastNotificationId || this.lastNotificationId !== fromId) {
+        if (force || !this.lastNotificationId || this.lastNotificationId !== fromId) {
             this.props.getNotificationsHistory({
                 types: NOTIFICATIONS_FILTER_TYPES[this.props.currentTabId],
                 fromId,
