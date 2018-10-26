@@ -140,7 +140,6 @@ export function reverseTag(tag) {
 export function prepareTrendingTags(tags) {
     const t_tags = new Set()
     tags
-        .slice(0, 50)
         .map(t => {
             t_tags.add(
                 startsWithRU(t.name)

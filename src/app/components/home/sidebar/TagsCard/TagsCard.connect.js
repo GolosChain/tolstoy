@@ -12,6 +12,7 @@ import {
     globalSelector,
     routeParamSelector,
 } from 'src/app/redux/selectors/common';
+import { COUNT_OF_TAGS } from 'src/app/redux/constants/common';
 
 import TagsCard from './TagsCard';
 
@@ -44,7 +45,7 @@ export default connect(
                 // filter ignore tags and wrong tags
                 .filter(tag => tag !== null && !IGNORE_TAGS.includes(tag))
                 // take only nedeed count of tags
-                .take(collapsed ? 9 : 50);
+                .take(collapsed ? COUNT_OF_TAGS.COLLAPSED : COUNT_OF_TAGS.EXPANDED);
 
             return {
                 order,
