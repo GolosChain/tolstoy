@@ -18,7 +18,7 @@ export const votersDialogSelector = createDeepEqualSelector(
     ],
     (votersDialog, content, accounts, postLink, isLikes, username) => {
         const post = content.get(postLink, Set());
-        let voters = post.get('active_voters', List());
+        let voters = Seq(post.get('active_voters', List()));
 
         return {
             loading: votersDialog.get('loading'),

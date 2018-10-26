@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { List } from 'immutable';
+import { Seq } from 'immutable';
 
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import Avatar from 'src/app/components/common/Avatar';
@@ -44,7 +44,7 @@ export default class VotersDialog extends PureComponent {
         onRef: PropTypes.func.isRequired,
 
         loading: PropTypes.bool.isRequired,
-        users: PropTypes.instanceOf(List),
+        users: PropTypes.instanceOf(Seq),
         username: PropTypes.string.isRequired,
     };
 
@@ -73,7 +73,6 @@ export default class VotersDialog extends PureComponent {
 
     render() {
         const { loading, users, hasMore, username } = this.props;
-        console.log(users.toJS());
         return (
             <Dialog>
                 <Header>
