@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
@@ -66,7 +65,7 @@ const Description = styled.div`
     color: #959595;
 `;
 
-const RegButtonLink = styled(Link)`
+const RegButtonLink = styled.a`
     display: block;
 
     margin-top: 10px;
@@ -108,7 +107,7 @@ export default class RegistrationPanel extends Component {
                 <Information>
                     <Title>{tt('g.sign_up_to_vote_for_post_or_write_comments')}</Title>
                     <Description>{tt('g.authors_receive_rewards_for_upvotes')}</Description>
-                    <RegButtonLink to={REGISTRATION_URL}>
+                    <RegButtonLink href={REGISTRATION_URL}>
                         <RegistrationButton>{tt('g.sign_up_action')}</RegistrationButton>
                     </RegButtonLink>
                 </Information>

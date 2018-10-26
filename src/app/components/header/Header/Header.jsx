@@ -138,7 +138,7 @@ const Buttons = styled.div`
     `};
 `;
 
-const RegistrationLink = styled(Link)`
+const RegistrationLink = styled.a`
     margin-right: 12px;
 `;
 
@@ -574,7 +574,7 @@ export default class Header extends PureComponent {
                             this.renderAuthorizedPart()
                         ) : (
                             <Buttons hidden={waitAuth}>
-                                <RegistrationLink to={REGISTRATION_URL}>
+                                <RegistrationLink href={REGISTRATION_URL}>
                                     <Button>{tt('g.sign_up')}</Button>
                                 </RegistrationLink>
                                 <LoginLink to="/login" onClick={this.onLoginClick}>
