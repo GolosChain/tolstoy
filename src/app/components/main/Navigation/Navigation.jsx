@@ -16,14 +16,6 @@ const SlideContainerStyled = styled(SlideContainer)`
 const TabLinkStyled = styled(TabLink)`
     padding: 0 12px;
 
-    &:first-child {
-        padding-left: 0;
-    }
-
-    &:last-child {
-        padding-right: 0;
-    }
-
     &.${({ activeClassName }) => activeClassName} {
         :after {
             content: '';
