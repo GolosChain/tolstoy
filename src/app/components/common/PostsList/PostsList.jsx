@@ -94,9 +94,15 @@ export default class PostsList extends PureComponent {
         if (location.action === 'POP' || (backClickTs && backClickTs > Date.now() - 1000)) {
             getScrollElement().scrollTop = listScrollPosition;
 
-            this._scrollTimeoutId = setTimeout(() => {
+            let setScrollIterations = 0;
+
+            this._scrollIntervalId = setInterval(() => {
                 getScrollElement().scrollTop = listScrollPosition;
-            }, 100);
+
+                if (++setScrollIterations === 5) {
+                    clearInterval(this._scrollIntervalId);
+                }
+            }, 50);
         }
 
         if (window.innerWidth < FORCE_GRID_WIDTH) {
@@ -107,8 +113,8 @@ export default class PostsList extends PureComponent {
     }
 
     componentWillUnmount() {
-        if (this._scrollTimeoutId) {
-            clearTimeout(this._scrollTimeoutId);
+        if (this._scrollIntervalId) {
+            clearInterval(this._scrollIntervalId);
         }
         window.removeEventListener('scroll', this.onScrollLazy);
         window.removeEventListener('resize', this.onResizeLazy);
