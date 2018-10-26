@@ -64,6 +64,7 @@ export const Title = styled.div`
     font-size: 16px;
     font-weight: 600;
     color: #333333;
+    text-transform: uppercase;
 `;
 
 export const Content = styled.div`

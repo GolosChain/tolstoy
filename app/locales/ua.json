@@ -164,10 +164,13 @@
     "you_need_to": "Вам потрібно "
   },
   "dialog": {
-    "alert": "Попередження",
-    "confirm": "Підтвердження",
-    "info": "Iнформація",
-    "prompt": "Введіть дані"
+    "alert": "Alert",
+    "confirm": "Confirmation",
+    "disliked": "Не понравился пост",
+    "info": "Information",
+    "liked": "Понравился пост",
+    "prompt": "Enter the data",
+    "show_all": "Показать все"
   },
   "dialogs_promote": {
     "active_key": "Активний ключ",

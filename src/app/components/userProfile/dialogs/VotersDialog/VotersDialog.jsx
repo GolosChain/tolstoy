@@ -2,7 +2,8 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { Seq } from 'immutable';
+import { List } from 'immutable';
+import tt from 'counterpart';
 
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import Avatar from 'src/app/components/common/Avatar';
@@ -44,7 +45,7 @@ export default class VotersDialog extends PureComponent {
         onRef: PropTypes.func.isRequired,
 
         loading: PropTypes.bool.isRequired,
-        users: PropTypes.instanceOf(Seq),
+        users: PropTypes.instanceOf(List),
         username: PropTypes.string.isRequired,
     };
 
@@ -52,11 +53,13 @@ export default class VotersDialog extends PureComponent {
 
     componentDidMount() {
         this.props.onRef(this);
-        this.props.getVoters(this.props.postLink, 50);
+        if (this.props.users.size === 0) {
+            this.props.getVoters(this.props.postLink, 50);
+        }
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.users.length === 0 && nextProps.hasMore) {
+        if (!nextProps.loading && nextProps.users.size === 0 && nextProps.hasMore) {
             this.props.getVoters(this.props.postLink);
         }
     }
@@ -72,11 +75,11 @@ export default class VotersDialog extends PureComponent {
     setRootRef = el => (this.rootRef = el);
 
     render() {
-        const { loading, users, hasMore, username } = this.props;
+        const { loading, users, hasMore, username, isLikes } = this.props;
         return (
             <Dialog>
                 <Header>
-                    <Title>Like/dislike</Title>
+                    <Title>{tt(`dialog.${isLikes ? 'liked' : 'disliked'}`)}</Title>
                     <IconClose onClick={this.props.onClose} />
                 </Header>
                 <Content innerRef={this.setRootRef}>
@@ -100,7 +103,7 @@ export default class VotersDialog extends PureComponent {
                     )}
                 </Content>
                 {hasMore && !loading ? (
-                    <ShowAll onClick={this.showAll}>показать все</ShowAll>
+                    <ShowAll onClick={this.showAll}>{tt('dialog.show_all')}</ShowAll>
                 ) : null}
             </Dialog>
         );
