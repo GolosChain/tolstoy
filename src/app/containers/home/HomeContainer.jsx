@@ -20,6 +20,7 @@ const ContainerStyled = styled(Container)`
 
 const Content = styled.div`
     flex: 1;
+    min-width: 280px;
 
     @media (max-width: 768px) {
         order: 2;

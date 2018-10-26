@@ -408,7 +408,7 @@ export default class PostCard extends PureComponent {
     }
 
     renderBody() {
-        const { grid, isRepost, sanitizedData, repostHtml } = this.props;
+        const { grid, sanitizedData } = this.props;
         const withImage = sanitizedData.image_link;
 
         return (
