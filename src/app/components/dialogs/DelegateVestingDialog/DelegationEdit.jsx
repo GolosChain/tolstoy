@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+
 import EditGolosPower from 'src/app/components/userProfile/common/EditGolosPower';
 
 const Root = styled.div`

@@ -4,16 +4,18 @@ import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
 import { api } from 'golos-js';
+
+import ComplexInput from 'golos-ui/ComplexInput';
+import SplashLoader from 'golos-ui/SplashLoader';
+import Shrink from 'golos-ui/Shrink';
+
 import { MIN_VOICE_POWER } from 'app/client_config';
 import transaction from 'app/redux/Transaction';
 import DialogFrame from 'app/components/dialogs/DialogFrame';
 import DialogManager from 'app/components/elements/common/DialogManager';
-import ComplexInput from 'src/app/components/golos-ui/ComplexInput';
-import SplashLoader from 'src/app/components/golos-ui/SplashLoader';
 import DialogTypeSelect from 'src/app/components/userProfile/common/DialogTypeSelect';
 import { parseAmount2 } from 'src/app/helpers/currency';
 import { vestsToGolos, golosToVests, getVesting } from 'app/utils/StateFunctions';
-import Shrink from 'src/app/components/golos-ui/Shrink';
 import DelegationsList from './DelegationsList';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import DelegationEdit from './DelegationEdit';
@@ -120,8 +122,8 @@ class DelegateVestingDialog extends PureComponent {
 
         let target = '';
 
-        if (props.pageAccountName && props.pageAccountName !== props.myUser.get('username')) {
-            target = props.pageAccountName;
+        if (props.toAccountName && props.toAccountName !== props.myUser.get('username')) {
+            target = props.toAccountName;
         }
 
         this.state = {

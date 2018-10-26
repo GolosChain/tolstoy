@@ -4,17 +4,18 @@ import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
 
+import Shrink from 'golos-ui/Shrink';
+import Slider from 'golos-ui/Slider';
+import ComplexInput from 'golos-ui/ComplexInput';
+import SplashLoader from 'golos-ui/SplashLoader';
+import { Checkbox } from 'golos-ui/Form';
+
 import { MIN_VOICE_POWER } from 'app/client_config';
 import transaction from 'app/redux/Transaction';
 import DialogFrame from 'app/components/dialogs/DialogFrame';
 import DialogManager from 'app/components/elements/common/DialogManager';
-import SplashLoader from 'src/app/components/golos-ui/SplashLoader';
-import { Checkbox } from 'src/app/components/golos-ui/Form';
 import { parseAmount } from 'src/app/helpers/currency';
 import { vestsToGolos, golosToVests } from 'app/utils/StateFunctions';
-import Shrink from 'src/app/components/golos-ui/Shrink';
-import Slider from 'src/app/components/golos-ui/Slider';
-import ComplexInput from 'src/app/components/golos-ui/ComplexInput';
 import DialogTypeSelect from 'src/app/components/userProfile/common/DialogTypeSelect';
 import AccountNameInput from 'src/app/components/common/AccountNameInput';
 import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';

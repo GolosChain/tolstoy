@@ -102,7 +102,7 @@ const ErrorLine = styled.div`
 
 class TransferDialog extends PureComponent {
     static propTypes = {
-        pageAccountName: PropTypes.string,
+        toAccountName: PropTypes.string.isRequired,
         onRef: PropTypes.func.isRequired,
     };
 
@@ -119,8 +119,8 @@ class TransferDialog extends PureComponent {
 
         let target = '';
 
-        if (props.pageAccountName && props.pageAccountName !== props.myUser.get('username')) {
-            target = props.pageAccountName;
+        if (props.toAccountName && props.toAccountName !== props.myUser.get('username')) {
+            target = props.toAccountName;
         }
 
         this.state = {
