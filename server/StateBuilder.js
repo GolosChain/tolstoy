@@ -192,7 +192,7 @@ async function getStateForPost(state, route, { api, accounts }) {
     }
 }
 
-async function getStateForWitnesses(state) {
+async function getStateForWitnesses(state, route, { api }) {
     const witnesses = await api.getWitnessesByVoteAsync('', 100);
 
     for (let witness of witnesses) {
