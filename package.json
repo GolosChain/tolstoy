@@ -25,7 +25,17 @@
     "build-storybook": "build-storybook",
     "release-tag": "node scripts/release_tag.js",
     "sort-locales": "node scripts/sort_locales.js",
-    "check-locales": "node scripts/check_locales.js"
+    "check-locales": "node scripts/check_locales.js",
+    "pre-commit": "lint-staged"
+  },
+  "pre-commit": [
+    "pre-commit"
+  ],
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "author": "Golos.io",
   "license": "MIT",
@@ -184,11 +194,14 @@
     "eslint-plugin-react": "^7.4.0",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "jsdom": "^11.11.0",
+    "lint-staged": "^7.3.0",
     "mini-css-extract-plugin": "^0.4.0",
     "mocha": "^5.2.0",
     "node-watch": "^0.5.5",
     "optimize-css-assets-webpack-plugin": "^4.0.2",
     "postcss-loader": "^2.1.5",
+    "pre-commit": "^1.2.2",
+    "prettier": "^1.14.3",
     "progress-bar-webpack-plugin": "^1.11.0",
     "redux-saga-devtools": "0.2.0",
     "sinon": "^1.17.7",
