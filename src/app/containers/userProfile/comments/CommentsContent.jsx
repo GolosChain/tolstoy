@@ -44,11 +44,11 @@ class CommentsContent extends Component {
             return (
                 <InfoBlock>
                     <EmptyBlock>
-                        Тут пока пусто
+                        {tt('g.empty')}
                         <EmptySubText>
                             {isOwner
-                                ? 'Начни писать комментарии к постам.'
-                                : 'Пользователь еще не начал писать комментарии.'}
+                                ? tt('content.tip.comments.start_writing')
+                                : tt('content.tip.comments.user_has_no_comments')}
                         </EmptySubText>
                     </EmptyBlock>
                 </InfoBlock>

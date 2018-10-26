@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
 import Icon from 'app/components/elements/Icon';
-import { APP_ICON } from 'app/client_config';
+import tt from 'counterpart';
 
+import { APP_ICON } from 'app/client_config';
 import golosTeam from './golos-team.json';
 import coreTeam from './core-team.json';
 
@@ -14,7 +15,7 @@ export default class LandingTeam extends PureComponent {
                 <div className="row text-center">
                     <div className="small-12 columns">
                         <h2 className="Team__header" id="team">
-                            Команда
+                            {tt('about_page.team')}
                         </h2>
                     </div>
                 </div>
@@ -35,19 +36,25 @@ export default class LandingTeam extends PureComponent {
                 <div className="row align-middle collapse">
                     {type === 'golos.io' ? (
                         <div className="Team__info columns small-12 medium-6">
-                            Разработка, поддержка и развитие клиента<br/>
-                            <a href="/@golosio">Читать блог Golos.io</a>&nbsp;-&nbsp;
-                            <a href="/@golosio" title="Новости Golos.io">
+                            {tt('about_page.team_golosio.info')}
+                            <br />
+                            <a href="/@golosio">{tt('about_page.team_golosio.read_blog')}</a>
+                            &nbsp;-&nbsp;
+                            <a href="/@golosio" title={tt('about_page.team_golosio.tip')}>
                                 @golosio
-                            </a>.
+                            </a>
+                            .
                         </div>
                     ) : (
                         <div className="Team__info columns small-12 medium-6">
-                            Разработка, поддержка и развитие блокчейна<br/>
-                            <a href="/@goloscore">Читать блог Golos Core</a>&nbsp;-&nbsp;
-                            <a href="/@goloscore" title="Новости Golos Core">
+                            {tt('about_page.team_goloscore.info')}
+                            <br />
+                            <a href="/@goloscore">{tt('about_page.team_goloscore.read_blog')}</a>
+                            &nbsp;-&nbsp;
+                            <a href="/@goloscore" title={tt('about_page.team_goloscore.tip')}>
                                 @goloscore
-                            </a>.
+                            </a>
+                            .
                         </div>
                     )}
                 </div>

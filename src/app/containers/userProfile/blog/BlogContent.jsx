@@ -60,16 +60,17 @@ class BlogContent extends Component {
         return (
             <InfoBlock>
                 <EmptyBlock>
-                    Тут пока пусто
+                    {tt('g.empty')}
                     <EmptySubText>
                         {isOwner ? (
                             <Fragment>
-                                Можешь написать свой первый пост с тегами{' '}
-                                <Link to="/submit">#голос</Link>{' '}
-                                <Link to="/submit">#знакомство</Link>.
+                                {tt('content.tip.blog.start_writing')}{' '}
+                                <Link to="/submit">{`#${tt('content.tip.blog.tag_1')}`}</Link>{' '}
+                                <Link to="/submit">{`#${tt('content.tip.blog.tag_2')}`}</Link>
+                                {tt('content.tip.blog.start_writing_2')}
                             </Fragment>
                         ) : (
-                            'Пользователь еще не начал писать посты.'
+                            tt('content.tip.blog.user_has_no_post')
                         )}
                     </EmptySubText>
                 </EmptyBlock>

@@ -7,6 +7,23 @@
     "mobileBannerAlt": "Get it on Google Play",
     "resources": "Resources"
   },
+  "about_page": {
+    "decription_1": "The platform was launched in October 2016.",
+    "decription_2": "Originally the blockchain Golos was created with STEEM.inc license for the Russian-speaking community. By the development process and new different innovations now Golos.io is a project with its structure, economy and rules, the geography of which is constantly expanding.",
+    "header": "Golos.io is a media platform built on blockchain Golos.",
+    "partners": "Partners",
+    "team": "Team",
+    "team_goloscore": {
+      "info": "Blockchain development and support",
+      "read_blog": "Read Golos Core news blog",
+      "tip": "News Golos Core"
+    },
+    "team_golosio": {
+      "info": "Development and support",
+      "read_blog": "Read Golos.io news blog  Golos.io",
+      "tip": "News Golos.io"
+    }
+  },
   "active_panel_tooltip": {
     "complain_about_post": "Complain about post",
     "edit": "Edit",
@@ -75,6 +92,25 @@
   "confirmtransactionform_jsx": {
     "confirm": "Confirm",
     "ok": "Ok"
+  },
+  "content": {
+    "tip": {
+      "blog": {
+        "start_writing": "Create your first post using",
+        "start_writing_2": " hashtags.",
+        "tag_1": "golos",
+        "tag_2": "introducemyself",
+        "user_has_no_post": "User haven't started posting."
+      },
+      "comments": {
+        "start_writing": "Start commenting.",
+        "user_has_no_comments": "User haven't started commenting."
+      },
+      "replies": {
+        "start_writing": "Get started by writing posts and receiving comments.",
+        "user_has_no_replies": "User haven't received comments. Write your comment."
+      }
+    }
   },
   "converttosteem_jsx": {
     "DEBT_TOKEN_will_be_unavailable": "This action will take place 3.5 days from now and can not be canceled. These %(DEBT_TOKEN)s will immediately become unavailable",
@@ -639,6 +675,7 @@
     "active_or_owner": "Active or Owner",
     "amazing_community": "amazing community",
     "are_well_tested_and_known_to_work_with": "are well tested and known to work with %(APP_DOMAIN)s.",
+    "consent": "I agree to the Terms and Conditions",
     "cryptography_test_failed": "Cryptography test failed",
     "due_to_server_maintenance": "Due to server maintenance we are running in read only mode. We are sorry for the inconvenience.",
     "enter_your_username": "Enter your username",

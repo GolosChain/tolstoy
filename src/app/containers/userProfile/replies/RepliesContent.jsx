@@ -42,11 +42,11 @@ class RepliesContent extends Component {
             return (
                 <InfoBlock>
                     <EmptyBlock>
-                        Тут пока пусто
+                        {tt('g.empty')}
                         <EmptySubText>
                             {isOwner
-                                ? 'Начни писать посты и получать комментарии от пользователей.'
-                                : 'Пользователь пока не получил комментариев. Напиши свой комментарий.'}
+                                ? tt('content.tip.replies.start_writing')
+                                : tt('content.tip.replies.user_has_no_replies')}
                         </EmptySubText>
                     </EmptyBlock>
                 </InfoBlock>

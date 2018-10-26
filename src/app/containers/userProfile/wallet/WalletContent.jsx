@@ -33,12 +33,6 @@ export const CURRENCY = {
     SAFE: 'SAFE',
 };
 
-export const CURRENCY_TRANSLATE = {
-    GOLOS: tt('token_names.LIQUID_TOKEN'),
-    GBG: tt('token_names.DEBT_TOKEN2'),
-    GOLOS_POWER: tt('token_names.VESTING_TOKEN'),
-};
-
 export const CURRENCY_COLOR = {
     GOLOS: '#2879ff',
     GBG: '#ffb839',

@@ -14,14 +14,30 @@ const Wrapper = styled.div`
 export default class Faq extends Component {
     constructor() {
         super();
-        const lang = tt.getLocale();
-        
-        this.questions = require(lang === 'en'
-            ? './questions_EN.json'
-            : './questions_RU.json');
-        this.channels = require(lang === 'en'
-            ? './channels_EN.json'
-            : './channels_RU.json');
+        const locale = tt.getLocale();
+
+        const questionsByLocale = locale => {
+            if (locale === 'en') {
+                return require('./questions_EN.json');
+            } else if (locale === 'ru') {
+                return require('./questions_RU.json');
+            } else if (locale === 'uk') {
+                return require('./questions_UA.json');
+            }
+        };
+
+        const channelsByLocale = locale => {
+            if (locale === 'en') {
+                return require('./channels_EN.json');
+            } else if (locale === 'ru') {
+                return require('./channels_RU.json');
+            } else if (locale === 'uk') {
+                return require('./channels_UA.json');
+            }
+        };
+
+        this.questions = questionsByLocale(locale);
+        this.channels = channelsByLocale(locale);
     }
 
     render() {
