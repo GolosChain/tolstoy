@@ -266,7 +266,6 @@ export class SidePanel extends Component {
     };
 
     showDislikedUsersList = () => {
-        console.log(this.props);
         this.props.showVotedUsersList(`${this.props.author}/${this.props.permLink}`, false);
     };
 
