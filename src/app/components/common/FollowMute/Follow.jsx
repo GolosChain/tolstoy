@@ -21,7 +21,7 @@ const ButtonStyled = styled(Button)`
 `;
 
 const IconStyled = styled(Icon)`
-    margin-right: 6px;
+    margin-right: 10px;
 `;
 
 class Follow extends Component {
@@ -80,7 +80,7 @@ class Follow extends Component {
         if (!follower || !following)
             return (
                 <ButtonStyled onClick={this.followLoggedOut}>
-                    <IconStyled name="subscribe" height="10" width="14" />
+                    <IconStyled name="plus" height="14" width="14" />
                     {tt('g.follow')}
                 </ButtonStyled>
             );
@@ -95,12 +95,12 @@ class Follow extends Component {
             <Fragment>
                 {showFollow && followingWhat !== 'blog' ? (
                     <ButtonStyled disabled={busy} onClick={this.follow}>
-                        <IconStyled name="subscribe" height="10" width="14" />
+                        <IconStyled name="plus" height="14" width="14" />
                         {tt('g.follow')}
                     </ButtonStyled>
                 ) : (
                     <ButtonStyled disabled={busy} light onClick={this.unfollow}>
-                        <IconStyled name="cross" height="10" width="10" />
+                        <IconStyled name="tick" height="10" width="14" />
                         {tt('g.unfollow')}
                     </ButtonStyled>
                 )}

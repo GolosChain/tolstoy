@@ -192,7 +192,7 @@ export class PostHeader extends Component {
                 {!isMy &&
                     (isFollow ? (
                         <FollowRound light onClick={this.unfollow} data-tooltip={tt('g.unfollow')}>
-                            <FollowedIcon name="subscribe" width={18} height={14} />
+                            <FollowedIcon name="tick" width={18} height={14} />
                         </FollowRound>
                     ) : (
                         <FollowRound onClick={this.follow} data-tooltip={tt('g.follow')}>
