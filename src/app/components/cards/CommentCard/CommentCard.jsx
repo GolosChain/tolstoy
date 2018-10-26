@@ -179,9 +179,9 @@ export class CommentCard extends PureComponent {
     replyRef = createRef();
 
     componentWillReceiveProps(newProps) {
-        const { anchorID, comment, dataLoaded } = this.props;
+        const { anchorId, comment, dataLoaded } = this.props;
         const { highlighted } = this.state;
-        if (window.location.hash.replace('#', '') === anchorID && !highlighted) {
+        if (window.location.hash.replace('#', '') === anchorId && !highlighted) {
             this.setState({ highlighted: true });
         }
         if (comment !== newProps.comment && dataLoaded) {
@@ -203,11 +203,11 @@ export class CommentCard extends PureComponent {
     }
 
     renderHeaderForPost() {
-        const { comment, extractedContent, anchorID } = this.props;
+        const { comment, extractedContent, anchorId } = this.props;
         const { collapsed, highlighted } = this.state;
 
         return (
-            <Header collapsed={collapsed} id={anchorID} highlighted={highlighted}>
+            <Header collapsed={collapsed} id={anchorId} highlighted={highlighted}>
                 <HeaderLine>
                     <CardAuthor author={comment.get('author')} created={comment.get('created')} />
                     {collapsed && (
@@ -225,12 +225,12 @@ export class CommentCard extends PureComponent {
     }
 
     renderHeaderForProfile() {
-        const { fullParentURL, title, comment, anchorID } = this.props;
+        const { fullParentURL, title, comment, anchorId } = this.props;
         const { collapsed, highlighted } = this.state;
         const detransliteratedCategory = detransliterate(comment.get('category'));
 
         return (
-            <Header collapsed={collapsed} id={anchorID} highlighted={highlighted}>
+            <Header collapsed={collapsed} id={anchorId} highlighted={highlighted}>
                 <HeaderLine>
                     {collapsed ? (
                         <ReLink

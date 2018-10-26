@@ -38,14 +38,14 @@ export const hydrateNotification = (
             }
 
             const content = contents.getIn([`${author}/${notify.get('permlink')}`]);
-
+            const postTitle = content.get('parent_author')
+                ? content.get('root_title')
+                : content.get('title');
             if (content) {
                 notify.setIn(
                     ['computed'],
                     fromJS({
-                        title: content.get('parent_author')
-                            ? content.get('root_title')
-                            : content.get('title'),
+                        title: postTitle,
                         link: content.get('url'),
                     })
                 );
