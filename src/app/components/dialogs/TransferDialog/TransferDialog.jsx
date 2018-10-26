@@ -105,7 +105,6 @@ class TransferDialog extends PureComponent {
     static propTypes = {
         type: PropTypes.oneOf(['donate']),
         toAccountName: PropTypes.string.isRequired,
-        lockTargetAccount: PropTypes.bool,
         donatePostUrl: PropTypes.string,
         onRef: PropTypes.func.isRequired,
     };
