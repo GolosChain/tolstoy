@@ -47,7 +47,7 @@ const Category = styled.div`
     overflow: hidden;
     text-overflow: ellipsis;
     color: #fff;
-    background: #789821;
+    background: #2879ff;
     cursor: default;
 `;
 
