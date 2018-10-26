@@ -61,6 +61,10 @@ const SimpleInputStyled = styled(SimpleInput)`
         border-color: #ff7d7d;
     `};
 
+    &:disabled {
+        background: #f2f2f2;
+    }
+
     &:focus + ${Sign} {
         border-color: #8a8a8a;
     }

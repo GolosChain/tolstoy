@@ -8,6 +8,7 @@ import ComplexInput from 'golos-ui/ComplexInput';
 import SplashLoader from 'golos-ui/SplashLoader';
 import Icon from 'golos-ui/Icon';
 
+import { APP_DOMAIN, DONATION_FOR } from 'app/client_config';
 import transaction from 'app/redux/Transaction';
 import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';
 import { parseAmount } from 'src/app/helpers/currency';
@@ -102,7 +103,9 @@ const ErrorLine = styled.div`
 
 class TransferDialog extends PureComponent {
     static propTypes = {
+        type: PropTypes.oneOf(['donate']),
         toAccountName: PropTypes.string.isRequired,
+        donatePostUrl: PropTypes.string,
         onRef: PropTypes.func.isRequired,
     };
 
@@ -123,11 +126,19 @@ class TransferDialog extends PureComponent {
             target = props.toAccountName;
         }
 
+        let note = '';
+
+        if (props.type === 'donate' && props.donatePostUrl) {
+            this._initialNote = note = tt('dialogs_transfer.post_donation', {
+                url: `https://${APP_DOMAIN}${props.donatePostUrl}`,
+            });
+        }
+
         this.state = {
             target,
             amount: '',
             currency: CURRENCIES.GBG,
-            note: '',
+            note,
             amountInFocus: false,
             loader: false,
             disabled: false,
@@ -135,7 +146,7 @@ class TransferDialog extends PureComponent {
     }
 
     render() {
-        const { myAccount, myUser } = this.props;
+        const { myAccount, type, toAccountName } = this.props;
         const { target, amount, currency, note, loader, disabled, amountInFocus } = this.state;
 
         const buttons = [
@@ -162,6 +173,8 @@ class TransferDialog extends PureComponent {
         let { value, error } = parseAmount(amount, balance, !amountInFocus);
 
         const allow = target && value > 0 && !error && !loader && !disabled;
+
+        const lockTarget = type === 'donate' && toAccountName;
 
         return (
             <DialogFrameStyled
@@ -191,7 +204,8 @@ class TransferDialog extends PureComponent {
                                 <AccountNameInput
                                     name="account"
                                     block
-                                    autoFocus
+                                    autoFocus={!lockTarget}
+                                    disabled={lockTarget}
                                     placeholder={tt('dialogs_transfer.to_placeholder')}
                                     value={target}
                                     onChange={this._onTargetChange}
@@ -205,6 +219,7 @@ class TransferDialog extends PureComponent {
                                     })}
                                     spellCheck="false"
                                     value={amount}
+                                    autoFocus={lockTarget}
                                     activeId={currency}
                                     buttons={buttons}
                                     onChange={this._onAmountChange}
@@ -291,18 +306,26 @@ class TransferDialog extends PureComponent {
     };
 
     _onOkClick = () => {
-        const { myUser } = this.props;
+        const { myUser, type, donatePostUrl } = this.props;
         const { target, amount, currency, note, loader, disabled } = this.state;
 
         if (loader || disabled) {
             return;
         }
 
+        let memo = note;
+
+        if (type === 'donate' && donatePostUrl) {
+            if (note === this._initialNote) {
+                memo = `${DONATION_FOR} ${donatePostUrl}`;
+            }
+        }
+
         const operation = {
             from: myUser.get('username'),
             to: target,
             amount: parseFloat(amount.replace(/\s+/, '')).toFixed(3) + ' ' + currency,
-            memo: note,
+            memo,
         };
 
         this.setState({

@@ -1,10 +1,9 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import user from 'app/redux/User';
-import { LIQUID_TICKER } from 'app/client_config';
 import { authorSelector, currentPostSelector } from 'src/app/redux/selectors/post/commonPost';
 import { AboutPanel } from 'src/app/containers/post/aboutPanel/AboutPanel';
+import { openTransferDialog } from 'src/app/redux/actions/dialogs';
 
 export default connect(
     createSelector([authorSelector, currentPostSelector], (author, post) => ({
@@ -14,23 +13,11 @@ export default connect(
         created: author.created,
         url: post.url,
     })),
-
-    dispatch => ({
-        showTransfer(account, url) {
-            dispatch(
-                user.actions.setTransferDefaults({
-                    flag: {
-                        type: 'donate',
-                        fMemo: () => JSON.stringify({ donate: { post: url } }),
-                    },
-                    to: account,
-                    asset: LIQUID_TICKER,
-                    transferType: 'Transfer to Account',
-                    disableMemo: false,
-                    disableTo: true,
-                })
-            );
-            dispatch(user.actions.showTransfer());
-        },
-    })
+    {
+        openDonateDialog: (toAccount, url) =>
+            openTransferDialog(toAccount, {
+                type: 'donate',
+                donatePostUrl: url,
+            }),
+    }
 )(AboutPanel);

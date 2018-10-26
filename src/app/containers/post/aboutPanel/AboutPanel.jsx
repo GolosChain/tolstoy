@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'react-router';
 import tt from 'counterpart';
@@ -130,9 +131,19 @@ const FollowButton = styled(Follow)`
 `;
 
 export class AboutPanel extends Component {
-    showTransferDialog = () => {
-        const { showTransfer, account, url } = this.props;
-        showTransfer(account, url);
+    static propTypes = {
+        name: PropTypes.string.isRequired,
+        account: PropTypes.string.isRequired,
+        url: PropTypes.string.isRequired,
+        about: PropTypes.string,
+        created: PropTypes.string,
+        openDonateDialog: PropTypes.func.isRequired,
+    };
+
+    openDonateDialog = () => {
+        const { openDonateDialog, account, url } = this.props;
+
+        openDonateDialog(account, url);
     };
 
     render() {
@@ -166,7 +177,7 @@ export class AboutPanel extends Component {
                     )}
                 </Cake>
                 <Buttons>
-                    <ButtonInPanel light onClick={this.showTransferDialog}>
+                    <ButtonInPanel light onClick={this.openDonateDialog}>
                         <IconStyled width="17" height="15" name="coins_plus" />
                         {tt('g.donate')}
                     </ButtonInPanel>

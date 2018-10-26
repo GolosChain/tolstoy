@@ -259,6 +259,7 @@
     },
     "operation_started": "Операция запущена!",
     "operation_success": "Операция успешно завершена!",
+    "post_donation": "Благодарность автору за пост %(url)s",
     "to": "Кому",
     "to_placeholder": "Отправить аккаунту",
     "transfer": {

@@ -14,7 +14,7 @@ import { vestsToGolos } from 'app/utils/StateFunctions';
 import transaction from 'app/redux/Transaction';
 import WalletTabs from 'src/app/components/userProfile/wallet/WalletTabs';
 import WalletLine from 'src/app/components/userProfile/wallet/WalletLine';
-import { APP_DOMAIN } from 'app/client_config';
+import { APP_DOMAIN, DONATION_FOR } from 'app/client_config';
 
 const DEFAULT_ROWS_LIMIT = 25;
 const LOAD_LIMIT = 500;
@@ -469,15 +469,31 @@ class WalletContent extends Component {
                     let memo = data.memo;
                     let memoIconText = null;
 
-                    if (memo && memo.startsWith('{')) {
-                        try {
-                            const data = JSON.parse(memo);
+                    if (memo) {
+                        let donatePostUrl;
 
-                            if (data.donate && data.donate.post) {
-                                memo = `https://${APP_DOMAIN}${data.donate.post}`;
-                                memoIconText = tt('user_wallet.content.donate');
+                        if (memo.startsWith('{')) {
+                            try {
+                                const data = JSON.parse(memo);
+
+                                if (data.donate && data.donate.post) {
+                                    donatePostUrl = data.donate.post;
+                                }
+                            } catch (err) {}
+                        } else if (memo.startsWith(DONATION_FOR)) {
+                            const otherPart = memo.substr(DONATION_FOR.length).trim();
+
+                            if (/^\/[a-z0-9.-]+\/@[a-z0-9.-]+\/[^\s]+$/.test(otherPart)) {
+                                donatePostUrl = otherPart;
                             }
-                        } catch (err) {}
+                        }
+
+                        if (donatePostUrl) {
+                            memo = tt('dialogs_transfer.post_donation', {
+                                url: `https://${APP_DOMAIN}${donatePostUrl}`,
+                            });
+                            memoIconText = tt('user_wallet.content.donate');
+                        }
                     }
 
                     return {
