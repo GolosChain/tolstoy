@@ -6,3 +6,4 @@ export const UI_PROFILE_CHANGE_LAYOUT = 'ui/profile/CHANGE_LAYOUT';
 export const UI_PROFILE_ACTIVITY_CHANGE_TAB = 'ui/profile/activity/CHANGE_TAB';
 
 export const UI_HOME_TAGS_CARD_COLLAPSE = 'ui/home/tagsCard/COLLAPSE';
+export const UI_ON_BACK_CLICK = 'ui/ON_BACK_CLICK';

@@ -228,6 +228,10 @@ export class SidePanel extends Component {
         return users.length ? users.join('<br>') + (isMore ? '<br>...' : '') : null;
     };
 
+    onBackClick = () => {
+        this.props.onBackClick();
+    };
+
     render() {
         const {
             votesSummary,
@@ -306,7 +310,11 @@ export class SidePanel extends Component {
                     />
                 </PanelWrapper>
                 {backURL ? (
-                    <BackLink to={backURL} data-tooltip={tt('g.turn_back')}>
+                    <BackLink
+                        to={backURL}
+                        data-tooltip={tt('g.turn_back')}
+                        onClick={this.onBackClick}
+                    >
                         <BackIcon name="arrow_left" />
                     </BackLink>
                 ) : null}
