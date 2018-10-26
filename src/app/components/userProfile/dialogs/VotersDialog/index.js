@@ -1,1 +1,1 @@
-export { default } from './VotersDialog';
+export { default } from './VotersDialog.connect';

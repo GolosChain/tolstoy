@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { List } from 'immutable';
 import tt from 'counterpart';
@@ -8,8 +7,6 @@ import tt from 'counterpart';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import Avatar from 'src/app/components/common/Avatar';
 import Follow from 'src/app/components/common/Follow';
-import { votersDialogSelector } from 'src/app/redux/selectors/dialogs/votesDialog';
-import { getVoters } from 'src/app/redux/actions/vote';
 import {
     Dialog,
     Header,
@@ -34,12 +31,6 @@ const ShowAll = styled.button`
     font-weight: bold;
 `;
 
-@connect(
-    votersDialogSelector,
-    {
-        getVoters,
-    }
-)
 export default class VotersDialog extends PureComponent {
     static propTypes = {
         onRef: PropTypes.func.isRequired,

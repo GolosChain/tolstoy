@@ -7,7 +7,7 @@ import {
     GET_VOTERS_USERS_ERROR,
 } from 'src/app/redux/constants/voters';
 import DialogManager from 'app/components/elements/common/DialogManager';
-import VotersDialog from 'src/app/components/userProfile/dialogs/VotersDialog/VotersDialog';
+import VotersDialog from 'src/app/components/userProfile/dialogs/VotersDialog';
 import GlobalReducer from 'app/redux/GlobalReducer';
 
 export default function* showVotedUserWatcher() {
@@ -47,13 +47,13 @@ function* getVotersWorker({payload: {postLink, limit}}) {
             });
         }
 
-        yield put(GlobalReducer.actions.getVotersUsersSuccess({voters, postLink}))
+        yield put(GlobalReducer.actions.getVotersUsersSuccess({voters, postLink}));
     } catch (error) {
         yield put({
             type: GET_VOTERS_USERS_ERROR,
             payload: {
                 error
             }
-        })
+        });
     }
 }
