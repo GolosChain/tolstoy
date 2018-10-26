@@ -43,7 +43,6 @@ export class App extends Component {
 
     state = {
         showCallout: true,
-        showBanner: true,
     };
 
     componentWillMount() {
@@ -73,7 +72,7 @@ export class App extends Component {
 
     componentDidUpdate(nextProps) {
         if (nextProps.location.pathname !== this.props.location.pathname) {
-            this.setState({ showBanner: false, showCallout: false });
+            this.setState({ showCallout: false });
         }
     }
 
@@ -118,49 +117,6 @@ export class App extends Component {
 
     onLocationChange(props) {
         props.locationChanged({ params: props.params, ...props.location });
-    }
-
-    renderWelcomeScreen() {
-        const { params, location, newVisitor } = this.props;
-        const params_keys = Object.keys(params);
-        const ip =
-            location.pathname === '/' ||
-            (params_keys.length === 2 &&
-                params_keys[0] === 'order' &&
-                params_keys[1] === 'category');
-
-        if (ip && newVisitor && this.state.showBanner) {
-            return (
-                <div className="welcomeWrapper">
-                    <div className="welcomeBanner">
-                        <CloseButton onClick={() => this.setState({ showBanner: false })} />
-                        <div className="text-center">
-                            <h2>{tt('submit_a_story.welcome_to_the_blockchain')}</h2>
-                            <h4>{tt('submit_a_story.your_voice_is_worth_something')}</h4>
-                            <br />
-                            <a className="button" href={REGISTRATION_URL}>
-                                {' '}
-                                <b>{tt('navigation.sign_up')}</b>{' '}
-                            </a>
-                            &nbsp; &nbsp; &nbsp;
-                            <a
-                                className="button hollow uppercase"
-                                href="/start"
-                                target="_blank"
-                                onClick={this.learnMore}
-                            >
-                                {' '}
-                                <b>{tt('submit_a_story.learn_more')}</b>{' '}
-                            </a>
-                            <br />
-                            <br />
-                        </div>
-                    </div>
-                </div>
-            );
-        }
-
-        return null;
     }
 
     renderCallout() {
@@ -211,7 +167,6 @@ export class App extends Component {
                     </Helmet>
                     <Header />
                     <div className="App__content">
-                        {this.renderWelcomeScreen()}
                         {this.renderCallout()}
                         {children}
                         {location.pathname.startsWith('/submit') ? null : <Footer />}
