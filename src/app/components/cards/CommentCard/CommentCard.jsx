@@ -370,7 +370,7 @@ export class CommentCard extends PureComponent {
         if (!dataLoaded) {
             return (
                 <LoaderWrapper>
-                    <LoadingIndicator type="circle" size={40} />
+                    <LoadingIndicator type="circle" size={41} />
                 </LoaderWrapper>
             );
         }
