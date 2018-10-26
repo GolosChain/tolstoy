@@ -3,7 +3,7 @@ import {
     globalSelector,
     currentUsernameSelector,
 } from 'src/app/redux/selectors/common';
-import { Set } from 'immutable';
+import { Set, List, Seq } from 'immutable';
 
 const getVotersUI = state => state.ui.votersDialog;
 
@@ -18,18 +18,31 @@ export const votersDialogSelector = createDeepEqualSelector(
     ],
     (votersDialog, content, accounts, postLink, isLikes, username) => {
         const post = content.get(postLink, Set());
-        let voters = post.get('active_voters', []);
+        let voters = post.get('active_voters', List());
 
         return {
             loading: votersDialog.get('loading'),
             users: voters
-                .filter(voter => (voter.percent > 0 && isLikes) || (voter.percent < 0 && !isLikes))
-                .map(voter => ({
-                    name: voter.voter,
-                    avatar: (
-                        JSON.parse(accounts.getIn([voter.voter, 'json_metadata'])).profile || {}
-                    ).profile_image,
-                })),
+                .filter(voter => {
+                    const percent = voter.get('percent');
+                    return (percent > 0 && isLikes) || (percent < 0 && !isLikes);
+                })
+                .map(voter => {
+                    const name = voter.get('voter');
+                    const jsonMetadata = accounts.getIn([name, 'json_metadata'], '{}');
+                    let avatar;
+                    try {
+                        const profile = JSON.parse(jsonMetadata).profile || {};
+                        avatar = profile.profile_image;
+                    } catch (error) {
+                        console.error("Can't parse string to JS: %s", jsonMetadata);
+                    }
+
+                    return {
+                        name,
+                        avatar,
+                    };
+                }),
             hasMore: voters.length < post.get('active_votes_count'),
             username,
         };

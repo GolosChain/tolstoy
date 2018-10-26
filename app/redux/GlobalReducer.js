@@ -276,7 +276,7 @@ export default createModule({
             action: 'GET_VOTERS_USERS_SUCCESS',
             reducer: (state, { payload: { voters, postLink } }) => state.setIn(
                 ['content', postLink, 'active_voters'],
-                voters
+                fromJS(voters)
             )
         },
         {
