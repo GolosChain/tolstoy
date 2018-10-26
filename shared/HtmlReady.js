@@ -2,7 +2,7 @@ import xmldom from 'xmldom';
 import linksRe, { any as linksAny } from 'app/utils/Links';
 import { validate_account_name } from 'app/utils/ChainValidation';
 import { detransliterate } from 'app/utils/ParsersAndFormatters';
-import { makeLeaveLink } from 'src/app/helpers/urls';
+import { sanitizeUrl } from 'src/app/helpers/urls';
 
 let DOMParser = null;
 let XMLSerializer = null;
@@ -152,7 +152,7 @@ function link(state, child) {
         state.links.add(url);
 
         if (state.mutate) {
-            child.setAttribute('href', makeLeaveLink(url));
+            child.setAttribute('href', sanitizeUrl(url));
         }
     }
 }
@@ -200,9 +200,7 @@ function iframe(state, child) {
 
         // wrap iframes in div.videoWrapper to control size/aspect ratio
         child.parentNode.replaceChild(
-            DOMParser.parseFromString(
-                `<div class="videoWrapper">${html}</div>`
-            ),
+            DOMParser.parseFromString(`<div class="videoWrapper">${html}</div>`),
             child
         );
     }
@@ -236,10 +234,7 @@ function proxifyImages(doc) {
         const url = node.getAttribute('src');
 
         if (!linksRe.local.test(url)) {
-            node.setAttribute(
-                'src',
-                $STM_Config.img_proxy_prefix + '0x0/' + url
-            );
+            node.setAttribute('src', $STM_Config.img_proxy_prefix + '0x0/' + url);
         }
     }
 }
@@ -280,9 +275,7 @@ function linkifyNode(state, child) {
         const content = linkify(state, data);
 
         if (state.mutate && content !== data) {
-            const newChild = DOMParser.parseFromString(
-                `<span>${content}</span>`
-            );
+            const newChild = DOMParser.parseFromString(`<span>${content}</span>`);
 
             child.parentNode.replaceChild(newChild, child);
         }
@@ -339,10 +332,7 @@ function linkify(state, content) {
             return user;
         }
 
-        return (
-            space +
-            (valid ? `<a href="/@${userLower}">@${user2}</a>` : '@' + user2)
-        );
+        return space + (valid ? `<a href="/@${userLower}">@${user2}</a>` : '@' + user2);
     });
 
     content = content.replace(linksAny('gi'), ln => {
@@ -363,7 +353,7 @@ function linkify(state, content) {
             state.links.add(ln);
         }
 
-        return `<a href="${ln}">${ln}</a>`;
+        return `<a href="${sanitizeUrl(ln)}">${ln}</a>`;
     });
 
     return content;
@@ -438,10 +428,7 @@ function embedCoubNode(state, node) {
 
     const id = match[1];
 
-    node.parentNode.replaceChild(
-        DOMParser.parseFromString(`~~~ embed:${id} coub ~~~`),
-        node
-    );
+    node.parentNode.replaceChild(DOMParser.parseFromString(`~~~ embed:${id} coub ~~~`), node);
 
     if (state.links) {
         state.links.add(`https://coub.com/view/${id}`);
@@ -459,10 +446,7 @@ function embedRutubeNode(state, node) {
 
     const id = match[1];
 
-    node.parentNode.replaceChild(
-        DOMParser.parseFromString(`~~~ embed:${id} rutube ~~~`),
-        node
-    );
+    node.parentNode.replaceChild(DOMParser.parseFromString(`~~~ embed:${id} rutube ~~~`), node);
 
     if (state.links) {
         state.links.add(`https://rutube.ru/video/${id}/`);
@@ -480,10 +464,7 @@ function embedOkruNode(state, node) {
 
     const id = match[1];
 
-    node.parentNode.replaceChild(
-        DOMParser.parseFromString(`~~~ embed:${id} ok_video ~~~`),
-        node
-    );
+    node.parentNode.replaceChild(DOMParser.parseFromString(`~~~ embed:${id} ok_video ~~~`), node);
 
     if (state.links) {
         state.links.add(`https://ok.ru/live/${id}`);
@@ -503,10 +484,7 @@ function header(state, node) {
     node.tagName = node.nodeName = node.localName = 'h' + newIndex;
 
     if (!node.getAttribute('id') && node.textContent) {
-        const idBase = detransliterate(
-            node.textContent.trim().toLowerCase(),
-            true
-        )
+        const idBase = detransliterate(node.textContent.trim().toLowerCase(), true)
             .replace(/^[^a-z0-9]+/, '')
             .replace(/[^a-z0-9]+$/, '')
             .replace(/[^a-z0-9]+/gi, '-');
@@ -522,11 +500,7 @@ function header(state, node) {
         state.anchors.add(id);
 
         node.setAttribute('id', id);
-        node.appendChild(
-            DOMParser.parseFromString(
-                `<a class="header-anchor" href="#${id}"></a>`
-            )
-        );
+        node.appendChild(DOMParser.parseFromString(`<a class="header-anchor" href="#${id}"></a>`));
     }
 }
 

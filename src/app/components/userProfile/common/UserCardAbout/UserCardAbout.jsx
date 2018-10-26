@@ -2,14 +2,13 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
-import { Link } from 'react-router';
 import tt from 'counterpart';
 
 import { FormattedDate } from 'react-intl';
 
 import { repLog10 } from 'app/utils/ParsersAndFormatters';
 import normalizeProfile from 'app/utils/NormalizeProfile';
-import { makeSocialLink, makeLeaveLink } from 'src/app/helpers/urls';
+import { makeSocialLink, sanitizeUrl } from 'src/app/helpers/urls';
 
 import Icon from 'golos-ui/Icon';
 import { CardTitle } from 'golos-ui/Card';
@@ -268,15 +267,14 @@ export default class UserCardAbout extends PureComponent {
                 {(website || about) && (
                     <CardContent>
                         {website && (
-                            <UserCardSite href={makeLeaveLink(website)}>
-                                {websiteLabel}
-                            </UserCardSite>
+                            <UserCardSite href={sanitizeUrl(website)}>{websiteLabel}</UserCardSite>
                         )}
                         {about && <UserCardBio>{about}</UserCardBio>}
                     </CardContent>
                 )}
 
-                {social && Boolean(Object.keys(social).length) && (
+                {social &&
+                    Boolean(Object.keys(social).length) && (
                         <SocialBlock justify="space-between">
                             {social.facebook && (
                                 <SocialLink
