@@ -124,12 +124,12 @@ const CountOf = styled.div`
 
 const ShareWrapper = styled(ActionWrapper)`
     position: relative;
+`;
 
+const IconWithState = styled(({ isOpen, ...rest }) => <Icon {...rest} />)`
     ${is('isOpen')`
-        & > div > svg {
-            transition: color 0s;
-            color: #2879ff;
-        }
+        transition: color 0s;
+        color: #2879ff;
     `};
 `;
 
@@ -348,10 +348,14 @@ export class SidePanel extends Component {
                                 : tt('postfull_jsx.share_in_social_networks')
                         }
                         data-tooltip-html
-                        isOpen={showSharePopover}
                     >
                         <IconWrapper>
-                            <Icon width="20" height="20" name="sharing_triangle" />
+                            <IconWithState
+                                width="20"
+                                height="20"
+                                name="sharing_triangle"
+                                isOpen={showSharePopover}
+                            />
                         </IconWrapper>
                         <PopoverStyled
                             position="right"
