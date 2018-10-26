@@ -58,13 +58,14 @@ export function openDelegateVestingDialog(toAccountName) {
     };
 }
 
-export function openTransferDialog(toAccountName) {
+export function openTransferDialog(toAccountName, otherProps) {
     return {
         type: SHOW_DIALOG,
         payload: {
             needAuth: true,
             component: TransferDialog,
             props: {
+                ...otherProps,
                 toAccountName,
             },
         },
