@@ -4,9 +4,10 @@ import { processBlog } from 'shared/state';
 import resolveRoute from 'app/ResolveRoute';
 import { reverseTag, prepareTrendingTags } from 'app/utils/tags';
 import { IGNORE_TAGS, PUBLIC_API } from 'app/client_config';
-import { TAGS_FILTER_TYPES } from 'src/app/redux/constants/common';
+import { TAGS_FILTER_TYPES, COUNT_OF_TAGS } from 'src/app/redux/constants/common';
 
 const DEFAULT_VOTE_LIMIT = 10000;
+const COUNT_TAGS_ON_PAGE = 250;
 
 export default async function getState(api, url = '/', options, offchain, settings) {
     const route = resolveRoute(url);
@@ -28,7 +29,7 @@ export default async function getState(api, url = '/', options, offchain, settin
     const accounts = new Set();
 
     // by default trending tags limit=50, but if we in '/tags/' path then limit = 250
-    const tagsLimit = route.page === 'Tags' ? 250 : 50;
+    const tagsLimit = route.page === 'Tags' ? COUNT_TAGS_ON_PAGE : COUNT_OF_TAGS.EXPANDED;
     const trendingTags = await api.getTrendingTagsAsync('', tagsLimit);
 
     state.tag_idx = {

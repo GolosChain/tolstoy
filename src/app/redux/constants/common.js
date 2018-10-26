@@ -12,4 +12,9 @@ export const TAGS_FILTER_TYPES = {
     SELECT: 1,
     EXCLUDE: 2,
 };
+
+export const COUNT_OF_TAGS = {
+    COLLAPSED: 25,
+    EXPANDED: 100,
+}
  
