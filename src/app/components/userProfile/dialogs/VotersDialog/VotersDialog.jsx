@@ -99,7 +99,7 @@ export default class VotersDialog extends PureComponent {
                         </LoaderWrapper>
                     )}
                 </Content>
-                {hasMore && !loading && users.length > 0 ? (
+                {hasMore && !loading ? (
                     <ShowAll onClick={this.showAll}>показать все</ShowAll>
                 ) : null}
             </Dialog>
