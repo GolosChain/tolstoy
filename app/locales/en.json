@@ -257,7 +257,7 @@
     },
     "operation_started": "Operation started!",
     "operation_success": "Operation completed successfully!",
-    "post_donation": "Post donation",
+    "post_donation": "Post donation %(url)s",
     "to": "To",
     "to_placeholder": "Transfer to account",
     "transfer": {

@@ -129,9 +129,9 @@ class TransferDialog extends PureComponent {
         let note = '';
 
         if (props.type === 'donate' && props.donatePostUrl) {
-            this._initialNote = note = `${tt(
-                'dialogs_transfer.post_donation'
-            )} https://${APP_DOMAIN}${props.donatePostUrl}`;
+            this._initialNote = note = tt('dialogs_transfer.post_donation', {
+                url: `https://${APP_DOMAIN}${props.donatePostUrl}`,
+            });
         }
 
         this.state = {

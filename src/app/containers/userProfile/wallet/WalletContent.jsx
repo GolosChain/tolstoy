@@ -489,9 +489,9 @@ class WalletContent extends Component {
                         }
 
                         if (donatePostUrl) {
-                            memo = `${tt(
-                                'dialogs_transfer.post_donation'
-                            )} https://${APP_DOMAIN}${donatePostUrl}`;
+                            memo = tt('dialogs_transfer.post_donation', {
+                                url: `https://${APP_DOMAIN}${donatePostUrl}`,
+                            });
                             memoIconText = tt('user_wallet.content.donate');
                         }
                     }
