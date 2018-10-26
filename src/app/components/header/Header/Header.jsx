@@ -160,12 +160,10 @@ const NewPostLink = styled(Link)`
     margin: 0 10px;
 `;
 
-const NewPostButton = styled(Button)``;
-
 const NewPostIcon = styled(Icon)`
     width: 16px;
     height: 16px;
-    margin-right: 7px !important;
+    margin-right: 7px;
 `;
 
 const AccountInfoBlock = styled(Link)`
@@ -446,10 +444,10 @@ export default class Header extends PureComponent {
             <AuthorizedBlock appear={waitAuth}>
                 {isPadScreen ? null : (
                     <NewPostLink to="/submit">
-                        <NewPostButton>
+                        <Button>
                             <NewPostIcon name="new-post" />
                             {tt('g.create_post')}
-                        </NewPostButton>
+                        </Button>
                     </NewPostLink>
                 )}
                 {this.renderNotificationsBlock()}

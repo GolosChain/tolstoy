@@ -44,7 +44,7 @@ const PostTitle = styled.h1`
 `;
 
 const PostBody = styled.div`
-    padding: 12px 0 14px;
+    padding-top: 12px;
 
     p {
         color: #373d3f;
@@ -62,11 +62,10 @@ const PostBody = styled.div`
 `;
 
 const Tags = styled.div`
-    margin-top: -10px;
     display: flex;
     flex-wrap: wrap;
 
-    & > div {
+    ${TagLink} {
         margin: 10px 10px 0 0;
     }
 `;
@@ -137,7 +136,6 @@ export class PostContent extends Component {
             category,
             title,
             body,
-            jsonMetadata,
             pictures,
             created,
             isPromoted,
@@ -160,7 +158,6 @@ export class PostContent extends Component {
                     <PostBody>
                         <MarkdownViewer
                             text={body}
-                            jsonMetadata={jsonMetadata}
                             large
                             highQualityPost={payout > 10}
                             noImage={!pictures}

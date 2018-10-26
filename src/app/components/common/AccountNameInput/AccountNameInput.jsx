@@ -12,6 +12,7 @@ import { getScrollElement } from 'src/app/helpers/window';
 
 const MIN_SYMBOLS = 2;
 const MAX_VARIANTS = 5;
+const ITEM_HEIGHT = 32;
 
 const Wrapper = styled.label`
     position: relative;
@@ -83,7 +84,7 @@ const Item = styled.li`
     list-style: none;
     white-space: nowrap;
     font-size: 14px;
-    color: #7c7c7c;
+    color: #555;
     overflow: hidden;
     text-overflow: ellipsis;
     text-transform: none;
@@ -97,13 +98,13 @@ const Item = styled.li`
     }
 
     ${is('selected')`
-        color: #505050 !important;
+        color: #333 !important;
         background: #b3d2f0 !important;
     `};
 `;
 
 const Dots = styled.div`
-    padding: 0 11px 2px;
+    padding: 0 15px 2px;
 
     &::after {
         content: '...';
@@ -118,6 +119,7 @@ export default class AccountNameInput extends PureComponent {
         index: null,
         list: null,
         popoverPos: null,
+        maxShowCount: MAX_VARIANTS,
     };
 
     _loadIndex = 0;
@@ -161,13 +163,20 @@ export default class AccountNameInput extends PureComponent {
     }
 
     reposition = () => {
-        const { open, popoverPos } = this.state;
+        const { open, popoverPos, list, maxShowCount } = this.state;
 
         if (!open) {
             return;
         }
 
         const box = this.wrapper.getBoundingClientRect();
+
+        const freeSpace = window.innerHeight - box.bottom - 2;
+
+        const newShowCount = Math.min(
+            MAX_VARIANTS + 1,
+            Math.max(1, Math.floor(freeSpace / ITEM_HEIGHT))
+        );
 
         const pos = {
             top: getScrollElement().scrollTop + box.top + box.height - 1,
@@ -183,6 +192,12 @@ export default class AccountNameInput extends PureComponent {
         ) {
             this.setState({
                 popoverPos: pos,
+            });
+        }
+
+        if (maxShowCount !== newShowCount) {
+            this.setState({
+                maxShowCount: newShowCount,
             });
         }
     };
@@ -388,11 +403,13 @@ export default class AccountNameInput extends PureComponent {
     loadAccounts = memoize(word => api.lookupAccountsAsync(word, MAX_VARIANTS + 1));
 
     renderAutocomplete() {
-        const { list, index, popoverPos } = this.state;
+        const { list, index, popoverPos, maxShowCount } = this.state;
+
+        const showCount = Math.min(MAX_VARIANTS, list.length, maxShowCount);
 
         return (
             <Autocomplete style={popoverPos}>
-                {list.slice(0, MAX_VARIANTS).map((accountName, i) => (
+                {list.slice(0, showCount).map((accountName, i) => (
                     <Item
                         key={accountName}
                         selected={i === index}
@@ -402,7 +419,7 @@ export default class AccountNameInput extends PureComponent {
                         {accountName}
                     </Item>
                 ))}
-                {list.length > MAX_VARIANTS ? <Dots /> : null}
+                {list.length > showCount && maxShowCount > MAX_VARIANTS ? <Dots /> : null}
             </Autocomplete>
         );
     }

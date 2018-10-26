@@ -29,7 +29,7 @@ export function loadFavoritesAction() {
     };
 }
 
-export function toggleFavoriteRequestAction(link, isAdd) {
+export function toggleFavoriteRequestAction({ link, isAdd }) {
     const method = isAdd ? 'addFavorite' : 'removeFavorite';
 
     return {

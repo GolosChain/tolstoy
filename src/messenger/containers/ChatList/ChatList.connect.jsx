@@ -11,6 +11,7 @@ import {
     showSearchResults,
 } from 'src/messenger/redux/selectors/ui';
 import { selectChat } from 'src/messenger/redux/actions/ui';
+import { getThread } from 'src/messenger/redux/actions/messages';
 
 export default connect(
     state => ({
@@ -21,5 +22,6 @@ export default connect(
     }),
     {
         selectChat,
+        getThread,
     }
 )(ChatListContainer);

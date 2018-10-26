@@ -3,6 +3,7 @@ import {
     UI_LOCATION_CHANGED,
     UI_PROFILE_CHANGE_LAYOUT,
     UI_PROFILE_ACTIVITY_CHANGE_TAB,
+    UI_HOME_TAGS_CARD_COLLAPSE,
 } from 'src/app/redux/constants/ui';
 
 export function saveListScrollPosition(y) {
@@ -28,6 +29,10 @@ export function changeProfileLayout(payload) {
 
 export function changeProfileActivityTab(payload) {
     return { type: UI_PROFILE_ACTIVITY_CHANGE_TAB, payload };
+}
+
+export function changeHomeTagsCardCollapse(payload) {
+    return { type: UI_HOME_TAGS_CARD_COLLAPSE, payload };
 }
 
 export function showNotification(text, keyPrefix, dismissDelay = 5000) {

@@ -6,7 +6,7 @@ import Icon from 'golos-ui/Icon';
 
 storiesOf('Golos UI/Button', module)
     .add('type', () => <Button type="submit">Подписаться</Button>)
-    .add('icon', () => <Button><Icon name="subscribe" height="10" width="14"/>Подписаться</Button>)
+    .add('icon', () => <Button><Icon name="subscribe" height="10" width="14" />&nbsp;Подписаться</Button>)
     .add('children', () => <Button>Подписаться</Button>)
 
     .add('light', () => <Button light>Подписаться</Button>)

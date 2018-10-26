@@ -204,6 +204,7 @@ class SafeDialog extends PureComponent {
                                 <AccountNameInput
                                     name="account"
                                     block
+                                    autoFocus
                                     placeholder={tt('dialogs_transfer.to_placeholder')}
                                     value={target}
                                     onChange={this._onTargetChange}

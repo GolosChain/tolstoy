@@ -9,6 +9,9 @@ const CURRENCY_SIGNS = {
     RUB: '_₽',
 };
 
+const MIN_DELEGATION_AMOUNT = 0.1; // GOLOS
+const MIN_DELEGATION_AMOUNT_ERROR = 'Delegation difference is not enough';
+
 const queried = new Set();
 
 export function parseAmount(amount, balance, isFinal) {
@@ -58,6 +61,16 @@ export function parseAmount2(amount, balance, isFinal, multiplier) {
     return {
         error,
         value: error ? null : amountValue,
+    };
+}
+
+// FIXME b1acksun
+export function parseAmount3(amount, balance, isFinal, multiplier) {
+    const { error, value } = parseAmount2(amount, balance, isFinal, multiplier);
+
+    return {
+        error: value < MIN_DELEGATION_AMOUNT * multiplier ? MIN_DELEGATION_AMOUNT_ERROR : error,
+        value: error ? null : value,
     };
 }
 

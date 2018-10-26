@@ -56,7 +56,6 @@ export const SCRAP_EMBED_SINCE = new Date(Date.UTC(2017, 4, 5));
 
 // ignore special tags, dev-tags, partners tags
 export const IGNORE_TAGS = ['test', 'bm-open', 'bm-ceh23', 'bm-tasks', 'bm-taskceh1']
-export const SELECT_TAGS_KEY = 'golos:select.categories'
 export const PUBLIC_API = {
   trending:     ['get_discussions_by_trending',   'trending'],
   trending30:   ['get_discussions_by_trending30', 'trending30'],

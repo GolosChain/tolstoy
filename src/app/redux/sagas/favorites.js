@@ -1,5 +1,6 @@
 import { put, all, select, takeEvery } from 'redux-saga/effects';
 import { loadUserLazy } from 'src/app/helpers/users';
+import { loginIfNeed } from './login';
 import { loadFavoritesAction, toggleFavoriteRequestAction } from '../actions/favorites';
 import DialogManager from 'app/components/elements/common/DialogManager';
 
@@ -15,6 +16,7 @@ import {
     FAVORITES_REQUEST_SUCCESS,
     FAVORITES_TOGGLE_REQUEST_ERROR,
 } from '../constants/favorites';
+
 
 export default function* watch() {
     yield takeEvery(FAVORITES_LOAD, loadFavorites);
@@ -119,7 +121,11 @@ function* loadFavoriteContent() {
 }
 
 function* toggleFavorite({ payload }) {
-    yield put(toggleFavoriteRequestAction(payload.link, payload.isAdd));
+    const logged = yield loginIfNeed();
+
+    if (logged) {
+        yield put(toggleFavoriteRequestAction(payload));
+    }
 }
 
 function onToggleRequestError() {

@@ -13,6 +13,9 @@ export default connect(
     createSelector(
         [currentPostSelector, authorSelector, currentUsernameSelector, newVisitorSelector],
         (post, author, username, newVisitor) => {
+            if (!post) {
+                return {};
+            }
             return {
                 newVisitor: newVisitor,
                 author: author.account,

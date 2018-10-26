@@ -2,14 +2,13 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import memoize from 'lodash/memoize';
-
+import Dropzone from 'react-dropzone';
 import tt from 'counterpart';
+
 import o2j from 'shared/clash/object2json';
 import proxifyImageUrl from 'app/utils/ProxifyUrl';
 import normalizeProfile from 'app/utils/NormalizeProfile';
 
-import Dropzone from 'react-dropzone';
-import { BaseButton } from 'golos-ui/Button';
 import Icon from 'golos-ui/Icon';
 import Flex from 'golos-ui/Flex';
 
@@ -97,11 +96,6 @@ const Login = styled.div`
     mix-blend-mode: difference;
     font-size: 20px;
     color: #757575;
-
-    @media (max-width: 768px) {
-        font-size: 14px;
-        margin-top: 0;
-    }
 `;
 
 const Buttons = styled(Flex)`
@@ -111,8 +105,6 @@ const Buttons = styled(Flex)`
         margin-top: 16px;
     }
 `;
-
-const ButtonLink = BaseButton.withComponent('a');
 
 const AvatarDropzone = styled(Dropzone)`
     position: absolute !important;
@@ -169,7 +161,6 @@ const ButtonFollow = styled(Follow)`
     margin-right: 5px;
 `;
 
-// Component
 export default class UserHeader extends Component {
     static propTypes = {
         currentAccount: PropTypes.object,

@@ -10,9 +10,15 @@ import Icon from 'golos-ui/Icon';
 
 import { changeProfileLayout } from 'src/app/redux/actions/ui';
 import SlideContainer from 'src/app/components/common/SlideContainer';
+import Container from 'src/app/components/common/Container';
 import throttle from 'lodash/throttle';
 
 const MAIN_CONTAINER_WIDTH_POINT = 1200;
+
+const SlideContainerStyled = styled(SlideContainer)`
+    background: #fff;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
+`;
 
 const TabLink = styled(StyledTabLink)`
     &.${({ activeClassName }) => activeClassName} {
@@ -37,6 +43,7 @@ const RightIcons = styled.div`
     display: flex;
     flex: 1;
     justify-content: flex-end;
+    align-items: center;
 `;
 
 const IconLink = styled(Link)`
@@ -118,20 +125,22 @@ class UserNavigation extends PureComponent {
         }
 
         return (
-            <SlideContainer className={className}>
-                {tabLinks.map(({ value, to }) => (
-                    <TabLinkIndex key={to} to={to}>
-                        {value}
+            <SlideContainerStyled className={className}>
+                <Container>
+                    {tabLinks.map(({ value, to }) => (
+                        <TabLinkIndex key={to} to={to}>
+                            {value}
+                        </TabLinkIndex>
+                    ))}
+                    <TabLinkIndex
+                        key={`/@${accountName}/messages`}
+                        to={`/@${accountName}/messages`}
+                    >
+                        {tt('g.messages')}
                     </TabLinkIndex>
-                ))}
-                <TabLinkIndex
-                    key={`/@${accountName}/messages`}
-                    to={`/@${accountName}/messages`}
-                >
-                    {tt('g.messages')}
-                </TabLinkIndex>
-                {this._renderRightIcons()}
-            </SlideContainer>
+                    {this._renderRightIcons()}
+                </Container>
+            </SlideContainerStyled>
         );
     }
 

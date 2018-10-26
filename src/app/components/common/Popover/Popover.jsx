@@ -6,6 +6,9 @@ import throttle from 'lodash/throttle';
 import { getScrollElement } from 'src/app/helpers/window';
 
 const POPOVER_OFFSET = 25;
+const POINTER_HEIGHT = 10;
+const POPOVER_VERTICAL_OFFSET = POINTER_HEIGHT + 1;
+const MINIMAL_SPACE = 160;
 
 const Root = styled.div`
     position: absolute;
@@ -38,6 +41,10 @@ const Wrapper = styled.div`
     ${is('center')`
         transform: translateX(-50%);
     `};
+
+    ${is('up')`
+        bottom: 0;
+    `};
 `;
 
 const Pointer = styled.div`
@@ -49,6 +56,12 @@ const Pointer = styled.div`
     transform: rotate(45deg);
     background: #fff;
     box-shadow: -3px -3px 4px 0 rgba(0, 0, 0, 0.05);
+
+    ${is('up')`
+        top: unset;
+        bottom: 0;
+        box-shadow: 3px 3px 4px 0 rgba(0, 0, 0, 0.05);
+    `};
 `;
 
 const Content = styled.div`
@@ -61,6 +74,7 @@ export default class Popover extends PureComponent {
         isOpen: this.props.isOpen || false,
         top: null,
         left: null,
+        toUp: false,
     };
 
     componentDidMount() {
@@ -91,7 +105,7 @@ export default class Popover extends PureComponent {
 
     _renderPopover() {
         const { content } = this.props;
-        const { top, left, align, pointerStyle } = this.state;
+        const { top, left, align, pointerStyle, toUp } = this.state;
 
         const wrapperStyle = {};
 
@@ -107,8 +121,13 @@ export default class Popover extends PureComponent {
 
         return (
             <Root style={{ top, left }}>
-                <Wrapper style={wrapperStyle} center={center} innerRef={this._onPopoverRef}>
-                    <Pointer style={pointerStyle} />
+                <Wrapper
+                    style={wrapperStyle}
+                    center={center}
+                    up={toUp}
+                    innerRef={this._onPopoverRef}
+                >
+                    <Pointer up={toUp} style={pointerStyle} />
                     <Content>{content()}</Content>
                 </Wrapper>
             </Root>
@@ -165,15 +184,23 @@ export default class Popover extends PureComponent {
             return;
         }
 
+        const { up } = this.props;
+
         const pointerStyle = {};
 
         const target = this._target.getBoundingClientRect();
+
+        const toUp =
+            (up && target.top > MINIMAL_SPACE) ||
+            target.top + target.height > window.innerHeight - MINIMAL_SPACE;
 
         const { scrollTop, scrollLeft } = getScrollElement();
 
         const x = scrollLeft + target.left + target.width / 2;
 
-        const top = Math.round(scrollTop + target.top + target.height + 8);
+        const shift = toUp ? -POPOVER_VERTICAL_OFFSET : target.height + POPOVER_VERTICAL_OFFSET;
+
+        const top = Math.round(scrollTop + target.top + shift);
 
         if (this._popover) {
             const box = this._popover.getBoundingClientRect();
@@ -237,7 +264,7 @@ export default class Popover extends PureComponent {
             pointerStyle.left = POPOVER_OFFSET;
         } else if (xPart > 0.8) {
             align = 'right';
-            left -= POPOVER_OFFSET;
+            left += POPOVER_OFFSET;
             pointerStyle.right = POPOVER_OFFSET;
         } else {
             align = 'center';
@@ -249,6 +276,7 @@ export default class Popover extends PureComponent {
             left,
             align,
             pointerStyle,
+            toUp,
         });
     };
 
@@ -266,6 +294,10 @@ export default class Popover extends PureComponent {
             return;
         }
 
+        this.close();
+    };
+
+    close() {
         this._removeListeners();
 
         this._forced = null;
@@ -277,7 +309,7 @@ export default class Popover extends PureComponent {
             align: null,
             pointerStyle: null,
         });
-    };
+    }
 
     _doRepositionLazy = throttle(this._doReposition, 50);
 }

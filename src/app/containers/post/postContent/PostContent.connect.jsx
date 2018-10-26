@@ -28,7 +28,6 @@ export default connect(
                 category: post.category,
                 title: post.title,
                 body: post.body,
-                jsonMetadata: post.jsonMetadata,
                 pictures: post.pictures,
                 created: post.created,
                 permLink: post.permLink,
