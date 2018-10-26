@@ -73,14 +73,14 @@ const zeroedPayout = {
     isDeclined: false,
 };
 
-function calculateGolosPerGbg(result, date, rates) {
+function calculateGolosPerGbg(result, rates) {
     if (!result.isPending) {
-        const dateRates = rates.dates.get(date);
+        const dateRates = rates.dates.get(result.lastPayout);
 
         if (dateRates) {
             return dateRates.GBG.GOLOS;
         } else {
-            result.needLoadRatesForDate = date;
+            result.needLoadRatesForDate = result.lastPayout;
         }
     }
 
@@ -94,6 +94,7 @@ function extractFields(data, fieldsList) {
         benefGests: extract(fieldsList.BENEF_GESTS),
         benefGbg: extract(fieldsList.BENEF_GBG),
         curatGests: extract(fieldsList.CURAT_GESTS),
+        curatGbg: extract(fieldsList.CURAT_GBG),
         authorGbg: extract(fieldsList.AUTHOR_GBG),
         authorGolos: extract(fieldsList.AUTHOR_GOLOS),
         authorGests: extract(fieldsList.AUTHOR_GESTS),
@@ -104,11 +105,12 @@ export const getPayoutPermLink = createSelector(
     [dataSelector('rates'), (state, props) => globalSelector(['content', props.postLink])(state)],
     memoize((rates, data) => {
         const result = { ...zeroedPayout };
-        const lastPayout = data.get('last_payout');
+
+        result.lastPayout = data.get('last_payout');
         const max = parseFloat(data.get('max_accepted_payout', 0));
 
         // Date may be "1970-01-01..." or "1969-12-31..." in case of pending payout
-        result.isPending = !lastPayout || lastPayout.startsWith('19');
+        result.isPending = !result.lastPayout || result.lastPayout.startsWith('19');
         result.isDeclined = max === 0;
 
         const fieldsList = result.isPending ? FIELDS_PENDING : FIELDS;
@@ -134,11 +136,31 @@ export const getPayoutPermLink = createSelector(
             fields.authorGolos / (authorTotalGbg * golosPowerFraction - fields.authorGbg);
 
         if (!golosPerGbg) {
-            golosPerGbg = calculateGolosPerGbg(result, lastPayout, rates);
+            golosPerGbg = calculateGolosPerGbg(result, rates);
         }
 
-        const gestsPerGolos =
-            fields.authorGests / (authorTotalGbg * golosPerGbg * (1 - golosPowerFraction));
+        let gestsPerGbg;
+        let gestsPerGolos;
+
+        if (fields.authorGests) {
+            gestsPerGolos =
+                fields.authorGests / (authorTotalGbg * golosPerGbg * (1 - golosPowerFraction));
+        } else {
+            let gestsPerGbg;
+
+            if (fields.curatGests) {
+                gestsPerGbg = fields.curatGests / fields.curatGbg;
+            } else if (fields.benefGests) {
+                gestsPerGbg = fields.benefGests / fields.benefGbg;
+            }
+
+            if (!gestsPerGbg) {
+                // Not enough values for calculation, it means what values are 0
+                return result;
+            }
+
+            gestsPerGolos = gestsPerGbg / golosPerGbg;
+        }
 
         result.author = fields.authorGolos + fields.authorGests / gestsPerGolos;
         result.authorGbg = fields.authorGbg;
@@ -148,7 +170,6 @@ export const getPayoutPermLink = createSelector(
         result.totalGbg = fields.authorGbg;
         result.overallTotal = result.total + result.totalGbg * golosPerGbg;
         result.limitedOverallTotal = result.isLimit ? max * golosPerGbg : result.overallTotal;
-        result.lastPayout = lastPayout;
 
         return result;
     })
