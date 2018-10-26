@@ -87,6 +87,12 @@ const IconWrapper = styled.div`
             transform: scale(1.15);
         }
     `};
+    
+    ${is('isPinned')`
+        & ${Icon} {
+            color: #2879ff;
+        }
+    `}
 `;
 
 const BodyLink = styled(Link)`
@@ -323,6 +329,7 @@ export default class PostCard extends PureComponent {
             <ToolbarAction>
                 <IconWrapper
                     enabled={!pinDisabled}
+                    isPinned={isPinned}
                     data-tooltip={pinTip}
                     onClick={!pinDisabled ? this._onPinClick : null}
                 >
