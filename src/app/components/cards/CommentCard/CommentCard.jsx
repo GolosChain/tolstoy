@@ -68,7 +68,10 @@ const Title = styled.div`
     margin-bottom: 8px;
 `;
 
-const CommentBody = styled(({ shortText, ...otherProps }) => <Link {...otherProps} />)`
+const CommentBody = styled(
+    ({ shortText, isPostPage, to, ...otherProps }) =>
+        isPostPage ? <div {...otherProps} /> : <Link to={to} {...otherProps} />
+)`
     display: block;
     width: 100%;
 
@@ -202,6 +205,7 @@ export class CommentCard extends PureComponent {
                             onClick={this.rememberScrollPosition}
                             dangerouslySetInnerHTML={{ __html: extractedContent.desc }}
                             shortText
+                            isPostPage={isPostPage}
                         />
                     )}
                     <EmptyCloseOpenButton />
@@ -277,6 +281,7 @@ export class CommentCard extends PureComponent {
                         <CommentBody
                             to={extractedContent.link}
                             onClick={this.rememberScrollPosition}
+                            isPostPage={isPostPage}
                         >
                             <MarkdownViewer
                                 text={extractedContent.body}
