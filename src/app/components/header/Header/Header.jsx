@@ -11,6 +11,7 @@ import { REGISTRATION_URL } from 'app/client_config';
 import Icon from 'golos-ui/Icon';
 import IconBadge from 'golos-ui/IconBadge';
 import Button from 'golos-ui/Button';
+import Container from 'src/app/components/common/Container';
 import Userpic from 'app/components/elements/Userpic';
 import Menu from '../Menu';
 import NotificationsMenu from '../NotificationsMenu';
@@ -42,14 +43,6 @@ const Fixed = styled.div`
         
         border: none;
     `};
-`;
-
-const Content = styled.div`
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 100%;
-    max-width: 1200px;
 `;
 
 const Filler = styled.div`
@@ -556,7 +549,7 @@ export default class Header extends PureComponent {
         return (
             <Root>
                 <Fixed mobile={isPadScreen ? 1 : 0}>
-                    <Content>
+                    <Container>
                         <LogoLink to="/">
                             <LogoIcon name="logo" />
                             {isPadScreen ? null : (
@@ -582,7 +575,7 @@ export default class Header extends PureComponent {
                                 </LoginLink>
                             </Buttons>
                         )}
-                    </Content>
+                    </Container>
                     {isNotificationsOpen ? (
                         <Popover
                             notificationMobile={isMobile}
