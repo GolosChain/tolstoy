@@ -58,6 +58,10 @@ const LogoLink = styled(Link)`
     @media (max-width: 1230px) {
         margin-left: 10px;
     }
+
+    @media (max-width: 350px) {
+        margin-left: 3px;
+    }
 `;
 
 const LogoIcon = styled(Icon)`
@@ -94,6 +98,11 @@ const SearchBlock = styled(Link)`
         padding: 10px 20px;
         margin-right: 0;
     `};
+
+    @media (max-width: 350px) {
+        margin: 0 4px 0 0;
+        padding: 8px;
+    }
 `;
 
 const SearchInput = styled.input`
@@ -131,13 +140,15 @@ const Buttons = styled.div`
     `};
 `;
 
-const RegistrationLink = styled.a`
+const SignUp = styled.a`
     margin-right: 12px;
+
+    @media (max-width: 350px) {
+        margin-right: 6px;
+    }
 `;
 
-const LoginLink = styled(Link)`
-    margin-right: 12px;
-`;
+const SignIn = SignUp.withComponent(Link);
 
 const AuthorizedBlock = styled.div`
     display: flex;
@@ -567,12 +578,12 @@ export default class Header extends PureComponent {
                             this.renderAuthorizedPart()
                         ) : (
                             <Buttons hidden={waitAuth}>
-                                <RegistrationLink href={REGISTRATION_URL}>
+                                <SignUp href={REGISTRATION_URL}>
                                     <Button>{tt('g.sign_up')}</Button>
-                                </RegistrationLink>
-                                <LoginLink to="/login" onClick={this.onLoginClick}>
+                                </SignUp>
+                                <SignIn to="/login" onClick={this.onLoginClick}>
                                     <Button light>{tt('g.login')}</Button>
-                                </LoginLink>
+                                </SignIn>
                             </Buttons>
                         )}
                     </Container>
