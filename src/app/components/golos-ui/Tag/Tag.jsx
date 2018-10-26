@@ -9,7 +9,7 @@ export const Tag = styled.div`
     line-height: 26px;
     padding: 0 15px;
     border-radius: 4px;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 500;
     text-overflow: ellipsis;
     text-align: center;

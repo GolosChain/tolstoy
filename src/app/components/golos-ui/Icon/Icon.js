@@ -12,7 +12,7 @@ const Icon = ({ name, size, height, width, ...props }) => {
     props.width = size || width;
 
     return (
-        <svg { ...props }>
+        <svg {...props}>
             <use xlinkHref={`#${name}`} />
         </svg>
     );
@@ -20,23 +20,14 @@ const Icon = ({ name, size, height, width, ...props }) => {
 
 Icon.propTypes = {
     name: PropTypes.string,
-    size: PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.string,
-    ]),
-    height: PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.string,
-    ]),
-    width: PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.string,
-    ]),
-}
+    size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+};
 
 Icon.defaultProps = {
     height: '24',
     width: '24',
-}
+};
 
 export default styled(Icon)``;

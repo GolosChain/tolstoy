@@ -53,12 +53,12 @@ export default class Follow extends Component {
         const { isFollow, className } = this.props;
         return isFollow ? (
             <Wrapper light onClick={this._unfollow} className={className}>
-                <IconStyled width="10" height="10" name="cross" />
+                <IconStyled width="14" height="10" name="tick" />
                 <span>{tt('g.unfollow')}</span>
             </Wrapper>
         ) : (
             <Wrapper onClick={this._follow} className={className}>
-                <IconStyled width="11" height="8" name="subscribe" />
+                <IconStyled width="14" height="14" name="plus" />
                 <span>{tt('g.follow')}</span>
             </Wrapper>
         );
