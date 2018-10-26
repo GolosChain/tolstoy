@@ -6,15 +6,15 @@ import Container from 'src/app/components/common/Container/Container';
 import LoginForm from './LoginForm';
 
 const HEADER_HEIGHT = 60;
-const FOOTER_HEIGHT = 324;
 const CONTAINER_WIDTH = 460;
+const DESKTOP_FOOTER_HEIGHT = 324;
 
 const Wrapper = styled(Container)`
     position: relative;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    min-height: calc(100vh - ${HEADER_HEIGHT}px - ${FOOTER_HEIGHT}px);
+    min-height: calc(100vh - ${HEADER_HEIGHT}px - ${DESKTOP_FOOTER_HEIGHT}px);
 
     @media (max-width: 650px) {
         min-height: auto;

@@ -51,12 +51,30 @@ const PostDate = styled.div`
     cursor: default;
 `;
 
-const RepostIcon = styled(Icon)`
+
+const RepostText = styled.span`
+    font-size: 14px;
+    color: #757575;
+`;
+
+const RepostIconWrapper = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     position: absolute;
-    bottom: 0;
-    left: 0;
+    bottom: -6px;
+    left: -6px;
     width: 20px;
     height: 20px;
+
+    border-radius: 50%;
+    background-color: #ffffff;
+`;
+
+const RepostIcon = styled(Icon)`
+    flex-shrink: 0;
+    color: #2879ff;
 `;
 
 const CardAuthor = ({ author, isRepost, created, className, noLinks }) => {
@@ -72,7 +90,11 @@ const CardAuthor = ({ author, isRepost, created, className, noLinks }) => {
         <Wrapper className={className}>
             <AvatarComp to={`/@${author}`}>
                 <Userpic account={author} size={37} />
-                {isRepost ? <RepostIcon name="repost-avatar" /> : null}
+                {isRepost ? (
+                    <RepostIconWrapper>
+                        <RepostIcon name="repost" width={14} height={12} />
+                    </RepostIconWrapper>
+                ) : null}
             </AvatarComp>
             <PostDesc>
                 <AuthorLine>

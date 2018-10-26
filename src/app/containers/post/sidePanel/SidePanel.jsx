@@ -16,9 +16,9 @@ import { PopoverStyled } from 'src/app/components/post/PopoverAdditionalStyles';
 import PostActions from 'src/app/components/post/PostActions';
 import { POST_MAX_WIDTH } from 'src/app/containers/post/PostContainer';
 
-const PANEL_MARGIN = 20;
-const FOOTER_HEIGHT = 324;
 const HEADER_HEIGHT = 60;
+const DESKTOP_FOOTER_HEIGHT = 324;
+const PANEL_MARGIN = 20;
 const SIDE_PANEL_WIDTH = 64;
 
 const PanelWrapper = styled.div`
@@ -133,7 +133,7 @@ export class SidePanel extends Component {
         const panelRect = this.sideBlockRef.current.getBoundingClientRect();
 
         const documentElem = document.documentElement;
-        const bottomBorder = documentElem.scrollHeight - FOOTER_HEIGHT;
+        const bottomBorder = documentElem.scrollHeight - DESKTOP_FOOTER_HEIGHT;
         const offsetBottomOfScreen =
             documentElem.scrollTop +
             documentElem.clientHeight / 2 +

@@ -18,9 +18,11 @@ const Wrapper = styled.div`
     display: flex;
     flex: 1;
     align-items: center;
-
-    :not(:last-child) {
-        margin-bottom: 15px;
+    
+    padding: 17px;
+    
+    &:hover {
+        background-color: #eff1f4;
     }
 `;
 
@@ -58,6 +60,12 @@ const ActivityText = styled.div`
     ${is('isCompact')`
         color: #757575;
     `};
+    
+    & a {
+        color: #959595;
+        font-weight: 500;
+        text-decoration: underline;
+    }
 `;
 
 const LeftSide = styled.div`
@@ -100,7 +108,7 @@ const icons = {
         size: 14,
     },
     repost: {
-        name: 'avatar',
+        name: 'repost',
         size: 14,
     },
     reward: {
@@ -143,7 +151,6 @@ export default class ActivityItem extends Component {
         if (account) {
             const userName = account.get('name');
             const { name, profile_image } = normalizeProfile(account.toJS());
-
             leftSide = (
                 <Link to={`/@${userName}`}>
                     <Avatar

@@ -1,5 +1,6 @@
 import { fromJS } from 'immutable';
 import { createDeepEqualSelector, globalSelector, currentUserSelector } from './common';
+import { getStoreState } from 'app/clientRender';
 
 // Notifications selectors
 
@@ -27,33 +28,29 @@ export const hydrateNotification = (
         ) {
             let author = '';
             if (['vote', 'flag', 'reward'].includes(eventType)) {
-                author = account.get('name');
-            } else if (['repost', 'reply', 'mention'].includes(eventType)) {
+                author = account.get('username');
+            } else if (['reply', 'mention'].includes(eventType)) {
                 author = notify.get('fromUsers').get(0);
+            } else if ('repost' === eventType) {
+                author = getStoreState().user.getIn(['current', 'username']);
             } else if (eventType === 'curatorReward') {
                 author = notify.get('curatorTargetAuthor');
             }
 
             const content = contents.getIn([`${author}/${notify.get('permlink')}`]);
+
             if (content) {
-                // if it isn't post
-                if (content.get('parent_author')) {
-                    notify.setIn(
-                        ['computed'],
-                        fromJS({
-                            title: content.get('root_title'),
-                            link: content.get('url'),
-                        })
-                    );
-                } else {
-                    notify.setIn(
-                        ['computed'],
-                        fromJS({
-                            title: content.get('title'),
-                            link: `/@${content.get('author')}/${content.get('permlink')}`,
-                        })
-                    );
-                }
+                const postTitle = content.get('parent_author')
+                    ? content.get('root_title')
+                    : content.get('title');
+
+                notify.setIn(
+                    ['computed'],
+                    fromJS({
+                        title: postTitle,
+                        link: content.get('url'),
+                    })
+                );
             }
         }
 
@@ -67,7 +64,6 @@ export const hydrateNotification = (
         if (prevNotify) {
             notify.set('isNextDay', isNextDay(prevNotify, notify));
         }
-
         return notify;
     });
 };

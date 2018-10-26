@@ -45,6 +45,7 @@ export default connect(
                 isOwner,
                 username,
                 payout,
+                anchorId: `@${permLink}`,
                 dataLoaded: true,
             };
         }

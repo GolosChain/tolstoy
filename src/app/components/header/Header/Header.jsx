@@ -482,11 +482,11 @@ export default class Header extends PureComponent {
                     <AccountName>{realName}</AccountName>
                     <AccountPowerBlock>
                         <AccountPowerBar title={`Сила голоса: ${powerPercent}%`}>
-                            <AccountPowerChunk fill={votingPower > 90 ? 1 : 0} />
-                            <AccountPowerChunk fill={votingPower > 70 ? 1 : 0} />
-                            <AccountPowerChunk fill={votingPower > 50 ? 1 : 0} />
-                            <AccountPowerChunk fill={votingPower > 30 ? 1 : 0} />
                             <AccountPowerChunk fill={votingPower > 10 ? 1 : 0} />
+                            <AccountPowerChunk fill={votingPower > 30 ? 1 : 0} />
+                            <AccountPowerChunk fill={votingPower > 50 ? 1 : 0} />
+                            <AccountPowerChunk fill={votingPower > 70 ? 1 : 0} />
+                            <AccountPowerChunk fill={votingPower > 90 ? 1 : 0} />
                         </AccountPowerBar>
                         <AccountPowerValue>{powerPercent}%</AccountPowerValue>
                     </AccountPowerBlock>
