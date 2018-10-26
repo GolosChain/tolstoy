@@ -9,7 +9,7 @@ import {
     CURRENCY,
     DIRECTION,
     REWARDS_TYPES,
-} from 'src/app/containers/userProfile/wallet/WalletContent';
+} from 'src/app/containers/userProfile/wallet/WalletContent/WalletContent';
 
 const CardContentStyled = styled(CardContent)`
     display: block;

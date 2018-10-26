@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 import throttle from 'lodash/throttle';
 import styled from 'styled-components';
@@ -7,14 +6,13 @@ import tt from 'counterpart';
 import { Helmet } from 'react-helmet';
 import { api } from 'golos-js';
 
-import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import Card from 'golos-ui/Card';
-import { vestsToGolosEasy } from 'app/utils/StateFunctions';
-import { vestsToGolos } from 'app/utils/StateFunctions';
-import transaction from 'app/redux/Transaction';
+
+import { APP_DOMAIN, DONATION_FOR } from 'app/client_config';
+import LoadingIndicator from 'app/components/elements/LoadingIndicator';
+import { vestsToGolos, vestsToGolosEasy } from 'app/utils/StateFunctions';
 import WalletTabs from 'src/app/components/userProfile/wallet/WalletTabs';
 import WalletLine from 'src/app/components/userProfile/wallet/WalletLine';
-import { APP_DOMAIN, DONATION_FOR } from 'app/client_config';
 
 const DEFAULT_ROWS_LIMIT = 25;
 const LOAD_LIMIT = 500;
@@ -57,8 +55,6 @@ export const DIRECTION = {
     RECEIVE: 'RECEIVE',
 };
 
-const CardStyled = styled(Card)``;
-
 const Content = styled.div`
     font-family: Roboto, sans-serif;
 `;
@@ -93,15 +89,7 @@ const Stub = styled.div`
     color: #777;
 `;
 
-function Loader() {
-    return (
-        <LoaderWrapper>
-            <LoadingIndicator type="circle" size={40} />
-        </LoaderWrapper>
-    );
-}
-
-class WalletContent extends Component {
+export default class WalletContent extends Component {
     state = {
         mainTab: MAIN_TABS.TRANSACTIONS,
         currency: CURRENCY.ALL,
@@ -110,12 +98,6 @@ class WalletContent extends Component {
         rewardType: REWARDS_TYPES.CURATORIAL,
         limit: DEFAULT_ROWS_LIMIT,
     };
-
-    constructor(props) {
-        super(props);
-
-        this._globalProps = props.globalProps.toJS();
-    }
 
     componentDidMount() {
         this._loadDelegationsData();
@@ -129,18 +111,12 @@ class WalletContent extends Component {
         window.removeEventListener('scroll', this._onScrollLazy);
     }
 
-    componentWillReceiveProps(newProps) {
-        if (this.props.globalProps !== newProps.globalProps) {
-            this._globalProps = newProps.globalProps.toJS();
-        }
-    }
-
     render() {
         const { pageAccountName } = this.props;
         const { mainTab, currency, rewardType, direction } = this.state;
 
         return (
-            <CardStyled auto>
+            <Card auto>
                 <Helmet>
                     <title>{tt('meta.title.profile.wallet', { name: pageAccountName })}</title>
                 </Helmet>
@@ -155,7 +131,15 @@ class WalletContent extends Component {
                     onDirectionChange={this._onDirectionChange}
                 />
                 <Content innerRef={this._onContentRef}>{this._renderContent()}</Content>
-            </CardStyled>
+            </Card>
+        );
+    }
+
+    renderLoader() {
+        return (
+            <LoaderWrapper>
+                <LoadingIndicator type="circle" size={40} />
+            </LoaderWrapper>
         );
     }
 
@@ -166,7 +150,7 @@ class WalletContent extends Component {
             if (delegationError) {
                 return <Stub>{tt('user_wallet.content.failed_load')}</Stub>;
             } else if (!delegationData) {
-                return <Loader />;
+                return this.renderLoader();
             }
         }
 
@@ -174,11 +158,11 @@ class WalletContent extends Component {
     }
 
     _renderList() {
-        const { pageAccount, isOwner } = this.props;
+        const { pageAccount, isOwner, globalProps } = this.props;
         const { mainTab, rewardTab, rewardType } = this.state;
 
         if (!pageAccount) {
-            return <Loader />;
+            return this.renderLoader();
         }
 
         if (mainTab === MAIN_TABS.REWARDS && rewardTab === REWARDS_TABS.STATISTIC) {
@@ -194,7 +178,7 @@ class WalletContent extends Component {
         }
 
         if (list == null) {
-            return <Loader />;
+            return this.renderLoader();
         }
 
         if (list.length) {
@@ -219,7 +203,7 @@ class WalletContent extends Component {
                             account={pageAccount}
                             myAccount={myAccount}
                             delegationData={delegationData}
-                            globalProps={this._globalProps}
+                            globalProps={globalProps}
                             delegate={this.props.delegate}
                             onLoadDelegationsData={this._onLoadDelegationsData}
                         />
@@ -273,6 +257,7 @@ class WalletContent extends Component {
             }
         } else {
             transactions = pageAccount.get('transfer_history');
+            console.log('transactions', transactions);
         }
 
         if (!transactions) {
@@ -328,9 +313,8 @@ class WalletContent extends Component {
     };
 
     _makeGolosPowerList() {
-        const { myAccountName, pageAccountName } = this.props;
+        const { myAccountName, pageAccountName, globalProps } = this.props;
         const { delegationData, direction } = this.state;
-        const globalProps = this._globalProps;
 
         const list = [];
 
@@ -633,45 +617,6 @@ class WalletContent extends Component {
         this._content = el;
     };
 }
-
-export default connect(
-    (state, props) => {
-        const globalProps = state.global.get('props');
-        const pageAccountName = props.params.accountName.toLowerCase();
-        const pageAccount = state.global.getIn(['accounts', pageAccountName]);
-        const myAccountName = state.user.getIn(['current', 'username']);
-        const myAccount = state.global.getIn(['accounts', myAccountName]);
-
-        return {
-            pageAccountName,
-            pageAccount,
-            myAccountName,
-            myAccount,
-            isOwner: pageAccountName === myAccountName,
-            globalProps,
-        };
-    },
-    {
-        delegate: (operation, callback) =>
-            transaction.actions.broadcastOperation({
-                type: 'delegate_vesting_shares',
-                operation,
-                successCallback() {
-                    callback(null);
-                },
-                errorCallback(err) {
-                    callback(err);
-                },
-            }),
-        loadRewards: (account, type) => ({
-            type: 'FETCH_REWARDS',
-            payload: {
-                account,
-                type,
-            },
-        }),
-    }
-)(WalletContent);
 
 function addValueIfNotZero(list, amount, currency) {
     if (!/^0+\.0+$/.test(amount)) {

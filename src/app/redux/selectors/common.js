@@ -59,7 +59,8 @@ export const currentUsernameSelector = createSelector(
     user => (user ? user.get('username') : null)
 );
 
-export const accountSelector = (state, accountName) => state.global.accounts.get(accountName);
+export const accountSelector = (state, accountName) =>
+    state.global.getIn(['accounts', accountName]);
 
 export const currentAccountSelector = createSelector(
     [globalSelector('accounts'), currentUsernameSelector],
@@ -84,4 +85,8 @@ export const newVisitorSelector = createSelector(
         !offchain.get('user') &&
         !offchain.get('account') &&
         offchain.get('new_visit')
+);
+
+export const getGlobalPropsSelector = createSelector([globalSelector('props')], props =>
+    props.toJS()
 );
