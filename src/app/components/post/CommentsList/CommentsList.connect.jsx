@@ -51,7 +51,7 @@ function findReplies(comments, currentComment, innerDeep = 0) {
 }
 
 // function receive comments from store and parent post permlink, return array of arrays with comments
-function mapComments(commentsFromStore, postPermLink) {
+function mapComments(commentsFromStore, postPermLink, sortBy) {
     const comments = [];
     const commentsCopy = [...commentsFromStore.toJS()];
     for (let i = 0; i < commentsCopy.length; i++) {
@@ -65,13 +65,15 @@ function mapComments(commentsFromStore, postPermLink) {
 
         comments.push(findReplies(commentsCopy, currentComment));
     }
-    return comments;
+    return sortingComments(comments, sortBy);
 }
+//'votes', 'new', 'trending'
+const sortedBy = (state, props) => 'votes';
 
 export default connect(
-    createSelector([commentsSelector], commentsData => {
+    createSelector([commentsSelector, sortedBy], (commentsData, sortedBy) => {
         const { comments, postPermLink, isFetching } = commentsData;
-        const structuredComments = mapComments(comments, postPermLink);
+        const structuredComments = mapComments(comments, postPermLink, sortedBy);
 
         return {
             structuredComments,
@@ -82,3 +84,14 @@ export default connect(
         saveListScrollPosition,
     }
 )(CommentsList);
+
+
+function sortingComments(comments, sortBy) {
+    const sortedComments = [];
+    comments = sortMainComments(comments, sortBy);
+    return sortedComments;
+}
+
+function sortMainComments(comments, sortBy) {
+    return comments.sort();
+}
