@@ -1,5 +1,14 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
 import Button from '@elements/Button';
+
+const ButtonStyled = styled(Button)`
+    margin-right: 14px;
+
+    &:last-child {
+        margin-right: 0;
+    }
+`;
 
 class LeavePage extends Component {
     goBack = () => {
@@ -32,7 +41,7 @@ class LeavePage extends Component {
                         </p>
                         <p>
                             Ссылка, на которую вы кликнули, переведет вас по адресу:{' '}
-                            <strong>{targetPage}</strong>
+                            <strong>{decodeURIComponent(targetPage)}</strong>
                         </p>
                         <p>
                             <a href="https://golos.io/" target="_blank">
@@ -54,12 +63,16 @@ class LeavePage extends Component {
                             завладеть всеми вашими средствами.
                         </p>
                         <p className="text-center medium-text-left">
-                            <Button round onClick={this.goBack}>
+                            <ButtonStyled round onClick={this.goBack}>
                                 Вернуться на Golos.io
-                            </Button>
-                            <Button type="secondary" onClick={this.leaveOut(targetPage)} round>
+                            </ButtonStyled>
+                            <ButtonStyled
+                                type="secondary"
+                                round
+                                onClick={this.leaveOut(targetPage)}
+                            >
                                 Перейти по ссылке
-                            </Button>
+                            </ButtonStyled>
                         </p>
                     </div>
                 </div>

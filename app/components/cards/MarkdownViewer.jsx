@@ -117,17 +117,11 @@ class MarkdownViewer extends Component {
             (match, word) => '&' + word
         );
 
-        cleanText = cleanText.replace(
-            /<a\s+href="http:\/\/bit\.do\/.+?<\/a>/g,
-            '[ fishing link ]'
-        );
+        cleanText = cleanText.replace(/<a\s+href="http:\/\/bit\.do\/.+?<\/a>/g, '[ fishing link ]');
 
         if (/<\s*script/gi.test(cleanText)) {
             // Not meant to be complete checking, just a secondary trap and red flag (code can change)
-            console.error(
-                'Refusing to render script tag in post text',
-                cleanText
-            );
+            console.error('Refusing to render script tag in post text', cleanText);
             return <div />;
         }
 
@@ -218,12 +212,7 @@ class MarkdownViewer extends Component {
                 }
             }
 
-            sections.push(
-                <div
-                    key={++idx}
-                    dangerouslySetInnerHTML={{ __html: section }}
-                />
-            );
+            sections.push(<div key={++idx} dangerouslySetInnerHTML={{ __html: section }} />);
         }
 
         return (
@@ -240,9 +229,7 @@ class MarkdownViewer extends Component {
                             onClick={this.onAllowNoImage}
                             className="MarkdownViewer__negative_group"
                         >
-                            {tt(
-                                'markdownviewer_jsx.images_were_hidden_due_to_low_ratings'
-                            )}
+                            {tt('markdownviewer_jsx.images_were_hidden_due_to_low_ratings')}
                             <button
                                 style={{ marginBottom: 0 }}
                                 className="button hollow tiny float-right"

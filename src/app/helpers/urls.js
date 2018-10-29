@@ -12,13 +12,17 @@ function checkIsWhitelistUrl(url) {
             return true;
         }
 
-        return false
+        return false;
     } catch (err) {
-        return false
+        return false;
     }
 }
 
-export function makeLeaveLink(url) {
+export function sanitizeUrl(url) {
+    if (url.startsWith('#')) {
+        return url;
+    }
+
     // If this link is not hash, relative, http or https, or tag - add https
     if (!/^#|^\/(?!\/)|^(?:https?:)?\/\/|^\[?.*\]$/.test(url)) {
         url = 'https://' + url;
