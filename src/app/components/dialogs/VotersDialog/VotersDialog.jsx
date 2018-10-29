@@ -17,7 +17,7 @@ import {
     UserLink,
     Name,
     LoaderWrapper,
-} from 'src/app/components/dialogs/FollowersDialog/FollowersDialog';
+} from 'src/app/components/dialogs/common/Dialog';
 
 const ShowAll = styled.button`
     width: 100%;
