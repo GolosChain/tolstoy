@@ -132,7 +132,7 @@ export default class CardPost extends Component {
         return (
             <Root className={className}>
                 <Main to={p.link}>
-                    {p.image_link && <Img src={p.image_link} title={p.title} />}
+                    {p.image_link && <Img src={`${$STM_Config.img_proxy_prefix}0x0/${p.image_link}`} title={p.title} />}
                     <Content>
                         <ContentTitle>{p.title}</ContentTitle>
                         <ContentText>{p.desc}</ContentText>

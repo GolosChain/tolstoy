@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
+import tt from 'counterpart';
 
 const Root = styled.section`
     padding: 20px 0;
@@ -74,29 +75,29 @@ export default class About extends PureComponent {
                     <div className="columns">
                         <Header>Golos.io</Header>
                         <SubHeader>
-                            Это уникальные тексты и мысли, которых нет в других
-                            частях Интернета. <br />
-                            Это сила сообщества, генерирующая смыслы и действия.
+                            {tt('welcome_page.about.subheader_1')}
+                            <br />
+                            {tt('welcome_page.about.subheader_2')}
                         </SubHeader>
                         <div className="row small-up-1 medium-up-2 large-up-4">
                             {this._renderItem(
-                                'Оригинальные идеи,',
-                                'а не проплаченные статьи',
+                                tt('welcome_page.about.item.first'),
+                                tt('welcome_page.about.item.first_neg'),
                                 'startup'
                             )}
                             {this._renderItem(
-                                'Посты и комментарии,',
-                                'а не баннеры и реклама',
+                                tt('welcome_page.about.item.second'),
+                                tt('welcome_page.about.item.second_neg'),
                                 'post'
                             )}
                             {this._renderItem(
-                                'Удобство выдачи,',
-                                'а не закрытые алгоритмы',
+                                tt('welcome_page.about.item.third'),
+                                tt('welcome_page.about.item.third_neg'),
                                 'book'
                             )}
                             {this._renderItem(
-                                'Информация принадлежит вам,',
-                                'а не модерируется',
+                                tt('welcome_page.about.item.fourth'),
+                                tt('welcome_page.about.item.fourth_neg'),
                                 'teamwork'
                             )}
                         </div>

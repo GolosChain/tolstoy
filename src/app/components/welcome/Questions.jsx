@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import { Link } from 'react-router';
 import styled from 'styled-components';
+import tt from 'counterpart';
+
 import Icon from 'app/components/elements/Icon';
 import CardPost from 'src/app/components/welcome/CardPost';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
@@ -79,9 +81,9 @@ export default class Questions extends PureComponent {
             <Root>
                 <Row className="row align-middle">
                     <div className="columns">
-                        <Header>Остались вопросы?</Header>
+                        <Header>{tt('welcome_page.questions_header')}</Header>
                         <SubHeader>
-                            Посмотрите, что наше сообщество советует новичкам:
+                            {tt('welcome_page.questions_subheader')}
                         </SubHeader>
                         <div className="row">
                             <div className="columns small-12 medium-12 large-2">
@@ -91,7 +93,8 @@ export default class Questions extends PureComponent {
                                             <Icon
                                                 name="new/monitor"
                                                 size="2x"
-                                            />Частые вопросы и ответы
+                                            />
+                                            {tt('welcome_page.link.monitor')}
                                         </LinkStyled>
                                     </div>
                                     <div className="columns">
@@ -99,7 +102,8 @@ export default class Questions extends PureComponent {
                                             <Icon
                                                 name="new/telegram"
                                                 size="2x"
-                                            />Спросите в телеграме
+                                            />
+                                            {tt('welcome_page.link.telegram')}
                                         </NormalLink>
                                     </div>
                                     <div className="columns">
@@ -107,7 +111,8 @@ export default class Questions extends PureComponent {
                                             <Icon
                                                 name="new/wikipedia"
                                                 size="2x"
-                                            />Посмотрите нашу википедию
+                                            />
+                                            {tt('welcome_page.link.wikipedia')}
                                         </NormalLink>
                                     </div>
                                     <div className="columns">
@@ -115,7 +120,8 @@ export default class Questions extends PureComponent {
                                             <Icon
                                                 name="new/envelope"
                                                 size="2x"
-                                            />Напишите на почту
+                                            />
+                                            {tt('welcome_page.link.envelope')}
                                         </NormalLink>
                                     </div>
                                 </div>
@@ -130,22 +136,22 @@ export default class Questions extends PureComponent {
                                     </center>
                                 </div>
                             ) : (
-                                <div className="columns">
-                                    <div className="row small-up-1 medium-up-2 large-up-3">
-                                        {questionsCards.map(post => (
-                                            <div
-                                                className="columns"
-                                                key={post.id}
-                                            >
-                                                <CardPost
-                                                    className={CardPost_W}
-                                                    post={post}
-                                                />
-                                            </div>
-                                        ))}
+                                    <div className="columns">
+                                        <div className="row small-up-1 medium-up-2 large-up-3">
+                                            {questionsCards.map(post => (
+                                                <div
+                                                    className="columns"
+                                                    key={post.id}
+                                                >
+                                                    <CardPost
+                                                        className={CardPost_W}
+                                                        post={post}
+                                                    />
+                                                </div>
+                                            ))}
+                                        </div>
                                     </div>
-                                </div>
-                            )}
+                                )}
                         </div>
                     </div>
                 </Row>

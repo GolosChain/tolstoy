@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
+import tt from 'counterpart';
+
 import MobileBanners from 'app/components/elements/MobileBanners/MobileBanners';
 
 const Root = styled.section`
@@ -54,14 +56,14 @@ export default class Mobile extends PureComponent {
                 <Row className="row align-middle">
                     <div className="columns small-12 medium-6">
                         <Header>
-                            И да, вы можете пользоваться<br />
-                            Golos.io через браузер или<br />
-                            приложение для Android
+                            {tt('welcome_page.mobile_1')}
+                            <br />
+                            {tt('welcome_page.mobile_2')}
+                            <br />
+                            {tt('welcome_page.mobile_3')}
                         </Header>
-                        <SubHeader>
-                            Мы уже работаем над приложением для iPhone, оно
-                            будет готово летом.
-                        </SubHeader>
+                        {/* <SubHeader>
+                        </SubHeader> */}
                         <MobileLinks>
                             <MobileBanners showAndroid />
                         </MobileLinks>
