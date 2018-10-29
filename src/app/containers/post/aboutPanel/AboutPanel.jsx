@@ -9,7 +9,7 @@ import Icon from 'golos-ui/Icon';
 import Button from 'golos-ui/Button';
 
 import Userpic from 'app/components/elements/Userpic';
-import Follow from 'src/app/components/common/Follow/Follow';
+import Follow from 'src/app/components/common/Follow';
 
 const Wrapper = styled.div`
     display: flex;
