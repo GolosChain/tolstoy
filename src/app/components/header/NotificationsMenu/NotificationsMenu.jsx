@@ -17,17 +17,15 @@ const NOTIFICATIONS_PER_PAGE = 5;
 
 const Wrapper = styled.div`
     width: 370px;
-    
+
     ${is('mobile')`
         width: auto;
         
         box-shadow: inset 0 0 18px 4px rgba(0, 0, 0, 0.05);
-    `}
+    `};
 `;
 
-const WrapperActivity = styled.div`
-    padding: 15px;
-`;
+const WrapperActivity = styled.div``;
 
 const WrapperLoader = styled.div`
     display: flex;

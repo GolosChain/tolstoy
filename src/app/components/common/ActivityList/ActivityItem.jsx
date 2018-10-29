@@ -18,10 +18,13 @@ const Wrapper = styled.div`
     display: flex;
     flex: 1;
     align-items: center;
-    margin-bottom: 15px;
+    padding: 10px 15px;
 
+    &:first-child {
+        padding-top: 15px;
+    }
     &:last-child {
-        margin-bottom: 0;
+        padding-bottom: 15px;
     }
 `;
 
