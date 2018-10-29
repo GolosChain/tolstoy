@@ -32,9 +32,7 @@ export default connect(
             }
 
             const voters = post.get('active_voters', List());
-            return {
-                loading: votersDialog.get('loading'),
-                users: voters
+            const users = voters
                     .filter(voter => {
                         const percent = voter.get('percent');
                         return (percent > 0 && isLikes) || (percent < 0 && !isLikes);
@@ -54,7 +52,11 @@ export default connect(
                             name,
                             avatar,
                         };
-                    }),
+                    });
+
+            return {
+                loading: votersDialog.get('loading'),
+                users,
                 hasMore: voters.size < post.get('active_votes_count'),
                 username,
             };
