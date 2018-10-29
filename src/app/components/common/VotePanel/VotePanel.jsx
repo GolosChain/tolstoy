@@ -214,7 +214,6 @@ export default class VotePanel extends PureComponent {
         data: PropTypes.instanceOf(Map).isRequired,
         username: PropTypes.string,
         sidePanel: PropTypes.bool,
-        onNumberClick: PropTypes.func,
     };
 
     state = {
@@ -229,19 +228,15 @@ export default class VotePanel extends PureComponent {
     }
 
     onLikesNumberClick = () => {
-        const { data, onNumberClick } = this.props;
+        const { contentLink } = this.props;
 
-        if (onNumberClick) {
-            onNumberClick(`${data.get('author')}/${data.get('permlink')}`, true);
-        }
+        this.props.openVotersDialog(contentLink, 'likes');
     };
 
     onDislikesNumberClick = () => {
-        const { data, onNumberClick } = this.props;
+        const { contentLink } = this.props;
 
-        if (onNumberClick) {
-            onNumberClick(`${data.get('author')}/${data.get('permlink')}`, false);
-        }
+        this.props.openVotersDialog(contentLink, 'dislikes');
     };
 
     render() {

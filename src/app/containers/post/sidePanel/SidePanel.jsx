@@ -242,7 +242,6 @@ export class SidePanel extends Component {
             fullUrl,
             backURL,
             postLink,
-            showVotedUsersList,
         } = this.props;
 
         const {
@@ -259,11 +258,7 @@ export class SidePanel extends Component {
                 showSideBlock={showSideBlockByWidth && showSideBlockByHeight}
             >
                 <PanelWrapper>
-                    <VotePanelStyled
-                        contentLink={postLink}
-                        onNumberClick={showVotedUsersList}
-                        sidePanel
-                    />
+                    <VotePanelStyled contentLink={postLink} sidePanel />
                     {isOwner ? null : (
                         <ActionWrapper
                             onClick={this.repost}

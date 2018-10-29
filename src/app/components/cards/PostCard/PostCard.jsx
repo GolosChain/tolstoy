@@ -189,7 +189,6 @@ export default class PostCard extends PureComponent {
         isPinned: PropTypes.bool,
         isRepost: PropTypes.bool,
         additionalData: PropTypes.instanceOf(Map),
-        showVotedUsersList: PropTypes.func.isRequired,
         onClick: PropTypes.func,
     };
 
@@ -414,15 +413,11 @@ export default class PostCard extends PureComponent {
     }
 
     renderFooter() {
-        const { data, myAccount, sanitizedData, grid, showVotedUsersList, permLink } = this.props;
+        const { data, sanitizedData, grid, permLink } = this.props;
 
         return (
             <Footer grid={grid}>
-                <VotePanelStyled
-                    contentLink={permLink}
-                    grid={grid}
-                    onNumberClick={showVotedUsersList}
-                />
+                <VotePanelStyled contentLink={permLink} grid={grid} />
                 {grid ? null : <Filler />}
                 <ReplyBlock
                     grid={grid}

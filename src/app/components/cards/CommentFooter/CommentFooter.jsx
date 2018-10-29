@@ -131,7 +131,6 @@ export default class CommentFooter extends Component {
         showReply: PropTypes.bool.isRequired,
         username: PropTypes.string,
         highlighted: PropTypes.bool.isRequired,
-        showVotedUsersList: PropTypes.func.isRequired,
     };
 
     onCancelReplyClick = () => {
@@ -163,7 +162,6 @@ export default class CommentFooter extends Component {
             edit,
             onReplyClick,
             highlighted,
-            showVotedUsersList,
         } = this.props;
 
         if (showReply) {
@@ -194,7 +192,6 @@ export default class CommentFooter extends Component {
             <Wrapper highlighted={highlighted}>
                 <CommentVotePanel
                     contentLink={`${comment.get('author')}/${comment.get('permlink')}`}
-                    onNumberClick={showVotedUsersList}
                 />
                 <CommentReplyWrapper>
                     <CommentReplyBlock

@@ -24,7 +24,7 @@ const Header = styled.div`
     ${is('collapsed')`
         padding: 5px 0;
     `};
-    
+
     ${is('highlighted')`
         background-color: #e7eef9; 
     `};
@@ -97,10 +97,10 @@ const CommentBodyWrapper = styled.div`
     align-items: center;
 
     padding: 0 18px;
-    
+
     ${is('highlighted')`
         background-color: #e7eef9;
-    `}
+    `};
 `;
 
 const Root = styled.div`
@@ -164,7 +164,6 @@ export class CommentCard extends PureComponent {
         isOwner: PropTypes.bool.isRequired,
         username: PropTypes.string,
         payout: PropTypes.number,
-        showVotedUsersList: PropTypes.func.isRequired,
     };
 
     static defaultProps = {
@@ -368,9 +367,9 @@ export class CommentCard extends PureComponent {
             isOwner,
             onVote,
             isPostPage,
-            showVotedUsersList,
             className,
         } = this.props;
+
         if (!dataLoaded) {
             return (
                 <LoaderWrapper>
@@ -378,6 +377,7 @@ export class CommentCard extends PureComponent {
                 </LoaderWrapper>
             );
         }
+
         return (
             <Root collapsed={collapsed} className={className}>
                 {isPostPage ? this.renderHeaderForPost() : this.renderHeaderForProfile()}
@@ -397,7 +397,6 @@ export class CommentCard extends PureComponent {
                             replyRef={this.replyRef}
                             commentRef={this.commentRef}
                             onReplyClick={this.onReplyClick}
-                            showVotedUsersList={showVotedUsersList}
                             highlighted={highlighted}
                         />
                     </Fragment>

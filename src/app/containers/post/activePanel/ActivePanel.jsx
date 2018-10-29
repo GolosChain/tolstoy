@@ -235,16 +235,12 @@ export class ActivePanel extends Component {
             isOwner,
             isFavorite,
             toggleFavorite,
-            showVotedUsersList,
             children,
         } = this.props;
 
         return (
             <Wrapper>
-                <VotePanelWrapper
-                    contentLink={`${data.get('author')}/${data.get('permlink')}`}
-                    onNumberClick={showVotedUsersList}
-                />
+                <VotePanelWrapper contentLink={`${data.get('author')}/${data.get('permlink')}`} />
                 <Divider />
                 <RepostSharingWrapper>
                     {isOwner ? null : (

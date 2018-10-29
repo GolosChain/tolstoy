@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import { toggleFavoriteAction } from 'src/app/redux/actions/favorites';
 import { togglePinAction } from 'src/app/redux/actions/pinnedPosts';
-import { openRepostDialog, openVotersDialog } from 'src/app/redux/actions/dialogs';
+import { openRepostDialog } from 'src/app/redux/actions/dialogs';
 import { getPinnedPosts } from 'src/app/redux/selectors/account/pinnedPosts';
 import { sanitizeCardPostData, sanitizeRepostData } from 'src/app/redux/selectors/post/commonPost';
 import PostCard from './PostCard';
@@ -52,7 +52,6 @@ export default connect(
     {
         toggleFavorite: (link, isAdd) => toggleFavoriteAction({ link, isAdd }),
         togglePin: (link, isPin) => togglePinAction(link, isPin),
-        showVotedUsersList: (postLink, isLikes) => openVotersDialog(postLink, isLikes),
         openRepostDialog: postLink => openRepostDialog(postLink),
     }
 )(PostCard);

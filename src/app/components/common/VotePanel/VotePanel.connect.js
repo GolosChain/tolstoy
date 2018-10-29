@@ -5,6 +5,7 @@ import { currentUsernameSelector } from 'src/app/redux/selectors/common';
 import { postSelector } from 'src/app/redux/selectors/post/commonPost';
 import { onVote } from 'src/app/redux/actions/vote';
 import { calcVotesStats } from 'app/utils/StateFunctions';
+import { openVotersDialog } from 'src/app/redux/actions/dialogs';
 import VotePanel from './VotePanel';
 
 export default connect(
@@ -31,6 +32,7 @@ export default connect(
             return {
                 username,
                 data: post,
+                contentLink: `${post.get('author')}/${post.get('permlink')}`,
                 votesSummary,
                 myVote,
             };
@@ -38,5 +40,6 @@ export default connect(
     ),
     {
         onVote,
+        openVotersDialog,
     }
 )(VotePanel);
