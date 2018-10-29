@@ -19,7 +19,7 @@ export class CommentsList extends Component {
         } = this.props;
         return structuredComments.map((comment, index) => (
             <NestedComment
-                key={index}
+                key={comment.url}
                 comment={comment}
                 saveListScrollPosition={saveListScrollPosition}
                 updateComments={updateComments}
