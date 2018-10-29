@@ -4,32 +4,31 @@ import { createSelector } from 'reselect';
 import transaction from 'app/redux/Transaction';
 import WalletContent from './WalletContent';
 import {
-    getGlobalPropsSelector,
-    currentUsernameSelector,
-    accountSelector,
+    currentUserSelector,
+    pageAccountSelector,
+    globalSelector,
 } from 'src/app/redux/selectors/common';
+
+export const getGlobalPropsSelector = createSelector([globalSelector('props')], props =>
+    props.toJS()
+);
 
 export default connect(
     createSelector(
-        [
-            getGlobalPropsSelector,
-            (state, props) => {
-                const myAccountName = currentUsernameSelector(state);
-                const pageAccountName = props.params.accountName.toLowerCase();
+        [getGlobalPropsSelector, currentUserSelector, pageAccountSelector],
+        (globalProps, myAccount, pageAccount) => {
+            const pageAccountName = pageAccount.get('name');
+            const myAccountName = myAccount ? myAccount.get('username') : null;
 
-                return {
-                    pageAccountName,
-                    pageAccount: accountSelector(state, pageAccountName),
-                    myAccountName,
-                    myAccount: accountSelector(state, myAccountName),
-                    isOwner: pageAccountName === myAccountName,
-                };
-            },
-        ],
-        (globalProps, data) => ({
-            ...data,
-            globalProps,
-        })
+            return {
+                myAccount,
+                myAccountName,
+                pageAccount,
+                pageAccountName,
+                isOwner: myAccountName && pageAccountName === myAccountName,
+                globalProps,
+            };
+        }
     ),
     {
         delegate: (operation, callback) =>

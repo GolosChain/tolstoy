@@ -86,7 +86,3 @@ export const newVisitorSelector = createSelector(
         !offchain.get('account') &&
         offchain.get('new_visit')
 );
-
-export const getGlobalPropsSelector = createSelector([globalSelector('props')], props =>
-    props.toJS()
-);

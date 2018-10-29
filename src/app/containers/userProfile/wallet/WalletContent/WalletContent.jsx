@@ -257,7 +257,6 @@ export default class WalletContent extends Component {
             }
         } else {
             transactions = pageAccount.get('transfer_history');
-            console.log('transactions', transactions);
         }
 
         if (!transactions) {
