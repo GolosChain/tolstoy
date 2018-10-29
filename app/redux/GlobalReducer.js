@@ -498,9 +498,13 @@ export default createModule({
         {
             action: 'RECEIVE_TRANSFERS',
             reducer: (state, { payload: { account, transfers } }) =>
-                state.updateIn(['accounts', account, 'transfer_history'], List(), list =>
-                    list.mergeDeep(fromJS(transfers))
-                ),
+                state.updateIn(['accounts', account, 'transfer_history'], list => {
+                    if (!list) {
+                        return fromJS(transfers);
+                    } else {
+                        return list.mergeDeep(fromJS(transfers));
+                    }
+                }),
         },
         {
             action: 'FETCH_REWARDS_STARTED',

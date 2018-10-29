@@ -16,7 +16,10 @@ import SplashLoader from 'golos-ui/SplashLoader';
 import Linkify from 'src/app/components/common/Linkify';
 import TextCut from 'src/app/components/common/TextCut';
 import EditGolosPower from 'src/app/components/userProfile/common/EditGolosPower';
-import { DIRECTION, CURRENCY_COLOR } from 'src/app/containers/userProfile/wallet/WalletContent';
+import {
+    DIRECTION,
+    CURRENCY_COLOR,
+} from 'src/app/containers/userProfile/wallet/WalletContent/WalletContent';
 
 const Root = styled.div`
     &:nth-child(even) {

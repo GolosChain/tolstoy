@@ -59,7 +59,8 @@ export const currentUsernameSelector = createSelector(
     user => (user ? user.get('username') : null)
 );
 
-export const accountSelector = (state, accountName) => state.global.accounts.get(accountName);
+export const accountSelector = (state, accountName) =>
+    state.global.getIn(['accounts', accountName]);
 
 export const currentAccountSelector = createSelector(
     [globalSelector('accounts'), currentUsernameSelector],
