@@ -1,6 +1,8 @@
+import tt from 'counterpart';
+
 import transaction from 'app/redux/Transaction';
 import user from 'app/redux/User';
-import tt from 'counterpart';
+import { GET_VOTERS_USERS_REQUEST } from 'src/app/redux/constants/voters';
 
 export function onVote(voter, author, permLink, percent) {
     return dispatch => {
@@ -19,5 +21,15 @@ export function onVote(voter, author, permLink, percent) {
                 successCallback: () => dispatch(user.actions.getAccount()),
             })
         );
+    };
+}
+
+export function getVoters(postLink, limit = -1) {
+    return {
+        type: GET_VOTERS_USERS_REQUEST,
+        payload: {
+            postLink,
+            limit,
+        },
     };
 }

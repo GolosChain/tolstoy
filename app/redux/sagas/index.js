@@ -17,6 +17,7 @@ import loginWatch from 'src/app/redux/sagas/login';
 import dialogsWatch from 'src/app/redux/sagas/dialogs';
 
 import messenger from 'src/messenger/redux/sagas';
+import showVotedUserWatcher from 'src/app/redux/sagas/voters';
 
 export default function* rootSaga() {
     yield fork(userWatches);
@@ -29,6 +30,7 @@ export default function* rootSaga() {
     yield fork(gateWatches);
     yield fork(notificationsOnlineWatches);
     yield fork(favoritesWatch);
+    yield fork(showVotedUserWatcher);
     yield fork(pinnedPostsWatch);
     yield fork(ratesWatch);
     yield fork(followersWatch);

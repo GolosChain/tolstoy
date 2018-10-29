@@ -194,8 +194,11 @@
   "dialog": {
     "alert": "Alert",
     "confirm": "Confirmation",
+    "disliked": "Disliked post",
     "info": "Information",
-    "prompt": "Enter the data"
+    "liked": "Liked post",
+    "prompt": "Enter the data",
+    "show_all": "Show all"
   },
   "dialogs_promote": {
     "active_key": "Active key",

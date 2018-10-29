@@ -2,10 +2,10 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
 import { currentUsernameSelector, uiSelector } from 'src/app/redux/selectors/common';
-import { onVote } from 'src/app/redux/actions/vote';
-import { onBackClick } from 'src/app/redux/actions/post';
-import { openRepostDialog } from 'src/app/redux/actions/dialogs';
+import { openRepostDialog, openVotersDialog } from 'src/app/redux/actions/dialogs';
 import { SidePanel } from 'src/app/containers/post/sidePanel/SidePanel';
+import { onBackClick } from 'src/app/redux/actions/post';
+import { onVote } from 'src/app/redux/actions/vote';
 import {
     currentPostSelector,
     authorSelector,
@@ -36,7 +36,7 @@ export default connect(
                 author: author.account,
                 permLink: post.permLink,
                 myVote: post.myVote,
-                postUrl: post.url,
+                fullUrl: post.url,
                 isOwner: username === author.account,
                 isFavorite: post.isFavorite,
                 isPinned: author.pinnedPostsUrls.includes(author.account + '/' + post.permLink),
@@ -45,6 +45,7 @@ export default connect(
     ),
     {
         onVote,
+        showVotedUsersList: openVotersDialog,
         openRepostDialog,
         onBackClick,
     }

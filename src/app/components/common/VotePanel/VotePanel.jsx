@@ -186,6 +186,7 @@ export default class VotePanel extends PureComponent {
         data: PropTypes.object, // Immutable.Map
         me: PropTypes.string,
         onChange: PropTypes.func.isRequired,
+        onNumberClick: PropTypes.func.isRequired,
     };
 
     state = {
@@ -198,6 +199,16 @@ export default class VotePanel extends PureComponent {
     componentWillUnmount() {
         window.removeEventListener('click', this._onAwayClick);
     }
+
+    onLikesNumberClick = () => {
+        const { data } = this.props;
+        this.props.onNumberClick(`${data.get('author')}/${data.get('permlink')}`, true);
+    };
+
+    onDislikesNumberClick = () => {
+        const { data } = this.props;
+        this.props.onNumberClick(`${data.get('author')}/${data.get('permlink')}`, false);
+    };
 
     render() {
         const { data, me, className } = this.props;
@@ -219,12 +230,15 @@ export default class VotePanel extends PureComponent {
                             : makeTooltip(votesSummary.firstLikes, votesSummary.likes > 10)
                     }
                     data-tooltip-html
-                    onClick={this._onLikeClick}
                 >
-                    <LikeWrapper innerRef={this._onLikeRef}>
+                    <LikeWrapper innerRef={this._onLikeRef} onClick={this._onLikeClick}>
                         <LikeIcon name="like" />
                     </LikeWrapper>
-                    <LikeCount>
+                    <LikeCount
+                        onClick={
+                            votesSummary.likes > 0 ? this.onLikesNumberClick : this._onLikeClick
+                        }
+                    >
                         {votesSummary.likes}
                         <IconTriangle name="triangle" />
                     </LikeCount>
@@ -238,12 +252,17 @@ export default class VotePanel extends PureComponent {
                             : makeTooltip(votesSummary.firstDislikes, votesSummary.dislikes > 10)
                     }
                     data-tooltip-html
-                    onClick={this._onDislikeClick}
                 >
-                    <LikeWrapper innerRef={this._onDisLikeRef}>
+                    <LikeWrapper innerRef={this._onDisLikeRef} onClick={this._onDislikeClick}>
                         <LikeIconNeg name="like" />
                     </LikeWrapper>
-                    <LikeCount>
+                    <LikeCount
+                        onClick={
+                            votesSummary.dislikes > 0
+                                ? this.onDislikesNumberClick
+                                : this._onDislikeClick
+                        }
+                    >
                         {votesSummary.dislikes}
                         <IconTriangle name="triangle" />
                     </LikeCount>

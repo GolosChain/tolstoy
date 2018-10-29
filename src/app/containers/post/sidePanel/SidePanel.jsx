@@ -10,7 +10,6 @@ import throttle from 'lodash/throttle';
 import Icon from 'src/app/components/golos-ui/Icon';
 
 import { confirmVote } from 'src/app/helpers/votes';
-import { Action } from 'src/app/components/post/SidePanelAction';
 import SharePopover from 'src/app/components/post/SharePopover';
 import { PopoverStyled } from 'src/app/components/post/PopoverAdditionalStyles';
 import PostActions from 'src/app/components/post/PostActions';
@@ -59,17 +58,6 @@ const Wrapper = styled.div`
     })};
 `;
 
-const ActionWrapper = styled(Action)`
-    position: relative;
-
-    ${is('isOpen')`
-        & > div > svg {
-            transition: color 0s;
-            color: #2879ff;
-        }
-    `};
-`;
-
 const BackIcon = styled(Icon)`
     display: block;
     width: 50px;
@@ -98,6 +86,51 @@ const BackLink = styled(Link)`
     &:hover ${BackIcon} {
         color: #2879ff;
     }
+`;
+
+const ActionWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    * {
+        color: ${({ activeType }) =>
+            activeType === 'like' ? '#2879ff' : activeType === 'dislike' ? '#ff4e00' : ''};
+    }
+`;
+
+const IconWrapper = styled.div`
+    display: flex;
+    padding: 5px;
+    cursor: pointer;
+    transition: transform 0.15s;
+
+    &:hover {
+        transform: scale(1.15);
+    }
+`;
+
+const CountOf = styled.div`
+    color: #959595;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    line-height: 23px;
+    cursor: pointer;
+
+    ${is('count')`
+        padding-top: 5px;
+    `};
+`;
+
+const ShareWrapper = styled(ActionWrapper)`
+    position: relative;
+`;
+
+const IconWithState = styled(({ isOpen, ...rest }) => <Icon {...rest} />)`
+    ${is('isOpen')`
+        transition: color 0s;
+        color: #2879ff;
+    `};
 `;
 
 export class SidePanel extends Component {
@@ -228,6 +261,14 @@ export class SidePanel extends Component {
         return users.length ? users.join('<br>') + (isMore ? '<br>...' : '') : null;
     };
 
+    showLikedUsersList = () => {
+        this.props.showVotedUsersList(`${this.props.author}/${this.props.permLink}`, true);
+    };
+
+    showDislikedUsersList = () => {
+        this.props.showVotedUsersList(`${this.props.author}/${this.props.permLink}`, false);
+    };
+
     onBackClick = () => {
         this.props.onBackClick();
     };
@@ -240,7 +281,7 @@ export class SidePanel extends Component {
             isOwner,
             isFavorite,
             toggleFavorite,
-            postUrl,
+            fullUrl,
             myVote: voteType,
             backURL,
         } = this.props;
@@ -261,37 +302,61 @@ export class SidePanel extends Component {
                 showSideBlock={showSideBlockByWidth && showSideBlockByHeight}
             >
                 <PanelWrapper>
-                    <Action
-                        activeType={voteType.percent > 0 ? 'like' : ''}
-                        iconName="like"
-                        count={likes}
-                        onClick={this.like}
-                        dataTooltip={this.tooltipContent(firstLikes, likes > 10)}
-                    />
-                    <Action
-                        activeType={voteType.percent < 0 ? 'dislike' : ''}
-                        iconName="dislike"
-                        count={dislikes}
-                        onClick={this.dislike}
-                        dataTooltip={this.tooltipContent(firstDislikes, dislikes > 10)}
-                    />
-                    {isOwner ? null : (
-                        <Action
-                            iconName="repost"
-                            dataTooltip={tt('g.reblog')}
-                            onClick={this.repost}
-                        />
-                    )}
                     <ActionWrapper
-                        iconName="sharing_triangle"
-                        dataTooltip={
+                        data-tooltip={this.tooltipContent(firstLikes, likes > 10)}
+                        data-tooltip-html
+                        activeType={voteType.percent > 0 ? 'like' : ''}
+                    >
+                        <IconWrapper onClick={this.like}>
+                            <Icon width="20" height="20" name="like" />
+                        </IconWrapper>
+                        <CountOf count={likes} onClick={this.showLikedUsersList}>
+                            {likes}
+                        </CountOf>
+                    </ActionWrapper>
+
+                    <ActionWrapper
+                        data-tooltip={this.tooltipContent(firstDislikes, dislikes > 10)}
+                        data-tooltip-html
+                        activeType={voteType.percent < 0 ? 'dislike' : ''}
+                    >
+                        <IconWrapper onClick={this.dislike}>
+                            <Icon width="20" height="20" name="dislike" />
+                        </IconWrapper>
+                        <CountOf count={dislikes} onClick={this.showDislikedUsersList}>
+                            {dislikes}
+                        </CountOf>
+                    </ActionWrapper>
+
+                    {isOwner ? null : (
+                        <ActionWrapper
+                            onClick={this.repost}
+                            data-tooltip={tt('g.reblog')}
+                            data-tooltip-html
+                        >
+                            <IconWrapper>
+                                <Icon width="20" height="20" name="repost" />
+                            </IconWrapper>
+                        </ActionWrapper>
+                    )}
+
+                    <ShareWrapper
+                        onClick={this.openSharePopover}
+                        data-tooltip={
                             showSharePopover
                                 ? undefined
                                 : tt('postfull_jsx.share_in_social_networks')
                         }
-                        isOpen={showSharePopover}
-                        onClick={this.openSharePopover}
+                        data-tooltip-html
                     >
+                        <IconWrapper>
+                            <IconWithState
+                                width="20"
+                                height="20"
+                                name="sharing_triangle"
+                                isOpen={showSharePopover}
+                            />
+                        </IconWrapper>
                         <PopoverStyled
                             position="right"
                             onClose={this.closeSharePopover}
@@ -299,9 +364,10 @@ export class SidePanel extends Component {
                         >
                             <SharePopover />
                         </PopoverStyled>
-                    </ActionWrapper>
+                    </ShareWrapper>
+
                     <PostActions
-                        postUrl={postUrl}
+                        fullUrl={fullUrl}
                         isFavorite={isFavorite}
                         isPinned={isPinned}
                         isOwner={isOwner}
