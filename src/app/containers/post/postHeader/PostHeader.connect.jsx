@@ -17,7 +17,6 @@ export default connect(
         ],
         (post, author, username, follow) => ({
             username,
-            isMy: username === author.account,
             created: post.created,
             isFavorite: post.isFavorite,
             author: author.account,

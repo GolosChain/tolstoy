@@ -137,6 +137,10 @@ export class PostHeader extends Component {
     onUserInfoClick = e => {
         e.preventDefault();
 
+        if (this.props.isOwner) {
+            return;
+        }
+
         if (Date.now() > this.closePopoverTs + 200) {
             this.setState({
                 showPopover: true,
@@ -162,7 +166,6 @@ export class PostHeader extends Component {
 
     render() {
         const {
-            isMy,
             created,
             isPinned,
             togglePin,
@@ -189,7 +192,7 @@ export class PostHeader extends Component {
                         <TimeAgoWrapper date={created} />
                     </InfoBlock>
                 </UserInfoWrapper>
-                {!isMy &&
+                {!isOwner &&
                     (isFollow ? (
                         <FollowRound light onClick={this.unfollow} data-tooltip={tt('g.unfollow')}>
                             <FollowedIcon name="tick" width={18} height={14} />
