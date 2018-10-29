@@ -51,7 +51,7 @@ export default connect(
     },
     {
         toggleFavorite: (link, isAdd) => toggleFavoriteAction({ link, isAdd }),
-        togglePin: (link, isPin) => togglePinAction(link, isPin),
-        openRepostDialog: postLink => openRepostDialog(postLink),
+        togglePin: togglePinAction,
+        openRepostDialog,
     }
 )(PostCard);
