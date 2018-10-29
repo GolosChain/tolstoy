@@ -3,6 +3,7 @@ import { createSelector } from 'reselect';
 
 import { currentUsernameSelector, uiSelector } from 'src/app/redux/selectors/common';
 import { onVote } from 'src/app/redux/actions/vote';
+import { onBackClick } from 'src/app/redux/actions/post';
 import { openRepostDialog } from 'src/app/redux/actions/dialogs';
 import { SidePanel } from 'src/app/containers/post/sidePanel/SidePanel';
 import {
@@ -45,5 +46,6 @@ export default connect(
     {
         onVote,
         openRepostDialog,
+        onBackClick,
     }
 )(SidePanel);

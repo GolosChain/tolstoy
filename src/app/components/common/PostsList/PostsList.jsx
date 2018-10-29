@@ -50,6 +50,7 @@ const EntryWrapper = styled.div`
     state => ({
         location: locationSelector(state),
         listScrollPosition: state.ui.common.get('listScrollPosition'),
+        backClickTs: state.ui.common.get('backClickTs'),
     }),
     {
         saveListScrollPosition,
@@ -88,10 +89,20 @@ export default class PostsList extends PureComponent {
         window.addEventListener('scroll', this.onScrollLazy);
         window.addEventListener('resize', this.onResizeLazy);
 
-        const { location, listScrollPosition } = this.props;
+        const { location, backClickTs, listScrollPosition } = this.props;
 
-        if (location.action === 'POP') {
+        if (location.action === 'POP' || (backClickTs && backClickTs > Date.now() - 1000)) {
             getScrollElement().scrollTop = listScrollPosition;
+
+            let setScrollIterations = 0;
+
+            this._scrollIntervalId = setInterval(() => {
+                getScrollElement().scrollTop = listScrollPosition;
+
+                if (++setScrollIterations === 5) {
+                    clearInterval(this._scrollIntervalId);
+                }
+            }, 50);
         }
 
         if (window.innerWidth < FORCE_GRID_WIDTH) {
@@ -102,6 +113,9 @@ export default class PostsList extends PureComponent {
     }
 
     componentWillUnmount() {
+        if (this._scrollIntervalId) {
+            clearInterval(this._scrollIntervalId);
+        }
         window.removeEventListener('scroll', this.onScrollLazy);
         window.removeEventListener('resize', this.onResizeLazy);
         this.onResizeLazy.cancel();
