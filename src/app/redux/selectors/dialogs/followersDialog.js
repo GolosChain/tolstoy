@@ -31,9 +31,13 @@ const followCountSelector = createDeepEqualSelector(
 
 export const followersDialogSelector = createDeepEqualSelector(
     [globalSelector('accounts'), followersSelector, followCountSelector],
-    (accounts, followers, followCount) => ({
-        loading: followers.loading,
-        users: followers.users.map(name => accounts.get(name)),
-        followCount,
-    })
+    (accounts, followers, followCount) => {
+        // filter bacause we have wrong followers name from blockchain
+        const users = followers.users.map(name => accounts.get(name)).filter(user => user);
+        return {
+            loading: followers.loading,
+            users,
+            followCount,
+        };
+    }
 );
