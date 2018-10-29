@@ -33,8 +33,6 @@ const ShowAll = styled.button`
 
 export default class VotersDialog extends PureComponent {
     static propTypes = {
-        onRef: PropTypes.func.isRequired,
-
         loading: PropTypes.bool.isRequired,
         users: PropTypes.instanceOf(List),
         username: PropTypes.string.isRequired,
@@ -50,10 +48,6 @@ export default class VotersDialog extends PureComponent {
         if (!nextProps.loading && nextProps.users.size === 0 && nextProps.hasMore) {
             this.props.getVoters(this.props.postLink);
         }
-    }
-
-    componentWillUnmount() {
-        this.props.onRef(null);
     }
 
     showAll = () => {
