@@ -1,13 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Set } from 'immutable';
 import throttle from 'lodash/throttle';
 import tt from 'counterpart';
 
 import normalizeProfile from 'app/utils/NormalizeProfile';
-import { followersDialogSelector } from 'src/app/redux/selectors/dialogs/followersDialog';
-import { getFollowers, getFollowing } from 'src/app/redux/actions/followers';
 
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import Avatar from 'src/app/components/common/Avatar';
@@ -24,20 +21,16 @@ import {
     LoaderWrapper,
 } from 'src/app/components/dialogs/common/Dialog';
 
-@connect(
-    followersDialogSelector,
-    {
-        getFollowers,
-        getFollowing,
-    }
-)
 export default class FollowersDialog extends PureComponent {
     static propTypes = {
+        // external
         pageAccountName: PropTypes.string,
         type: PropTypes.string,
 
+        // external dialog
         onRef: PropTypes.func.isRequired,
 
+        // connect
         loading: PropTypes.bool,
         followCount: PropTypes.number,
         users: PropTypes.instanceOf(Set),
@@ -96,6 +89,24 @@ export default class FollowersDialog extends PureComponent {
         this.lastUserName = startUserName;
     };
 
+    renderUser = user => {
+        const profile = normalizeProfile(user.toJS());
+
+        return (
+            <UserItem key={user.get('name')}>
+                <UserLink
+                    to={`/@${user.get('name')}`}
+                    title={user.get('name')}
+                    onClick={this.props.onClose}
+                >
+                    <Avatar avatarUrl={profile.profile_image} />
+                    <Name>{profile.name || user.get('name')}</Name>
+                </UserLink>
+                <Follow following={user.get('name')} collapseOnMobile />
+            </UserItem>
+        );
+    };
+
     render() {
         const { loading, followCount, users, type } = this.props;
 
@@ -106,23 +117,7 @@ export default class FollowersDialog extends PureComponent {
                     <IconClose onClick={this.props.onClose} />
                 </Header>
                 <Content innerRef={this.setRootRef}>
-                    {users.map(user => {
-                        const profile = normalizeProfile(user.toJS());
-
-                        return (
-                            <UserItem key={user.get('name')}>
-                                <UserLink
-                                    to={`/@${user.get('name')}`}
-                                    title={user.get('name')}
-                                    onClick={this.props.onClose}
-                                >
-                                    <Avatar avatarUrl={profile.profile_image} />
-                                    <Name>{profile.name || user.get('name')}</Name>
-                                </UserLink>
-                                <Follow following={user.get('name')} />
-                            </UserItem>
-                        );
-                    })}
+                    {users.map(this.renderUser)}
                     {loading && (
                         <LoaderWrapper>
                             <LoadingIndicator type="circle" size={40} />

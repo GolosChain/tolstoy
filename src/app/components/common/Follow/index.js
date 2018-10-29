@@ -1,1 +1,2 @@
-export { default } from './Follow';
+export { default } from './Follow.connect';
+export { default as Follow } from './Follow';

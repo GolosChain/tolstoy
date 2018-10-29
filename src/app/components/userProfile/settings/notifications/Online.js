@@ -15,7 +15,6 @@ import {
     Label as StyledLabel,
     LabelRow as StyledLabelRow,
     Switcher,
-    Error,
 } from 'golos-ui/Form';
 import Icon from 'golos-ui/Icon';
 
@@ -172,7 +171,9 @@ export default class Online extends PureComponent {
 
                         <CardContent column>
                             <FormGroup>
-                                <Label dark>{tt('settings_jsx.notifications.allOnlineLabel')}</Label>
+                                <Label dark>
+                                    {tt('settings_jsx.notifications.allOnlineLabel')}
+                                </Label>
                                 <FormGroupRow>
                                     <LabelIcon active={switchAll}>
                                         <Icon name="bell" width="19" height="20" />
