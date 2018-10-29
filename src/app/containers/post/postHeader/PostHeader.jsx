@@ -137,10 +137,6 @@ export class PostHeader extends Component {
     onUserInfoClick = e => {
         e.preventDefault();
 
-        if (this.props.isOwner) {
-            return;
-        }
-
         if (Date.now() > this.closePopoverTs + 200) {
             this.setState({
                 showPopover: true,
