@@ -189,7 +189,7 @@ export class CommentCard extends PureComponent {
     }
 
     renderHeaderForPost() {
-        const { comment, extractedContent, anchorId } = this.props;
+        const { comment, extractedContent, anchorId, isPostPage } = this.props;
         const { collapsed, highlighted } = this.state;
 
         return (
