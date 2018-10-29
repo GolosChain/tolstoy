@@ -39,7 +39,6 @@ const Wrapper = styled.section`
     }
 
     @media (max-width: 768px) {
-        max-width: calc(100vw - 60px);
         min-width: 330px;
         background: #ffffff;
         border-radius: 7px;
