@@ -14,5 +14,7 @@ export default connect(
         clearError: () => user.actions.loginError({ error: null }),
         dispatchSubmit: dispatchLogin,
         loginCanceled,
-    }
+    },
+    null,
+    { withRef: true }
 )(LoginForm);

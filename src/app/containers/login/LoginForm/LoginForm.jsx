@@ -157,14 +157,6 @@ export class LoginForm extends Component {
     username = React.createRef();
     password = React.createRef();
 
-    componentDidMount() {
-        this.props.onRef(this);
-    }
-
-    componentWillUnmount() {
-        this.props.onRef(null);
-    }
-
     confirmClose = () => {
         this.props.loginCanceled();
         return true;

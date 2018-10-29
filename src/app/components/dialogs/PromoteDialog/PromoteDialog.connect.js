@@ -43,5 +43,7 @@ export default connect(
         showNotification(data) {
             dispatch(showNotification(data));
         },
-    })
+    }),
+    null,
+    { withRef: true }
 )(RepostDialog);

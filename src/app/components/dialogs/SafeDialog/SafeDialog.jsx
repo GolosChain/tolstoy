@@ -67,14 +67,6 @@ const ErrorLine = styled.div`
 `;
 
 class SafeDialog extends PureComponent {
-    componentDidMount() {
-        this.props.onRef(this);
-    }
-
-    componentWillUnmount() {
-        this.props.onRef(null);
-    }
-
     state = {
         type: TYPES.SAVE,
         target: '',
@@ -358,5 +350,7 @@ export default connect(
                 })
             );
         },
-    })
+    }),
+    null,
+    { withRef: true }
 )(SafeDialog);

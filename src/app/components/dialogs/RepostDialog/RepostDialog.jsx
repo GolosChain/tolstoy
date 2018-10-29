@@ -109,14 +109,6 @@ export default class RepostDialog extends Component {
         text: '',
     };
 
-    componentDidMount() {
-        this.props.onRef(this);
-    }
-
-    componentWillUnmount() {
-        this.props.onRef(null);
-    }
-
     onClose = () => {
         this.props.onClose();
     };
