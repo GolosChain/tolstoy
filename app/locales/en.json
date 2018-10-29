@@ -1482,6 +1482,41 @@
     "trending_30_day": "trending (30 day)",
     "we_will_reset_curation_rewards_for_this_post": "will reset your curation rewards for this post"
   },
+  "welcome_page": {
+    "about": {
+      "item": {
+        "first": "No paid articles, only unique ideas",
+        "first_neg": "",
+        "fourth": "No moderation, you’re the owner of all the info you share",
+        "fourth_neg": "",
+        "second": "No banners and ads, only posts and comments",
+        "second_neg": "",
+        "third": "User-friendly feeds",
+        "third_neg": ""
+      },
+      "subheader_1": "Golos.io is the only place on the web where people share their thoughts and post unique articles.",
+      "subheader_2": "It’s the platform, that enables the community to act and create meanings."
+    },
+    "congratulations": " We’re happy you joined us!",
+    "differences_button": "Read more",
+    "differences_title": "Why we are different",
+    "greeting_1": "Welcome",
+    "greeting_2": "to Golos.io",
+    "initial_header": "What to read",
+    "initial_subheader": "Popular topics",
+    "link": {
+      "envelope": "Send us an e-mail",
+      "monitor": "FAQ",
+      "telegram": "Ask in Telegram",
+      "wikipedia": "Visit the WIKI"
+    },
+    "mobile_1": "You can use web",
+    "mobile_2": "or mobile (android) version",
+    "mobile_3": "of the Golos.io platform",
+    "questions_header": "Do you have any other questions?",
+    "questions_subheader": "Check out the helpful links",
+    "reviews": "Community voices"
+  },
   "witnesses_jsx": {
     "approval": "Votes",
     "apr": "APR",

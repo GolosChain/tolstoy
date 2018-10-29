@@ -140,7 +140,12 @@ export default class WelcomeSlider extends Component {
 
     _renderPagingItem = i => {
         const { slides } = this.props;
-
-        return <Userpic imageUrl={slides[i].avatar} width={40} height={40} />;
+        return (
+            <Userpic
+                imageUrl={`${$STM_Config.img_proxy_prefix}0x0/${slides[i].avatar}`}
+                width={40}
+                height={40}
+            />
+        );
     };
 }

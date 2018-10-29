@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
+import tt from 'counterpart';
 
 const Root = styled.section`
     display: flex;
@@ -48,10 +49,12 @@ export default class Hero extends PureComponent {
                 <Row className="row align-middle">
                     <div className="column small-12 medium-7">
                         <Greeting>
-                            Добро пожаловать <br /> на Golos.io
+                            {tt('welcome_page.greeting_1')}
+                            <br />
+                            {tt('welcome_page.greeting_2')}
                         </Greeting>
                         <Congratulations>
-                            Мы рады вас видеть!
+                            {tt('welcome_page.congratulations')}
                         </Congratulations>
                     </div>
                     <div className="column small-12 medium-5">

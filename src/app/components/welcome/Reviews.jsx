@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
+import tt from 'counterpart';
+
 import WelcomeSlider from 'src/app/components/welcome/WelcomeSlider';
 
 const Root = styled.section`
@@ -31,7 +33,7 @@ export default class Reviews extends PureComponent {
                         <img src="images/new/welcome/welcome__reviews.svg" />
                     </div>
                     <div className="columns small-12 medium-8 large-6">
-                        <Header>Голоса сообщества</Header>
+                        <Header>{tt('welcome_page.reviews')}</Header>
                         <WelcomeSlider slides={slides} />
                     </div>
                 </Row>

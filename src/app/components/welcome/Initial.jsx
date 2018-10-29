@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
+import tt from 'counterpart';
+
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import CardPost from 'src/app/components/welcome/CardPost';
 
@@ -68,22 +70,22 @@ const Tag = styled.div`
 
 export default class Initial extends PureComponent {
     render() {
-        const { tags, tagsActiveId, tagsLoading, tagsCards, className } = this.props;
+        const { tags, tagsActiveId, tagsLoading, tagsCards, className, fetchTagContents } = this.props;
 
         return (
             <Root className={className}>
                 <Row className="row align-middle">
                     <div className="columns">
-                        <Header>Что почитать?</Header>
+                        <Header>{tt('welcome_page.initial_header')}</Header>
                         <div className="row">
                             <div className="columns small-12 medium-3 large-2">
-                                <SubHeader>Популярные темы:</SubHeader>
+                                <SubHeader>{tt('welcome_page.initial_subheader')}</SubHeader>
                                 <Tags>
                                     {tags.map(tag => (
                                         <Tag
                                             key={tag.id}
                                             className={tag.id === tagsActiveId ? 'active' : ''}
-                                            onClick={() => this.fetchTagContents(tag)}
+                                            onClick={() => fetchTagContents(tag)}
                                         >
                                             {tag.name}
                                         </Tag>
@@ -97,17 +99,17 @@ export default class Initial extends PureComponent {
                                     </center>
                                 </div>
                             ) : (
-                                <div className="columns">
-                                    <div className="row small-up-1 medium-up-2 large-up-3">
-                                        {tagsCards[tagsActiveId] &&
-                                            tagsCards[tagsActiveId].map(post => (
-                                                <div className="columns" key={post.id}>
-                                                    <CardPostStyled post={post} />
-                                                </div>
-                                            ))}
+                                    <div className="columns">
+                                        <div className="row small-up-1 medium-up-2 large-up-3">
+                                            {tagsCards[tagsActiveId] &&
+                                                tagsCards[tagsActiveId].map(post => (
+                                                    <div className="columns" key={post.id}>
+                                                        <CardPostStyled post={post} />
+                                                    </div>
+                                                ))}
+                                        </div>
                                     </div>
-                                </div>
-                            )}
+                                )}
                         </div>
                     </div>
                 </Row>

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import tt from 'counterpart';
+
 import user from 'app/redux/User';
 import Hero from 'src/app/components/welcome/Hero';
 import About from 'src/app/components/welcome/About';
@@ -18,9 +20,32 @@ class Welcome extends Component {
         questionsCards: [],
     };
 
+    locale = tt.getLocale();
+
+    tagsByLocale = locale => {
+        if (locale === 'en') {
+            return require('./tags_EN.json');
+        } else if (locale === 'ru') {
+            return require('./tags_RU.json');
+        } else if (locale === 'uk') {
+            return require('./tags_UA.json');
+        }
+    };
+
+    differencesByLocale = locale => {
+        if (locale === 'en') {
+            return require('./differences_EN.json');
+        } else if (locale === 'ru') {
+            return require('./differences_RU.json');
+        } else if (locale === 'uk') {
+            return require('./differences_UA.json');
+        }
+    };
+
     slides = require('./slides.json');
-    tags = require('./tags.json');
+    tags = this.tagsByLocale(this.locale);
     questions = require('./questions.json');
+    differences = this.differencesByLocale(this.locale);
 
     async componentDidMount() {
         this.fetchTagContents(this.tags[3]);
@@ -108,8 +133,9 @@ class Welcome extends Component {
                     tagsLoading={tagsLoading}
                     tagsActiveId={tagsActiveId}
                     tagsCards={tagsCards}
+                    fetchTagContents={this.fetchTagContents}
                 />
-                <Differences />
+                <Differences differences={this.differences} />
                 <Mobile />
                 <Reviews slides={this.slides} />
                 <Questions
