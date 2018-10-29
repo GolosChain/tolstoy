@@ -93,7 +93,7 @@ const ActionWrapper = styled.div`
     align-items: center;
     flex-direction: column;
 
-    div {
+    * {
         color: ${({ activeType }) =>
             activeType === 'like' ? '#2879ff' : activeType === 'dislike' ? '#ff4e00' : ''};
     }
