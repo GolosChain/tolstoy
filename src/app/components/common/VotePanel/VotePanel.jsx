@@ -24,6 +24,10 @@ const DISLIKE_PERCENT_KEY = 'golos.dislike-percent';
 
 const SLIDER_OFFSET = 8;
 
+const OFFSET = -42;
+const VERT_OFFSET_UP = -44;
+const VERT_OFFSET_DOWN = 26;
+
 const LikeWrapper = styled.i`
     margin-right: 8px;
 
@@ -103,9 +107,9 @@ const LikeBlock = styled.div`
         padding: 0 0 12px;
     `};
 
-    &:last-child {
+    ${is('last')`
         padding: 0;
-    }
+    `};
 
     ${isNot('vertical')`
         &:hover,
@@ -173,7 +177,7 @@ const SliderBlock = styled.div`
     position: absolute;
     display: flex;
     height: 40px;
-    top: -50px;
+    top: 0;
     left: 0;
     width: 100%;
     min-width: 220px;
@@ -269,6 +273,7 @@ export default class VotePanel extends PureComponent {
                 </LikeBlock>
                 {sidePanel ? null : this._renderPayout()}
                 <LikeBlockNeg
+                    last
                     activeNeg={votesSummary.myVote === 'dislike' || sliderAction === 'dislike'}
                     data-tooltip={
                         showSlider
@@ -298,6 +303,7 @@ export default class VotePanel extends PureComponent {
     }
 
     _renderSlider() {
+        const { sidePanel } = this.props;
         const { sliderAction, votePercent } = this.state;
 
         const like = sliderAction === 'like' ? this._like : this._disLike;
@@ -307,8 +313,18 @@ export default class VotePanel extends PureComponent {
 
         const tipLeft = SLIDER_OFFSET + (likeBox.left - box.left + likeBox.width / 2);
 
+        let verticalOffset = OFFSET;
+
+        if (sidePanel) {
+            if (sliderAction === 'like') {
+                verticalOffset = VERT_OFFSET_UP;
+            } else {
+                verticalOffset = VERT_OFFSET_DOWN;
+            }
+        }
+
         return (
-            <SliderBlock>
+            <SliderBlock style={{ top: verticalOffset }}>
                 <SliderBlockTip left={`${tipLeft}px`} />
                 <OkIcon
                     name="check"
@@ -482,6 +498,8 @@ function makeTooltip(accounts, isMore) {
 }
 
 function isNeedShowSlider() {
+    return true;
+
     const state = getStoreState();
 
     const current = state.user.get('current');
