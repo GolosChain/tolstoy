@@ -32,6 +32,7 @@ export default createModule({
                     operation = fromJS(payload.operation);
                     loginDefault = fromJS(payload.loginDefault);
                 }
+
                 return state.merge({
                     show_login_modal: true,
                     loginBroadcastOperation: operation,
@@ -40,13 +41,22 @@ export default createModule({
             },
         },
         {
-            action: 'HIDE_LOGIN',
-            reducer: state =>
-                state.merge({
+            action: 'LOGIN_CANCELED',
+            reducer: state => {
+                const errorCallback = state.getIn(['loginBroadcastOperation', 'errorCallback']);
+
+                if (errorCallback) {
+                    setTimeout(() => {
+                        errorCallback('Canceled');
+                    }, 0);
+                }
+
+                return state.merge({
                     show_login_modal: false,
                     loginBroadcastOperation: undefined,
                     loginDefault: undefined,
-                }),
+                });
+            },
         },
         {
             action: 'SAVE_LOGIN_CONFIRM',

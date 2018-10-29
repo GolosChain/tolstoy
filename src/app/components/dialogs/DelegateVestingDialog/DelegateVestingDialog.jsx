@@ -143,13 +143,7 @@ class DelegateVestingDialog extends PureComponent {
     }
 
     componentDidMount() {
-        this.props.onRef(this);
-
         this._loadDelegationsData();
-    }
-
-    componentWillUnmount() {
-        this.props.onRef(null);
     }
 
     componentWillReceiveProps(newProps) {
@@ -594,5 +588,7 @@ export default connect(
                 })
             );
         },
-    })
+    }),
+    null,
+    { withRef: true }
 )(DelegateVestingDialog);

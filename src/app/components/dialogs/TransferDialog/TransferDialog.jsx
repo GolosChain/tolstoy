@@ -106,16 +106,7 @@ class TransferDialog extends PureComponent {
         type: PropTypes.oneOf(['donate']),
         toAccountName: PropTypes.string.isRequired,
         donatePostUrl: PropTypes.string,
-        onRef: PropTypes.func.isRequired,
     };
-
-    componentDidMount() {
-        this.props.onRef(this);
-    }
-
-    componentWillUnmount() {
-        this.props.onRef(null);
-    }
 
     constructor(props) {
         super(props);
@@ -390,5 +381,7 @@ export default connect(
                 })
             );
         },
-    })
+    }),
+    null,
+    { withRef: true }
 )(TransferDialog);

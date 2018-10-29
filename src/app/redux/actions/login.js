@@ -1,6 +1,6 @@
 import transaction from 'app/redux/Transaction';
 import user from 'app/redux/User';
-import { SHOW_LOGIN } from '../constants/login';
+import { SHOW_LOGIN, LOGIN_CANCELED } from '../constants/login';
 
 export function showLogin({ onClose } = {}) {
     return {
@@ -54,5 +54,12 @@ export function dispatchLogin(data, loginBroadcastOperation) {
                 })
             );
         }
+    };
+}
+
+export function loginCanceled() {
+    return {
+        type: LOGIN_CANCELED,
+        payload: {},
     };
 }

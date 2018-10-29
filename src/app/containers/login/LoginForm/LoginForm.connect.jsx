@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import { userSelector } from 'src/app/redux/selectors/common';
-import { dispatchLogin } from 'src/app/redux/actions/login';
+import { dispatchLogin, loginCanceled } from 'src/app/redux/actions/login';
 import user from 'app/redux/User';
 import { LoginForm } from './LoginForm';
 
@@ -13,5 +13,8 @@ export default connect(
     {
         clearError: () => user.actions.loginError({ error: null }),
         dispatchSubmit: dispatchLogin,
-    }
+        loginCanceled,
+    },
+    null,
+    { withRef: true }
 )(LoginForm);

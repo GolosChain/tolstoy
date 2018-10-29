@@ -26,6 +26,7 @@ const Footer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 6px;
 `;
 
 const Button = styled.button.attrs({ type: 'button' })`

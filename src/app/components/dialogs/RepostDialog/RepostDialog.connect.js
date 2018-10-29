@@ -18,5 +18,7 @@ export default connect(
     {
         repost,
         showNotification,
-    }
+    },
+    null,
+    { withRef: true }
 )(RepostDialog);
