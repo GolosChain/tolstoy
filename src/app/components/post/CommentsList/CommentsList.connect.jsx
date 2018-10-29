@@ -38,7 +38,8 @@ function buildCommentsStructure(commentsFromStore, postPermLink, sortBy) {
         result.push(getCommentsWithRepliesRecursively(currentComment, commentsFullData));
     }
 
-    return sortComments(result, sortBy, commentsFullData);
+    sortComments(result, sortBy, commentsFullData);
+    return result;
 }
 
 function isNotMainComment(currentComment, postPermLink) {
