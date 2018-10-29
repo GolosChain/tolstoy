@@ -8,6 +8,7 @@ import {
     TransferDialog,
     SafeDialog,
 } from 'src/app/components/dialogs';
+import VotersDialog from 'src/app/components/dialogs/VotersDialog';
 
 export function openPromoteDialog(postLink) {
     return {
@@ -78,6 +79,20 @@ export function openSafeDialog() {
         payload: {
             needAuth: true,
             component: SafeDialog,
+        },
+    };
+}
+
+export function openVotersDialog(postLink, isLikes) {
+    return {
+        type: SHOW_DIALOG,
+        payload: {
+            needAuth: false,
+            component: VotersDialog,
+            props: {
+                postLink,
+                isLikes,
+            },
         },
     };
 }

@@ -5,11 +5,10 @@ import user from 'app/redux/User';
 import transaction from 'app/redux/Transaction';
 import { toggleFavoriteAction } from 'src/app/redux/actions/favorites';
 import { togglePinAction } from 'src/app/redux/actions/pinnedPosts';
-import { openRepostDialog } from 'src/app/redux/actions/dialogs';
+import { openRepostDialog, openVotersDialog } from 'src/app/redux/actions/dialogs';
 import { getPinnedPosts } from 'src/app/redux/selectors/account/pinnedPosts';
 import { sanitizeCardPostData, sanitizeRepostData } from 'src/app/redux/selectors/post/commonPost';
 import PostCard from './PostCard';
-import { showVotedUsersList } from 'src/app/redux/actions/vote';
 
 export default connect(
     (state, props) => {
@@ -78,7 +77,7 @@ export default connect(
             dispatch(togglePinAction(link, isPin));
         },
         showVotedUsersList: (postLink, isLikes) => {
-            dispatch(showVotedUsersList(postLink, isLikes));
+            dispatch(openVotersDialog(postLink, isLikes));
         },
         openRepostDialog: postLink => {
             dispatch(openRepostDialog(postLink));

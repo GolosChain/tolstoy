@@ -1,10 +1,14 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import { onVote, showVotedUsersList } from 'src/app/redux/actions/vote';
+import { onVote } from 'src/app/redux/actions/vote';
 import { togglePinAction } from 'src/app/redux/actions/pinnedPosts';
 import { ActivePanel } from 'src/app/containers/post/activePanel/ActivePanel';
-import { openPromoteDialog, openRepostDialog } from 'src/app/redux/actions/dialogs';
+import {
+    openPromoteDialog,
+    openRepostDialog,
+    openVotersDialog,
+} from 'src/app/redux/actions/dialogs';
 import { currentUsernameSelector } from 'src/app/redux/selectors/common';
 import {
     authorSelector,
@@ -38,7 +42,7 @@ export default connect(
     {
         onVote,
         togglePinAction,
-        showVotedUsersList,
+        showVotedUsersList: openVotersDialog,
         openPromoteDialog,
         openRepostDialog,
     }

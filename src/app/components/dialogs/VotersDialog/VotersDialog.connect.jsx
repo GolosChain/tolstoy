@@ -6,15 +6,14 @@ import {
     createDeepEqualSelector,
     globalSelector,
     currentUsernameSelector,
+    uiSelector,
 } from 'src/app/redux/selectors/common';
-import VotersDialog from 'src/app/components/userProfile/dialogs/VotersDialog/VotersDialog';
-
-const getVotersUI = state => state.ui.votersDialog;
+import VotersDialog from 'src/app/components/dialogs/VotersDialog/VotersDialog';
 
 export default connect(
     createDeepEqualSelector(
         [
-            getVotersUI,
+            uiSelector('votersDialog'),
             globalSelector('content'),
             globalSelector('accounts'),
             (state, props) => props.postLink,

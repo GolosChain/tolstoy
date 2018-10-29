@@ -5,8 +5,8 @@ import { List } from 'immutable';
 import tt from 'counterpart';
 
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
-import Avatar from 'src/app/components/common/Avatar';
-import Follow from 'src/app/components/common/Follow';
+import Avatar from 'src/app/components/common/Avatar/index';
+import Follow from 'src/app/components/common/Follow/index';
 import {
     Dialog,
     Header,
@@ -17,7 +17,7 @@ import {
     UserLink,
     Name,
     LoaderWrapper,
-} from 'src/app/components/userProfile/dialogs/FollowersDialog/FollowersDialog';
+} from 'src/app/components/dialogs/FollowersDialog/FollowersDialog';
 
 const ShowAll = styled.button`
     width: 100%;

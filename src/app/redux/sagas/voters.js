@@ -1,28 +1,14 @@
-import { takeLatest, call, takeEvery, put } from 'redux-saga/effects';
+import { call, takeEvery, put } from 'redux-saga/effects';
 import { api } from 'golos-js';
 
 import {
-    SHOW_VOTED_USERS,
     GET_VOTERS_USERS_REQUEST,
     GET_VOTERS_USERS_ERROR,
 } from 'src/app/redux/constants/voters';
-import DialogManager from 'app/components/elements/common/DialogManager';
-import VotersDialog from 'src/app/components/userProfile/dialogs/VotersDialog';
 import GlobalReducer from 'app/redux/GlobalReducer';
 
 export default function* showVotedUserWatcher() {
-    yield takeLatest(SHOW_VOTED_USERS, showVotedUserWorker);
     yield takeEvery(GET_VOTERS_USERS_REQUEST, getVotersWorker)
-}
-
-function* showVotedUserWorker({payload: {postLink, isLikes}}) {
-    yield call([DialogManager, 'showDialog'], {
-        component: VotersDialog,
-        props: {
-            postLink,
-            isLikes
-        }
-    });
 }
 
 function* getVotersWorker({payload: {postLink, limit}}) {
