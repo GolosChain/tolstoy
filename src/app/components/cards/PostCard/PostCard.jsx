@@ -8,7 +8,6 @@ import { Map } from 'immutable';
 
 import { detransliterate } from 'app/utils/ParsersAndFormatters';
 import Icon from 'golos-ui/Icon';
-import { confirmVote } from 'src/app/helpers/votes';
 import { PostTitle, PostContent } from '../common';
 import VotePanel from '../../common/VotePanel';
 import ReplyBlock from '../../common/ReplyBlock';
@@ -87,12 +86,12 @@ const IconWrapper = styled.div`
             transform: scale(1.15);
         }
     `};
-    
+
     ${is('isPinned')`
         & ${Icon} {
             color: #2879ff;
         }
-    `}
+    `};
 `;
 
 const BodyLink = styled(Link)`
@@ -198,39 +197,12 @@ export default class PostCard extends PureComponent {
         onClick: () => {},
     };
 
-    state = {
-        myVote: this._getMyVote(this.props),
-    };
-
     componentDidMount() {
         window.addEventListener('resize', this._onResize);
     }
 
     componentWillUnmount() {
         window.removeEventListener('resize', this._onResize);
-    }
-
-    componentWillReceiveProps(newProps) {
-        if (this.props.data !== newProps.data) {
-            this.setState({
-                myVote: this._getMyVote(newProps),
-            });
-        }
-    }
-
-    _getMyVote(props) {
-        const { data, myAccount } = props;
-        const votes = data.get('active_votes');
-
-        for (let vote of votes) {
-            if (vote.get('voter') === myAccount) {
-                const v = vote.toJS();
-                v.weight = parseInt(v.weight || 0, 10);
-                return v;
-            }
-        }
-
-        return null;
     }
 
     render() {
@@ -442,15 +414,13 @@ export default class PostCard extends PureComponent {
     }
 
     renderFooter() {
-        const { data, myAccount, sanitizedData, grid, showVotedUsersList } = this.props;
+        const { data, myAccount, sanitizedData, grid, showVotedUsersList, permLink } = this.props;
 
         return (
             <Footer grid={grid}>
                 <VotePanelStyled
-                    data={data}
-                    me={myAccount}
+                    contentLink={permLink}
                     grid={grid}
-                    onChange={this._onVoteChange}
                     onNumberClick={showVotedUsersList}
                 />
                 {grid ? null : <Filler />}
@@ -466,19 +436,6 @@ export default class PostCard extends PureComponent {
 
     _onClick = e => {
         this.props.onClick(e);
-    };
-
-    _onVoteChange = async percent => {
-        const props = this.props;
-        const { myVote } = this.state;
-
-        if (await confirmVote(myVote, percent)) {
-            this.props.onVote(percent, {
-                myAccount: props.myAccount,
-                author: props.data.get('author'),
-                permlink: props.data.get('permlink'),
-            });
-        }
     };
 
     _onFavoriteClick = () => {

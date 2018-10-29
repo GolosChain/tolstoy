@@ -1,8 +1,5 @@
 import { connect } from 'react-redux';
-import tt from 'counterpart';
 
-import user from 'app/redux/User';
-import transaction from 'app/redux/Transaction';
 import { toggleFavoriteAction } from 'src/app/redux/actions/favorites';
 import { togglePinAction } from 'src/app/redux/actions/pinnedPosts';
 import { openRepostDialog, openVotersDialog } from 'src/app/redux/actions/dialogs';
@@ -52,35 +49,10 @@ export default connect(
             isOwner: myAccountName === data.get('author'),
         };
     },
-    dispatch => ({
-        onVote: (percent, { myAccount, author, permlink }) => {
-            dispatch(
-                transaction.actions.broadcastOperation({
-                    type: 'vote',
-                    operation: {
-                        voter: myAccount,
-                        author,
-                        permlink,
-                        weight: Math.round(percent * 10000),
-                        __config: {
-                            title: percent < 0 ? tt('voting_jsx.confirm_flag') : null,
-                        },
-                    },
-                    successCallback: () => dispatch(user.actions.getAccount()),
-                })
-            );
-        },
-        toggleFavorite: (link, isAdd) => {
-            dispatch(toggleFavoriteAction({ link, isAdd }));
-        },
-        togglePin: (link, isPin) => {
-            dispatch(togglePinAction(link, isPin));
-        },
-        showVotedUsersList: (postLink, isLikes) => {
-            dispatch(openVotersDialog(postLink, isLikes));
-        },
-        openRepostDialog: postLink => {
-            dispatch(openRepostDialog(postLink));
-        },
-    })
+    {
+        toggleFavorite: (link, isAdd) => toggleFavoriteAction({ link, isAdd }),
+        togglePin: (link, isPin) => togglePinAction(link, isPin),
+        showVotedUsersList: (postLink, isLikes) => openVotersDialog(postLink, isLikes),
+        openRepostDialog: postLink => openRepostDialog(postLink),
+    }
 )(PostCard);

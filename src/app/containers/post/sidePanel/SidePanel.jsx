@@ -14,6 +14,7 @@ import SharePopover from 'src/app/components/post/SharePopover';
 import { PopoverStyled } from 'src/app/components/post/PopoverAdditionalStyles';
 import PostActions from 'src/app/components/post/PostActions';
 import { POST_MAX_WIDTH } from 'src/app/containers/post/PostContainer';
+import VotePanel from 'src/app/components/common/VotePanel';
 
 const HEADER_HEIGHT = 60;
 const DESKTOP_FOOTER_HEIGHT = 324;
@@ -21,6 +22,9 @@ const PANEL_MARGIN = 20;
 const SIDE_PANEL_WIDTH = 64;
 
 const PanelWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding: 15px 22px;
     border-radius: 32px;
     background-color: #ffffff;
@@ -29,6 +33,7 @@ const PanelWrapper = styled.div`
 
     & > * {
         padding: 10px 0;
+        flex-shrink: 0;
     }
 `;
 
@@ -110,18 +115,6 @@ const IconWrapper = styled.div`
     }
 `;
 
-const CountOf = styled.div`
-    color: #959595;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 16px;
-    line-height: 23px;
-    cursor: pointer;
-
-    ${is('count')`
-        padding-top: 5px;
-    `};
-`;
-
 const ShareWrapper = styled(ActionWrapper)`
     position: relative;
 `;
@@ -131,6 +124,10 @@ const IconWithState = styled(({ isOpen, ...rest }) => <Icon {...rest} />)`
         transition: color 0s;
         color: #2879ff;
     `};
+`;
+
+const VotePanelStyled = styled(VotePanel)`
+    padding-bottom: 2px;
 `;
 
 export class SidePanel extends Component {
@@ -231,59 +228,21 @@ export class SidePanel extends Component {
         this.props.openRepostDialog(`${author}/${permLink}`);
     };
 
-    like = async () => {
-        const { username, permLink, author, myVote } = this.props;
-        const percent = 1;
-        if (await confirmVote(myVote, percent)) {
-            this.props.onVote(
-                username,
-                author,
-                permLink,
-                myVote === 0 || myVote.percent <= 0 ? percent : 0
-            );
-        }
-    };
-
-    dislike = async () => {
-        const { username, permLink, author, myVote } = this.props;
-        const percent = -1;
-        if (await confirmVote(myVote, percent)) {
-            this.props.onVote(
-                username,
-                author,
-                permLink,
-                myVote === 0 || myVote.percent >= 0 ? percent : 0
-            );
-        }
-    };
-
-    tooltipContent = (users, isMore) => {
-        return users.length ? users.join('<br>') + (isMore ? '<br>...' : '') : null;
-    };
-
-    showLikedUsersList = () => {
-        this.props.showVotedUsersList(`${this.props.author}/${this.props.permLink}`, true);
-    };
-
-    showDislikedUsersList = () => {
-        this.props.showVotedUsersList(`${this.props.author}/${this.props.permLink}`, false);
-    };
-
     onBackClick = () => {
         this.props.onBackClick();
     };
 
     render() {
         const {
-            votesSummary,
             isPinned,
             togglePin,
             isOwner,
             isFavorite,
             toggleFavorite,
             fullUrl,
-            myVote: voteType,
             backURL,
+            postLink,
+            showVotedUsersList,
         } = this.props;
 
         const {
@@ -293,8 +252,6 @@ export class SidePanel extends Component {
             showSideBlockByHeight,
         } = this.state;
 
-        const { likes, firstLikes, dislikes, firstDislikes } = votesSummary;
-
         return (
             <Wrapper
                 innerRef={this.sideBlockRef}
@@ -302,32 +259,11 @@ export class SidePanel extends Component {
                 showSideBlock={showSideBlockByWidth && showSideBlockByHeight}
             >
                 <PanelWrapper>
-                    <ActionWrapper
-                        data-tooltip={this.tooltipContent(firstLikes, likes > 10)}
-                        data-tooltip-html
-                        activeType={voteType.percent > 0 ? 'like' : ''}
-                    >
-                        <IconWrapper onClick={this.like}>
-                            <Icon width="20" height="20" name="like" />
-                        </IconWrapper>
-                        <CountOf count={likes} onClick={this.showLikedUsersList}>
-                            {likes}
-                        </CountOf>
-                    </ActionWrapper>
-
-                    <ActionWrapper
-                        data-tooltip={this.tooltipContent(firstDislikes, dislikes > 10)}
-                        data-tooltip-html
-                        activeType={voteType.percent < 0 ? 'dislike' : ''}
-                    >
-                        <IconWrapper onClick={this.dislike}>
-                            <Icon width="20" height="20" name="dislike" />
-                        </IconWrapper>
-                        <CountOf count={dislikes} onClick={this.showDislikedUsersList}>
-                            {dislikes}
-                        </CountOf>
-                    </ActionWrapper>
-
+                    <VotePanelStyled
+                        contentLink={postLink}
+                        onNumberClick={showVotedUsersList}
+                        sidePanel
+                    />
                     {isOwner ? null : (
                         <ActionWrapper
                             onClick={this.repost}

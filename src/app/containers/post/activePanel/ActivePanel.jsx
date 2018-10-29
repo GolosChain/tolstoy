@@ -6,9 +6,8 @@ import PropTypes from 'prop-types';
 
 import Icon from 'golos-ui/Icon';
 
-import VotePanel from 'src/app/components/common/VotePanel/VotePanel';
-import ReplyBlock from 'src/app/components/common/ReplyBlock/ReplyBlock';
-import { confirmVote } from 'src/app/helpers/votes';
+import VotePanel from 'src/app/components/common/VotePanel';
+import ReplyBlock from 'src/app/components/common/ReplyBlock';
 import SharePopover from 'src/app/components/post/SharePopover';
 import {
     PopoverBackgroundShade,
@@ -189,18 +188,6 @@ export class ActivePanel extends Component {
         showSharePopover: false,
     };
 
-    voteChange = async percent => {
-        const {
-            votesSummary: { myVote },
-            username,
-            permLink,
-            account,
-        } = this.props;
-        if (await confirmVote(myVote, percent)) {
-            this.props.onVote(username, account, permLink, percent);
-        }
-    };
-
     promotePost = () => {
         const { account, permLink } = this.props;
         this.props.openPromoteDialog(`${account}/${permLink}`);
@@ -255,10 +242,7 @@ export class ActivePanel extends Component {
         return (
             <Wrapper>
                 <VotePanelWrapper
-                    data={data}
-                    me={username}
-                    whiteTheme={false}
-                    onChange={this.voteChange}
+                    contentLink={`${data.get('author')}/${data.get('permlink')}`}
                     onNumberClick={showVotedUsersList}
                 />
                 <Divider />

@@ -172,7 +172,6 @@ export class CommentCard extends PureComponent {
     };
 
     state = {
-        myVote: this.props.dataLoaded ? this.getMyVote(this.props) : null,
         showReply: false,
         edit: false,
         collapsed: false,
@@ -182,28 +181,12 @@ export class CommentCard extends PureComponent {
     commentRef = createRef();
     replyRef = createRef();
 
-    componentWillReceiveProps(newProps) {
-        const { anchorId, comment, dataLoaded } = this.props;
+    componentWillReceiveProps() {
+        const { anchorId } = this.props;
         const { highlighted } = this.state;
         if (window.location.hash.replace('#', '') === anchorId && !highlighted) {
             this.setState({ highlighted: true });
         }
-        if (comment !== newProps.comment && dataLoaded) {
-            this.setState({
-                myVote: this.getMyVote(newProps),
-            });
-        }
-    }
-
-    getMyVote(props) {
-        const { username, comment } = props;
-
-        let myVote = comment.get('active_votes').find(vote => vote.get('voter') === username, null);
-        if (myVote) {
-            myVote = myVote.toJS();
-            myVote.weight = parseInt(myVote.weight || 0, 10);
-        }
-        return myVote;
     }
 
     renderHeaderForPost() {
@@ -375,7 +358,7 @@ export class CommentCard extends PureComponent {
     };
 
     render() {
-        const { showReply, collapsed, edit, myVote, highlighted } = this.state;
+        const { showReply, collapsed, edit, highlighted } = this.state;
 
         const {
             dataLoaded,
@@ -411,7 +394,6 @@ export class CommentCard extends PureComponent {
                             edit={edit}
                             username={username}
                             onVote={onVote}
-                            myVote={myVote}
                             replyRef={this.replyRef}
                             commentRef={this.commentRef}
                             onReplyClick={this.onReplyClick}

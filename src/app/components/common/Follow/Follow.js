@@ -49,7 +49,7 @@ export default class Follow extends Component {
 
         // connect
         username: PropTypes.string.isRequired,
-        isFollow: PropTypes.bool.isRequired,
+        isFollow: PropTypes.bool,
     };
 
     static defaultProps = {

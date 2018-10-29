@@ -2,10 +2,10 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import tt from 'counterpart';
 import styled from 'styled-components';
-import is from 'styled-is';
+import is, { isNot } from 'styled-is';
+import { Map } from 'immutable';
 
 import { getStoreState } from 'app/clientRender';
-import { calcVotesStats } from 'app/utils/StateFunctions';
 import { listenLazy } from 'src/app/helpers/hoc';
 import Icon from 'golos-ui/Icon';
 import Slider from 'golos-ui/Slider';
@@ -14,6 +14,7 @@ import DialogManager from 'app/components/elements/common/DialogManager';
 import Popover from '../Popover';
 import PayoutInfo from '../PayoutInfo';
 import PayoutInfoDialog from '../PayoutInfoDialog';
+import { confirmVote } from 'src/app/helpers/votes';
 
 const VOTE_PERCENT_THRESHOLD = 1000000;
 const MOBILE_WIDTH = 890;
@@ -25,6 +26,15 @@ const SLIDER_OFFSET = 8;
 
 const LikeWrapper = styled.i`
     margin-right: 8px;
+
+    ${is('vertical')`
+        margin: 0 0 6px;
+        transition: transform 0.15s;
+        
+        &:hover {
+            transform: scale(1.15);
+        }
+    `};
 `;
 
 const LikeCount = styled.span`
@@ -39,6 +49,12 @@ const LikeIcon = Icon.extend`
     margin-top: -5px;
     color: #393636;
     transition: color 0.2s;
+`;
+
+const LikeIconNeg = LikeIcon.extend`
+    margin-top: 0;
+    margin-bottom: -5px;
+    transform: scale(1, -1);
 `;
 
 const OkIcon = Icon.extend`
@@ -59,7 +75,7 @@ const OkIcon = Icon.extend`
     `};
 `;
 
-const CancelIcon = Icon.extend`
+const CancelIcon = styled(Icon)`
     width: 12px;
     margin-left: 8px;
     color: #e1e1e1;
@@ -69,12 +85,6 @@ const CancelIcon = Icon.extend`
     &:hover {
         color: #333;
     }
-`;
-
-const LikeIconNeg = LikeIcon.extend`
-    margin-top: 0;
-    margin-bottom: -5px;
-    transform: scale(1, -1);
 `;
 
 const LikeBlock = styled.div`
@@ -87,10 +97,22 @@ const LikeBlock = styled.div`
     user-select: none;
     white-space: nowrap;
 
-    &:hover,
-    &:hover ${LikeCount}, &:hover ${LikeIcon}, &:hover ${LikeIconNeg} {
-        color: #000;
+    ${is('vertical')`
+        flex-direction: column;
+        margin: 0 !important;
+        padding: 0 0 12px;
+    `};
+
+    &:last-child {
+        padding: 0;
     }
+
+    ${isNot('vertical')`
+        &:hover,
+        &:hover ${LikeCount}, &:hover ${LikeIcon}, &:hover ${LikeIconNeg} {
+            color: #000;
+        }
+    `};
 
     ${is('active')`
         ${LikeIcon}, ${LikeCount} {
@@ -129,9 +151,15 @@ const Root = styled.div`
     padding: 12px 18px;
     display: flex;
     align-items: center;
+
+    ${is('vertical')`
+        flex-direction: column;
+    `};
 `;
 
-const IconTriangle = Icon.extend`
+const IconTriangle = styled(Icon).attrs({
+    name: 'triangle',
+})`
     width: 5px;
     margin-top: 1px;
     margin-left: 2px;
@@ -183,10 +211,10 @@ const PostPayoutStyled = styled(PostPayout)`
 @listenLazy('resize')
 export default class VotePanel extends PureComponent {
     static propTypes = {
-        data: PropTypes.object, // Immutable.Map
-        me: PropTypes.string,
-        onChange: PropTypes.func.isRequired,
-        onNumberClick: PropTypes.func.isRequired,
+        data: PropTypes.instanceOf(Map).isRequired,
+        username: PropTypes.string,
+        sidePanel: PropTypes.bool,
+        onNumberClick: PropTypes.func,
     };
 
     state = {
@@ -201,70 +229,72 @@ export default class VotePanel extends PureComponent {
     }
 
     onLikesNumberClick = () => {
-        const { data } = this.props;
-        this.props.onNumberClick(`${data.get('author')}/${data.get('permlink')}`, true);
+        const { data, onNumberClick } = this.props;
+
+        if (onNumberClick) {
+            onNumberClick(`${data.get('author')}/${data.get('permlink')}`, true);
+        }
     };
 
     onDislikesNumberClick = () => {
-        const { data } = this.props;
-        this.props.onNumberClick(`${data.get('author')}/${data.get('permlink')}`, false);
+        const { data, onNumberClick } = this.props;
+
+        if (onNumberClick) {
+            onNumberClick(`${data.get('author')}/${data.get('permlink')}`, false);
+        }
     };
 
     render() {
-        const { data, me, className } = this.props;
+        const { className, sidePanel, votesSummary } = this.props;
         const { showSlider, sliderAction } = this.state;
 
-        const votes = data.get('active_votes');
-        const votesSummaryIm = data.get('votesSummary');
-        const votesSummary = votesSummaryIm
-            ? votesSummaryIm.toJS()
-            : calcVotesStats(votes.toJS(), me);
-        this._myVote = votesSummary.myVote;
         return (
-            <Root className={className} innerRef={this._onRef}>
+            <Root className={className} innerRef={this._onRef} vertical={sidePanel}>
                 <LikeBlock
-                    active={this._myVote === 'like' || sliderAction === 'like'}
+                    active={votesSummary.myVote === 'like' || sliderAction === 'like'}
                     data-tooltip={
                         showSlider
                             ? null
                             : makeTooltip(votesSummary.firstLikes, votesSummary.likes > 10)
                     }
                     data-tooltip-html
+                    vertical={sidePanel}
                 >
-                    <LikeWrapper innerRef={this._onLikeRef} onClick={this._onLikeClick}>
+                    <LikeWrapper
+                        innerRef={this._onLikeRef}
+                        onClick={this._onLikeClick}
+                        vertical={sidePanel}
+                    >
                         <LikeIcon name="like" />
                     </LikeWrapper>
-                    <LikeCount
-                        onClick={
-                            votesSummary.likes > 0 ? this.onLikesNumberClick : this._onLikeClick
-                        }
-                    >
+                    <LikeCount onClick={votesSummary.likes === 0 ? null : this.onLikesNumberClick}>
                         {votesSummary.likes}
-                        <IconTriangle name="triangle" />
+                        {sidePanel ? null : <IconTriangle />}
                     </LikeCount>
                 </LikeBlock>
-                {this._renderPayout()}
+                {sidePanel ? null : this._renderPayout()}
                 <LikeBlockNeg
-                    activeNeg={this._myVote === 'dislike' || sliderAction === 'dislike'}
+                    activeNeg={votesSummary.myVote === 'dislike' || sliderAction === 'dislike'}
                     data-tooltip={
                         showSlider
                             ? null
                             : makeTooltip(votesSummary.firstDislikes, votesSummary.dislikes > 10)
                     }
                     data-tooltip-html
+                    vertical={sidePanel}
                 >
-                    <LikeWrapper innerRef={this._onDisLikeRef} onClick={this._onDislikeClick}>
+                    <LikeWrapper
+                        innerRef={this._onDisLikeRef}
+                        onClick={this._onDislikeClick}
+                        vertical={sidePanel}
+                    >
                         <LikeIconNeg name="like" />
                     </LikeWrapper>
                     <LikeCount
-                        onClick={
-                            votesSummary.dislikes > 0
-                                ? this.onDislikesNumberClick
-                                : this._onDislikeClick
-                        }
+                        onClick={votesSummary.dislikes === 0 ? null : this.onDislikesNumberClick}
                     >
                         {votesSummary.dislikes}
-                        <IconTriangle name="triangle" />
+                        {sidePanel ? null : <IconTriangle />}
                     </LikeCount>
                 </LikeBlockNeg>
                 {showSlider ? this._renderSlider() : null}
@@ -307,6 +337,7 @@ export default class VotePanel extends PureComponent {
 
     getPayoutInfoComponent = () => {
         const { data } = this.props;
+
         return <PayoutInfo postLink={data.get('author') + '/' + data.get('permlink')} />;
     };
 
@@ -314,6 +345,7 @@ export default class VotePanel extends PureComponent {
         const { data } = this.props;
         const { isMobile } = this.state;
         const postLink = data.get('author') + '/' + data.get('permlink');
+
         if (isMobile) {
             return (
                 <Money onClick={this._onPayoutClick}>
@@ -357,10 +389,12 @@ export default class VotePanel extends PureComponent {
     };
 
     _onLikeClick = () => {
+        const { votesSummary } = this.props;
+
         if (this.state.showSlider) {
             this._hideSlider();
-        } else if (this._myVote === 'like') {
-            this.props.onChange(0);
+        } else if (votesSummary.myVote === 'like') {
+            this._onChange(0);
         } else if (isNeedShowSlider()) {
             this.setState({
                 votePercent: getSavedPercent(LIKE_PERCENT_KEY),
@@ -370,15 +404,17 @@ export default class VotePanel extends PureComponent {
 
             window.addEventListener('click', this._onAwayClick);
         } else {
-            this.props.onChange(1);
+            this._onChange(1);
         }
     };
 
     _onDislikeClick = () => {
+        const { votesSummary } = this.props;
+
         if (this.state.showSlider) {
             this._hideSlider();
-        } else if (this._myVote === 'dislike') {
-            this.props.onChange(0);
+        } else if (votesSummary.myVote === 'dislike') {
+            this._onChange(0);
         } else if (isNeedShowSlider()) {
             this.setState({
                 votePercent: getSavedPercent(DISLIKE_PERCENT_KEY),
@@ -388,9 +424,17 @@ export default class VotePanel extends PureComponent {
 
             window.addEventListener('click', this._onAwayClick);
         } else {
-            this.props.onChange(-1);
+            this._onChange(-1);
         }
     };
+
+    async _onChange(percent) {
+        const { username, data, myVote } = this.props;
+
+        if (await confirmVote(myVote, percent)) {
+            this.props.onVote(username, data.get('author'), data.get('permlink'), percent);
+        }
+    }
 
     _onAwayClick = e => {
         if (this._root && !this._root.contains(e.target)) {
@@ -408,7 +452,7 @@ export default class VotePanel extends PureComponent {
         const { sliderAction, votePercent } = this.state;
 
         const multiplier = sliderAction === 'like' ? 1 : -1;
-        this.props.onChange(multiplier * (votePercent / 100));
+        this._onChange(multiplier * (votePercent / 100));
         savePercent(sliderAction === 'like' ? LIKE_PERCENT_KEY : DISLIKE_PERCENT_KEY, votePercent);
 
         this._hideSlider();
@@ -429,6 +473,8 @@ export default class VotePanel extends PureComponent {
         });
     };
 
+    // Not unused
+    // Calling from @listenLazy('resize')
     onResize = () => {
         this.setState({
             isMobile: this._isMobile(),
