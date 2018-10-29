@@ -84,7 +84,7 @@ export default class NestedComment extends Component {
                     innerDeep={deep}
                     updateComments={this.props.updateComments}
                 />
-                {this.renderReplies(comment.replies, ++deep)}
+                {this.renderReplies(comment.replies, deep + 1)}
             </Fragment>
         ));
     }
