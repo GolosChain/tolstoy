@@ -401,6 +401,7 @@
     "empty": "Тут поки що порожньо",
     "empty_list": "Список порожній",
     "enter_username": "Введіть своє ім'я користувача",
+    "exclude": "Вилучити",
     "expand": "Розгорнути",
     "favorites": "Обране",
     "feed": "Стрічка",
@@ -1118,6 +1119,11 @@
     "APP_NAME_password_backup": "%(APP_NAME)s резервне копіювання пароля",
     "APP_NAME_password_backup_required": "%(APP_NAME)s резервне копіювання пароля (обов'язково!)",
     "after_printing_write_down_your_user_name": "Після друку запишіть ваше ім'я користувача"
+  },
+  "tags": {
+    "popularTags": "Популярні теги",
+    "selectedTags": "теги, які ви обрали",
+    "show_more_tags": "Показати більше"
   },
   "tags_page": {
     "payouts": "Виплати",
