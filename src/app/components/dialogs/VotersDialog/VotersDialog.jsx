@@ -6,7 +6,7 @@ import tt from 'counterpart';
 
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import Avatar from 'src/app/components/common/Avatar/index';
-import Follow from 'src/app/components/common/Follow/index';
+import Follow from 'src/app/components/common/Follow';
 import {
     Dialog,
     Header,

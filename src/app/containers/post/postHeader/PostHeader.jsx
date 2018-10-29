@@ -15,6 +15,7 @@ import {
     PopoverStyled,
 } from 'src/app/components/post/PopoverAdditionalStyles';
 import PostActions from 'src/app/components/post/PostActions';
+import DialogManager from 'app/components/elements/common/DialogManager';
 
 const Wrapper = styled.div`
     position: relative;
@@ -160,8 +161,15 @@ export class PostHeader extends Component {
         this.props.updateFollow(this.props.username, this.props.author, 'blog');
     };
 
-    unfollow = () => {
-        this.props.updateFollow(this.props.username, this.props.author, null);
+    unfollow = async () => {
+        if (
+            await DialogManager.confirm(
+                'Вы уверенны, что хотите отменить подписку?',
+                'Отписаться'
+            )
+        ) {
+            this.props.updateFollow(this.props.username, this.props.author, null);
+        }
     };
 
     render() {

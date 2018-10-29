@@ -8,7 +8,7 @@ import Icon from 'golos-ui/Icon';
 
 import Userpic from 'app/components/elements/Userpic';
 import Mute from 'src/app/components/common/Mute/index';
-import Follow from 'src/app/components/common/Follow/Follow';
+import Follow from 'src/app/components/common/Follow';
 import { ClosePopoverButton } from 'src/app/components/post/PopoverAdditionalStyles';
 
 const Block = styled.div`

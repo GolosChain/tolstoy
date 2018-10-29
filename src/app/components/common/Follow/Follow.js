@@ -5,6 +5,7 @@ import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
 import Button from 'golos-ui/Button';
+import DialogManager from 'app/components/elements/common/DialogManager';
 
 const IconStyled = styled(Icon)`
     margin-right: 6px;
@@ -14,6 +15,7 @@ const Wrapper = styled(Button)`
     display: flex;
     justify-content: center;
     align-items: center;
+    min-width: 155px;
 
     font-size: 12px;
     font-weight: bold;
@@ -26,6 +28,7 @@ const Wrapper = styled(Button)`
     @media (max-width: 500px) {
         width: 34px;
         height: 34px;
+        min-width: 0;
         border-radius: 50%;
 
         ${IconStyled} {
@@ -65,7 +68,7 @@ export default class Follow extends Component {
                 <Wrapper
                     light
                     collapseOnMobile={collapseOnMobile}
-                    onClick={this._unfollow}
+                    onClick={this.unfollow}
                     className={className}
                 >
                     <IconStyled width="14" height="10" name="tick" />
@@ -77,7 +80,7 @@ export default class Follow extends Component {
         return (
             <Wrapper
                 collapseOnMobile={collapseOnMobile}
-                onClick={this._follow}
+                onClick={this.follow}
                 className={className}
             >
                 <IconStyled width="14" height="14" name="plus" />
@@ -86,13 +89,17 @@ export default class Follow extends Component {
         );
     }
 
-    _follow = e => {
+    follow = e => {
         this.props.updateFollow(this.props.username, 'blog');
         this.props.onClick(e);
     };
 
-    _unfollow = e => {
-        this.props.updateFollow(this.props.username, null);
-        this.props.onClick(e);
+    unfollow = async e => {
+        if (
+            await DialogManager.confirm('Вы уверенны, что хотите отменить подписку ?', 'Отписаться')
+        ) {
+            this.props.updateFollow(this.props.username, null);
+            this.props.onClick(e);
+        }
     };
 }
