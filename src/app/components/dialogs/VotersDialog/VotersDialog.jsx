@@ -40,10 +40,7 @@ export default class VotersDialog extends PureComponent {
         username: PropTypes.string.isRequired,
     };
 
-    rootRef = null;
-
     componentDidMount() {
-        this.props.onRef(this);
         if (this.props.users.size === 0) {
             this.props.getVoters(this.props.postLink, 50);
         }
@@ -63,8 +60,6 @@ export default class VotersDialog extends PureComponent {
         this.props.getVoters(this.props.postLink);
     };
 
-    setRootRef = el => (this.rootRef = el);
-
     render() {
         const { loading, users, hasMore, username, isLikes } = this.props;
         return (
@@ -73,7 +68,7 @@ export default class VotersDialog extends PureComponent {
                     <Title>{tt(`dialog.${isLikes ? 'liked' : 'disliked'}`)}</Title>
                     <IconClose onClick={this.props.onClose} />
                 </Header>
-                <Content innerRef={this.setRootRef}>
+                <Content>
                     {users.map(user => (
                         <UserItem key={user.name}>
                             <UserLink
