@@ -45,13 +45,12 @@ const allowedDivClasses = new Set([
     'text-right',
     'videoWrapper',
 ]);
+
 const iframeWhitelist = [
     {
         re: /^(?:https?:)?\/\/player\.vimeo\.com\/video\//,
         fn: src => {
-            const match = src.match(
-                /^(?:https?:)?\/\/player\.vimeo\.com\/video\/([0-9]+)/
-            );
+            const match = src.match(/^(?:https?:)?\/\/player\.vimeo\.com\/video\/([0-9]+)/);
 
             if (match) {
                 return 'https://player.vimeo.com/video/' + match[1];
@@ -107,8 +106,7 @@ const iframeWhitelist = [
     },
     {
         re: /^(?:https?:)?\/\/coub\.com\/embed\//,
-        fn: src =>
-            src.replace(/#.*$/, '') + '&hideTopBar=true&noSiteButtons=true',
+        fn: src => src.replace(/#.*$/, '') + '&hideTopBar=true&noSiteButtons=true',
         addClass: 'g-coub',
     },
 ];
@@ -156,6 +154,9 @@ export default ({
         h4: ['id'],
         h5: ['id'],
         h6: ['id'],
+    },
+    allowedSchemesByTag: {
+        img: ['http', 'https', 'ftp', 'data'],
     },
     transformTags: {
         iframe: (tagName, attribs) => {
@@ -234,15 +235,9 @@ export default ({
             //See https://github.com/punkave/sanitize-html/issues/117
             let { src, alt } = attribs;
 
-            if (!/^(https?:)?\/\//i.test(src)) {
-                console.log(
-                    'Blocked, image tag src does not appear to be a url',
-                    tagName,
-                    attribs
-                );
-                sanitizeErrors.push(
-                    'An image in this post did not save properly.'
-                );
+            if (!/^(https?:)?\/\//i.test(src) && !src.startsWith('data:image/')) {
+                console.log('Blocked, image tag src does not appear to be a url', tagName, attribs);
+                sanitizeErrors.push('An image in this post did not save properly.');
 
                 return {
                     tagName: 'img',
@@ -253,12 +248,16 @@ export default ({
             // replace http:// with // to force https when needed
             src = src.replace(/^http:\/\//, '//');
 
-            const atts = { src };
+            const attrs = { src };
 
             if (alt && alt !== '') {
-                atts.alt = alt;
+                attrs.alt = alt;
             }
-            return { tagName, attribs: atts };
+
+            return {
+                tagName,
+                attribs: attrs,
+            };
         },
         div: (tagName, attribs) => {
             const attrs = {};
@@ -293,7 +292,7 @@ export default ({
             const attrs = { href };
 
             // If it's not a (relative or absolute) golos URL...
-            if (!href.match(/^(\/(?!\/)|https:\/\/(golos.io|golos.club))/)) {
+            if (!/^(?:#|\/(?!\/)|https?:\/\/(?:golos\.io|golos\.club))/.test(href)) {
                 attrs.rel = highQualityPost ? 'noopener' : 'nofollow noopener';
             }
 

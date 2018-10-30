@@ -233,7 +233,7 @@ function proxifyImages(doc) {
     for (let node of Array.from(doc.getElementsByTagName('img'))) {
         const url = node.getAttribute('src');
 
-        if (!linksRe.local.test(url)) {
+        if (!linksRe.local.test(url) && !url.startsWith('data:image/')) {
             node.setAttribute('src', $STM_Config.img_proxy_prefix + '0x0/' + url);
         }
     }
