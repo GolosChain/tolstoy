@@ -30,13 +30,17 @@ const ButtonWrapper = styled.div`
 const Button = styled.button`
     display: block;
     width: 100%;
-    border-radius: 0;
     height: 50px;
+    padding: 0 10px;
+    border-radius: 0;
+    
+    
     font-size: 15px;
     font-weight: 500;
     margin: 0 !important;
     cursor: pointer;
     outline: none;
+    white-space: nowrap;
 
     color: #6d6d6d;
 

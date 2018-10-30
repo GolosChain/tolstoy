@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import is from 'styled-is';
 import PropTypes from 'prop-types';
 import tt from 'counterpart';
 
@@ -14,6 +15,7 @@ const Wrapper = styled(Button)`
     display: flex;
     justify-content: center;
     align-items: center;
+    min-width: 165px;
 
     font-size: 12px;
     font-weight: bold;
@@ -23,21 +25,24 @@ const Wrapper = styled(Button)`
         margin-top: 1px;
     }
 
-    @media (max-width: 500px) {
-        width: 34px;
-        height: 34px;
-        border-radius: 50%;
-
-        ${IconStyled} {
-            min-width: 12px;
-            min-height: 12px;
-            margin: 0;
+    ${is('collapseOnMobile')`
+        @media (max-width: 500px) {
+            width: 34px;
+            height: 34px;
+            min-width: 0;
+            border-radius: 50%;
+    
+            ${IconStyled} {
+                min-width: 12px;
+                min-height: 12px;
+                margin: 0;
+            };
+    
+            span {
+                display: none;
+            }
         }
-
-        span {
-            display: none;
-        }
-    }
+    `};
 `;
 
 export default class Follow extends Component {
@@ -65,7 +70,7 @@ export default class Follow extends Component {
                 <Wrapper
                     light
                     collapseOnMobile={collapseOnMobile}
-                    onClick={this._unfollow}
+                    onClick={this.unfollow}
                     className={className}
                 >
                     <IconStyled width="14" height="10" name="tick" />
@@ -77,7 +82,7 @@ export default class Follow extends Component {
         return (
             <Wrapper
                 collapseOnMobile={collapseOnMobile}
-                onClick={this._follow}
+                onClick={this.follow}
                 className={className}
             >
                 <IconStyled width="14" height="14" name="plus" />
@@ -86,13 +91,15 @@ export default class Follow extends Component {
         );
     }
 
-    _follow = e => {
-        this.props.updateFollow(this.props.username, 'blog');
-        this.props.onClick(e);
+    follow = e => {
+        const { username, following, updateFollow, onClick } = this.props;
+        updateFollow(username, following, 'blog');
+        onClick(e);
     };
 
-    _unfollow = e => {
-        this.props.updateFollow(this.props.username, null);
-        this.props.onClick(e);
+    unfollow = async e => {
+        const { following, onClick, confirmUnfollowDialog } = this.props;
+        confirmUnfollowDialog(following);
+        onClick(e);
     };
 }

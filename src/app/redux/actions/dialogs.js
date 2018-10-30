@@ -9,6 +9,7 @@ import {
     SafeDialog,
 } from 'src/app/components/dialogs';
 import VotersDialog from 'src/app/components/dialogs/VotersDialog';
+import UnfollowDialog from 'src/app/components/dialogs/UnfollowDialog';
 
 export function openPromoteDialog(postLink) {
     return {
@@ -92,6 +93,19 @@ export function openVotersDialog(postLink, type = 'likes') {
             props: {
                 postLink,
                 isLikes: type === 'likes',
+            },
+        },
+    };
+}
+
+export function confirmUnfollowDialog(unfollowingUser) {
+    return {
+        type: SHOW_DIALOG,
+        payload: {
+            needAuth: true,
+            component: UnfollowDialog,
+            props: {
+                unfollowingUser,
             },
         },
     };

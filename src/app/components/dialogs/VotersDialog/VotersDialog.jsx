@@ -5,6 +5,7 @@ import { List } from 'immutable';
 import tt from 'counterpart';
 
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
+
 import Avatar from 'src/app/components/common/Avatar';
 import Follow from 'src/app/components/common/Follow';
 import {
