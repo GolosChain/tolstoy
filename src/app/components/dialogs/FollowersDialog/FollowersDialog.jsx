@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Set } from 'immutable';
+import styled from 'styled-components';
+import is from 'styled-is';
 import throttle from 'lodash/throttle';
 import tt from 'counterpart';
 
@@ -21,6 +23,54 @@ import {
     LoaderWrapper,
 } from 'src/app/components/dialogs/common/Dialog';
 
+const StyledDialog = styled(Dialog)`
+    ${is('hideContent')`
+        @media (max-width: 768px) {
+            position: relative;
+    
+            max-height: calc(100vh - 80px);
+            overflow: hidden;
+        }
+    `};
+`;
+
+const ShowAll = styled.div`
+    display: none;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 17px 0;
+
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 -2px 12px 0 rgba(0, 0, 0, 0.15);
+    background-color: #ffffff;
+
+    font-size: 14px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #111111;
+    text-align: center;
+    text-transform: uppercase;
+    cursor: pointer;
+
+    &:hover {
+        color: #2879ff;
+    }
+
+    @media (max-width: 768px) {
+        display: ${({ hideContent }) => (hideContent ? 'block' : 'none')};
+    }
+`;
+
+const StyledLoaderWrapper = styled(LoaderWrapper)`
+    @media (max-width: 768px) {
+        align-items: ${({ hideContent }) => (hideContent ? 'flex-start' : 'center')};
+    }
+`;
+
 export default class FollowersDialog extends PureComponent {
     static propTypes = {
         // external
@@ -36,6 +86,10 @@ export default class FollowersDialog extends PureComponent {
         users: PropTypes.instanceOf(Set),
         getFollowers: PropTypes.func,
         getFollowing: PropTypes.func,
+    };
+
+    state = {
+        showAll: false,
     };
 
     rootRef = null;
@@ -54,6 +108,10 @@ export default class FollowersDialog extends PureComponent {
     }
 
     setRootRef = el => (this.rootRef = el);
+
+    showAll = () => {
+        this.setState({ showAll: true });
+    };
 
     handleScroll = throttle(() => {
         const { loading } = this.props;
@@ -108,10 +166,11 @@ export default class FollowersDialog extends PureComponent {
     };
 
     render() {
+        const { showAll } = this.state;
         const { loading, followCount, users, type } = this.props;
 
         return (
-            <Dialog>
+            <StyledDialog hideContent={!showAll}>
                 <Header>
                     <Title>{tt(`user_profile.${type}_count`, { count: followCount })}</Title>
                     <IconClose onClick={this.props.onClose} />
@@ -119,12 +178,15 @@ export default class FollowersDialog extends PureComponent {
                 <Content innerRef={this.setRootRef}>
                     {users.map(this.renderUser)}
                     {loading && (
-                        <LoaderWrapper>
+                        <StyledLoaderWrapper hideContent={!showAll}>
                             <LoadingIndicator type="circle" size={40} />
-                        </LoaderWrapper>
+                        </StyledLoaderWrapper>
                     )}
                 </Content>
-            </Dialog>
+                <ShowAll onClick={this.showAll} hideContent={!showAll}>
+                    {tt('dialog.show_all')}
+                </ShowAll>
+            </StyledDialog>
         );
     }
 }

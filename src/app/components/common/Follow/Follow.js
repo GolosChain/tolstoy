@@ -16,7 +16,7 @@ const Wrapper = styled(Button)`
     display: flex;
     justify-content: center;
     align-items: center;
-    min-width: 155px;
+    min-width: 165px;
 
     font-size: 12px;
     font-weight: bold;
