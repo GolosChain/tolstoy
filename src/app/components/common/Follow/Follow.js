@@ -6,7 +6,6 @@ import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
 import Button from 'golos-ui/Button';
-import DialogManager from 'app/components/elements/common/DialogManager';
 
 const IconStyled = styled(Icon)`
     margin-right: 6px;
@@ -96,15 +95,14 @@ export default class Follow extends Component {
     }
 
     follow = e => {
-        this.props.updateFollow(this.props.username, 'blog');
-        this.props.onClick(e);
+        const { username, following, updateFollow, onClick } = this.props;
+        updateFollow(username, following, 'blog');
+        onClick(e);
     };
 
     unfollow = async e => {
-        const { username, following, updateFollow, onClick } = this.props;
-        if (await DialogManager.confirmUnfollow(following)) {
-            updateFollow(username, following, null);
-            onClick(e);
-        }
+        const { following, onClick, confirmUnfollowDialog } = this.props;
+        confirmUnfollowDialog(following);
+        onClick(e);
     };
 }

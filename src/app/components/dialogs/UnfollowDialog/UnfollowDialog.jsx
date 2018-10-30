@@ -19,7 +19,7 @@ const StyledLink = styled(Link)`
     }
 `;
 
-export default class UnfollowDialog extends Component {
+export class UnfollowDialog extends Component {
     static propTypes = {
         unfollowingUser: PropTypes.string.isRequired,
     };
@@ -65,6 +65,8 @@ export default class UnfollowDialog extends Component {
     };
 
     onOkClick = () => {
-        this.props.onClose(true);
+        const { currentUser, unfollowingUser, updateFollow } = this.props;
+        updateFollow(currentUser, unfollowingUser, null);
+        this.onCloseClick();
     };
 }

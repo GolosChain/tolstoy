@@ -15,7 +15,6 @@ import {
     PopoverStyled,
 } from 'src/app/components/post/PopoverAdditionalStyles';
 import PostActions from 'src/app/components/post/PostActions';
-import DialogManager from 'app/components/elements/common/DialogManager';
 
 const Wrapper = styled.div`
     position: relative;
@@ -162,10 +161,8 @@ export class PostHeader extends Component {
     };
 
     unfollow = async () => {
-        const { author, username, updateFollow } = this.props;
-        if (await DialogManager.confirmUnfollow(author)) {
-            updateFollow(username, author, null);
-        }
+        const { author, confirmUnfollowDialog} = this.props;
+        confirmUnfollowDialog(author);
     };
 
     render() {

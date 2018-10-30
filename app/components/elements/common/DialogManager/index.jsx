@@ -69,18 +69,6 @@ export default class DialogManager extends React.PureComponent {
         });
     }
 
-    static confirmUnfollow(unfollowingUser) {
-        return new Promise(resolve => {
-            DialogManager.showDialog({
-                component: UnfollowDialog,
-                props: {
-                    unfollowingUser,
-                },
-                onClose: resolve,
-            });
-        });
-    }
-
     static dangerConfirm(text, title) {
         return new Promise(resolve => {
             DialogManager.showDialog({
