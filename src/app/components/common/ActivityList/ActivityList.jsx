@@ -26,6 +26,10 @@ const Date = styled.div`
     cursor: default;
 `;
 
+const Empty = styled.div`
+    margin: 20px;
+`;
+
 export default class ActivityList extends Component {
     static propTypes = {
         isFetching: PropTypes.bool,
@@ -70,7 +74,7 @@ export default class ActivityList extends Component {
                         />
                     </Fragment>
                 ))}
-                {!isFetching && !notifications.size && <div>{tt('g.empty')}</div>}
+                {!isFetching && !notifications.size && <Empty>{tt('g.empty')}</Empty>}
             </Fragment>
         );
     }
