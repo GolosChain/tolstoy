@@ -126,13 +126,13 @@ export default class CommentsHeader extends Component {
                                         {tt('post_jsx.popularity')}
                                     </SortLine>
                                     <SortLine to={`${pathname}?sort=votes#comments`}>
-                                        Голоса
+                                        {tt('post_jsx.voices')}
                                     </SortLine>
                                     <SortLine to={`${pathname}?sort=new#comments`}>
-                                        Сначала новые
+                                        {tt('post_jsx.first_new')}
                                     </SortLine>
                                     <SortLine to={`${pathname}?sort=old#comments`}>
-                                        Сначала старые
+                                        {tt('post_jsx.first_old')}
                                     </SortLine>
                                 </SortWrapper>
                             </CustomPopover>

@@ -2,8 +2,7 @@ import { Long } from 'bytebuffer';
 import { parsePayoutAmount } from 'app/utils/ParsersAndFormatters';
 
 export function commentsArrayToObject(arr) {
-    const result = [...arr];
-    return result.reduce((obj, item) => {
+    return arr.reduce((obj, item) => {
         obj[`${item.author}/${item.permlink}`] = item;
         return obj;
     }, {});
