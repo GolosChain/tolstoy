@@ -4,7 +4,6 @@ import { last } from 'ramda';
 import KEYS from 'app/utils/keyCodes';
 import CommonDialog from 'app/components/dialogs/CommonDialog';
 import LoginForm from 'src/app/containers/login/LoginForm/LoginForm.connect';
-import UnfollowDialog from 'src/app/components/dialogs/UnfollowDialog';
 
 let queue = [];
 let instance = null;
