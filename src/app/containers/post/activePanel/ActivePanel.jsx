@@ -296,7 +296,7 @@ export class ActivePanel extends Component {
                     >
                         <Actions>
                             <StyledPostActions
-                                postUrl={url}
+                                fullUrl={url}
                                 isFavorite={isFavorite}
                                 isPinned={isPinned}
                                 isOwner={isOwner}

@@ -204,7 +204,7 @@ export class PostHeader extends Component {
                     ))}
                 <PostActionsWrapper>
                     <PostActionsStyled
-                        postUrl={postUrl}
+                        fullUrl={postUrl}
                         isFavorite={isFavorite}
                         isPinned={isPinned}
                         isOwner={isOwner}
