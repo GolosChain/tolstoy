@@ -5,14 +5,16 @@ import { commentsSelector } from 'src/app/redux/selectors/post/commonPost';
 import { saveListScrollPosition } from 'src/app/redux/actions/ui';
 import { CommentsList } from 'src/app/components/post/CommentsList/CommentsList';
 import { commentsArrayToObject, getSortFunction } from 'src/app/helpers/comments';
-
-//'votes', 'new', 'trending'
-const sortedBy = (state, props) => 'votes';
+import { locationSelector } from 'src/app/redux/selectors/ui/location';
 
 export default connect(
-    createSelector([commentsSelector, sortedBy], (commentsData, sortedBy) => {
+    createSelector([commentsSelector, locationSelector], (commentsData, location) => {
         const { comments, postPermLink, isFetching } = commentsData;
-        const structuredComments = buildCommentsStructure(comments, postPermLink, sortedBy);
+        const structuredComments = buildCommentsStructure(
+            comments,
+            postPermLink,
+            location.query.sort
+        );
 
         return {
             structuredComments,

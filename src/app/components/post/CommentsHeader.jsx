@@ -89,7 +89,11 @@ export default class CommentsHeader extends Component {
         showPopover: false,
     };
 
-    closePopover = () => {
+    closePopover = e => {
+        if (e) {
+            e.stopPropagation();
+        }
+
         this.setState({
             showPopover: false,
         });
@@ -115,7 +119,7 @@ export default class CommentsHeader extends Component {
                         {tt('post_jsx.popularity')}
                         {showPopover ? (
                             <CustomPopover show onClose={this.closePopover} withArrow={false}>
-                                <SortWrapper>
+                                <SortWrapper onClick={this.closePopover}>
                                     <SortLine to={`${pathname}?sort=trending#comments`}>
                                         {tt('post_jsx.popularity')}
                                     </SortLine>
