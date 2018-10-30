@@ -53,11 +53,13 @@ const SortBy = styled.div`
     }
 `;
 
-const CustomPopover = styled(Popover)``;
+const CustomPopover = styled(Popover)`
+    margin: -5px 0 0 -27px;
+`;
 
 const SortWrapper = styled.div`
     display: flex;
-    width: 200px;
+    width: 170px;
     padding: 0;
     margin: 0;
     flex-direction: column;
