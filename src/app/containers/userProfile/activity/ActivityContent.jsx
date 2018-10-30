@@ -40,7 +40,7 @@ export default class ActivityContent extends PureComponent {
     lastNotificationId = null;
 
     componentDidMount() {
-        this.loadMore();
+        this.loadMore(true);
         window.addEventListener('scroll', this.handleScroll);
     }
 
