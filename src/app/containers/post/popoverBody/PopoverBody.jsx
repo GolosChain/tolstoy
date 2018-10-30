@@ -191,8 +191,8 @@ export class PopoverBody extends Component {
                     <ButtonsBlock>
                         <FollowButton
                             following={account}
+                            showInscriptionAlways
                             onClick={this.closePopover}
-                            showInscriptionAlways={true}
                         />
                         <MuteButton muting={account} onClick={this.closePopover} />
                     </ButtonsBlock>

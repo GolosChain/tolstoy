@@ -10,7 +10,6 @@ let queue = [];
 let instance = null;
 let id = 0;
 
-
 export default class DialogManager extends React.PureComponent {
     static showDialog(options) {
         if (instance) {

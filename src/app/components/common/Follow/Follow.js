@@ -37,11 +37,11 @@ const Wrapper = styled(Button)`
                 min-width: 12px;
                 min-height: 12px;
                 margin: 0;
-            }
+            };
     
-                span {
-                    display: none;
-                }
+            span {
+                display: none;
+            }
         }
     `};
 `;

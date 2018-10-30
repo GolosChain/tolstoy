@@ -9,6 +9,7 @@ import {
     SafeDialog,
 } from 'src/app/components/dialogs';
 import VotersDialog from 'src/app/components/dialogs/VotersDialog';
+import UnfollowDialog from 'src/app/components/dialogs/UnfollowDialog';
 
 export function openPromoteDialog(postLink) {
     return {

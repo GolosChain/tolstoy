@@ -8,13 +8,6 @@ import DialogFrame from 'app/components/dialogs/DialogFrame';
 
 const BodyWrapper = styled.div`
     text-align: center;
-    font-size: 14px;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 1.43;
-    letter-spacing: normal;
-    text-align: center;
     color: #959595;
 `;
 

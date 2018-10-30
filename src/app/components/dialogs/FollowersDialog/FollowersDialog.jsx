@@ -24,7 +24,7 @@ import {
 } from 'src/app/components/dialogs/common/Dialog';
 
 const StyledDialog = styled(Dialog)`
-    ${is('hideContent')`
+    ${is('cutContent')`
         @media (max-width: 768px) {
             position: relative;
     
@@ -44,13 +44,7 @@ const ShowAll = styled.div`
     border-radius: 0 0 8px 8px;
     box-shadow: 0 -2px 12px 0 rgba(0, 0, 0, 0.15);
     background-color: #ffffff;
-
-    font-size: 14px;
     font-weight: bold;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
-    letter-spacing: normal;
     color: #111111;
     text-align: center;
     text-transform: uppercase;
@@ -61,13 +55,13 @@ const ShowAll = styled.div`
     }
 
     @media (max-width: 768px) {
-        display: ${({ hideContent }) => (hideContent ? 'block' : 'none')};
+        display: ${({ cutContent }) => (cutContent ? 'block' : 'none')};
     }
 `;
 
 const StyledLoaderWrapper = styled(LoaderWrapper)`
     @media (max-width: 768px) {
-        align-items: ${({ hideContent }) => (hideContent ? 'flex-start' : 'center')};
+        align-items: ${({ cutContent }) => (cutContent ? 'flex-start' : 'center')};
     }
 `;
 
@@ -165,7 +159,7 @@ export default class FollowersDialog extends PureComponent {
         const { loading, followCount, users, type } = this.props;
 
         return (
-            <StyledDialog hideContent={!showAll}>
+            <StyledDialog cutContent={!showAll}>
                 <Header>
                     <Title>{tt(`user_profile.${type}_count`, { count: followCount })}</Title>
                     <IconClose onClick={this.props.onClose} />
@@ -173,12 +167,12 @@ export default class FollowersDialog extends PureComponent {
                 <Content innerRef={this.setRootRef}>
                     {users.map(this.renderUser)}
                     {loading && (
-                        <StyledLoaderWrapper hideContent={!showAll}>
+                        <StyledLoaderWrapper cutContent={!showAll}>
                             <LoadingIndicator type="circle" size={40} />
                         </StyledLoaderWrapper>
                     )}
                 </Content>
-                <ShowAll onClick={this.showAll} hideContent={!showAll}>
+                <ShowAll onClick={this.showAll} cutContent={!showAll}>
                     {tt('dialog.show_all')}
                 </ShowAll>
             </StyledDialog>
