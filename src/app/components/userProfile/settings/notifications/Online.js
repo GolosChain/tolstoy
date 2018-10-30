@@ -4,7 +4,9 @@ import styled from 'styled-components';
 import is from 'styled-is';
 
 import { Form, Field } from 'react-final-form';
+import createDecorator from 'final-form-calculate';
 import tt from 'counterpart';
+import { pick } from 'ramda';
 
 import SplashLoader from 'golos-ui/SplashLoader';
 import { CardContent, CardDivider } from 'golos-ui/Card';
@@ -41,6 +43,29 @@ const LabelIcon = styled(StyledLabelRow)`
     `};
 `;
 
+const calculateSwitchAll = createDecorator(
+    {
+        field: 'switchAll',
+        updates: (value, name, values) => {
+            const newShow = {};
+            for (let key in values.notify.show) {
+                newShow[key] = value;
+            }
+
+            values.notify.show = newShow;
+
+            return values;
+        },
+    },
+    {
+        field: /notify.show.(.*)/,
+        updates: (value, name, values) => {
+            values.switchAll = Object.values(values.notify.show).every(value => value === true);
+            return values;
+        },
+    }
+);
+
 export default class Online extends PureComponent {
     static propTypes = {
         options: PropTypes.object,
@@ -49,34 +74,25 @@ export default class Online extends PureComponent {
     };
 
     state = {
-        switchAll: false,
         data: {
             notify: this.props.options.get('notify').toJS(),
         },
     };
 
-    onSwitchAll = value => {
-        const { show } = this.state.data.notify;
-
-        const newShow = {};
-        for (let key in show) {
-            newShow[key] = value;
-        }
-
+    componentDidMount() {
         this.setState({
-            switchAll: value,
             data: {
-                notify: {
-                    show: newShow,
-                },
+                ...this.state.data,
+                switchAll: Object.values(this.state.data.notify.show).every(
+                    value => value === true
+                ),
             },
         });
-    };
+    }
 
-    resetSwitchAll = value => {
-        if (!value) {
-            this.setState({ switchAll: false });
-        }
+    handleSubmit = values => {
+        const clearedValues = pick(['notify'], values);
+        return this.props.onSubmitGate(clearedValues);
     };
 
     renderSwitchers = () => {
@@ -136,6 +152,16 @@ export default class Online extends PureComponent {
                 label: tt('settings_jsx.notifications.message'),
                 icon: { name: 'comment', width: '19', height: '15' },
             },
+            {
+                name: 'notify.show.witnessVote',
+                label: tt('settings_jsx.notifications.witnessVote'),
+                icon: { name: 'like', width: '19', height: '20' },
+            },
+            {
+                name: 'notify.show.witnessCancelVote',
+                label: tt('settings_jsx.notifications.witnessCancelVote'),
+                icon: { name: 'dislike', size: '18' },
+            },
         ];
 
         return switchers.map(({ name, label, icon }, key) => (
@@ -146,13 +172,7 @@ export default class Online extends PureComponent {
                             <Icon {...icon} />
                         </LabelIcon>
                         <LabelRow dark>{label}</LabelRow>
-                        <Switcher
-                            {...input}
-                            onChange={value => {
-                                input.onChange(value);
-                                this.resetSwitchAll(value);
-                            }}
-                        />
+                        <Switcher {...input} />
                     </FormGroupRow>
                 )}
             </Field>
@@ -160,33 +180,38 @@ export default class Online extends PureComponent {
     };
 
     render() {
-        const { isChanging, onSubmitGate } = this.props;
-        const { data, switchAll } = this.state;
+        const { isChanging } = this.props;
+        const { data } = this.state;
 
         return (
-            <Form onSubmit={onSubmitGate} initialValues={data}>
+            <Form
+                onSubmit={this.handleSubmit}
+                decorators={[calculateSwitchAll]}
+                initialValues={data}
+            >
                 {({ handleSubmit, submitError, form, submitting, pristine, values }) => (
                     <form onSubmit={handleSubmit}>
                         {isChanging && <SplashLoader />}
 
                         <CardContent column>
-                            <FormGroup>
-                                <Label dark>
-                                    {tt('settings_jsx.notifications.allOnlineLabel')}
-                                </Label>
-                                <FormGroupRow>
-                                    <LabelIcon active={switchAll}>
-                                        <Icon name="bell" width="19" height="20" />
-                                    </LabelIcon>
-                                    <LabelRow dark>
-                                        {tt('settings_jsx.notifications.allOnline')}
-                                    </LabelRow>
-                                    <Switcher
-                                        value={switchAll}
-                                        onChange={value => this.onSwitchAll(value)}
-                                    />
-                                </FormGroupRow>
-                            </FormGroup>
+                            <Field name="switchAll">
+                                {({ input }) => (
+                                    <FormGroup>
+                                        <Label dark>
+                                            {tt('settings_jsx.notifications.allOnlineLabel')}
+                                        </Label>
+                                        <FormGroupRow>
+                                            <LabelIcon active={input.value}>
+                                                <Icon name="bell" width="19" height="20" />
+                                            </LabelIcon>
+                                            <LabelRow dark>
+                                                {tt('settings_jsx.notifications.allOnline')}
+                                            </LabelRow>
+                                            <Switcher {...input} />
+                                        </FormGroupRow>
+                                    </FormGroup>
+                                )}
+                            </Field>
                         </CardContent>
                         <CardDivider />
                         <CardContent column>

@@ -144,6 +144,7 @@ const LoginButton = styled(Button)`
 
 export class LoginForm extends Component {
     static propTypes = {
+        loginCanceled: PropTypes.func.isRequired,
         onClose: PropTypes.func,
     };
 
@@ -155,6 +156,11 @@ export class LoginForm extends Component {
 
     username = React.createRef();
     password = React.createRef();
+
+    confirmClose = () => {
+        this.props.loginCanceled();
+        return true;
+    };
 
     changeConsent = () => {
         this.setState({
@@ -188,6 +194,7 @@ export class LoginForm extends Component {
     };
 
     onCrossClick = () => {
+        this.props.loginCanceled();
         this.props.onClose();
     };
 

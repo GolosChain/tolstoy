@@ -1131,7 +1131,9 @@
       "subscribe": "Subscribe to the blog",
       "transfer": "Transfer",
       "unsubscribe": "Unsubscribe from blog",
-      "vote": "Like (vote)"
+      "vote": "Like (vote)",
+      "witnessCancelVote": "Cancel vote for witness",
+      "witnessVote": "Vote for witness"
     },
     "private_post_display_settings": "Private Post Display Settings",
     "profile_about": "About",

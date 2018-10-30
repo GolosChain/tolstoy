@@ -18,11 +18,10 @@ const Wrapper = styled.div`
     display: flex;
     flex: 1;
     align-items: center;
-    
-    padding: 17px;
-    
-    &:hover {
-        background-color: #eff1f4;
+    margin-bottom: 15px;
+
+    &:last-child {
+        margin-bottom: 0;
     }
 `;
 
@@ -60,7 +59,7 @@ const ActivityText = styled.div`
     ${is('isCompact')`
         color: #757575;
     `};
-    
+
     & a {
         color: #959595;
         font-weight: 500;

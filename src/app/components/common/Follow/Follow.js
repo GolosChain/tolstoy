@@ -55,8 +55,8 @@ export default class Follow extends Component {
 
         // connect
         username: PropTypes.string.isRequired,
-        isFollow: PropTypes.bool.isRequired,
         showInscriptionAlways: PropTypes.bool,
+        isFollow: PropTypes.bool,
     };
 
     static defaultProps = {

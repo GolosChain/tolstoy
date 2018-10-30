@@ -116,14 +116,6 @@ class ConvertDialog extends PureComponent {
         this._globalProps = props.globalProps.toJS();
     }
 
-    componentDidMount() {
-        this.props.onRef(this);
-    }
-
-    componentWillUnmount() {
-        this.props.onRef(null);
-    }
-
     componentWillReceiveProps(newProps) {
         if (this.props.globalProps !== newProps.globalProps) {
             this._globalProps = newProps.globalProps.toJS();
@@ -530,7 +522,9 @@ export default connect(
                 })
             );
         },
-    })
+    }),
+    null,
+    { withRef: true }
 )(ConvertDialog);
 
 function getVesting(account, props) {

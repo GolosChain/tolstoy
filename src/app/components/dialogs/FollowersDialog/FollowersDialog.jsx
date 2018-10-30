@@ -77,9 +77,6 @@ export default class FollowersDialog extends PureComponent {
         pageAccountName: PropTypes.string,
         type: PropTypes.string,
 
-        // external dialog
-        onRef: PropTypes.func.isRequired,
-
         // connect
         loading: PropTypes.bool,
         followCount: PropTypes.number,
@@ -96,13 +93,11 @@ export default class FollowersDialog extends PureComponent {
     lastUserName = '';
 
     componentDidMount() {
-        this.props.onRef(this);
         this.props.dialogRoot.addEventListener('scroll', this.handleScroll);
         this.loadMore();
     }
 
     componentWillUnmount() {
-        this.props.onRef(null);
         this.props.dialogRoot.removeEventListener('scroll', this.handleScroll);
         this.handleScroll.cancel();
     }

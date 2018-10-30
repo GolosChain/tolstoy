@@ -169,7 +169,7 @@ export default class DialogManager extends React.PureComponent {
                 <dialog.options.component
                     {...dialog.options.props}
                     dialogRoot={this._root}
-                    onRef={el => (dialog.el = el)}
+                    ref={el => (dialog.el = (el && el.wrappedInstance) || el)}
                     onClose={data => this._onDialogClose(dialog, data)}
                 />
             </div>

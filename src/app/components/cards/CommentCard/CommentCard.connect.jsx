@@ -7,7 +7,6 @@ import { CommentCard } from './CommentCard';
 import { currentUsernameSelector, globalSelector } from 'src/app/redux/selectors/common';
 import { onVote } from 'src/app/redux/actions/vote';
 import { showNotification } from 'src/app/redux/actions/ui';
-import { openVotersDialog } from 'src/app/redux/actions/dialogs';
 
 export default connect(
     createSelector(
@@ -54,7 +53,6 @@ export default connect(
     {
         onVote,
         onNotify: showNotification,
-        showVotedUsersList: openVotersDialog,
     },
     null,
     { withRef: true }

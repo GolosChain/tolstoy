@@ -5,7 +5,8 @@ import { List } from 'immutable';
 import tt from 'counterpart';
 
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
-import Avatar from 'src/app/components/common/Avatar/index';
+
+import Avatar from 'src/app/components/common/Avatar';
 import Follow from 'src/app/components/common/Follow';
 import {
     Dialog,
@@ -33,8 +34,6 @@ const ShowAll = styled.button`
 
 export default class VotersDialog extends PureComponent {
     static propTypes = {
-        onRef: PropTypes.func.isRequired,
-
         loading: PropTypes.bool.isRequired,
         users: PropTypes.instanceOf(List),
         username: PropTypes.string.isRequired,
@@ -50,10 +49,6 @@ export default class VotersDialog extends PureComponent {
         if (!nextProps.loading && nextProps.users.size === 0 && nextProps.hasMore) {
             this.props.getVoters(this.props.postLink);
         }
-    }
-
-    componentWillUnmount() {
-        this.props.onRef(null);
     }
 
     showAll = () => {

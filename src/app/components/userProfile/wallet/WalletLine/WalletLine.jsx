@@ -216,6 +216,7 @@ const DateSplitter = styled.div`
 `;
 
 const EditDelegationBlock = styled.div`
+    position: relative;
     height: 0;
     padding: 0 20px;
     transition: height 0.15s;

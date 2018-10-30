@@ -83,7 +83,7 @@ export function openSafeDialog() {
     };
 }
 
-export function openVotersDialog(postLink, isLikes) {
+export function openVotersDialog(postLink, type = 'likes') {
     return {
         type: SHOW_DIALOG,
         payload: {
@@ -91,7 +91,7 @@ export function openVotersDialog(postLink, isLikes) {
             component: VotersDialog,
             props: {
                 postLink,
-                isLikes,
+                isLikes: type === 'likes',
             },
         },
     };

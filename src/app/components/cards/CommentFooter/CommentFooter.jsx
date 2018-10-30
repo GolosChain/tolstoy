@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
 
-import { confirmVote } from 'src/app/helpers/votes';
 import VotePanel from '../../common/VotePanel';
 import ReplyBlock from '../../common/ReplyBlock';
 
@@ -26,10 +25,10 @@ const Wrapper = styled.div`
     @media (min-width: 890px) and (max-width: 1087px), (max-width: 639px) {
         flex-direction: column;
     }
-    
+
     ${is('highlighted')`
         background-color: #e7eef9;
-    `}
+    `};
 `;
 
 const CommentVotePanel = styled(VotePanel)`
@@ -128,12 +127,10 @@ export default class CommentFooter extends Component {
         isOwner: PropTypes.bool.isRequired,
         onReplyClick: PropTypes.func.isRequired,
         onVote: PropTypes.func.isRequired,
-        myVote: PropTypes.object,
         replyRef: PropTypes.object.isRequired,
         showReply: PropTypes.bool.isRequired,
         username: PropTypes.string,
         highlighted: PropTypes.bool.isRequired,
-        showVotedUsersList: PropTypes.func.isRequired,
     };
 
     onCancelReplyClick = () => {
@@ -156,25 +153,15 @@ export default class CommentFooter extends Component {
         commentRef.current.post();
     };
 
-    onVoteChange = async percent => {
-        const { username, comment, myVote, onVote } = this.props;
-
-        if (await confirmVote(myVote, percent)) {
-            onVote(username, comment.get('author'), comment.get('permlink'), percent);
-        }
-    };
-
     render() {
         const {
             comment,
-            username,
             contentLink,
             isOwner,
             showReply,
             edit,
             onReplyClick,
             highlighted,
-            showVotedUsersList,
         } = this.props;
 
         if (showReply) {
@@ -204,10 +191,7 @@ export default class CommentFooter extends Component {
         return (
             <Wrapper highlighted={highlighted}>
                 <CommentVotePanel
-                    data={comment}
-                    me={username}
-                    onChange={this.onVoteChange}
-                    onNumberClick={showVotedUsersList}
+                    contentLink={`${comment.get('author')}/${comment.get('permlink')}`}
                 />
                 <CommentReplyWrapper>
                     <CommentReplyBlock

@@ -2,26 +2,16 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
 import { currentUsernameSelector, uiSelector } from 'src/app/redux/selectors/common';
-import { openRepostDialog, openVotersDialog } from 'src/app/redux/actions/dialogs';
+import { openRepostDialog } from 'src/app/redux/actions/dialogs';
 import { SidePanel } from 'src/app/containers/post/sidePanel/SidePanel';
 import { onBackClick } from 'src/app/redux/actions/post';
 import { onVote } from 'src/app/redux/actions/vote';
-import {
-    currentPostSelector,
-    authorSelector,
-    votesSummarySelector,
-} from 'src/app/redux/selectors/post/commonPost';
+import { currentPostSelector, authorSelector } from 'src/app/redux/selectors/post/commonPost';
 
 export default connect(
     createSelector(
-        [
-            currentPostSelector,
-            authorSelector,
-            currentUsernameSelector,
-            votesSummarySelector,
-            uiSelector('location'),
-        ],
-        (post, author, username, votesSummary, location) => {
+        [currentPostSelector, authorSelector, currentUsernameSelector, uiSelector('location')],
+        (post, author, username, location) => {
             const prev = location.get('previous');
             let backURL = null;
 
@@ -30,12 +20,11 @@ export default connect(
             }
 
             return {
-                votesSummary,
                 username,
                 backURL,
                 author: author.account,
                 permLink: post.permLink,
-                myVote: post.myVote,
+                postLink: `${author.account}/${post.permLink}`,
                 fullUrl: post.url,
                 isOwner: username === author.account,
                 isFavorite: post.isFavorite,
@@ -45,7 +34,6 @@ export default connect(
     ),
     {
         onVote,
-        showVotedUsersList: openVotersDialog,
         openRepostDialog,
         onBackClick,
     }

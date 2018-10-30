@@ -4,7 +4,6 @@ import { createSelector } from 'reselect';
 import {
     createDeepEqualSelector,
     currentUsernameSelector,
-    currentUserSelector,
     dataSelector,
     globalSelector,
     parseJSON,
@@ -13,7 +12,6 @@ import {
 import { extractPinnedPosts } from 'src/app/redux/selectors/account/pinnedPosts';
 import { detransliterate, parsePayoutAmount } from 'app/utils/ParsersAndFormatters';
 import normalizeProfile from 'app/utils/NormalizeProfile';
-import { calcVotesStats } from 'app/utils/StateFunctions';
 import { extractContentMemoized, extractRepost } from 'app/utils/ExtractContent';
 
 const emptyMap = Map();
@@ -34,20 +32,6 @@ const postUrlFromPathnameSelector = createDeepEqualSelector([pathnameSelector], 
     return match[1];
 });
 
-const getMyVote = (post, username) => {
-    const votes = post.get('active_votes');
-    if (votes) {
-        for (let vote of votes) {
-            if (vote.get('voter') === username) {
-                const myVote = vote.toJS();
-                myVote.weight = parseInt(myVote.weight || 0, 10);
-                return myVote;
-            }
-        }
-    }
-    return 0;
-};
-
 export const postSelector = createSelector(
     [globalSelector('content'), (state, permLink) => permLink],
     (content, permLink) => content.get(permLink)
@@ -56,13 +40,6 @@ export const postSelector = createSelector(
 export const routePostSelector = createDeepEqualSelector(
     [globalSelector('content'), postUrlFromPathnameSelector],
     (content, url) => content.get(url)
-);
-
-export const votesSummarySelector = createDeepEqualSelector(
-    [routePostSelector, currentUserSelector],
-    (post, currentUser) => {
-        return calcVotesStats(post.get('active_votes').toJS(), currentUser);
-    }
 );
 
 export const currentPostSelector = createDeepEqualSelector(
@@ -74,7 +51,6 @@ export const currentPostSelector = createDeepEqualSelector(
 
         const author = post.get('author');
         const permLink = post.get('permlink');
-        const myVote = getMyVote(post, username);
 
         let metadata;
 
@@ -82,7 +58,7 @@ export const currentPostSelector = createDeepEqualSelector(
             metadata = parseJSON(post.get('json_metadata'));
         } catch (err) {}
 
-        const tags = (metadata && metadata.tags || []).filter(tag => tag);
+        const tags = ((metadata && metadata.tags) || []).filter(tag => tag);
 
         return {
             created: post.get('created'),
@@ -107,7 +83,6 @@ export const currentPostSelector = createDeepEqualSelector(
             children: post.get('children'),
             link: `/@${author}/${permLink}`,
             url: post.get('url'),
-            myVote,
             promotedAmount: parsePayoutAmount(post.get('promoted')),
             comments: post.get('comments'),
         };

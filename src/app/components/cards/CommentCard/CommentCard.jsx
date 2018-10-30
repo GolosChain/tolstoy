@@ -24,7 +24,7 @@ const Header = styled.div`
     ${is('collapsed')`
         padding: 5px 0;
     `};
-    
+
     ${is('highlighted')`
         background-color: #e7eef9; 
     `};
@@ -97,10 +97,10 @@ const CommentBodyWrapper = styled.div`
     align-items: center;
 
     padding: 0 18px;
-    
+
     ${is('highlighted')`
         background-color: #e7eef9;
-    `}
+    `};
 `;
 
 const Root = styled.div`
@@ -164,7 +164,6 @@ export class CommentCard extends PureComponent {
         isOwner: PropTypes.bool.isRequired,
         username: PropTypes.string,
         payout: PropTypes.number,
-        showVotedUsersList: PropTypes.func.isRequired,
     };
 
     static defaultProps = {
@@ -172,7 +171,6 @@ export class CommentCard extends PureComponent {
     };
 
     state = {
-        myVote: this.props.dataLoaded ? this.getMyVote(this.props) : null,
         showReply: false,
         edit: false,
         collapsed: false,
@@ -182,32 +180,16 @@ export class CommentCard extends PureComponent {
     commentRef = createRef();
     replyRef = createRef();
 
-    componentWillReceiveProps(newProps) {
-        const { anchorId, comment, dataLoaded } = this.props;
+    componentWillReceiveProps() {
+        const { anchorId } = this.props;
         const { highlighted } = this.state;
         if (window.location.hash.replace('#', '') === anchorId && !highlighted) {
             this.setState({ highlighted: true });
         }
-        if (comment !== newProps.comment && dataLoaded) {
-            this.setState({
-                myVote: this.getMyVote(newProps),
-            });
-        }
-    }
-
-    getMyVote(props) {
-        const { username, comment } = props;
-
-        let myVote = comment.get('active_votes').find(vote => vote.get('voter') === username, null);
-        if (myVote) {
-            myVote = myVote.toJS();
-            myVote.weight = parseInt(myVote.weight || 0, 10);
-        }
-        return myVote;
     }
 
     renderHeaderForPost() {
-        const { comment, extractedContent, anchorId } = this.props;
+        const { comment, extractedContent, anchorId, isPostPage } = this.props;
         const { collapsed, highlighted } = this.state;
 
         return (
@@ -375,7 +357,7 @@ export class CommentCard extends PureComponent {
     };
 
     render() {
-        const { showReply, collapsed, edit, myVote, highlighted } = this.state;
+        const { showReply, collapsed, edit, highlighted } = this.state;
 
         const {
             dataLoaded,
@@ -385,9 +367,9 @@ export class CommentCard extends PureComponent {
             isOwner,
             onVote,
             isPostPage,
-            showVotedUsersList,
             className,
         } = this.props;
+
         if (!dataLoaded) {
             return (
                 <LoaderWrapper>
@@ -395,6 +377,7 @@ export class CommentCard extends PureComponent {
                 </LoaderWrapper>
             );
         }
+
         return (
             <Root collapsed={collapsed} className={className}>
                 {isPostPage ? this.renderHeaderForPost() : this.renderHeaderForProfile()}
@@ -411,11 +394,9 @@ export class CommentCard extends PureComponent {
                             edit={edit}
                             username={username}
                             onVote={onVote}
-                            myVote={myVote}
                             replyRef={this.replyRef}
                             commentRef={this.commentRef}
                             onReplyClick={this.onReplyClick}
-                            showVotedUsersList={showVotedUsersList}
                             highlighted={highlighted}
                         />
                     </Fragment>

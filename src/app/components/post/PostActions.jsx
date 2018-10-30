@@ -43,14 +43,14 @@ const PostActions = ({
     isOwner,
     showText = false,
     toggleFavorite,
-    fullUrl,
+    postUrl,
 }) => {
     if (isOwner) {
         return (
             <Fragment>
                 <ActionLink
                     className={className}
-                    to={`${fullUrl}/edit`}
+                    to={`${postUrl}/edit`}
                     data-tooltip={showText ? undefined : tt('active_panel_tooltip.edit')}
                 >
                     <ActionIcon name="pen" />
@@ -96,7 +96,7 @@ const PostActions = ({
 };
 
 PostActions.propTypes = {
-    fullUrl: PropTypes.string.isRequired,
+    postUrl: PropTypes.string.isRequired,
     isFavorite: PropTypes.bool.isRequired,
     isPinned: PropTypes.bool.isRequired,
     isOwner: PropTypes.bool.isRequired,

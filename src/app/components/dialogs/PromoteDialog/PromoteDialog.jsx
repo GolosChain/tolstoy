@@ -56,14 +56,6 @@ export default class PromoteDialog extends Component {
         isDisabled: true,
     };
 
-    componentDidMount() {
-        this.props.onRef(this);
-    }
-
-    componentWillUnmount() {
-        this.props.onRef(null);
-    }
-
     componentWillUpdate(newProps, nextState) {
         const amount = nextState.amount.trim();
         const activeKey = nextState.activeKey.trim();
