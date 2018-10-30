@@ -162,13 +162,9 @@ export class PostHeader extends Component {
     };
 
     unfollow = async () => {
-        if (
-            await DialogManager.confirm(
-                'Вы уверенны, что хотите отменить подписку?',
-                'Отписаться'
-            )
-        ) {
-            this.props.updateFollow(this.props.username, this.props.author, null);
+        const { author, username, updateFollow } = this.props;
+        if (await DialogManager.confirmUnfollow(author)) {
+            updateFollow(username, author, null);
         }
     };
 

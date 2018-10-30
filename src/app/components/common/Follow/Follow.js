@@ -95,11 +95,10 @@ export default class Follow extends Component {
     };
 
     unfollow = async e => {
-        if (
-            await DialogManager.confirm('Вы уверенны, что хотите отменить подписку ?', 'Отписаться')
-        ) {
-            this.props.updateFollow(this.props.username, null);
-            this.props.onClick(e);
+        const { username, following, updateFollow, onClick } = this.props;
+        if (await DialogManager.confirmUnfollow(following)) {
+            updateFollow(username, following, null);
+            onClick(e);
         }
     };
 }

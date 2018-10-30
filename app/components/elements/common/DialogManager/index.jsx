@@ -4,10 +4,12 @@ import { last } from 'ramda';
 import KEYS from 'app/utils/keyCodes';
 import CommonDialog from 'app/components/dialogs/CommonDialog';
 import LoginForm from 'src/app/containers/login/LoginForm/LoginForm.connect';
+import UnfollowDialog from 'src/app/components/dialogs/UnfollowDialog';
 
 let queue = [];
 let instance = null;
 let id = 0;
+
 
 export default class DialogManager extends React.PureComponent {
     static showDialog(options) {
@@ -62,6 +64,18 @@ export default class DialogManager extends React.PureComponent {
                     title,
                     type: 'confirm',
                     text: text || 'Вы уверены?',
+                },
+                onClose: resolve,
+            });
+        });
+    }
+
+    static confirmUnfollow(unfollowingUser) {
+        return new Promise(resolve => {
+            DialogManager.showDialog({
+                component: UnfollowDialog,
+                props: {
+                    unfollowingUser,
                 },
                 onClose: resolve,
             });

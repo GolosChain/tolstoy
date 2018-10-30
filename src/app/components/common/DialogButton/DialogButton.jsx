@@ -7,6 +7,7 @@ const ButtonWrapper = styled.div`
     margin-right: -1px;
     flex-basis: 70px;
     flex-grow: 1;
+    padding: 0 10px;
 
     &::after {
         position: absolute;
@@ -37,6 +38,7 @@ const Button = styled.button`
     margin: 0 !important;
     cursor: pointer;
     outline: none;
+    white-space: nowrap;
 
     color: #6d6d6d;
 

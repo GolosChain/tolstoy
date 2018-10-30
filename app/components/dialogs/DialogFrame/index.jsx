@@ -4,6 +4,7 @@ import cn from 'classnames';
 
 import Icon from 'golos-ui/Icon';
 import DialogButton from 'src/app/components/common/DialogButton';
+import Userpic from 'app/components/elements/Userpic';
 
 export default class DialogFrame extends PureComponent {
     static propTypes = {
@@ -12,10 +13,11 @@ export default class DialogFrame extends PureComponent {
         className: PropTypes.string,
         buttons: PropTypes.array,
         onCloseClick: PropTypes.func.isRequired,
+        username: PropTypes.string,
     };
 
     render() {
-        const { title, titleSize, icon, buttons, children, className } = this.props;
+        const { title, titleSize, icon, buttons, children, username, className } = this.props;
 
         return (
             <div className={cn('Dialog', className)}>
@@ -26,6 +28,7 @@ export default class DialogFrame extends PureComponent {
                 />
                 {title || icon ? (
                     <div className="Dialog__header">
+                        {username ? <Userpic account={username} size={50} /> : null}
                         {icon ? (
                             <div className="Dialog__header-icon">
                                 <Icon name={icon} size={40} />

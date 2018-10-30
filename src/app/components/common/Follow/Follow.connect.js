@@ -14,9 +14,7 @@ export default connect(
             isFollow,
         })
     ),
-    (dispatch, { following }) => ({
-        updateFollow: (follower, action) => {
-            dispatch(updateFollow(follower, following, action));
-        },
-    })
+    {
+        updateFollow,
+    }
 )(Follow);
