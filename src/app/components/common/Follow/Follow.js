@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import is from 'styled-is';
 import PropTypes from 'prop-types';
 import tt from 'counterpart';
 
@@ -25,22 +26,24 @@ const Wrapper = styled(Button)`
         margin-top: 1px;
     }
 
-    @media (max-width: 500px) {
-        width: 34px;
-        height: 34px;
-        min-width: 0;
-        border-radius: 50%;
-
-        ${IconStyled} {
-            min-width: 12px;
-            min-height: 12px;
-            margin: 0;
+    ${is('hideInscription')`
+        @media (max-width: 500px) {
+            width: 34px;
+            height: 34px;
+            min-width: 0;
+            border-radius: 50%;
+    
+            ${IconStyled} {
+                min-width: 12px;
+                min-height: 12px;
+                margin: 0;
+            }
+    
+                span {
+                    display: none;
+                }
         }
-
-        span {
-            display: none;
-        }
-    }
+    `};
 `;
 
 export default class Follow extends Component {
@@ -53,6 +56,7 @@ export default class Follow extends Component {
         // connect
         username: PropTypes.string.isRequired,
         isFollow: PropTypes.bool.isRequired,
+        showInscriptionAlways: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -61,7 +65,7 @@ export default class Follow extends Component {
     };
 
     render() {
-        const { collapseOnMobile, isFollow, className } = this.props;
+        const { collapseOnMobile, isFollow, showInscriptionAlways, className } = this.props;
 
         if (isFollow) {
             return (
@@ -69,6 +73,7 @@ export default class Follow extends Component {
                     light
                     collapseOnMobile={collapseOnMobile}
                     onClick={this.unfollow}
+                    hideInscription={!showInscriptionAlways}
                     className={className}
                 >
                     <IconStyled width="14" height="10" name="tick" />
@@ -81,6 +86,7 @@ export default class Follow extends Component {
             <Wrapper
                 collapseOnMobile={collapseOnMobile}
                 onClick={this.follow}
+                hideInscription={!showInscriptionAlways}
                 className={className}
             >
                 <IconStyled width="14" height="14" name="plus" />

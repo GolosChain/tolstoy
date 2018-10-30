@@ -189,7 +189,11 @@ export class PopoverBody extends Component {
                 )}
                 {showFollowBlock && (
                     <ButtonsBlock>
-                        <FollowButton following={account} onClick={this.closePopover} />
+                        <FollowButton
+                            following={account}
+                            onClick={this.closePopover}
+                            showInscriptionAlways={true}
+                        />
                         <MuteButton muting={account} onClick={this.closePopover} />
                     </ButtonsBlock>
                 )}
