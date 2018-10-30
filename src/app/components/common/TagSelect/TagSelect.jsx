@@ -82,12 +82,16 @@ export default class SelectTag extends Component {
 
     handleTagSelectClick = () => {
         this.props.onTagClick(this.props.tag, 'select');
-        this.popoverRef.current.close();
+        if (this.popoverRef.current) {
+            this.popoverRef.current.close();
+        }
     };
 
     handleTagFilterClick = () => {
         this.props.onTagClick(this.props.tag, 'filter');
-        this.popoverRef.current.close();
+        if (this.popoverRef.current) {
+            this.popoverRef.current.close();
+        }
     };
 
     renderActions = () => {
@@ -111,11 +115,7 @@ export default class SelectTag extends Component {
                         >
                             {tt('g.exclude')}
                         </Action>,
-                        <Action
-                            key="add"
-                            onClick={this.handleTagSelectClick}
-                            active={isSelected}
-                        >
+                        <Action key="add" onClick={this.handleTagSelectClick} active={isSelected}>
                             {tt('g.add')}
                         </Action>,
                     ]
@@ -125,15 +125,29 @@ export default class SelectTag extends Component {
     };
 
     render() {
-        const { tag, isSelected, isFiltered, className } = this.props;
+        const { tag, isSelected, isFiltered, onlyRemove, className } = this.props;
+
+        if (onlyRemove) {
+            return (
+                <Wrapper className={className}>
+                    <Popover ref={this.popoverRef} content={this.renderActions} up>
+                        <TagStyled selected={isSelected ? 1 : 0} filtered={isFiltered ? 1 : 0}>
+                            {tag}
+                        </TagStyled>
+                    </Popover>
+                </Wrapper>
+            );
+        }
 
         return (
             <Wrapper className={className}>
-                <Popover ref={this.popoverRef} content={this.renderActions} up>
-                    <TagStyled selected={isSelected ? 1 : 0} filtered={isFiltered ? 1 : 0}>
-                        {tag}
-                    </TagStyled>
-                </Popover>
+                <TagStyled
+                    onClick={this.handleTagSelectClick}
+                    selected={isSelected ? 1 : 0}
+                    filtered={isFiltered ? 1 : 0}
+                >
+                    {tag}
+                </TagStyled>
             </Wrapper>
         );
     }
