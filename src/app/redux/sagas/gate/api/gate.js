@@ -7,6 +7,7 @@ import { normalize as normalizr } from 'normalizr';
 import { makeFakeAuthTransaction } from './utils';
 import { addNotificationOnline } from 'src/app/redux/actions/notificationsOnline';
 import { showNotification } from 'src/app/redux/actions/ui';
+import { getSettingsOptions } from 'src/app/redux/actions/settings';
 
 import {
     GATE_SEND_MESSAGE,
@@ -145,6 +146,9 @@ function* subscribe(socket) {
                 })
                 .then(() => {
                     emit({ type: GATE_AUTHORIZED });
+
+                    // load settings after authorization
+                    emit(getSettingsOptions());
 
                     socket.call('onlineNotifyOn', {});
                 });
