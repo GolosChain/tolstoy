@@ -25,7 +25,7 @@ const Wrapper = styled(Button)`
         margin-top: 1px;
     }
 
-    ${is('hideInscription')`
+    ${is('collapseOnMobile')`
         @media (max-width: 500px) {
             width: 34px;
             height: 34px;
@@ -54,7 +54,6 @@ export default class Follow extends Component {
 
         // connect
         username: PropTypes.string.isRequired,
-        showInscriptionAlways: PropTypes.bool,
         isFollow: PropTypes.bool,
     };
 
@@ -64,7 +63,7 @@ export default class Follow extends Component {
     };
 
     render() {
-        const { collapseOnMobile, isFollow, showInscriptionAlways, className } = this.props;
+        const { collapseOnMobile, isFollow, className } = this.props;
 
         if (isFollow) {
             return (
@@ -72,7 +71,6 @@ export default class Follow extends Component {
                     light
                     collapseOnMobile={collapseOnMobile}
                     onClick={this.unfollow}
-                    hideInscription={!showInscriptionAlways}
                     className={className}
                 >
                     <IconStyled width="14" height="10" name="tick" />
@@ -85,7 +83,6 @@ export default class Follow extends Component {
             <Wrapper
                 collapseOnMobile={collapseOnMobile}
                 onClick={this.follow}
-                hideInscription={!showInscriptionAlways}
                 className={className}
             >
                 <IconStyled width="14" height="14" name="plus" />
