@@ -1134,7 +1134,9 @@
       "subscribe": "Подписка на блог",
       "transfer": "Перевод средств",
       "unsubscribe": "Отписка от блога",
-      "vote": "Лайк (голос)"
+      "vote": "Лайк (голос)",
+      "witnessCancelVote": "Отмена голоса за делегатскую ноду",
+      "witnessVote": "Голос за делегатскую ноду"
     },
     "private_post_display_settings": "Настройки отображения приватных постов",
     "profile_about": "О себе",

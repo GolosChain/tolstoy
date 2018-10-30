@@ -5572,6 +5572,11 @@ fill-range@^4.0.0:
     repeat-string "^1.6.1"
     to-regex-range "^2.1.0"
 
+final-form-calculate@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/final-form-calculate/-/final-form-calculate-1.2.1.tgz#906f09e2d3410b3338a94b596062848d9b7c7d03"
+  integrity sha512-uAmVfJ68Qe8HEs7fzbe+u2UJ89ZFAEa9LIfDKVNm4KDeSXGvSe/e2XODRjayvm34X36SmkP8TJMmsRd6OW8oRw==
+
 final-form@^4.10.0:
   version "4.10.0"
   resolved "https://registry.yarnpkg.com/final-form/-/final-form-4.10.0.tgz#6179bca7676925202510e9877eb1ad2ad1cd3460"
@@ -10655,10 +10660,10 @@ react-fast-compare@^2.0.1:
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-2.0.1.tgz#92c91ac4814aa8cfcfb04780ad1bfff2bbe3a3c6"
   integrity sha512-hfYjgGUulrMp5G9vQAlERmDKJhxyVtcmV23BSu9xDwcQMGcozZRe8+lMTPd5sfFEzYzHW62A7hKMRF0xVoQlGw==
 
-react-final-form@^3.6.5:
-  version "3.6.5"
-  resolved "https://registry.yarnpkg.com/react-final-form/-/react-final-form-3.6.5.tgz#191324bc686b20e9e49c929a79949f34b38ba8e5"
-  integrity sha512-upzvMxpLR0QfNAqZxKZAnqcIxWQhvv3+GHZuoxg31VrIDA/jN70KA2dNnXg6khno9qlAGhtspJMI32j9qYX5lQ==
+react-final-form@^3.6.7:
+  version "3.6.7"
+  resolved "https://registry.yarnpkg.com/react-final-form/-/react-final-form-3.6.7.tgz#c4d2e01e04674201b850cdd05ed5b67ff5ea06c5"
+  integrity sha512-/m7JBwA5FaGlSo2ZSFhzQYfPKfT18uirIbJrojWgb9GLoYU2wEOq9yM+vlugqTPD4Ozq+TFJDxWr1jzgASN0fA==
 
 "react-foundation-components@git+https://github.com/beautyfree/react-foundation-components.git#e91f61a4312d7e67bed50b055ee3fb90d82645d6":
   version "0.14.0"
