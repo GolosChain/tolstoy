@@ -50,7 +50,10 @@ export default function(state = initialState, { type, payload, error, meta }) {
             return setSettingsOptionsFromMeta(state, meta);
 
         case USER_LOGOUT:
-            return initialState;
+            return initialState.setIn(
+                ['basic', 'lang'],
+                state.getIn(['basic', 'lang'], DEFAULT_LANGUAGE)
+            );
 
         default:
             return state;
