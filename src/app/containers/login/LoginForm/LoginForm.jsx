@@ -233,10 +233,13 @@ export class LoginForm extends Component {
                         onChange={this.clearError}
                     />
                     <BlockCheckboxes>
-                        <ConsentCheckbox tabIndex="0" onClick={this.changeConsent}>
+                        {
+                            // commented for a while
+                            /*<ConsentCheckbox tabIndex="0" onClick={this.changeConsent}>
                             <Checkbox value={consent} />
                             <CheckboxLabel>{tt('loginform_jsx.consent')}</CheckboxLabel>
-                        </ConsentCheckbox>
+                        </ConsentCheckbox>*/
+                        }
                         <ConsentCheckbox tabIndex="0" onClick={this.changeSaveCredentials}>
                             <Checkbox value={saveCredentials} />
                             <CheckboxLabel>{tt('loginform_jsx.keep_me_logged_in')}</CheckboxLabel>
