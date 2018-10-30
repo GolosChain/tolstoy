@@ -8,6 +8,8 @@ import { getScrollElement } from 'src/app/helpers/window';
 import CommentCard from 'src/app/components/cards/CommentCard';
 import CloseOpenButton from 'src/app/components/cards/CloseOpenButton';
 
+const MAX_DEEP = 6;
+
 const Wrapper = styled.div`
     position: relative;
 
@@ -23,7 +25,7 @@ const Comment = styled(CommentCard)`
     border-radius: 0;
     box-shadow: none;
 
-    margin-left: ${props => props.innerDeep * 20}px;
+    margin-left: ${({ innerDeep }) => innerDeep * 20}px;
 `;
 
 const ToggleButton = styled(CloseOpenButton)`
@@ -42,7 +44,7 @@ const ToggleButton = styled(CloseOpenButton)`
 
 export default class NestedComment extends Component {
     static propTypes = {
-        comment: PropTypes.array.isRequired,
+        comment: PropTypes.object.isRequired,
         saveListScrollPosition: PropTypes.func.isRequired,
         updateComments: PropTypes.func.isRequired,
     };
@@ -64,36 +66,46 @@ export default class NestedComment extends Component {
         this.nestedCommentRef.current.wrappedInstance.toggleComment();
     };
 
-    renderReplies(comment) {
-        return comment.map((nestedComment, index) => (
-            <Fragment key={nestedComment.authorAndPermLink}>
+    renderReplies(comments, deep = 1) {
+        if (comments.length === 0) {
+            return null;
+        }
+
+        if (deep > MAX_DEEP) {
+            deep = MAX_DEEP;
+        }
+
+        return comments.map(comment => (
+            <Fragment key={comment.url}>
                 <Comment
-                    permLink={nestedComment.authorAndPermLink}
+                    permLink={comment.url}
                     isPostPage={true}
                     onClick={this.onEntryClick}
-                    innerDeep={nestedComment.innerDeep}
+                    innerDeep={deep}
                     updateComments={this.props.updateComments}
                 />
+                {this.renderReplies(comment.replies, deep + 1)}
             </Fragment>
         ));
     }
 
     render() {
         const { comment, updateComments } = this.props;
+        const { url, replies } = comment;
         const { collapsed } = this.state;
 
         return (
             <Wrapper>
                 <ToggleButton collapsed={collapsed} toggleComment={this.toggleComment} />
                 <Comment
-                    permLink={comment[0].authorAndPermLink}
+                    permLink={url}
                     isPostPage={true}
                     onClick={this.onEntryClick}
-                    innerDeep={comment[0].innerDeep}
+                    innerDeep={0}
                     innerRef={this.nestedCommentRef}
                     updateComments={updateComments}
                 />
-                {!collapsed && this.renderReplies(comment.slice(1))}
+                {!collapsed && this.renderReplies(replies)}
             </Wrapper>
         );
     }

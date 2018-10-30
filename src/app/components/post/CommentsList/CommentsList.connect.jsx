@@ -4,74 +4,68 @@ import { createSelector } from 'reselect';
 import { commentsSelector } from 'src/app/redux/selectors/post/commonPost';
 import { saveListScrollPosition } from 'src/app/redux/actions/ui';
 import { CommentsList } from 'src/app/components/post/CommentsList/CommentsList';
+import { commentsArrayToObject, getSortFunction } from 'src/app/helpers/comments';
+import { locationSelector } from 'src/app/redux/selectors/ui/location';
 
-const NESTED_COMMENTS_LEVELS_NUMBER = 6;
+function buildCommentsStructure(commentsFromStore, postPermLink, sortBy) {
+    const commentsFullData = commentsArrayToObject([...commentsFromStore.toJS()]);
 
-// function receive original comments array, and reply on current cycle, searching this one in original array,
-// make it null for remove redundant cycles
-// return current reply object
-function getComment(comments, reply) {
-    for (let i = 0; i < comments.length; i++) {
-        let comment = comments[i];
-        if (comment === null) {
+    const result = [];
+    for (let key in commentsFullData) {
+        const currentComment = commentsFullData[key];
+
+        if (isNotMainComment(currentComment, postPermLink)) {
             continue;
         }
-        if (`${comment.author}/${comment.permlink}` === reply) {
-            comments[i] = null;
-            return comment;
-        }
+
+        result.push(getCommentsWithRepliesRecursively(currentComment, commentsFullData));
     }
+
+    sortComments(result, sortBy, commentsFullData);
+    return result;
 }
 
-// recursive function receive original comments array, comment object on current cycle, third param is deep of reply
-// return array with current comment object and replies (on this comment) objects
-function findReplies(comments, currentComment, innerDeep = 0) {
-    const commentWithReplies = [];
-    const authorAndPermLink = `${currentComment.author}/${currentComment.permlink}`;
+function isNotMainComment(currentComment, postPermLink) {
+    return postPermLink !== currentComment.parent_permlink;
+}
 
-    commentWithReplies.push({
-        authorAndPermLink,
-        innerDeep,
-    });
+function getCommentsWithRepliesRecursively(currentComment, commentsFullData) {
+    return {
+        url: `${currentComment.author}/${currentComment.permlink}`,
+        replies: getReplies(currentComment, commentsFullData),
+    };
+}
 
+function getReplies(currentComment, commentsFullData) {
     const replies = currentComment.replies;
+    let structuredReplies = [];
 
-    if (replies.length) {
-        if (innerDeep < NESTED_COMMENTS_LEVELS_NUMBER) {
-            ++innerDeep;
-        }
-        for (let reply of replies) {
-            const comment = getComment(comments, reply);
-            const nestedReplies = findReplies(comments, comment, innerDeep);
-            commentWithReplies.push(...nestedReplies);
-        }
+    for (let reply of replies) {
+        const currentReply = commentsFullData[reply];
+
+        let processedReplay = getCommentsWithRepliesRecursively(currentReply, commentsFullData);
+
+        structuredReplies.push(processedReplay);
     }
 
-    return commentWithReplies;
+    return structuredReplies;
 }
 
-// function receive comments from store and parent post permlink, return array of arrays with comments
-function mapComments(commentsFromStore, postPermLink) {
-    const comments = [];
-    const commentsCopy = [...commentsFromStore.toJS()];
-    for (let i = 0; i < commentsCopy.length; i++) {
-        const currentComment = commentsCopy[i];
-
-        if (!currentComment || postPermLink !== currentComment.parent_permlink) {
-            continue;
-        }
-
-        commentsCopy[i] = null;
-
-        comments.push(findReplies(commentsCopy, currentComment));
+function sortComments(comments, sortBy, commentsFullData) {
+    comments.sort(getSortFunction(sortBy, commentsFullData));
+    for (let comment of comments) {
+        sortComments(comment.replies, sortBy, commentsFullData);
     }
-    return comments;
 }
 
 export default connect(
-    createSelector([commentsSelector], commentsData => {
+    createSelector([commentsSelector, locationSelector], (commentsData, location) => {
         const { comments, postPermLink, isFetching } = commentsData;
-        const structuredComments = mapComments(comments, postPermLink);
+        const structuredComments = buildCommentsStructure(
+            comments,
+            postPermLink,
+            location.query.sort
+        );
 
         return {
             structuredComments,

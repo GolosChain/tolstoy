@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import throttle from 'lodash/throttle';
@@ -86,6 +86,7 @@ const Content = styled.div`
 export default class Popover extends Component {
     static propTypes = {
         show: PropTypes.bool.isRequired,
+        withArrow: PropTypes.bool,
         onClose: PropTypes.func,
         screenMargin: PropTypes.number,
         position: PropTypes.oneOf(['left', 'right', 'top', 'bottom']),
@@ -95,6 +96,7 @@ export default class Popover extends Component {
         screenMargin: 20,
         position: 'bottom',
         onClose: () => {},
+        withArrow: true,
     };
 
     state = {
@@ -135,7 +137,7 @@ export default class Popover extends Component {
     });
 
     render() {
-        const { show, screenMargin, position, children, className } = this.props;
+        const { show, screenMargin, position, children, withArrow, className } = this.props;
         const { margin } = this.state;
         return (
             <Container
@@ -149,17 +151,23 @@ export default class Popover extends Component {
                         : `translateX(-50%)`
                 }
             >
-                <Decoration
-                    position={position}
-                    transform={
-                        margin !== 0
-                            ? `translateX(calc(-50% + ${margin}px - ${screenMargin}px)) rotate(45deg);`
-                            : undefined
-                    }
-                />
-                <ContentWrapper>
-                    <Content>{children}</Content>
-                </ContentWrapper>
+                {withArrow ? (
+                    <Fragment>
+                        <Decoration
+                            position={position}
+                            transform={
+                                margin !== 0
+                                    ? `translateX(calc(-50% + ${margin}px - ${screenMargin}px)) rotate(45deg);`
+                                    : undefined
+                            }
+                        />
+                        <ContentWrapper>
+                            <Content>{children}</Content>
+                        </ContentWrapper>
+                    </Fragment>
+                ) : (
+                    <ContentWrapper>{children}</ContentWrapper>
+                )}
             </Container>
         );
     }
