@@ -19,6 +19,7 @@ import { vestsToGolos, golosToVests, getVesting } from 'app/utils/StateFunctions
 import DelegationsList from './DelegationsList';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import DelegationEdit from './DelegationEdit';
+import { showNotification } from 'src/app/redux/actions/ui';
 import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';
 import AccountNameInput from 'src/app/components/common/AccountNameInput';
 
@@ -569,8 +570,8 @@ export default connect(
             globalProps: state.global.get('props'),
         };
     },
-    dispatch => ({
-        delegate(operation, callback) {
+    {
+        delegate: (operation, callback) => dispatch =>
             dispatch(
                 transaction.actions.broadcastOperation({
                     type: 'delegate_vesting_shares',
@@ -586,9 +587,9 @@ export default connect(
                         callback(err);
                     },
                 })
-            );
-        },
-    }),
+            ),
+        showNotification,
+    },
     null,
     { withRef: true }
 )(DelegateVestingDialog);

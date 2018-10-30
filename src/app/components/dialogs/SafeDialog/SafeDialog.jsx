@@ -10,6 +10,7 @@ import { Checkbox } from 'golos-ui/Form';
 
 import transaction from 'app/redux/Transaction';
 import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';
+import { showNotification } from 'src/app/redux/actions/ui';
 import { parseAmount } from 'src/app/helpers/currency';
 
 import DialogFrame from 'app/components/dialogs/DialogFrame';
@@ -305,9 +306,8 @@ class SafeDialog extends PureComponent {
                     loader: false,
                 });
 
-                DialogManager.info(tt('dialogs_transfer.operation_success')).then(() => {
-                    this.props.onClose();
-                });
+                this.props.showNotification(tt('dialogs_transfer.operation_success'));
+                this.props.onClose();
             }
         });
     };
@@ -331,8 +331,8 @@ export default connect(
             myAccount,
         };
     },
-    dispatch => ({
-        transfer(type, operation, callback) {
+    {
+        transfer: (type, operation, callback) => dispatch =>
             dispatch(
                 transaction.actions.broadcastOperation({
                     type,
@@ -348,9 +348,9 @@ export default connect(
                         callback(err);
                     },
                 })
-            );
-        },
-    }),
+            ),
+        showNotification,
+    },
     null,
     { withRef: true }
 )(SafeDialog);

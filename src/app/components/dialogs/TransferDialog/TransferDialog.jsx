@@ -11,6 +11,7 @@ import Icon from 'golos-ui/Icon';
 import { APP_DOMAIN, DONATION_FOR } from 'app/client_config';
 import transaction from 'app/redux/Transaction';
 import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';
+import { showNotification } from 'src/app/redux/actions/ui';
 import { parseAmount } from 'src/app/helpers/currency';
 
 import DialogFrame from 'app/components/dialogs/DialogFrame';
@@ -106,6 +107,8 @@ class TransferDialog extends PureComponent {
         type: PropTypes.oneOf(['donate']),
         toAccountName: PropTypes.string.isRequired,
         donatePostUrl: PropTypes.string,
+        showNotification: PropTypes.func.isRequired,
+        onClose: PropTypes.func.isRequired,
     };
 
     constructor(props) {
@@ -342,11 +345,8 @@ class TransferDialog extends PureComponent {
                     loader: false,
                 });
 
-                DialogManager.info(
-                    tt('dialogs_transfer.transfer.transfer_success', { to: operation.to })
-                ).then(() => {
-                    this.props.onClose();
-                });
+                this.props.showNotification(tt('dialogs_transfer.transfer.transfer_success'));
+                this.props.onClose();
             }
         });
     };
@@ -362,8 +362,8 @@ export default connect(
             myAccount,
         };
     },
-    dispatch => ({
-        transfer(operation, callback) {
+    {
+        transfer: (operation, callback) => dispatch =>
             dispatch(
                 transaction.actions.broadcastOperation({
                     type: 'transfer',
@@ -379,9 +379,9 @@ export default connect(
                         callback(err);
                     },
                 })
-            );
-        },
-    }),
+            ),
+        showNotification,
+    },
     null,
     { withRef: true }
 )(TransferDialog);

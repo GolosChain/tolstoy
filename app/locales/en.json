@@ -269,7 +269,7 @@
       "tip": "Transfer to another account",
       "title": "Transfer to account",
       "transfer_button": "Transfer",
-      "transfer_success": "Transfer to account %(to)s successfully completed!"
+      "transfer_success": "Transfer successfully completed!"
     },
     "transfer_check": "Transfer to another account",
     "transfer_to_savings": {

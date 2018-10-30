@@ -19,6 +19,7 @@ import { vestsToGolos, golosToVests } from 'app/utils/StateFunctions';
 import DialogTypeSelect from 'src/app/components/userProfile/common/DialogTypeSelect';
 import AccountNameInput from 'src/app/components/common/AccountNameInput';
 import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';
+import { showNotification } from 'src/app/redux/actions/ui';
 
 const POWER_TO_GOLOS_INTERVAL = 13; // weeks
 
@@ -463,9 +464,8 @@ class ConvertDialog extends PureComponent {
                     loader: false,
                 });
 
-                DialogManager.info(TYPES_SUCCESS_TEXT[type]).then(() => {
-                    this.props.onClose();
-                });
+                this.props.showNotification(TYPES_SUCCESS_TEXT[type]);
+                this.props.onClose();
             }
         });
     };
@@ -503,8 +503,8 @@ export default connect(
             globalProps,
         };
     },
-    dispatch => ({
-        transfer(type, operation, callback) {
+    {
+        transfer: (type, operation, callback) => dispatch =>
             dispatch(
                 transaction.actions.broadcastOperation({
                     type,
@@ -520,9 +520,9 @@ export default connect(
                         callback(err);
                     },
                 })
-            );
-        },
-    }),
+            ),
+        showNotification,
+    },
     null,
     { withRef: true }
 )(ConvertDialog);
