@@ -7,25 +7,6 @@ import { CommentsList } from 'src/app/components/post/CommentsList/CommentsList'
 import { commentsArrayToObject, getSortFunction } from 'src/app/helpers/comments';
 import { locationSelector } from 'src/app/redux/selectors/ui/location';
 
-export default connect(
-    createSelector([commentsSelector, locationSelector], (commentsData, location) => {
-        const { comments, postPermLink, isFetching } = commentsData;
-        const structuredComments = buildCommentsStructure(
-            comments,
-            postPermLink,
-            location.query.sort
-        );
-
-        return {
-            structuredComments,
-            isFetching,
-        };
-    }),
-    {
-        saveListScrollPosition,
-    }
-)(CommentsList);
-
 function buildCommentsStructure(commentsFromStore, postPermLink, sortBy) {
     const commentsFullData = commentsArrayToObject([...commentsFromStore.toJS()]);
 
@@ -76,3 +57,22 @@ function sortComments(comments, sortBy, commentsFullData) {
         sortComments(comment.replies, sortBy, commentsFullData);
     }
 }
+
+export default connect(
+    createSelector([commentsSelector, locationSelector], (commentsData, location) => {
+        const { comments, postPermLink, isFetching } = commentsData;
+        const structuredComments = buildCommentsStructure(
+            comments,
+            postPermLink,
+            location.query.sort
+        );
+
+        return {
+            structuredComments,
+            isFetching,
+        };
+    }),
+    {
+        saveListScrollPosition,
+    }
+)(CommentsList);

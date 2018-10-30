@@ -110,6 +110,7 @@ export default class CommentsHeader extends Component {
     render() {
         const { commentsCount, pathname } = this.props;
         const { showPopover } = this.state;
+
         return (
             <CommentsHeaderWrapper>
                 <CommentsCount>
