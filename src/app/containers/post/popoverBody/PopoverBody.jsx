@@ -83,6 +83,11 @@ const About = styled.p`
 
 const Followers = styled.div``;
 
+const AvatarLink = styled(Link)`
+    display: flex;
+    border-radius: 50%;
+`;
+
 const PinnedPost = styled.div`
     display: flex;
     margin-top: 20px;
@@ -158,6 +163,8 @@ export class PopoverBody extends Component {
             showFollowBlock,
         } = this.props;
 
+        const linkToAccount = `/@${account}`;
+
         return (
             <Wrapper className={className}>
                 <ClosePopoverButton onClick={this.closePopover}>
@@ -165,11 +172,13 @@ export class PopoverBody extends Component {
                 </ClosePopoverButton>
                 <Block>
                     <AuthorTitle>
-                        <AuthorInfoBlock to={`/@${account}`}>
+                        <AuthorInfoBlock to={linkToAccount}>
                             <AuthorName>{name}</AuthorName>
                             <AuthorAccount>@{account}</AuthorAccount>
                         </AuthorInfoBlock>
-                        <Userpic size={50} account={account} />
+                        <AvatarLink to={linkToAccount}>
+                            <Userpic size={50} account={account} />
+                        </AvatarLink>
                     </AuthorTitle>
                     <About>{about}</About>
                     <Followers>
