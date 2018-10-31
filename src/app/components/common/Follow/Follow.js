@@ -62,6 +62,18 @@ export default class Follow extends Component {
         onClick: () => {},
     };
 
+    follow = e => {
+        const { username, following, updateFollow, onClick } = this.props;
+        updateFollow(username, following, 'blog');
+        onClick(e);
+    };
+
+    unfollow = e => {
+        const { following, onClick, confirmUnfollowDialog } = this.props;
+        confirmUnfollowDialog(following);
+        onClick(e);
+    };
+
     render() {
         const { collapseOnMobile, isFollow, className } = this.props;
 
@@ -90,16 +102,4 @@ export default class Follow extends Component {
             </Wrapper>
         );
     }
-
-    follow = e => {
-        const { username, following, updateFollow, onClick } = this.props;
-        updateFollow(username, following, 'blog');
-        onClick(e);
-    };
-
-    unfollow = async e => {
-        const { following, onClick, confirmUnfollowDialog } = this.props;
-        confirmUnfollowDialog(following);
-        onClick(e);
-    };
 }
