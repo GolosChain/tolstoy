@@ -18,6 +18,7 @@ import {
     UserLink,
     Name,
     LoaderWrapper,
+    Percent,
 } from 'src/app/components/dialogs/common/Dialog';
 
 const ShowAll = styled.button`
@@ -74,7 +75,12 @@ export default class VotersDialog extends PureComponent {
                                 <Avatar avatarUrl={user.avatar} />
                                 <Name>{user.name}</Name>
                             </UserLink>
-                            {user.name !== username ? <Follow following={user.name} /> : null}
+                            <Percent>100%</Percent>
+                            {user.name !== username ? (
+                                <Follow following={user.name} collapseOnMobile={true} />
+                            ) : (
+                                <div />
+                            )}
                         </UserItem>
                     ))}
                     {loading && (

@@ -74,8 +74,17 @@ export const UserItem = styled.div`
     }
 `;
 
+export const Percent = styled.div`
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.29;
+    letter-spacing: 0.4px;
+    color: #393636;
+`;
+
 export const UserLink = styled(Link)`
     display: flex;
+    min-width: 180px;
     align-items: center;
 `;
 

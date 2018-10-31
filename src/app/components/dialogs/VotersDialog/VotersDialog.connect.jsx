@@ -33,26 +33,26 @@ export default connect(
 
             const voters = post.get('active_voters', List());
             const users = voters
-                    .filter(voter => {
-                        const percent = voter.get('percent');
-                        return (percent > 0 && isLikes) || (percent < 0 && !isLikes);
-                    })
-                    .map(voter => {
-                        const name = voter.get('voter');
-                        const jsonMetadata = accounts.getIn([name, 'json_metadata'], '{}');
-                        let avatar;
-                        try {
-                            const profile = JSON.parse(jsonMetadata).profile || {};
-                            avatar = profile.profile_image;
-                        } catch (error) {
-                            console.error("Can't parse string to JS: %s", jsonMetadata);
-                        }
+                .filter(voter => {
+                    const percent = voter.get('percent');
+                    return (percent > 0 && isLikes) || (percent < 0 && !isLikes);
+                })
+                .map(voter => {
+                    const name = voter.get('voter');
+                    const jsonMetadata = accounts.getIn([name, 'json_metadata'], '{}');
+                    let avatar;
+                    try {
+                        const profile = JSON.parse(jsonMetadata).profile || {};
+                        avatar = profile.profile_image;
+                    } catch (error) {
+                        console.error("Can't parse string to JS: %s", jsonMetadata);
+                    }
 
-                        return {
-                            name,
-                            avatar,
-                        };
-                    });
+                    return {
+                        name,
+                        avatar,
+                    };
+                });
 
             return {
                 loading: votersDialog.get('loading'),
