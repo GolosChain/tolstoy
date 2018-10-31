@@ -2,13 +2,16 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
+import Icon from 'golos-ui/Icon';
 import proxifyImageUrl from 'app/utils/ProxifyUrl';
 
-import Icon from 'golos-ui/Icon';
+// Image size bigger than display size for better quality.
+// Current image proxy very dramatically reduce quality.
+const AVATAR_BACKGROUND_SIZE = '220x220';
 
 const Wrapper = styled.div.attrs({
     style: ({ backgroundUrl }) => ({
-        backgroundImage: backgroundUrl ? `url(${backgroundUrl})` : null,
+        backgroundImage: backgroundUrl ? `url("${backgroundUrl}")` : null,
     }),
 })`
     display: flex;
@@ -19,13 +22,20 @@ const Wrapper = styled.div.attrs({
 
     height: 125px;
     width: 125px;
+    border-radius: 50%;
     box-shadow: 0 6px 14px 0 rgba(0, 0, 0, 0.18);
 
+    background-color: #fff;
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: 50% 50%;
-    border-radius: 50%;
-    background-color: #fff;
+    background-position: center;
+`;
+
+const EmptyAvatar = styled(Icon).attrs({
+    name: 'user',
+})`
+    width: 65px;
+    height: 70px;
 `;
 
 export default class UserProfileAvatar extends PureComponent {
@@ -35,15 +45,16 @@ export default class UserProfileAvatar extends PureComponent {
 
     render() {
         const { children, avatarUrl } = this.props;
-        const backgroundUrl = avatarUrl
-            ? proxifyImageUrl(avatarUrl, '125x125')
-            : null;
+
+        let backgroundUrl = null;
+
+        if (avatarUrl) {
+            backgroundUrl = proxifyImageUrl(avatarUrl, AVATAR_BACKGROUND_SIZE);
+        }
 
         return (
             <Wrapper backgroundUrl={backgroundUrl}>
-                {!backgroundUrl && (
-                    <Icon name="user" width="65" height="70" />
-                )}
+                {!backgroundUrl && <EmptyAvatar />}
                 {children}
             </Wrapper>
         );

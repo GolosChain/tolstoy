@@ -13,6 +13,8 @@ import VotePanel from '../../common/VotePanel';
 import ReplyBlock from '../../common/ReplyBlock';
 import CardAuthor from '../CardAuthor';
 
+const PREVIEW_IMAGE_SIZE = '859x356';
+
 const Header = styled.div`
     padding: 10px 0;
     flex-shrink: 0;
@@ -400,7 +402,7 @@ export default class PostCard extends PureComponent {
         const proxy = $STM_Config.img_proxy_prefix;
 
         if (proxy) {
-            return `${proxy}859x356/${url}`;
+            return `${proxy}${PREVIEW_IMAGE_SIZE}/${url}`;
         } else {
             return url;
         }
