@@ -10,10 +10,10 @@ import { NOTIFICATIONS_FILTER_TYPES, NOTIFICATIONS_PER_PAGE } from 'src/app/redu
 
 import Card from 'golos-ui/Card';
 import { TabContainer, Tabs } from 'golos-ui/Tabs';
-import Flex from 'golos-ui/Flex';
 
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import ActivityList from 'src/app/components/common/ActivityList';
+import { CardContent } from 'src/app/components/golos-ui/Card/Card';
 
 const WrapperLoader = styled.div`
     display: flex;
@@ -21,8 +21,6 @@ const WrapperLoader = styled.div`
     height: 80px;
     padding-top: 20px;
 `;
-
-const CardContent = styled(Flex)``;
 
 export default class ActivityContent extends PureComponent {
     static propTypes = {

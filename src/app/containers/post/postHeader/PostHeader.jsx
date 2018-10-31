@@ -160,7 +160,7 @@ export class PostHeader extends Component {
         this.props.updateFollow(this.props.username, this.props.author, 'blog');
     };
 
-    unfollow = async () => {
+    unfollow = () => {
         const { author, confirmUnfollowDialog} = this.props;
         confirmUnfollowDialog(author);
     };
