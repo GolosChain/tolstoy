@@ -10,6 +10,8 @@ import {
 } from 'src/app/redux/selectors/common';
 import VotersDialog from 'src/app/components/dialogs/VotersDialog/VotersDialog';
 
+const MAX_VOTE_PERCENT = 10000;
+
 export default connect(
     createDeepEqualSelector(
         [
@@ -39,6 +41,7 @@ export default connect(
                 })
                 .map(voter => {
                     const name = voter.get('voter');
+                    const percent = Math.abs(voter.get('percent') / MAX_VOTE_PERCENT * 100);
                     const jsonMetadata = accounts.getIn([name, 'json_metadata'], '{}');
                     let avatar;
                     try {
@@ -51,6 +54,7 @@ export default connect(
                     return {
                         name,
                         avatar,
+                        percent
                     };
                 });
 

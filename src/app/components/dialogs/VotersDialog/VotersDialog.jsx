@@ -18,7 +18,6 @@ import {
     UserLink,
     Name,
     LoaderWrapper,
-    Percent,
 } from 'src/app/components/dialogs/common/Dialog';
 
 const ShowAll = styled.button`
@@ -31,6 +30,19 @@ const ShowAll = styled.button`
     color: #111111;
     font-size: 14px;
     font-weight: bold;
+`;
+
+const EmptyBlockLikeFollow = styled.div`
+    min-width: 165px;
+`;
+
+const Percent = styled.div`
+    min-width: 37px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.29;
+    letter-spacing: 0.4px;
+    color: #393636;
 `;
 
 export default class VotersDialog extends PureComponent {
@@ -75,11 +87,11 @@ export default class VotersDialog extends PureComponent {
                                 <Avatar avatarUrl={user.avatar} />
                                 <Name>{user.name}</Name>
                             </UserLink>
-                            <Percent>100%</Percent>
+                            <Percent>{user.percent}%</Percent>
                             {user.name !== username ? (
                                 <Follow following={user.name} collapseOnMobile={true} />
                             ) : (
-                                <div />
+                                <EmptyBlockLikeFollow />
                             )}
                         </UserItem>
                     ))}
