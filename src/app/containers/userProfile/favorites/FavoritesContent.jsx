@@ -6,7 +6,7 @@ import { Helmet } from 'react-helmet';
 
 import { authProtection } from 'src/app/helpers/hoc';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
-import PostsListFavorite from 'src/app/components/common/PostsList/PostsListFavorite';
+import FavoritePostsList from 'src/app/components/common/CardsList/FavoritePostsList';
 import InfoBlock from 'src/app/components/common/InfoBlock';
 import { favoritesLoadNextPageAction } from 'src/app/redux/actions/favorites';
 import EmptyBlock, { EmptySubText } from 'src/app/components/common/EmptyBlock';
@@ -82,6 +82,6 @@ export default class FavoritesContent extends Component {
             );
         }
 
-        return <PostsListFavorite pageAccountName={pageAccountName} />;
+        return <FavoritePostsList pageAccountName={pageAccountName} />;
     }
 }

@@ -5,9 +5,10 @@ import { Helmet } from 'react-helmet';
 import tt from 'counterpart';
 
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
-import PostsListBlog from 'src/app/components/common/PostsList/PostsListBlog';
+import BlogCardsList from 'src/app/components/common/CardsList/BlogCardsList';
 import InfoBlock from 'src/app/components/common/InfoBlock';
 import EmptyBlock, { EmptySubText } from 'src/app/components/common/EmptyBlock';
+import CommentCard from 'src/app/components/cards/CommentCard';
 
 const Loader = styled(LoadingIndicator)`
     margin-top: 30px;
@@ -56,9 +57,11 @@ class CommentsContent extends Component {
         }
 
         return (
-            <PostsListBlog
+            <BlogCardsList
                 pageAccountName={pageUserName}
                 category="comments"
+                ItemComponent={CommentCard}
+                disallowGrid
                 allowInlineReply={!isOwner}
                 //order="by_author"
                 //showSpam TODO

@@ -155,7 +155,7 @@ const PostImage = styled.div.attrs({
 })`
     width: 100%;
     height: 356px;
-    max-height: 45vh;
+    max-height: 60vh;
     margin-bottom: 14px;
     background-repeat: no-repeat;
     background-position: center;

@@ -6,8 +6,9 @@ import tt from 'counterpart';
 
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import InfoBlock from 'src/app/components/common/InfoBlock';
-import PostsListBlog from 'src/app/components/common/PostsList/PostsListBlog';
+import BlogCardsList from 'src/app/components/common/CardsList/BlogCardsList';
 import EmptyBlock, { EmptySubText } from 'src/app/components/common/EmptyBlock';
+import CommentCard from 'src/app/components/cards/CommentCard';
 
 const Loader = styled(LoadingIndicator)`
     margin-top: 30px;
@@ -32,13 +33,13 @@ class RepliesContent extends Component {
     _render() {
         const { pageAccount, isOwner } = this.props;
 
-        const posts = pageAccount.get('recent_replies');
+        const replies = pageAccount.get('recent_replies');
 
-        if (!posts) {
+        if (!replies) {
             return <Loader type="circle" center size={40} />;
         }
 
-        if (!posts.size) {
+        if (!replies.size) {
             return (
                 <InfoBlock>
                     <EmptyBlock>
@@ -54,12 +55,12 @@ class RepliesContent extends Component {
         }
 
         return (
-            <PostsListBlog
+            <BlogCardsList
                 pageAccountName={pageAccount.get('name')}
-                posts={posts}
+                ItemComponent={CommentCard}
+                disallowGrid
                 category="recent_replies"
                 allowInlineReply={isOwner}
-                //showSpam
             />
         );
     }

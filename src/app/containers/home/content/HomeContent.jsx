@@ -7,7 +7,7 @@ import styled from 'styled-components';
 
 import { APP_NAME } from 'app/client_config';
 
-import PostsList from 'src/app/components/common/PostsList';
+import CardsList from 'src/app/components/common/CardsList';
 
 const Wrapper = styled.div`
     background-color: #f9f9f9;
@@ -98,9 +98,9 @@ export default class HomeContent extends Component {
 
         return (
             <Wrapper>
-                <PostsList
+                <CardsList
                     pageAccountName={currentUsername}
-                    posts={posts}
+                    items={posts}
                     order={order}
                     category={category}
                     isLoading={isFetching}
