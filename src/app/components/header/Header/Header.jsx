@@ -71,21 +71,12 @@ const LogoIcon = styled(Icon)`
     color: #2879ff;
 `;
 
-const LogoTextBlock = styled.div`
+const LogoText = styled.div`
     flex-shrink: 0;
-    margin-left: 9px;
-`;
-
-const LogoTitle = styled.div`
-    font-size: 16px;
+    margin-left: 6px;
+    font-size: 18px;
     font-weight: bold;
     color: #393636;
-`;
-
-const LogoSub = styled.div`
-    line-height: 11px;
-    font-size: 11px;
-    color: #777;
 `;
 
 const SearchBlock = styled(Link)`
@@ -563,12 +554,7 @@ export default class Header extends PureComponent {
                     <Container>
                         <LogoLink to="/">
                             <LogoIcon name="logo" />
-                            {isPadScreen ? null : (
-                                <LogoTextBlock>
-                                    <LogoTitle>GOLOS</LogoTitle>
-                                    <LogoSub>beta</LogoSub>
-                                </LogoTextBlock>
-                            )}
+                            {isPadScreen ? null : <LogoText>GOLOS</LogoText>}
                         </LogoLink>
                         <SearchBlock href="/static/search.html" mobile={isPadScreen ? 1 : 0}>
                             {isPadScreen ? <FlexFiller /> : <SearchInput />}
