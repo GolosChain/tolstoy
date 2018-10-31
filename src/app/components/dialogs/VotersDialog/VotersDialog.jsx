@@ -32,6 +32,19 @@ const ShowAll = styled.button`
     font-weight: bold;
 `;
 
+const EmptyBlockLikeFollow = styled.div`
+    min-width: 165px;
+`;
+
+const Percent = styled.div`
+    min-width: 37px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.29;
+    letter-spacing: 0.4px;
+    color: #393636;
+`;
+
 export default class VotersDialog extends PureComponent {
     static propTypes = {
         loading: PropTypes.bool.isRequired,
@@ -74,7 +87,12 @@ export default class VotersDialog extends PureComponent {
                                 <Avatar avatarUrl={user.avatar} />
                                 <Name>{user.name}</Name>
                             </UserLink>
-                            {user.name !== username ? <Follow following={user.name} /> : null}
+                            <Percent>{user.percent}%</Percent>
+                            {user.name !== username ? (
+                                <Follow following={user.name} collapseOnMobile={true} />
+                            ) : (
+                                <EmptyBlockLikeFollow />
+                            )}
                         </UserItem>
                     ))}
                     {loading && (

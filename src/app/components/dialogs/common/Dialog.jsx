@@ -76,6 +76,7 @@ export const UserItem = styled.div`
 
 export const UserLink = styled(Link)`
     display: flex;
+    min-width: 180px;
     align-items: center;
 `;
 
