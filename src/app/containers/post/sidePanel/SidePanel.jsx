@@ -296,7 +296,7 @@ export class SidePanel extends Component {
                     </ShareWrapper>
 
                     <PostActions
-                        fullUrl={post.fullUrl}
+                        fullUrl={post.url}
                         isFavorite={post.isFavorite}
                         isPinned={isPinned}
                         isOwner={isOwner}

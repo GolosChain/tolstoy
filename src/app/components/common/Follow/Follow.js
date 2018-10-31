@@ -53,7 +53,7 @@ export default class Follow extends Component {
         onClick: PropTypes.func,
 
         // connect
-        username: PropTypes.string.isRequired,
+        username: PropTypes.string,
         isFollow: PropTypes.bool,
     };
 
