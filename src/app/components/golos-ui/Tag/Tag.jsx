@@ -23,8 +23,6 @@ export const Tag = styled.div`
     }
 
     &:hover {
-        color: #fff;
-        background-color: #2879ff;
         border-color: #2879ff;
     }
 
