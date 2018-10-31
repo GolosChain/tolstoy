@@ -19,7 +19,11 @@ const Action = styled.div`
     }
 `;
 
-const ActionLink = Action.withComponent(Link);
+const ActionEditLink = styled(Action.withComponent(Link))`
+    @media (max-width: 880px) {
+        display: none;
+    }
+`;
 
 const ActionIcon = styled(Icon)`
     width: 20px;
@@ -48,14 +52,14 @@ const PostActions = ({
     if (isOwner) {
         return (
             <Fragment>
-                <ActionLink
+                <ActionEditLink
                     className={className}
                     to={`${fullUrl}/edit`}
                     data-tooltip={showText ? undefined : tt('active_panel_tooltip.edit')}
                 >
                     <ActionIcon name="pen" />
                     {showText ? <ActionText>{tt('active_panel_tooltip.edit')}</ActionText> : null}
-                </ActionLink>
+                </ActionEditLink>
                 <Action
                     className={className}
                     active={isPinned ? 1 : 0}

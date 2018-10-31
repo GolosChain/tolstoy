@@ -70,7 +70,11 @@ const ToolbarAction = styled.div`
     }
 `;
 
-const ToolbarActionLink = ToolbarAction.withComponent(Link);
+const ToolbarEditAction = styled(ToolbarAction.withComponent(Link))`
+    @media (max-width: 880px) {
+        display: none;
+    }
+`;
 
 const IconWrapper = styled.div`
     display: flex;
@@ -264,11 +268,11 @@ export default class PostCard extends PureComponent {
 
         if (showPinButton && isOwner) {
             return (
-                <ToolbarActionLink to={`${sanitizedData.link}/edit`}>
+                <ToolbarEditAction to={`${sanitizedData.link}/edit`}>
                     <IconWrapper enabled data-tooltip={tt('g.edit')}>
                         <Icon name="pen" width={23} height={23} />
                     </IconWrapper>
-                </ToolbarActionLink>
+                </ToolbarEditAction>
             );
         }
     }
