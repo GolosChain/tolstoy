@@ -223,8 +223,8 @@ export class SidePanel extends Component {
     };
 
     repost = () => {
-        const { authorWithPermLink } = this.props;
-        this.props.openRepostDialog(authorWithPermLink);
+        const { contentLink } = this.props;
+        this.props.openRepostDialog(contentLink);
     };
 
     onBackClick = () => {
@@ -239,7 +239,7 @@ export class SidePanel extends Component {
             isOwner,
             toggleFavorite,
             backURL,
-            authorWithPermLink,
+            contentLink,
         } = this.props;
 
         const {
@@ -256,7 +256,7 @@ export class SidePanel extends Component {
                 showSideBlock={showSideBlockByWidth && showSideBlockByHeight}
             >
                 <PanelWrapper>
-                    <VotePanelStyled contentLink={authorWithPermLink} sidePanel />
+                    <VotePanelStyled contentLink={contentLink} sidePanel />
                     {isOwner ? null : (
                         <ActionWrapper
                             onClick={this.repost}

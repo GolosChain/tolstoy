@@ -23,7 +23,7 @@ export default connect(
                 post,
                 username,
                 backURL,
-                authorWithPermLink: `${author.account}/${post.permLink}`,
+                contentLink: `${author.account}/${post.permLink}`,
                 isOwner: username === author.account,
                 isPinned: author.pinnedPostsUrls.includes(author.account + '/' + post.permLink),
             };
