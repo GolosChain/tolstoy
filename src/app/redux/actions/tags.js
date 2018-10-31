@@ -32,3 +32,11 @@ export function saveTag(tag, action) {
         dispatch(setSettingsOptions({ basic }));
     };
 }
+
+export function clearTags() {
+    return setSettingsOptions({
+        basic: {
+            selectedTags: emptyMap,
+        },
+    });
+}

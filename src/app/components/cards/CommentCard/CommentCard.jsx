@@ -10,6 +10,7 @@ import { detransliterate } from 'app/utils/ParsersAndFormatters';
 import CommentFormLoader from 'app/components/modules/CommentForm/loader';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 
+import { TagLink } from 'golos-ui/Tag';
 import CloseOpenButton from '../CloseOpenButton';
 import CommentFooter from '../CommentFooter';
 import CardAuthor from '../CardAuthor';
@@ -45,22 +46,8 @@ const HeaderLine = styled.div`
     }
 `;
 
-const Category = styled.div`
-    flex-shrink: 0;
-
-    height: 28px;
-    padding: 0 12px;
+const Category = styled(TagLink)`
     margin-right: 4px;
-    border-radius: 6px;
-    line-height: 26px;
-
-    font-size: 14px;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    color: #fff;
-    background: #789821;
-    cursor: default;
-    overflow: hidden;
 `;
 
 const Title = styled.div`
@@ -134,7 +121,7 @@ const LoaderWrapper = styled.div`
     animation-delay: 0.25s;
 `;
 
-const CategoryTogglerWrapper = styled.div`
+const TogglerWrapper = styled.div`
     display: flex;
     align-items: center;
 `;
@@ -231,10 +218,10 @@ export class CommentCard extends PureComponent {
                             created={comment.get('created')}
                         />
                     )}
-                    <CategoryTogglerWrapper>
-                        <Category>{detransliteratedCategory}</Category>
+                    <TogglerWrapper>
+                        <Category to={'/trending/' + comment.get('category')} category={1}>{detransliteratedCategory}</Category>
                         <CloseOpenButton collapsed={collapsed} toggleComment={this.toggleComment} />
-                    </CategoryTogglerWrapper>
+                    </TogglerWrapper>
                 </HeaderLine>
             </Header>
         );
