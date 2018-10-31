@@ -399,14 +399,8 @@ export default class PostCard extends PureComponent {
     _getImageSrc(url) {
         const proxy = $STM_Config.img_proxy_prefix;
 
-        let size = '900x356';
-
-        if (process.env.BROWSER && document.body.offsetWidth < 500) {
-            size = '488x183';
-        }
-
         if (proxy) {
-            return `${proxy}${size}/${url}`;
+            return `${proxy}859x356/${url}`;
         } else {
             return url;
         }
