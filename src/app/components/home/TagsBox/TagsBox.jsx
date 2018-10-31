@@ -41,18 +41,32 @@ const Tags = styled.div`
 
 export default class TagsBox extends Component {
     static propTypes = {
+        // connect
+        category: PropTypes.string,
+        order: PropTypes.string,
+        currentUsername: PropTypes.string,
         selectedTags: PropTypes.instanceOf(Map),
+        selectedFilterTags: PropTypes.array,
+        setSettingsOptions: PropTypes.func,
+        loadMore: PropTypes.func,
     };
 
     onTagClick = tag => {
-        const { selectedTags, setSettingsOptions, loadMore, order } = this.props;
+        const {
+            category,
+            order,
+            currentUsername,
+            selectedTags,
+            setSettingsOptions,
+            loadMore,
+        } = this.props;
 
         setSettingsOptions({
             basic: {
                 selectedTags: selectedTags.delete(tag),
             },
         });
-        loadMore({ order });
+        loadMore({ category, order, accountname: currentUsername });
     };
 
     render() {

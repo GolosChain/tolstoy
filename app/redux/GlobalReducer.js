@@ -274,10 +274,8 @@ export default createModule({
         },
         {
             action: 'GET_VOTERS_USERS_SUCCESS',
-            reducer: (state, { payload: { voters, postLink } }) => state.setIn(
-                ['content', postLink, 'active_voters'],
-                fromJS(voters)
-            )
+            reducer: (state, { payload: { voters, postLink } }) =>
+                state.setIn(['content', postLink, 'active_voters'], fromJS(voters)),
         },
         {
             action: 'VOTED',
@@ -316,12 +314,7 @@ export default createModule({
 
                 let dataPath;
 
-                if (
-                    order === 'by_author' ||
-                    order === 'by_feed' ||
-                    order === 'by_comments' ||
-                    order === 'by_replies'
-                ) {
+                if (order === 'by_author' || order === 'by_comments' || order === 'by_replies') {
                     dataPath = ['accounts', accountname, category];
                 } else {
                     dataPath = ['discussion_idx', category || '', order];

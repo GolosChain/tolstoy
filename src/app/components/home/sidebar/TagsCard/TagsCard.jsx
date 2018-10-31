@@ -115,7 +115,10 @@ const CollapseIcon = styled(Icon).attrs({
 
 export default class TagsCard extends Component {
     static propTypes = {
+        // connect
+        category: PropTypes.string,
         order: PropTypes.string,
+        currentUsername: PropTypes.string,
         tags: PropTypes.instanceOf(List),
         selectedTags: PropTypes.instanceOf(Map),
         collapsed: PropTypes.bool,
@@ -133,10 +136,10 @@ export default class TagsCard extends Component {
     };
 
     onTagClick = (tag, action) => {
-        const { order } = this.props;
+        const { category, order, currentUsername } = this.props;
 
         this.props.saveTag(tag, action);
-        this.props.loadMore({ order });
+        this.props.loadMore({ category, order, accountname: currentUsername });
     };
 
     renderTag = (tag, key) => {

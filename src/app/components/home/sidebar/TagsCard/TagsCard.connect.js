@@ -9,6 +9,7 @@ import {
     createDeepEqualSelector,
     uiSelector,
     dataSelector,
+    currentUsernameSelector,
     globalSelector,
     routeParamSelector,
 } from 'src/app/redux/selectors/common';
@@ -23,13 +24,15 @@ export default connect(
         [
             uiSelector('home'),
             dataSelector('settings'),
+            currentUsernameSelector,
             globalSelector(['tag_idx', 'trending'], emptyList),
             routeParamSelector('category', ''),
             routeParamSelector('order', constants.DEFAULT_SORT_ORDER),
         ],
-        (uiHome, settings, trendingTags, category, order) => {
+        (uiHome, settings, currentUsername, trendingTags, category, order) => {
             if (category === 'feed') {
-                order = 'by_feed';
+                category = '';
+                order = 'feed';
             }
 
             const collapsed = uiHome.get('tagsCollapsed');
@@ -48,8 +51,10 @@ export default connect(
                 .take(collapsed ? COUNT_OF_TAGS.COLLAPSED : COUNT_OF_TAGS.EXPANDED);
 
             return {
+                category,
                 order,
                 tags,
+                currentUsername,
                 selectedTags: settings.getIn(['basic', 'selectedTags'], Map()),
                 collapsed,
                 order,

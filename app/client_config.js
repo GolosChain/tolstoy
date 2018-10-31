@@ -73,6 +73,7 @@ export const PUBLIC_API = {
     votes: 'getDiscussionsByVotesAsync',
     cashout: 'getDiscussionsByCashoutAsync',
     payout: 'getDiscussionsByPayoutAsync',
+    feed: 'getDiscussionsByFeedAsync',
 };
 export const ACCOUNT_OPERATIONS = [
     'transfer_to_vesting',

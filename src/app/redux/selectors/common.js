@@ -55,8 +55,8 @@ export const pageAccountSelector = createDeepEqualSelector(
 export const currentUserSelector = userSelector('current');
 
 export const currentUsernameSelector = createSelector(
-    [currentUserSelector],
-    user => (user ? user.get('username') : null)
+    [userSelector(['current', 'username']), offchainSelector('account')],
+    (currentUsername, currentUsernameOffchain) => currentUsername || currentUsernameOffchain
 );
 
 export const accountSelector = (state, accountName) =>

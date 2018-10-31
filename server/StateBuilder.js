@@ -38,7 +38,7 @@ export default async function getState(api, url = '/', options, offchain, settin
 
     let stateFillerFunction = null;
 
-    if (route.page === 'UserProfile' || (route.page === 'PostsIndex' && route.params.username)) {
+    if (route.page === 'UserProfile') {
         stateFillerFunction = getStateForProfile;
     } else if (route.page === 'Post') {
         stateFillerFunction = getStateForPost;
@@ -46,7 +46,10 @@ export default async function getState(api, url = '/', options, offchain, settin
         stateFillerFunction = getStateForWitnesses;
     } else if (route.page === 'Tags') {
         stateFillerFunction = getStateForTags;
-    } else if (PUBLIC_API[routeParts[0]]) {
+    } else if (
+        PUBLIC_API[routeParts[0]] ||
+        (route.page === 'PostsIndex' && route.params.username)
+    ) {
         stateFillerFunction = getStateForApi;
     }
 
@@ -121,30 +124,6 @@ async function getStateForProfile(state, route, { api }) {
             }
             break;
 
-        case 'feed':
-            const feedEntries = await api.getFeedEntriesAsync(username, 0, 20);
-            state.accounts[username].feed = [];
-
-            for (let entry of feedEntries) {
-                const link = `${entry.author}/${entry.permlink}`;
-
-                state.accounts[username].feed.push(link);
-
-                const postContent = await api.getContentAsync(
-                    entry.author,
-                    entry.permlink,
-                    DEFAULT_VOTE_LIMIT
-                );
-
-                state.content[link] = postContent;
-
-                if (entry.reblog_by.length > 0) {
-                    postContent.first_reblogged_by = entry.reblog_by[0];
-                    postContent.reblogged_by = entry.reblog_by;
-                }
-            }
-            break;
-
         case 'blog':
         default:
             try {
@@ -200,12 +179,29 @@ async function getStateForWitnesses(state, route, { api }) {
     }
 }
 
-async function getStateForApi(state, params, { routeParts, api, settings }) {
+async function getStateForApi(state, { params } = {}, { routeParts, api, settings }) {
     const args = { limit: 20, truncate_body: 1024 };
-    const discussionsType = routeParts[0];
 
-    // decode tag for cyrillic symbols
-    const tag = routeParts[1] !== undefined ? decodeURIComponent(routeParts[1]) : '';
+    let discussionsType, tag;
+
+    // Home page
+    if (params.category && params.username) {
+        const { category, username } = params;
+        const [account] = await api.getAccountsAsync([username]);
+        if (!account) {
+            return;
+        }
+        state.accounts[username] = account;
+
+        args.select_authors = [username];
+        discussionsType = category;
+    } else {
+        // decode tag for cyrillic symbols
+        tag = routeParts[1] !== undefined ? decodeURIComponent(routeParts[1]) : '';
+        discussionsType = routeParts[0];
+    }
+
+    let discussionsKey;
 
     if (typeof tag === 'string' && tag.length) {
         const reversed = reverseTag(tag);
@@ -214,8 +210,11 @@ async function getStateForApi(state, params, { routeParts, api, settings }) {
         } else {
             args.select_tags = [tag];
         }
+
+        discussionsKey = tag;
     } else {
         const selectedTags = pathOr({}, ['basic', 'selectedTags'], settings);
+
         const select_tags = Object.keys(
             filter(type => type === TAGS_FILTER_TYPES.SELECT, selectedTags)
         );
@@ -251,34 +250,12 @@ async function getStateForApi(state, params, { routeParts, api, settings }) {
         } else {
             args.filter_tags = IGNORE_TAGS;
         }
-    }
 
-    const discussions = await api[PUBLIC_API[discussionsType]](args);
-
-    const discussion_idxes = {};
-    discussion_idxes[discussionsType] = [];
-
-    for (let discussion of discussions) {
-        const link = `${discussion.author}/${discussion.permlink}`;
-        discussion_idxes[discussionsType].push(link);
-        state.content[link] = discussion;
-    }
-
-    let discussionsKey;
-
-    if (typeof tag === 'string' && tag) {
-        discussionsKey = tag;
-    } else {
-        const selectedTags = pathOr({}, ['basic', 'selectedTags'], settings);
-        const selectedSelectTags = Object.keys(
-            filter(type => type === TAGS_FILTER_TYPES.SELECT, selectedTags)
-        )
+        const selectedSelectTags = select_tags
             .filter(tag => !tag.startsWith('ru--'))
             .sort()
             .join('/');
-        const selectedFilterTags = Object.keys(
-            filter(type => type === TAGS_FILTER_TYPES.EXCLUDE, selectedTags)
-        )
+        const selectedFilterTags = filter_tags
             .filter(tag => !tag.startsWith('ru--'))
             .sort()
             .join('/');
@@ -293,6 +270,18 @@ async function getStateForApi(state, params, { routeParts, api, settings }) {
         }
 
         discussionsKey = arrSelectedTags.join('|');
+    }
+
+    const discussions = await api[PUBLIC_API[discussionsType]](args);
+
+    const discussion_idxes = {
+        [discussionsType]: [],
+    };
+
+    for (let discussion of discussions) {
+        const link = `${discussion.author}/${discussion.permlink}`;
+        discussion_idxes[discussionsType].push(link);
+        state.content[link] = discussion;
     }
 
     state.discussion_idx[discussionsKey] = discussion_idxes;

@@ -143,31 +143,9 @@ function* fetchState(action) {
                         break;
 
                     case 'feed':
-                        const feedEntries = yield call(
-                            [api, api.getFeedEntriesAsync],
-                            uname,
-                            0,
-                            20
-                        );
-                        account.feed = [];
-
-                        for (let key in feedEntries) {
-                            const { author, permlink } = feedEntries[key];
-                            const link = `${author}/${permlink}`;
-                            account.feed.push(link);
-                            state.content[link] = yield call(
-                                [api, api.getContentAsync],
-                                author,
-                                permlink,
-                                constants.DEFAULT_VOTE_LIMIT
-                            );
-
-                            if (feedEntries[key].reblog_by.length > 0) {
-                                state.content[link].first_reblogged_by =
-                                    feedEntries[key].reblog_by[0];
-                                state.content[link].reblogged_by = feedEntries[key].reblog_by;
-                            }
-                        }
+                        yield call(fetchData, {
+                            payload: { order: 'feed', category: 'feed', accountname: uname },
+                        });
                         break;
 
                     case 'blog':
@@ -332,7 +310,7 @@ function* fetchData(action) {
         },
     ];
 
-    if (category.length) {
+    if (category.length && order !== 'feed') {
         const reversed = reverseTag(category);
         if (reversed) {
             args[0].select_tags = [category, reversed];
@@ -363,7 +341,9 @@ function* fetchData(action) {
             arrSelectedTags.push(select_tags.sort().join('/'));
         }
 
-        const filter_tags = selectedTags.filter(type => type === TAGS_FILTER_TYPES.EXCLUDE).keySeq();
+        const filter_tags = selectedTags
+            .filter(type => type === TAGS_FILTER_TYPES.EXCLUDE)
+            .keySeq();
         if (filter_tags && filter_tags.size) {
             let filterTags = [];
 
@@ -407,9 +387,8 @@ function* fetchData(action) {
         call_name = PUBLIC_API.votes;
     } else if (order === 'hot') {
         call_name = PUBLIC_API.hot;
-    } else if (order === 'by_feed') {
-        call_name = 'getDiscussionsByFeedAsync';
-        delete args[0].select_tags;
+    } else if (order === 'feed') {
+        call_name = PUBLIC_API.feed;
         args[0].select_authors = [accountname];
     } else if (order === 'by_author') {
         call_name = 'getDiscussionsByBlogAsync';
