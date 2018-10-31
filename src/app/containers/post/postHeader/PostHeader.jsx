@@ -123,7 +123,7 @@ const AvatarBox = styled.div`
 
 export class PostHeader extends Component {
     static propTypes = {
-        url: PropTypes.string,
+        postUrl: PropTypes.string,
         togglePin: PropTypes.func.isRequired,
         toggleFavorite: PropTypes.func.isRequired,
     };

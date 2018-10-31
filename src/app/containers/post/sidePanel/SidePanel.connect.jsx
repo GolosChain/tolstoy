@@ -20,14 +20,11 @@ export default connect(
             }
 
             return {
+                post,
                 username,
                 backURL,
-                author: author.account,
-                permLink: post.permLink,
-                postLink: `${author.account}/${post.permLink}`,
-                fullUrl: post.url,
+                authorWithPermLink: `${author.account}/${post.permLink}`,
                 isOwner: username === author.account,
-                isFavorite: post.isFavorite,
                 isPinned: author.pinnedPostsUrls.includes(author.account + '/' + post.permLink),
             };
         }

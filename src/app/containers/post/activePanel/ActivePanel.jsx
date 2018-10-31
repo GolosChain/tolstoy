@@ -193,8 +193,6 @@ export class ActivePanel extends Component {
         this.props.openPromoteDialog(`${account}/${permLink}`);
     };
 
-    flagPost = () => {};
-
     openSharePopover = () => {
         this.setState({
             showSharePopover: true,
@@ -227,15 +225,13 @@ export class ActivePanel extends Component {
     render() {
         const { showDotsPopover, showSharePopover } = this.state;
         const {
+            post,
             data,
             username,
-            url,
             isPinned,
             togglePin,
             isOwner,
-            isFavorite,
             toggleFavorite,
-            children,
         } = this.props;
 
         return (
@@ -271,7 +267,7 @@ export class ActivePanel extends Component {
                             onClose={this.closeSharePopover}
                             show={showSharePopover}
                         >
-                            <SharePopover horizontal={true} />
+                            <SharePopover horizontal={true} post={post} />
                         </PopoverStyled>
                     </SharingTriangle>
                 </RepostSharingWrapper>
@@ -296,8 +292,8 @@ export class ActivePanel extends Component {
                     >
                         <Actions>
                             <StyledPostActions
-                                fullUrl={url}
-                                isFavorite={isFavorite}
+                                fullUrl={post.url}
+                                isFavorite={post.isFavorite}
                                 isPinned={isPinned}
                                 isOwner={isOwner}
                                 toggleFavorite={toggleFavorite}
@@ -322,8 +318,8 @@ export class ActivePanel extends Component {
                 </DotsMore>
                 <ReplyBlockStyled
                     withImage={false}
-                    count={children}
-                    link={url}
+                    count={post.children}
+                    link={post.url}
                     text={tt('g.reply')}
                 />
             </Wrapper>

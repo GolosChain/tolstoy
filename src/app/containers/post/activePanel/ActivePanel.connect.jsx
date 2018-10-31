@@ -15,15 +15,13 @@ export default connect(
     createSelector(
         [currentPostSelector, authorSelector, currentUsernameSelector, routePostSelector],
         (post, author, username, data) => ({
+            post,
             data,
             username,
             permLink: post.permLink,
             account: author.account,
             isPinned: author.pinnedPostsUrls.includes(author.account + '/' + post.permLink),
-            children: post.children,
-            url: post.url,
             isOwner: username === author.account,
-            isFavorite: post.isFavorite,
         })
     ),
     {

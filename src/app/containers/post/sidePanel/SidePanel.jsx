@@ -9,7 +9,6 @@ import throttle from 'lodash/throttle';
 
 import Icon from 'src/app/components/golos-ui/Icon';
 
-import { confirmVote } from 'src/app/helpers/votes';
 import SharePopover from 'src/app/components/post/SharePopover';
 import { PopoverStyled } from 'src/app/components/post/PopoverAdditionalStyles';
 import PostActions from 'src/app/components/post/PostActions';
@@ -224,8 +223,8 @@ export class SidePanel extends Component {
     };
 
     repost = () => {
-        const { author, permLink } = this.props;
-        this.props.openRepostDialog(`${author}/${permLink}`);
+        const { authorWithPermLink } = this.props;
+        this.props.openRepostDialog(authorWithPermLink);
     };
 
     onBackClick = () => {
@@ -234,14 +233,13 @@ export class SidePanel extends Component {
 
     render() {
         const {
+            post,
             isPinned,
             togglePin,
             isOwner,
-            isFavorite,
             toggleFavorite,
-            fullUrl,
             backURL,
-            postLink,
+            authorWithPermLink,
         } = this.props;
 
         const {
@@ -258,7 +256,7 @@ export class SidePanel extends Component {
                 showSideBlock={showSideBlockByWidth && showSideBlockByHeight}
             >
                 <PanelWrapper>
-                    <VotePanelStyled contentLink={postLink} sidePanel />
+                    <VotePanelStyled contentLink={authorWithPermLink} sidePanel />
                     {isOwner ? null : (
                         <ActionWrapper
                             onClick={this.repost}
@@ -293,13 +291,13 @@ export class SidePanel extends Component {
                             onClose={this.closeSharePopover}
                             show={showSharePopover}
                         >
-                            <SharePopover />
+                            <SharePopover post={post} />
                         </PopoverStyled>
                     </ShareWrapper>
 
                     <PostActions
-                        fullUrl={fullUrl}
-                        isFavorite={isFavorite}
+                        fullUrl={post.fullUrl}
+                        isFavorite={post.isFavorite}
                         isPinned={isPinned}
                         isOwner={isOwner}
                         toggleFavorite={toggleFavorite}
