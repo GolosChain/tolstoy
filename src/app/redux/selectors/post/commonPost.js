@@ -59,6 +59,7 @@ export const currentPostSelector = createDeepEqualSelector(
         } catch (err) {}
 
         const tags = ((metadata && metadata.tags) || []).filter(tag => tag);
+        const desc = extractRepost(post.get('body'));
 
         return {
             created: post.get('created'),
@@ -78,6 +79,7 @@ export const currentPostSelector = createDeepEqualSelector(
             body: post.get('body'),
             metadata,
             pictures: post.getIn(['stats', 'pictures']),
+            desc,
             author,
             permLink,
             children: post.get('children'),

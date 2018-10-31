@@ -123,7 +123,7 @@ const AvatarBox = styled.div`
 
 export class PostHeader extends Component {
     static propTypes = {
-        url: PropTypes.string,
+        postUrl: PropTypes.string,
         togglePin: PropTypes.func.isRequired,
         toggleFavorite: PropTypes.func.isRequired,
     };
@@ -136,10 +136,6 @@ export class PostHeader extends Component {
 
     onUserInfoClick = e => {
         e.preventDefault();
-
-        if (this.props.isOwner) {
-            return;
-        }
 
         if (Date.now() > this.closePopoverTs + 200) {
             this.setState({

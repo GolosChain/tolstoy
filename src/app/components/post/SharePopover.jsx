@@ -15,6 +15,7 @@ const Wrapper = styled.div`
 `;
 
 const ItemContainer = styled.div`
+    display: flex;
     padding: 18px;
     cursor: pointer;
 
@@ -25,6 +26,7 @@ const ItemContainer = styled.div`
 
 export default class SharePopover extends Component {
     static propTypes = {
+        post: PropTypes.object.isRequired,
         horizontal: PropTypes.bool,
     };
 
@@ -33,7 +35,7 @@ export default class SharePopover extends Component {
     };
 
     render() {
-        const { horizontal } = this.props;
+        const { horizontal, post } = this.props;
         const shareMenu = [
             {
                 link: '#',

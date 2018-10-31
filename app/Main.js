@@ -13,8 +13,8 @@ import * as golos from 'golos-js';
 // };
 
 function runApp(initialState) {
-    const config = initialState.offchain.config
-    golos.config.set('websocket', config.ws_connection_client)
+    const config = initialState.offchain.config;
+    golos.config.set('websocket', config.ws_connection_client);
     golos.config.set('chain_id', config.chain_id);
     window.$STM_Config = config;
     plugins(config);
@@ -28,25 +28,23 @@ function runApp(initialState) {
     }
 
     try {
-        clientRender(initialState)
+        clientRender(initialState);
     } catch (error) {
-        console.error(error)
-        serverApiRecordEvent('client_error', error)
+        console.error(error);
+        serverApiRecordEvent('client_error', error);
     }
 }
 
 if (!window.Intl) {
     require.ensure(
         ['intl/dist/Intl'],
-        (require) => {
-            window.IntlPolyfill = window.Intl = require('intl/dist/Intl')
-            require('intl/locale-data/jsonp/en-US.js')
-            Iso.bootstrap(runApp)
+        require => {
+            window.IntlPolyfill = window.Intl = require('intl/dist/Intl');
+            require('intl/locale-data/jsonp/en-US.js');
+            Iso.bootstrap(runApp);
         },
         'IntlBundle'
-    )
+    );
 } else {
-    Iso.bootstrap(runApp)
+    Iso.bootstrap(runApp);
 }
-
-

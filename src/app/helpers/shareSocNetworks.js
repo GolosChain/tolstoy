@@ -1,3 +1,5 @@
+import { serverApiRecordEvent } from 'app/utils/ServerApiClient';
+
 export const fbShare = (e, post) => {
     e.preventDefault();
     const href = post.url;
