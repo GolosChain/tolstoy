@@ -74,7 +74,7 @@ export default class Follow extends Component {
                     className={className}
                 >
                     <IconStyled width="14" height="10" name="tick" />
-                    <span>{tt('g.unfollow')}</span>
+                    <span>{tt('g.subscriptions')}</span>
                 </Wrapper>
             );
         }
