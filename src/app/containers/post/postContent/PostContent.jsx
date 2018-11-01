@@ -46,7 +46,7 @@ const PostTitle = styled.h1`
 const PostBody = styled.div`
     padding-top: 12px;
 
-    p {
+    p, li {
         color: #373d3f;
         font-family: 'Open Sans', sans-serif;
         font-size: 18px;
