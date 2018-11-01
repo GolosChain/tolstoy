@@ -162,9 +162,7 @@ export class App extends Component {
         return (
             <ThemeProvider theme={defaultTheme}>
                 <div className="App" onMouseMove={this.onEntropyEvent}>
-                    <Helmet>
-                        <title>Golos.io</title>
-                    </Helmet>
+                    <Helmet title="Golos.io" />
                     <Header />
                     <div className="App__content">
                         {this.renderCallout()}

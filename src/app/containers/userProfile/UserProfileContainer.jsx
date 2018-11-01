@@ -174,9 +174,7 @@ class UserProfileContainer extends Component {
 
         return (
             <Fragment>
-                <Helmet>
-                    <title>{tt('meta.title.profile.default', { name: pageAccountName })}</title>
-                </Helmet>
+                <Helmet title={tt('meta.title.profile.default', { name: pageAccountName })} />
                 {this._render()}
             </Fragment>
         );

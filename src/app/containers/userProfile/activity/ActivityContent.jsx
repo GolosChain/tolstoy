@@ -116,9 +116,7 @@ export default class ActivityContent extends PureComponent {
 
         return (
             <Fragment>
-                <Helmet>
-                    <title>{tt('meta.title.profile.activity', { name: pageAccountName })}</title>
-                </Helmet>
+                <Helmet title={tt('meta.title.profile.activity', { name: pageAccountName })} />
                 <Card auto innerRef={this.setRootRef}>
                     <Tabs activeTab={{ id: currentTabId }} onChange={this.handleChangeTab}>
                         <CardContent column auto>

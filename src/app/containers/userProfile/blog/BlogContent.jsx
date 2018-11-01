@@ -20,11 +20,7 @@ class BlogContent extends Component {
 
         return (
             <Fragment>
-                <Helmet>
-                    <title>
-                        {tt('meta.title.profile.blog', { name: pageAccount.get('name') })}
-                    </title>
-                </Helmet>
+                <Helmet title={tt('meta.title.profile.blog', { name: pageAccount.get('name') })} />
                 {this._render()}
             </Fragment>
         );
