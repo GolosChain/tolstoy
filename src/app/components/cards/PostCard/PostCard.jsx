@@ -21,6 +21,10 @@ const Header = styled.div`
     flex-shrink: 0;
 `;
 
+const HeaderRepost = styled(Header)`
+    padding: 0 0 10px;
+`;
+
 const HeaderLine = styled.div`
     display: flex;
     position: relative;
@@ -107,6 +111,7 @@ const Body = styled.div`
 `;
 
 const RepostBody = styled(Body)`
+    margin-bottom: 10px;
     border-bottom: 1px solid #e1e1e1;
 `;
 
@@ -235,7 +240,11 @@ export default class PostCard extends PureComponent {
                 <HeaderLine>
                     <CardAuthor author={author} created={created} />
                     <Filler />
-                    {grid ? null : <Category to={'/trending/' + data.get('category')} category={1}>{category}</Category>}
+                    {grid ? null : (
+                        <Category to={'/trending/' + data.get('category')} category={1}>
+                            {category}
+                        </Category>
+                    )}
                     <Toolbar>
                         {this.renderEditButton()}
                         {this.renderPinButton()}
@@ -245,7 +254,9 @@ export default class PostCard extends PureComponent {
                 </HeaderLine>
                 {grid ? (
                     <HeaderLineGrid>
-                        <Category to={'/trending/' + data.get('category')} category={1}>{category}</Category>
+                        <Category to={'/trending/' + data.get('category')} category={1}>
+                            {category}
+                        </Category>
                         <Filler />
                     </HeaderLineGrid>
                 ) : null}
@@ -361,7 +372,7 @@ export default class PostCard extends PureComponent {
                         <PostContent dangerouslySetInnerHTML={repostHtml} />
                     </RepostBody>
                 ) : null}
-                <Header>
+                <HeaderRepost>
                     <HeaderLine>
                         <CardAuthor
                             author={data.get('author')}
@@ -370,7 +381,7 @@ export default class PostCard extends PureComponent {
                         />
                         <Filler />
                     </HeaderLine>
-                </Header>
+                </HeaderRepost>
             </RepostBlock>
         );
     }
