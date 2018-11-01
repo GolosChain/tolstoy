@@ -211,6 +211,13 @@
     "success": "Продвижение прошло успешно",
     "title": "Продвинуть пост"
   },
+  "dialogs_repost": {
+    "ok": "Поделиться",
+    "placeholder": "Напишите свой комменатрий",
+    "success": "Репост успешно добавлен",
+    "title": "Поделиться этим постом",
+    "too_long": "Тело репоста не может превышать %(count)s символов."
+  },
   "dialogs_transfer": {
     "amount": "Сколько",
     "amount_placeholder": "Доступно %(amount)s",
@@ -1078,12 +1085,6 @@
     "update_post": "Обновить пост",
     "uploading": "Загрузка",
     "use_limited_amount_of_tags": "У вас %(tagsLength)s тэгов, включая %(includingCategory)s. Пожалуйста, используйте не более 5 в посте и категории."
-  },
-  "repost_dialog": {
-    "ok": "Поделиться",
-    "placeholder": "Напишите свой комменатрий",
-    "success": "Репост успешно добавлен",
-    "title": "Поделиться этим постом"
   },
   "savingswithdrawhistory_jsx": {
     "cancel_this_withdraw_request": "Отменить запрос вывода средств?",
