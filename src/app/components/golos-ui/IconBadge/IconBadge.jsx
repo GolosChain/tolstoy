@@ -14,7 +14,7 @@ const Wrapper = styled.div`
 const Badge = styled.div`
     position: absolute;
     top: -7px;
-    right: -9px;
+    left: 9px;
 
     display: flex;
     align-items: center;
@@ -34,16 +34,7 @@ const Badge = styled.div`
     text-align: center;
 
     ${is('gtTen')`
-        right: -12px;
         border-radius: 8px;
-    `};
-
-    ${is('gtHundred')`
-        right: -18px;
-    `};
-
-    ${is('gtThousand')`
-        right: -24px;
     `};
 `;
 
@@ -59,14 +50,13 @@ export default class IconBadge extends Component {
     render() {
         const { count, ...props } = this.props;
         const gtTen = count > 9;
-        const gtHundred = count > 99;
         const gtThousand = count > 999;
-        
+
         return (
             <Wrapper>
                 <Icon {...props} />
                 {Boolean(count) && (
-                    <Badge gtTen={gtTen} gtHundred={gtHundred} gtThousand={gtThousand}>
+                    <Badge gtTen={gtTen}>
                         {gtThousand ? '999+' : count}
                     </Badge>
                 )}
