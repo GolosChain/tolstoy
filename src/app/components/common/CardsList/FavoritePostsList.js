@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import PostsList from './PostsList';
 import { favoritesLoadNextPageAction } from 'src/app/redux/actions/favorites';
 import { dataSelector, uiSelector } from 'src/app/redux/selectors/common';
+import CardsList from './CardsList';
 
 export default connect(
     createSelector([dataSelector('favorites'), uiSelector('profile')], (favorites, profileUI) => {
@@ -15,12 +15,10 @@ export default connect(
             isFavorite: true,
             layout,
             isLoading: isLoading || isPageLoading,
-            posts: showList,
+            items: showList,
         };
     }),
-    dispatch => ({
-        loadMore() {
-            dispatch(favoritesLoadNextPageAction());
-        },
-    })
-)(PostsList);
+    {
+        loadMore: favoritesLoadNextPageAction,
+    }
+)(CardsList);

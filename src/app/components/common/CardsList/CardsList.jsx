@@ -12,7 +12,6 @@ import { getScrollElement } from 'src/app/helpers/window';
 import { isFetchingOrRecentlyUpdated } from 'app/utils/StateFunctions';
 
 import PostCard from 'src/app/components/cards/PostCard';
-import CommentCard from 'src/app/components/cards/CommentCard';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 
 const FORCE_GRID_WIDTH = 650;
@@ -56,16 +55,18 @@ const EntryWrapper = styled.div`
         saveListScrollPosition,
     }
 )
-export default class PostsList extends PureComponent {
+export default class CardsList extends PureComponent {
     static propTypes = {
         // external
         pageAccountName: PropTypes.string,
         order: PropTypes.string,
         category: PropTypes.string,
-        posts: PropTypes.instanceOf(List),
+        items: PropTypes.instanceOf(List),
         layout: PropTypes.oneOf(['list', 'grid']),
+        itemComponent: PropTypes.func,
         allowInlineReply: PropTypes.bool,
         showPinButton: PropTypes.bool,
+        disallowGrid: PropTypes.bool,
 
         // connect
         location: PropTypes.object,
@@ -73,7 +74,7 @@ export default class PostsList extends PureComponent {
     };
 
     static defaultProps = {
-        posts: List(),
+        items: List(),
         layout: 'list',
         allowInlineReply: false,
         showPinButton: false,
@@ -141,7 +142,7 @@ export default class PostsList extends PureComponent {
     }, 100);
 
     loadMore = () => {
-        const { isFavorite } = this.props;
+        const { isFavorite, items } = this.props;
 
         if (isFavorite) {
             const { isLoading } = this.props;
@@ -156,7 +157,7 @@ export default class PostsList extends PureComponent {
                 return;
             }
 
-            const lastPost = this.props.posts.last();
+            const lastPost = items.last();
             const postLink = typeof lastPost === 'string' ? lastPost : lastPost.get('postLink');
 
             const [author, permlink] = postLink.split('/');
@@ -200,24 +201,17 @@ export default class PostsList extends PureComponent {
     renderCard = data => {
         const {
             pageAccountName,
-            category,
-            order,
-            isFavorite,
             layout,
             allowInlineReply,
             showPinButton,
+            disallowGrid,
+            itemComponent,
         } = this.props;
 
         const { forceGrid } = this.state;
 
-        // TODO: make isPosts external prop which we need to pass to this component
-        const isPosts =
-            ['blog', 'feed'].includes(category) ||
-            (category === '' && ['created', 'hot', 'trending', 'promoted'].includes(order)) ||
-            isFavorite;
-
-        const isGrid = isPosts && (layout === 'grid' || forceGrid);
-        const EntryComponent = isPosts ? PostCard : CommentCard;
+        const ItemComp = itemComponent || PostCard;
+        const isGrid = !disallowGrid && (layout === 'grid' || forceGrid);
 
         let permLink;
         let additionalData = null;
@@ -231,7 +225,7 @@ export default class PostsList extends PureComponent {
 
         return (
             <EntryWrapper key={permLink} grid={isGrid}>
-                <EntryComponent
+                <ItemComp
                     permLink={permLink}
                     additionalData={additionalData}
                     grid={isGrid}
@@ -245,16 +239,14 @@ export default class PostsList extends PureComponent {
     };
 
     render() {
-        const { category, isFavorite, posts, layout } = this.props;
-
+        const { items, layout, disallowGrid } = this.props;
         const { forceGrid } = this.state;
 
-        const isPosts = category === 'blog' || isFavorite;
-        const isGrid = isPosts && (layout === 'grid' || forceGrid);
+        const isGrid = !disallowGrid && (layout === 'grid' || forceGrid);
 
         return (
             <Root innerRef={this.rootRef} grid={isGrid}>
-                {posts.map(this.renderCard)}
+                {items.map(this.renderCard)}
                 {this.renderLoaderIfNeed()}
             </Root>
         );
