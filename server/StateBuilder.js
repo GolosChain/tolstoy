@@ -179,13 +179,13 @@ async function getStateForWitnesses(state, route, { api }) {
     }
 }
 
-async function getStateForApi(state, { params } = {}, { routeParts, api, settings }) {
+async function getStateForApi(state, { params }, { routeParts, api, settings }) {
     const args = { limit: 20, truncate_body: 1024 };
 
     let discussionsType, tag;
 
     // Home page
-    if (params.category && params.username) {
+    if (params && params.category && params.username) {
         const { category, username } = params;
         const [account] = await api.getAccountsAsync([username]);
         if (!account) {
