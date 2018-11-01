@@ -57,7 +57,7 @@ class RepliesContent extends Component {
         return (
             <BlogCardsList
                 pageAccountName={pageAccount.get('name')}
-                ItemComponent={CommentCard}
+                itemComponent={CommentCard}
                 disallowGrid
                 category="recent_replies"
                 allowInlineReply={isOwner}

@@ -63,7 +63,7 @@ export default class CardsList extends PureComponent {
         category: PropTypes.string,
         items: PropTypes.instanceOf(List),
         layout: PropTypes.oneOf(['list', 'grid']),
-        ItemComponent: PropTypes.func,
+        itemComponent: PropTypes.func,
         allowInlineReply: PropTypes.bool,
         showPinButton: PropTypes.bool,
         disallowGrid: PropTypes.bool,
@@ -205,12 +205,12 @@ export default class CardsList extends PureComponent {
             allowInlineReply,
             showPinButton,
             disallowGrid,
-            ItemComponent,
+            itemComponent,
         } = this.props;
 
         const { forceGrid } = this.state;
 
-        const ItemComp = ItemComponent || PostCard;
+        const ItemComp = itemComponent || PostCard;
         const isGrid = !disallowGrid && (layout === 'grid' || forceGrid);
 
         let permLink;

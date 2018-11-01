@@ -60,7 +60,7 @@ class CommentsContent extends Component {
             <BlogCardsList
                 pageAccountName={pageUserName}
                 category="comments"
-                ItemComponent={CommentCard}
+                itemComponent={CommentCard}
                 disallowGrid
                 allowInlineReply={!isOwner}
                 //order="by_author"
