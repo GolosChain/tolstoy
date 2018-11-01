@@ -181,7 +181,7 @@ export default class Online extends PureComponent {
                 },
             },
             {
-                field: /notify.show.(.*)/,
+                field: /notify\.show\.(.*)/,
                 updates: (value, name, values) => {
                     values.switchAll = Object.values(values.notify.show).every(
                         value => value === true
