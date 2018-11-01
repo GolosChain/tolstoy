@@ -13,7 +13,7 @@ import { TabContainer, Tabs } from 'golos-ui/Tabs';
 
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import ActivityList from 'src/app/components/common/ActivityList';
-import { CardContent } from 'src/app/components/golos-ui/Card/Card';
+import Flex from 'golos-ui/Flex';
 
 const WrapperLoader = styled.div`
     display: flex;
@@ -21,6 +21,8 @@ const WrapperLoader = styled.div`
     height: 80px;
     padding-top: 20px;
 `;
+
+const CardContent = styled(Flex)``;
 
 export default class ActivityContent extends PureComponent {
     static propTypes = {
