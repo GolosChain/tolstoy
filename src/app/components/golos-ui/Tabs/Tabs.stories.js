@@ -6,11 +6,9 @@ import Tabs from './Tabs';
 import Card, { CardContent } from 'golos-ui/Card';
 
 const Tab1 = () => {
-    console.log(1);
     return <div>This is tab 1</div>;
 };
 const Tab2 = () => {
-    console.log(2);
     return <div>This is tab 2</div>;
 };
 

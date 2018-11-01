@@ -6,8 +6,7 @@ import {
     createDeepEqualSelector,
     globalSelector,
     appSelector,
-    userSelector,
-    offchainSelector,
+    currentUsernameSelector,
     dataSelector,
     uiSelector,
 } from 'src/app/redux/selectors/common';
@@ -16,11 +15,6 @@ import { TAGS_FILTER_TYPES } from 'src/app/redux/constants/common';
 import HomeContent from './HomeContent';
 
 const DEFAULT_LAYOUT = 'list';
-
-const currentUsernameSelector = createDeepEqualSelector(
-    [userSelector(['current', 'username']), offchainSelector('account')],
-    (currentUsername, currentUsernameOffchain) => currentUsername || currentUsernameOffchain
-);
 
 export default connect(
     createDeepEqualSelector(
@@ -50,29 +44,28 @@ export default connect(
             let posts = null;
 
             if (category === 'feed') {
-                const pageAccountName = order.slice(1);
-                posts = accounts.getIn([pageAccountName, 'feed']);
-                order = 'by_feed';
-            } else {
-                const selectedTags = settings.getIn(['basic', 'selectedTags'], Map());
-                const selectedSelectTags = selectedTags
-                    .filter(tag => tag === TAGS_FILTER_TYPES.SELECT)
-                    .keySeq()
-                    .sort()
-                    .join('/');
-                const selectedFilterTags = selectedTags
-                    .filter(tag => tag === TAGS_FILTER_TYPES.EXCLUDE)
-                    .keySeq()
-                    .sort()
-                    .join('/');
-
-                let joinedTags = selectedSelectTags;
-                if (selectedFilterTags) {
-                    joinedTags = joinedTags.concat('|', selectedFilterTags);
-                }
-
-                posts = discussions.getIn([category || joinedTags, order]);
+                category = '';
+                order = 'feed';
             }
+
+            const selectedTags = settings.getIn(['basic', 'selectedTags'], Map());
+            const selectedSelectTags = selectedTags
+                .filter(tag => tag === TAGS_FILTER_TYPES.SELECT)
+                .keySeq()
+                .sort()
+                .join('/');
+            const selectedFilterTags = selectedTags
+                .filter(tag => tag === TAGS_FILTER_TYPES.EXCLUDE)
+                .keySeq()
+                .sort()
+                .join('/');
+
+            let joinedTags = selectedSelectTags;
+            if (selectedFilterTags) {
+                joinedTags += `|${selectedFilterTags}`;
+            }
+
+            posts = discussions.getIn([category || joinedTags, order]);
 
             const status = globalStatus && globalStatus.getIn([category, order], null);
             const isFetching = (status && status.fetching) || loading || fetching || false;
