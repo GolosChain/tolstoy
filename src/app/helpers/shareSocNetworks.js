@@ -25,10 +25,7 @@ export const twitterShare = (e, post) => {
     const winTop = screen.height / 2 - winWidth / 2;
     const winLeft = screen.width / 2 - winHeight / 2;
 
-    const hashtags = [];
-    for (let tag of post.tags) {
-        hashtags.push(tag.tag);
-    }
+    const hashtags = post.tags.map(({ tag }) => tag);
 
     const linkParams = {
         url: location.href,
@@ -36,11 +33,9 @@ export const twitterShare = (e, post) => {
         hashtags: hashtags.join(','),
     };
 
-    let shareUrl = '';
-    for (let param in linkParams) {
-        let ampersand = shareUrl ? '&' : '';
-        shareUrl += ampersand + param + '=' + encodeURIComponent(linkParams[param]);
-    }
+    const shareUrl = Object.keys(linkParams)
+        .map(param => param + '=' + encodeURIComponent(linkParams[param]))
+        .join('&');
 
     window.open(
         'http://twitter.com/share?' + shareUrl,
