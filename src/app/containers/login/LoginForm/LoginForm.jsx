@@ -3,10 +3,12 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import tt from 'counterpart';
 
+import DialogManager from 'app/components/elements/common/DialogManager';
 import { translateError } from 'app/utils/ParsersAndFormatters';
 import Button from 'golos-ui/Button';
 import Icon from 'golos-ui/Icon';
 import { Checkbox } from 'golos-ui/Form';
+import PictureSvg from '../../../../../app/assets/icons/editor-toolbar/picture.svg';
 
 const Wrapper = styled.div`
     max-width: 90vw;
@@ -46,12 +48,13 @@ const CloseButton = styled.div`
 
 const Title = styled.h1`
     width: 100%;
+    padding: 4px 12px;
     margin-bottom: 20px;
     text-align: center;
     color: #393636;
     font-size: 24px;
     font-weight: 900;
-    line-height: 41px;
+    line-height: 32px;
 `;
 
 const Form = styled.form`
@@ -97,7 +100,7 @@ const Input = styled.input`
 const LoginInput = styled(Input)`
     flex: 1;
     border: none;
-    border-radius: 0 6px 6px 0;
+    border-radius: 0 5px 5px 0;
     background: transparent;
 `;
 
@@ -140,20 +143,42 @@ const LoginButton = styled(Button)`
     margin-bottom: 0;
 `;
 
+const SuitableKeys = styled.div`
+    margin: 22px 0 12px;
+    line-height: 20px;
+    color: #333;
+`;
+
+const SuitableKeysText = styled.div`
+    font-size: 15px;
+    margin-bottom: 4px;
+`;
+
+const Ul = styled.ul`
+    margin: 0 0 0 20px;
+`;
+
+const Li = styled.li`
+    font-size: 15px;
+`;
+
 export class LoginForm extends Component {
     static propTypes = {
+        username: PropTypes.string,
+        isConfirm: PropTypes.bool,
         loginError: PropTypes.string,
         loginCanceled: PropTypes.func.isRequired,
         onClose: PropTypes.func,
     };
 
     state = {
+        username: this.props.isConfirm && this.props.username ? this.props.username : '',
         consent: true,
         saveCredentials: process.env.BROWSER ? localStorage.getItem('saveLogin') !== 'no' : true,
         submitting: false,
+        activeConfirmed: false,
     };
 
-    username = React.createRef();
     password = React.createRef();
 
     confirmClose = () => {
@@ -176,10 +201,28 @@ export class LoginForm extends Component {
         this.clearError();
     };
 
-    submit = () => {
+    submit = async () => {
+        const { isConfirm } = this.props;
+        const { username, activeConfirmed } = this.state;
+        const password = this.password.current.value;
+
+        if (!isConfirm && password.startsWith('5') && !activeConfirmed) {
+            const result = await DialogManager.confirm(tt('loginform_jsx.active_key_warning'), {
+                width: 460,
+            });
+
+            if (!result) {
+                return;
+            }
+
+            this.setState({
+                activeConfirmed: true,
+            });
+        }
+
         const data = {
-            username: this.username.current.value.trim().toLowerCase(),
-            password: this.password.current.value,
+            username: username.trim().toLowerCase(),
+            password,
             saveLogin: this.state.saveCredentials,
         };
 
@@ -209,12 +252,22 @@ export class LoginForm extends Component {
         this.props.onClose();
     };
 
+    onLoginChange = e => {
+        this.setState({
+            username: e.target.value,
+        });
+
+        this.clearError();
+    };
+
     render() {
-        const { onClose, loginError, className } = this.props;
-        const { consent, saveCredentials, submitting } = this.state;
+        const { onClose, loginError, isConfirm, className } = this.props;
+        const { username, consent, saveCredentials, submitting } = this.state;
 
         let loginErr = null;
         let passwordErr = null;
+
+        const lockUsername = isConfirm && username;
 
         if (loginError) {
             if (loginError === 'Incorrect Password') {
@@ -232,21 +285,32 @@ export class LoginForm extends Component {
                     </CloseButton>
                 ) : null}
                 <Form onSubmit={this.onFormSubmit}>
-                    <Title>{tt('g.login')}</Title>
+                    <Title>{isConfirm ? tt('loginform_jsx.authorize_for') : tt('g.login')}</Title>
                     <LoginBlock>
                         <LoginLabel>@</LoginLabel>
                         <LoginInput
-                            innerRef={this.username}
                             placeholder={tt('loginform_jsx.enter_your_username')}
                             autoCapitalize="no"
                             autoCorrect="off"
+                            autoComplete="off"
                             spellCheck="false"
-                            disabled={submitting}
+                            disabled={submitting || lockUsername}
                             required
-                            onChange={this.clearError}
+                            value={username}
+                            onChange={this.onLoginChange}
                         />
                     </LoginBlock>
-                    <ErrorBlock>{loginErr}</ErrorBlock>
+                    {isConfirm ? (
+                        <SuitableKeys>
+                            <SuitableKeysText>{tt('loginform_jsx.suitable_keys')}</SuitableKeysText>
+                            <Ul>
+                                <Li>{tt('loginform_jsx.private_own_key')}</Li>
+                                <Li>{tt('loginform_jsx.private_active_key')}</Li>
+                            </Ul>
+                        </SuitableKeys>
+                    ) : (
+                        <ErrorBlock>{loginErr}</ErrorBlock>
+                    )}
                     <PasswordInput
                         type="password"
                         innerRef={this.password}
@@ -266,11 +330,15 @@ export class LoginForm extends Component {
                         }
                         <ConsentCheckbox tabIndex="0" onClick={this.changeSaveCredentials}>
                             <Checkbox value={saveCredentials} />
-                            <CheckboxLabel>{tt('loginform_jsx.keep_me_logged_in')}</CheckboxLabel>
+                            <CheckboxLabel>
+                                {isConfirm
+                                    ? tt('loginform_jsx.save_password_on_session')
+                                    : tt('loginform_jsx.keep_me_logged_in')}
+                            </CheckboxLabel>
                         </ConsentCheckbox>
                     </BlockCheckboxes>
                     <LoginButton disabled={submitting || !consent} onClick={this.submit}>
-                        {tt('g.login')}
+                        {isConfirm ? tt('g.authorize') : tt('g.login')}
                     </LoginButton>
                 </Form>
             </Wrapper>
