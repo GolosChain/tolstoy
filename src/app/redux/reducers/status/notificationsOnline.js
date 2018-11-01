@@ -6,11 +6,11 @@ import {
     NOTIFICATION_ONLINE_GET_HISTORY,
     NOTIFICATION_ONLINE_GET_HISTORY_SUCCESS,
     NOTIFICATION_ONLINE_GET_HISTORY_ERROR,
-
     NOTIFICATION_ONLINE_GET_HISTORY_FRESH,
     NOTIFICATION_ONLINE_GET_HISTORY_FRESH_SUCCESS,
     NOTIFICATION_ONLINE_GET_HISTORY_FRESH_ERROR,
 } from 'src/app/redux/constants/notificationsOnline';
+import { NOTIFICATION_GET_HISTORY_SUCCESS } from 'src/app/redux/constants/notifications';
 
 const initialState = fromJS({
     freshCount: 0, // count on new notifications
@@ -28,6 +28,7 @@ export default function(state = initialState, { type, payload, error }) {
             return state.set('isFetching', true).set('error', null);
 
         case NOTIFICATION_ONLINE_GET_HISTORY_SUCCESS:
+        case NOTIFICATION_ONLINE_GET_HISTORY_FRESH_SUCCESS:
             return state
                 .set('freshCount', payload.freshByTypes.summary)
                 .set('isFetching', false)
@@ -36,11 +37,8 @@ export default function(state = initialState, { type, payload, error }) {
         case NOTIFICATION_ONLINE_GET_HISTORY_ERROR:
             return state.set('isFetching', false).set('error', error);
 
-        case NOTIFICATION_ONLINE_GET_HISTORY_FRESH_SUCCESS:
-            return state
-                .set('freshCount', payload.freshByTypes.summary)
-                .set('isFetching', false)
-                .set('error', null);
+        case NOTIFICATION_GET_HISTORY_SUCCESS:
+            return state.set('freshCount', payload.freshByTypes.summary);
 
         default:
             return state;
