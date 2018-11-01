@@ -6,7 +6,7 @@ export const fbShare = (e, post) => {
     window.FB.ui(
         {
             method: 'share',
-            href: location.href,
+            href: location.href.replace(/#.*$/, ''),
         },
         response => {
             if (response && !response.error_message) {
@@ -27,7 +27,7 @@ export const twitterShare = (e, post) => {
     const hashtags = post.tags.map(({ tag }) => tag);
 
     const linkParams = {
-        url: location.href,
+        url: location.href.replace(/#.*$/, ''),
         text: post.title,
         hashtags: hashtags.join(','),
     };
@@ -52,7 +52,7 @@ export const vkShare = (e, post) => {
     const winLeft = screen.width / 2 - winHeight / 2;
 
     window.open(
-        'https://vk.com/share.php?url=' + location.href,
+        'https://vk.com/share.php?url=' + location.href.replace(/#.*$/, ''),
         post.title,
         `top=${winTop},left=${winLeft},toolbar=0,status=0,width=${winWidth},height=${winHeight}`
     );
