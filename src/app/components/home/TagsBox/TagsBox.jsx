@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Map } from 'immutable';
 import tt from 'counterpart';
 
+import Icon from 'golos-ui/Icon';
 import SlideContainer from 'src/app/components/common/SlideContainer';
 import TagSelect from 'src/app/components/common/TagSelect';
 
@@ -19,8 +20,11 @@ const Wrapper = styled.div`
 
 const Title = styled.div`
     position: relative;
+    display: flex;
+    justify-content: space-between;
+
     line-height: 1;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 500;
     letter-spacing: 0.7px;
     color: #333333;
@@ -43,34 +47,42 @@ const Tags = styled.div`
     }
 `;
 
+const IconCross = styled(Icon).attrs({
+    name: 'cross_thin',
+    size: 14,
+})`
+    cursor: pointer;
+`;
+
 export default class TagsBox extends Component {
     static propTypes = {
         // connect
         category: PropTypes.string,
         order: PropTypes.string,
         currentUsername: PropTypes.string,
-        selectedTags: PropTypes.instanceOf(Map),
         selectedFilterTags: PropTypes.array,
-        setSettingsOptions: PropTypes.func,
+        deleteTag: PropTypes.func,
+        clearTags: PropTypes.func,
         loadMore: PropTypes.func,
     };
 
-    onTagClick = tag => {
-        const {
-            category,
-            order,
-            currentUsername,
-            selectedTags,
-            setSettingsOptions,
-            loadMore,
-        } = this.props;
-
-        setSettingsOptions({
-            basic: {
-                selectedTags: selectedTags.delete(tag),
-            },
-        });
+    loadMore = () => {
+        const { category, order, currentUsername, loadMore } = this.props;
         loadMore({ category, order, accountname: currentUsername });
+    };
+
+    handleTagClick = tag => {
+        const { deleteTag } = this.props;
+
+        deleteTag(tag);
+        this.loadMore();
+    };
+
+    handleClearClick = () => {
+        const { clearTags } = this.props;
+
+        clearTags();
+        this.loadMore();
     };
 
     render() {
@@ -82,7 +94,9 @@ export default class TagsBox extends Component {
 
         return (
             <Wrapper>
-                <Title>{tt('tags.selectedTags')}</Title>
+                <Title>
+                    {tt('tags.selectedTags')} <IconCross onClick={this.handleClearClick} />
+                </Title>
 
                 <SlideContainer>
                     <Tags>
@@ -92,7 +106,7 @@ export default class TagsBox extends Component {
                                 tag={tag}
                                 isSelected
                                 onlyRemove
-                                onTagClick={this.onTagClick}
+                                onTagClick={this.handleTagClick}
                             />
                         ))}
                         {selectedFilterTags.map((tag, key) => (
@@ -101,7 +115,7 @@ export default class TagsBox extends Component {
                                 tag={tag}
                                 isFiltered
                                 onlyRemove
-                                onTagClick={this.onTagClick}
+                                onTagClick={this.handleTagClick}
                             />
                         ))}
                     </Tags>

@@ -40,3 +40,18 @@ export function clearTags() {
         },
     });
 }
+
+export function deleteTag(tag) {
+    return (dispatch, getState) => {
+        const settings = dataSelector('settings')(getState());
+        const selectedTags = settings.getIn(['basic', 'selectedTags'], emptyMap);
+
+        dispatch(
+            setSettingsOptions({
+                basic: {
+                    selectedTags: selectedTags.delete(tag),
+                },
+            })
+        );
+    };
+}
