@@ -8,7 +8,7 @@ import {
     currentUsernameSelector,
     routeParamSelector,
 } from 'src/app/redux/selectors/common';
-import { setSettingsOptions } from 'src/app/redux/actions/settings';
+import { deleteTag, clearTags } from 'src/app/redux/actions/tags';
 import { TAGS_FILTER_TYPES } from 'src/app/redux/constants/common';
 
 import TagsBox from './TagsBox';
@@ -32,7 +32,6 @@ export default connect(
                 category,
                 order,
                 currentUsername,
-                selectedTags,
                 selectedSelectTags: selectedTags
                     .filter(tag => tag === TAGS_FILTER_TYPES.SELECT)
                     .keySeq()
@@ -46,6 +45,7 @@ export default connect(
     ),
     {
         loadMore: payload => ({ type: 'REQUEST_DATA', payload }),
-        setSettingsOptions,
+        deleteTag,
+        clearTags,
     }
 )(TagsBox);

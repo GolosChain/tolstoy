@@ -65,7 +65,7 @@ const TagSelectStyled = styled(TagSelect)`
 const Title = styled.div`
     position: relative;
     line-height: 1;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 500;
     letter-spacing: 0.7px;
     color: #333333;
