@@ -144,7 +144,7 @@ function* fetchState(action) {
 
                     case 'feed':
                         yield call(fetchData, {
-                            payload: { order: 'feed', category: 'feed', accountname: uname },
+                            payload: { order: 'feed', category: '', accountname: uname },
                         });
                         break;
 
