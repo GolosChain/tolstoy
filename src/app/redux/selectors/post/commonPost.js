@@ -43,8 +43,8 @@ export const routePostSelector = createDeepEqualSelector(
 );
 
 export const currentPostSelector = createDeepEqualSelector(
-    [routePostSelector, dataSelector('favorites'), currentUsernameSelector],
-    (post, favorites, username) => {
+    [routePostSelector, dataSelector('favorites')],
+    (post, favorites) => {
         if (!post) {
             return null;
         }
