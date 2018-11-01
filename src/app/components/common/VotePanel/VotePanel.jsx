@@ -498,8 +498,6 @@ function makeTooltip(accounts, isMore) {
 }
 
 function isNeedShowSlider() {
-    return true;
-
     const state = getStoreState();
 
     const current = state.user.get('current');
