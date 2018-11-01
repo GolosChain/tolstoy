@@ -209,6 +209,13 @@
     "success": "Promoted successfully",
     "title": "Promote post"
   },
+  "dialogs_repost": {
+    "ok": "Repost",
+    "placeholder": "Write your comment",
+    "success": "Repost published",
+    "title": "Repost this post",
+    "too_long": "Repost body can't exceed %(count)s symbols."
+  },
   "dialogs_transfer": {
     "amount": "Amount",
     "amount_placeholder": "Available %(amount)s",
@@ -1073,12 +1080,6 @@
     "update_post": "Update Post",
     "uploading": "Uploading",
     "use_limited_amount_of_tags": "You have %(tagsLength)s tags total %(includingCategory)s.  Please use only 5 in your post and category line."
-  },
-  "repost_dialog": {
-    "ok": "Repost",
-    "placeholder": "Write your comment",
-    "success": "Repost published",
-    "title": "Repost this post"
   },
   "savingswithdrawhistory_jsx": {
     "cancel_this_withdraw_request": "Cancel this withdraw request?",

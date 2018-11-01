@@ -9,6 +9,7 @@ import { PostTitle, PostContent } from 'src/app/components/cards/common';
 import CardAuthor from 'src/app/components/cards/CardAuthor';
 import DialogButton from 'src/app/components/common/DialogButton';
 
+const MAX_CHARS = 600;
 const PADDING = 24;
 
 const Root = styled.div`
@@ -97,6 +98,12 @@ const Footer = styled.div`
     overflow: hidden;
 `;
 
+const ErrorBlock = styled.div`
+    margin-top: 8px;
+    font-size: 15px;
+    color: #fd1b1b;
+`;
+
 export default class RepostDialog extends Component {
     static propTypes = {
         myAccountName: PropTypes.string.isRequired,
@@ -108,6 +115,7 @@ export default class RepostDialog extends Component {
 
     state = {
         text: '',
+        error: null,
     };
 
     onClose = () => {
@@ -119,8 +127,16 @@ export default class RepostDialog extends Component {
     };
 
     onTextChange = e => {
+        const text = e.currentTarget.innerText;
+        let error = null;
+
+        if (text.length > MAX_CHARS) {
+            error = tt('dialogs_repost.too_long', { count: MAX_CHARS });
+        }
+
         this.setState({
-            text: e.currentTarget.innerText,
+            text,
+            error,
         });
     };
 
@@ -147,7 +163,7 @@ export default class RepostDialog extends Component {
     };
 
     onSuccess = () => {
-        this.props.showNotification(tt('repost_dialog.success'));
+        this.props.showNotification(tt('dialogs_repost.success'));
         this.props.onClose();
     };
 
@@ -157,15 +173,15 @@ export default class RepostDialog extends Component {
 
     render() {
         const { sanitizedPost } = this.props;
-        const { text } = this.state;
+        const { text, error } = this.state;
 
         return (
             <Root>
                 <CloseIcon name="cross_thin" onClick={this.onClose} />
-                <Header>{tt('repost_dialog.title')}</Header>
+                <Header>{tt('dialogs_repost.title')}</Header>
                 <InputWrapper>
                     {text && text !== '\n' ? null : (
-                        <Placeholder>{tt('repost_dialog.placeholder')}</Placeholder>
+                        <Placeholder>{tt('dialogs_repost.placeholder')}</Placeholder>
                     )}
                     <Input
                         tabIndex="0"
@@ -177,6 +193,7 @@ export default class RepostDialog extends Component {
                         autoFocus
                         onInput={this.onTextChange}
                     />
+                    {error ? <ErrorBlock>{error}</ErrorBlock> : null}
                 </InputWrapper>
                 <PostPreview>
                     <CardAuthorStyled
@@ -189,7 +206,12 @@ export default class RepostDialog extends Component {
                 </PostPreview>
                 <Footer>
                     <DialogButton text={tt('g.cancel')} onClick={this.onCancelClick} />
-                    <DialogButton text={tt('repost_dialog.ok')} primary onClick={this.onOkClick} />
+                    <DialogButton
+                        text={tt('dialogs_repost.ok')}
+                        primary
+                        disabled={Boolean(error)}
+                        onClick={this.onOkClick}
+                    />
                 </Footer>
             </Root>
         );
