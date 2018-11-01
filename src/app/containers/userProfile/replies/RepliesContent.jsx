@@ -20,11 +20,9 @@ class RepliesContent extends Component {
 
         return (
             <Fragment>
-                <Helmet>
-                    <title>
-                        {tt('meta.title.profile.replies', { name: pageAccount.get('name') })}
-                    </title>
-                </Helmet>
+                <Helmet
+                    title={tt('meta.title.profile.replies', { name: pageAccount.get('name') })}
+                />
                 {this._render()}
             </Fragment>
         );

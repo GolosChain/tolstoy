@@ -118,8 +118,7 @@ export class PostContent extends Component {
         const { title, relapioToken } = this.props;
 
         return (
-            <Helmet>
-                <title>{tt('meta.title.common.post', { title })}</title>
+            <Helmet title={tt('meta.title.common.post', { title })}>
                 <script
                     type="text/javascript"
                     async
@@ -130,16 +129,7 @@ export class PostContent extends Component {
     }
 
     renderPreview() {
-        const {
-            tags,
-            payout,
-            category,
-            title,
-            body,
-            pictures,
-            created,
-            isPromoted,
-        } = this.props;
+        const { tags, payout, category, title, body, pictures, created, isPromoted } = this.props;
 
         return (
             <Preview>

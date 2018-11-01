@@ -194,11 +194,7 @@ export default class SettingsContent extends PureComponent {
 
         return (
             <Fragment>
-                <Helmet>
-                    <title>
-                        {tt('meta.title.profile.settings', { name: account.get('name') })}
-                    </title>
-                </Helmet>
+                <Helmet title={tt('meta.title.profile.settings', { name: account.get('name') })} />
                 <SettingsShow
                     profile={profile}
                     account={account}

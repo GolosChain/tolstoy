@@ -11,24 +11,16 @@ import LookupAccounts from 'src/messenger/containers/LookupAccounts';
 
 @authProtection()
 export default class MessengerApp extends Component {
-
     componentDidMount() {
-        const {
-            authorizedAccountName,
-            initMessenger
-        } = this.props;
-        
+        const { authorizedAccountName, initMessenger } = this.props;
+
         initMessenger(authorizedAccountName);
     }
 
     render() {
         return (
             <Messenger>
-                <Helmet>
-                    <title>
-                        {tt('meta.title.profile.messenger')}
-                    </title>
-                </Helmet>
+                <Helmet title={tt('meta.title.profile.messenger')} />
                 <ChatListPanel>
                     <LookupAccounts />
                     <ChatListContainer />

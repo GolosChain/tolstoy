@@ -117,9 +117,7 @@ export default class WalletContent extends Component {
 
         return (
             <Card auto>
-                <Helmet>
-                    <title>{tt('meta.title.profile.wallet', { name: pageAccountName })}</title>
-                </Helmet>
+                <Helmet title={tt('meta.title.profile.wallet', { name: pageAccountName })} />
                 <WalletTabs
                     mainTab={mainTab}
                     currency={currency}
