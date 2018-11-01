@@ -43,35 +43,6 @@ const LabelIcon = styled(StyledLabelRow)`
     `};
 `;
 
-let isSwitchAllInit = false;
-
-const calculateSwitchAll = createDecorator(
-    {
-        field: 'switchAll',
-        updates: (value, name, values) => {
-            if (isSwitchAllInit) {
-                const newShow = {};
-                for (let key in values.notify.show) {
-                    newShow[key] = value;
-                }
-
-                values.notify.show = newShow;
-            } else {
-                isSwitchAllInit = true;
-            }
-
-            return values;
-        },
-    },
-    {
-        field: /notify.show.(.*)/,
-        updates: (value, name, values) => {
-            values.switchAll = Object.values(values.notify.show).every(value => value === true);
-            return values;
-        },
-    }
-);
-
 export default class Online extends PureComponent {
     static propTypes = {
         options: PropTypes.object,
@@ -188,6 +159,37 @@ export default class Online extends PureComponent {
     render() {
         const { isChanging } = this.props;
         const { data } = this.state;
+
+        let isSwitchAllInit = false;
+
+        const calculateSwitchAll = createDecorator(
+            {
+                field: 'switchAll',
+                updates: (value, name, values) => {
+                    if (isSwitchAllInit) {
+                        const newShow = {};
+                        for (let key in values.notify.show) {
+                            newShow[key] = value;
+                        }
+
+                        values.notify.show = newShow;
+                    } else {
+                        isSwitchAllInit = true;
+                    }
+
+                    return values;
+                },
+            },
+            {
+                field: /notify.show.(.*)/,
+                updates: (value, name, values) => {
+                    values.switchAll = Object.values(values.notify.show).every(
+                        value => value === true
+                    );
+                    return values;
+                },
+            }
+        );
 
         return (
             <Form
