@@ -54,17 +54,17 @@ const Title = styled.h1`
     line-height: 41px;
 `;
 
-const ErrorMessage = styled.div`
-    margin: -24px auto 10px;
-    color: #ff0000;
-    font-size: 12px;
-    text-align: center;
-`;
-
 const Form = styled.form`
     display: flex;
     align-items: flex-start;
     flex-direction: column;
+`;
+
+const ErrorBlock = styled.div`
+    min-height: 30px;
+    padding: 6px 0;
+    font-size: 12px;
+    color: #fc5d16;
 `;
 
 const LoginBlock = styled.div`
@@ -72,7 +72,6 @@ const LoginBlock = styled.div`
     justify-content: space-between;
     width: 100%;
     height: 30px;
-    margin-bottom: 30px;
     border-radius: 6px;
     border: solid 1px #e1e1e1;
 `;
@@ -87,8 +86,7 @@ const LoginLabel = styled.div`
 `;
 
 const Input = styled.input`
-    padding-left: 14px;
-    padding-right: 14px;
+    padding: 0 12px;
     font-size: 14px;
     color: #393636;
     outline: none;
@@ -114,7 +112,7 @@ const BlockCheckboxes = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin: 20px 0;
+    margin-bottom: 20px;
 `;
 
 const ConsentCheckbox = styled.label`
@@ -144,6 +142,7 @@ const LoginButton = styled(Button)`
 
 export class LoginForm extends Component {
     static propTypes = {
+        loginError: PropTypes.string,
         loginCanceled: PropTypes.func.isRequired,
         onClose: PropTypes.func,
     };
@@ -177,14 +176,26 @@ export class LoginForm extends Component {
         this.clearError();
     };
 
-    submit = e => {
-        e.preventDefault();
+    submit = () => {
         const data = {
             username: this.username.current.value.trim().toLowerCase(),
             password: this.password.current.value,
             saveLogin: this.state.saveCredentials,
         };
+
         this.props.dispatchSubmit(data, this.props.loginBroadcastOperation);
+    };
+
+    onFormSubmit = e => {
+        e.preventDefault();
+
+        const { consent, submitting } = this.state;
+
+        if (submitting || !consent) {
+            return;
+        }
+
+        this.submit();
     };
 
     clearError = () => {
@@ -202,7 +213,16 @@ export class LoginForm extends Component {
         const { onClose, loginError, className } = this.props;
         const { consent, saveCredentials, submitting } = this.state;
 
-        const translatedError = translateError(loginError);
+        let loginErr = null;
+        let passwordErr = null;
+
+        if (loginError) {
+            if (loginError === 'Incorrect Password') {
+                passwordErr = tt('g.incorrect_password');
+            } else {
+                loginErr = translateError(loginError);
+            }
+        }
 
         return (
             <Wrapper className={className}>
@@ -211,19 +231,22 @@ export class LoginForm extends Component {
                         <Icon name="cross_thin" width={16} height={16} />
                     </CloseButton>
                 ) : null}
-                <Form>
+                <Form onSubmit={this.onFormSubmit}>
                     <Title>{tt('g.login')}</Title>
-                    {loginError ? <ErrorMessage>{translatedError}</ErrorMessage> : null}
                     <LoginBlock>
                         <LoginLabel>@</LoginLabel>
                         <LoginInput
                             innerRef={this.username}
                             placeholder={tt('loginform_jsx.enter_your_username')}
+                            autoCapitalize="no"
+                            autoCorrect="off"
+                            spellCheck="false"
                             disabled={submitting}
                             required
                             onChange={this.clearError}
                         />
                     </LoginBlock>
+                    <ErrorBlock>{loginErr}</ErrorBlock>
                     <PasswordInput
                         type="password"
                         innerRef={this.password}
@@ -232,6 +255,7 @@ export class LoginForm extends Component {
                         required
                         onChange={this.clearError}
                     />
+                    <ErrorBlock>{passwordErr}</ErrorBlock>
                     <BlockCheckboxes>
                         {
                             // commented for a while
