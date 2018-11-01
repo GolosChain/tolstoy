@@ -43,16 +43,22 @@ const LabelIcon = styled(StyledLabelRow)`
     `};
 `;
 
+let isSwitchAllInit = false;
+
 const calculateSwitchAll = createDecorator(
     {
         field: 'switchAll',
         updates: (value, name, values) => {
-            const newShow = {};
-            for (let key in values.notify.show) {
-                newShow[key] = value;
-            }
+            if (isSwitchAllInit) {
+                const newShow = {};
+                for (let key in values.notify.show) {
+                    newShow[key] = value;
+                }
 
-            values.notify.show = newShow;
+                values.notify.show = newShow;
+            } else {
+                isSwitchAllInit = true;
+            }
 
             return values;
         },
