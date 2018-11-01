@@ -15,6 +15,8 @@ export default connect(
     })),
     {
         updateFollow,
-        confirmUnfollowDialog,
+        // confirmUnfollowDialog wrapped because of recursive import problem,
+        // while this file executes confirmUnfollowDialog is undefined
+        confirmUnfollowDialog: (...args) => confirmUnfollowDialog(...args),
     }
 )(Follow);
