@@ -11,6 +11,10 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     margin-bottom: 10px;
+
+    @media (max-width: 500px) {
+        display: none;
+    }
 `;
 
 const Title = styled.div`
