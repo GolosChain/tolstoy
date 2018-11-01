@@ -25,17 +25,28 @@ export const twitterShare = (e, post) => {
     const winTop = screen.height / 2 - winWidth / 2;
     const winLeft = screen.width / 2 - winHeight / 2;
 
-    const q = 'text=' + encodeURIComponent(post.title) + '&url=' + encodeURIComponent(post.url);
+    const hashtags = post.tags.map(({ tag }) => tag);
+
+    const linkParams = {
+        url: location.href,
+        text: post.title,
+        hashtags: hashtags.join(','),
+    };
+
+    const shareUrl = Object.keys(linkParams)
+        .map(param => param + '=' + encodeURIComponent(linkParams[param]))
+        .join('&');
 
     window.open(
-        'http://twitter.com/share?' + q,
-        'Share',
+        'http://twitter.com/share?' + shareUrl,
+        post.title,
         `top=${winTop},left=${winLeft},toolbar=0,status=0,width=${winWidth},height=${winHeight}`
     );
 };
 
 export const vkShare = (e, post) => {
     e.preventDefault();
+
     const winWidth = 720;
     const winHeight = 480;
     const winTop = screen.height / 2 - winWidth / 2;
