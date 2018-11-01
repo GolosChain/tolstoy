@@ -11,6 +11,7 @@ import Icon from 'golos-ui/Icon';
 import user from 'app/redux/User';
 import transaction from 'app/redux/Transaction';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
+import { confirmUnfollowDialog } from 'src/app/redux/actions/dialogs';
 
 const ButtonStyled = styled(Button)`
     margin-right: 8px;
@@ -49,7 +50,10 @@ class Follow extends Component {
     };
 
     follow = () => this.handleUpdateFollow('blog');
-    unfollow = () => this.handleUpdateFollow(null);
+    unfollow = () => {
+        const { following, confirmUnfollowDialog } = this.props;
+        confirmUnfollowDialog(following);
+    };
     ignore = () => this.handleUpdateFollow('ignore');
     unignore = () => this.handleUpdateFollow(null);
 
@@ -101,7 +105,7 @@ class Follow extends Component {
                 ) : (
                     <ButtonStyled disabled={busy} light onClick={this.unfollow}>
                         <IconStyled name="tick" height="10" width="14" />
-                        {tt('g.unfollow')}
+                        {tt('g.subscriptions')}
                     </ButtonStyled>
                 )}
 
@@ -173,6 +177,9 @@ export default connect(
         showLogin: e => {
             if (e) e.preventDefault();
             dispatch(user.actions.showLogin());
+        },
+        confirmUnfollowDialog: following => {
+            dispatch(confirmUnfollowDialog(following));
         },
     })
 )(Follow);
