@@ -15,6 +15,10 @@ import TagSelect from 'src/app/components/common/TagSelect';
 
 const Wrapper = styled.div`
     margin-bottom: 20px;
+
+    @media (max-width: 500px) {
+        display: none;
+    }
 `;
 
 // const SearchTagsWrapper = styled.div`
