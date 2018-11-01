@@ -42,8 +42,8 @@ export const vkShare = (e, post) => {
     const winLeft = screen.width / 2 - winHeight / 2;
 
     window.open(
-        'https://vk.com/share.php?url=' + post.url,
-        post,
+        'https://vk.com/share.php?url=' + location.href,
+        post.title,
         `top=${winTop},left=${winLeft},toolbar=0,status=0,width=${winWidth},height=${winHeight}`
     );
 };
