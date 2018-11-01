@@ -63,7 +63,7 @@ export const ljShare = (e, post) => {
     e.preventDefault();
 
     const title = post.title;
-    const link = `<div><a href=${location.href}>${title}</a></div>`;
+    const link = `<div><a href="${location.href}">${title}</a></div>`;
 
     window.open(`http://www.livejournal.com/update.bml?subject=${title}&event=${post.desc + link}`);
 };
