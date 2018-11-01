@@ -8,6 +8,7 @@ import { Map } from 'immutable';
 
 import { detransliterate } from 'app/utils/ParsersAndFormatters';
 import Icon from 'golos-ui/Icon';
+import { TagLink } from 'golos-ui/Tag';
 import { PostTitle, PostContent } from '../common';
 import VotePanel from '../../common/VotePanel';
 import ReplyBlock from '../../common/ReplyBlock';
@@ -37,19 +38,8 @@ const HeaderLineGrid = styled(HeaderLine)`
     padding: 4px 18px;
 `;
 
-const Category = styled.div`
-    height: 28px;
-    padding: 0 12px;
+const Category = styled(TagLink)`
     margin-right: 14px;
-    border-radius: 6px;
-    line-height: 26px;
-    font-size: 14px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: #fff;
-    background: #2879ff;
-    cursor: default;
 `;
 
 const Toolbar = styled.div`
@@ -245,7 +235,7 @@ export default class PostCard extends PureComponent {
                 <HeaderLine>
                     <CardAuthor author={author} created={created} />
                     <Filler />
-                    {grid ? null : <Category>{category}</Category>}
+                    {grid ? null : <Category to={'/trending/' + data.get('category')} category={1}>{category}</Category>}
                     <Toolbar>
                         {this.renderEditButton()}
                         {this.renderPinButton()}
@@ -255,7 +245,7 @@ export default class PostCard extends PureComponent {
                 </HeaderLine>
                 {grid ? (
                     <HeaderLineGrid>
-                        <Category>{category}</Category>
+                        <Category to={'/trending/' + data.get('category')} category={1}>{category}</Category>
                         <Filler />
                     </HeaderLineGrid>
                 ) : null}
