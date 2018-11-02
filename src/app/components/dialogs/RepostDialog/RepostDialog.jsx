@@ -113,7 +113,7 @@ export default class RepostDialog extends Component {
         showNotification: PropTypes.func.isRequired,
     };
 
-    input = createRef();
+    inputRef = createRef();
 
     state = {
         text: '',
@@ -129,7 +129,7 @@ export default class RepostDialog extends Component {
     };
 
     onTextChange = () => {
-        const text = this.input.current.innerText;
+        const text = this.inputRef.current.innerText;
         let error = null;
 
         if (text.length > MAX_CHARS) {
@@ -207,7 +207,7 @@ export default class RepostDialog extends Component {
                         autoComplete="off"
                         value={text}
                         autoFocus
-                        innerRef={this.input}
+                        innerRef={this.inputRef}
                         onInput={this.onTextChange}
                         onPaste={this.onTextPaste}
                     />
