@@ -263,6 +263,7 @@ export default class VotePanel extends PureComponent {
                         innerRef={this._onLikeRef}
                         onClick={this._onLikeClick}
                         vertical={sidePanel}
+                        role="button"
                         aria-label={tt('aria_label.like')}
                     >
                         <LikeIcon name="like" />
@@ -272,7 +273,7 @@ export default class VotePanel extends PureComponent {
                         {sidePanel ? null : <IconTriangle />}
                     </LikeCount>
                 </LikeBlock>
-                {sidePanel ? null : this._renderPayout()}
+                {sidePanel ? null : this.renderPayout()}
                 <LikeBlockNeg
                     last
                     activeNeg={votesSummary.myVote === 'dislike' || sliderAction === 'dislike'}
@@ -288,6 +289,7 @@ export default class VotePanel extends PureComponent {
                         innerRef={this._onDisLikeRef}
                         onClick={this._onDislikeClick}
                         vertical={sidePanel}
+                        role="button"
                         aria-label={tt('aria_label.dislike')}
                     >
                         <LikeIconNeg name="like" />
@@ -354,7 +356,7 @@ export default class VotePanel extends PureComponent {
         return <PayoutInfo postLink={data.get('author') + '/' + data.get('permlink')} />;
     };
 
-    _renderPayout() {
+    renderPayout() {
         const { data } = this.props;
         const { isMobile } = this.state;
         const postLink = data.get('author') + '/' + data.get('permlink');

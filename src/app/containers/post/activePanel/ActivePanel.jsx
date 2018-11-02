@@ -236,7 +236,7 @@ export class ActivePanel extends Component {
                 <RepostSharingWrapper>
                     {isOwner ? null : (
                         <Fragment>
-                            <Repost data-tooltip={tt('g.reblog')} aria-label={tt('g.reblog')}>
+                            <Repost role="button" data-tooltip={tt('g.reblog')} aria-label={tt('g.reblog')}>
                                 <Icon width="30" height="27" name="repost" onClick={this.repost} />
                             </Repost>
                             <Divider />
@@ -244,6 +244,7 @@ export class ActivePanel extends Component {
                     )}
                     <SharingTriangle
                         isOpen={showSharePopover}
+                        role="button"
                         data-tooltip={shareTooltip}
                         aria-label={shareTooltip}
                     >
@@ -266,6 +267,7 @@ export class ActivePanel extends Component {
                 <Divider />
                 <DotsMore
                     isOpen={showDotsPopover}
+                    role="button"
                     data-tooltip={dotsTooltip}
                     aria-label={dotsTooltip}
                 >
@@ -294,6 +296,7 @@ export class ActivePanel extends Component {
                             {username ? (
                                 <Action
                                     onClick={this.promotePost}
+                                    role="button"
                                     aria-label={tt('active_panel_tooltip.promote_post')}
                                 >
                                     <ActionIcon name="brilliant" />

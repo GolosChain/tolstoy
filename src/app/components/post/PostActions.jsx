@@ -62,6 +62,7 @@ const PostActions = ({
                 <ActionEditLink
                     className={className}
                     to={`${fullUrl}/edit`}
+                    role="button"
                     data-tooltip={editTooltip}
                     aria-label={editTooltip}
                 >
@@ -71,6 +72,7 @@ const PostActions = ({
                 <Action
                     className={className}
                     active={isPinned ? 1 : 0}
+                    role="button"
                     data-tooltip={pinTooltip}
                     aria-label={pinTooltip}
                     onClick={togglePin}
@@ -92,6 +94,7 @@ const PostActions = ({
     return (
         <Action
             className={className}
+            role="button"
             data-tooltip={favoriteTooltip}
             aria-label={favoriteTooltip}
             onClick={toggleFavorite}

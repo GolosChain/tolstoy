@@ -203,7 +203,7 @@ export class PopoverBody extends Component {
                             collapseOnMobile={false}
                             onClick={this.closePopover}
                         />
-                        <MuteButton muting={account} onClick={this.closePopover} />
+                        <MuteButton role="button" muting={account} onClick={this.closePopover} />
                     </ButtonsBlock>
                 )}
             </Wrapper>
