@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
@@ -113,6 +113,8 @@ export default class RepostDialog extends Component {
         showNotification: PropTypes.func.isRequired,
     };
 
+    input = createRef();
+
     state = {
         text: '',
         error: null,
@@ -126,8 +128,8 @@ export default class RepostDialog extends Component {
         return !this.state.text.trim();
     };
 
-    onTextChange = e => {
-        const text = e.currentTarget.innerText;
+    onTextChange = () => {
+        const text = this.input.current.innerText;
         let error = null;
 
         if (text.length > MAX_CHARS) {
@@ -141,22 +143,17 @@ export default class RepostDialog extends Component {
     };
 
     onTextPaste = e => {
-        e.preventDefault();
-        e.stopPropagation();
-        const text = e.clipboardData.getData('text/plain');
-        let error = null;
+        try {
+            const text = e.clipboardData.getData('text/plain');
+            document.execCommand('insertHTML', false, text);
 
-        if (text.length > MAX_CHARS) {
-            error = tt('dialogs_repost.too_long', { count: MAX_CHARS });
-            this.setState({ error });
-            return;
+            e.preventDefault();
+            e.stopPropagation();
+        } catch (error) {
+            console.log('not supported in this browser');
         }
 
-        document.execCommand('insertHTML', false, text);
-        this.setState({
-            text,
-            error,
-        });
+        this.onTextChange();
     };
 
     onCancelClick = () => {
@@ -210,6 +207,7 @@ export default class RepostDialog extends Component {
                         autoComplete="off"
                         value={text}
                         autoFocus
+                        innerRef={this.input}
                         onInput={this.onTextChange}
                         onPaste={this.onTextPaste}
                     />
