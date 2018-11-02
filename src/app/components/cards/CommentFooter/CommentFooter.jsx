@@ -14,7 +14,6 @@ const Wrapper = styled.div`
     flex-shrink: 0;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 0 0 0;
     z-index: 1;
     pointer-events: none;
 

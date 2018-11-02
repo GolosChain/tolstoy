@@ -11,22 +11,22 @@
 }
 
 .upload-enabled {
-    border-bottom: 1px dashed #ddd;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
+  border-bottom: 1px dashed #ddd;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
 }
 
 .drag-and-drop {
-    font-size: 85%;
-    padding: 3px 8px;
-    margin: 0;
-    color: #767676;
-    background-color: #fafafa;
-    border-left: 1px solid #ccc;
-    border-right: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-    border-bottom-right-radius: 3;
-    border-bottom-left-radius: 3;
+  font-size: 85%;
+  padding: 3px 8px;
+  margin: 0;
+  color: #767676;
+  background-color: #fafafa;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  border-bottom-right-radius: 3;
+  border-bottom-left-radius: 3;
 }
 
 .ReplyEditor form {
@@ -44,9 +44,9 @@
   position: fixed;
   bottom: 0;
   left: 0;
-  background: rgba(255,255,255,0.9);
+  background: rgba(255, 255, 255, 0.9);
   border-radius: 5px;
-  color: #BBB;
+  color: #bbb;
   font-size: 1.2em;
   text-align: center;
   z-index: 1;
@@ -102,6 +102,10 @@
   }
 }
 
-.RichTextEditor__root___33zoV button {
-  margin-right: 0 !important;
+.RichTextEditor__root___33zoV {
+  font-family: "Roboto", sans-serif;
+
+  button {
+    margin-right: 0 !important;
+  }
 }

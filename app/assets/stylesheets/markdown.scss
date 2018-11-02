@@ -1,14 +1,13 @@
 .Markdown {
-  font-family: "Open Sans", sans-serif;
-  font-size: 1.2em;
-
-  line-height: 150%;
+  font-size: 1rem;
+  line-height: 1.56;
+  color: #333;
 }
 
 // used for comments
 .Markdown.MarkdownViewer--small {
-  font-family: inherit;
-  font-size: 110%;
+  font-size: 0.9375rem;
+  line-height: 1.46;
 
   img {
     max-width: 400px;
@@ -22,7 +21,8 @@
 }
 
 .Markdown {
-  h1, h2 {
+  h1,
+  h2 {
     margin: 2rem 0 1rem;
     font-size: 1.6em;
   }
@@ -71,13 +71,19 @@
   }
 }
 
-.Markdown, .ReplyEditor__body.rte {
+.Markdown,
+.ReplyEditor__body.rte {
   overflow-wrap: break-word;
   word-wrap: break-word;
   word-break: break-word;
   hyphens: auto;
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: $body-font-family;
     font-weight: 600;
   }
@@ -87,7 +93,7 @@
     font-size: 85%;
     border-radius: 3px;
     border: none;
-    background-color: #F4F4F4;
+    background-color: #f4f4f4;
     font-weight: inherit;
   }
 
@@ -96,24 +102,25 @@
   }
 
   p {
+    font-size: 0.9375rem;
     margin: 0.5rem 0 1rem 0;
+  }
+
+  p:last-child {
+    margin: 0.5rem 0 0 0;
   }
 
   strong {
     font-weight: 600;
   }
 
-  ol, ul {
+  ol,
+  ul {
     margin-left: 2rem;
   }
 
   table td {
     word-break: normal; // issue #146
-  }
-
-  p {
-    font-size: 100%;
-    line-height: 150%;
   }
 
   img {
@@ -157,11 +164,13 @@
   }
 
   blockquote > p {
-    color: rgba(0,0,0,.6);
+    color: rgba(0, 0, 0, 0.6);
   }
 }
 
-.Markdown, .ReplyEditor__body.rte, .MarkdownEditor {
+.Markdown,
+.ReplyEditor__body.rte,
+.MarkdownEditor {
   div.videoWrapper {
     width: 100%;
     height: 0;
