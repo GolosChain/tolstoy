@@ -263,6 +263,7 @@ export default class VotePanel extends PureComponent {
                         innerRef={this._onLikeRef}
                         onClick={this._onLikeClick}
                         vertical={sidePanel}
+                        aria-label={tt('aria_label.like')}
                     >
                         <LikeIcon name="like" />
                     </LikeWrapper>
@@ -287,6 +288,7 @@ export default class VotePanel extends PureComponent {
                         innerRef={this._onDisLikeRef}
                         onClick={this._onDislikeClick}
                         vertical={sidePanel}
+                        aria-label={tt('aria_label.dislike')}
                     >
                         <LikeIconNeg name="like" />
                     </LikeWrapper>
@@ -359,7 +361,7 @@ export default class VotePanel extends PureComponent {
 
         if (isMobile) {
             return (
-                <Money onClick={this._onPayoutClick}>
+                <Money onClick={this._onPayoutClick} aria-label={tt('aria_label.expected_payout')}>
                     <PostPayoutStyled postLink={postLink} />
                 </Money>
             );

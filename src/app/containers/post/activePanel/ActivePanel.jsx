@@ -224,15 +224,10 @@ export class ActivePanel extends Component {
 
     render() {
         const { showDotsPopover, showSharePopover } = this.state;
-        const {
-            post,
-            data,
-            username,
-            isPinned,
-            togglePin,
-            isOwner,
-            toggleFavorite,
-        } = this.props;
+        const { post, data, username, isPinned, togglePin, isOwner, toggleFavorite } = this.props;
+
+        const shareTooltip = showSharePopover ? undefined : tt('postfull_jsx.share_in_social_networks');
+        const dotsTooltip = showDotsPopover ? undefined : tt('g.next_3_strings_together.show_more');
 
         return (
             <Wrapper>
@@ -241,7 +236,7 @@ export class ActivePanel extends Component {
                 <RepostSharingWrapper>
                     {isOwner ? null : (
                         <Fragment>
-                            <Repost data-tooltip={tt('g.reblog')}>
+                            <Repost data-tooltip={tt('g.reblog')} aria-label={tt('g.reblog')}>
                                 <Icon width="30" height="27" name="repost" onClick={this.repost} />
                             </Repost>
                             <Divider />
@@ -249,11 +244,8 @@ export class ActivePanel extends Component {
                     )}
                     <SharingTriangle
                         isOpen={showSharePopover}
-                        data-tooltip={
-                            showSharePopover
-                                ? undefined
-                                : tt('postfull_jsx.share_in_social_networks')
-                        }
+                        data-tooltip={shareTooltip}
+                        aria-label={shareTooltip}
                     >
                         <PopoverBackgroundShade show={showSharePopover} />
                         <Icon
@@ -274,9 +266,8 @@ export class ActivePanel extends Component {
                 <Divider />
                 <DotsMore
                     isOpen={showDotsPopover}
-                    data-tooltip={
-                        showDotsPopover ? null : tt('g.next_3_strings_together.show_more')
-                    }
+                    data-tooltip={dotsTooltip}
+                    aria-label={dotsTooltip}
                 >
                     <PopoverBackgroundShade show={showDotsPopover} />
                     <Icon
@@ -301,18 +292,16 @@ export class ActivePanel extends Component {
                                 showText
                             />
                             {username ? (
-                                <Action onClick={this.promotePost}>
+                                <Action
+                                    onClick={this.promotePost}
+                                    aria-label={tt('active_panel_tooltip.promote_post')}
+                                >
                                     <ActionIcon name="brilliant" />
                                     <ActionText>
                                         {tt('active_panel_tooltip.promote_post')}
                                     </ActionText>
                                 </Action>
                             ) : null}
-                            {/*TODO после реализации функционала
-                            <Action onClick={this._flagPost}>
-                                <ActionIcon name="complain_normal" />
-                                <ActionText>{tt('active_panel_tooltip.complain_about_post')}</ActionText>
-                            </Action>*/}
                         </Actions>
                     </PopoverStyled>
                 </DotsMore>

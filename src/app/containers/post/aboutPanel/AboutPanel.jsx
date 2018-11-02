@@ -151,10 +151,10 @@ export class AboutPanel extends Component {
         return (
             <Wrapper>
                 <Avatar>
-                    <Userpic account={account} size={50} />
+                    <Userpic account={account} size={50} aria-label={tt('aria_label.avatar')} />
                     <AuthorInfo>
                         <AuthorName>{name}</AuthorName>
-                        <Account to={`/@${account}`}>@{account}</Account>
+                        <Account to={`/@${account}`} aria-labelledby={tt('aria_label.username')}>@{account}</Account>
                     </AuthorInfo>
                     <Divider />
                 </Avatar>

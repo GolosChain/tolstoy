@@ -46,7 +46,8 @@ const PostTitle = styled.h1`
 const PostBody = styled.div`
     padding-top: 12px;
 
-    p, li {
+    p,
+    li {
         color: #373d3f;
         font-family: 'Open Sans', sans-serif;
         font-size: 18px;
@@ -135,7 +136,11 @@ export class PostContent extends Component {
             <Preview>
                 <Body>
                     <BodyHeaderWrapper>
-                        <TagLink to={'/trending/' + category.origin} category={1}>
+                        <TagLink
+                            to={'/trending/' + category.origin}
+                            category={1}
+                            aria-labelledby={tt('aria_label.category')}
+                        >
                             {category.tag}
                         </TagLink>
                         {isPromoted && (
@@ -161,6 +166,7 @@ export class PostContent extends Component {
                             to={'/trending/' + tag.origin}
                             category={index === 0 ? 1 : 0}
                             key={index}
+                            aria-labelledby={tt('aria_label.tag')}
                         >
                             {tag.tag}
                         </TagLink>

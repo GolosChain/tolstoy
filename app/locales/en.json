@@ -1558,5 +1558,15 @@
       "other": "You have %(count)s votes remaining",
       "zero": "You have no votes remaining"
     }
+  },
+  "aria_label": {
+    "avatar": "User's avatar",
+    "username": "Username",
+    "close_button": "Close",
+    "category": "Category",
+    "tag": "Hashtag",
+    "like": "Vote with like",
+    "dislike": "Vote with dislike",
+    "expected_payout": "Expected payout"
   }
 }
