@@ -53,6 +53,7 @@ const Input = styled.div`
     position: relative;
     display: block;
     width: 100%;
+    min-height: 46px;
     max-height: 200px;
     line-height: 24px;
     padding: 11px 16px 9px;
