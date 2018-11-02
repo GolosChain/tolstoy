@@ -54,25 +54,18 @@ export default class DialogManager extends React.PureComponent {
         });
     }
 
-    static confirm(text, argParams) {
+    static confirm(text, params = {}) {
         return new Promise(resolve => {
-            let title = undefined;
-            let params;
-
-            if (typeof argParams === 'string') {
-                title = argParams;
-            } else if (argParams) {
-                params = argParams;
-
-                if (argParams.title) {
-                    title = argParams.title;
-                }
+            if (typeof params === 'string') {
+                params = {
+                    title: params,
+                };
             }
 
             DialogManager.showDialog({
                 component: CommonDialog,
                 props: {
-                    title,
+                    title: params.title,
                     type: 'confirm',
                     text: text || 'Вы уверены?',
                     params,
