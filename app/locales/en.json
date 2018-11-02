@@ -40,6 +40,16 @@
       "social": "Social"
     }
   },
+  "aria_label": {
+    "avatar": "User's avatar",
+    "category": "Category",
+    "close_button": "Close",
+    "dislike": "Vote with dislike",
+    "expected_payout": "Expected payout",
+    "like": "Vote with like",
+    "tag": "Hashtag",
+    "username": "Username"
+  },
   "auth_protection": {
     "need_auth": "Not allowed, please authorize.",
     "not_allowed": "Not allowed."
@@ -1558,15 +1568,5 @@
       "other": "You have %(count)s votes remaining",
       "zero": "You have no votes remaining"
     }
-  },
-  "aria_label": {
-    "avatar": "User's avatar",
-    "username": "Username",
-    "close_button": "Close",
-    "category": "Category",
-    "tag": "Hashtag",
-    "like": "Vote with like",
-    "dislike": "Vote with dislike",
-    "expected_payout": "Expected payout"
   }
 }
