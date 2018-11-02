@@ -111,11 +111,10 @@ export default class DialogManager extends React.PureComponent {
         });
     }
 
-    static showLogin({ isConfirm, needKeys, onClose } = {}) {
+    static showLogin({ isConfirm, onClose } = {}) {
         return DialogManager.showDialog({
             component: LoginForm,
             props: {
-                needKeys,
                 isConfirm,
             },
             onClose,

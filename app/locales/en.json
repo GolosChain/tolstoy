@@ -687,7 +687,7 @@
     "telegram": "//t.me/golos_eng"
   },
   "loginform_jsx": {
-    "active_key_warning": "You entered active key, if you don’t plan to trade or make transfers, please, log into your account using your private posting key.\n\nContinue with the entered key?",
+    "active_key_error": "Active key can’t be used for sign in. Use posting key or password.",
     "active_or_owner": "Active or Owner",
     "amazing_community": "amazing community",
     "are_well_tested_and_known_to_work_with": "are well tested and known to work with %(APP_DOMAIN)s.",
@@ -705,12 +705,13 @@
     "login_to_vote": "Login to Vote",
     "login_to_your_steem_account": "Login to your Steem Account",
     "password_info": "This password or private key was entered incorrectly. There is probably a handwriting or data-entry error.",
+    "password_or_active": "Password or active key",
     "password_or_wif": "Password or WIF",
     "password_update_succes": "The password for %(accountName)s was successfully updated",
+    "password_warning": "Entered master password. For safety you could use private posting key.\n\nContinue with the password?",
     "posting": "Posting",
     "private_active_key": "private active key",
     "private_own_key": "private owner key",
-    "returning_users": "Returning Users: ",
     "save_password_on_session": "Save password for this session",
     "sign_up_now_to_receive": "Sign up now to receive ",
     "suitable_keys": "For operation confirmation you can use one of keys:",
