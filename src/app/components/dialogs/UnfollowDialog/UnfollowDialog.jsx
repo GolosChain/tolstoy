@@ -19,6 +19,16 @@ const StyledLink = styled(Link)`
     }
 `;
 
+const CenteredDialogFrame = styled(DialogFrame)`
+    &&& {
+        position: fixed;
+        top: 50%;
+        right: 50%;
+        transform: translate(50%, -50%);
+        width: 340px;
+    }
+`;
+
 export class UnfollowDialog extends Component {
     static propTypes = {
         unfollowingUser: PropTypes.string.isRequired,
@@ -28,21 +38,21 @@ export class UnfollowDialog extends Component {
         const { unfollowingUser } = this.props;
 
         return (
-            <DialogFrame
-                className="CommonDialog"
-                title={tt('g.unfollow')}
-                buttons={this.getButtons()}
-                onCloseClick={this.onCloseClick}
-                username={unfollowingUser}
+          <CenteredDialogFrame
+              className="CommonDialog"
+              title={tt('g.unfollow')}
+              buttons={this.getButtons()}
+              onCloseClick={this.onCloseClick}
+              username={unfollowingUser}
             >
-                <div className="CommonDialog__body">
-                    <BodyWrapper>
-                        {tt('g.confirm_unfollow_user')}
+            <div className="CommonDialog__body">
+              <BodyWrapper>
+                {tt('g.confirm_unfollow_user')}
                         &nbsp;
-                        <StyledLink to={`/@${unfollowingUser}`}>@{unfollowingUser}</StyledLink>?
-                    </BodyWrapper>
-                </div>
-            </DialogFrame>
+                <StyledLink to={`/@${unfollowingUser}`}>@{unfollowingUser}</StyledLink>?
+              </BodyWrapper>
+            </div>
+          </CenteredDialogFrame>
         );
     }
 
