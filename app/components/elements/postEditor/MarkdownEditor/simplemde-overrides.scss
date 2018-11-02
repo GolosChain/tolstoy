@@ -22,14 +22,13 @@
   }
 
   & .CodeMirror-lines {
-    font-family: 'Source Serif Pro', serif;
-    font-size: 1.2em;
-    line-height: 1.5em;
+    font-size: 1rem;
+    line-height: 1.56;
   }
 
   &_comment .CodeMirror-lines {
     font-family: 'Roboto', Arial, sans-serif;
-    font-size: 16px;
+    font-size: 1rem;
   }
 
   & .cm-formatting-strikethrough {
