@@ -140,6 +140,25 @@ export default class RepostDialog extends Component {
         });
     };
 
+    onTextPaste = e => {
+        e.preventDefault();
+        e.stopPropagation();
+        const text = e.clipboardData.getData('text/plain');
+        let error = null;
+
+        if (text.length > MAX_CHARS) {
+            error = tt('dialogs_repost.too_long', { count: MAX_CHARS });
+            this.setState({ error });
+            return;
+        }
+
+        document.execCommand('insertHTML', false, text);
+        this.setState({
+            text,
+            error,
+        });
+    };
+
     onCancelClick = () => {
         this.props.onClose();
     };
@@ -192,6 +211,7 @@ export default class RepostDialog extends Component {
                         value={text}
                         autoFocus
                         onInput={this.onTextChange}
+                        onPaste={this.onTextPaste}
                     />
                     {error ? <ErrorBlock>{error}</ErrorBlock> : null}
                 </InputWrapper>
