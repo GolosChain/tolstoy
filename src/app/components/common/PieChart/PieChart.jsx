@@ -1,19 +1,25 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
+import is from 'styled-is';
 
 const Root = styled.div`
-    path {
-        transition: transform 0.15s;
-    }
-
-    path:hover, .pie-chart-big {
-        transform: scale(1.1);
-    }
+    ${is('animated')`
+        path {
+            transition: transform 0.15s;
+        }
+        
+        path:hover, .pie-chart-big {
+            transform: scale(1.1);
+        }
+    `};
 `;
 
 export default class PieChart extends PureComponent {
     render() {
         const { parts } = this.props;
+
+        // Bug: https://github.com/GolosChain/tolstoy/issues/1401
+        const animated = process.env.BROWSER && !/ (?:firefox|edge)\//i.test(navigator.userAgent);
 
         let sum = 0;
 
@@ -34,14 +40,14 @@ export default class PieChart extends PureComponent {
             const part = __parts[0];
 
             return (
-                <Root>
+                <Root animated={animated}>
                     <svg viewBox="-1.1 -1.1 2.2 2.2">
                         <circle
                             cx="0"
                             cy="0"
                             r="1"
                             fill={part.color}
-                            className={part.isBig ? 'pie-chart-big': null}
+                            className={part.isBig ? 'pie-chart-big' : null}
                         />
                     </svg>
                 </Root>
@@ -83,9 +89,11 @@ export default class PieChart extends PureComponent {
         });
 
         return (
-            <Root>
+            <Root animated={animated}>
                 <svg viewBox="-1.1 -1.1 2.2 2.2">
-                    {paths.map((attrs, i) => <path key={i} {...attrs} />)}
+                    {paths.map((attrs, i) => (
+                        <path key={i} {...attrs} />
+                    ))}
                 </svg>
             </Root>
         );
