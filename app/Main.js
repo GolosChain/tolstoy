@@ -33,6 +33,20 @@ function runApp(initialState) {
         console.error(error);
         serverApiRecordEvent('client_error', error);
     }
+
+    if (process.env.BROWSER) {
+        setTimeout(async () => {
+            try {
+                if (navigator.serviceWorker) {
+                    const registrations = await navigator.serviceWorker.getRegistrations();
+
+                    await Promise.all(registrations.map(reg => reg.unregister()));
+                }
+            } catch (err) {
+                console.warn(err);
+            }
+        }, 3000);
+    }
 }
 
 if (!window.Intl) {
