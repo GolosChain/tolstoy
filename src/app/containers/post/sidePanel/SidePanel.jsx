@@ -249,6 +249,10 @@ export class SidePanel extends Component {
             showSideBlockByHeight,
         } = this.state;
 
+        const shareTooltip = showSharePopover
+            ? undefined
+            : tt('postfull_jsx.share_in_social_networks');
+
         return (
             <Wrapper
                 innerRef={this.sideBlockRef}
@@ -261,6 +265,7 @@ export class SidePanel extends Component {
                         <ActionWrapper
                             onClick={this.repost}
                             data-tooltip={tt('g.reblog')}
+                            aria-label={tt('g.reblog')}
                             data-tooltip-html
                         >
                             <IconWrapper>
@@ -271,11 +276,8 @@ export class SidePanel extends Component {
 
                     <ShareWrapper
                         onClick={this.openSharePopover}
-                        data-tooltip={
-                            showSharePopover
-                                ? undefined
-                                : tt('postfull_jsx.share_in_social_networks')
-                        }
+                        data-tooltip={shareTooltip}
+                        aria-label={shareTooltip}
                         data-tooltip-html
                     >
                         <IconWrapper>
@@ -308,6 +310,7 @@ export class SidePanel extends Component {
                     <BackLink
                         to={backURL}
                         data-tooltip={tt('g.turn_back')}
+                        aria-label={tt('g.turn_back')}
                         onClick={this.onBackClick}
                     >
                         <BackIcon name="arrow_left" />
