@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { List, Map } from 'immutable';
 import { FormattedDate } from 'react-intl';
-import tt from 'counterpart';
 
 import ActivityItem from './ActivityItem';
 
@@ -36,6 +35,7 @@ export default class ActivityList extends Component {
         notifications: PropTypes.instanceOf(List),
         accounts: PropTypes.instanceOf(Map),
         isCompact: PropTypes.bool,
+        emptyListPlaceholder: PropTypes.string,
     };
 
     renderDate(notification) {
@@ -60,7 +60,7 @@ export default class ActivityList extends Component {
     }
 
     render() {
-        const { isFetching, isCompact, notifications, accounts } = this.props;
+        const { isFetching, isCompact, notifications, accounts, emptyListPlaceholder } = this.props;
 
         return (
             <Fragment>
@@ -74,7 +74,7 @@ export default class ActivityList extends Component {
                         />
                     </Fragment>
                 ))}
-                {!isFetching && !notifications.size && <Empty>{tt('g.empty')}</Empty>}
+                {!isFetching && !notifications.size && <Empty>{emptyListPlaceholder}</Empty>}
             </Fragment>
         );
     }

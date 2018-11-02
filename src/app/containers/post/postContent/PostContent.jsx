@@ -32,11 +32,11 @@ const Body = styled.div`
 
 const PostTitle = styled.h1`
     margin-top: 20px;
-    color: #333333;
-    font: 34px 'Open Sans', sans-serif;
-    font-weight: bold;
-    letter-spacing: 0.37px;
-    line-height: 41px;
+    color: #343434;
+    font-weight: 500;
+    font-size: 2rem;
+    line-height: 40px;
+    -webkit-font-smoothing: antialiased;
 
     @media (max-width: 576px) {
         font-size: 30px;
@@ -48,15 +48,14 @@ const PostBody = styled.div`
 
     p,
     li {
-        color: #373d3f;
-        font-family: 'Open Sans', sans-serif;
-        font-size: 18px;
-        letter-spacing: -0.29px;
-        line-height: 26px;
+        font-weight: 400;
+        font-size: 1rem;
+        line-height: 1.56;
+        color: #333;
     }
 
     @media (max-width: 576px) {
-        font-size: 16px;
+        font-size: 1rem;
         letter-spacing: -0.26px;
         line-height: 24px;
     }

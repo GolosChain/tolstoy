@@ -34,10 +34,15 @@
   "activity": {
     "tab_title": {
       "all": "All",
+      "all_placeholder": "Start posting and commenting to receive users feedback.",
       "mention": "Mentions",
+      "mention_placeholder": "Get Golos users excited about your blog in order they mention you.",
       "replies": "Replies",
+      "replies_placeholder": "Start posting interesting content to receive comments.",
       "rewards": "Rewards",
-      "social": "Social"
+      "rewards_placeholder": "So far empty",
+      "social": "Social",
+      "social_placeholder": "Follow other authors and post interesting content tp expand your audience."
     }
   },
   "aria_label": {
