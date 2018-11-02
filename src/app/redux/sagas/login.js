@@ -10,6 +10,7 @@ export default function* watch() {
 function* showLoginWorker({ payload } = {}) {
     const dialog = DialogManager.showLogin({
         isConfirm: Boolean(payload.operation),
+        operationType: payload.operation ? payload.operation.type : null,
         onClose: payload.onClose,
     });
 

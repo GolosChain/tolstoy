@@ -10,6 +10,12 @@ import Icon from 'golos-ui/Icon';
 import { Checkbox } from 'golos-ui/Form';
 
 const WIF_LENGTH = 52;
+const OWNER_KEY_OPERATIONS = [
+    'recover_account',
+    'change_recovery_account',
+    'decline_voting_rights',
+    'set_reset_account',
+];
 
 const Wrapper = styled.div`
     max-width: 90vw;
@@ -155,23 +161,11 @@ const SuitableKeys = styled.div`
     color: #333;
 `;
 
-const SuitableKeysText = styled.div`
-    font-size: 15px;
-    margin-bottom: 4px;
-`;
-
-const Ul = styled.ul`
-    margin: 0 0 0 20px;
-`;
-
-const Li = styled.li`
-    font-size: 15px;
-`;
-
 export class LoginForm extends Component {
     static propTypes = {
         username: PropTypes.string,
         isConfirm: PropTypes.bool,
+        operationType: PropTypes.string,
         loginError: PropTypes.string,
         loginCanceled: PropTypes.func.isRequired,
         onClose: PropTypes.func,
@@ -187,7 +181,7 @@ export class LoginForm extends Component {
     };
 
     getUsernameFromProps() {
-        const { isConfirm, username } = this.props;
+        const { isConfirm, username, operationType } = this.props;
 
         if (!username) {
             return '';
@@ -195,8 +189,14 @@ export class LoginForm extends Component {
 
         let stateUsername = username;
 
-        if (isConfirm && username && !username.endsWith('/active')) {
-            stateUsername += '/active';
+        if (isConfirm && username && !username.includes('/')) {
+            let needKeyType = 'active';
+
+            if (operationType && OWNER_KEY_OPERATIONS.includes(operationType)) {
+                needKeyType = 'owner';
+            }
+
+            stateUsername += `/${needKeyType}`;
         }
 
         return stateUsername;
@@ -246,7 +246,11 @@ export class LoginForm extends Component {
         }
 
         const data = {
-            username: username.trim().toLowerCase(),
+            // nickname/active => nickname
+            username: username
+                .trim()
+                .toLowerCase()
+                .replace(/\/.+$/, ''),
             password,
             saveLogin: this.state.saveCredentials,
         };
@@ -294,7 +298,7 @@ export class LoginForm extends Component {
     };
 
     render() {
-        const { onClose, loginError, isConfirm, className } = this.props;
+        const { onClose, loginError, isConfirm, operationType, className } = this.props;
         const { username, password, consent, saveCredentials, submitting } = this.state;
 
         let loginErr = null;
@@ -309,6 +313,16 @@ export class LoginForm extends Component {
                 passwordErr = tt('loginform_jsx.active_key_error');
             } else {
                 loginErr = translateError(loginError);
+            }
+        }
+
+        let needKeyType = null;
+
+        if (isConfirm) {
+            needKeyType = 'active';
+
+            if (operationType && OWNER_KEY_OPERATIONS.includes(operationType)) {
+                needKeyType = 'owner';
             }
         }
 
@@ -339,8 +353,10 @@ export class LoginForm extends Component {
                         type="password"
                         placeholder={
                             isConfirm
-                                ? tt('loginform_jsx.password_or_active')
-                                : tt('loginform_jsx.password_or_wif')
+                                ? needKeyType === 'owner'
+                                    ? tt('loginform_jsx.password_or_owner')
+                                    : tt('loginform_jsx.password_or_active')
+                                : tt('loginform_jsx.password_or_posting')
                         }
                         required
                         disabled={submitting}
