@@ -104,6 +104,14 @@ export default class DialogManager extends React.PureComponent {
         });
     }
 
+    static closeAll() {
+        if (instance) {
+            instance.closeAll();
+        } else {
+            queue = [];
+        }
+    }
+
     constructor(props) {
         super(props);
 
@@ -234,6 +242,13 @@ export default class DialogManager extends React.PureComponent {
     };
 
     _onRootClick = e => {
+        const link = e.target.closest('a[href]');
+
+        if (link && link.getAttribute('target') !== '_blank') {
+            this.closeAll();
+            return;
+        }
+
         if (e.target === this._root) {
             this._tryToClose();
         }
@@ -260,5 +275,22 @@ export default class DialogManager extends React.PureComponent {
         }
 
         this._closeDialog(last(this._dialogs));
+    }
+
+    closeAll() {
+        for (let i = this._dialogs.length - 1; i >= 0; i--) {
+            const dialog = this._dialogs[i];
+
+            if (dialog.options.onClose) {
+                try {
+                    dialog.options.onClose(null);
+                } catch (err) {
+                    console.error(err);
+                }
+            }
+        }
+
+        this._dialogs = [];
+        this.forceUpdate();
     }
 }
