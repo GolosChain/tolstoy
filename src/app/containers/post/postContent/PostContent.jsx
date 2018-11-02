@@ -49,7 +49,7 @@ const PostBody = styled.div`
     p,
     li {
         font-weight: 400;
-        font-size: 1rem;
+        font-size: 1.1rem;
         line-height: 1.56;
         color: #333;
     }
