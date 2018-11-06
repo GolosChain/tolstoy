@@ -85,7 +85,8 @@
     "have_only_letters_digits_or_dashes": "have only letters, digits, or dashes.",
     "have_only_one_dash_in_a_row": "have only one dash in a row.",
     "not_be_empty": "not be empty.",
-    "start_with_a_letter": "start with a letter."
+    "start_with_a_letter": "start with a letter.",
+    "use_caution_sending_to_this_account": "Use caution sending to this account. Please double check your spelling for possible phishing."
   },
   "comment_editor": {
     "cancel_comment": "Comment text will be erased. Are you sure?"

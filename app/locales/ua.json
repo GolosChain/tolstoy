@@ -85,7 +85,8 @@
     "have_only_letters_digits_or_dashes": "складатися тільки з букв, цифр та тире.",
     "have_only_one_dash_in_a_row": "мати тільки одне тире.",
     "not_be_empty": "не може бути порожнім.",
-    "start_with_a_letter": "починатися з літери."
+    "start_with_a_letter": "починатися з літери.",
+    "use_caution_sending_to_this_account": "Будьте обережні, переказуючи кошти на цей обліковий запис. Будь ласка, двічі перевірте правопис на наявність фішинг аккаунта."
   },
   "comment_editor": {
     "cancel_comment": "Текст буде втрачено. Ви впевнені?"
