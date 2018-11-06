@@ -19,8 +19,8 @@ import { DEBT_TICKER } from 'app/client_config';
 import {
     processTagsFromData,
     processTagsToSend,
-    updateFavoriteTags,
     validateTags,
+    updateFavoriteTags,
 } from 'app/utils/tags';
 import { DRAFT_KEY, EDIT_KEY } from 'app/utils/postForm';
 import './PostForm.scss';
