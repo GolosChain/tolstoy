@@ -84,7 +84,7 @@ export default function ReplyBlock({ grid, count, link, text, className, showTex
             <ReplyCounterBlock
                 to={`${link}#comments`}
                 data-tooltip={tt('reply.comments_count')}
-                aria-hidden={tt('reply.comments_count')}
+                aria-label={tt('reply.comments_count')}
             >
                 <ReplyIcon name="reply" />
                 <ReplyCount>{count}</ReplyCount>

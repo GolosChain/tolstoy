@@ -185,7 +185,7 @@ export class PostHeader extends Component {
                         <UserpicStyled account={author} size={50} />
                     </Avatar>
                     <InfoBlock>
-                        <AuthorName aria-labelledby={tt('aria_label.username')}>
+                        <AuthorName aria-labelled={tt('aria_label.username')}>
                             {author}
                         </AuthorName>
                         <TimeAgoWrapper date={created} />

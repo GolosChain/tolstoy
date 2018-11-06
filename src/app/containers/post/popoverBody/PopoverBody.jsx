@@ -174,7 +174,7 @@ export class PopoverBody extends Component {
                     <AuthorTitle>
                         <AuthorInfoBlock to={linkToAccount}>
                             <AuthorName>{name}</AuthorName>
-                            <AuthorAccount aria-labelledby={tt('aria_label.username')}>@{account}</AuthorAccount>
+                            <AuthorAccount aria-labelled={tt('aria_label.username')}>@{account}</AuthorAccount>
                         </AuthorInfoBlock>
                         <AvatarLink to={linkToAccount} aria-label={tt('aria_label.avatar')}>
                             <Userpic size={50} account={account} />
