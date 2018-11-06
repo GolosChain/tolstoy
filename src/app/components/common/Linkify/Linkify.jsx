@@ -7,10 +7,10 @@ const Wrapper = styled.span`
     & a {
         color: #333333;
         text-decoration: underline;
-    }
 
-    & a:hover {
-        color: #2879ff;
+        &:hover {
+            color: #2879ff;
+        }
     }
 `;
 
