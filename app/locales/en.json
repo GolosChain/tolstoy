@@ -376,6 +376,8 @@
     "total_paid": "Total paid"
   },
   "g": {
+    "grid_posts": "Grid",
+    "list_posts": "List",
     "24_hour": "24 hour",
     "30_day": "30 day",
     "APP_NAME": "Golos",
