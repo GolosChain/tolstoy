@@ -21,10 +21,9 @@ const Wrapper = styled.div`
 `;
 
 const Comment = styled(CommentCard)`
+    margin: 0 0 0 ${({ innerDeep }) => innerDeep * 20}px;
     border-radius: 0;
     box-shadow: none;
-
-    margin-left: ${({ innerDeep }) => innerDeep * 20}px;
 `;
 
 const ToggleButton = styled(CloseOpenButton)`

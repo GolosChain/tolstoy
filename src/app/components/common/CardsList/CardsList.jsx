@@ -34,7 +34,7 @@ export default class CardsList extends PureComponent {
         category: PropTypes.string,
         items: PropTypes.instanceOf(List),
         layout: PropTypes.oneOf(['list', 'grid']),
-        itemComponent: PropTypes.func,
+        itemRender: PropTypes.func,
         allowInlineReply: PropTypes.bool,
         showPinButton: PropTypes.bool,
         disallowGrid: PropTypes.bool,
@@ -189,6 +189,10 @@ export default class CardsList extends PureComponent {
         return ignoreResult && ignoreResult.has(author);
     };
 
+    itemRender(props) {
+        return <PostCard {...props} />;
+    }
+
     renderCard = data => {
         const {
             pageAccountName,
@@ -196,12 +200,12 @@ export default class CardsList extends PureComponent {
             allowInlineReply,
             showPinButton,
             disallowGrid,
-            itemComponent,
+            itemRender,
         } = this.props;
 
         const { forceGrid } = this.state;
 
-        const ItemComp = itemComponent || PostCard;
+        const itemRenderFunc = itemRender || this.itemRender;
         const isGrid = !disallowGrid && (layout === 'grid' || forceGrid);
 
         let permLink;
@@ -218,18 +222,16 @@ export default class CardsList extends PureComponent {
             return null;
         }
 
-        return (
-            <ItemComp
-                key={permLink}
-                permLink={permLink}
-                additionalData={additionalData}
-                grid={isGrid}
-                allowInlineReply={allowInlineReply}
-                pageAccountName={pageAccountName}
-                showPinButton={showPinButton}
-                onClick={this.onEntryClick}
-            />
-        );
+        return itemRenderFunc({
+            key: permLink,
+            permLink,
+            additionalData,
+            grid: isGrid,
+            allowInlineReply,
+            pageAccountName,
+            showPinButton,
+            onClick: this.onEntryClick,
+        });
     };
 
     render() {

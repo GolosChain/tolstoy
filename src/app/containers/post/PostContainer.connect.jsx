@@ -16,6 +16,7 @@ export default connect(
             if (!post) {
                 return {};
             }
+
             return {
                 newVisitor: newVisitor,
                 author: author.account,
@@ -24,6 +25,7 @@ export default connect(
                 permLink: post.permLink,
                 isFavorite: post.isFavorite,
                 isOwner: username === author.account,
+                stats: post.stats,
             };
         }
     ),

@@ -10,6 +10,7 @@ import { detransliterate } from 'app/utils/ParsersAndFormatters';
 import CommentFormLoader from 'app/components/modules/CommentForm/loader';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 
+import Button from 'golos-ui/Button';
 import { TagLink } from 'golos-ui/Tag';
 import { EntryWrapper } from '../common';
 import CloseOpenButton from '../CloseOpenButton';
@@ -41,6 +42,10 @@ const HeaderLine = styled.div`
 
     padding: 0 18px;
     pointer-events: none;
+
+    ${is('alertmode')`
+        justify-content: unset;
+    `};
 
     & > * {
         pointer-events: initial;
@@ -92,18 +97,41 @@ const CommentBodyWrapper = styled.div`
 `;
 
 const Root = styled(EntryWrapper)`
+    position: relative;
     display: flex;
     flex-direction: column;
-    position: relative;
-    border-radius: 8px;
 
     min-height: 50px;
 
-    background: #ffffff;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
+    ${is('renderCard')`
+        border-radius: 8px;
+        background: #fff;
+        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
+    `};
 
     ${is('collapsed')`
         justify-content: center;
+    `};
+
+    ${is('graymask')`
+        &::after {
+            position: absolute;
+            content: '';
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 8px;
+            background: #fff;
+            opacity: 0.57;
+            transition: opacity 0.25s;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        &:hover::after {
+            opacity: 0;
+        }
     `};
 `;
 
@@ -133,6 +161,18 @@ const EmptyCloseOpenButton = styled.div`
     height: 30px;
 `;
 
+const SpamBlock = styled.div`
+    display: flex;
+    align-items: center;
+    margin-right: 40px;
+`;
+
+const SpamText = styled.div`
+    margin-right: 10px;
+    font-size: 15px;
+    color: #8a8a8a;
+`;
+
 export class CommentCard extends PureComponent {
     static propTypes = {
         permLink: PropTypes.string,
@@ -141,6 +181,7 @@ export class CommentCard extends PureComponent {
         updateComments: PropTypes.func,
 
         comment: PropTypes.instanceOf(Map),
+        stats: PropTypes.object,
         title: PropTypes.string.isRequired,
         fullParentURL: PropTypes.string.isRequired,
         extractedContent: PropTypes.shape({
@@ -162,37 +203,64 @@ export class CommentCard extends PureComponent {
         edit: false,
         collapsed: false,
         highlighted: false,
+        showAlert: this.isNeedShowAlert(this.props),
     };
 
     commentRef = createRef();
     replyRef = createRef();
 
-    componentWillReceiveProps() {
+    componentWillReceiveProps(props) {
         const { anchorId } = this.props;
         const { highlighted } = this.state;
+
         if (window.location.hash.replace('#', '') === anchorId && !highlighted) {
             this.setState({ highlighted: true });
         }
+
+        if (!this.props.state && props.state) {
+            this.setState({
+                showAlert: this.isNeedShowAlert(props),
+            });
+        }
+    }
+
+    isNeedShowAlert(props) {
+        if (props.stats && !props.showSpam) {
+            return props.stats.gray;
+        }
+
+        return false;
     }
 
     renderHeaderForPost() {
         const { comment, extractedContent, anchorId, isPostPage } = this.props;
-        const { collapsed, highlighted } = this.state;
+        const { collapsed, highlighted, showAlert } = this.state;
 
         return (
             <Header collapsed={collapsed} id={anchorId} highlighted={highlighted}>
-                <HeaderLine>
+                <HeaderLine alertmode={showAlert}>
                     <CardAuthor author={comment.get('author')} created={comment.get('created')} />
-                    {collapsed && (
-                        <CommentBody
-                            to={extractedContent.link}
-                            onClick={this.rememberScrollPosition}
-                            dangerouslySetInnerHTML={{ __html: extractedContent.desc }}
-                            shortText
-                            isPostPage={isPostPage}
-                        />
+                    {showAlert ? (
+                        <SpamBlock>
+                            <SpamText>{tt('comment_card.hidden')}</SpamText>
+                            <Button light onClick={this.onShowClick}>
+                                {tt('g.show')}
+                            </Button>
+                        </SpamBlock>
+                    ) : (
+                        <Fragment>
+                            {collapsed ? (
+                                <CommentBody
+                                    to={extractedContent.link}
+                                    onClick={this.rememberScrollPosition}
+                                    dangerouslySetInnerHTML={{ __html: extractedContent.desc }}
+                                    shortText
+                                    isPostPage={isPostPage}
+                                />
+                            ) : null}
+                            <EmptyCloseOpenButton />
+                        </Fragment>
                     )}
-                    <EmptyCloseOpenButton />
                 </HeaderLine>
             </Header>
         );
@@ -345,9 +413,13 @@ export class CommentCard extends PureComponent {
         });
     };
 
-    render() {
-        const { showReply, collapsed, edit, highlighted } = this.state;
+    onShowClick = () => {
+        this.setState({
+            showAlert: false,
+        });
+    };
 
+    render() {
         const {
             dataLoaded,
             comment,
@@ -357,7 +429,15 @@ export class CommentCard extends PureComponent {
             onVote,
             isPostPage,
             className,
+            stats,
+            showSpam,
         } = this.props;
+
+        const { showReply, collapsed, edit, highlighted, showAlert } = this.state;
+
+        if (!showSpam && stats && stats.hide) {
+            return null;
+        }
 
         if (!dataLoaded) {
             return (
@@ -368,9 +448,14 @@ export class CommentCard extends PureComponent {
         }
 
         return (
-            <Root collapsed={collapsed} className={className}>
+            <Root
+                renderCard={!isPostPage}
+                collapsed={collapsed}
+                className={className}
+                graymask={stats && (stats.gray || stats.hide) && !isPostPage}
+            >
                 {isPostPage ? this.renderHeaderForPost() : this.renderHeaderForProfile()}
-                {collapsed ? null : (
+                {collapsed || showAlert ? null : (
                     <Fragment>
                         {!isPostPage && this.renderTitle()}
                         {this.renderBodyText()}

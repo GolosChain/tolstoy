@@ -176,6 +176,27 @@ const Root = styled(EntryWrapper)`
     border-radius: 8px;
     background: #fff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
+
+    ${is('graymask')`
+        &::after {
+            position: absolute;
+            content: '';
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 8px;
+            background: #fff;
+            opacity: 0.57;
+            transition: opacity 0.25s;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        &:hover::after {
+            opacity: 0;
+        }
+    `};
 `;
 
 export default class PostCard extends PureComponent {
@@ -217,15 +238,17 @@ export default class PostCard extends PureComponent {
     }
 
     render() {
-        const { className, isRepost, grid, hideNsfw } = this.props;
+        const { className, isRepost, grid, hideNsfw, stats } = this.props;
 
         // user wishes to hide these posts entirely
         if (hideNsfw) {
             return null;
         }
 
+        const gray = stats.gray || stats.hide;
+
         return (
-            <Root className={className} grid={grid}>
+            <Root className={className} grid={grid} graymask={gray}>
                 {this.renderHeader()}
                 {isRepost ? this.renderRepostPart() : null}
                 {this.renderBody()}
@@ -239,13 +262,11 @@ export default class PostCard extends PureComponent {
 
         const category = detransliterate(data.get('category'));
         let author;
-        let originalAuthor;
         let created;
 
         if (isRepost) {
             author = additionalData.get('repostAuthor');
             created = additionalData.get('date');
-            originalAuthor = data.get('author');
         } else {
             author = data.get('author');
             created = data.get('created');
@@ -403,8 +424,8 @@ export default class PostCard extends PureComponent {
     }
 
     renderBody() {
-        const { grid, sanitizedData } = this.props;
-        const withImage = sanitizedData.image_link;
+        const { grid, sanitizedData, stats } = this.props;
+        const withImage = sanitizedData.image_link && !stats.gray && !stats.hide;
 
         return (
             <BodyLink to={sanitizedData.link} grid={grid ? 1 : 0} onClick={this._onClick}>
