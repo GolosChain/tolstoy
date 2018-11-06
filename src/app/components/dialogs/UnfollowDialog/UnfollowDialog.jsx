@@ -20,13 +20,11 @@ const StyledLink = styled(Link)`
 `;
 
 const CenteredDialogFrame = styled(DialogFrame)`
-    &&& {
-        position: fixed;
-        top: 50%;
-        right: 50%;
-        transform: translate(50%, -50%);
-        width: 340px;
-    }
+    position: fixed;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
+    width: 340px;
 `;
 
 export class UnfollowDialog extends Component {
