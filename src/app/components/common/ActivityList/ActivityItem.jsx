@@ -58,6 +58,7 @@ const ActivityText = styled.div`
     color: #959595;
     font-size: 16px;
     font-weight: 300;
+    word-break: break-word;
 
     ${is('isCompact')`
         color: #757575;
