@@ -19,8 +19,8 @@ import { DEBT_TICKER } from 'app/client_config';
 import {
     processTagsFromData,
     processTagsToSend,
-    validateTags,
     updateFavoriteTags,
+    validateTags,
 } from 'app/utils/tags';
 import { DRAFT_KEY, EDIT_KEY } from 'app/utils/postForm';
 import './PostForm.scss';
@@ -88,6 +88,7 @@ export default class PostForm extends React.Component {
             payoutType: PAYOUT_TYPES.PAY_50,
             isPosting: false,
             uploadingCount: 0,
+            previewButtonVisible: true,
         };
 
         this._saveDraftLazy = throttle(this._saveDraft, 500, { leading: true });
@@ -107,6 +108,10 @@ export default class PostForm extends React.Component {
         if (!isLoaded && editMode) {
             this._fillFromMetadata();
         }
+
+        this.previewButton = React.createRef();
+
+        window.addEventListener('scroll', this._checkPreviewButtonPosition);
     }
 
     _tryLoadDraft() {
@@ -180,6 +185,7 @@ export default class PostForm extends React.Component {
 
     componentWillUnmount() {
         this._unmount = true;
+        window.removeEventListener('scroll', this._checkPreviewButtonPosition);
     }
 
     render() {
@@ -195,6 +201,7 @@ export default class PostForm extends React.Component {
             postError,
             uploadingCount,
             isPosting,
+            previewButtonVisible,
         } = this.state;
 
         const disallowPostCode = this._checkDisallowPost();
@@ -210,7 +217,9 @@ export default class PostForm extends React.Component {
                     <div className="PostForm__content">
                         <PreviewButton
                             isPreview={isPreview}
+                            isVisible={previewButtonVisible}
                             onPreviewChange={this._onPreviewChange}
+                            ref={this.previewButton}
                         />
                         <EditorSwitcher
                             items={[
@@ -697,6 +706,27 @@ export default class PostForm extends React.Component {
             return 'category_selector_jsx.must_set_category';
         }
     }
+
+    _checkPreviewButtonPosition = () => {
+        const { previewButtonVisible } = this.state;
+        const { workArea } = this.refs;
+        const { current } = this.previewButton;
+
+        const containerYBottom =
+            workArea && workArea instanceof Node ? workArea.getBoundingClientRect().bottom : null;
+        const previewButtonYTop = current ? current.getPreviewButtonPosition() : null;
+
+        if (containerYBottom && previewButtonYTop) {
+            if (containerYBottom < previewButtonYTop && previewButtonVisible)
+                this.setState({
+                    previewButtonVisible: false,
+                });
+            if (containerYBottom > previewButtonYTop && !previewButtonVisible)
+                this.setState({
+                    previewButtonVisible: true,
+                });
+        }
+    };
 }
 
 function markdownToHtmlEditorState(markdown) {

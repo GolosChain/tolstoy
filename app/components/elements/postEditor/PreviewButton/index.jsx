@@ -21,21 +21,25 @@ const Root = styled.i`
     text-align: center;
     cursor: pointer;
     color: #000;
-    transition: color 0.1s;
+    transition: all 0.1s;
     background: #fff;
     box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
     z-index: 9;
-    
+    transform: translateX(50px);
+
+    ${is('isVisible')`
+        visibility: hidden;
+        opacity: 0;
+    `};
+
     ${is('isPreview')`
         color: #fff !important;
         background: #2879ff;
     `};
-    
+
     ${is('isStatic')`
         position: static;
-    `}
-
-    &:hover {
+    `} &:hover {
         color: #0078c4;
     }
 
@@ -51,11 +55,22 @@ const Root = styled.i`
 `;
 
 export default class PreviewButton extends PureComponent {
+    constructor(props) {
+        super(props);
+        this.previewButton = React.createRef();
+    }
+
     render() {
-        const { isPreview, isStatic } = this.props;
+        const { isPreview, isStatic, isVisible } = this.props;
 
         let icon = (
-            <Root isStatic={isStatic} isPreview={isPreview} onClick={this._onPreviewClick}>
+            <Root
+                isStatic={isStatic}
+                isPreview={isPreview}
+                isVisible={!isVisible}
+                onClick={this._onPreviewClick}
+                innerRef={this.previewButton}
+            >
                 <Icon
                     name="editor/eye"
                     className="PreviewButton__icon"
@@ -75,5 +90,13 @@ export default class PreviewButton extends PureComponent {
 
     _onPreviewClick = () => {
         this.props.onPreviewChange(!this.props.isPreview);
+    };
+
+    getPreviewButtonPosition = () => {
+        const { current } = this.previewButton;
+
+        const previewButtonYTop =
+            current && current instanceof Node ? current.getBoundingClientRect().top : null;
+        return previewButtonYTop;
     };
 }
