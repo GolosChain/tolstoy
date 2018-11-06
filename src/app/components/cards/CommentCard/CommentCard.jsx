@@ -219,7 +219,7 @@ export class CommentCard extends PureComponent {
                     )}
                     <TogglerWrapper>
                         <Category to={'/trending/' + comment.get('category')} category={1}>{detransliteratedCategory}</Category>
-                        <CloseOpenButton collapsed={collapsed} toggleComment={this.toggleComment} />
+                        <CloseOpenButton collapsed={collapsed} toggle={this.toggleComment} />
                     </TogglerWrapper>
                 </HeaderLine>
             </Header>

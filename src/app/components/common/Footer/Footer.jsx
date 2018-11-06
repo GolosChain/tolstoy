@@ -154,7 +154,7 @@ export default class Footer extends PureComponent {
                     <Container justify="space-between" wrap="wrap">
                         <Menu type="payout">
                             <MenuTitle>{tt('footer.total_paid')}</MenuTitle>
-                            <MenuList>
+                            <MenuList aria-label={tt('aria_label.total_paid')}>
                                 <MenuItem href="https://explorer.golos.io" type="big">
                                     <CurrencyValue value={currentSupply} decimals="short" />
                                 </MenuItem>
@@ -188,20 +188,30 @@ export default class Footer extends PureComponent {
                             <MenuBlock>
                                 <MenuIconList>
                                     <MenuItem
+                                        aria-label={tt('aria_label.facebook_link')}
                                         href="https://www.facebook.com/www.golos.io"
                                         type="icon"
                                     >
                                         <Icon name="facebook" width={13} height={24} />
                                     </MenuItem>
-                                    <MenuItem href="https://vk.com/goloschain" type="icon">
+                                    <MenuItem
+                                        aria-label={tt('aria_label.vk_link')}
+                                        href="https://vk.com/goloschain"
+                                        type="icon"
+                                    >
                                         <Icon name="vk" width={28} height={18} />
                                     </MenuItem>
-                                    <MenuItem href="https://t.me/golos_support" type="icon">
+                                    <MenuItem
+                                        aria-label={tt('aria_label.telegram_link')}
+                                        href="https://t.me/golos_support"
+                                        type="icon"
+                                    >
                                         <Icon name="telegram" width={22} height={20} />
                                     </MenuItem>
                                 </MenuIconList>
                                 <MenuIconList>
                                     <MenuItem
+                                        aria-label={tt('aria_label.bitcoin_link')}
                                         href="https://bitcointalk.org/index.php?topic=1624364.0"
                                         type="icon"
                                     >
@@ -219,6 +229,7 @@ export default class Footer extends PureComponent {
                             <MenuTitle>{tt('footer.mobile_apps')}</MenuTitle>
                             <MenuIconList>
                                 <MenuItem
+                                    aria-label={tt('aria_label.android_link')}
                                     href="https://play.google.com/store/apps/details?id=io.golos.golos"
                                     type="icon"
                                 >

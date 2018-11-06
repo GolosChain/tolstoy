@@ -25,17 +25,15 @@ const Root = styled.i`
     background: #fff;
     box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
     z-index: 9;
-    
+
     ${is('isPreview')`
         color: #fff !important;
         background: #2879ff;
     `};
-    
+
     ${is('isStatic')`
         position: static;
-    `}
-
-    &:hover {
+    `} &:hover {
         color: #0078c4;
     }
 
@@ -53,15 +51,16 @@ const Root = styled.i`
 export default class PreviewButton extends PureComponent {
     render() {
         const { isPreview, isStatic } = this.props;
+        const buttonText = isPreview ? tt('post_editor.edit_mode') : tt('post_editor.preview_mode');
 
         let icon = (
             <Root isStatic={isStatic} isPreview={isPreview} onClick={this._onPreviewClick}>
                 <Icon
                     name="editor/eye"
                     className="PreviewButton__icon"
-                    data-tooltip={
-                        isPreview ? tt('post_editor.edit_mode') : tt('post_editor.preview_mode')
-                    }
+                    role="button"
+                    data-tooltip={buttonText}
+                    aria-label={buttonText}
                 />
             </Root>
         );

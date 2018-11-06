@@ -53,7 +53,17 @@
     "expected_payout": "Expected payout",
     "like": "Vote with like",
     "tag": "Hashtag",
-    "username": "Username"
+    "username": "Username",
+    "chanel_card": "Contact",
+    "header_logo": "Golos.io logo",
+    "notifications": "Notifications",
+    "additional_menu": "Additional menu",
+    "total_paid": "Total paid",
+    "facebook_link": "Golos.io on Facebook page",
+    "vk_link": "Golos.io on VKontakte page",
+    "telegram_link": "Golos.io Telegram Chat",
+    "bitcoin_link": "Golos.io thread on Bitcoin Forum",
+    "android_link": "Download Golos.io android app"
   },
   "auth_protection": {
     "need_auth": "Not allowed, please authorize.",

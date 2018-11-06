@@ -171,6 +171,8 @@ class UserNavigation extends PureComponent {
                 <IconLink
                     key="settings"
                     to={`/@${accountName}/settings`}
+                    role="button"
+                    aria-label={tt('g.settings')}
                     data-tooltip={tt('g.settings')}
                 >
                     <Icon name="settings" size="24" />

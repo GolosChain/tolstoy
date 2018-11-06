@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
+import tt from 'counterpart';
 import Slider from 'react-slick';
 import styled from 'styled-components';
+
 import Userpic from 'app/components/elements/Userpic';
 
 import 'slick-carousel/slick/slick.css';
@@ -117,11 +119,11 @@ export default class WelcomeSlider extends Component {
             slidesToScroll: 1,
             className: 'welcome-slider',
             dotsClass: 'welcome-slider__dots',
-            customPaging: this._renderPagingItem,
+            customPaging: this.renderPagingItem,
         };
 
         return (
-            <Root>
+            <Root innerRef={this.rootRef}>
                 <Slider {...settings}>
                     {slides.map((slide, i) => (
                         <SliderSlide key={i} to={slide.link}>
@@ -138,10 +140,11 @@ export default class WelcomeSlider extends Component {
         );
     }
 
-    _renderPagingItem = i => {
+    renderPagingItem = i => {
         const { slides } = this.props;
         return (
             <Userpic
+                ariaLabel={tt('aria_label.avatar')}
                 imageUrl={`${$STM_Config.img_proxy_prefix}0x0/${slides[i].avatar}`}
                 width={40}
                 height={40}

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import tt from 'counterpart';
 import styled from 'styled-components';
 import is from 'styled-is';
 
@@ -26,15 +27,21 @@ const ChevronIcon = styled(Icon)`
     flex-shrink: 0;
 `;
 
-const CloseOpenButton = ({ collapsed, toggleComment, className }) => (
-    <ToggleCommentOpen className={className} collapsed={collapsed ? 1 : 0} onClick={toggleComment}>
+const CloseOpenButton = ({ collapsed, toggle, className }) => (
+    <ToggleCommentOpen
+        data-tooltip={collapsed ? tt('g.uncollapse') : tt('g.collapse')}
+        aria-label={collapsed ? tt('g.uncollapse') : tt('g.collapse')}
+        className={className}
+        collapsed={collapsed ? 1 : 0}
+        onClick={toggle}
+    >
         <ChevronIcon name="chevron" width="12" height="7" />
     </ToggleCommentOpen>
 );
 
 CloseOpenButton.propTypes = {
     collapsed: PropTypes.bool.isRequired,
-    toggleComment: PropTypes.func.isRequired,
+    toggle: PropTypes.func.isRequired,
 };
 
 export default CloseOpenButton;

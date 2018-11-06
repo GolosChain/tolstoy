@@ -53,7 +53,17 @@
     "expected_payout": "Ожидаемая выплата",
     "like": "Поставить нравится",
     "tag": "Тег",
-    "username": "Никнейм автора"
+    "username": "Никнейм автора",
+    "channel_card": "Канал",
+    "header_logo": "Логотип golos.io",
+    "notifications": "Счётчик уведомлений",
+    "additional_menu": "Дополнительное меню",
+    "total_paid": "Всего выплачено",
+    "facebook_link": "Страница Golos.io на Facebook",
+    "vk_link": "Страница Golos.io во ВКонтакте",
+    "telegram_link": "Чат Golos.io в Telegram",
+    "bitcoin_link": "Страница Golos.io на Bitcoin Forum",
+    "android_link": "Скачать Android приложение Golos.io"
   },
   "auth_protection": {
     "need_auth": "Нет доступа, авторизуйтесь.",
@@ -421,6 +431,7 @@
     "click_to_generate_password": "Нажмите, чтобы сгенерировать пароль",
     "close": "Закрыть",
     "collapse": "Свернуть",
+    "uncollapse": "Развернуть",
     "comments": "Комментарии",
     "confirm_follow": "Вы уверены, что хотите подписаться на этого пользователя?",
     "confirm_ignore": "Вы действительно хотите заблокировать этого пользователя?",
