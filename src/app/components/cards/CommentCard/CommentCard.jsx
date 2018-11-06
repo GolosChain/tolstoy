@@ -66,7 +66,7 @@ const CommentBody = styled(
     display: block;
 
     margin-right: 18px;
-    overflow: hidden;
+    overflow-x: hidden;
 
     font-family: ${a => a.theme.fontFamily};
     color: #959595 !important;
