@@ -64,9 +64,9 @@ const CommentBody = styled(
         isPostPage ? <div {...otherProps} /> : <Link to={to} {...otherProps} />
 )`
     display: block;
-    width: 100%;
 
     margin-right: 18px;
+    overflow: hidden;
 
     font-family: ${a => a.theme.fontFamily};
     color: #959595 !important;
