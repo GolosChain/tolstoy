@@ -2,20 +2,21 @@ import styled from 'styled-components';
 
 export const PostTitle = styled.div`
     margin-bottom: 8px;
-    line-height: 29px;
-    font-family: ${({ theme }) => theme.fontFamilySerif};
-    font-size: 22px;
-    color: #212121;
+    font-weight: 500;
+    font-size: 1.5rem;
+    line-height: 36.4px;
+    color: #343434;
 
-    @media (max-width: 600px) {
-        font-size: 24px;
-        font-weight: 700;
+    @media (max-width: 900px) {
+        font-size: 1.4375rem;
+        line-height: 32.4px;
     }
 `;
 
 export const PostContent = styled.div`
-    font-size: 16px;
-    color: #959595;
+    font-size: 1rem;
+    line-height: 1.56;
+    color: #333;
     overflow: hidden;
     word-wrap: break-word;
 `;

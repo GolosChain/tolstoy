@@ -93,19 +93,40 @@ export default class ActivityContent extends PureComponent {
     renderTabs = () => {
         const { isFetching, notifications, accounts } = this.props;
         const tabs = [
-            { id: 'all', title: tt('activity.tab_title.all') },
-            { id: 'awards', title: tt('activity.tab_title.rewards') },
-            { id: 'answers', title: tt('activity.tab_title.replies') },
-            { id: 'social', title: tt('activity.tab_title.social') },
-            { id: 'mentions', title: tt('activity.tab_title.mention') },
+            {
+                id: 'all',
+                title: tt('activity.tab_title.all'),
+                emptyListPlaceholder: tt('activity.tab_title.all_placeholder'),
+            },
+            {
+                id: 'awards',
+                title: tt('activity.tab_title.rewards'),
+                emptyListPlaceholder: tt('activity.tab_title.rewards_placeholder'),
+            },
+            {
+                id: 'answers',
+                title: tt('activity.tab_title.replies'),
+                emptyListPlaceholder: tt('activity.tab_title.replies_placeholder'),
+            },
+            {
+                id: 'social',
+                title: tt('activity.tab_title.social'),
+                emptyListPlaceholder: tt('activity.tab_title.social_placeholder'),
+            },
+            {
+                id: 'mentions',
+                title: tt('activity.tab_title.mention'),
+                emptyListPlaceholder: tt('activity.tab_title.mention_placeholder'),
+            },
         ];
 
-        return tabs.map(({ id, title }, key) => (
+        return tabs.map(({ id, title, emptyListPlaceholder }, key) => (
             <TabContainer id={id} title={title} key={key}>
                 <ActivityList
                     isFetching={isFetching}
                     notifications={notifications}
                     accounts={accounts}
+                    emptyListPlaceholder={emptyListPlaceholder}
                 />
             </TabContainer>
         ));

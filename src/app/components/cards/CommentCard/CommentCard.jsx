@@ -99,7 +99,6 @@ const Root = styled.div`
     min-height: 50px;
 
     background: #ffffff;
-    overflow: hidden;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
 
     ${is('collapsed')`
