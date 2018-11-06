@@ -6,6 +6,8 @@ export const PostTitle = styled.div`
     font-size: 1.5rem;
     line-height: 36.4px;
     color: #343434;
+    max-width: 100%;
+    word-break: break-all;
 
     @media (max-width: 900px) {
         font-size: 1.4375rem;

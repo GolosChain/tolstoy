@@ -36,6 +36,8 @@ const PostTitle = styled.h1`
     font-weight: 500;
     font-size: 2rem;
     line-height: 40px;
+    max-width: 100%;
+    word-break: break-all;
     -webkit-font-smoothing: antialiased;
 
     @media (max-width: 576px) {
