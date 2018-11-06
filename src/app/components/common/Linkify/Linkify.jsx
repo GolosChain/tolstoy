@@ -1,6 +1,18 @@
 import React, { PureComponent } from 'react';
 import { utils } from 'golos-js';
 import { Link } from 'react-router';
+import styled from 'styled-components';
+
+const Wrapper = styled.span`
+    & a {
+        color: #333333;
+        text-decoration: underline;
+    }
+
+    & a:hover {
+        color: #2879ff;
+    }
+`;
 
 export default class Linkify extends PureComponent {
     render() {
@@ -32,7 +44,7 @@ export default class Linkify extends PureComponent {
             parts.push(addLinkToUser(tailString));
         }
 
-        return <span>{parts}</span>;
+        return <Wrapper>{parts}</Wrapper>;
     }
 }
 
