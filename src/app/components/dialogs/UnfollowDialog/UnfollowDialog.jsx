@@ -36,21 +36,21 @@ export class UnfollowDialog extends Component {
         const { unfollowingUser } = this.props;
 
         return (
-          <CenteredDialogFrame
-              className="CommonDialog"
-              title={tt('g.unfollow')}
-              buttons={this.getButtons()}
-              onCloseClick={this.onCloseClick}
-              username={unfollowingUser}
+            <CenteredDialogFrame
+                className="CommonDialog"
+                title={tt('g.unfollow')}
+                buttons={this.getButtons()}
+                onCloseClick={this.onCloseClick}
+                username={unfollowingUser}
             >
-            <div className="CommonDialog__body">
-              <BodyWrapper>
-                {tt('g.confirm_unfollow_user')}
+                <div className="CommonDialog__body">
+                    <BodyWrapper>
+                        {tt('g.confirm_unfollow_user')}
                         &nbsp;
-                <StyledLink to={`/@${unfollowingUser}`}>@{unfollowingUser}</StyledLink>?
-              </BodyWrapper>
-            </div>
-          </CenteredDialogFrame>
+                        <StyledLink to={`/@${unfollowingUser}`}>@{unfollowingUser}</StyledLink>?
+                    </BodyWrapper>
+                </div>
+            </CenteredDialogFrame>
         );
     }
 
