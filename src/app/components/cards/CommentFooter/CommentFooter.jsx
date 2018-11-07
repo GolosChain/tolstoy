@@ -196,14 +196,15 @@ export default class CommentFooter extends Component {
                     <CommentReplyBlock
                         count={comment.get('children')}
                         link={contentLink}
-                        text={tt('g.comments')}
-                        showText={isOwner}
+                        text={tt('g.reply')}
+                        showReply={!isOwner}
+                        onReplyClick={onReplyClick}
                     />
-                    {!isOwner && (
-                        <ButtonStyled light onClick={onReplyClick}>
-                            {tt('g.reply')}
-                        </ButtonStyled>
-                    )}
+                    {/*{!isOwner && (*/}
+                        {/*<ButtonStyled light onClick={onReplyClick}>*/}
+                            {/*{tt('g.reply')}*/}
+                        {/*</ButtonStyled>*/}
+                    {/*)}*/}
                 </CommentReplyWrapper>
             </Wrapper>
         );

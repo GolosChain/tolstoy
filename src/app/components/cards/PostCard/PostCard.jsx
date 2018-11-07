@@ -441,6 +441,7 @@ export default class PostCard extends PureComponent {
                     count={data.get('children')}
                     link={sanitizedData.link}
                     text={tt('g.reply')}
+                    showReply
                 />
             </Footer>
         );

@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router';
 import styled from 'styled-components';
-import is, { isNot } from 'styled-is';
+import is from 'styled-is';
 import tt from 'counterpart';
 import Icon from 'golos-ui/Icon';
 
@@ -29,7 +29,7 @@ const Splitter = styled.div`
     background: #e1e1e1;
 `;
 
-const ReplyLink = styled(Link)`
+const ReplyLink = styled.div`
     height: 100%;
     min-height: 50px;
     padding: 0 18px 0 10px;
@@ -42,12 +42,6 @@ const ReplyLink = styled(Link)`
     letter-spacing: 0.8px;
     color: #393636 !important;
     cursor: pointer;
-
-    ${isNot('showtext')`
-        @media (min-width: 890px) and (max-width: 1200px), (max-width: 639px) {
-            display: none;
-        }
-    `};
 `;
 
 const ReplyIcon = styled(Icon)`
@@ -75,10 +69,10 @@ const Root = styled.div`
 `;
 
 ReplyBlock.defaultProps = {
-    showText: true,
+    showReply: true,
 };
 
-export default function ReplyBlock({ grid, count, link, text, className, showText }) {
+export default function ReplyBlock({ grid, count, link, text, onReplyClick, showReply, className }) {
     return (
         <Root grid={grid} className={className}>
             <ReplyCounterBlock
@@ -89,10 +83,12 @@ export default function ReplyBlock({ grid, count, link, text, className, showTex
                 <ReplyIcon name="reply" />
                 <ReplyCount>{count}</ReplyCount>
             </ReplyCounterBlock>
-            <Splitter />
-            <ReplyLink to={`${link}#comments`} showtext={showText ? 1 : 0}>
-                {text}
-            </ReplyLink>
+            {showReply && (
+                <Fragment>
+                    <Splitter />
+                    <ReplyLink onClick={onReplyClick}>{text}</ReplyLink>
+                </Fragment>
+            )}
         </Root>
     );
 }
