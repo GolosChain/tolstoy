@@ -34,7 +34,7 @@ const LikeWrapper = styled.i`
     ${is('vertical')`
         margin: 0 0 6px;
         transition: transform 0.15s;
-        
+
         &:hover {
             transform: scale(1.15);
         }
@@ -121,13 +121,13 @@ const LikeBlock = styled.div`
     ${is('active')`
         ${LikeIcon}, ${LikeCount} {
             color: #2879ff !important;
-        } 
+        }
     `};
 
     ${is('activeNeg')`
         ${LikeIconNeg}, ${LikeCount} {
             color: #ff4e00 !important;
-        } 
+        }
     `};
 `;
 
@@ -145,9 +145,15 @@ const Money = styled.div`
 
     border: 1px solid #959595;
     border-radius: 100px;
-    color: #393636;
+    color: #959595;
     cursor: pointer;
     white-space: nowrap;
+    transition: all 0.15s;
+
+    &:hover {
+        border-color: #393636;
+        color: #393636;
+    }
 `;
 
 const Root = styled.div`
@@ -263,6 +269,8 @@ export default class VotePanel extends PureComponent {
                         innerRef={this._onLikeRef}
                         onClick={this._onLikeClick}
                         vertical={sidePanel}
+                        role="button"
+                        aria-label={tt('aria_label.like')}
                     >
                         <LikeIcon name="like" />
                     </LikeWrapper>
@@ -271,7 +279,7 @@ export default class VotePanel extends PureComponent {
                         {sidePanel ? null : <IconTriangle />}
                     </LikeCount>
                 </LikeBlock>
-                {sidePanel ? null : this._renderPayout()}
+                {sidePanel ? null : this.renderPayout()}
                 <LikeBlockNeg
                     last
                     activeNeg={votesSummary.myVote === 'dislike' || sliderAction === 'dislike'}
@@ -287,6 +295,8 @@ export default class VotePanel extends PureComponent {
                         innerRef={this._onDisLikeRef}
                         onClick={this._onDislikeClick}
                         vertical={sidePanel}
+                        role="button"
+                        aria-label={tt('aria_label.dislike')}
                     >
                         <LikeIconNeg name="like" />
                     </LikeWrapper>
@@ -352,14 +362,14 @@ export default class VotePanel extends PureComponent {
         return <PayoutInfo postLink={data.get('author') + '/' + data.get('permlink')} />;
     };
 
-    _renderPayout() {
+    renderPayout() {
         const { data } = this.props;
         const { isMobile } = this.state;
         const postLink = data.get('author') + '/' + data.get('permlink');
 
         if (isMobile) {
             return (
-                <Money onClick={this._onPayoutClick}>
+                <Money onClick={this._onPayoutClick} aria-label={tt('aria_label.expected_payout')}>
                     <PostPayoutStyled postLink={postLink} />
                 </Money>
             );

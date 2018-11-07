@@ -3,7 +3,7 @@ import cn from 'classnames';
 import { last } from 'ramda';
 import KEYS from 'app/utils/keyCodes';
 import CommonDialog from 'app/components/dialogs/CommonDialog';
-import LoginForm from 'src/app/containers/login/LoginForm/LoginForm.connect';
+import LoginForm from 'src/app/containers/login/LoginForm';
 
 let queue = [];
 let instance = null;
@@ -54,14 +54,21 @@ export default class DialogManager extends React.PureComponent {
         });
     }
 
-    static confirm(text, title) {
+    static confirm(text, params = {}) {
         return new Promise(resolve => {
+            if (typeof params === 'string') {
+                params = {
+                    title: params,
+                };
+            }
+
             DialogManager.showDialog({
                 component: CommonDialog,
                 props: {
-                    title,
+                    title: params.title,
                     type: 'confirm',
                     text: text || 'Вы уверены?',
+                    params,
                 },
                 onClose: resolve,
             });
@@ -97,11 +104,23 @@ export default class DialogManager extends React.PureComponent {
         });
     }
 
-    static showLogin({ onClose } = {}) {
+    static showLogin({ isConfirm, operationType, onClose } = {}) {
         return DialogManager.showDialog({
             component: LoginForm,
+            props: {
+                isConfirm,
+                operationType,
+            },
             onClose,
         });
+    }
+
+    static closeAll() {
+        if (instance) {
+            instance.closeAll();
+        } else {
+            queue = [];
+        }
     }
 
     constructor(props) {
@@ -234,6 +253,13 @@ export default class DialogManager extends React.PureComponent {
     };
 
     _onRootClick = e => {
+        const link = e.target.closest('a[href]');
+
+        if (link && link.getAttribute('target') !== '_blank') {
+            this.closeAll();
+            return;
+        }
+
         if (e.target === this._root) {
             this._tryToClose();
         }
@@ -260,5 +286,22 @@ export default class DialogManager extends React.PureComponent {
         }
 
         this._closeDialog(last(this._dialogs));
+    }
+
+    closeAll() {
+        for (let i = this._dialogs.length - 1; i >= 0; i--) {
+            const dialog = this._dialogs[i];
+
+            if (dialog.options.onClose) {
+                try {
+                    dialog.options.onClose(null);
+                } catch (err) {
+                    console.error(err);
+                }
+            }
+        }
+
+        this._dialogs = [];
+        this.forceUpdate();
     }
 }

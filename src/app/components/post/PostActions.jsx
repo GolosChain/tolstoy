@@ -50,12 +50,21 @@ const PostActions = ({
     fullUrl,
 }) => {
     if (isOwner) {
+        const editTooltip = showText ? undefined : tt('active_panel_tooltip.edit');
+        const pinTooltip = !showText
+            ? isPinned
+                ? tt('active_panel_tooltip.unpin_post')
+                : tt('active_panel_tooltip.pin_post')
+            : undefined;
+
         return (
             <Fragment>
                 <ActionEditLink
                     className={className}
                     to={`${fullUrl}/edit`}
-                    data-tooltip={showText ? undefined : tt('active_panel_tooltip.edit')}
+                    role="button"
+                    data-tooltip={editTooltip}
+                    aria-label={editTooltip}
                 >
                     <ActionIcon name="pen" />
                     {showText ? <ActionText>{tt('active_panel_tooltip.edit')}</ActionText> : null}
@@ -63,13 +72,9 @@ const PostActions = ({
                 <Action
                     className={className}
                     active={isPinned ? 1 : 0}
-                    data-tooltip={
-                        !showText
-                            ? isPinned
-                                ? tt('active_panel_tooltip.unpin_post')
-                                : tt('active_panel_tooltip.pin_post')
-                            : undefined
-                    }
+                    role="button"
+                    data-tooltip={pinTooltip}
+                    aria-label={pinTooltip}
                     onClick={togglePin}
                 >
                     <ActionIcon name="pin" />
@@ -80,17 +85,18 @@ const PostActions = ({
             </Fragment>
         );
     }
+    const favoriteTooltip = !showText
+        ? isFavorite
+            ? tt('g.remove_from_favorites')
+            : tt('g.add_to_favorites')
+        : undefined;
 
     return (
         <Action
             className={className}
-            data-tooltip={
-                !showText
-                    ? isFavorite
-                        ? tt('g.remove_from_favorites')
-                        : tt('g.add_to_favorites')
-                    : undefined
-            }
+            role="button"
+            data-tooltip={favoriteTooltip}
+            aria-label={favoriteTooltip}
             onClick={toggleFavorite}
         >
             <ActionIcon name={isFavorite ? 'star_filled' : 'star'} />

@@ -85,7 +85,8 @@
     "have_only_letters_digits_or_dashes": "складатися тільки з букв, цифр та тире.",
     "have_only_one_dash_in_a_row": "мати тільки одне тире.",
     "not_be_empty": "не може бути порожнім.",
-    "start_with_a_letter": "починатися з літери."
+    "start_with_a_letter": "починатися з літери.",
+    "use_caution_sending_to_this_account": "Будьте обережні, переказуючи кошти на цей обліковий запис. Будь ласка, двічі перевірте правопис на наявність фішинг аккаунта."
   },
   "comment_editor": {
     "cancel_comment": "Текст буде втрачено. Ви впевнені?"
@@ -190,7 +191,8 @@
     "ok": "Поділитися",
     "placeholder": "Напишіть свій коментар",
     "success": "Репост успішно доданий",
-    "title": "Поділитися цим постом"
+    "title": "Поділитися цим постом",
+    "too_long": "Тіло репосту не може бути більше ніж %(count)s символів."
   },
   "dialogs_transfer": {
     "amount": "Скільки",
@@ -660,7 +662,6 @@
     "password_or_wif": "Пароль або WIF",
     "password_update_succes": "Пароль для %(accountName)s був успішно оновлений",
     "posting": "Постинг",
-    "returning_users": "",
     "sign_up_now_to_receive": "Зареєструватися зараз, щоб отримати ",
     "the_latest_versions_of": "Останні версії ",
     "this_operation_requires_your_key_or_master_password": "Ця операція вимагає введення Вашого ключа власника або введення Вашого активного ключа (використовуйте головний пароль)",

@@ -3,10 +3,19 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import tt from 'counterpart';
 
+import DialogManager from 'app/components/elements/common/DialogManager';
 import { translateError } from 'app/utils/ParsersAndFormatters';
 import Button from 'golos-ui/Button';
 import Icon from 'golos-ui/Icon';
 import { Checkbox } from 'golos-ui/Form';
+
+const WIF_LENGTH = 52;
+const OWNER_KEY_OPERATIONS = [
+    'recover_account',
+    'change_recovery_account',
+    'decline_voting_rights',
+    'set_reset_account',
+];
 
 const Wrapper = styled.div`
     max-width: 90vw;
@@ -46,19 +55,13 @@ const CloseButton = styled.div`
 
 const Title = styled.h1`
     width: 100%;
+    padding: 4px 12px;
     margin-bottom: 20px;
     text-align: center;
     color: #393636;
     font-size: 24px;
     font-weight: 900;
-    line-height: 41px;
-`;
-
-const ErrorMessage = styled.div`
-    margin: -24px auto 10px;
-    color: #ff0000;
-    font-size: 12px;
-    text-align: center;
+    line-height: 32px;
 `;
 
 const Form = styled.form`
@@ -67,12 +70,19 @@ const Form = styled.form`
     flex-direction: column;
 `;
 
+const ErrorBlock = styled.div`
+    min-height: 30px;
+    padding: 6px 0;
+    line-height: 16px;
+    font-size: 12px;
+    color: #fc5d16;
+`;
+
 const LoginBlock = styled.div`
     display: flex;
     justify-content: space-between;
     width: 100%;
     height: 30px;
-    margin-bottom: 30px;
     border-radius: 6px;
     border: solid 1px #e1e1e1;
 `;
@@ -81,14 +91,17 @@ const LoginLabel = styled.div`
     width: 30px;
     line-height: 26px;
     border-right: solid 1px #e1e1e1;
-    color: #bebebe;
     font-weight: 500;
     text-align: center;
+
+    &::after {
+        content: '@';
+        color: #bebebe;
+    }
 `;
 
 const Input = styled.input`
-    padding-left: 14px;
-    padding-right: 14px;
+    padding: 0 12px;
     font-size: 14px;
     color: #393636;
     outline: none;
@@ -99,7 +112,7 @@ const Input = styled.input`
 const LoginInput = styled(Input)`
     flex: 1;
     border: none;
-    border-radius: 0 6px 6px 0;
+    border-radius: 0 5px 5px 0;
     background: transparent;
 `;
 
@@ -114,7 +127,7 @@ const BlockCheckboxes = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin: 20px 0;
+    margin-bottom: 20px;
 `;
 
 const ConsentCheckbox = styled.label`
@@ -142,20 +155,52 @@ const LoginButton = styled(Button)`
     margin-bottom: 0;
 `;
 
+const SuitableKeys = styled.div`
+    margin: 22px 0 12px;
+    line-height: 20px;
+    color: #333;
+`;
+
 export class LoginForm extends Component {
     static propTypes = {
+        username: PropTypes.string,
+        isConfirm: PropTypes.bool,
+        operationType: PropTypes.string,
+        loginError: PropTypes.string,
         loginCanceled: PropTypes.func.isRequired,
         onClose: PropTypes.func,
     };
 
     state = {
+        username: this.getUsernameFromProps(),
+        password: '',
         consent: true,
         saveCredentials: process.env.BROWSER ? localStorage.getItem('saveLogin') !== 'no' : true,
         submitting: false,
+        activeConfirmed: false,
     };
 
-    username = React.createRef();
-    password = React.createRef();
+    getUsernameFromProps() {
+        const { isConfirm, username, operationType } = this.props;
+
+        if (!username) {
+            return '';
+        }
+
+        let stateUsername = username;
+
+        if (isConfirm && username && !username.includes('/')) {
+            let needKeyType = 'active';
+
+            if (operationType && OWNER_KEY_OPERATIONS.includes(operationType)) {
+                needKeyType = 'owner';
+            }
+
+            stateUsername += `/${needKeyType}`;
+        }
+
+        return stateUsername;
+    }
 
     confirmClose = () => {
         this.props.loginCanceled();
@@ -177,14 +222,52 @@ export class LoginForm extends Component {
         this.clearError();
     };
 
-    submit = e => {
-        e.preventDefault();
+    submit = async () => {
+        const { isConfirm } = this.props;
+        const { username, password, activeConfirmed } = this.state;
+
+        if (
+            !isConfirm &&
+            !activeConfirmed &&
+            password.startsWith('P') &&
+            password.length === WIF_LENGTH
+        ) {
+            const result = await DialogManager.confirm(tt('loginform_jsx.password_warning'), {
+                width: 460,
+            });
+
+            if (!result) {
+                return;
+            }
+
+            this.setState({
+                activeConfirmed: true,
+            });
+        }
+
         const data = {
-            username: this.username.current.value.trim().toLowerCase(),
-            password: this.password.current.value,
+            // nickname/active => nickname
+            username: username
+                .trim()
+                .toLowerCase()
+                .replace(/\/.+$/, ''),
+            password,
             saveLogin: this.state.saveCredentials,
         };
+
         this.props.dispatchSubmit(data, this.props.loginBroadcastOperation);
+    };
+
+    onFormSubmit = e => {
+        e.preventDefault();
+
+        const { consent, submitting } = this.state;
+
+        if (submitting || !consent) {
+            return;
+        }
+
+        this.submit();
     };
 
     clearError = () => {
@@ -198,11 +281,50 @@ export class LoginForm extends Component {
         this.props.onClose();
     };
 
-    render() {
-        const { onClose, loginError, className } = this.props;
-        const { consent, saveCredentials, submitting } = this.state;
+    onLoginChange = e => {
+        this.setState({
+            username: e.target.value,
+        });
 
-        const translatedError = translateError(loginError);
+        this.clearError();
+    };
+
+    onPasswordChange = e => {
+        this.setState({
+            password: e.target.value,
+        });
+
+        this.clearError();
+    };
+
+    render() {
+        const { onClose, loginError, isConfirm, operationType, className } = this.props;
+        const { username, password, consent, saveCredentials, submitting } = this.state;
+
+        let loginErr = null;
+        let passwordErr = null;
+
+        const lockUsername = isConfirm && username;
+
+        if (loginError) {
+            if (loginError === 'Incorrect Password') {
+                passwordErr = tt('g.incorrect_password');
+            } else if (loginError === 'active_login_blocked') {
+                passwordErr = tt('loginform_jsx.active_key_error');
+            } else {
+                loginErr = translateError(loginError);
+            }
+        }
+
+        let needKeyType = null;
+
+        if (isConfirm) {
+            needKeyType = 'active';
+
+            if (operationType && OWNER_KEY_OPERATIONS.includes(operationType)) {
+                needKeyType = 'owner';
+            }
+        }
 
         return (
             <Wrapper className={className}>
@@ -211,27 +333,37 @@ export class LoginForm extends Component {
                         <Icon name="cross_thin" width={16} height={16} />
                     </CloseButton>
                 ) : null}
-                <Form>
-                    <Title>{tt('g.login')}</Title>
-                    {loginError ? <ErrorMessage>{translatedError}</ErrorMessage> : null}
+                <Form onSubmit={this.onFormSubmit}>
+                    <Title>{isConfirm ? tt('loginform_jsx.authorize_for') : tt('g.login')}</Title>
                     <LoginBlock>
-                        <LoginLabel>@</LoginLabel>
+                        <LoginLabel />
                         <LoginInput
-                            innerRef={this.username}
                             placeholder={tt('loginform_jsx.enter_your_username')}
-                            disabled={submitting}
+                            autoCapitalize="no"
+                            autoCorrect="off"
+                            spellCheck="false"
+                            disabled={submitting || lockUsername}
                             required
-                            onChange={this.clearError}
+                            value={username}
+                            onChange={this.onLoginChange}
                         />
                     </LoginBlock>
+                    <ErrorBlock>{loginErr}</ErrorBlock>
                     <PasswordInput
                         type="password"
-                        innerRef={this.password}
-                        placeholder={tt('loginform_jsx.password_or_wif')}
-                        disabled={submitting}
+                        placeholder={
+                            isConfirm
+                                ? needKeyType === 'owner'
+                                    ? tt('loginform_jsx.password_or_owner')
+                                    : tt('loginform_jsx.password_or_active')
+                                : tt('loginform_jsx.password_or_posting')
+                        }
                         required
-                        onChange={this.clearError}
+                        disabled={submitting}
+                        value={password}
+                        onChange={this.onPasswordChange}
                     />
+                    <ErrorBlock>{passwordErr}</ErrorBlock>
                     <BlockCheckboxes>
                         {
                             // commented for a while
@@ -242,11 +374,15 @@ export class LoginForm extends Component {
                         }
                         <ConsentCheckbox tabIndex="0" onClick={this.changeSaveCredentials}>
                             <Checkbox value={saveCredentials} />
-                            <CheckboxLabel>{tt('loginform_jsx.keep_me_logged_in')}</CheckboxLabel>
+                            <CheckboxLabel>
+                                {isConfirm
+                                    ? tt('loginform_jsx.save_password_on_session')
+                                    : tt('loginform_jsx.keep_me_logged_in')}
+                            </CheckboxLabel>
                         </ConsentCheckbox>
                     </BlockCheckboxes>
                     <LoginButton disabled={submitting || !consent} onClick={this.submit}>
-                        {tt('g.login')}
+                        {isConfirm ? tt('g.authorize') : tt('g.login')}
                     </LoginButton>
                 </Form>
             </Wrapper>

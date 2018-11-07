@@ -114,6 +114,7 @@ const PostTitle = styled(Link)`
     font-weight: 500;
     line-height: 24px;
     text-decoration: none;
+    word-break: break-word;
 
     &:visited,
     &:hover,
@@ -167,16 +168,16 @@ export class PopoverBody extends Component {
 
         return (
             <Wrapper className={className}>
-                <ClosePopoverButton onClick={this.closePopover}>
+                <ClosePopoverButton onClick={this.closePopover} aria-label={tt('aria_label.close_button')}>
                     <Icon name="cross" width={16} height={16} />
                 </ClosePopoverButton>
                 <Block>
                     <AuthorTitle>
                         <AuthorInfoBlock to={linkToAccount}>
                             <AuthorName>{name}</AuthorName>
-                            <AuthorAccount>@{account}</AuthorAccount>
+                            <AuthorAccount aria-label={tt('aria_label.username')}>@{account}</AuthorAccount>
                         </AuthorInfoBlock>
-                        <AvatarLink to={linkToAccount}>
+                        <AvatarLink to={linkToAccount} aria-label={tt('aria_label.avatar')}>
                             <Userpic size={50} account={account} />
                         </AvatarLink>
                     </AuthorTitle>
@@ -203,7 +204,7 @@ export class PopoverBody extends Component {
                             collapseOnMobile={false}
                             onClick={this.closePopover}
                         />
-                        <MuteButton muting={account} onClick={this.closePopover} />
+                        <MuteButton role="button" muting={account} onClick={this.closePopover} />
                     </ButtonsBlock>
                 )}
             </Wrapper>
