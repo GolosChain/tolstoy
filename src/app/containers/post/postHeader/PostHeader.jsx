@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 
 import Icon from 'golos-ui/Icon';
 import Button from 'golos-ui/Button';
+import { TagLink } from 'golos-ui/Tag';
 
 import Userpic from 'app/components/elements/Userpic';
 import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
@@ -22,7 +23,6 @@ const Wrapper = styled.div`
     align-items: center;
     justify-content: flex-start;
     padding-bottom: 25px;
-    border-bottom: 2px solid #e1e1e1;
 
     @media (max-width: 576px) {
         justify-content: space-between;
@@ -120,7 +120,6 @@ const AvatarBox = styled.div`
     top: 50px;
     width: 50px;
 `;
-
 export class PostHeader extends Component {
     static propTypes = {
         postUrl: PropTypes.string,
@@ -164,6 +163,7 @@ export class PostHeader extends Component {
     render() {
         const {
             created,
+            category,
             isPinned,
             togglePin,
             isOwner,
@@ -185,9 +185,7 @@ export class PostHeader extends Component {
                         <UserpicStyled account={author} size={50} />
                     </Avatar>
                     <InfoBlock>
-                        <AuthorName aria-label={tt('aria_label.username')}>
-                            {author}
-                        </AuthorName>
+                        <AuthorName aria-label={tt('aria_label.username')}>{author}</AuthorName>
                         <TimeAgoWrapper date={created} />
                     </InfoBlock>
                 </UserInfoWrapper>
@@ -211,6 +209,13 @@ export class PostHeader extends Component {
                         </FollowRound>
                     ))}
                 <PostActionsWrapper>
+                    <TagLink
+                        to={'/trending/' + category.origin}
+                        category={1}
+                        aria-label={tt('aria_label.category')}
+                    >
+                        {category.tag}
+                    </TagLink>
                     <PostActionsStyled
                         fullUrl={postUrl}
                         isFavorite={isFavorite}
