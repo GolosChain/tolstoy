@@ -155,6 +155,11 @@ const VotePanelWrapper = styled.div`
         justify-content: flex-start;
         width: 100%;
         padding: 0 18px;
+
+        @media (max-width: 689px) {
+            justify-content: center;
+            padding: 0;
+        }
     `};
 `;
 
