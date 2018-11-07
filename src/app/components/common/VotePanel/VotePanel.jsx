@@ -268,7 +268,11 @@ export default class VotePanel extends PureComponent {
                     >
                         <LikeIcon name="like" />
                     </LikeWrapper>
-                    <LikeCount onClick={votesSummary.likes === 0 ? null : this.onLikesNumberClick}>
+                    <LikeCount
+                        role="button"
+                        aria-label={tt('aria_label.likers_list')}
+                        onClick={votesSummary.likes === 0 ? null : this.onLikesNumberClick}
+                    >
                         {votesSummary.likes}
                         {sidePanel ? null : <IconTriangle />}
                     </LikeCount>
@@ -295,6 +299,8 @@ export default class VotePanel extends PureComponent {
                         <LikeIconNeg name="like" />
                     </LikeWrapper>
                     <LikeCount
+                        role="button"
+                        aria-label={tt('aria_label.dislikers_list')}
                         onClick={votesSummary.dislikes === 0 ? null : this.onDislikesNumberClick}
                     >
                         {votesSummary.dislikes}

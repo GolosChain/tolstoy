@@ -43,6 +43,7 @@ export default class SharePopover extends Component {
                 value: 'LJ',
                 title: tt('postfull_jsx.share_on_lj'),
                 icon: 'lj',
+                label: tt('aria_label.share_on_lj'),
             },
             {
                 link: '#',
@@ -50,6 +51,7 @@ export default class SharePopover extends Component {
                 value: 'VK',
                 title: tt('postfull_jsx.share_on_vk'),
                 icon: 'vk',
+                label: tt('aria_label.share_on_vk'),
             },
             {
                 link: '#',
@@ -57,6 +59,7 @@ export default class SharePopover extends Component {
                 value: 'Facebook',
                 title: tt('postfull_jsx.share_on_facebook'),
                 icon: 'facebook',
+                label: tt('aria_label.share_on_facebook'),
             },
             {
                 link: '#',
@@ -64,12 +67,13 @@ export default class SharePopover extends Component {
                 value: 'Twitter',
                 title: tt('postfull_jsx.share_on_twitter'),
                 icon: 'twitter',
+                label: tt('aria_label.share_on_twitter'),
             },
         ];
         return (
             <Wrapper horizontal={horizontal}>
                 {shareMenu.map(item => (
-                    <ItemContainer onClick={item.onClick} key={item.value}>
+                    <ItemContainer type="button" aria-label={item.label} key={item.value} onClick={item.onClick}>
                         <Icon name={item.icon} />
                     </ItemContainer>
                 ))}
