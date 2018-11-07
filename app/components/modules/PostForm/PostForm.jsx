@@ -712,19 +712,20 @@ export default class PostForm extends React.Component {
         const { workArea } = this.refs;
         const { current } = this.previewButton;
 
-        const containerYBottom =
-            workArea && workArea instanceof Node ? workArea.getBoundingClientRect().bottom : null;
+        const containerYBottom = workArea ? workArea.getBoundingClientRect().bottom : null;
         const previewButtonYTop = current ? current.getPreviewButtonPosition() : null;
 
         if (containerYBottom && previewButtonYTop) {
-            if (containerYBottom < previewButtonYTop && previewButtonVisible)
+            if (containerYBottom < previewButtonYTop && previewButtonVisible) {
                 this.setState({
                     previewButtonVisible: false,
                 });
-            if (containerYBottom > previewButtonYTop && !previewButtonVisible)
+            }
+            if (containerYBottom >= previewButtonYTop && !previewButtonVisible) {
                 this.setState({
                     previewButtonVisible: true,
                 });
+            }
         }
     };
 }

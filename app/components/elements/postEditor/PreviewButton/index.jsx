@@ -27,7 +27,7 @@ const Root = styled.i`
     z-index: 9;
     transform: translateX(50px);
 
-    ${is('isVisible')`
+    ${is('isInvisible')`
         visibility: hidden;
         opacity: 0;
     `};
@@ -57,21 +57,18 @@ const Root = styled.i`
 `;
 
 export default class PreviewButton extends PureComponent {
-    constructor(props) {
-        super(props);
-        this.previewButton = React.createRef();
-    }
+    previewButton = React.createRef();
 
     render() {
-        const { isPreview, isStatic, isVisible } = this.props;
+        const { isPreview, isStatic, isInvisible } = this.props;
 
         let icon = (
             <Root
+                innerRef={this.previewButton}
                 isStatic={isStatic}
                 isPreview={isPreview}
-                isVisible={!isVisible}
+                isInvisible={!isInvisible}
                 onClick={this._onPreviewClick}
-                innerRef={this.previewButton}
             >
                 <Icon
                     name="editor/eye"
@@ -97,8 +94,7 @@ export default class PreviewButton extends PureComponent {
     getPreviewButtonPosition = () => {
         const { current } = this.previewButton;
 
-        const previewButtonYTop =
-            current && current instanceof Node ? current.getBoundingClientRect().top : null;
+        const previewButtonYTop = current ? current.getBoundingClientRect().top : null;
         return previewButtonYTop;
     };
 }
