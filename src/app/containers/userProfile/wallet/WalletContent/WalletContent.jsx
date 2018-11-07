@@ -183,14 +183,6 @@ export default class WalletContent extends Component {
             const { myAccountName, myAccount } = this.props;
             const { delegationData } = this.state;
 
-            for (let i = 0; i < list.length; ++i) {
-                const line = list[i];
-                const stamp = line.stamp;
-
-                line.day = [stamp.getFullYear(), stamp.getMonth(), stamp.getDate()].join('-');
-                line.addDate = i > 0 && list[i - 1].day !== line.day;
-            }
-
             return (
                 <Lines>
                     {list.map((item, i) => (
