@@ -61,8 +61,10 @@ const RichTextArea = styled.textarea`
     resize: none;
     outline: none;
     overflow: hidden;
+    overflow-wrap: break-word;
     word-wrap: break-word;
-    word-break: break-all;
+    word-break: break-word;
+    hyphens: auto;
     box-sizing: border-box;
     border: 1px solid #e1e1e1;
     box-shadow: none;

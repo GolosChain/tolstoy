@@ -62,7 +62,10 @@ const Input = styled.div`
     overflow: hidden;
     overflow-y: auto;
     background: transparent;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
     word-break: break-word;
+    hyphens: auto;
 
     &:focus {
         outline: none;

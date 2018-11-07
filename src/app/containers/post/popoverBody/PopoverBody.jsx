@@ -114,7 +114,10 @@ const PostTitle = styled(Link)`
     font-weight: 500;
     line-height: 24px;
     text-decoration: none;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
     word-break: break-word;
+    hyphens: auto;
 
     &:visited,
     &:hover,

@@ -30,7 +30,10 @@ const LeftSide = styled.div`
 const Message = styled.div`
     font-size: 14px;
     line-height: 20px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
     word-break: break-word;
+    hyphens: auto;
 `;
 
 const icons = {

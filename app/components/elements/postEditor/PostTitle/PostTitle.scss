@@ -2,7 +2,10 @@
 .PostTitle {
   position: relative;
   margin-bottom: 10px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
   word-break: break-word;
+  hyphens: auto;
 
   &__input {
     display: block;
