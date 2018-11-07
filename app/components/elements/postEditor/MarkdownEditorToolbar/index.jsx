@@ -277,6 +277,7 @@ export default class MarkdownEditorToolbar extends React.PureComponent {
                             className="MET__new-line-item MET__new-line-icon"
                             name={`editor-toolbar/${action.icon}`}
                             data-tooltip={tt(action.tooltip)}
+                            aria-label={tt(action.tooltip)}
                             onClick={() => this._onActionClick(action.id)}
                         />
                     ))}

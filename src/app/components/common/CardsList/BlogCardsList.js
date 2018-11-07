@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import CardsList from './CardsList';
+import CardsList from './CardsList.connect';
 
 export default connect(
     (state, props) => ({

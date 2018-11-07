@@ -20,10 +20,11 @@ const Badge = styled.div`
     align-items: center;
     justify-content: center;
 
-    padding: 2px 4px 1px 4px;
+    padding: 2px 4px;
 
     border-radius: 50%;
     min-width: 20px;
+    min-height: 20px;
     border: 2px solid #ffffff;
     background-color: #fc5d16;
 

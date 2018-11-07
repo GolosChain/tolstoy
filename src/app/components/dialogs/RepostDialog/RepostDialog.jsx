@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
@@ -53,6 +53,7 @@ const Input = styled.div`
     position: relative;
     display: block;
     width: 100%;
+    min-height: 46px;
     max-height: 200px;
     line-height: 24px;
     padding: 11px 16px 9px;
@@ -113,6 +114,8 @@ export default class RepostDialog extends Component {
         showNotification: PropTypes.func.isRequired,
     };
 
+    inputRef = createRef();
+
     state = {
         text: '',
         error: null,
@@ -126,8 +129,8 @@ export default class RepostDialog extends Component {
         return !this.state.text.trim();
     };
 
-    onTextChange = e => {
-        const text = e.currentTarget.innerText;
+    onTextChange = () => {
+        const text = this.inputRef.current.innerText;
         let error = null;
 
         if (text.length > MAX_CHARS) {
@@ -138,6 +141,20 @@ export default class RepostDialog extends Component {
             text,
             error,
         });
+    };
+
+    onTextPaste = e => {
+        try {
+            const text = e.clipboardData.getData('text/plain');
+            document.execCommand('insertHTML', false, text);
+
+            e.preventDefault();
+            e.stopPropagation();
+        } catch (error) {
+            console.log('not supported in this browser');
+        }
+
+        this.onTextChange();
     };
 
     onCancelClick = () => {
@@ -191,7 +208,9 @@ export default class RepostDialog extends Component {
                         autoComplete="off"
                         value={text}
                         autoFocus
+                        innerRef={this.inputRef}
                         onInput={this.onTextChange}
+                        onPaste={this.onTextPaste}
                     />
                     {error ? <ErrorBlock>{error}</ErrorBlock> : null}
                 </InputWrapper>
