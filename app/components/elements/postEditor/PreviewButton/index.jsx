@@ -33,9 +33,11 @@ const Root = styled.i`
 
     ${is('isStatic')`
         position: static;
-    `} &:hover {
+    `};
+     
+     &:hover {
         color: #0078c4;
-    }
+     }
 
     .PreviewButton__icon {
         width: 24px;
