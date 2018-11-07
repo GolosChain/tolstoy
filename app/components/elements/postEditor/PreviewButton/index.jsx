@@ -21,7 +21,7 @@ const Root = styled.i`
     text-align: center;
     cursor: pointer;
     color: #000;
-    transition: all 0.1s;
+    transition: color 0.1s, opacity 0.15s;
     background: #fff;
     box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
     z-index: 9;
