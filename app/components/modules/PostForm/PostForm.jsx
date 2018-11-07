@@ -88,7 +88,7 @@ export default class PostForm extends React.Component {
             payoutType: PAYOUT_TYPES.PAY_50,
             isPosting: false,
             uploadingCount: 0,
-            previewButtonVisible: true,
+            isPreviewButtonVisible: true,
         };
 
         this._saveDraftLazy = throttle(this._saveDraft, 500, { leading: true });
@@ -201,7 +201,7 @@ export default class PostForm extends React.Component {
             postError,
             uploadingCount,
             isPosting,
-            previewButtonVisible,
+            isPreviewButtonVisible,
         } = this.state;
 
         const disallowPostCode = this._checkDisallowPost();
@@ -216,10 +216,10 @@ export default class PostForm extends React.Component {
                 <div className="PostForm__work-area" ref="workArea">
                     <div className="PostForm__content">
                         <PreviewButton
-                            isPreview={isPreview}
-                            isVisible={previewButtonVisible}
-                            onPreviewChange={this._onPreviewChange}
                             ref={this.previewButton}
+                            isPreview={isPreview}
+                            isVisible={isPreviewButtonVisible}
+                            onPreviewChange={this._onPreviewChange}
                         />
                         <EditorSwitcher
                             items={[
@@ -708,7 +708,7 @@ export default class PostForm extends React.Component {
     }
 
     _checkPreviewButtonPosition = () => {
-        const { previewButtonVisible } = this.state;
+        const { isPreviewButtonVisible } = this.state;
         const { workArea } = this.refs;
         const { current } = this.previewButton;
 
@@ -716,14 +716,14 @@ export default class PostForm extends React.Component {
         const previewButtonYTop = current ? current.getPreviewButtonPosition() : null;
 
         if (containerYBottom && previewButtonYTop) {
-            if (containerYBottom < previewButtonYTop && previewButtonVisible) {
+            if (containerYBottom < previewButtonYTop && isPreviewButtonVisible) {
                 this.setState({
-                    previewButtonVisible: false,
+                    isPreviewButtonVisible: false,
                 });
             }
-            if (containerYBottom >= previewButtonYTop && !previewButtonVisible) {
+            if (containerYBottom >= previewButtonYTop && !isPreviewButtonVisible) {
                 this.setState({
-                    previewButtonVisible: true,
+                    isPreviewButtonVisible: true,
                 });
             }
         }

@@ -60,14 +60,14 @@ export default class PreviewButton extends PureComponent {
     previewButton = React.createRef();
 
     render() {
-        const { isPreview, isStatic, isInvisible } = this.props;
+        const { isPreview, isStatic, isVisible } = this.props;
 
         let icon = (
             <Root
                 innerRef={this.previewButton}
                 isStatic={isStatic}
                 isPreview={isPreview}
-                isInvisible={!isInvisible}
+                isInvisible={!isVisible}
                 onClick={this._onPreviewClick}
             >
                 <Icon
