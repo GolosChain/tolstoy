@@ -37,7 +37,6 @@ const LineIcon = styled(Icon)`
     flex-shrink: 0;
     width: 24px;
     height: 80px;
-    margin-right: 16px;
     color: ${props => props.color || '#b7b7ba'};
 `;
 
@@ -47,6 +46,7 @@ const Who = styled.div`
     justify-content: center;
     flex-grow: 1;
     flex-basis: 10px;
+    padding: 16px;
     height: 80px;
     overflow: hidden;
 `;
@@ -96,7 +96,6 @@ const MemoIcon = styled(Icon)`
     flex-shrink: 0;
     flex-basis: 24px;
     margin-top: 28px;
-    margin-right: 12px;
     color: #333;
     transition: color 0.15s;
 
@@ -108,6 +107,7 @@ const MemoIcon = styled(Icon)`
 const MemoCut = styled(TextCut)`
     flex-grow: 1;
     margin: 15px 0;
+    padding: 0 40px;
 
     @media (min-width: 890px) and (max-width: 1050px), (max-width: 550px) {
         display: none;
@@ -169,7 +169,7 @@ const Value = styled.div`
     flex-shrink: 0;
     flex-direction: column;
     align-items: flex-end;
-    width: 80px;
+    width: auto;
     height: 80px;
     justify-content: center;
 `;
@@ -193,26 +193,6 @@ const Currency = styled.div`
     color: #757575;
     white-space: nowrap;
     overflow: hidden;
-`;
-
-const DateWrapper = styled.div`
-    display: flex;
-    justify-content: center;
-`;
-
-const DateSplitter = styled.div`
-    height: 30px;
-    line-height: 30px;
-    padding: 0 13px;
-    margin: -15px 0;
-    border-radius: 100px;
-    font-size: 14px;
-    font-weight: 300;
-    color: #333;
-    background: #fff;
-    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.3);
-    cursor: default;
-    z-index: 2;
 `;
 
 const EditDelegationBlock = styled.div`
@@ -285,7 +265,6 @@ export default class WalletLine extends PureComponent {
         const { data } = this.props;
         const { loader } = this.state;
         const {
-            addDate,
             stamp,
             icon,
             color,
@@ -310,14 +289,6 @@ export default class WalletLine extends PureComponent {
 
         return (
             <Root>
-                {addDate ? (
-                    <DateWrapper>
-                        <DateSplitter>
-                            {/* TODO use counterpart */}
-                            {`${stamp.getDate()} ${tt(`g.date_months.${stamp.getMonth()}`)}`}
-                        </DateSplitter>
-                    </DateWrapper>
-                ) : null}
                 <Line>
                     <LineIcon name={icon} color={color} />
                     <Who>
