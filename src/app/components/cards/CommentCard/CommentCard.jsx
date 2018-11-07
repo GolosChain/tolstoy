@@ -114,23 +114,11 @@ const Root = styled(EntryWrapper)`
     `};
 
     ${is('graymask')`
-        &::after {
-            position: absolute;
-            content: '';
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            border-radius: 8px;
-            background: #fff;
-            opacity: 0.57;
-            transition: opacity 0.25s;
-            z-index: 1;
-            pointer-events: none;
-        }
-        
-        &:hover::after {
-            opacity: 0;
+        opacity: 0.57;
+        transition: opacity 0.25s;
+
+        &:hover {
+            opacity: 1;
         }
     `};
 `;
