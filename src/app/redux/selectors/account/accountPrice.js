@@ -9,7 +9,7 @@ export const getAccountPrice = createSelector(
     state => state.data.settings.getIn(['basic', 'currency'], 'GBG'),
 
     (account, globalProps, rates, currency) => {
-        if (currency !== 'GBG' && !rates.GOLOS[currency]) {
+        if (currency !== 'GOLOS' && currency !== 'GBG' && !rates.GOLOS[currency]) {
             currency = 'GBG';
         }
 

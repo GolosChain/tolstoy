@@ -12,8 +12,9 @@ import Icon from 'golos-ui/Icon';
 const Wrapper = styled.div.attrs({
     style: ({ backgroundUrl, size }) => ({
         backgroundImage: backgroundUrl ? `url(${backgroundUrl})` : null,
+        boxShadow: backgroundUrl ? '0 0 1px #000' : null,
         height: `${size}px`,
-        width:  `${size}px`,
+        width: `${size}px`,
     }),
 })`
     display: flex;
@@ -21,14 +22,11 @@ const Wrapper = styled.div.attrs({
     align-items: center;
     justify-content: center;
 
-    color: #E1E1E1;
-    box-shadow: 0 0 1px #000;
+    color: #e1e1e1;
 
     ${is('icon')`
         margin-left: 6px;
-    `} 
-    
-    background-size: cover;
+    `} background-size: cover;
     background-repeat: no-repeat;
     background-position: 50% 50%;
     border-radius: 50%;
@@ -73,9 +71,7 @@ export default class Avatar extends PureComponent {
 
         return (
             <Wrapper backgroundUrl={backgroundUrl} size={size} icon={icon ? 1 : 0}>
-                {!backgroundUrl && (
-                    <Icon name="avatar-centered" size={size} />
-                )}
+                {!backgroundUrl && <Icon name="avatar-centered" size={size} />}
                 {icon && (
                     <AvatarBadge>
                         <Icon {...icon} />

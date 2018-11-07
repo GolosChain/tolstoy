@@ -9,7 +9,7 @@ import { Map } from 'immutable';
 import { detransliterate } from 'app/utils/ParsersAndFormatters';
 import Icon from 'golos-ui/Icon';
 import { TagLink } from 'golos-ui/Tag';
-import { PostTitle, PostContent } from '../common';
+import { EntryWrapper, PostTitle, PostContent } from '../common';
 import VotePanel from '../../common/VotePanel';
 import ReplyBlock from '../../common/ReplyBlock';
 import CardAuthor from '../CardAuthor';
@@ -103,6 +103,12 @@ const BodyLink = styled(Link)`
         flex-grow: 1;
         overflow: hidden;
     `};
+
+    &:visited {
+        ${PostTitle} {
+            color: #999;
+        }
+    }
 `;
 
 const Body = styled.div`
@@ -174,36 +180,41 @@ const Filler = styled.div`
     flex-grow: 1;
 `;
 
-const Root = styled.div`
+const Root = styled(EntryWrapper)`
     position: relative;
     border-radius: 8px;
     background: #fff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
-
-    ${is('grid')`
-        display: flex;
-        flex-direction: column;
-    `};
 `;
 
 export default class PostCard extends PureComponent {
     static propTypes = {
+        // external
         permLink: PropTypes.string.isRequired,
-        postLink: PropTypes.string.isRequired,
-        myAccount: PropTypes.string,
-        data: PropTypes.object,
+        additionalData: PropTypes.instanceOf(Map),
         grid: PropTypes.bool,
         pageAccountName: PropTypes.string,
         showPinButton: PropTypes.bool,
+        onClick: PropTypes.func,
+
+        // connect
+        myAccount: PropTypes.string,
+        isNsfw: PropTypes.bool,
+        nsfwPref: PropTypes.string,
+        data: PropTypes.object,
+        postLink: PropTypes.string.isRequired,
+        sanitizedData: PropTypes.object,
+        isRepost: PropTypes.bool,
+        repostHtml: PropTypes.string,
+        isFavorite: PropTypes.bool,
         pinDisabled: PropTypes.bool,
         isPinned: PropTypes.bool,
-        isRepost: PropTypes.bool,
-        additionalData: PropTypes.instanceOf(Map),
-        onClick: PropTypes.func,
+        isOwner: PropTypes.bool,
     };
 
     static defaultProps = {
         onClick: () => {},
+        hideNsfw: false,
     };
 
     componentDidMount() {
@@ -215,7 +226,12 @@ export default class PostCard extends PureComponent {
     }
 
     render() {
-        const { className, isRepost, grid } = this.props;
+        const { className, isRepost, grid, hideNsfw } = this.props;
+
+        // user wishes to hide these posts entirely
+        if (hideNsfw) {
+            return null;
+        }
 
         return (
             <Root className={className} grid={grid}>

@@ -3,7 +3,7 @@ import cn from 'classnames';
 import { last } from 'ramda';
 import KEYS from 'app/utils/keyCodes';
 import CommonDialog from 'app/components/dialogs/CommonDialog';
-import LoginForm from 'src/app/containers/login/LoginForm/LoginForm.connect';
+import LoginForm from 'src/app/containers/login/LoginForm';
 
 let queue = [];
 let instance = null;
@@ -54,14 +54,21 @@ export default class DialogManager extends React.PureComponent {
         });
     }
 
-    static confirm(text, title) {
+    static confirm(text, params = {}) {
         return new Promise(resolve => {
+            if (typeof params === 'string') {
+                params = {
+                    title: params,
+                };
+            }
+
             DialogManager.showDialog({
                 component: CommonDialog,
                 props: {
-                    title,
+                    title: params.title,
                     type: 'confirm',
                     text: text || 'Вы уверены?',
+                    params,
                 },
                 onClose: resolve,
             });
@@ -97,11 +104,23 @@ export default class DialogManager extends React.PureComponent {
         });
     }
 
-    static showLogin({ onClose } = {}) {
+    static showLogin({ isConfirm, operationType, onClose } = {}) {
         return DialogManager.showDialog({
             component: LoginForm,
+            props: {
+                isConfirm,
+                operationType,
+            },
             onClose,
         });
+    }
+
+    static closeAll() {
+        if (instance) {
+            instance.closeAll();
+        } else {
+            queue = [];
+        }
     }
 
     constructor(props) {
@@ -148,21 +167,23 @@ export default class DialogManager extends React.PureComponent {
         const dialogs = this._dialogs.map((dialog, i) => (
             <div
                 key={dialog.key}
-                className={cn('DialogManager__window', {
-                    DialogManager__window_active: i === this._dialogs.length - 1,
+                className={cn('DialogManager__window-wrapper', {
+                    'DialogManager__window-wrapper_active': i === this._dialogs.length - 1,
                 })}
             >
-                <dialog.options.component
-                    {...dialog.options.props}
-                    dialogRoot={this._root}
-                    ref={el => (dialog.el = (el && el.wrappedInstance) || el)}
-                    onClose={data => this._onDialogClose(dialog, data)}
-                />
+                <div className="DialogManager__window" onClick={this._onWindowClick}>
+                    <dialog.options.component
+                        {...dialog.options.props}
+                        dialogRoot={this._root}
+                        ref={el => (dialog.el = (el && el.wrappedInstance) || el)}
+                        onClose={data => this._onDialogClose(dialog, data)}
+                    />
+                </div>
             </div>
         ));
 
         return (
-            <div className="DialogManager" ref={this._onRef} onClick={this._onRootClick}>
+            <div className="DialogManager" ref={this._onRef}>
                 <div className="DialogManager__shade" ref={this._onShadowRef} />
                 {dialogs}
             </div>
@@ -233,8 +254,15 @@ export default class DialogManager extends React.PureComponent {
         }
     };
 
-    _onRootClick = e => {
-        if (e.target === this._root) {
+    _onWindowClick = e => {
+        const link = e.target.closest('a[href]');
+
+        if (link && link.getAttribute('target') !== '_blank') {
+            this.closeAll();
+            return;
+        }
+
+        if (e.target.classList.contains('DialogManager__window')) {
             this._tryToClose();
         }
     };
@@ -260,5 +288,22 @@ export default class DialogManager extends React.PureComponent {
         }
 
         this._closeDialog(last(this._dialogs));
+    }
+
+    closeAll() {
+        for (let i = this._dialogs.length - 1; i >= 0; i--) {
+            const dialog = this._dialogs[i];
+
+            if (dialog.options.onClose) {
+                try {
+                    dialog.options.onClose(null);
+                } catch (err) {
+                    console.error(err);
+                }
+            }
+        }
+
+        this._dialogs = [];
+        this.forceUpdate();
     }
 }

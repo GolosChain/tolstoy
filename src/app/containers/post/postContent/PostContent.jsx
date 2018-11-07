@@ -37,6 +37,7 @@ const PostTitle = styled.h1`
     font-size: 2rem;
     line-height: 40px;
     -webkit-font-smoothing: antialiased;
+    word-break: break-word;
 
     @media (max-width: 576px) {
         font-size: 30px;
@@ -135,7 +136,11 @@ export class PostContent extends Component {
             <Preview>
                 <Body>
                     <BodyHeaderWrapper>
-                        <TagLink to={'/trending/' + category.origin} category={1}>
+                        <TagLink
+                            to={'/trending/' + category.origin}
+                            category={1}
+                            aria-label={tt('aria_label.category')}
+                        >
                             {category.tag}
                         </TagLink>
                         {isPromoted && (
@@ -161,6 +166,7 @@ export class PostContent extends Component {
                             to={'/trending/' + tag.origin}
                             category={index === 0 ? 1 : 0}
                             key={index}
+                            aria-label={tt('aria_label.tag')}
                         >
                             {tag.tag}
                         </TagLink>

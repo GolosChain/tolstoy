@@ -7,7 +7,7 @@ module.exports = (baseConfig, env, defaultConfig) =>
     merge(removeSvgLoaders(defaultConfig), {
         resolve: {
             modules: [path.resolve(__dirname, '..'), 'node_modules'],
-            extensions: ['.js', '.json', '.jsx'],
+            extensions: ['.js', '.json', '.jsx', '.css'],
             alias,
         },
         plugins: [
@@ -69,8 +69,7 @@ module.exports = (baseConfig, env, defaultConfig) =>
         },
     });
 
-
 function removeSvgLoaders(config) {
-    config.module.rules = config.module.rules.filter(rule => rule.test.toString() !== '/\\.svg$/')
+    config.module.rules = config.module.rules.filter(rule => rule.test.toString() !== '/\\.svg$/');
     return config;
 }
