@@ -11,6 +11,7 @@ import CommentFormLoader from 'app/components/modules/CommentForm/loader';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 
 import { TagLink } from 'golos-ui/Tag';
+import { EntryWrapper } from '../common';
 import CloseOpenButton from '../CloseOpenButton';
 import CommentFooter from '../CommentFooter';
 import CardAuthor from '../CardAuthor';
@@ -90,7 +91,7 @@ const CommentBodyWrapper = styled.div`
     `};
 `;
 
-const Root = styled.div`
+const Root = styled(EntryWrapper)`
     display: flex;
     flex-direction: column;
     position: relative;
@@ -218,7 +219,9 @@ export class CommentCard extends PureComponent {
                         />
                     )}
                     <TogglerWrapper>
-                        <Category to={'/trending/' + comment.get('category')} category={1}>{detransliteratedCategory}</Category>
+                        <Category to={'/trending/' + comment.get('category')} category={1}>
+                            {detransliteratedCategory}
+                        </Category>
                         <CloseOpenButton collapsed={collapsed} toggleComment={this.toggleComment} />
                     </TogglerWrapper>
                 </HeaderLine>
