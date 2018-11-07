@@ -23,29 +23,33 @@ export default class CommonDialog extends React.PureComponent {
         type: PropTypes.oneOf(['info', 'alert', 'confirm', 'prompt']),
         title: PropTypes.string,
         text: PropTypes.string.isRequired,
+        params: PropTypes.object,
         onClose: PropTypes.func.isRequired,
     };
 
     render() {
-        const { text, title, type = 'info' } = this.props;
+        const { text, title, params, type = 'info' } = this.props;
 
         const options = TYPES[type];
+
+        let style = null;
+
+        if (params && params.width) {
+            style = { flexBasis: params.width };
+        }
 
         return (
             <DialogFrame
                 className="CommonDialog"
                 title={title || tt(options.title)}
                 buttons={this._getButtons()}
+                style={style}
                 onCloseClick={this._onCloseClick}
             >
                 <div className="CommonDialog__body">
                     {format(text)}
                     {type === 'prompt' ? (
-                        <input
-                            className="CommonDialog__prompt-input"
-                            ref="input"
-                            autoFocus
-                        />
+                        <input className="CommonDialog__prompt-input" ref="input" autoFocus />
                     ) : null}
                 </div>
             </DialogFrame>

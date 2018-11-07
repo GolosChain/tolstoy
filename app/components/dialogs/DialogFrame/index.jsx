@@ -17,10 +17,19 @@ export default class DialogFrame extends PureComponent {
     };
 
     render() {
-        const { title, titleSize, icon, buttons, children, username, className } = this.props;
+        const {
+            title,
+            titleSize,
+            icon,
+            buttons,
+            children,
+            username,
+            className,
+            style,
+        } = this.props;
 
         return (
-            <div className={cn('Dialog', className)}>
+            <div className={cn('Dialog', className)} style={style}>
                 <Icon
                     name="cross_thin"
                     className="Dialog__close"

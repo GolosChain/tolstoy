@@ -9,6 +9,7 @@ import SplashLoader from 'golos-ui/SplashLoader';
 import { Checkbox } from 'golos-ui/Form';
 
 import transaction from 'app/redux/Transaction';
+import { isBadActor } from 'app/utils/ChainValidation';
 import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';
 import { showNotification } from 'src/app/redux/actions/ui';
 import { parseAmount } from 'src/app/helpers/currency';
@@ -121,8 +122,10 @@ class SafeDialog extends PureComponent {
 
         const balance = parseFloat(myAccount.get(currencyKey));
 
-        const { value, error } = parseAmount(amount, balance, !amountInFocus);
-
+        let { value, error } = parseAmount(amount, balance, !amountInFocus);
+        if (isBadActor(target)) {
+            error = tt('chainvalidation_js.use_caution_sending_to_this_account');
+        }
         const targetCheck = saveTo ? target && target.trim() : true;
 
         const allow = targetCheck && value > 0 && !error && !loader && !disabled;

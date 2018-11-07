@@ -12,6 +12,7 @@ import { Checkbox } from 'golos-ui/Form';
 
 import { MIN_VOICE_POWER } from 'app/client_config';
 import transaction from 'app/redux/Transaction';
+import { isBadActor } from 'app/utils/ChainValidation';
 import DialogFrame from 'app/components/dialogs/DialogFrame';
 import DialogManager from 'app/components/elements/common/DialogManager';
 import { parseAmount } from 'src/app/helpers/currency';
@@ -151,7 +152,10 @@ class ConvertDialog extends PureComponent {
 
         const balanceString2 = balanceString.match(/^[^\s]*/)[0];
 
-        const { value, error } = parseAmount(amount, balance, !amountInFocus);
+        let { value, error } = parseAmount(amount, balance, !amountInFocus);
+        if (isBadActor(target)) {
+            error = tt('chainvalidation_js.use_caution_sending_to_this_account');
+        }
 
         const targetCheck = saveTo ? target && target.trim() : true;
 
