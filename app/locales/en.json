@@ -197,6 +197,10 @@
     "you_can_change_your_number": "You can change your number at any time if we didn't receive your sms with verification code. ",
     "you_need_to": "You need to "
   },
+  "data-tooltip": {
+    "grid": "Grid",
+    "list": "List"
+  },
   "delegate_vesting_shares_info_jsx": {
     "confirm_cancel_delegation": "Are you sure you want to cancel %(VESTING_TOKEN2)s delegation",
     "confirm_title": "Cancel %(VESTING_TOKENS)s delegation",
@@ -1229,22 +1233,6 @@
   "tags_page": {
     "payouts": "Payouts",
     "replies": "Replies"
-  },
-  "tips_js": {
-    "LIQUID_TOKEN_can_be_converted_to_VESTING_TOKEN_in_a_process_called_powering_up": "%(LIQUID_TOKEN)s can be converted to %(VESTING_TOKEN2)s in a process called powering up.",
-    "VESTING_TOKEN_is_non_transferrable_and_requires_convert_back_to_LIQUID_TOKEN": "%(VESTING_TOKEN2)s is non-transferrable and requires 3 months (13 payments) to convert back to %(LIQUID_TOKEN)s.",
-    "authenticate_for_this_transaction": "Authenticate for this transaction",
-    "confirm_email": "Confirm Email",
-    "confirm_phone": "Please verify your phone number",
-    "converted_VESTING_TOKEN_can_be_sent_to_yourself_but_can_not_transfer_again": "Converted %(VESTING_TOKEN)s can be sent to yourself or someone else but can not transfer again without converting back to %(LIQUID_TOKEN)s.",
-    "influence_tokens_which_give_you_more_control_over": "Influence tokens which give you more control over post payouts and allow you to earn on curation rewards.",
-    "login_to_your_APP_NAME_account": "Login to your %(APP_NAME)s Account",
-    "profile": "Profile",
-    "send_to_account": "Send to account",
-    "the_estimated_value_is_based_on_an_average_value_of_steem_in_US_dollars": "The estimated value is based on an average value of %(LIQUID_TOKEN)s in US dollars.",
-    "the_more_you_hold_the_more_you_influence_post_rewards": "The more you hold the more you influence post rewards and earn for accurate voting.",
-    "tokens_worth_about_AMOUNT_of_LIQUID_TOKEN": "Tokens worth about %(amount)s of %(LIQUID_TOKEN)s.",
-    "tradeable_tokens_that_may_be_transferred_anywhere_at_anytime": "Tradeable tokens that may be transferred anywhere at anytime."
   },
   "token_names": {
     "DEBT_TOKEN": "Gold Backed Golos",

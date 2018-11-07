@@ -153,13 +153,13 @@ class UserNavigation extends PureComponent {
         if (showLayout && !isMobile) {
             if (layout === 'list') {
                 icons.push(
-                    <IconWrap key="l-grid" data-tooltip="Сетка" onClick={this._onGridClick}>
+                    <IconWrap key="l-grid" data-tooltip={tt('data-tooltip.grid')} onClick={this._onGridClick}>
                         <SimpleIcon name="layout_grid" />
                     </IconWrap>
                 );
             } else {
                 icons.push(
-                    <IconWrap key="l-list" data-tooltip="Список" onClick={this._onListClick}>
+                    <IconWrap key="l-list" data-tooltip={tt('data-tooltip.list')} onClick={this._onListClick}>
                         <SimpleIcon name="layout_list" />
                     </IconWrap>
                 );
