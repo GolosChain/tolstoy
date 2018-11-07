@@ -113,8 +113,8 @@ const Root = styled(EntryWrapper)`
         justify-content: center;
     `};
 
-    ${is('graymask')`
-        opacity: 0.57;
+    ${is('gray')`
+        opacity: 0.37;
         transition: opacity 0.25s;
 
         &:hover {
@@ -440,7 +440,7 @@ export class CommentCard extends PureComponent {
                 renderCard={!isPostPage}
                 collapsed={collapsed}
                 className={className}
-                graymask={stats && (stats.gray || stats.hide) && !isPostPage}
+                gray={stats && (stats.gray || stats.hide) && !isPostPage}
             >
                 {isPostPage ? this.renderHeaderForPost() : this.renderHeaderForProfile()}
                 {collapsed || showAlert ? null : (

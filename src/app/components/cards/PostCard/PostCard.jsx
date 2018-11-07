@@ -177,8 +177,8 @@ const Root = styled(EntryWrapper)`
     background: #fff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
 
-    ${is('graymask')`
-        opacity: 0.57;
+    ${is('gray')`
+        opacity: 0.37;
         transition: opacity 0.25s;
 
         &:hover {
@@ -233,10 +233,8 @@ export default class PostCard extends PureComponent {
             return null;
         }
 
-        const gray = stats.gray || stats.hide;
-
         return (
-            <Root className={className} grid={grid} graymask={gray}>
+            <Root className={className} grid={grid} gray={stats.gray || stats.hide}>
                 {this.renderHeader()}
                 {isRepost ? this.renderRepostPart() : null}
                 {this.renderBody()}
