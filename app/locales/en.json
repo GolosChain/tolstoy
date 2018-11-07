@@ -45,6 +45,16 @@
       "social_placeholder": "Follow other authors and post interesting content tp expand your audience."
     }
   },
+  "aria_label": {
+    "avatar": "User's avatar",
+    "category": "Category",
+    "close_button": "Close",
+    "dislike": "Vote with dislike",
+    "expected_payout": "Expected payout",
+    "like": "Vote with like",
+    "tag": "Hashtag",
+    "username": "Username"
+  },
   "auth_protection": {
     "need_auth": "Not allowed, please authorize.",
     "not_allowed": "Not allowed."

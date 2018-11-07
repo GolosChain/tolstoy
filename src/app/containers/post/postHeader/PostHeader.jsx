@@ -157,7 +157,7 @@ export class PostHeader extends Component {
     };
 
     unfollow = () => {
-        const { author, confirmUnfollowDialog} = this.props;
+        const { author, confirmUnfollowDialog } = this.props;
         confirmUnfollowDialog(author);
     };
 
@@ -180,22 +180,33 @@ export class PostHeader extends Component {
         return (
             <Wrapper className={className}>
                 <UserInfoWrapper to={`/@${author}`} onClick={this.onUserInfoClick}>
-                    <Avatar>
+                    <Avatar aria-label={tt('aria_label.avatar')}>
                         <PopoverBackgroundShade show={showPopover} />
                         <UserpicStyled account={author} size={50} />
                     </Avatar>
                     <InfoBlock>
-                        <AuthorName>{author}</AuthorName>
+                        <AuthorName aria-label={tt('aria_label.username')}>
+                            {author}
+                        </AuthorName>
                         <TimeAgoWrapper date={created} />
                     </InfoBlock>
                 </UserInfoWrapper>
                 {!isOwner &&
                     (isFollow ? (
-                        <FollowRound light onClick={this.unfollow} data-tooltip={tt('g.unfollow')}>
+                        <FollowRound
+                            light
+                            onClick={this.unfollow}
+                            data-tooltip={tt('g.unfollow')}
+                            aria-label={tt('g.unfollow')}
+                        >
                             <FollowedIcon name="tick" width={18} height={14} />
                         </FollowRound>
                     ) : (
-                        <FollowRound onClick={this.follow} data-tooltip={tt('g.follow')}>
+                        <FollowRound
+                            onClick={this.follow}
+                            data-tooltip={tt('g.follow')}
+                            aria-label={tt('g.follow')}
+                        >
                             <CustomIcon name="plus" width={12} height={12} />
                         </FollowRound>
                     ))}
