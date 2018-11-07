@@ -196,19 +196,17 @@ class UserProfileContainer extends Component {
         if (!currentAccount) {
             if (fetching) {
                 return (
-                    <div className="UserProfile loader">
-                        <div className="UserProfile__center">
+                    <Main>
+                        <Content center>
                             <LoadingIndicator type="circle" size={40} />
-                        </div>
-                    </div>
+                        </Content>
+                    </Main>
                 );
             } else {
                 return (
-                    <div className="UserProfile">
-                        <div className="UserProfile__center">
-                            {tt('user_profile.unknown_account')}
-                        </div>
-                    </div>
+                    <Main>
+                        <Content center>{tt('user_profile.unknown_account')}</Content>
+                    </Main>
                 );
             }
         }
