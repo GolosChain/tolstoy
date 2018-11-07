@@ -36,7 +36,8 @@ export const CURRENCY_COLOR = {
     GBG: '#ffb839',
     GOLOS_POWER: '#f57c02',
     GOLOS_POWER_DELEGATION: '#78c2d0;',
-    SAFE: '#583652',
+    IN_SAFE: '#f57c02',
+    FROM_SAFE: '#b7b7ba'
 };
 
 export const REWARDS_TABS = {
@@ -477,6 +478,14 @@ export default class WalletContent extends Component {
                         }
                     }
 
+
+                    let safeColor = CURRENCY_COLOR.FROM_SAFE;
+                    if (isSafe) {
+                        if (sign === '+') {
+                            safeColor = CURRENCY_COLOR.IN_SAFE
+                        }
+                    }
+
                     return {
                         type: isReceive ? DIRECTION.RECEIVE : DIRECTION.SENT,
                         name: samePerson && isSafe ? null : isReceive ? data.from : data.to,
@@ -496,7 +505,7 @@ export default class WalletContent extends Component {
                                 ? 'logo'
                                 : 'brilliant',
                         color: isSafe
-                            ? CURRENCY_COLOR.SAFE
+                            ? safeColor
                             : isReceive
                                 ? CURRENCY_COLOR[opCurrency]
                                 : null,
