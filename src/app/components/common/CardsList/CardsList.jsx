@@ -1,13 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { List } from 'immutable';
+import { List, OrderedSet } from 'immutable';
 import throttle from 'lodash/throttle';
 import styled from 'styled-components';
 import is from 'styled-is';
 
-import { saveListScrollPosition } from 'src/app/redux/actions/ui';
-import { locationSelector } from 'src/app/redux/selectors/ui/location';
 import { getScrollElement } from 'src/app/helpers/window';
 import { isFetchingOrRecentlyUpdated } from 'app/utils/StateFunctions';
 
@@ -29,32 +26,6 @@ const Loader = styled.div`
     margin-bottom: 20px;
 `;
 
-const EntryWrapper = styled.div`
-    margin-bottom: 16px;
-
-    ${is('grid')`
-        max-width: 50%;
-        flex-basis: 317px;
-        flex-grow: 1;
-        vertical-align: top;
-        padding: 0 8px;
-        
-        @media (max-width: 950px) {
-            max-width: 100%;
-        }
-    `};
-`;
-
-@connect(
-    state => ({
-        location: locationSelector(state),
-        listScrollPosition: state.ui.common.get('listScrollPosition'),
-        backClickTs: state.ui.common.get('backClickTs'),
-    }),
-    {
-        saveListScrollPosition,
-    }
-)
 export default class CardsList extends PureComponent {
     static propTypes = {
         // external
@@ -67,6 +38,8 @@ export default class CardsList extends PureComponent {
         allowInlineReply: PropTypes.bool,
         showPinButton: PropTypes.bool,
         disallowGrid: PropTypes.bool,
+        hideIgnored: PropTypes.bool,
+        ignoreResult: PropTypes.instanceOf(OrderedSet),
 
         // connect
         location: PropTypes.object,
@@ -78,6 +51,7 @@ export default class CardsList extends PureComponent {
         layout: 'list',
         allowInlineReply: false,
         showPinButton: false,
+        hideIgnored: false,
     };
 
     state = {
@@ -198,6 +172,23 @@ export default class CardsList extends PureComponent {
         }
     }
 
+    checkIsIgnored = data => {
+        const { ignoreResult, hideIgnored } = this.props;
+
+        if (!hideIgnored) {
+            return false;
+        }
+
+        let author;
+        if (typeof data === 'string') {
+            author = data.split('/')[0];
+        } else {
+            author = data.get('author');
+        }
+
+        return ignoreResult && ignoreResult.has(author);
+    };
+
     renderCard = data => {
         const {
             pageAccountName,
@@ -223,18 +214,21 @@ export default class CardsList extends PureComponent {
             additionalData = data.get('repostData');
         }
 
+        if (this.checkIsIgnored(data)) {
+            return null;
+        }
+
         return (
-            <EntryWrapper key={permLink} grid={isGrid}>
-                <ItemComp
-                    permLink={permLink}
-                    additionalData={additionalData}
-                    grid={isGrid}
-                    allowInlineReply={allowInlineReply}
-                    pageAccountName={pageAccountName}
-                    showPinButton={showPinButton}
-                    onClick={this.onEntryClick}
-                />
-            </EntryWrapper>
+            <ItemComp
+                key={permLink}
+                permLink={permLink}
+                additionalData={additionalData}
+                grid={isGrid}
+                allowInlineReply={allowInlineReply}
+                pageAccountName={pageAccountName}
+                showPinButton={showPinButton}
+                onClick={this.onEntryClick}
+            />
         );
     };
 

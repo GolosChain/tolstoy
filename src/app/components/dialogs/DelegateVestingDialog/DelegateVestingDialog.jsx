@@ -11,6 +11,7 @@ import Shrink from 'golos-ui/Shrink';
 
 import { MIN_VOICE_POWER } from 'app/client_config';
 import transaction from 'app/redux/Transaction';
+import { isBadActor } from 'app/utils/ChainValidation';
 import DialogFrame from 'app/components/dialogs/DialogFrame';
 import DialogManager from 'app/components/elements/common/DialogManager';
 import DialogTypeSelect from 'src/app/components/userProfile/common/DialogTypeSelect';
@@ -165,7 +166,10 @@ class DelegateVestingDialog extends PureComponent {
         );
         const availableBalanceString = (availableBalance / 1000).toFixed(3);
 
-        const { value, error } = parseAmount2(amount, availableBalance, !amountInFocus, 1000);
+        let { value, error } = parseAmount2(amount, availableBalance, !amountInFocus, 1000);
+        if (isBadActor(target)) {
+            error = tt('chainvalidation_js.use_caution_sending_to_this_account');
+        }
 
         const allow = target && value > 0 && !error && !loader && !disabled;
 

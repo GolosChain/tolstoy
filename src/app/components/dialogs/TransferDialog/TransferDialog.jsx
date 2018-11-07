@@ -9,6 +9,7 @@ import SplashLoader from 'golos-ui/SplashLoader';
 import Icon from 'golos-ui/Icon';
 
 import { APP_DOMAIN, DONATION_FOR } from 'app/client_config';
+import { isBadActor } from 'app/utils/ChainValidation';
 import transaction from 'app/redux/Transaction';
 import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';
 import { showNotification } from 'src/app/redux/actions/ui';
@@ -130,6 +131,7 @@ class TransferDialog extends PureComponent {
 
         this.state = {
             target,
+            initialTarget: Boolean(target),
             amount: '',
             currency: CURRENCIES.GBG,
             note,
@@ -141,7 +143,16 @@ class TransferDialog extends PureComponent {
 
     render() {
         const { myAccount, type, toAccountName } = this.props;
-        const { target, amount, currency, note, loader, disabled, amountInFocus } = this.state;
+        const {
+            target,
+            initialTarget,
+            amount,
+            currency,
+            note,
+            loader,
+            disabled,
+            amountInFocus,
+        } = this.state;
 
         const buttons = [
             {
@@ -165,10 +176,14 @@ class TransferDialog extends PureComponent {
         const balance = parseFloat(myAccount.get(currencyKey));
 
         let { value, error } = parseAmount(amount, balance, !amountInFocus);
+        if (isBadActor(target)) {
+            error = tt('chainvalidation_js.use_caution_sending_to_this_account');
+        }
 
         const allow = target && value > 0 && !error && !loader && !disabled;
 
         const lockTarget = type === 'donate' && toAccountName;
+        const focusTarget = !lockTarget && !initialTarget;
 
         return (
             <DialogFrameStyled
@@ -198,7 +213,7 @@ class TransferDialog extends PureComponent {
                                 <AccountNameInput
                                     name="account"
                                     block
-                                    autoFocus={!lockTarget}
+                                    autoFocus={focusTarget}
                                     disabled={lockTarget}
                                     placeholder={tt('dialogs_transfer.to_placeholder')}
                                     value={target}
@@ -213,7 +228,7 @@ class TransferDialog extends PureComponent {
                                     })}
                                     spellCheck="false"
                                     value={amount}
-                                    autoFocus={lockTarget}
+                                    autoFocus={!focusTarget}
                                     activeId={currency}
                                     buttons={buttons}
                                     onChange={this._onAmountChange}

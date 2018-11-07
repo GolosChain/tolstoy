@@ -30,6 +30,7 @@ const LeftSide = styled.div`
 const Message = styled.div`
     font-size: 14px;
     line-height: 20px;
+    word-break: break-word;
 `;
 
 const icons = {

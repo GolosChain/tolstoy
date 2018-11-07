@@ -2,6 +2,7 @@
 .PostTitle {
   position: relative;
   margin-bottom: 10px;
+  word-break: break-word;
 
   &__input {
     display: block;

@@ -104,6 +104,7 @@ export default class HomeContent extends Component {
                     order={order}
                     category={category}
                     isLoading={isFetching}
+                    hideIgnored
                     //showSpam
 
                     layout={layout}

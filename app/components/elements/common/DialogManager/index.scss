@@ -1,15 +1,27 @@
-
 .DialogManager {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  overflow-y: auto;
   z-index: 500;
 
   &_hidden {
     display: none;
+  }
+
+  &__window-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    overflow-y: auto;
+
+    &_active {
+      z-index: 3;
+    }
   }
 
   &__window {
@@ -22,17 +34,10 @@
     right: 0;
     min-height: 100%;
     padding: 40px 20px;
-    pointer-events: none;
     animation: raise-down 0.15s;
-    z-index: 1;
-
-    &_active {
-      z-index: 3;
-    }
 
     & > * {
       flex-basis: 200px;
-      pointer-events: initial;
     }
   }
 
@@ -42,9 +47,8 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0,0,0, 0.65);
+    background: rgba(0, 0, 0, 0.65);
     user-select: none;
-    pointer-events: none;
     z-index: 2;
     animation: fade-in 0.2s;
   }
