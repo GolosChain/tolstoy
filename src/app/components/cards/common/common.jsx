@@ -24,6 +24,9 @@ export const PostTitle = styled.div`
     font-weight: 500;
     font-size: 1.5rem;
     line-height: 36.4px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
     color: #343434;
     word-break: break-word;
 
