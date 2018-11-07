@@ -110,7 +110,9 @@ export default class PostForm extends React.Component {
         }
 
         this.previewButton = React.createRef();
+    }
 
+    componentDidMount() {
         window.addEventListener('scroll', this._checkPreviewButtonPosition);
     }
 
