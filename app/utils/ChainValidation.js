@@ -1,6 +1,10 @@
 import tt from 'counterpart';
 import BadActorList from 'app/utils/BadActorList';
 
+export function isBadActor(name) {
+    return BadActorList.includes(name);
+}
+
 export function validate_account_name(value) {
     let i, label, len, length, ref, suffix;
 
@@ -42,4 +46,3 @@ export function validate_account_name(value) {
     }
     return null;
 }
-
