@@ -46,7 +46,7 @@ const Who = styled.div`
     justify-content: center;
     flex-grow: 1;
     flex-basis: 10px;
-    padding: 16px;
+    padding: 0 16px;
     height: 80px;
     overflow: hidden;
 `;
