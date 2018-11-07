@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const PostTitle = styled.div`
+export const PostTitle = styled.h3`
     margin-bottom: 8px;
     font-weight: 500;
     font-size: 1.5rem;
