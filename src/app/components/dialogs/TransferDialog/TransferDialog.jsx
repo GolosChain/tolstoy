@@ -14,10 +14,13 @@ import transaction from 'app/redux/Transaction';
 import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';
 import { showNotification } from 'src/app/redux/actions/ui';
 import { parseAmount } from 'src/app/helpers/currency';
+import { saveValue, getValue } from 'src/app/helpers/localStorageUtils';
 
 import DialogFrame from 'app/components/dialogs/DialogFrame';
 import DialogManager from 'app/components/elements/common/DialogManager';
 import AccountNameInput from 'src/app/components/common/AccountNameInput';
+
+const CURRENCY_SAVE_KEY = 'transfer-dialog.default-currency';
 
 const CURRENCIES = {
     GBG: 'GBG',
@@ -133,7 +136,8 @@ class TransferDialog extends PureComponent {
             target,
             initialTarget: Boolean(target),
             amount: '',
-            currency: CURRENCIES.GBG,
+            currency:
+                getValue(CURRENCY_SAVE_KEY, [CURRENCIES.GBG, CURRENCIES.GOLOS]) || CURRENCIES.GOLOS,
             note,
             amountInFocus: false,
             loader: false,
@@ -302,6 +306,8 @@ class TransferDialog extends PureComponent {
         this.setState({
             currency,
         });
+
+        saveValue(CURRENCY_SAVE_KEY, currency);
     };
 
     _onTargetChange = value => {
