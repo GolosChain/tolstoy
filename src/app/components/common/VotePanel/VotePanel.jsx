@@ -253,16 +253,17 @@ export default class VotePanel extends PureComponent {
         const { className, sidePanel, votesSummary } = this.props;
         const { showSlider, sliderAction } = this.state;
 
+        const likersList = showSlider
+            ? null
+            : makeTooltip(votesSummary.firstLikes, votesSummary.likes > 10);
+        const dislikersList = showSlider
+            ? null
+            : makeTooltip(votesSummary.firstDislikes, votesSummary.dislikes > 10);
+
         return (
             <Root className={className} innerRef={this._onRef} vertical={sidePanel}>
                 <LikeBlock
                     active={votesSummary.myVote === 'like' || sliderAction === 'like'}
-                    data-tooltip={
-                        showSlider
-                            ? null
-                            : makeTooltip(votesSummary.firstLikes, votesSummary.likes > 10)
-                    }
-                    data-tooltip-html
                     vertical={sidePanel}
                 >
                     <LikeWrapper
@@ -274,7 +275,11 @@ export default class VotePanel extends PureComponent {
                     >
                         <LikeIcon name="like" />
                     </LikeWrapper>
-                    <LikeCount onClick={votesSummary.likes === 0 ? null : this.onLikesNumberClick}>
+                    <LikeCount
+                        data-tooltip={likersList}
+                        data-tooltip-html
+                        onClick={votesSummary.likes === 0 ? null : this.onLikesNumberClick}
+                    >
                         {votesSummary.likes}
                         {sidePanel ? null : <IconTriangle />}
                     </LikeCount>
@@ -283,12 +288,6 @@ export default class VotePanel extends PureComponent {
                 <LikeBlockNeg
                     last
                     activeNeg={votesSummary.myVote === 'dislike' || sliderAction === 'dislike'}
-                    data-tooltip={
-                        showSlider
-                            ? null
-                            : makeTooltip(votesSummary.firstDislikes, votesSummary.dislikes > 10)
-                    }
-                    data-tooltip-html
                     vertical={sidePanel}
                 >
                     <LikeWrapper
@@ -301,6 +300,8 @@ export default class VotePanel extends PureComponent {
                         <LikeIconNeg name="like" />
                     </LikeWrapper>
                     <LikeCount
+                        data-tooltip={dislikersList}
+                        data-tooltip-html
                         onClick={votesSummary.dislikes === 0 ? null : this.onDislikesNumberClick}
                     >
                         {votesSummary.dislikes}
