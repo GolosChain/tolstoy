@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import SimpleInput from 'golos-ui/SimpleInput';
 import ComplexInput from 'golos-ui/ComplexInput';
 import DialogManager from 'app/components/elements/common/DialogManager';
 import DialogFrame from 'app/components/dialogs/DialogFrame';
@@ -51,16 +50,14 @@ export default class PromoteDialog extends Component {
     state = {
         isLock: false,
         amount: '',
-        activeKey: '',
         errorText: null,
         isDisabled: true,
     };
 
     componentWillUpdate(newProps, nextState) {
         const amount = nextState.amount.trim();
-        const activeKey = nextState.activeKey.trim();
 
-        const isDisabled = !amount || !activeKey;
+        const isDisabled = !amount;
 
         if (nextState.isDisabled !== isDisabled) {
             this.setState({
@@ -70,32 +67,25 @@ export default class PromoteDialog extends Component {
     }
 
     confirmClose = () => {
-        const { amount, activeKey } = this.state;
+        const { amount } = this.state;
 
-        return !amount.trim() && !activeKey.trim();
+        return !amount.trim();
     };
 
     onAmountChange = e => {
         this.setState({
-            amount: e.target.value,
-            errorText: null,
-        });
-    };
-
-    onActiveKeyChange = e => {
-        this.setState({
-            activeKey: e.target.value,
+            amount: e.target.value.replace(/[^\d .]+/g, '').replace(/,/g, '.'),
             errorText: null,
         });
     };
 
     onOkClick = () => {
         const { myAccountName, postLink } = this.props;
-        const { amount, activeKey } = this.state;
+        const { amount } = this.state;
 
-        const floatAmount = parseFloat(amount);
+        const floatAmount = parseFloat(amount.replace(/\s+/, ''));
 
-        if (Number.isNaN(floatAmount) || floatAmount <= 0 || !activeKey.trim()) {
+        if (Number.isNaN(floatAmount) || floatAmount <= 0) {
             this.setState({
                 errorText: tt('dialogs_promote.fill_form_error'),
             });
@@ -113,7 +103,6 @@ export default class PromoteDialog extends Component {
             amount: floatAmount.toFixed(3) + ' GBG',
             author,
             permLink,
-            password: activeKey,
             onSuccess: this.onSuccess,
             onError: this.onError,
         });
@@ -129,7 +118,11 @@ export default class PromoteDialog extends Component {
             isLock: false,
         });
 
-        DialogManager.alert(`${tt('g.error')}:\n${err}`);
+        const errStr = err.toString();
+
+        if (errStr !== 'Canceled') {
+            DialogManager.alert(`${tt('g.error')}:\n${errStr}`);
+        }
     };
 
     onCloseClick = () => {
@@ -138,7 +131,7 @@ export default class PromoteDialog extends Component {
 
     render() {
         const { balance } = this.props;
-        const { isLock, amount, activeKey, isDisabled, errorText } = this.state;
+        const { isLock, amount, isDisabled, errorText } = this.state;
 
         return (
             <DialogFrameStyled
@@ -175,19 +168,6 @@ export default class PromoteDialog extends Component {
                             onChange={this.onAmountChange}
                             activeId="GBG"
                             buttons={[{ id: 'GBG', title: 'GBG' }]}
-                        />
-                    </Section>
-                    <Section>
-                        <Label>{tt('dialogs_promote.active_key')}</Label>
-                        <SimpleInput
-                            type="password"
-                            name="active_key"
-                            disabled={isLock}
-                            spellCheck="false"
-                            autoCorrect="off"
-                            autoCapitalize="off"
-                            value={activeKey}
-                            onChange={this.onActiveKeyChange}
                         />
                     </Section>
                     <ErrorBlock>{errorText}</ErrorBlock>

@@ -219,7 +219,6 @@
     "show_all": "Показать все"
   },
   "dialogs_promote": {
-    "active_key": "Активный ключ",
     "amount": "Количество",
     "description": "Используйте Ваши GBG, чтобы прорекламировать этот пост в секции продвигаемого контента.",
     "fill_form_error": "Заполните все поля корректно",
@@ -344,11 +343,6 @@
     "this_information_allows_steemit_to_assist_with_account_recovery_in_case_your_account_is_ever_compormised": "Эта информация позволяет Голосу помочь Вам восстановить аккаунт, если он когда-нибудь будет украден",
     "to_continue_please_click_on_the_link_in_the_email_weve_sent_you": "Для продолжения, перейдите по ссылке в письме, которое мы Вам прислали",
     "user_not_found": "пользователь не найден"
-  },
-  "explorepost_jsx": {
-    "alternative_sources": "Альтернативные источники",
-    "copied": "Скопировано!",
-    "copy": "Скопировать"
   },
   "faq_jsq": {
     "email": "почта",
