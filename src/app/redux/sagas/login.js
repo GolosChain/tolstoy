@@ -8,7 +8,11 @@ export default function* watch() {
 }
 
 function* showLoginWorker({ payload } = {}) {
-    const dialog = DialogManager.showLogin({ onClose: payload.onClose });
+    const dialog = DialogManager.showLogin({
+        isConfirm: Boolean(payload.operation),
+        operationType: payload.operation ? payload.operation.type : null,
+        onClose: payload.onClose,
+    });
 
     const action = yield take(LOGIN_SUCCESS);
 

@@ -3,7 +3,7 @@ import cn from 'classnames';
 import { last } from 'ramda';
 import KEYS from 'app/utils/keyCodes';
 import CommonDialog from 'app/components/dialogs/CommonDialog';
-import LoginForm from 'src/app/containers/login/LoginForm/LoginForm.connect';
+import LoginForm from 'src/app/containers/login/LoginForm';
 
 let queue = [];
 let instance = null;
@@ -54,14 +54,21 @@ export default class DialogManager extends React.PureComponent {
         });
     }
 
-    static confirm(text, title) {
+    static confirm(text, params = {}) {
         return new Promise(resolve => {
+            if (typeof params === 'string') {
+                params = {
+                    title: params,
+                };
+            }
+
             DialogManager.showDialog({
                 component: CommonDialog,
                 props: {
-                    title,
+                    title: params.title,
                     type: 'confirm',
                     text: text || 'Вы уверены?',
+                    params,
                 },
                 onClose: resolve,
             });
@@ -97,9 +104,13 @@ export default class DialogManager extends React.PureComponent {
         });
     }
 
-    static showLogin({ onClose } = {}) {
+    static showLogin({ isConfirm, operationType, onClose } = {}) {
         return DialogManager.showDialog({
             component: LoginForm,
+            props: {
+                isConfirm,
+                operationType,
+            },
             onClose,
         });
     }

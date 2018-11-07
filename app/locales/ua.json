@@ -660,7 +660,6 @@
     "password_or_wif": "Пароль або WIF",
     "password_update_succes": "Пароль для %(accountName)s був успішно оновлений",
     "posting": "Постинг",
-    "returning_users": "",
     "sign_up_now_to_receive": "Зареєструватися зараз, щоб отримати ",
     "the_latest_versions_of": "Останні версії ",
     "this_operation_requires_your_key_or_master_password": "Ця операція вимагає введення Вашого ключа власника або введення Вашого активного ключа (використовуйте головний пароль)",
