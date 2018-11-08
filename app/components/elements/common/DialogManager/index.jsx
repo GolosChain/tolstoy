@@ -1,6 +1,8 @@
 import React from 'react';
 import cn from 'classnames';
 import { last } from 'ramda';
+import tt from 'counterpart';
+
 import KEYS from 'app/utils/keyCodes';
 import CommonDialog from 'app/components/dialogs/CommonDialog';
 import LoginForm from 'src/app/containers/login/LoginForm';
@@ -67,7 +69,7 @@ export default class DialogManager extends React.PureComponent {
                 props: {
                     title: params.title,
                     type: 'confirm',
-                    text: text || 'Вы уверены?',
+                    text: text || tt('g.are_you_sure'),
                     params,
                 },
                 onClose: resolve,
@@ -83,7 +85,7 @@ export default class DialogManager extends React.PureComponent {
                     title,
                     type: 'confirm',
                     danger: true,
-                    text: text || 'Вы уверены?',
+                    text: text || tt('g.are_you_sure'),
                 },
                 onClose: resolve,
             });
@@ -167,21 +169,23 @@ export default class DialogManager extends React.PureComponent {
         const dialogs = this._dialogs.map((dialog, i) => (
             <div
                 key={dialog.key}
-                className={cn('DialogManager__window', {
-                    DialogManager__window_active: i === this._dialogs.length - 1,
+                className={cn('DialogManager__window-wrapper', {
+                    'DialogManager__window-wrapper_active': i === this._dialogs.length - 1,
                 })}
             >
-                <dialog.options.component
-                    {...dialog.options.props}
-                    dialogRoot={this._root}
-                    ref={el => (dialog.el = (el && el.wrappedInstance) || el)}
-                    onClose={data => this._onDialogClose(dialog, data)}
-                />
+                <div className="DialogManager__window" onClick={this._onWindowClick}>
+                    <dialog.options.component
+                        {...dialog.options.props}
+                        dialogRoot={this._root}
+                        ref={el => (dialog.el = (el && el.wrappedInstance) || el)}
+                        onClose={data => this._onDialogClose(dialog, data)}
+                    />
+                </div>
             </div>
         ));
 
         return (
-            <div className="DialogManager" ref={this._onRef} onClick={this._onRootClick}>
+            <div className="DialogManager" ref={this._onRef}>
                 <div className="DialogManager__shade" ref={this._onShadowRef} />
                 {dialogs}
             </div>
@@ -252,7 +256,7 @@ export default class DialogManager extends React.PureComponent {
         }
     };
 
-    _onRootClick = e => {
+    _onWindowClick = e => {
         const link = e.target.closest('a[href]');
 
         if (link && link.getAttribute('target') !== '_blank') {
@@ -260,7 +264,7 @@ export default class DialogManager extends React.PureComponent {
             return;
         }
 
-        if (e.target === this._root) {
+        if (e.target.classList.contains('DialogManager__window')) {
             this._tryToClose();
         }
     };

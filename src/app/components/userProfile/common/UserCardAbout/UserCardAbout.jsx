@@ -213,13 +213,13 @@ export default class UserCardAbout extends PureComponent {
             >
                 <CardContentCounters>
                     <Row>
-                        <ColumnClick onClick={this.onShowFollowers}>
+                        <ColumnClick role="button" aria-label={tt('aria_label.followers')} onClick={this.onShowFollowers}>
                             <Bold>
                                 {followerCount} <IconTriangle />
                             </Bold>
                             <Title>{tt('user_profile.account_summary.followers')}</Title>
                         </ColumnClick>
-                        <ColumnClick onClick={this.onShowFollowing}>
+                        <ColumnClick role="button" aria-label={tt('aria_label.following')} onClick={this.onShowFollowing}>
                             <Bold>
                                 {followingCount} <IconTriangle />
                             </Bold>

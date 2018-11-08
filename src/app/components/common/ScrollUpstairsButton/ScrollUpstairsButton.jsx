@@ -57,7 +57,7 @@ export default class ScrollUpstairsButton extends Component {
     render() {
         return (
             <ScrollToTop showUnder={160} style={{ zIndex: 2 }}>
-                <Wrapper data-tooltip={tt('g.upstairs')}>
+                <Wrapper role="button" aria-label="tt('g.upstairs')" data-tooltip={tt('g.upstairs')}>
                     <TopIcon name="arrow_left" />
                 </Wrapper>
             </ScrollToTop>

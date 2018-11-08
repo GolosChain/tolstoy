@@ -51,7 +51,6 @@ const PostDate = styled.div`
     cursor: default;
 `;
 
-
 const RepostText = styled.span`
     font-size: 14px;
     color: #757575;
@@ -88,7 +87,7 @@ const CardAuthor = ({ author, isRepost, created, className, noLinks }) => {
 
     return (
         <Wrapper className={className}>
-            <AvatarComp to={`/@${author}`}>
+            <AvatarComp to={`/@${author}`} aria-label={tt('aria_label.avatar')}>
                 <Userpic account={author} size={37} />
                 {isRepost ? (
                     <RepostIconWrapper>

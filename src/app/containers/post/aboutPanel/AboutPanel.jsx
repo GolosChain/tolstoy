@@ -151,7 +151,7 @@ export class AboutPanel extends Component {
         return (
             <Wrapper>
                 <Avatar>
-                    <Userpic account={account} size={50} aria-label={tt('aria_label.avatar')} />
+                    <Userpic account={account} size={50} ariaLabel={tt('aria_label.avatar')} />
                     <AuthorInfo>
                         <AuthorName>{name}</AuthorName>
                         <Account to={`/@${account}`} aria-label={tt('aria_label.username')}>@{account}</Account>

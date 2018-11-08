@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
 import { Link } from 'react-router';
-import Icon from '../golos-ui/Icon/Icon';
 import PropTypes from 'prop-types';
+import tt from 'counterpart';
+import styled from 'styled-components';
 
-const LinkTo = ({ children, className, link }) => {
+import Icon from 'golos-ui/Icon';
+
+const LinkTo = ({ children, link, ariaLabel, className }) => {
     return (
-        <Link to={link} target="_blank" className={className}>
+        <Link to={link} target="_blank" aria-label={ariaLabel} className={className}>
             {children}
         </Link>
     );
@@ -85,7 +87,7 @@ export default class ChannelsCard extends Component {
         } = this.props.channel;
 
         return (
-            <Card link={link} showOnMobile={showOnMobile}>
+            <Card link={link} showOnMobile={showOnMobile} ariaLabel={tt('aria_label.channel_card')}>
                 <CustomIcon name={thumbnail} width={width} height={height} />
                 <Text>{inscription}</Text>
             </Card>
