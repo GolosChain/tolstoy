@@ -149,12 +149,14 @@ export default class MarkdownEditorToolbar extends React.PureComponent {
                 active: state.bold,
                 icon: 'bold',
                 tooltip: tt('editor_toolbar.bold'),
+                label: tt('editor_toolbar.bold'),
                 onClick: () => SM.toggleBold(editor),
             },
             {
                 active: state.italic,
                 icon: 'italic',
                 tooltip: tt('editor_toolbar.italic'),
+                label: tt('editor_toolbar.italic'),
                 onClick: () => SM.toggleItalic(editor),
             },
             commentMode
@@ -163,47 +165,55 @@ export default class MarkdownEditorToolbar extends React.PureComponent {
                       active: state.heading,
                       icon: 'header',
                       tooltip: tt('editor_toolbar.header'),
-                      onClick: this._onHeadingClick,
+                      label: tt('editor_toolbar.header'),
+                      onClick: this.onHeadingClick,
                   },
             {
                 active: state.strikethrough,
                 icon: 'strike',
                 tooltip: tt('editor_toolbar.strikethrough'),
-                onClick: this._toggleStrikeThrough,
+                label: tt('editor_toolbar.strikethrough'),
+                onClick: this.toggleStrikeThrough,
             },
             'SEPARATOR',
             {
                 icon: 'bullet-list',
                 tooltip: tt('editor_toolbar.unordered_list'),
+                label: tt('editor_toolbar.unordered_list'),
                 onClick: () => SM.toggleUnorderedList(editor),
             },
             {
                 icon: 'number-list',
                 tooltip: tt('editor_toolbar.ordered_list'),
-                onClick: this._onToggleOrderedList,
+                label: tt('editor_toolbar.ordered_list'),
+                onClick: this.onToggleOrderedList,
             },
             'SEPARATOR',
             {
                 active: state.quote,
                 icon: 'quote',
                 tooltip: tt('editor_toolbar.quote'),
+                label: tt('editor_toolbar.quote'),
                 onClick: () => SM.toggleBlockquote(editor),
             },
             {
                 active: state.link,
                 icon: 'link',
                 tooltip: tt('editor_toolbar.add_link'),
-                onClick: this._draw,
+                label: tt('editor_toolbar.add_link'),
+                onClick: this.draw,
             },
             {
                 icon: 'picture',
                 tooltip: tt('editor_toolbar.add_image'),
-                onClick: this._addImage,
+                label: tt('editor_toolbar.add_image'),
+                onClick: this.addImage,
             },
             {
                 icon: 'video',
                 tooltip: tt('editor_toolbar.add_video'),
-                onClick: this._drawVideo,
+                label: tt('editor_toolbar.add_video'),
+                onClick: this.drawVideo,
             },
         ];
 
@@ -233,7 +243,9 @@ export default class MarkdownEditorToolbar extends React.PureComponent {
                                     MET__icon_active: action.active,
                                 })}
                                 name={`editor-toolbar/${action.icon}`}
+                                role="button"
                                 data-tooltip={action.tooltip}
+                                aria-label={action.label}
                                 onClick={action.onClick}
                             />
                         )
@@ -375,7 +387,7 @@ export default class MarkdownEditorToolbar extends React.PureComponent {
 
     _onActionClick = id => {
         if (id === 'picture') {
-            this._addImage();
+            this.addImage();
         } else {
             this.setState({
                 selected: id,
@@ -403,7 +415,7 @@ export default class MarkdownEditorToolbar extends React.PureComponent {
         }
     };
 
-    _toggleStrikeThrough = () => {
+    toggleStrikeThrough = () => {
         const cm = this._cm;
 
         const selection = cm.getSelection();
@@ -462,7 +474,7 @@ export default class MarkdownEditorToolbar extends React.PureComponent {
         }
     }
 
-    _draw = () => {
+    draw = () => {
         const selection = this._cm.getSelection();
 
         const props = {
@@ -522,14 +534,14 @@ export default class MarkdownEditorToolbar extends React.PureComponent {
         cm.focus();
     }
 
-    _addImage = () => {
+    addImage = () => {
         DialogManager.showDialog({
             component: AddImageDialog,
             onClose: this._onAddImageClose,
         });
     };
 
-    _drawVideo = async () => {
+    drawVideo = async () => {
         const url = await DialogManager.prompt(tt('editor_toolbar.enter_the_link') + ':');
 
         if (url) {
@@ -549,7 +561,7 @@ export default class MarkdownEditorToolbar extends React.PureComponent {
         return url;
     }
 
-    _onHeadingClick = () => {
+    onHeadingClick = () => {
         const cm = this._cm;
 
         const cursor = cm.getCursor();
@@ -600,7 +612,7 @@ export default class MarkdownEditorToolbar extends React.PureComponent {
         cm.focus();
     };
 
-    _onToggleOrderedList = () => {
+    onToggleOrderedList = () => {
         //this.props.SM.toggleOrderedList(this._editor);
         //return;
         const cm = this._cm;
