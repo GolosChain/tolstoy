@@ -1295,7 +1295,7 @@
       "about": "About",
       "followers": "Followers",
       "following": "Following",
-      "gender": "Gender",
+      "gender": "gender",
       "post_count": {
         "one": "Post",
         "other": "Posts",
