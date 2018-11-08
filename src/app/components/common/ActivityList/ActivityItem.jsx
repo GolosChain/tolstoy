@@ -68,6 +68,9 @@ const ActivityText = styled.div`
         color: #959595;
         font-weight: 500;
         text-decoration: underline;
+        max-width: 100%;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
     }
 `;
 
