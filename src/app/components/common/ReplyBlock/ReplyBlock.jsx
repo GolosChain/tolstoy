@@ -98,6 +98,7 @@ export class ReplyBlock extends Component {
             <Root grid={grid} className={className}>
                 <ReplyCounterBlock
                     to={`${link}#comments`}
+                    role="button"
                     data-tooltip={tt('reply.comments_count')}
                     aria-label={tt('reply.comments_count')}
                 >
@@ -107,7 +108,7 @@ export class ReplyBlock extends Component {
                 {!onReplyClick && (
                     <Fragment>
                         <Splitter />
-                        <ReplyButton to={`${link}#comments`} onClick={this.toggleCommentInputFocus}>
+                        <ReplyButton role="button" to={`${link}#comments`} onClick={this.toggleCommentInputFocus}>
                             {text}
                         </ReplyButton>
                     </Fragment>
@@ -116,7 +117,7 @@ export class ReplyBlock extends Component {
                     notOwner && (
                         <Fragment>
                             <Splitter />
-                            <ReplyButton onClick={onReplyClick}>{text}</ReplyButton>
+                            <ReplyButton role="button" onClick={onReplyClick}>{text}</ReplyButton>
                         </Fragment>
                     )}
             </Root>

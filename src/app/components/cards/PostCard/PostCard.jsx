@@ -286,7 +286,12 @@ export default class PostCard extends PureComponent {
         if (showPinButton && isOwner) {
             return (
                 <ToolbarEditAction to={`${sanitizedData.link}/edit`}>
-                    <IconWrapper enabled data-tooltip={tt('g.edit')}>
+                    <IconWrapper
+                        enabled
+                        role="button"
+                        aria-label={tt('g.edit')}
+                        data-tooltip={tt('g.edit')}
+                    >
                         <Icon name="pen" width={23} height={23} />
                     </IconWrapper>
                 </ToolbarEditAction>
@@ -323,9 +328,11 @@ export default class PostCard extends PureComponent {
         return (
             <ToolbarAction>
                 <IconWrapper
+                    role="button"
+                    aria-label={pinTip}
+                    data-tooltip={pinTip}
                     enabled={!pinDisabled}
                     isPinned={isPinned}
-                    data-tooltip={pinTip}
                     onClick={!pinDisabled ? this._onPinClick : null}
                 >
                     <Icon name="pin" width={23} height={23} />
@@ -344,6 +351,8 @@ export default class PostCard extends PureComponent {
         return (
             <ToolbarAction>
                 <IconWrapper
+                    role="button"
+                    aria-label={tt('post_card.repost')}
                     data-tooltip={tt('post_card.repost')}
                     enabled
                     onClick={this._onRepostClick}
@@ -361,14 +370,16 @@ export default class PostCard extends PureComponent {
             return;
         }
 
+        const favoriteText = isFavorite
+            ? tt('post_card.remove_from_favorites')
+            : tt('post_card.add_to_favorites');
+
         return (
             <ToolbarAction>
                 <IconWrapper
-                    data-tooltip={
-                        isFavorite
-                            ? tt('post_card.remove_from_favorites')
-                            : tt('post_card.add_to_favorites')
-                    }
+                    role="button"
+                    aria-label={favoriteText}
+                    data-tooltip={favoriteText}
                     enabled
                     onClick={this._onFavoriteClick}
                 >
