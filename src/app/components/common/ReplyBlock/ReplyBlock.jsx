@@ -83,6 +83,7 @@ export default function ReplyBlock({ grid, count, link, text, className, showTex
         <Root grid={grid} className={className}>
             <ReplyCounterBlock
                 to={`${link}#comments`}
+                role="button"
                 data-tooltip={tt('reply.comments_count')}
                 aria-label={tt('reply.comments_count')}
             >
@@ -90,7 +91,7 @@ export default function ReplyBlock({ grid, count, link, text, className, showTex
                 <ReplyCount>{count}</ReplyCount>
             </ReplyCounterBlock>
             <Splitter />
-            <ReplyLink to={`${link}#comments`} showtext={showText ? 1 : 0}>
+            <ReplyLink to={`${link}#comments`} role="button" showtext={showText ? 1 : 0}>
                 {text}
             </ReplyLink>
         </Root>

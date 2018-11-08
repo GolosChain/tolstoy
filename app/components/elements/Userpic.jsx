@@ -17,6 +17,7 @@ class Userpic extends PureComponent {
         imageUrl: PropTypes.string,
         size: PropTypes.number,
         onClick: PropTypes.func,
+        ariaLabel: PropTypes.string,
     };
 
     static defaultProps = {
@@ -94,7 +95,7 @@ class Userpic extends PureComponent {
     };
 
     render() {
-        const { size, votingPower, showProgress, className, onClick } = this.props;
+        const { size, votingPower, showProgress, ariaLabel, className, onClick } = this.props;
 
         const style = {
             width: size,
@@ -107,12 +108,12 @@ class Userpic extends PureComponent {
             const toggle = showProgress ? () => {} : this.toggleProgress;
 
             return (
-                <div className={cn('Userpic', className)} onClick={toggle} style={style}>
+                <div aria-label={ariaLabel} className={cn('Userpic', className)} onClick={toggle} style={style}>
                     {percentage ? this.getVotingIndicator(percentage) : null}
                 </div>
             );
         } else {
-            return <div className={cn('Userpic', className)} style={style} onClick={onClick} />;
+            return <div aria-label={ariaLabel} className={cn('Userpic', className)} style={style} onClick={onClick} />;
         }
     }
 }

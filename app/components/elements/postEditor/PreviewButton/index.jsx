@@ -43,7 +43,7 @@ const Root = styled.i`
 
     &:hover {
         color: #0078c4;
-    }
+     }
 
     .PreviewButton__icon {
         width: 24px;
@@ -61,6 +61,7 @@ export default class PreviewButton extends PureComponent {
 
     render() {
         const { isPreview, isStatic, isVisible } = this.props;
+        const buttonText = isPreview ? tt('post_editor.edit_mode') : tt('post_editor.preview_mode');
 
         let icon = (
             <Root
@@ -73,9 +74,9 @@ export default class PreviewButton extends PureComponent {
                 <Icon
                     name="editor/eye"
                     className="PreviewButton__icon"
-                    data-tooltip={
-                        isPreview ? tt('post_editor.edit_mode') : tt('post_editor.preview_mode')
-                    }
+                    role="button"
+                    data-tooltip={buttonText}
+                    aria-label={buttonText}
                 />
             </Root>
         );

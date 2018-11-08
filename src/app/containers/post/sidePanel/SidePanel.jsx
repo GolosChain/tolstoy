@@ -264,6 +264,7 @@ export class SidePanel extends Component {
                     {isOwner ? null : (
                         <ActionWrapper
                             onClick={this.repost}
+                            role="button"
                             data-tooltip={tt('g.reblog')}
                             aria-label={tt('g.reblog')}
                             data-tooltip-html
@@ -276,6 +277,7 @@ export class SidePanel extends Component {
 
                     <ShareWrapper
                         onClick={this.openSharePopover}
+                        role="button"
                         data-tooltip={shareTooltip}
                         aria-label={shareTooltip}
                         data-tooltip-html
@@ -309,6 +311,7 @@ export class SidePanel extends Component {
                 {backURL ? (
                     <BackLink
                         to={backURL}
+                        role="button"
                         data-tooltip={tt('g.turn_back')}
                         aria-label={tt('g.turn_back')}
                         onClick={this.onBackClick}
