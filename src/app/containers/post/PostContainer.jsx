@@ -10,7 +10,7 @@ import AboutPanel from 'src/app/containers/post/aboutPanel';
 import ActivePanel from 'src/app/containers/post/activePanel';
 import CommentsContainer from 'src/app/containers/post/commentsContainer';
 
-export const POST_MAX_WIDTH = 1024;
+export const POST_MAX_WIDTH = 840;
 const POST_MARGINS_MOBILE = 20;
 
 const Wrapper = styled.div`
