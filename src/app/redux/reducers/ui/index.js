@@ -4,6 +4,7 @@ import location from './location';
 import home from './home';
 import profile from './profile';
 import votersDialog from 'src/app/redux/reducers/ui/votersDialog';
+import commentInput from './commentInput';
 
 export default combineReducers({
     common,
@@ -11,4 +12,5 @@ export default combineReducers({
     home,
     profile,
     votersDialog,
+    commentInput,
 });

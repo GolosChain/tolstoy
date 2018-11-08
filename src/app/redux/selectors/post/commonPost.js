@@ -146,6 +146,13 @@ export const commentsSelector = createDeepEqualSelector(
     }
 );
 
+export const commentInputFocused = createSelector(
+    [state => state.ui.commentInput],
+    commentInput => {
+        return commentInput.get('focused');
+    }
+);
+
 export const sanitizeCardPostData = memoize(data => {
     const result = extractContentMemoized(data);
 

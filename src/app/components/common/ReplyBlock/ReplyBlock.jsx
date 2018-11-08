@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -71,40 +71,53 @@ const Root = styled.div`
     `};
 `;
 
-const ReplyBlock = ({ grid, count, link, text, notOwner, onReplyClick, className }) => {
-    return (
-        <Root grid={grid} className={className}>
-            <ReplyCounterBlock
-                to={`${link}#comments`}
-                data-tooltip={tt('reply.comments_count')}
-                aria-label={tt('reply.comments_count')}
-            >
-                <ReplyIcon name="reply" />
-                <ReplyCount>{count}</ReplyCount>
-            </ReplyCounterBlock>
-            {!Boolean(onReplyClick) && (
-                <Fragment>
-                    <Splitter />
-                    <ReplyButton to={`${link}#comments`}>{text}</ReplyButton>
-                </Fragment>
-            )}
-            {Boolean(onReplyClick) &&
-                notOwner && (
+export class ReplyBlock extends Component {
+    static defaultProps = {
+        notOwner: true,
+    };
+
+    static propTypes = {
+        grid: PropTypes.bool,
+        count: PropTypes.number,
+        link: PropTypes.string,
+        text: PropTypes.string,
+        notOwner: PropTypes.bool,
+        onReplyClick: PropTypes.func,
+    };
+
+    toggleCommentInputFocus = () => {
+        this.props.toggleCommentInputFocus(true);
+    };
+
+    render() {
+        const { grid, count, link, text, notOwner, onReplyClick, className } = this.props;
+
+        return (
+            <Root grid={grid} className={className}>
+                <ReplyCounterBlock
+                    to={`${link}#comments`}
+                    data-tooltip={tt('reply.comments_count')}
+                    aria-label={tt('reply.comments_count')}
+                >
+                    <ReplyIcon name="reply" />
+                    <ReplyCount>{count}</ReplyCount>
+                </ReplyCounterBlock>
+                {!Boolean(onReplyClick) && (
                     <Fragment>
                         <Splitter />
-                        <ReplyButton onClick={onReplyClick}>{text}</ReplyButton>
+                        <ReplyButton to={`${link}#comments`} onClick={this.toggleCommentInputFocus}>
+                            {text}
+                        </ReplyButton>
                     </Fragment>
                 )}
-        </Root>
-    );
-};
-
-ReplyBlock.defaultProps = {
-    notOwner: true,
-};
-
-ReplyBlock.propTypes = {
-    notOwner: PropTypes.bool,
-};
-
-export default ReplyBlock;
+                {Boolean(onReplyClick) &&
+                    notOwner && (
+                        <Fragment>
+                            <Splitter />
+                            <ReplyButton onClick={onReplyClick}>{text}</ReplyButton>
+                        </Fragment>
+                    )}
+            </Root>
+        );
+    }
+}
