@@ -319,6 +319,7 @@ export default class AccountNameInput extends PureComponent {
             switch (e.which) {
                 case keyCodes.UP:
                 case keyCodes.DOWN:
+                    e.preventDefault();
                     let newIndex;
 
                     if (e.which === keyCodes.UP) {

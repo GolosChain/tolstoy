@@ -153,13 +153,25 @@ class UserNavigation extends PureComponent {
         if (showLayout && !isMobile) {
             if (layout === 'list') {
                 icons.push(
-                    <IconWrap key="l-grid" data-tooltip="Сетка" onClick={this._onGridClick}>
+                    <IconWrap
+                        key="l-grid"
+                        role="button"
+                        aria-label={tt('g.grid_posts')}
+                        data-tooltip={tt('g.grid_posts')}
+                        onClick={this._onGridClick}
+                    >
                         <SimpleIcon name="layout_grid" />
                     </IconWrap>
                 );
             } else {
                 icons.push(
-                    <IconWrap key="l-list" data-tooltip="Список" onClick={this._onListClick}>
+                    <IconWrap
+                        key="l-list"
+                        role="button"
+                        aria-label={tt('g.list_posts')}
+                        data-tooltip={tt('g.list_posts')}
+                        onClick={this._onListClick}
+                    >
                         <SimpleIcon name="layout_list" />
                     </IconWrap>
                 );
@@ -171,6 +183,8 @@ class UserNavigation extends PureComponent {
                 <IconLink
                     key="settings"
                     to={`/@${accountName}/settings`}
+                    role="button"
+                    aria-label={tt('g.settings')}
                     data-tooltip={tt('g.settings')}
                 >
                     <Icon name="settings" size="24" />

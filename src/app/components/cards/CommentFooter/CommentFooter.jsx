@@ -200,7 +200,7 @@ export default class CommentFooter extends Component {
                         showText={isOwner}
                     />
                     {!isOwner && (
-                        <ButtonStyled light onClick={onReplyClick}>
+                        <ButtonStyled role="button" light onClick={onReplyClick}>
                             {tt('g.reply')}
                         </ButtonStyled>
                     )}

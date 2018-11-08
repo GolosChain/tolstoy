@@ -95,7 +95,7 @@ export default class NestedComment extends Component {
 
         return (
             <Wrapper>
-                <ToggleButton collapsed={collapsed} toggleComment={this.toggleComment} />
+                <ToggleButton collapsed={collapsed} toggle={this.toggleComment} />
                 <Comment
                     permLink={url}
                     isPostPage={true}

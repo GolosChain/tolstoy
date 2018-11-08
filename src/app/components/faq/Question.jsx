@@ -1,9 +1,8 @@
 import React, { PureComponent } from 'react';
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
-import Icon from 'golos-ui/Icon';
-import Flex from 'golos-ui/Flex';
+import CloseOpenButton from '../cards/CloseOpenButton/CloseOpenButton';
 
 const Wrapper = styled.div`
     position: relative;
@@ -44,21 +43,11 @@ const Answer = styled.div`
     overflow: hidden;
 `;
 
-const Switcher = styled(Flex).attrs({
-    justify: 'center',
-    align: 'center',
-})`
+const Switcher = styled(CloseOpenButton)`
     position: absolute;
     top: 18px;
     right: 12px;
-    cursor: pointer;
-    width: 30px;
-    height: 30px;
-    transform: rotate(${props => (props.showAnswer ? '0' : '180')}deg);
-    transition: transform 0.25s;
-    color: #${props => (props.showAnswer ? '212121' : 'bbbaba')};
-    user-select: none;
-
+    
     @media (max-width: 1200px) {
         top: 5px;
         right: 6px;
@@ -102,12 +91,7 @@ export default class Question extends PureComponent {
 
         return (
             <Wrapper>
-                <Switcher
-                    showAnswer={showAnswer}
-                    onClick={this.changeAnswerState}
-                >
-                    <Icon name="chevron-top" height="7" width="12" />
-                </Switcher>
+                <Switcher collapsed={!showAnswer} toggle={this.changeAnswerState}/>
                 <Title onClick={this.changeAnswerState}>{question.title}</Title>
                 <Answer
                     showAnswer={showAnswer}

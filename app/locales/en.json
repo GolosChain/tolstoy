@@ -46,12 +46,31 @@
     }
   },
   "aria_label": {
+    "additional_menu": "Additional menu",
+    "android_link": "Download Golos.io android app",
     "avatar": "User's avatar",
+    "bitcoin_link": "Golos.io thread on Bitcoin Forum",
     "category": "Category",
+    "chanel_card": "Contact",
     "close_button": "Close",
     "expected_payout": "Expected payout",
+    "dislikers_list": "Voted with dislike",
+    "expected_payout": "Expected payout",
+    "facebook_link": "Golos.io on Facebook page",
+    "followers": "Followers",
+    "following": "Following",
+    "header_logo": "Golos.io logo",
+    "likers_list": "Voted with like",
+    "notifications": "Notifications",
+    "share_on_facebook": "Share on Facebook",
+    "share_on_lj": "Share on LiveJournal",
+    "share_on_twitter": "Share on Twitter",
+    "share_on_vk": "Share on VKontakte",
     "tag": "Hashtag",
-    "username": "Username"
+    "telegram_link": "Golos.io Telegram Chat",
+    "total_paid": "Total paid",
+    "username": "Username",
+    "vk_link": "Golos.io on VKontakte page"
   },
   "auth_protection": {
     "need_auth": "Not allowed, please authorize.",
@@ -213,6 +232,15 @@
     "liked": "Liked post",
     "prompt": "Enter the data",
     "show_all": "Show all"
+  },
+  "dialogs_dislike": {
+    "header": "By voting against you reduce the reward, and make the post less noticeable in the feed. There should be a good reason to vote against, for example:",
+    "item_1": "disagreement with the award;",
+    "item_2": "fraud or plagiarism;",
+    "item_3": "incitement of hatred or Internet trolling;",
+    "item_4": "intentionally false information or spam.",
+    "ok": "Vote against",
+    "title": "Voting against"
   },
   "dialogs_promote": {
     "active_key": "Active key",
@@ -479,6 +507,7 @@
     },
     "generated_password": "Generated Password",
     "golos_fest": "Golos.io News",
+    "grid_posts": "Grid",
     "hide": "Hide",
     "hide_private_key": "Hide private key",
     "hot": "Hot",
@@ -494,6 +523,7 @@
     "joined": "Joined",
     "keep_me_logged_in": "Keep me logged in",
     "like": "Like",
+    "list_posts": "List",
     "loading": "Loading",
     "login": "Login",
     "login_to_see_memo": "login to see memo",

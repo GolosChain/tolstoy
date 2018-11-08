@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import tt from 'counterpart';
 import styled from 'styled-components';
 import is from 'styled-is';
+
 import Icon from 'golos-ui/Icon';
 
 const Root = styled.div``;
@@ -124,7 +126,11 @@ export default class CollapsingBlock extends PureComponent {
 
         return (
             <Root {...passProps} innerRef={this._onRootRef}>
-                <Header onClick={this._onCollapseClick}>
+                <Header
+                    onClick={this.onCollapseClick}
+                    role="button"
+                    aria-label={collapsed ? tt('g.uncollapse') : tt('g.collapse')}
+                >
                     {withShadow ? <Shadow /> : null}
                     <HeaderTitle upper={upperCase}>
                         {typeof title === 'function' ? title() : title}
@@ -149,7 +155,7 @@ export default class CollapsingBlock extends PureComponent {
         this._body = el;
     };
 
-    _onCollapseClick = () => {
+    onCollapseClick = () => {
         const { saveStateKey } = this.props;
         const { collapsed } = this.state;
 

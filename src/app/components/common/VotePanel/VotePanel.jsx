@@ -10,6 +10,7 @@ import { listenLazy } from 'src/app/helpers/hoc';
 import Icon from 'golos-ui/Icon';
 import Slider from 'golos-ui/Slider';
 import PostPayout from 'src/app/components/common/PostPayout';
+import DislikeAlert from 'src/app/components/dialogs/DislikeAlert';
 import DialogManager from 'app/components/elements/common/DialogManager';
 import Popover from '../Popover';
 import PayoutInfo from '../PayoutInfo';
@@ -279,6 +280,8 @@ export default class VotePanel extends PureComponent {
                     <LikeCount
                         data-tooltip={likersList}
                         data-tooltip-html
+                        role="button"
+                        aria-label={tt('aria_label.likers_list')}
                         onClick={votesSummary.likes === 0 ? null : this.onLikesNumberClick}
                     >
                         {votesSummary.likes}
@@ -304,6 +307,8 @@ export default class VotePanel extends PureComponent {
                     <LikeCount
                         data-tooltip={dislikersList}
                         data-tooltip-html
+                        role="button"
+                        aria-label={tt('aria_label.dislikers_list')}
                         onClick={votesSummary.dislikes === 0 ? null : this.onDislikesNumberClick}
                     >
                         {votesSummary.dislikes}
@@ -432,7 +437,7 @@ export default class VotePanel extends PureComponent {
         }
     };
 
-    onDislikeClick = () => {
+    onDislikeClick = async () => {
         const { votesSummary } = this.props;
 
         if (this.state.showSlider) {
@@ -448,7 +453,9 @@ export default class VotePanel extends PureComponent {
 
             window.addEventListener('click', this._onAwayClick);
         } else {
-            this._onChange(-1);
+            if (await this.showDislikeAlert()) {
+                this._onChange(-1);
+            }
         }
     };
 
@@ -458,6 +465,17 @@ export default class VotePanel extends PureComponent {
         if (await confirmVote(myVote, percent)) {
             this.props.onVote(username, data.get('author'), data.get('permlink'), percent);
         }
+    }
+
+    showDislikeAlert() {
+        return new Promise(resolve => {
+            DialogManager.showDialog({
+                component: DislikeAlert,
+                onClose(yes) {
+                    resolve(yes);
+                },
+            });
+        });
     }
 
     _onAwayClick = e => {
@@ -472,8 +490,14 @@ export default class VotePanel extends PureComponent {
         });
     };
 
-    _onOkVoteClick = () => {
+    _onOkVoteClick = async () => {
         const { sliderAction, votePercent } = this.state;
+
+        if (sliderAction === 'dislike') {
+            if (!(await this.showDislikeAlert())) {
+                return;
+            }
+        }
 
         const multiplier = sliderAction === 'like' ? 1 : -1;
         this._onChange(multiplier * (votePercent / 100));
