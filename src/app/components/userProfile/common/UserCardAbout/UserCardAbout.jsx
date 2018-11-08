@@ -42,14 +42,13 @@ const Row = styled.div`
     height: 70px;
 
     &:not(:last-of-type) {
-        margin-top: 1px;
 
         &:after {
             content: '';
             position: absolute;
-            bottom: -1px;
-            left: 20px;
-            right: 20px;
+            bottom: 0px;
+            left: 0;
+            right: 0;
             height: 1px;
             background: #e1e1e1;
         }
@@ -71,8 +70,8 @@ const Column = styled.div`
         &:after {
             content: '';
             position: absolute;
-            top: 10px;
-            bottom: 10px;
+            top: 0;
+            bottom: 0;
             right: 0;
             width: 1px;
             background: #e1e1e1;
