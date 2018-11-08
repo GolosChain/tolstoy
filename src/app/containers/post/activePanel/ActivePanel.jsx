@@ -313,7 +313,6 @@ export class ActivePanel extends Component {
                     count={post.children}
                     link={post.url}
                     text={tt('g.reply')}
-                    showReply
                 />
             </Wrapper>
         );

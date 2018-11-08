@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
@@ -29,7 +30,9 @@ const Splitter = styled.div`
     background: #e1e1e1;
 `;
 
-const ReplyLink = styled.div`
+const ReplyButton = styled(
+    ({ to, ...otherProps }) => (to ? <Link to={to} {...otherProps} /> : <div {...otherProps} />)
+)`
     height: 100%;
     min-height: 50px;
     padding: 0 18px 0 10px;
@@ -68,11 +71,7 @@ const Root = styled.div`
     `};
 `;
 
-ReplyBlock.defaultProps = {
-    showReply: true,
-};
-
-export default function ReplyBlock({ grid, count, link, text, onReplyClick, showReply, className }) {
+const ReplyBlock = ({ grid, count, link, text, notOwner, onReplyClick, className }) => {
     return (
         <Root grid={grid} className={className}>
             <ReplyCounterBlock
@@ -83,12 +82,29 @@ export default function ReplyBlock({ grid, count, link, text, onReplyClick, show
                 <ReplyIcon name="reply" />
                 <ReplyCount>{count}</ReplyCount>
             </ReplyCounterBlock>
-            {showReply && (
+            {!Boolean(onReplyClick) && (
                 <Fragment>
                     <Splitter />
-                    <ReplyLink onClick={onReplyClick}>{text}</ReplyLink>
+                    <ReplyButton to={`${link}#comments`}>{text}</ReplyButton>
                 </Fragment>
             )}
+            {Boolean(onReplyClick) &&
+                notOwner && (
+                    <Fragment>
+                        <Splitter />
+                        <ReplyButton onClick={onReplyClick}>{text}</ReplyButton>
+                    </Fragment>
+                )}
         </Root>
     );
-}
+};
+
+ReplyBlock.defaultProps = {
+    notOwner: true,
+};
+
+ReplyBlock.propTypes = {
+    notOwner: PropTypes.bool,
+};
+
+export default ReplyBlock;

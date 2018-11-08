@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import by from 'styled-by';
-import PropTypes from 'prop-types';
 import { Map } from 'immutable';
 
 import CommentFormLoader from 'app/components/modules/CommentForm/loader';

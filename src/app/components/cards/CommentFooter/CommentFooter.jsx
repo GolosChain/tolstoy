@@ -65,26 +65,6 @@ const Splitter = styled.div`
     background: #e1e1e1;
 `;
 
-const ButtonStyled = styled.div`
-    display: flex;
-    align-items: center;
-    margin-right: 18px;
-    height: 100%;
-    min-height: 50px;
-    flex-grow: 1;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 12px;
-    font-weight: bold;
-    line-height: 18px;
-    text-transform: uppercase;
-    cursor: pointer;
-
-    @media (min-width: 890px) and (max-width: 1200px), (max-width: 639px) {
-        margin: 0;
-        padding: 0 18px 0 11px;
-    }
-`;
-
 const FooterConfirm = styled.div`
     display: flex;
     align-items: center;
@@ -197,14 +177,9 @@ export default class CommentFooter extends Component {
                         count={comment.get('children')}
                         link={contentLink}
                         text={tt('g.reply')}
-                        showReply={!isOwner}
+                        notOwner={!isOwner}
                         onReplyClick={onReplyClick}
                     />
-                    {/*{!isOwner && (*/}
-                        {/*<ButtonStyled light onClick={onReplyClick}>*/}
-                            {/*{tt('g.reply')}*/}
-                        {/*</ButtonStyled>*/}
-                    {/*)}*/}
                 </CommentReplyWrapper>
             </Wrapper>
         );
