@@ -149,6 +149,20 @@ const VotePanelStyled = styled(VotePanel)`
     `};
 `;
 
+const VotePanelWrapper = styled.div`
+    ${is('grid')`
+        display: flex;
+        justify-content: flex-start;
+        width: 100%;
+        padding: 0 18px;
+
+        @media (max-width: 689px) {
+            justify-content: center;
+            padding: 0;
+        }
+    `};
+`;
+
 const PostImage = styled.div.attrs({
     style: ({ src }) => ({
         backgroundImage: `url(${src})`,
@@ -445,7 +459,9 @@ export default class PostCard extends PureComponent {
 
         return (
             <Footer grid={grid}>
-                <VotePanelStyled contentLink={permLink} grid={grid} />
+                <VotePanelWrapper grid={grid}>
+                    <VotePanelStyled contentLink={permLink} grid={grid} />
+                </VotePanelWrapper>
                 {grid ? null : <Filler />}
                 <ReplyBlock
                     grid={grid}
