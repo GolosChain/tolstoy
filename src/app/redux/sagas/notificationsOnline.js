@@ -1,13 +1,10 @@
-import { call, fork, put, all, takeEvery, select } from 'redux-saga/effects';
+import { call, fork, put, all, takeEvery } from 'redux-saga/effects';
 import { api } from 'golos-js';
 import { fromJS } from 'immutable';
 
 import { createAddNotificationOnlineAction } from 'src/app/redux/actions/notificationsOnline';
 import { NOTIFICATION_ONLINE_ADD_NOTIFICATION } from 'src/app/redux/constants/notificationsOnline';
-import { getAccount } from 'app/redux/sagas/shared';
 import constants from 'app/redux/constants';
-
-import { numberWithCommas, vestsToGolosPower } from 'app/utils/StateFunctions';
 
 import { hydrateNotifications } from 'src/app/redux/sagas/actions/notifications';
 
@@ -19,27 +16,27 @@ function* addNotificationsOnlineWatch() {
     yield takeEvery(NOTIFICATION_ONLINE_ADD_NOTIFICATION, handleAddNotification);
 }
 
-function* getContent(author, permlink) {
-    const content = yield call(
-        [api, api.getContentAsync],
-        author,
-        permlink,
-        constants.DEFAULT_VOTE_LIMIT
-    );
-
-    let title = content.title;
-    let link = `/@${content.author}/${content.permlink}`;
-
-    if (content.parent_author) {
-        title = content.root_title;
-        link = content.url;
-    }
-
-    return {
-        title,
-        link,
-    };
-}
+// function* getContent(author, permlink) {
+//     const content = yield call(
+//         [api, api.getContentAsync],
+//         author,
+//         permlink,
+//         constants.DEFAULT_VOTE_LIMIT
+//     );
+//
+//     let title = content.title;
+//     let link = `/@${content.author}/${content.permlink}`;
+//
+//     if (content.parent_author) {
+//         title = content.root_title;
+//         link = content.url;
+//     }
+//
+//     return {
+//         title,
+//         link,
+//     };
+// }
 
 // TODO: look in cache before call to api
 function* handleAddNotification(action) {
@@ -48,8 +45,8 @@ function* handleAddNotification(action) {
 
     yield all([
         notifications.map(function*(notification) {
-            yield put(createAddNotificationOnlineAction(fromJS(notification)))
-        })
+            yield put(createAddNotificationOnlineAction(fromJS(notification)));
+        }),
     ]);
 
     // if (vote) {

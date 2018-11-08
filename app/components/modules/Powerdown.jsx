@@ -4,13 +4,13 @@ import Slider from 'react-rangeslider';
 import tt from 'counterpart';
 import g from 'app/redux/GlobalReducer';
 import user from 'app/redux/User';
-import transaction from 'app/redux/Transaction'
+import transaction from 'app/redux/Transaction';
 import { VEST_TICKER, LIQUID_TICKER, VESTING_TOKEN } from 'app/client_config';
 import {
     numberWithCommas,
     vestsToGolosPower,
     assetFloat,
-    vestsToGolos
+    vestsToGolos,
 } from 'app/utils/StateFunctions';
 
 class Powerdown extends React.Component {
@@ -37,11 +37,7 @@ class Powerdown extends React.Component {
             vesting_shares,
             delegated_vesting_shares,
         } = this.props;
-        const {
-            broadcasting,
-            new_withdraw,
-            manual_entry
-        } = this.state;
+        const { broadcasting, new_withdraw, manual_entry } = this.state;
 
         const formatSp = amount =>
             numberWithCommas(vestsToGolos(`${amount} ${VEST_TICKER}`, this.props.gprops));
@@ -53,7 +49,7 @@ class Powerdown extends React.Component {
         const inputChange = event => {
             event.preventDefault();
             let value = vestsToGolosPower(
-                this.props.state,
+                this.props.state.global.get('props'),
                 parseFloat(event.target.value.replace(/,/g, ''))
             );
             if (!isFinite(value)) {
@@ -112,12 +108,10 @@ class Powerdown extends React.Component {
             );
         }
         if (notes.length === 0) {
-            let AMOUNT =  vestsToGolos(`${new_withdraw} ${VEST_TICKER}`, this.props.gprops) / 13
+            let AMOUNT = vestsToGolos(`${new_withdraw} ${VEST_TICKER}`, this.props.gprops) / 13;
             AMOUNT = AMOUNT.toFixed(AMOUNT >= 10 ? 0 : 1);
             notes.push(
-                <li key="per_week">
-                    {tt('powerdown_jsx.per_week', { AMOUNT, LIQUID_TICKER })}
-                </li>
+                <li key="per_week">{tt('powerdown_jsx.per_week', { AMOUNT, LIQUID_TICKER })}</li>
             );
         }
 
@@ -145,10 +139,13 @@ class Powerdown extends React.Component {
                     onChange={sliderChange}
                 />
                 <div className="row">
-                    <div className="column small-2" style={{paddingTop: 6}}>{tt('g.amount')}</div>
+                    <div className="column small-2" style={{ paddingTop: 6 }}>
+                        {tt('g.amount')}
+                    </div>
                     <div className="column small-10">
-                        <div className="input-group" style={{marginBottom: "0.25rem"}}>
-                            <input type="text"
+                        <div className="input-group" style={{ marginBottom: '0.25rem' }}>
+                            <input
+                                type="text"
                                 value={manual_entry ? manual_entry : formatSp(new_withdraw)}
                                 onChange={inputChange}
                                 autoCorrect={false}
@@ -159,7 +156,9 @@ class Powerdown extends React.Component {
                 </div>
                 <div className="row">
                     <div className="column small-10">
-                        <ul className="powerdown-notes" style={{marginLeft: 0, marginTop: 2}}>{notes}</ul>
+                        <ul className="powerdown-notes" style={{ marginLeft: 0, marginTop: 2 }}>
+                            {notes}
+                        </ul>
                         <button
                             type="submit"
                             className="button"
@@ -169,8 +168,8 @@ class Powerdown extends React.Component {
                             {tt('powerdown_jsx.power_down')}
                         </button>
                     </div>
+                </div>
             </div>
-         </div>
         );
     }
 }
@@ -181,10 +180,7 @@ export default connect(
         const account = values.get('account');
         const to_withdraw = parseFloat(values.get('to_withdraw')) / 1e6;
         const withdrawn = parseFloat(values.get('withdrawn')) / 1e6;
-        const vesting_shares = assetFloat(
-            values.get('vesting_shares'),
-            VEST_TICKER
-        );
+        const vesting_shares = assetFloat(values.get('vesting_shares'), VEST_TICKER);
         const delegated_vesting_shares = assetFloat(
             values.get('delegated_vesting_shares'),
             VEST_TICKER
@@ -201,7 +197,7 @@ export default connect(
             to_withdraw,
             vesting_shares,
             withdrawn,
-            gprops: state.global.get('props').toJS()
+            gprops: state.global.get('props').toJS(),
         };
     },
 
@@ -214,16 +210,9 @@ export default connect(
             const name = 'powerDown';
             dispatch(g.actions.showDialog({ name }));
         },
-        withdrawVesting: ({
-            account,
-            vesting_shares,
-            errorCallback,
-            successCallback,
-        }) => {
+        withdrawVesting: ({ account, vesting_shares, errorCallback, successCallback }) => {
             const successCallbackWrapper = (...args) => {
-                dispatch(
-                    { type: 'FETCH_STATE', payload: { pathname: `@${account}/transfers` } }
-                );
+                dispatch({ type: 'FETCH_STATE', payload: { pathname: `@${account}/transfers` } });
                 return successCallback(...args);
             };
             dispatch(

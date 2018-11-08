@@ -1550,6 +1550,10 @@
     "trending_30_day": "trending (30 day)",
     "we_will_reset_curation_rewards_for_this_post": "will reset your curation rewards for this post"
   },
+  "wallet": {
+    "cancel": "Cancel",
+    "power_down_line": "You've started power down process for **%(all)s GOLOS** (**%(done)s GOLOS** already paid off)"
+  },
   "welcome_page": {
     "about": {
       "item": {

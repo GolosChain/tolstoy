@@ -1561,6 +1561,10 @@
     "we_will_reset_curation_rewards_for_this_post": " сбросит Ваши кураторские вознаграждения за этот пост",
     "your_existing_DEBT_TOKEN_are_liquid_and_transferable": "Ваши существующие %(DEBT_TOKEN)s ликвидны и перемещаемы. Возможно, Вы хотите торговать %(DEBT_TOKEN)s напрямую на этом сайте в разделе %(link)s или перевести на внешний рынок."
   },
+  "wallet": {
+    "cancel": "Отменить",
+    "power_down_line": "Вы запустили понижение силы голоса на **%(all)s GOLOS** (**%(done)s GOLOS** уже выплачено)"
+  },
   "welcome_page": {
     "about": {
       "item": {
