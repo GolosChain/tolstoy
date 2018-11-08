@@ -35,6 +35,10 @@ export default class HomeContent extends Component {
         loadMore: PropTypes.func,
     };
 
+    static defaultProps = {
+        posts: List(),
+    };
+
     renderCallout() {
         const { category, order, currentUsername, routeParams } = this.props;
 

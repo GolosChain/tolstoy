@@ -149,6 +149,20 @@ const VotePanelStyled = styled(VotePanel)`
     `};
 `;
 
+const VotePanelWrapper = styled.div`
+    ${is('grid')`
+        display: flex;
+        justify-content: flex-start;
+        width: 100%;
+        padding: 0 18px;
+
+        @media (max-width: 689px) {
+            justify-content: center;
+            padding: 0;
+        }
+    `};
+`;
+
 const PostImage = styled.div.attrs({
     style: ({ src }) => ({
         backgroundImage: `url(${src})`,
@@ -176,6 +190,15 @@ const Root = styled(EntryWrapper)`
     border-radius: 8px;
     background: #fff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
+
+    ${is('gray')`
+        opacity: 0.37;
+        transition: opacity 0.25s;
+
+        &:hover {
+            opacity: 1;
+        }
+    `};
 `;
 
 export default class PostCard extends PureComponent {
@@ -217,7 +240,7 @@ export default class PostCard extends PureComponent {
     }
 
     render() {
-        const { className, isRepost, grid, hideNsfw } = this.props;
+        const { className, isRepost, grid, hideNsfw, stats } = this.props;
 
         // user wishes to hide these posts entirely
         if (hideNsfw) {
@@ -225,7 +248,7 @@ export default class PostCard extends PureComponent {
         }
 
         return (
-            <Root className={className} grid={grid}>
+            <Root className={className} grid={grid} gray={stats.gray || stats.hide}>
                 {this.renderHeader()}
                 {isRepost ? this.renderRepostPart() : null}
                 {this.renderBody()}
@@ -239,13 +262,11 @@ export default class PostCard extends PureComponent {
 
         const category = detransliterate(data.get('category'));
         let author;
-        let originalAuthor;
         let created;
 
         if (isRepost) {
             author = additionalData.get('repostAuthor');
             created = additionalData.get('date');
-            originalAuthor = data.get('author');
         } else {
             author = data.get('author');
             created = data.get('created');
@@ -286,7 +307,12 @@ export default class PostCard extends PureComponent {
         if (showPinButton && isOwner) {
             return (
                 <ToolbarEditAction to={`${sanitizedData.link}/edit`}>
-                    <IconWrapper enabled data-tooltip={tt('g.edit')}>
+                    <IconWrapper
+                        enabled
+                        role="button"
+                        aria-label={tt('g.edit')}
+                        data-tooltip={tt('g.edit')}
+                    >
                         <Icon name="pen" width={23} height={23} />
                     </IconWrapper>
                 </ToolbarEditAction>
@@ -323,9 +349,11 @@ export default class PostCard extends PureComponent {
         return (
             <ToolbarAction>
                 <IconWrapper
+                    role="button"
+                    aria-label={pinTip}
+                    data-tooltip={pinTip}
                     enabled={!pinDisabled}
                     isPinned={isPinned}
-                    data-tooltip={pinTip}
                     onClick={!pinDisabled ? this._onPinClick : null}
                 >
                     <Icon name="pin" width={23} height={23} />
@@ -344,6 +372,8 @@ export default class PostCard extends PureComponent {
         return (
             <ToolbarAction>
                 <IconWrapper
+                    role="button"
+                    aria-label={tt('post_card.repost')}
                     data-tooltip={tt('post_card.repost')}
                     enabled
                     onClick={this._onRepostClick}
@@ -361,14 +391,16 @@ export default class PostCard extends PureComponent {
             return;
         }
 
+        const favoriteText = isFavorite
+            ? tt('post_card.remove_from_favorites')
+            : tt('post_card.add_to_favorites');
+
         return (
             <ToolbarAction>
                 <IconWrapper
-                    data-tooltip={
-                        isFavorite
-                            ? tt('post_card.remove_from_favorites')
-                            : tt('post_card.add_to_favorites')
-                    }
+                    role="button"
+                    aria-label={favoriteText}
+                    data-tooltip={favoriteText}
                     enabled
                     onClick={this._onFavoriteClick}
                 >
@@ -403,8 +435,8 @@ export default class PostCard extends PureComponent {
     }
 
     renderBody() {
-        const { grid, sanitizedData } = this.props;
-        const withImage = sanitizedData.image_link;
+        const { grid, sanitizedData, stats } = this.props;
+        const withImage = sanitizedData.image_link && !stats.gray && !stats.hide;
 
         return (
             <BodyLink to={sanitizedData.link} grid={grid ? 1 : 0} onClick={this._onClick}>
@@ -434,7 +466,9 @@ export default class PostCard extends PureComponent {
 
         return (
             <Footer grid={grid}>
-                <VotePanelStyled contentLink={permLink} grid={grid} />
+                <VotePanelWrapper grid={grid}>
+                    <VotePanelStyled contentLink={permLink} grid={grid} />
+                </VotePanelWrapper>
                 {grid ? null : <Filler />}
                 <ReplyBlock
                     grid={grid}

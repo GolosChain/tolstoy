@@ -450,6 +450,8 @@ export default class Header extends PureComponent {
                 {isPadScreen ? null : this.renderFullAccountBlock()}
                 {isPadScreen ? this.renderMobileAccountBlock() : null}
                 <DotsWrapper
+                    role="button"
+                    aria-label={tt('aria_label.additional menu')}
                     innerRef={this.dotsRef}
                     active={isMenuOpen}
                     mobile={isPadScreen ? 1 : 0}
@@ -468,7 +470,7 @@ export default class Header extends PureComponent {
 
         return (
             <AccountInfoBlock to={`/@${currentUsername}`}>
-                <Userpic account={currentUsername} size={36} />
+                <Userpic account={currentUsername} size={36} ariaLabel={tt('aria_label.avatar')} />
                 <AccountText>
                     <AccountName>{realName}</AccountName>
                     <AccountPowerBlock>
@@ -492,10 +494,12 @@ export default class Header extends PureComponent {
 
         return (
             <Notifications
+                role="button"
+                aria-label={tt('aria_label.notifications')}
                 mobile={isPadScreen ? 1 : 0}
                 innerRef={this.noticationsRef}
-                onClick={this.onNotificationsMenuToggle}
                 active={isNotificationsOpen}
+                onClick={this.onNotificationsMenuToggle}
             >
                 <IconBadge name="bell" size={20} count={freshCount} />
             </Notifications>
@@ -537,7 +541,7 @@ export default class Header extends PureComponent {
                                 />
                             </svg>
                         </PowerCircle>
-                        <UserpicMobile account={currentUsername} size={44} />
+                        <UserpicMobile account={currentUsername} size={44} ariaLabel={tt('aria_label.avatar')} />
                     </MobileAccountContainer>
                 </MobileAccountBlock>
             </Fragment>
@@ -552,11 +556,15 @@ export default class Header extends PureComponent {
             <Root>
                 <Fixed mobile={isPadScreen ? 1 : 0}>
                     <Container>
-                        <LogoLink to="/">
+                        <LogoLink to="/" aria-label={tt('aria_label.header_logo')}>
                             <LogoIcon name="logo" />
                             {isPadScreen ? null : <LogoText>GOLOS</LogoText>}
                         </LogoLink>
-                        <SearchBlock href="/static/search.html" mobile={isPadScreen ? 1 : 0}>
+                        <SearchBlock
+                            href="/static/search.html"
+                            mobile={isPadScreen ? 1 : 0}
+                            aria-label={tt('g.search')}
+                        >
                             {isPadScreen ? <FlexFiller /> : <SearchInput />}
                             <SearchIcon name="search" />
                         </SearchBlock>

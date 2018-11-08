@@ -20,6 +20,7 @@ export default connect(
             username,
             created: post.created,
             isFavorite: post.isFavorite,
+            category: post.category,
             author: author.account,
             isFollow: follow.includes(author.account),
             permLink: post.permLink,

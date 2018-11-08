@@ -46,14 +46,31 @@
     }
   },
   "aria_label": {
+    "additional_menu": "Additional menu",
+    "android_link": "Download Golos.io android app",
     "avatar": "User's avatar",
+    "bitcoin_link": "Golos.io thread on Bitcoin Forum",
     "category": "Category",
+    "chanel_card": "Contact",
     "close_button": "Close",
-    "dislike": "Vote with dislike",
     "expected_payout": "Expected payout",
-    "like": "Vote with like",
+    "dislikers_list": "Voted with dislike",
+    "expected_payout": "Expected payout",
+    "facebook_link": "Golos.io on Facebook page",
+    "followers": "Followers",
+    "following": "Following",
+    "header_logo": "Golos.io logo",
+    "likers_list": "Voted with like",
+    "notifications": "Notifications",
+    "share_on_facebook": "Share on Facebook",
+    "share_on_lj": "Share on LiveJournal",
+    "share_on_twitter": "Share on Twitter",
+    "share_on_vk": "Share on VKontakte",
     "tag": "Hashtag",
-    "username": "Username"
+    "telegram_link": "Golos.io Telegram Chat",
+    "total_paid": "Total paid",
+    "username": "Username",
+    "vk_link": "Golos.io on VKontakte page"
   },
   "auth_protection": {
     "need_auth": "Not allowed, please authorize.",
@@ -97,6 +114,9 @@
     "not_be_empty": "not be empty.",
     "start_with_a_letter": "start with a letter.",
     "use_caution_sending_to_this_account": "Use caution sending to this account. Please double check your spelling for possible phishing."
+  },
+  "comment_card": {
+    "hidden": "This comment was hidden because of low rating."
   },
   "comment_editor": {
     "cancel_comment": "Comment text will be erased. Are you sure?"
@@ -219,6 +239,15 @@
     "liked": "Liked post",
     "prompt": "Enter the data",
     "show_all": "Show all"
+  },
+  "dialogs_dislike": {
+    "header": "By voting against you reduce the reward, and make the post less noticeable in the feed. There should be a good reason to vote against, for example:",
+    "item_1": "disagreement with the award;",
+    "item_2": "fraud or plagiarism;",
+    "item_3": "incitement of hatred or Internet trolling;",
+    "item_4": "intentionally false information or spam.",
+    "ok": "Vote against",
+    "title": "Voting against"
   },
   "dialogs_promote": {
     "active_key": "Active key",
@@ -456,6 +485,7 @@
     },
     "delegated_vesting": "%(VESTING_TOKEN)s delegated from this account",
     "delete": "Delete",
+    "dislike": "Dislike",
     "dismiss": "Dismiss",
     "do_you_need_to": "Do you need to",
     "documentation": "Documentation",
@@ -484,6 +514,7 @@
     },
     "generated_password": "Generated Password",
     "golos_fest": "Golos.io News",
+    "grid_posts": "Grid",
     "hide": "Hide",
     "hide_private_key": "Hide private key",
     "hot": "Hot",
@@ -498,6 +529,8 @@
     "invites": "Invites",
     "joined": "Joined",
     "keep_me_logged_in": "Keep me logged in",
+    "like": "Like",
+    "list_posts": "List",
     "loading": "Loading",
     "login": "Login",
     "login_to_see_memo": "login to see memo",
@@ -952,6 +985,9 @@
       "other": "%(count)s views",
       "zero": "no views"
     }
+  },
+  "post": {
+    "hidden": "This post was hidden because of low rating."
   },
   "post_card": {
     "add_to_favorites": "Add to favorites",

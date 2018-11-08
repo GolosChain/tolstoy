@@ -28,6 +28,10 @@ class RepliesContent extends Component {
         );
     }
 
+    itemRender(props) {
+        return <CommentCard {...props} showSpam />;
+    }
+
     _render() {
         const { pageAccount, isOwner } = this.props;
 
@@ -55,7 +59,7 @@ class RepliesContent extends Component {
         return (
             <BlogCardsList
                 pageAccountName={pageAccount.get('name')}
-                itemComponent={CommentCard}
+                itemRender={this.itemRender}
                 disallowGrid
                 category="recent_replies"
                 allowInlineReply={isOwner}

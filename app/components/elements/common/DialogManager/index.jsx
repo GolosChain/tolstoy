@@ -1,6 +1,8 @@
 import React from 'react';
 import cn from 'classnames';
 import { last } from 'ramda';
+import tt from 'counterpart';
+
 import KEYS from 'app/utils/keyCodes';
 import CommonDialog from 'app/components/dialogs/CommonDialog';
 import LoginForm from 'src/app/containers/login/LoginForm';
@@ -67,7 +69,7 @@ export default class DialogManager extends React.PureComponent {
                 props: {
                     title: params.title,
                     type: 'confirm',
-                    text: text || 'Вы уверены?',
+                    text: text || tt('g.are_you_sure'),
                     params,
                 },
                 onClose: resolve,
@@ -83,7 +85,7 @@ export default class DialogManager extends React.PureComponent {
                     title,
                     type: 'confirm',
                     danger: true,
-                    text: text || 'Вы уверены?',
+                    text: text || tt('g.are_you_sure'),
                 },
                 onClose: resolve,
             });

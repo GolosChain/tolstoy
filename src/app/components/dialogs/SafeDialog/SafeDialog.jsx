@@ -13,11 +13,14 @@ import { isBadActor } from 'app/utils/ChainValidation';
 import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';
 import { showNotification } from 'src/app/redux/actions/ui';
 import { parseAmount } from 'src/app/helpers/currency';
+import { saveValue, getValue } from 'src/app/helpers/localStorageUtils';
 
 import DialogFrame from 'app/components/dialogs/DialogFrame';
 import DialogManager from 'app/components/elements/common/DialogManager';
 import AccountNameInput from 'src/app/components/common/AccountNameInput';
 import DialogTypeSelect from 'src/app/components/userProfile/common/DialogTypeSelect';
+
+const CURRENCY_SAVE_KEY = 'transfer-dialog.default-currency';
 
 const TYPES = {
     SAVE: 'SAVE',
@@ -73,7 +76,8 @@ class SafeDialog extends PureComponent {
         type: TYPES.SAVE,
         target: '',
         amount: '',
-        currency: CURRENCIES.GBG,
+        currency:
+            getValue(CURRENCY_SAVE_KEY, [CURRENCIES.GBG, CURRENCIES.GOLOS]) || CURRENCIES.GOLOS,
         amountInFocus: false,
         saveTo: false,
         loader: false,
@@ -257,6 +261,8 @@ class SafeDialog extends PureComponent {
         this.setState({
             currency,
         });
+
+        saveValue(CURRENCY_SAVE_KEY, currency);
     };
 
     _onTargetChange = value => {

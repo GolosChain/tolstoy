@@ -19,7 +19,7 @@ const LinkStyled = styled(Link)`
     display: flex;
     align-items: center;
     height: 50px;
-    padding: 0 32px 0 28px;
+    padding-right: 20px;
     font-size: 14px;
     color: #333 !important;
     background-color: #fff;
@@ -30,11 +30,14 @@ const LinkStyled = styled(Link)`
     }
 `;
 
+const IconWrapper = styled.div`
+    display: flex;
+    justify-content: center;
+    width: 63px;
+`;
+
 const IconStyled = styled(Icon)`
     flex-shrink: 0;
-
-    margin-right: 20px;
-
     color: #393636;
 `;
 
@@ -102,7 +105,9 @@ export default class Menu extends PureComponent {
                             target={link.startsWith('//') ? 'blank' : null}
                             onClick={onClick}
                         >
-                            <IconStyled name={icon} width={width} height={height} />
+                            <IconWrapper>
+                                <IconStyled name={icon} width={width} height={height} />
+                            </IconWrapper>
                             {text}
                         </LinkStyled>
                     </Li>

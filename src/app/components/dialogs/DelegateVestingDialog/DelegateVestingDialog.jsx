@@ -208,7 +208,7 @@ class DelegateVestingDialog extends PureComponent {
             <DialogFrameStyled
                 title={tt('dialogs_transfer.delegate_vesting.title')}
                 titleSize={20}
-                icon="refresh"
+                icon="voice"
                 buttons={buttons}
                 onCloseClick={this._onCloseClick}
             >

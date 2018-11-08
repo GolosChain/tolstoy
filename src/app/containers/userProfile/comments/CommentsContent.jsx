@@ -28,6 +28,10 @@ class CommentsContent extends Component {
         );
     }
 
+    renderItem(props) {
+        return <CommentCard {...props} showSpam />;
+    }
+
     _render() {
         const { pageAccount, isOwner } = this.props;
 
@@ -58,11 +62,10 @@ class CommentsContent extends Component {
             <BlogCardsList
                 pageAccountName={pageUserName}
                 category="comments"
-                itemComponent={CommentCard}
+                itemRender={this.renderItem}
                 disallowGrid
                 allowInlineReply={!isOwner}
                 //order="by_author"
-                //showSpam TODO
             />
         );
     }

@@ -12,7 +12,7 @@ const Root = styled.div`
     top: 60px;
     z-index: 2;
 
-    border-radius: 8px;
+    border-radius: 6px;
     background: #fff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
     animation: fade-in 0.15s;

@@ -128,9 +128,11 @@ export default class AccountNameInput extends PureComponent {
 
     _loadIndex = 0;
     _showIndex = null;
+    repositionInterval = null;
 
     componentDidMount() {
         this._mount = document.getElementById('content');
+        this.repositionInterval = setInterval(this.reposition, 100);
     }
 
     componentWillUnmount() {
@@ -138,6 +140,8 @@ export default class AccountNameInput extends PureComponent {
             window.removeEventListener('scroll', this.repositionLazy);
             window.removeEventListener('resize', this.repositionLazy);
         }
+
+        clearInterval(this.repositionInterval);
 
         if (this.unbindBoxScroll) {
             this.unbindBoxScroll();
@@ -167,7 +171,7 @@ export default class AccountNameInput extends PureComponent {
     }
 
     reposition = () => {
-        const { open, popoverPos, list, maxShowCount } = this.state;
+        const { open, popoverPos, maxShowCount } = this.state;
 
         if (!open) {
             return;
@@ -319,6 +323,7 @@ export default class AccountNameInput extends PureComponent {
             switch (e.which) {
                 case keyCodes.UP:
                 case keyCodes.DOWN:
+                    e.preventDefault();
                     let newIndex;
 
                     if (e.which === keyCodes.UP) {

@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
-import { TagLink } from 'golos-ui/Tag';
 
 import PostHeader from 'src/app/containers/post/postHeader';
 import MarkdownViewer from 'app/components/cards/MarkdownViewer';
@@ -14,13 +13,13 @@ import PostFormLoader from 'app/components/modules/PostForm/loader';
 
 const Wrapper = styled.article`
     position: relative;
-    padding: 40px 70px 30px;
+    padding: 40px 70px 60px;
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
 
     @media (max-width: 576px) {
-        padding: 15px 16px;
+        padding: 20px;
     }
 `;
 
@@ -36,8 +35,10 @@ const PostTitle = styled.h1`
     font-weight: 500;
     font-size: 2rem;
     line-height: 40px;
+    max-width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
     -webkit-font-smoothing: antialiased;
-    word-break: break-word;
 
     @media (max-width: 576px) {
         font-size: 30px;
@@ -59,15 +60,6 @@ const PostBody = styled.div`
         font-size: 1rem;
         letter-spacing: -0.26px;
         line-height: 24px;
-    }
-`;
-
-const Tags = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-
-    ${TagLink} {
-        margin: 10px 10px 0 0;
     }
 `;
 
@@ -130,19 +122,12 @@ export class PostContent extends Component {
     }
 
     renderPreview() {
-        const { tags, payout, category, title, body, pictures, created, isPromoted } = this.props;
+        const { payout, title, body, pictures, created, isPromoted } = this.props;
 
         return (
             <Preview>
                 <Body>
                     <BodyHeaderWrapper>
-                        <TagLink
-                            to={'/trending/' + category.origin}
-                            category={1}
-                            aria-label={tt('aria_label.category')}
-                        >
-                            {category.tag}
-                        </TagLink>
                         {isPromoted && (
                             <PromotedMark>
                                 <PromotedIcon name="best" width="34" height="37" />
@@ -160,18 +145,6 @@ export class PostContent extends Component {
                         />
                     </PostBody>
                 </Body>
-                <Tags>
-                    {tags.map((tag, index) => (
-                        <TagLink
-                            to={'/trending/' + tag.origin}
-                            category={index === 0 ? 1 : 0}
-                            key={index}
-                            aria-label={tt('aria_label.tag')}
-                        >
-                            {tag.tag}
-                        </TagLink>
-                    ))}
-                </Tags>
             </Preview>
         );
     }

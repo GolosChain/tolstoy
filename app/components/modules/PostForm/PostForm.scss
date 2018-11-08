@@ -17,18 +17,19 @@
   }
 
   &_page &__content {
-    max-width: 808px;
+    max-width: 700px;
     padding: 0 8px;
     margin: 0 auto;
   }
 
   &_page &__preview {
-    max-width: 800px;
+    max-width: 700px;
     margin: 0 auto;
   }
 
   &__title-preview {
-    font: 700 200% 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Geneva, Arial, sans-serif;
+    font-weight: 700;
+    font-size: 200%;
   }
 
   &__footer {

@@ -39,6 +39,7 @@ export default connect(
 
             return {
                 comment,
+                stats: comment.get('stats').toJS(),
                 title,
                 fullParentURL,
                 extractedContent,

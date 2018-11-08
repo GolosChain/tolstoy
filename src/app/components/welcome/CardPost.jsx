@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router';
+import tt from 'counterpart';
 
 import extractContent from 'app/utils/ExtractContent';
 
@@ -130,7 +131,7 @@ export default class CardPost extends Component {
         const p = extractContent(post);
 
         return (
-            <Root className={className}>
+            <Root className={className} aria-label={tt('g.post')}>
                 <Main to={p.link}>
                     {p.image_link && <Img src={`${$STM_Config.img_proxy_prefix}0x0/${p.image_link}`} title={p.title} />}
                     <Content>

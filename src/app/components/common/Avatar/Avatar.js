@@ -22,11 +22,13 @@ const Wrapper = styled.div.attrs({
     align-items: center;
     justify-content: center;
 
-    color: #e1e1e1;
+    color: #393636;
 
     ${is('icon')`
         margin-left: 6px;
-    `} background-size: cover;
+    `};
+
+    background-size: cover;
     background-repeat: no-repeat;
     background-position: 50% 50%;
     border-radius: 50%;
