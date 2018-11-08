@@ -19,7 +19,7 @@ const LinkStyled = styled(Link)`
     display: flex;
     align-items: center;
     height: 50px;
-    padding-right: 0 20px;
+    padding-right: 20px;
     font-size: 14px;
     color: #333 !important;
     background-color: #fff;
