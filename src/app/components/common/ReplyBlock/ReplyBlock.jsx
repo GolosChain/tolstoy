@@ -83,6 +83,8 @@ export class ReplyBlock extends Component {
         text: PropTypes.string,
         notOwner: PropTypes.bool,
         onReplyClick: PropTypes.func,
+
+        toggleCommentInputFocus: PropTypes.func.isRequired,
     };
 
     toggleCommentInputFocus = () => {
@@ -102,7 +104,7 @@ export class ReplyBlock extends Component {
                     <ReplyIcon name="reply" />
                     <ReplyCount>{count}</ReplyCount>
                 </ReplyCounterBlock>
-                {!Boolean(onReplyClick) && (
+                {!onReplyClick && (
                     <Fragment>
                         <Splitter />
                         <ReplyButton to={`${link}#comments`} onClick={this.toggleCommentInputFocus}>

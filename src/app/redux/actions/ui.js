@@ -47,6 +47,9 @@ export function showNotification(text, keyPrefix, dismissDelay = 5000) {
     };
 }
 
-export function toggleCommentInputFocus(payload) {
-    return { type: UI_TOGGLE_COMMENT_INPUT_FOCUS, payload };
+export function toggleCommentInputFocus(focused) {
+    return {
+        type: UI_TOGGLE_COMMENT_INPUT_FOCUS,
+        payload: { focused },
+    };
 }

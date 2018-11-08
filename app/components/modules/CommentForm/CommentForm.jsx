@@ -18,7 +18,7 @@ import { checkPostHtml } from 'app/utils/validator';
 import { showNotification } from 'src/app/redux/actions/ui';
 import { getTags } from 'shared/HtmlReady';
 import './CommentForm.scss';
-import {toggleCommentInputFocus} from '../../../../src/app/redux/actions/ui';
+import { toggleCommentInputFocus } from 'src/app/redux/actions/ui';
 
 const DRAFT_KEY = 'golos.comment.draft';
 
@@ -122,7 +122,7 @@ class CommentForm extends Component {
         if (this.props.autoFocus) {
             this.setFocus();
         }
-        if (/.+#comments$/.test(location.href)) {
+        if (location.hash === '#comments') {
             this.setFocus();
             this.onInputFocused();
         }
@@ -141,7 +141,7 @@ class CommentForm extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (!this.props.focused && nextProps.focused) {
+        if (!this.props.commentInputFocused && nextProps.commentInputFocused) {
             this.setFocus();
         }
     }
@@ -435,7 +435,7 @@ class CommentForm extends Component {
 export default connect(
     state => ({
         author: state.user.getIn(['current', 'username']),
-        focused: state.ui.commentInput.get('focused'),
+        commentInputFocused: state.ui.common.get('commentInputFocused'),
     }),
     dispatch => ({
         onPost(payload, onSuccess, onError) {
@@ -464,8 +464,8 @@ export default connect(
                 },
             });
         },
-        toggleCommentInputFocus: payload => {
-            dispatch(toggleCommentInputFocus(payload))
-        }
+        toggleCommentInputFocus: focused => {
+            dispatch(toggleCommentInputFocus(focused));
+        },
     })
 )(CommentForm);
