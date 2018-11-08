@@ -46,7 +46,7 @@ const Row = styled.div`
         &:after {
             content: '';
             position: absolute;
-            bottom: 0px;
+            bottom: 0;
             left: 0;
             right: 0;
             height: 1px;
