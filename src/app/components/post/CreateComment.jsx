@@ -54,13 +54,6 @@ export default class CreateComment extends Component {
 
     onCancel = () => {};
 
-    shouldComponentUpdate(nextProps) {
-        if (this.props.commentInputFocused && nextProps.commentInputFocused) {
-            return false;
-        }
-        return true;
-    }
-
     render() {
         const { data, commentInputFocused } = this.props;
         const { inputText } = this.state;
