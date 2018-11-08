@@ -1,10 +1,12 @@
-import { takeEvery, take, select, put } from 'redux-saga/effects';
+import { takeEvery, takeLatest, take, select, put } from 'redux-saga/effects';
 import { SHOW_LOGIN, LOGIN_SUCCESS } from 'src/app/redux/constants/login';
 import DialogManager from 'app/components/elements/common/DialogManager';
 import { showLogin } from '../actions/login';
+import { resetAuth, saveAuth } from '../../helpers/localStorage';
 
 export default function* watch() {
     yield takeEvery(SHOW_LOGIN, showLoginWorker);
+    yield takeLatest('user/SAVE_LOGIN', saveLogin);
 }
 
 function* showLoginWorker({ payload } = {}) {
@@ -41,4 +43,54 @@ export function* loginIfNeed() {
     yield action;
 
     return yield promise;
+}
+
+function* saveLogin() {
+    if (!process.env.BROWSER) {
+        return;
+    }
+
+    resetAuth();
+
+    const current = yield select(state => state.user.get('current'));
+
+    if (!current) {
+        return;
+    }
+
+    const username = current.get('username');
+    const privateKeys = current.get('private_keys');
+    const loginOwnerPubKey = current.get('login_owner_pubkey');
+
+    if (!username) {
+        return;
+    }
+
+    const postingPrivate = privateKeys.get('posting_private');
+
+    if (!postingPrivate) {
+        return;
+    }
+
+    const account = yield select(state => state.global.getIn(['accounts', username]));
+
+    if (!account) {
+        return;
+    }
+
+    if (isKeyActiveOrOwner(postingPrivate, account)) {
+        return;
+    }
+
+    saveAuth(username, postingPrivate, privateKeys.get('memo_private'), loginOwnerPubKey);
+}
+
+function isKeyActiveOrOwner(privateKey, account) {
+    const postingPubKey = privateKey.toPublicKey().toString();
+
+    for (let key of ['active', 'owner']) {
+        if (account.getIn([key, 'key_auths']).some(keyData => keyData.get(0) === postingPubKey)) {
+            return true;
+        }
+    }
 }
