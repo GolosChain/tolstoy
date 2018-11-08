@@ -1077,15 +1077,6 @@
     "to_save_your_preferences": "to save your preferences",
     "you_can": "You can"
   },
-  "powerdown_jsx": {
-    "already_power_down": "You are already powering down %(AMOUNT)s %(LIQUID_TICKER)s (%(WITHDRAWN)s %(LIQUID_TICKER)s paid out so far). Note that if you change the power down amount the payout schedule will reset.",
-    "amount": "Amount",
-    "delegating": "You are delegating %(AMOUNT)s %(LIQUID_TICKER)s. That amount is locked up and not available to power down until the delegation is removed and a full reward period has passed.",
-    "error": "Unable to power down (ERROR: %(MESSAGE)s)",
-    "per_week": "That's ~%(AMOUNT)s %(LIQUID_TICKER)s per week.",
-    "power_down": "Power Down",
-    "warning": "Leaving less than %(AMOUNT)s %(VESTING_TOKEN)s in your account is not recommended and can leave your account in a unusable state."
-  },
   "recoveraccountstep1_jsx": {
     "account_name_is_not_found": "Account name is not found",
     "account_recovery_request_not_confirmed": "Account recovery request is not confirmed yet, please get back later, thank you for your patience.",
