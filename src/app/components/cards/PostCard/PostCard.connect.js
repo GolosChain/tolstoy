@@ -60,6 +60,7 @@ export default connect(
                 pinDisabled: props.pageAccountName !== currentUsername,
                 isPinned,
                 isOwner,
+                stats: data.get('stats').toJS(),
             };
         }
     ),

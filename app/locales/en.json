@@ -115,6 +115,9 @@
     "start_with_a_letter": "start with a letter.",
     "use_caution_sending_to_this_account": "Use caution sending to this account. Please double check your spelling for possible phishing."
   },
+  "comment_card": {
+    "hidden": "This comment was hidden because of low rating."
+  },
   "comment_editor": {
     "cancel_comment": "Comment text will be erased. Are you sure?"
   },
@@ -978,6 +981,9 @@
       "other": "%(count)s views",
       "zero": "no views"
     }
+  },
+  "post": {
+    "hidden": "This post was hidden because of low rating."
   },
   "post_card": {
     "add_to_favorites": "Add to favorites",
