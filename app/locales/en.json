@@ -234,6 +234,15 @@
     "prompt": "Enter the data",
     "show_all": "Show all"
   },
+  "dialogs_dislike": {
+    "header": "By voting against you reduce the reward, and make the post less noticeable in the feed. There should be a good reason to vote against, for example:",
+    "item_1": "disagreement with the award;",
+    "item_2": "fraud or plagiarism;",
+    "item_3": "incitement of hatred or Internet trolling;",
+    "item_4": "intentionally false information or spam.",
+    "ok": "Vote against",
+    "title": "Voting against"
+  },
   "dialogs_promote": {
     "active_key": "Active key",
     "amount": "Amount",

@@ -5,3 +5,4 @@ export { default as PromoteDialog } from './PromoteDialog';
 export { default as RepostDialog } from './RepostDialog';
 export { default as SafeDialog } from './SafeDialog';
 export { default as TransferDialog } from './TransferDialog';
+export { default as DislikeAlert } from './DislikeAlert';
