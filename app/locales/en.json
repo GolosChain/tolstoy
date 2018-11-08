@@ -236,6 +236,9 @@
     "prompt": "Enter the data",
     "show_all": "Show all"
   },
+  "dialogs_convert": {
+    "power_down_line": "Power down process are running for **%(all)s GOLOS** (**%(done)s GOLOS** have already paid off)."
+  },
   "dialogs_dislike": {
     "header": "By voting against you reduce the reward, and make the post less noticeable in the feed. There should be a good reason to vote against, for example:",
     "item_1": "disagreement with the award;",
@@ -1552,7 +1555,7 @@
   },
   "wallet": {
     "cancel": "Cancel",
-    "power_down_line": "You've started power down process for **%(all)s GOLOS** (**%(done)s GOLOS** already paid off)"
+    "power_down_line": "You've started power down process for **%(all)s GOLOS** (**%(done)s GOLOS** have already paid off)"
   },
   "welcome_page": {
     "about": {

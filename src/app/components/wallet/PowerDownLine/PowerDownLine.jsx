@@ -4,6 +4,7 @@ import tt from 'counterpart';
 import styled from 'styled-components';
 
 import Icon from 'golos-ui/Icon';
+import DialogManager from 'app/components/elements/common/DialogManager';
 import { boldify } from 'src/app/helpers/text';
 
 const Root = styled.div`
@@ -51,13 +52,27 @@ export default class PowerDownLine extends Component {
         // connect
         toWithdraw: PropTypes.string,
         withdrawn: PropTypes.string,
+        cancelPowerDown: PropTypes.func.isRequired,
+        showNotification: PropTypes.func.isRequired,
+    };
+
+    onCancelClick = () => {
+        const { accountName } = this.props;
+
+        this.props.cancelPowerDown(accountName, err => {
+            if (err) {
+                DialogManager.alert(err, tt('g.error'));
+            } else {
+                this.props.showNotification(err);
+            }
+        });
     };
 
     render() {
         const { toWithdraw, withdrawn } = this.props;
 
         if (!toWithdraw) {
-            return;
+            return null;
         }
 
         return (
@@ -70,7 +85,7 @@ export default class PowerDownLine extends Component {
                         })
                     )}
                 </Text>
-                <Action>
+                <Action onClick={this.onCancelClick}>
                     <ActionIcon name="round-cross" />
                     {tt('wallet.cancel')}
                 </Action>

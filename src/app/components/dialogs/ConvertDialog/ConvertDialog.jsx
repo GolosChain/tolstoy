@@ -1,5 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
@@ -11,16 +11,14 @@ import SplashLoader from 'golos-ui/SplashLoader';
 import { Checkbox } from 'golos-ui/Form';
 
 import { MIN_VOICE_POWER } from 'app/client_config';
-import transaction from 'app/redux/Transaction';
 import { isBadActor } from 'app/utils/ChainValidation';
 import DialogFrame from 'app/components/dialogs/DialogFrame';
 import DialogManager from 'app/components/elements/common/DialogManager';
 import { parseAmount } from 'src/app/helpers/currency';
+import { boldify } from 'src/app/helpers/text';
 import { vestsToGolos, golosToVests } from 'app/utils/StateFunctions';
 import DialogTypeSelect from 'src/app/components/userProfile/common/DialogTypeSelect';
 import AccountNameInput from 'src/app/components/common/AccountNameInput';
-import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';
-import { showNotification } from 'src/app/redux/actions/ui';
 
 const POWER_TO_GOLOS_INTERVAL = 13; // weeks
 
@@ -101,7 +99,22 @@ const Hint = styled.span`
     cursor: help;
 `;
 
-class ConvertDialog extends PureComponent {
+const PowerDownText = styled.div`
+    margin: 10px 0;
+    font-size: 14px;
+    color: #393636;
+`;
+
+export default class ConvertDialog extends PureComponent {
+    static propTypes = {
+        myAccount: PropTypes.any,
+        globalProps: PropTypes.any,
+        toWithdraw: PropTypes.string,
+        withdrawn: PropTypes.string,
+        transfer: PropTypes.func.isRequired,
+        onClose: PropTypes.func.isRequired,
+    };
+
     state = {
         type: TYPES.GOLOS,
         target: '',
@@ -112,20 +125,8 @@ class ConvertDialog extends PureComponent {
         disabled: false,
     };
 
-    constructor(props) {
-        super(props);
-
-        this._globalProps = props.globalProps.toJS();
-    }
-
-    componentWillReceiveProps(newProps) {
-        if (this.props.globalProps !== newProps.globalProps) {
-            this._globalProps = newProps.globalProps.toJS();
-        }
-    }
-
     render() {
-        const { myAccount } = this.props;
+        const { myAccount, globalProps, toWithdraw, withdrawn } = this.props;
         const { target, amount, loader, disabled, amountInFocus, type, saveTo } = this.state;
 
         const TYPES_TRANSLATE = {
@@ -141,7 +142,7 @@ class ConvertDialog extends PureComponent {
             balanceString = myAccount.get('balance');
             balance = parseFloat(balanceString);
         } else if (type === TYPES.POWER) {
-            const { golos } = getVesting(myAccount, this._globalProps);
+            const { golos } = getVesting(myAccount, globalProps);
 
             balance = Math.max(0, parseFloat(golos) - MIN_VOICE_POWER);
             balanceString = balance.toFixed(3);
@@ -213,6 +214,16 @@ class ConvertDialog extends PureComponent {
                         <Shrink height={72}>{this._renderSubHeader()}</Shrink>
                     </SubHeader>
                     <Content>
+                        {toWithdraw && type === TYPES.POWER ? (
+                            <PowerDownText>
+                                {boldify(
+                                    tt('dialogs_convert.power_down_line', {
+                                        all: toWithdraw,
+                                        done: withdrawn,
+                                    })
+                                )}
+                            </PowerDownText>
+                        ) : null}
                         <Body style={{ height: this._getBodyHeight() }}>
                             <Section>
                                 <Label>{tt('dialogs_transfer.amount')}</Label>
@@ -403,7 +414,7 @@ class ConvertDialog extends PureComponent {
     };
 
     _onOkClick = () => {
-        const { myUser } = this.props;
+        const { myUser, globalProps } = this.props;
         const { target, amount, type, saveTo, loader, disabled } = this.state;
 
         const TYPES_SUCCESS_TEXT = {
@@ -433,12 +444,11 @@ class ConvertDialog extends PureComponent {
                 to: saveTo ? target.trim() : iAm,
                 amount: parseFloat(amount.replace(/\s+/, '')).toFixed(3) + ' GOLOS',
                 memo: '',
-                //request_id: Math.floor((Date.now() / 1000) % 4294967296),
             };
         } else if (type === TYPES.POWER) {
             operationType = 'withdraw_vesting';
 
-            const vesting = golosToVests(parseFloat(amount.replace(/\s+/, '')), this._globalProps);
+            const vesting = golosToVests(parseFloat(amount.replace(/\s+/, '')), globalProps);
 
             operation = {
                 account: iAm,
@@ -494,42 +504,6 @@ class ConvertDialog extends PureComponent {
         });
     };
 }
-
-export default connect(
-    state => {
-        const globalProps = state.global.get('props');
-        const myUser = state.user.get('current');
-        const myAccount = myUser ? state.global.getIn(['accounts', myUser.get('username')]) : null;
-
-        return {
-            myUser,
-            myAccount,
-            globalProps,
-        };
-    },
-    {
-        transfer: (type, operation, callback) => dispatch =>
-            dispatch(
-                transaction.actions.broadcastOperation({
-                    type,
-                    operation,
-                    successCallback() {
-                        callback(null);
-
-                        if (location.pathname.endsWith('/transfers')) {
-                            dispatch(fetchCurrentStateAction());
-                        }
-                    },
-                    errorCallback(err) {
-                        callback(err);
-                    },
-                })
-            ),
-        showNotification,
-    },
-    null,
-    { withRef: true }
-)(ConvertDialog);
 
 function getVesting(account, props) {
     const vesting = parseFloat(account.get('vesting_shares'));

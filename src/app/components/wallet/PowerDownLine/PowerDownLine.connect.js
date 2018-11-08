@@ -1,37 +1,35 @@
 import { connect } from 'react-redux';
-import { createSelector } from 'reselect';
 
-import { vestsToGolosPower } from 'app/utils/StateFunctions';
-import { accountSelector } from 'src/app/redux/selectors/common';
+import transaction from 'app/redux/Transaction';
+import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';
+import { showNotification } from 'src/app/redux/actions/ui';
+import { powerDownSelector } from 'src/app/redux/selectors/wallet/powerDown';
 
 import PowerDownLine from './PowerDownLine';
 
 export default connect(
-    createSelector(
-        [
-            (state, props) => accountSelector(state, props.accountName),
-            state => state.global.get('props'),
-        ],
-        (account, globalProps) => {
-            if (!account) {
-                return null;
-            }
+    powerDownSelector,
+    {
+        showNotification,
+        cancelPowerDown: (accountName, callback) => dispatch =>
+            dispatch(
+                transaction.actions.broadcastOperation({
+                    type: 'withdraw_vesting',
+                    operation: {
+                        account: accountName,
+                        vesting_shares: '0.000000 GESTS',
+                    },
+                    successCallback() {
+                        callback(null);
 
-            const toWithdraw = account.get('to_withdraw') / 1000000;
-            const withdrawn = account.get('withdrawn') / 1000000;
-
-            // Случай когда перевод не начинался или полностью завершен.
-            if (toWithdraw === 0 || toWithdraw <= withdrawn) {
-                return null;
-            }
-
-            const toWithdrawGolos = vestsToGolosPower(globalProps, toWithdraw);
-            const withdrawnGolos = vestsToGolosPower(globalProps, withdrawn);
-
-            return {
-                toWithdraw: toWithdrawGolos,
-                withdrawn: withdrawnGolos,
-            };
-        }
-    )
+                        if (location.pathname.endsWith('/transfers')) {
+                            dispatch(fetchCurrentStateAction());
+                        }
+                    },
+                    errorCallback(err) {
+                        callback(err);
+                    },
+                })
+            ),
+    }
 )(PowerDownLine);
