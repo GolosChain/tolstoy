@@ -254,28 +254,32 @@ export default class VotePanel extends PureComponent {
         const { className, sidePanel, votesSummary } = this.props;
         const { showSlider, sliderAction } = this.state;
 
+        const likersList = showSlider
+            ? null
+            : makeTooltip(votesSummary.firstLikes, votesSummary.likes > 10);
+        const dislikersList = showSlider
+            ? null
+            : makeTooltip(votesSummary.firstDislikes, votesSummary.dislikes > 10);
+
         return (
             <Root className={className} innerRef={this._onRef} vertical={sidePanel}>
                 <LikeBlock
                     active={votesSummary.myVote === 'like' || sliderAction === 'like'}
-                    data-tooltip={
-                        showSlider
-                            ? null
-                            : makeTooltip(votesSummary.firstLikes, votesSummary.likes > 10)
-                    }
-                    data-tooltip-html
                     vertical={sidePanel}
                 >
                     <LikeWrapper
-                        innerRef={this._onLikeRef}
-                        onClick={this._onLikeClick}
-                        vertical={sidePanel}
                         role="button"
-                        aria-label={tt('aria_label.like')}
+                        data-tooltip={tt('g.like')}
+                        aria-label={tt('g.like')}
+                        innerRef={this.onLikeRef}
+                        vertical={sidePanel}
+                        onClick={this.onLikeClick}
                     >
                         <LikeIcon name="like" />
                     </LikeWrapper>
                     <LikeCount
+                        data-tooltip={likersList}
+                        data-tooltip-html
                         role="button"
                         aria-label={tt('aria_label.likers_list')}
                         onClick={votesSummary.likes === 0 ? null : this.onLikesNumberClick}
@@ -288,24 +292,21 @@ export default class VotePanel extends PureComponent {
                 <LikeBlockNeg
                     last
                     activeNeg={votesSummary.myVote === 'dislike' || sliderAction === 'dislike'}
-                    data-tooltip={
-                        showSlider
-                            ? null
-                            : makeTooltip(votesSummary.firstDislikes, votesSummary.dislikes > 10)
-                    }
-                    data-tooltip-html
                     vertical={sidePanel}
                 >
                     <LikeWrapper
-                        innerRef={this._onDisLikeRef}
-                        onClick={this._onDislikeClick}
-                        vertical={sidePanel}
                         role="button"
-                        aria-label={tt('aria_label.dislike')}
+                        data-tooltip={tt('g.dislike')}
+                        aria-label={tt('g.dislike')}
+                        innerRef={this.onDisLikeRef}
+                        vertical={sidePanel}
+                        onClick={this.onDislikeClick}
                     >
                         <LikeIconNeg name="like" />
                     </LikeWrapper>
                     <LikeCount
+                        data-tooltip={dislikersList}
+                        data-tooltip-html
                         role="button"
                         aria-label={tt('aria_label.dislikers_list')}
                         onClick={votesSummary.dislikes === 0 ? null : this.onDislikesNumberClick}
@@ -408,15 +409,15 @@ export default class VotePanel extends PureComponent {
         this._root = el;
     };
 
-    _onLikeRef = el => {
+    onLikeRef = el => {
         this._like = el;
     };
 
-    _onDisLikeRef = el => {
+    onDisLikeRef = el => {
         this._disLike = el;
     };
 
-    _onLikeClick = () => {
+    onLikeClick = () => {
         const { votesSummary } = this.props;
 
         if (this.state.showSlider) {
@@ -436,7 +437,7 @@ export default class VotePanel extends PureComponent {
         }
     };
 
-    _onDislikeClick = async () => {
+    onDislikeClick = async () => {
         const { votesSummary } = this.props;
 
         if (this.state.showSlider) {
