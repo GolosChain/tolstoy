@@ -301,7 +301,7 @@ export default class WalletLine extends PureComponent {
                             </WhoName>
                         ) : null}
                         {title ? <WhoTitle>{title}</WhoTitle> : null}
-                        {post ? this._renderPostLink(post) : null}
+                        {post ? this.renderPostLink(post) : null}
                         <TimeStamp>
                             <TimeAgoWrapper date={stamp} />
                         </TimeStamp>
@@ -342,7 +342,7 @@ export default class WalletLine extends PureComponent {
         );
     }
 
-    _renderPostLink(post) {
+    renderPostLink(post) {
         const postLink = post.author + '/' + post.permLink;
 
         return <WhoPostLink to={'/@' + postLink}>{postLink}</WhoPostLink>;

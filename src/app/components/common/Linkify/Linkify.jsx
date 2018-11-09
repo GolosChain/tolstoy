@@ -9,7 +9,7 @@ const Wrapper = styled.span`
         text-decoration: underline;
 
         &:hover {
-            color: #2879ff;
+            color: #0067a9;
         }
     }
 `;
