@@ -81,6 +81,6 @@ export default connect(
         }
     ),
     {
-        loadMore: params => ({ type: 'REQUEST_DATA', payload: params }),
+        loadMore: payload => ({ type: 'REQUEST_DATA', payload }),
     }
 )(HomeContent);

@@ -9,6 +9,6 @@ export default connect(
         items: state.global.getIn(['accounts', props.pageAccountName, props.category]),
     }),
     {
-        loadMore: params => ({ type: 'REQUEST_DATA', payload: params }),
+        loadMore: payload => ({ type: 'REQUEST_DATA', payload }),
     }
 )(CardsList);
