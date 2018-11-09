@@ -24,9 +24,18 @@ const DRAFT_KEY = 'golos.comment.draft';
 
 const PreviewButtonWrapper = styled.div`
     z-index: 2;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translateX(40px);
 
     ${is('emptyBody')`
         display: none;
+    `};
+
+    ${is('isStatic')`
+        position: static;
+        transform: translateX(0);
     `};
 `;
 
@@ -129,19 +138,24 @@ class CommentForm extends React.Component {
         const allowPost = uploadingCount === 0 && !emptyBody;
 
         const previewButton = (
-            <PreviewButtonWrapper emptyBody={emptyBody}>
-                <PreviewButton
-                    isStatic
-                    isPreview={isPreview}
-                    onPreviewChange={this._onPreviewChange}
-                />
-            </PreviewButtonWrapper>
+            <PreviewButton isStatic isPreview={isPreview} onPreviewChange={this._onPreviewChange} />
         );
 
         return (
             <div className={cn('CommentForm', { CommentForm_edit: editMode })}>
                 <div className="CommentForm__work-area">
-                    {commentTitleRef ? createPortal(previewButton, commentTitleRef) : previewButton}
+                    {commentTitleRef ? (
+                        createPortal(
+                            <PreviewButtonWrapper emptyBody={emptyBody} isStatic>
+                                {previewButton}
+                            </PreviewButtonWrapper>,
+                            commentTitleRef
+                        )
+                    ) : (
+                        <PreviewButtonWrapper emptyBody={emptyBody}>
+                            {previewButton}
+                        </PreviewButtonWrapper>
+                    )}
                     {isPreview ? (
                         <div className="CommentForm__preview">
                             <MarkdownViewer text={text} />
