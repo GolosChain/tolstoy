@@ -74,7 +74,7 @@ export default class PromoteDialog extends Component {
 
     onAmountChange = e => {
         this.setState({
-            amount: e.target.value.replace(/[^\d .]+/g, '').replace(/,/g, '.'),
+            amount: e.target.value.replace(/,/g, '.').replace(/[^\d .]+/g, ''),
             errorText: null,
         });
     };
