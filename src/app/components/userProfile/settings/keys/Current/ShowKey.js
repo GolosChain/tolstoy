@@ -8,17 +8,24 @@ import tt from 'counterpart';
 import Flex from 'golos-ui/Flex';
 import Button from 'golos-ui/Button';
 
+const QR_SIZES = 58;
+const QR_MARGIN = 18;
+
 const Wrapper = styled.div``;
 
 const ImageQR = styled.img`
-    width: 58px;
-    height: 58px;
+    width: ${QR_SIZES}px;
+    height: ${QR_SIZES}px;
     cursor: pointer;
-    margin-right: 18px;
+    margin-right: ${QR_MARGIN}px;
 `;
 
 const KeyInfo = styled.div`
     flex: 0;
+
+    @media (max-width: 620px) {
+        max-width: calc(100% - ${QR_SIZES + QR_MARGIN}px);
+    }
 `;
 
 const Key = styled.div`
@@ -27,6 +34,8 @@ const Key = styled.div`
     font-size: 14px;
     font-weight: 500;
     line-height: 16px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
 
     &:hover {
         background: #faebd7;
@@ -50,7 +59,9 @@ const Hint = styled.div`
 `;
 
 const ButtonStyled = styled(Button)`
+    max-width: 100%;
     margin-top: 25px;
+    white-space: pre-wrap;
 `;
 
 export default class ShowKey extends Component {
