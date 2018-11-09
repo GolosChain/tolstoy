@@ -1,4 +1,5 @@
 import React from 'react';
+import { createPortal } from 'react-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import throttle from 'lodash/throttle';
@@ -22,9 +23,6 @@ import './CommentForm.scss';
 const DRAFT_KEY = 'golos.comment.draft';
 
 const PreviewButtonWrapper = styled.div`
-    position: absolute;
-    right: 0;
-    top: 0;
     z-index: 2;
 
     ${is('emptyBody')`
@@ -124,26 +122,26 @@ class CommentForm extends React.Component {
     }
 
     render() {
-        const { editMode, hideFooter, autoFocus } = this.props;
+        const { editMode, hideFooter, autoFocus, commentTitleRef } = this.props;
 
         const { text, emptyBody, postError, isPreview, uploadingCount } = this.state;
 
         const allowPost = uploadingCount === 0 && !emptyBody;
 
+        const previewButton = (
+            <PreviewButtonWrapper emptyBody={emptyBody}>
+                <PreviewButton
+                    isStatic
+                    isPreview={isPreview}
+                    onPreviewChange={this._onPreviewChange}
+                />
+            </PreviewButtonWrapper>
+        );
+
         return (
-            <div
-                className={cn('CommentForm', {
-                    CommentForm_edit: editMode,
-                })}
-            >
+            <div className={cn('CommentForm', { CommentForm_edit: editMode })}>
                 <div className="CommentForm__work-area">
-                    <PreviewButtonWrapper emptyBody={emptyBody}>
-                        <PreviewButton
-                            isStatic
-                            isPreview={isPreview}
-                            onPreviewChange={this._onPreviewChange}
-                        />
-                    </PreviewButtonWrapper>
+                    {commentTitleRef ? createPortal(previewButton, commentTitleRef) : previewButton}
                     {isPreview ? (
                         <div className="CommentForm__preview">
                             <MarkdownViewer text={text} />
@@ -327,7 +325,6 @@ class CommentForm extends React.Component {
                 this.refs.footer.showPostError(err.toString().trim());
             }
         );
-
     };
 
     _onCancelClick = async () => {

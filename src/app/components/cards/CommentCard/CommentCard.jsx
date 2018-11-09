@@ -29,7 +29,7 @@ const Header = styled.div`
     `};
 
     ${is('highlighted')`
-        background-color: #e7eef9; 
+        background-color: #e7eef9;
     `};
 `;
 
@@ -196,6 +196,7 @@ export class CommentCard extends PureComponent {
 
     commentRef = createRef();
     replyRef = createRef();
+    commentTitleRef = createRef();
 
     componentWillReceiveProps(props) {
         const { anchorId } = this.props;
@@ -222,7 +223,7 @@ export class CommentCard extends PureComponent {
 
     renderHeaderForPost() {
         const { comment, extractedContent, anchorId, isPostPage } = this.props;
-        const { collapsed, highlighted, showAlert } = this.state;
+        const { collapsed, highlighted, showAlert, edit } = this.state;
 
         return (
             <Header collapsed={collapsed} id={anchorId} highlighted={highlighted}>
@@ -290,7 +291,7 @@ export class CommentCard extends PureComponent {
         const { edit } = this.state;
 
         return (
-            <Title>
+            <Title innerRef={this.commentTitleRef}>
                 <ReLink
                     fullParentURL={fullParentURL}
                     title={title}
@@ -317,6 +318,7 @@ export class CommentCard extends PureComponent {
                         forwardRef={this.commentRef}
                         onSuccess={this.onEditDone}
                         onCancel={this.onEditDone}
+                        commentTitleRef={this.commentTitleRef.current}
                     />
                 ) : (
                     <CommentBodyWrapper highlighted={highlighted}>
