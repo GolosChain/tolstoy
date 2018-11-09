@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
 import { FormattedRelative } from 'react-intl';
-import styled from 'styled-components';
-
-const Wrapper = styled.span`
-    white-space: nowrap;
-`;
 
 export default class TimeAgoWrapper extends Component {
     render() {
@@ -15,9 +10,9 @@ export default class TimeAgoWrapper extends Component {
         }
 
         return (
-            <Wrapper className={className} data-tooltip={new Date(date).toLocaleString()}>
+            <span className={className} data-tooltip={new Date(date).toLocaleString()}>
                 <FormattedRelative {...this.props} value={date} />
-            </Wrapper>
+            </span>
         );
     }
 }
