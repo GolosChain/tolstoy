@@ -7,6 +7,7 @@ import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
 
+import { breakWordStyles } from 'src/app/helpers/styles';
 import PostHeader from 'src/app/containers/post/postHeader';
 import MarkdownViewer from 'app/components/cards/MarkdownViewer';
 import PostFormLoader from 'app/components/modules/PostForm/loader';
@@ -39,6 +40,7 @@ const PostTitle = styled.h1`
     word-wrap: break-word;
     overflow-wrap: break-word;
     -webkit-font-smoothing: antialiased;
+    ${breakWordStyles};
 
     @media (max-width: 576px) {
         font-size: 30px;

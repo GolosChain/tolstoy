@@ -7,6 +7,7 @@ import { List, Map } from 'immutable';
 import tt from 'counterpart';
 import Interpolate from 'react-interpolate-component';
 
+import { breakWordStyles } from 'src/app/helpers/styles';
 import normalizeProfile from 'app/utils/NormalizeProfile';
 import { getPropsForInterpolation } from 'src/app/helpers/notifications';
 
@@ -58,7 +59,7 @@ const ActivityText = styled.div`
     color: #959595;
     font-size: 16px;
     font-weight: 300;
-    word-break: break-word;
+    ${breakWordStyles};
 
     ${is('isCompact')`
         color: #757575;
