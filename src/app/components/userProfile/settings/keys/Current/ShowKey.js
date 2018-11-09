@@ -61,7 +61,7 @@ const Hint = styled.div`
 const ButtonStyled = styled(Button)`
     max-width: 100%;
     margin-top: 25px;
-    white-space: pre-wrap;
+    white-space: normal;
 `;
 
 export default class ShowKey extends Component {
