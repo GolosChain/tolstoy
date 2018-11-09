@@ -26,11 +26,10 @@ const Wrapper = styled.article`
 const Preview = styled.div``;
 
 const Body = styled.div`
-    margin-top: 27px;
+    margin-top: 5px;
 `;
 
 const PostTitle = styled.h1`
-    margin-top: 20px;
     color: #343434;
     font-weight: 500;
     font-size: 2rem;
@@ -127,13 +126,13 @@ export class PostContent extends Component {
         return (
             <Preview>
                 <Body>
-                    <BodyHeaderWrapper>
-                        {isPromoted && (
+                    {isPromoted && (
+                        <BodyHeaderWrapper>
                             <PromotedMark>
                                 <PromotedIcon name="best" width="34" height="37" />
                             </PromotedMark>
-                        )}
-                    </BodyHeaderWrapper>
+                        </BodyHeaderWrapper>
+                    )}
                     <PostTitle>{title}</PostTitle>
                     <PostBody>
                         <MarkdownViewer
