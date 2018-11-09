@@ -8,6 +8,7 @@ import tt from 'counterpart';
 import Interpolate from 'react-interpolate-component';
 import normalizeProfile from 'app/utils/NormalizeProfile';
 
+import { breakWordStyles } from 'src/app/helpers/styles';
 import { getPropsForInterpolation } from 'src/app/helpers/notifications';
 
 import Avatar from 'src/app/components/common/Avatar';
@@ -30,10 +31,7 @@ const LeftSide = styled.div`
 const Message = styled.div`
     font-size: 14px;
     line-height: 20px;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    word-break: break-word;
-    hyphens: auto;
+    ${breakWordStyles}
 `;
 
 const icons = {

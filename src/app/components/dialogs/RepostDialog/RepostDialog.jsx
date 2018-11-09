@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
+import { breakWordStyles } from 'src/app/helpers/styles';
 import DialogManager from 'app/components/elements/common/DialogManager';
 import { PostTitle, PostContent } from 'src/app/components/cards/common';
 import CardAuthor from 'src/app/components/cards/CardAuthor';
@@ -62,10 +63,7 @@ const Input = styled.div`
     overflow: hidden;
     overflow-y: auto;
     background: transparent;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    word-break: break-word;
-    hyphens: auto;
+    ${breakWordStyles}
 
     &:focus {
         outline: none;
