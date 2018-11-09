@@ -22,6 +22,8 @@ export default connect(
             return {
                 isAuthor: username === post.author,
                 author: post.author,
+                tags: post.tags,
+                category: post.category,
                 payout: post.payout,
                 data: post.data,
                 title: post.title,

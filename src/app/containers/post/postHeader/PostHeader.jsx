@@ -218,6 +218,7 @@ export class PostHeader extends Component {
 
     render() {
         const {
+            forwardRef,
             created,
             category,
             isPinned,
@@ -235,7 +236,7 @@ export class PostHeader extends Component {
         const { showPopover } = this.state;
 
         return (
-            <Wrapper className={className}>
+            <Wrapper innerRef={forwardRef} className={className}>
                 <UserInfoWrapper to={`/@${author}`} onClick={this.onUserInfoClick}>
                     <Avatar aria-label={tt('aria_label.avatar')}>
                         <PopoverBackgroundShade show={showPopover} />
