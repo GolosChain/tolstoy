@@ -5,8 +5,6 @@ import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import Icon from 'golos-ui/Icon';
-
 import PostHeader from 'src/app/containers/post/postHeader';
 import MarkdownViewer from 'app/components/cards/MarkdownViewer';
 import PostFormLoader from 'app/components/modules/PostForm/loader';
@@ -63,34 +61,6 @@ const PostBody = styled.div`
     }
 `;
 
-const BodyHeaderWrapper = styled.div`
-    display: flex;
-    justify-content: space-between;
-`;
-
-const PromotedMark = styled.div`
-    position: relative;
-    display: flex;
-    &::after {
-        content: '';
-        position: absolute;
-        top: 40%;
-        left: 50%;
-        transform: translate(-50%, -40%);
-        z-index: 1;
-        width: 14px;
-        height: 17px;
-        box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.4);
-    }
-`;
-
-const PromotedIcon = styled(Icon)`
-    position: relative;
-    z-index: 2;
-    min-width: 34px;
-    min-height: 37px;
-`;
-
 export class PostContent extends Component {
     static propTypes = {
         togglePin: PropTypes.func.isRequired,
@@ -122,18 +92,11 @@ export class PostContent extends Component {
     }
 
     renderPreview() {
-        const { payout, title, body, pictures, created, isPromoted } = this.props;
+        const { payout, title, body, pictures, created } = this.props;
 
         return (
             <Preview>
                 <Body>
-                    <BodyHeaderWrapper>
-                        {isPromoted && (
-                            <PromotedMark>
-                                <PromotedIcon name="best" width="34" height="37" />
-                            </PromotedMark>
-                        )}
-                    </BodyHeaderWrapper>
                     <PostTitle>{title}</PostTitle>
                     <PostBody>
                         <MarkdownViewer
