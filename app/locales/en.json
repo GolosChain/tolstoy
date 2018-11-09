@@ -961,7 +961,10 @@
     "beneficiary": "Beneficiary rewards",
     "curator": "Curator's payout",
     "payout": "Payout",
-    "potential_payout": "Potential payout"
+    "potential_payout": "Potential payout",
+    "author_hint": "Reward for the post",
+    "curator_hint": "Curating reward",
+    "beneficiary_hint": "Reward to the golos.io beneficiary"
   },
   "plurals": {
     "author_rewards_last_24_hours": "Author rewards last 24 hours",
