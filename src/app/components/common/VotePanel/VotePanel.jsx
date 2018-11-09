@@ -543,11 +543,10 @@ function makeTooltip(accounts, isMore) {
 }
 
 function usersListForTooltip(usersList) {
-    const copyUsersList = [...usersList];
-    if (copyUsersList.length > USERS_NUMBER_IN_TOOLTIP) {
-        copyUsersList.splice(USERS_NUMBER_IN_TOOLTIP, 2);
+    if (usersList.length > USERS_NUMBER_IN_TOOLTIP) {
+        usersList = usersList.slice(0, USERS_NUMBER_IN_TOOLTIP);
     }
-    return copyUsersList;
+    return usersList;
 }
 
 function isNeedShowSlider() {
