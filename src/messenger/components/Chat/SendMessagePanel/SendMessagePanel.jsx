@@ -67,7 +67,7 @@ const RichTextArea = styled.textarea`
     border: 1px solid #e1e1e1;
     box-shadow: none;
     border-radius: 20px;
-    ${breakWordStyles}
+    ${breakWordStyles};
 
     ::placeholder {
         color: #b7b7ba;

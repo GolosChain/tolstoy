@@ -63,7 +63,7 @@ const Input = styled.div`
     overflow: hidden;
     overflow-y: auto;
     background: transparent;
-    ${breakWordStyles}
+    ${breakWordStyles};
 
     &:focus {
         outline: none;

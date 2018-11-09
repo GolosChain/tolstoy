@@ -130,7 +130,7 @@ const MemoText = styled.div`
     padding: 4px 0;
     line-height: 1.4em;
     vertical-align: middle;
-    ${breakWordStyles}
+    ${breakWordStyles};
 `;
 
 const DataLink = styled(Link)`

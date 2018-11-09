@@ -40,7 +40,7 @@ const PostTitle = styled.h1`
     word-wrap: break-word;
     overflow-wrap: break-word;
     -webkit-font-smoothing: antialiased;
-    ${breakWordStyles}
+    ${breakWordStyles};
 
     @media (max-width: 576px) {
         font-size: 30px;

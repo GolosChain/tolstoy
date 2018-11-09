@@ -28,7 +28,7 @@ export const PostTitle = styled.h3`
     line-height: 36.4px;
     color: #343434;
     max-width: 100%;
-    ${breakWordStyles}
+    ${breakWordStyles};
 
     @media (max-width: 900px) {
         font-size: 1.4375rem;
@@ -41,5 +41,5 @@ export const PostContent = styled.div`
     line-height: 1.56;
     color: #333;
     overflow: hidden;
-    ${breakWordStyles}
+    ${breakWordStyles};
 `;
