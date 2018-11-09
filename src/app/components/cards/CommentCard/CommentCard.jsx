@@ -223,7 +223,7 @@ export class CommentCard extends PureComponent {
 
     renderHeaderForPost() {
         const { comment, extractedContent, anchorId, isPostPage } = this.props;
-        const { collapsed, highlighted, showAlert, edit } = this.state;
+        const { collapsed, highlighted, showAlert } = this.state;
 
         return (
             <Header collapsed={collapsed} id={anchorId} highlighted={highlighted}>
