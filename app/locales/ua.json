@@ -188,7 +188,6 @@
     "title": "Голосувати проти"
   },
   "dialogs_promote": {
-    "active_key": "Активний ключ",
     "amount": "Кількість",
     "description": "Використовуйте Ваші GBG, щоб прорекламувати цю посаду в секції продукту, що просувається контенту.",
     "fill_form_error": "Заповніть всі поля коректно",
@@ -310,11 +309,6 @@
     "this_information_allows_steemit_to_assist_with_account_recovery_in_case_your_account_is_ever_compormised": "Ця інформація дозволяє Голосу допомогти вам відновити акаунт, якщо він коли-небудь буде вкрадений",
     "to_continue_please_click_on_the_link_in_the_email_weve_sent_you": "Для продовження, натисніть на посилання в листі, яке ми Вам надіслали",
     "user_not_found": "користувач не знайдений"
-  },
-  "explorepost_jsx": {
-    "alternative_sources": "Альтернативні джерела",
-    "copied": "Скопійовано!",
-    "copy": "Скопіювати"
   },
   "faq_jsq": {
     "email": "пошта",
