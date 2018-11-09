@@ -28,7 +28,6 @@ export const PostTitle = styled.h3`
     line-height: 36.4px;
     color: #343434;
     max-width: 100%;
-    hyphens: auto;
     ${breakWordStyles}
 
     @media (max-width: 900px) {
