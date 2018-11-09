@@ -124,7 +124,7 @@ const AvatarBox = styled.div`
 const PromotedMark = styled.div`
     position: relative;
     display: flex;
-    margin-right: 18px;
+    margin: 0 18px;
     
     &::after {
         content: '';
