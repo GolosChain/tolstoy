@@ -121,12 +121,13 @@ const UserpicStyled = styled(Userpic)`
 
 const PostActionsWrapper = styled.div`
     display: flex;
-    align-items: center;
 
     grid-area: actions;
+    align-self: center;
 `;
 
 const PostActionsStyled = styled(PostActions)`
+    height: 34px;
     padding: 5px;
     margin: 0 3px;
 `;
@@ -157,6 +158,8 @@ const PromotedMark = styled.div`
     }
 
     @media (max-width: 768px) {
+        justify-self: end;
+        max-width: 34px;
         margin-right: 0;
     }
 `;
