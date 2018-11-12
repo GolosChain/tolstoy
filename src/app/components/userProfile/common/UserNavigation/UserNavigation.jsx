@@ -156,8 +156,8 @@ class UserNavigation extends PureComponent {
                     <IconWrap
                         key="l-grid"
                         role="button"
-                        aria-label={tt('g.grid_posts')}
-                        data-tooltip={tt('g.grid_posts')}
+                        aria-label={tt('data-tooltip.grid')}
+                        data-tooltip={tt('data-tooltip.grid')}
                         onClick={this._onGridClick}
                     >
                         <SimpleIcon name="layout_grid" />
@@ -168,8 +168,8 @@ class UserNavigation extends PureComponent {
                     <IconWrap
                         key="l-list"
                         role="button"
-                        aria-label={tt('g.list_posts')}
-                        data-tooltip={tt('g.list_posts')}
+                        aria-label={tt('data-tooltip.list')}
+                        data-tooltip={tt('data-tooltip.list')}
                         onClick={this._onListClick}
                     >
                         <SimpleIcon name="layout_list" />
