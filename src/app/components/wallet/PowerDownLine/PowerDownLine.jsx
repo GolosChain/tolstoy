@@ -24,7 +24,7 @@ const Line = styled.div`
 `;
 
 const ButtonWrapper = styled.div`
-    margin: 0 10px 0 20px;
+    margin: 0 20px 0 10px;
 `;
 
 const ButtonStyled = styled(Button)`

@@ -462,6 +462,7 @@
     "login_to_see_memo": "Увійти, щоб побачити замітку",
     "login_to_show": "Увійти для цієї транзакції",
     "logout": "Вийти",
+    "market": "Біржа",
     "memo": "Ключ заміток",
     "messages": "Повідомлення",
     "more": "більше",
@@ -1341,25 +1342,6 @@
     "the_memo_key_is_used_to_create_and_read_memos": "Ключ заміток використовується для створення та читання заміток.",
     "the_owner_key_is_required_to_change_other_keys": "Ключ власника це головний ключ до всього аккаунта, він необхідний для зміни інших ключів.",
     "the_private_key_or_password_should_be_kept_offline": "Приватний ключ або пароль повинен зберігатися в офлайні так часто наскільки це можливо."
-  },
-  "userwallet_jsx": {
-    "balances": "БАЛАНСЫ",
-    "buy_LIQUID_TOKEN_or_VESTING_TOKEN": "Купити %(LIQUID_TOKEN)s або %(VESTING_TOKEN)s",
-    "cancel_power_down": "Скасувати зниження Сили",
-    "conversion_complete_tip": "Завершується",
-    "convert_to_LIQUID_TOKEN": "Перевести в %(LIQUID_TOKEN)s",
-    "estimated_account_value": "Оцінка вартості аккаунта",
-    "history": "ІСТОРІЯ",
-    "in_conversion": "%(amount)s на конвертації",
-    "market": "Біржа",
-    "power_down": "Зменьшити Силу Голоса",
-    "power_up": "Збільшити Силу Голоса",
-    "savings": "СЕЙФ",
-    "tokens_worth_about_1_of_LIQUID_TICKER": "Переміщувані цифрові токени, ціна яких дорівнює %(TOKEN_WORTH)s в %(LIQUID_TICKER)s.",
-    "transfer_to_savings": "Надіслати на рахунок",
-    "transfers_are_temporary_disabled": "Перекази тимчасово відключені.",
-    "withdraw_DEBT_TOKENS": "Вивести %(DEBT_TOKENS)s на поточний баланс",
-    "withdraw_LIQUID_TOKEN": "Вивести %(LIQUID_TOKEN)s на поточний баланс"
   },
   "votesandcomments_jsx": {
     "click_to_respond": "Натисніть, щоб відповісти",
