@@ -372,7 +372,7 @@ export class LoginForm extends Component {
                             <Checkbox value={saveCredentials} />
                             <CheckboxLabel>
                                 {isConfirm
-                                    ? tt('loginform_jsx.save_password_on_session')
+                                    ? tt('loginform_jsx.save_password_on_page')
                                     : tt('loginform_jsx.keep_me_logged_in')}
                             </CheckboxLabel>
                         </ConsentCheckbox>

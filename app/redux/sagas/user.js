@@ -21,6 +21,7 @@ const PERMISSIONS_ERROR =
 
 export function* userWatches() {
     yield fork(watchRemoveHighSecurityKeys); // keep first to remove keys early when a page change happens
+    yield fork(autoLoginWatch);
     yield fork(loginWatch);
     yield fork(logoutWatch);
     yield fork(loginErrorWatch);
@@ -39,7 +40,11 @@ function* lookupPreviousOwnerAuthorityWatch() {
 }
 
 function* loginWatch() {
-    yield takeLatest('user/USERNAME_PASSWORD_LOGIN', usernamePasswordLoginWrapper);
+    yield takeLatest('user/USERNAME_PASSWORD_LOGIN', usernamePasswordLogin);
+}
+
+function* autoLoginWatch() {
+    yield takeLatest('user/AUTO_LOGIN', tryAutoLogin);
 }
 
 function* logoutWatch() {
@@ -61,63 +66,55 @@ function* removeHighSecurityKeys({ payload: { pathname } }) {
     }
 }
 
-function* usernamePasswordLoginWrapper({ payload }) {
-    const { pathname, query } = yield select(state => state.routing.locationBeforeTransitions);
-    const { to, amount, token, memo } = query;
-
-    const sender = pathname.split('/')[1].substring(1);
-    const externalTransferRequested = Boolean(to && amount && token && memo);
-
-    const offchainAccount = yield select(state => state.offchain.get('account'));
-
-    if (externalTransferRequested && offchainAccount && offchainAccount !== sender) {
+function* tryAutoLogin() {
+    if (yield isNeedSkipLogin()) {
         return;
     }
 
-    yield call(usernamePasswordLogin, payload);
-}
+    const loginInfo = tryRestoreAuth();
 
-function* usernamePasswordLogin(payload) {
-    const {
-        username,
-        password,
-        saveLogin,
-        isLogin,
-        isConfirm,
-        operationType,
-        afterLoginRedirectToWelcome,
-    } = payload;
+    if (loginInfo) {
+        loginInfo.autoLogin = true;
 
-    const loginInfo = {
-        autoLogin: false,
-        username,
-        password,
-        loginOwnerPubKey: null,
-        loginWifOwnerPubKey: null,
-        memoWif: null,
-        userProvidedRole: null,
-        privateKeys: null,
-    };
-
-    if (!loginInfo.username && !loginInfo.password) {
-        // login, using saved password
-        tryRestoreAuth(loginInfo);
-    }
-
-    if (!loginInfo.username || !loginInfo.password) {
-        // no saved password
+        yield usernamePasswordLoginInner({}, loginInfo);
+    } else {
+        // no saved user
         if (yield select(state => state.offchain.get('account'))) {
             serverApiLogout();
         }
+    }
+}
+
+function* usernamePasswordLogin({ payload }) {
+    if (yield isNeedSkipLogin()) {
         return;
     }
+
+    const loginInfo = {
+        username: payload.username,
+        password: payload.password,
+        loginOwnerPubKey: null,
+        loginWifOwnerPubKey: null,
+        memoWif: null,
+        privateKeys: null,
+
+        isLogin: payload.isLogin,
+        isConfirm: payload.isConfirm,
+    };
 
     // Если мы зашли сюда из диалога подтверждения, но галка "сохранить на время сессии"
     // выключена, то делать ничего не надо.
-    if (isConfirm && !saveLogin) {
+    if (payload.isConfirm && !payload.saveLogin) {
         return;
     }
 
+    yield usernamePasswordLoginInner(payload, loginInfo);
+}
+
+function* usernamePasswordLoginInner(
+    { saveLogin, operationType, afterLoginRedirectToWelcome },
+    loginInfo
+) {
     if (loginInfo.username.indexOf('/') !== -1) {
         // "alice/active" will login only with Alices active key
         const [username, userProvidedRole] = loginInfo.username.split('/');
@@ -129,19 +126,19 @@ function* usernamePasswordLogin(payload) {
     const account = yield call(getAccount, loginInfo.username);
 
     if (!account) {
-        yield put(user.actions.loginError({ error: 'Username does not exist' }));
+        yield setLoginError('Username does not exist');
         return;
     }
 
     loginInfo.privateKeys = extractPrivateKeys(loginInfo);
 
-    yield call(accountAuthLookup, account, loginInfo.privateKeys, isConfirm);
+    yield call(accountAuthLookup, account, loginInfo.privateKeys, loginInfo.isConfirm);
 
     let authority = yield select(state => state.user.getIn(['authority', loginInfo.username]));
 
-    let loginWithActiveKey;
+    let hasActiveKey = false;
 
-    if (isLogin && authority.get('active') === 'full') {
+    if (loginInfo.isLogin && authority.get('active') === 'full') {
         authority = authority.set('active', 'none');
 
         yield put(
@@ -150,12 +147,11 @@ function* usernamePasswordLogin(payload) {
                 auth: authority,
             })
         );
-
-        loginWithActiveKey = true;
+        hasActiveKey = true;
     }
 
     if (authority.every(auth => auth !== 'full')) {
-        yield onAuthorizeError(account, authority, loginInfo, loginWithActiveKey);
+        yield onAuthorizeError(account, authority, loginInfo, hasActiveKey);
         return;
     }
 
@@ -165,7 +161,7 @@ function* usernamePasswordLogin(payload) {
 
     deleteUnneededPrivateKeys(loginInfo, authority, account, ownerPubKey, activePubKey);
 
-    if (isLogin && (postingPubKey === ownerPubKey || postingPubKey === activePubKey)) {
+    if (loginInfo.isLogin && (postingPubKey === ownerPubKey || postingPubKey === activePubKey)) {
         yield setLoginError(PERMISSIONS_ERROR);
         resetAuth();
         return;
@@ -188,6 +184,18 @@ function* usernamePasswordLogin(payload) {
     if (afterLoginRedirectToWelcome) {
         browserHistory.push('/welcome');
     }
+}
+
+function* isNeedSkipLogin() {
+    const { pathname, query } = yield select(state => state.routing.locationBeforeTransitions);
+    const { to, amount, token, memo } = query;
+
+    const sender = pathname.split('/')[1].substring(1);
+    const externalTransferRequested = Boolean(to && amount && token && memo);
+
+    const offchainAccount = yield select(state => state.offchain.get('account'));
+
+    return externalTransferRequested && offchainAccount && offchainAccount !== sender;
 }
 
 function deleteUnneededPrivateKeys(loginInfo, authority, account, ownerPubKey, activePubKey) {
@@ -296,7 +304,7 @@ function* loadCurrentUserFollowing() {
     }
 }
 
-function* onAuthorizeError(account, authority, loginInfo, loginWithActiveKey) {
+function* onAuthorizeError(account, authority, loginInfo, hasActiveKey) {
     resetAuth();
 
     const ownerPubKey = account.getIn(['owner', 'key_auths', 0, 0]);
@@ -310,14 +318,15 @@ function* onAuthorizeError(account, authority, loginInfo, loginWithActiveKey) {
         ownerPubKey === loginInfo.loginWifOwnerPubKey
     ) {
         errorText = 'owner_login_blocked';
-    } else if (loginWithActiveKey) {
+    } else if (loginInfo.isLogin && hasActiveKey) {
+        // При попытке залогиниться активным ключем показываем ошибку
         errorText = 'active_login_blocked';
     } else {
         recordLoginAttempt(loginInfo, ownerPubKey);
         errorText = 'Incorrect Password';
     }
 
-    yield put(user.actions.loginError({ error: errorText }));
+    yield setLoginError(errorText);
 }
 
 function* doServerLogin(loginInfo) {

@@ -124,6 +124,10 @@ export default createModule({
             reducer: state => state, // saga
         },
         {
+            action: 'AUTO_LOGIN',
+            reducer: state => state, // saga
+        },
+        {
             action: 'SET_USER',
             reducer: (state, { payload }) => {
                 if (payload.vesting_shares)

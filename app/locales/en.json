@@ -761,7 +761,7 @@
     "password_update_succes": "The password for %(accountName)s was successfully updated",
     "password_warning": "Entered master password. For safety you could use private posting key.\n\nContinue with the password?",
     "posting": "Posting",
-    "save_password_on_session": "Save password for this session",
+    "save_password_on_page": "Save password for this page",
     "sign_up_now_to_receive": "Sign up now to receive ",
     "the_latest_versions_of": "The latest versions of ",
     "this_operation_requires_your_key_or_master_password": "This operation requires your %(authType)s key or Master password.",
@@ -959,13 +959,13 @@
   "on_golos_from": "On Golos from",
   "payout_info": {
     "author": "Author's payout",
-    "beneficiary": "Beneficiary rewards",
-    "curator": "Curator's payout",
-    "payout": "Payout",
-    "potential_payout": "Potential payout",
     "author_hint": "Reward for the post",
+    "beneficiary": "Beneficiary rewards",
+    "beneficiary_hint": "Reward to the golos.io beneficiary",
+    "curator": "Curator's payout",
     "curator_hint": "Curating reward",
-    "beneficiary_hint": "Reward to the golos.io beneficiary"
+    "payout": "Payout",
+    "potential_payout": "Potential payout"
   },
   "plurals": {
     "author_rewards_last_24_hours": "Author rewards last 24 hours",

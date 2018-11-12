@@ -768,7 +768,7 @@
     "password_update_succes": "Пароль для %(accountName)s был успешно обновлен",
     "password_warning": "Введен мастер пароль. Для обеспечения большей безопасности вы можете войти с помощью приватного постинг ключа.\n\nПродолжить авторизацию паролем?",
     "posting": "Постинг",
-    "save_password_on_session": "Сохранить на время текущей сессии",
+    "save_password_on_page": "Сохранить для этой страницы",
     "sign_up_now_to_receive": "Зарегистрируйтесь сейчас, чтобы получить ",
     "the_latest_versions_of": "Последние версии ",
     "this_operation_requires_your_key_or_master_password": "Эта операция требует ввода Вашего ключа владельца или ввода Вашего активного ключа",
@@ -966,13 +966,13 @@
   "on_golos_from": "На Golos с",
   "payout_info": {
     "author": "Авторские выплаты",
-    "beneficiary": "Бенефициарские выплаты",
-    "curator": "Кураторские выплаты",
-    "payout": "Выплата",
-    "potential_payout": "Потенциальная выплата",
     "author_hint": "Награда за пост",
+    "beneficiary": "Бенефициарские выплаты",
+    "beneficiary_hint": "Награда бенефициару golos.io",
+    "curator": "Кураторские выплаты",
     "curator_hint": "Награда за кураторство",
-    "beneficiary_hint": "Награда бенефициару golos.io"
+    "payout": "Выплата",
+    "potential_payout": "Потенциальная выплата"
   },
   "plurals": {
     "author_rewards_last_24_hours": "Авторские вознаграждения за последние 24 часа",
