@@ -240,6 +240,9 @@
     "prompt": "Enter the data",
     "show_all": "Show all"
   },
+  "dialogs_convert": {
+    "power_down_line": "Power down process are running for **%(all)s GOLOS** (**%(done)s GOLOS** have already paid off)."
+  },
   "dialogs_dislike": {
     "header": "By voting against you reduce the reward, and make the post less noticeable in the feed. There should be a good reason to vote against, for example:",
     "item_1": "disagreement with the award;",
@@ -1072,15 +1075,6 @@
     "to_save_your_preferences": "to save your preferences",
     "you_can": "You can"
   },
-  "powerdown_jsx": {
-    "already_power_down": "You are already powering down %(AMOUNT)s %(LIQUID_TICKER)s (%(WITHDRAWN)s %(LIQUID_TICKER)s paid out so far). Note that if you change the power down amount the payout schedule will reset.",
-    "amount": "Amount",
-    "delegating": "You are delegating %(AMOUNT)s %(LIQUID_TICKER)s. That amount is locked up and not available to power down until the delegation is removed and a full reward period has passed.",
-    "error": "Unable to power down (ERROR: %(MESSAGE)s)",
-    "per_week": "That's ~%(AMOUNT)s %(LIQUID_TICKER)s per week.",
-    "power_down": "Power Down",
-    "warning": "Leaving less than %(AMOUNT)s %(VESTING_TOKEN)s in your account is not recommended and can leave your account in a unusable state."
-  },
   "recoveraccountstep1_jsx": {
     "account_name_is_not_found": "Account name is not found",
     "account_recovery_request_not_confirmed": "Account recovery request is not confirmed yet, please get back later, thank you for your patience.",
@@ -1531,6 +1525,10 @@
     "this_password_is_bound_to_your_accounts_private_key": "This password is bound to your account's active key and can not be used to login to this page. You may use this active key on other more secure pages like the Wallet or Market pages.",
     "trending_30_day": "trending (30 day)",
     "we_will_reset_curation_rewards_for_this_post": "will reset your curation rewards for this post"
+  },
+  "wallet": {
+    "cancel": "Cancel",
+    "power_down_line": "You've started power down process for **%(all)s GOLOS** (**%(done)s GOLOS** have already paid off)"
   },
   "welcome_page": {
     "about": {
