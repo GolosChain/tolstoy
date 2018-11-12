@@ -88,6 +88,7 @@ export default class PostForm extends React.Component {
             payoutType: PAYOUT_TYPES.PAY_50,
             isPosting: false,
             uploadingCount: 0,
+            isPreviewButtonVisible: true,
         };
 
         this._saveDraftLazy = throttle(this._saveDraft, 500, { leading: true });
@@ -107,6 +108,12 @@ export default class PostForm extends React.Component {
         if (!isLoaded && editMode) {
             this._fillFromMetadata();
         }
+
+        this.previewButton = React.createRef();
+    }
+
+    componentDidMount() {
+        window.addEventListener('scroll', this._checkPreviewButtonPosition);
     }
 
     _tryLoadDraft() {
@@ -180,6 +187,7 @@ export default class PostForm extends React.Component {
 
     componentWillUnmount() {
         this._unmount = true;
+        window.removeEventListener('scroll', this._checkPreviewButtonPosition);
     }
 
     render() {
@@ -195,6 +203,7 @@ export default class PostForm extends React.Component {
             postError,
             uploadingCount,
             isPosting,
+            isPreviewButtonVisible,
         } = this.state;
 
         const disallowPostCode = this._checkDisallowPost();
@@ -209,7 +218,9 @@ export default class PostForm extends React.Component {
                 <div className="PostForm__work-area" ref="workArea">
                     <div className="PostForm__content">
                         <PreviewButton
+                            ref={this.previewButton}
                             isPreview={isPreview}
+                            isVisible={isPreviewButtonVisible}
                             onPreviewChange={this._onPreviewChange}
                         />
                         <EditorSwitcher
@@ -697,6 +708,28 @@ export default class PostForm extends React.Component {
             return 'category_selector_jsx.must_set_category';
         }
     }
+
+    _checkPreviewButtonPosition = () => {
+        const { isPreviewButtonVisible } = this.state;
+        const { workArea } = this.refs;
+        const { current } = this.previewButton;
+
+        const containerYBottom = workArea ? workArea.getBoundingClientRect().bottom : null;
+        const previewButtonYTop = current ? current.getPreviewButtonPosition() : null;
+
+        if (containerYBottom && previewButtonYTop) {
+            if (containerYBottom < previewButtonYTop && isPreviewButtonVisible) {
+                this.setState({
+                    isPreviewButtonVisible: false,
+                });
+            }
+            if (containerYBottom >= previewButtonYTop && !isPreviewButtonVisible) {
+                this.setState({
+                    isPreviewButtonVisible: true,
+                });
+            }
+        }
+    };
 }
 
 function markdownToHtmlEditorState(markdown) {

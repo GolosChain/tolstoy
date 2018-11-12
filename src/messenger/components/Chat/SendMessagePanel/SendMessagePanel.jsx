@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-
 import tt from 'counterpart';
+
+import { breakWordStyles } from 'src/app/helpers/styles';
 
 import Icon from 'golos-ui/Icon';
 
@@ -61,12 +62,12 @@ const RichTextArea = styled.textarea`
     resize: none;
     outline: none;
     overflow: hidden;
-    word-wrap: break-word;
-    word-break: break-all;
+    hyphens: auto;
     box-sizing: border-box;
     border: 1px solid #e1e1e1;
     box-shadow: none;
     border-radius: 20px;
+    ${breakWordStyles};
 
     ::placeholder {
         color: #b7b7ba;

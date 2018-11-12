@@ -169,6 +169,10 @@
     "you_can_change_your_number": "You can change your number at any time if we didn't receive your sms with verification code. ",
     "you_need_to": "Вам потрібно "
   },
+  "data-tooltip": {
+    "grid": "Сітка",
+    "list": "Список"
+  },
   "dialog": {
     "alert": "Попередження",
     "confirm": "Підтвердження",
@@ -178,17 +182,19 @@
     "prompt": "Введіть дані",
     "show_all": "Показати все"
   },
+  "dialogs_convert": {
+    "power_down_line": "Запущено процес зниження Cили Голосу на **%(all)s GOLOS** (**%(done)s GOLOS** вже виплачено)."
+  },
   "dialogs_dislike": {
     "header": "Голос проти може зняти винагороди і зробити пост менш видимим. Голосування проти повинно ґрунтуватися на:",
-    "item_1": "незгода з винагородою;",
-    "item_2": "шахрайство або плагіат;",
-    "item_3": "розпалювання ненависті або Інтернет тролінг;",
-    "item_4": "навмисна неправильна категоризація контенту або спам.",
+    "item_1": "Незгода з винагородою",
+    "item_2": "Шахрайство або плагіат",
+    "item_3": "Розпалювання ненависті або Інтернет тролінг",
+    "item_4": "Навмисна неправильна категоризація контенту або спам",
     "ok": "Голосувати проти",
     "title": "Голосувати проти"
   },
   "dialogs_promote": {
-    "active_key": "Активний ключ",
     "amount": "Кількість",
     "description": "Використовуйте Ваші GBG, щоб прорекламувати цю посаду в секції продукту, що просувається контенту.",
     "fill_form_error": "Заповніть всі поля коректно",
@@ -310,11 +316,6 @@
     "this_information_allows_steemit_to_assist_with_account_recovery_in_case_your_account_is_ever_compormised": "Ця інформація дозволяє Голосу допомогти вам відновити акаунт, якщо він коли-небудь буде вкрадений",
     "to_continue_please_click_on_the_link_in_the_email_weve_sent_you": "Для продовження, натисніть на посилання в листі, яке ми Вам надіслали",
     "user_not_found": "користувач не знайдений"
-  },
-  "explorepost_jsx": {
-    "alternative_sources": "Альтернативні джерела",
-    "copied": "Скопійовано!",
-    "copy": "Скопіювати"
   },
   "faq_jsq": {
     "email": "пошта",
@@ -668,6 +669,7 @@
     "login_to_vote": "Авторизуйтесь, щоб проголосувати",
     "login_to_your_steem_account": "Увійти в свій Голос акаунт",
     "password_info": "Цей пароль закритий ключ був введений неправильно. Ймовірно, є помилка почерку або введення даних.",
+    "password_or_posting": "Пароль або постинг ключ",
     "password_or_wif": "Пароль або WIF",
     "password_update_succes": "Пароль для %(accountName)s був успішно оновлений",
     "posting": "Постинг",
@@ -1147,22 +1149,6 @@
     "payouts": "Виплати",
     "replies": "Відповіді"
   },
-  "tips_js": {
-    "LIQUID_TOKEN_can_be_converted_to_VESTING_TOKEN_in_a_process_called_powering_up": "%(LIQUID_TOKEN)s може бути конвертований в %(VESTING_TOKEN2)s, цей процес називається \"збільшення %(VESTING_TOKENS)s\".",
-    "VESTING_TOKEN_is_non_transferrable_and_requires_convert_back_to_LIQUID_TOKEN": "%(VESTING_TOKEN2)s не можна передати, і Вам буде потрібно 13 тижнів, щоб перевести її назад в токени %(LIQUID_TOKEN)s.",
-    "authenticate_for_this_transaction": "Авторизуйтесь для цієї транзакції",
-    "confirm_email": "Підтвердити email",
-    "confirm_phone": "Please verify your phone number",
-    "converted_VESTING_TOKEN_can_be_sent_to_yourself_but_can_not_transfer_again": "Конвертована %(VESTING_TOKEN)s може бути відправлена собі або будь-кому ще, але не може бути передана знову без конвертації назад в %(LIQUID_TOKEN)s.",
-    "influence_tokens_which_give_you_more_control_over": "%(VESTING_TOKEN)s непереміщувана, її кількість збільшується при довгостроковому зберіганні. Чим більше у Вас %(VESTING_TOKENS)s, тим сильніше ви впливаєте на винагороди за пост і тим більше заробляєте за голосування.",
-    "login_to_your_APP_NAME_account": "Зайдіть в Ваш %(APP_NAME)s акаунт",
-    "profile": "Профіль",
-    "send_to_account": "Відправити акаунту",
-    "the_estimated_value_is_based_on_an_average_value_of_steem_in_US_dollars": "Оціночна вартість розраховується з 7-ми денної середньої вартості %(LIQUID_TOKEN)s.",
-    "the_more_you_hold_the_more_you_influence_post_rewards": "Чим їх більше, тим сильніше Ви впливаєте на винагороди за пост і тим більше заробляєте за голосування.",
-    "tokens_worth_about_AMOUNT_of_LIQUID_TOKEN": "Переміщувані цифрові токени, ціна яких завжди дорівнює %(amount)s у %(LIQUID_TOKEN)s.",
-    "tradeable_tokens_that_may_be_transferred_anywhere_at_anytime": "Переміщувані цифрові токени, які можуть бути передані куди завгодно в будь-який момент."
-  },
   "token_names": {
     "DEBT_TOKEN": "Золотий",
     "DEBT_TOKEN2": "Золото",
@@ -1203,7 +1189,7 @@
       "about": "Про себе",
       "followers": "Підписники",
       "following": "Підписок",
-      "gender": "Стать",
+      "gender": "стать",
       "post_count": "Постів",
       "registered": "На Golos з",
       "reputation": "Рейтинг",
@@ -1421,6 +1407,11 @@
     "trending_30_day": "популярне (30 днів)",
     "we_will_reset_curation_rewards_for_this_post": "скине Ваші кураторські винагороди за цей пост",
     "your_existing_DEBT_TOKEN_are_liquid_and_transferable": "Ваші існуючі %(DEBT_TOKEN)s ліквідні і переміщувані. Можливо, Ви хочете торгувати %(DEBT_TOKEN)s безпосередньо на цьому сайті в розділі %(link)s або перевести на зовнішній ринок."
+  },
+  "wallet": {
+    "cancel": "Отменить",
+    "power_down_line": "Ви запустили зниження Сили Голосу на **%(all)s GOLOS** (**%(done)s GOLOS** вже виплачено)",
+    "success": "Операція завершилася успішно"
   },
   "welcome_page": {
     "about": {

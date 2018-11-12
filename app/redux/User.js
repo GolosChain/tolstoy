@@ -99,8 +99,6 @@ export default createModule({
                 return state.set('locale', payload);
             },
         },
-        { action: 'SHOW_POWERDOWN', reducer: state => state.set('show_powerdown_modal', true) },
-        { action: 'HIDE_POWERDOWN', reducer: state => state.set('show_powerdown_modal', false) },
         {
             action: 'SET_POWERDOWN_DEFAULTS',
             reducer: (state, { payload }) => state.set('powerdown_defaults', fromJS(payload)),

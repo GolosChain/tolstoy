@@ -87,6 +87,7 @@ export const currentPostSelector = createDeepEqualSelector(
             url: post.get('url'),
             promotedAmount: parsePayoutAmount(post.get('promoted')),
             comments: post.get('comments'),
+            stats: post.get('stats').toJS(),
         };
     }
 );

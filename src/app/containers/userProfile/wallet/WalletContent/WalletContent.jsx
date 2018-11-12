@@ -13,6 +13,7 @@ import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import { vestsToGolos, vestsToGolosEasy } from 'app/utils/StateFunctions';
 import WalletTabs from 'src/app/components/userProfile/wallet/WalletTabs';
 import WalletLine from 'src/app/components/userProfile/wallet/WalletLine';
+import PowerDownLine from 'src/app/components/wallet/PowerDownLine';
 
 const DEFAULT_ROWS_LIMIT = 25;
 const LOAD_LIMIT = 500;
@@ -37,7 +38,7 @@ export const CURRENCY_COLOR = {
     GOLOS_POWER: '#f57c02',
     GOLOS_POWER_DELEGATION: '#78c2d0;',
     IN_SAFE: '#f57c02',
-    FROM_SAFE: '#b7b7ba'
+    FROM_SAFE: '#b7b7ba',
 };
 
 export const REWARDS_TABS = {
@@ -113,12 +114,15 @@ export default class WalletContent extends Component {
     }
 
     render() {
-        const { pageAccountName } = this.props;
+        const { isOwner, pageAccountName } = this.props;
         const { mainTab, currency, rewardType, direction } = this.state;
 
         return (
             <Card auto>
                 <Helmet title={tt('meta.title.profile.wallet', { name: pageAccountName })} />
+                {isOwner && pageAccountName ? (
+                    <PowerDownLine accountName={pageAccountName} />
+                ) : null}
                 <WalletTabs
                     mainTab={mainTab}
                     currency={currency}
@@ -470,11 +474,10 @@ export default class WalletContent extends Component {
                         }
                     }
 
-
                     let safeColor = CURRENCY_COLOR.FROM_SAFE;
                     if (isSafe) {
                         if (sign === '+') {
-                            safeColor = CURRENCY_COLOR.IN_SAFE
+                            safeColor = CURRENCY_COLOR.IN_SAFE;
                         }
                     }
 
@@ -496,11 +499,7 @@ export default class WalletContent extends Component {
                             : opCurrency === CURRENCY.GOLOS
                                 ? 'logo'
                                 : 'brilliant',
-                        color: isSafe
-                            ? safeColor
-                            : isReceive
-                                ? CURRENCY_COLOR[opCurrency]
-                                : null,
+                        color: isSafe ? safeColor : isReceive ? CURRENCY_COLOR[opCurrency] : null,
                     };
                 }
             }

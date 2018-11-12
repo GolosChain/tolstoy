@@ -149,6 +149,20 @@ const VotePanelStyled = styled(VotePanel)`
     `};
 `;
 
+const VotePanelWrapper = styled.div`
+    ${is('grid')`
+        display: flex;
+        justify-content: flex-start;
+        width: 100%;
+        padding: 0 18px;
+
+        @media (max-width: 689px) {
+            justify-content: center;
+            padding: 0;
+        }
+    `};
+`;
+
 const PostImage = styled.div.attrs({
     style: ({ src }) => ({
         backgroundImage: `url(${src})`,
@@ -176,6 +190,15 @@ const Root = styled(EntryWrapper)`
     border-radius: 8px;
     background: #fff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
+
+    ${is('gray')`
+        opacity: 0.37;
+        transition: opacity 0.25s;
+
+        &:hover {
+            opacity: 1;
+        }
+    `};
 `;
 
 export default class PostCard extends PureComponent {
@@ -217,7 +240,7 @@ export default class PostCard extends PureComponent {
     }
 
     render() {
-        const { className, isRepost, grid, hideNsfw } = this.props;
+        const { className, isRepost, grid, hideNsfw, stats } = this.props;
 
         // user wishes to hide these posts entirely
         if (hideNsfw) {
@@ -225,7 +248,7 @@ export default class PostCard extends PureComponent {
         }
 
         return (
-            <Root className={className} grid={grid}>
+            <Root className={className} grid={grid} gray={stats.gray || stats.hide}>
                 {this.renderHeader()}
                 {isRepost ? this.renderRepostPart() : null}
                 {this.renderBody()}
@@ -239,13 +262,11 @@ export default class PostCard extends PureComponent {
 
         const category = detransliterate(data.get('category'));
         let author;
-        let originalAuthor;
         let created;
 
         if (isRepost) {
             author = additionalData.get('repostAuthor');
             created = additionalData.get('date');
-            originalAuthor = data.get('author');
         } else {
             author = data.get('author');
             created = data.get('created');
@@ -414,8 +435,8 @@ export default class PostCard extends PureComponent {
     }
 
     renderBody() {
-        const { grid, sanitizedData } = this.props;
-        const withImage = sanitizedData.image_link;
+        const { grid, sanitizedData, stats } = this.props;
+        const withImage = sanitizedData.image_link && !stats.gray && !stats.hide;
 
         return (
             <BodyLink to={sanitizedData.link} grid={grid ? 1 : 0} onClick={this._onClick}>
@@ -445,7 +466,9 @@ export default class PostCard extends PureComponent {
 
         return (
             <Footer grid={grid}>
-                <VotePanelStyled contentLink={permLink} grid={grid} />
+                <VotePanelWrapper grid={grid}>
+                    <VotePanelStyled contentLink={permLink} grid={grid} />
+                </VotePanelWrapper>
                 {grid ? null : <Filler />}
                 <ReplyBlock
                     grid={grid}
