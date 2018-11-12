@@ -265,7 +265,6 @@ export class PostHeader extends Component {
                             <CustomIcon name="plus" width={12} height={12} />
                         </FollowRound>
                     ))}
-
                 {isPromoted && (
                     <PromotedMark>
                         <PromotedIcon name="best" width="34" height="37" />
@@ -288,7 +287,6 @@ export class PostHeader extends Component {
                         togglePin={togglePin}
                     />
                 </PostActionsWrapper>
-
                 {showPopover ? (
                     <AvatarBox>
                         <PopoverStyled onClose={this.closePopover} show>

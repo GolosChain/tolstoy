@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Component, createRef } from 'react';
+import { createPortal } from 'react-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import throttle from 'lodash/throttle';
@@ -18,21 +19,28 @@ import { checkPostHtml } from 'app/utils/validator';
 import { showNotification } from 'src/app/redux/actions/ui';
 import { getTags } from 'shared/HtmlReady';
 import './CommentForm.scss';
+import { toggleCommentInputFocus } from 'src/app/redux/actions/ui';
 
 const DRAFT_KEY = 'golos.comment.draft';
 
 const PreviewButtonWrapper = styled.div`
+    z-index: 2;
     position: absolute;
     right: 0;
     top: 0;
-    z-index: 2;
+    transform: translateX(40px);
 
     ${is('emptyBody')`
         display: none;
     `};
+
+    ${is('isStatic')`
+        position: static;
+        transform: translateX(0);
+    `};
 `;
 
-class CommentForm extends React.Component {
+class CommentForm extends Component {
     static propTypes = {
         reply: PropTypes.bool,
         editMode: PropTypes.bool,
@@ -66,17 +74,20 @@ class CommentForm extends React.Component {
         let isLoaded = false;
 
         try {
-            isLoaded = this._tryLoadDraft();
+            isLoaded = this.tryLoadDraft();
         } catch (err) {
             console.warn('[Golos.io] Draft recovering failed:', err);
         }
 
         if (!isLoaded && editMode) {
-            this._fillFromMetadata();
+            this.fillFromMetadata();
         }
     }
 
-    _tryLoadDraft() {
+    footerRef = createRef();
+    editorRef = createRef();
+
+    tryLoadDraft() {
         const { editMode, params } = this.props;
 
         const json = localStorage.getItem(DRAFT_KEY);
@@ -97,17 +108,29 @@ class CommentForm extends React.Component {
         }
     }
 
-    _fillFromMetadata() {
+    fillFromMetadata() {
         const { params } = this.props;
         this.state.text = params.body;
         this.state.emptyBody = false;
     }
 
+    setFocus() {
+        let iterationsCount = 0;
+        const intervalId = setInterval(() => {
+            this.editorRef.current.focus();
+
+            if (++iterationsCount === 3) {
+                clearInterval(intervalId);
+            }
+        }, 50);
+    }
+
     componentDidMount() {
-        if (this.props.autoFocus) {
-            setTimeout(() => {
-                this.refs.editor.focus();
-            }, 100);
+        if (location.hash === '#comments') {
+            this.setFocus();
+            this.onInputFocused();
+        } else if (this.props.autoFocus) {
+            this.setFocus();
         }
 
         if (this.props.forwardRef) {
@@ -123,27 +146,38 @@ class CommentForm extends React.Component {
         }
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (!this.props.commentInputFocused && nextProps.commentInputFocused) {
+            this.setFocus();
+        }
+    }
+
     render() {
-        const { editMode, hideFooter, autoFocus } = this.props;
+        const { editMode, hideFooter, autoFocus, commentTitleRef } = this.props;
 
         const { text, emptyBody, postError, isPreview, uploadingCount } = this.state;
 
         const allowPost = uploadingCount === 0 && !emptyBody;
 
+        const previewButton = (
+            <PreviewButton isStatic isPreview={isPreview} onPreviewChange={this._onPreviewChange} />
+        );
+
         return (
-            <div
-                className={cn('CommentForm', {
-                    CommentForm_edit: editMode,
-                })}
-            >
+            <div className={cn('CommentForm', { CommentForm_edit: editMode })}>
                 <div className="CommentForm__work-area">
-                    <PreviewButtonWrapper emptyBody={emptyBody}>
-                        <PreviewButton
-                            isStatic
-                            isPreview={isPreview}
-                            onPreviewChange={this._onPreviewChange}
-                        />
-                    </PreviewButtonWrapper>
+                    {commentTitleRef ? (
+                        createPortal(
+                            <PreviewButtonWrapper emptyBody={emptyBody} isStatic>
+                                {previewButton}
+                            </PreviewButtonWrapper>,
+                            commentTitleRef
+                        )
+                    ) : (
+                        <PreviewButtonWrapper emptyBody={emptyBody}>
+                            {previewButton}
+                        </PreviewButtonWrapper>
+                    )}
                     {isPreview ? (
                         <div className="CommentForm__preview">
                             <MarkdownViewer text={text} />
@@ -155,13 +189,14 @@ class CommentForm extends React.Component {
                         })}
                     >
                         <MarkdownEditor
-                            ref="editor"
+                            ref={this.editorRef}
                             autoFocus={autoFocus}
                             commentMode
                             initialValue={text}
                             placeholder={tt('g.reply')}
-                            uploadImage={this._onUploadImage}
-                            onChangeNotify={this._onTextChangeNotify}
+                            uploadImage={this.onUploadImage}
+                            onChangeNotify={this.onTextChangeNotify}
+                            onInputBlured={this.onInputBlured}
                         />
                     </div>
                 </div>
@@ -169,12 +204,12 @@ class CommentForm extends React.Component {
                     <div className="CommentForm__footer">
                         <div className="CommentForm__footer-content">
                             <CommentFooter
-                                ref="footer"
+                                ref={this.footerRef}
                                 editMode={editMode}
                                 errorText={postError}
                                 postDisabled={!allowPost}
                                 onPostClick={this._postSafe}
-                                onCancelClick={this._onCancelClick}
+                                onCancelClick={this.onCancelClick}
                             />
                         </div>
                     </div>
@@ -188,17 +223,25 @@ class CommentForm extends React.Component {
         );
     }
 
+    onInputBlured = () => {
+        this.props.toggleCommentInputFocus(false);
+    };
+
+    onInputFocused = () => {
+        this.props.toggleCommentInputFocus(true);
+    };
+
     post() {
         this._postSafe();
     }
 
     cancel() {
-        this._onCancelClick();
+        this.onCancelClick();
     }
 
-    _onTextChangeNotify = () => {
+    onTextChangeNotify = () => {
         if (this.props.onChange) {
-            this.props.onChange(this.refs.editor.getValue());
+            this.props.onChange(this.editorRef.current.getValue());
         }
         this._saveDraftLazy();
         this._checkBodyLazy();
@@ -207,7 +250,7 @@ class CommentForm extends React.Component {
     _saveDraft = () => {
         const { editMode, params } = this.props;
 
-        const body = this.refs.editor.getValue();
+        const body = this.editorRef.current.getValue();
 
         this.setState({
             text: body,
@@ -234,7 +277,7 @@ class CommentForm extends React.Component {
                 return callback(...args);
             } catch (err) {
                 console.error(err);
-                this.refs.footer.showPostError('Что-то пошло не так');
+                this.footerRef.current.showPostError('Что-то пошло не так');
             }
         };
     }
@@ -243,11 +286,11 @@ class CommentForm extends React.Component {
         const { author, editMode, params, jsonMetadata } = this.props;
         let error;
 
-        const body = this.refs.editor.getValue();
+        const body = this.editorRef.current.getValue();
         let html;
 
         if (!body || !body.trim()) {
-            this.refs.footer.showPostError(tt('post_editor.empty_body_error'));
+            this.footerRef.current.showPostError(tt('post_editor.empty_body_error'));
             return;
         }
 
@@ -256,7 +299,7 @@ class CommentForm extends React.Component {
         const rtags = getTags(html);
 
         if ((error = checkPostHtml(rtags))) {
-            this.refs.footer.showPostError(error.text);
+            this.footerRef.current.showPostError(error.text);
             return;
         }
 
@@ -319,19 +362,18 @@ class CommentForm extends React.Component {
                     localStorage.removeItem(DRAFT_KEY);
                 } catch (err) {}
                 if (this.props.clearAfterAction) {
-                    this.refs.editor.setValue('');
+                    this.editorRef.current.setValue('');
                 }
                 this.props.onSuccess();
             },
             err => {
-                this.refs.footer.showPostError(err.toString().trim());
+                this.footerRef.current.showPostError(err.toString().trim());
             }
         );
-
     };
 
-    _onCancelClick = async () => {
-        const body = this.refs.editor.getValue();
+    onCancelClick = async () => {
+        const body = this.editorRef.current.getValue();
 
         if (
             !body ||
@@ -344,12 +386,12 @@ class CommentForm extends React.Component {
 
             this.props.onCancel();
             if (this.props.clearAfterAction) {
-                this.refs.editor.setValue('');
+                this.editorRef.current.setValue('');
             }
         }
     };
 
-    _onUploadImage = (file, progress) => {
+    onUploadImage = (file, progress) => {
         this.setState(
             {
                 uploadingCount: this.state.uploadingCount + 1,
@@ -374,7 +416,7 @@ class CommentForm extends React.Component {
     };
 
     _checkBody() {
-        const editor = this.refs.editor;
+        const editor = this.editorRef.current;
 
         if (editor) {
             const value = editor.getValue();
@@ -391,7 +433,7 @@ class CommentForm extends React.Component {
 
             this.setState({
                 isPreview: true,
-                text: this.refs.editor.getValue(),
+                text: this.editorRef.current.getValue(),
             });
         } else {
             this.setState({
@@ -404,6 +446,7 @@ class CommentForm extends React.Component {
 export default connect(
     state => ({
         author: state.user.getIn(['current', 'username']),
+        commentInputFocused: state.ui.common.get('commentInputFocused'),
     }),
     dispatch => ({
         onPost(payload, onSuccess, onError) {
@@ -431,6 +474,9 @@ export default connect(
                     },
                 },
             });
+        },
+        toggleCommentInputFocus: focused => {
+            dispatch(toggleCommentInputFocus(focused));
         },
     })
 )(CommentForm);

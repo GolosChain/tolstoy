@@ -7,3 +7,5 @@ export const UI_PROFILE_ACTIVITY_CHANGE_TAB = 'ui/profile/activity/CHANGE_TAB';
 
 export const UI_HOME_TAGS_CARD_COLLAPSE = 'ui/home/tagsCard/COLLAPSE';
 export const UI_ON_BACK_CLICK = 'ui/ON_BACK_CLICK';
+
+export const UI_TOGGLE_COMMENT_INPUT_FOCUS = 'ui/TOGGLE_COMMENT_INPUT_FOCUS';

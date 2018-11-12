@@ -66,7 +66,7 @@ export default class CardsList extends PureComponent {
 
         const { location, backClickTs, listScrollPosition } = this.props;
 
-        if (location.action === 'POP' || (backClickTs && backClickTs > Date.now() - 1000)) {
+        if (location.action === 'POP' || (backClickTs && backClickTs > Date.now() - 5000)) {
             getScrollElement().scrollTop = listScrollPosition;
 
             let setScrollIterations = 0;
@@ -74,7 +74,7 @@ export default class CardsList extends PureComponent {
             this._scrollIntervalId = setInterval(() => {
                 getScrollElement().scrollTop = listScrollPosition;
 
-                if (++setScrollIterations === 5) {
+                if (++setScrollIterations === 10) {
                     clearInterval(this._scrollIntervalId);
                 }
             }, 50);

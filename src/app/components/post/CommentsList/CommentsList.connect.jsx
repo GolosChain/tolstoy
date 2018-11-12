@@ -59,19 +59,22 @@ function sortComments(comments, sortBy, commentsFullData) {
 }
 
 export default connect(
-    createSelector([commentsSelector, locationSelector], (commentsData, location) => {
-        const { comments, postPermLink, isFetching } = commentsData;
-        const structuredComments = buildCommentsStructure(
-            comments,
-            postPermLink,
-            location.query.sort
-        );
+    createSelector(
+        [commentsSelector, locationSelector],
+        (commentsData, location) => {
+            const { comments, postPermLink, isFetching } = commentsData;
+            const structuredComments = buildCommentsStructure(
+                comments,
+                postPermLink,
+                location.query.sort
+            );
 
-        return {
-            structuredComments,
-            isFetching,
-        };
-    }),
+            return {
+                structuredComments,
+                isFetching,
+            };
+        }
+    ),
     {
         saveListScrollPosition,
     }

@@ -17,14 +17,10 @@ export const toAsset = value => {
     };
 };
 
-export function vestsToGolosPower(state, vesting_shares) {
-    const { global } = state;
-    const vests = assetFloat(vesting_shares, VEST_TICKER);
-    const total_vests = assetFloat(global.getIn(['props', 'total_vesting_shares']), VEST_TICKER);
-    const total_vest_golos = assetFloat(
-        global.getIn(['props', 'total_vesting_fund_steem']),
-        LIQUID_TICKER
-    );
+export function vestsToGolosPower(globalProps, vestingShares) {
+    const vests = parseFloat(vestingShares);
+    const total_vests = assetFloat(globalProps.get('total_vesting_shares'), VEST_TICKER);
+    const total_vest_golos = assetFloat(globalProps.get('total_vesting_fund_steem'), LIQUID_TICKER);
     const vesting_golosf = total_vest_golos * (vests / total_vests);
     const golosPower = vesting_golosf.toFixed(3);
     return golosPower;

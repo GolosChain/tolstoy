@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
 
+import { breakWordStyles } from 'src/app/helpers/styles';
 import { MIN_VOICE_POWER } from 'app/client_config';
 import DialogManager from 'app/components/elements/common/DialogManager';
 import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
@@ -129,7 +130,7 @@ const MemoText = styled.div`
     padding: 4px 0;
     line-height: 1.4em;
     vertical-align: middle;
-    word-wrap: break-word;
+    ${breakWordStyles};
 `;
 
 const DataLink = styled(Link)`

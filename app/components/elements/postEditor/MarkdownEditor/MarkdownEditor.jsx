@@ -28,15 +28,16 @@ export default class MarkdownEditor extends PureComponent {
         commentMode: PropTypes.bool,
         onChangeNotify: PropTypes.func.isRequired,
         uploadImage: PropTypes.func.isRequired,
+        onInputBlured: PropTypes.func,
     };
 
     constructor(props) {
         super(props);
 
-        this._processTextLazy = throttle(this._processText, 100, {
+        this.processTextLazy = throttle(this.processText, 100, {
             leading: false,
         });
-        this._onCursorActivityLazy = debounce(this._onCursorActivity, 50);
+        this.onCursorActivityLazy = debounce(this.onCursorActivity, 50);
     }
 
     componentDidMount() {
@@ -46,21 +47,21 @@ export default class MarkdownEditor extends PureComponent {
         }
 
         if (window.INIT_TIMESSTAMP) {
-            const timeDelta = DELAYED_TIMEOUT - (Date.now() - INIT_TIMESSTAMP);
+            const timeDelta = DELAYED_TIMEOUT - (Date.now() - window.INIT_TIMESSTAMP);
 
             if (timeDelta > 0) {
-                this._delayedTimeout = setTimeout(() => this._init(), timeDelta);
+                this._delayedTimeout = setTimeout(() => this.init(), timeDelta);
                 return;
             }
         }
 
-        this._init();
+        this.init();
     }
 
-    _init() {
+    init() {
         const props = this.props;
 
-        this._simplemde = new SimpleMDE({
+        this.simplemde = new SimpleMDE({
             status: false,
             autofocus: props.autoFocus,
             placeholder: props.placeholder,
@@ -77,18 +78,19 @@ export default class MarkdownEditor extends PureComponent {
             },
         });
 
-        this._lineWidgets = [];
+        this.lineWidgets = [];
 
-        this._cm = this._simplemde.codemirror;
-        this._cm.on('change', this._onChange);
-        this._cm.on('paste', this._onPaste);
+        this.cm = this.simplemde.codemirror;
+        this.cm.on('change', this.onChange);
+        this.cm.on('paste', this.onPaste);
+        this.cm.on('blur', this.onBlur);
 
         if (props.scrollContainer) {
-            this._cm.on('cursorActivity', this._onCursorActivityLazy);
+            this.cm.on('cursorActivity', this.onCursorActivityLazy);
         }
 
         if (this.props.autoFocus) {
-            this._cm.setCursor({ line: 999, ch: 999 });
+            this.cm.setCursor({ line: 999, ch: 999 });
         }
 
         this.forceUpdate();
@@ -96,12 +98,12 @@ export default class MarkdownEditor extends PureComponent {
         // DEV: For experiments
         if (process.env.NODE_ENV !== 'production') {
             window.SM = SimpleMDE;
-            window.sm = this._simplemde;
-            window.cm = this._cm;
+            window.sm = this.simplemde;
+            window.cm = this.cm;
         }
 
         this._previewTimeout = setTimeout(() => {
-            this._processText();
+            this.processText();
         }, 500);
     }
 
@@ -109,19 +111,19 @@ export default class MarkdownEditor extends PureComponent {
         clearTimeout(this._previewTimeout);
         clearTimeout(this._delayedTimeout);
 
-        this._processTextLazy.cancel();
-        this._onCursorActivityLazy.cancel();
+        this.processTextLazy.cancel();
+        this.onCursorActivityLazy.cancel();
 
-        this._cm.off('change', this._onChange);
-        this._cm.off('paste', this._onPaste);
-        this._cm.off('cursorActivity', this._onCursorActivityLazy);
-        this._cm = null;
-        this._simplemde = null;
+        this.cm.off('change', this.onChange);
+        this.cm.off('paste', this.onPaste);
+        this.cm.off('blur', this.onBlur);
+        this.cm.off('cursorActivity', this.onCursorActivityLazy);
+        this.cm = null;
+        this.simplemde = null;
     }
 
     render() {
         const { uploadImage, commentMode } = this.props;
-
         return (
             <div
                 className={cn('MarkdownEditor', {
@@ -133,12 +135,12 @@ export default class MarkdownEditor extends PureComponent {
                     disableClick
                     multiple={false}
                     accept="image/*"
-                    onDrop={this._onDrop}
+                    onDrop={this.onDrop}
                 >
-                    {this._simplemde ? (
+                    {this.simplemde ? (
                         <MarkdownEditorToolbar
                             commentMode={commentMode}
-                            editor={this._simplemde}
+                            editor={this.simplemde}
                             uploadImage={uploadImage}
                             SM={SimpleMDE}
                         />
@@ -150,23 +152,31 @@ export default class MarkdownEditor extends PureComponent {
     }
 
     focus() {
-        this._cm.focus();
+        this.cm.focus();
+    }
+
+    isFocused() {
+        return this.cm.hasFocus();
     }
 
     getValue() {
-        return this._simplemde.value();
+        return this.simplemde.value();
     }
 
     setValue(value) {
-        this._simplemde.value(value);
+        this.simplemde.value(value);
     }
 
-    _onChange = () => {
-        this.props.onChangeNotify();
-        this._processTextLazy();
+    onBlur = () => {
+        this.props.onInputBlured();
     };
 
-    _onDrop = (acceptedFiles, rejectedFiles, e) => {
+    onChange = () => {
+        this.props.onChangeNotify();
+        this.processTextLazy();
+    };
+
+    onDrop = (acceptedFiles, rejectedFiles, e) => {
         const file = acceptedFiles[0];
 
         if (!file) {
@@ -176,7 +186,7 @@ export default class MarkdownEditor extends PureComponent {
             return;
         }
 
-        const cursorPosition = this._cm.coordsChar({
+        const cursorPosition = this.cm.coordsChar({
             left: e.pageX,
             top: e.pageY,
         });
@@ -185,21 +195,21 @@ export default class MarkdownEditor extends PureComponent {
             if (progress.url) {
                 const imageUrl = `![${file.name}](${progress.url})`;
 
-                this._cm.replaceRange(imageUrl, cursorPosition);
+                this.cm.replaceRange(imageUrl, cursorPosition);
             }
         });
     };
 
-    _processText = () => {
-        this._cutIframes();
-        this._processImagesPreview();
+    processText = () => {
+        this.cutIframes();
+        this.processImagesPreview();
     };
 
-    _processImagesPreview() {
-        const cm = this._cm;
+    processImagesPreview() {
+        const cm = this.cm;
         const alreadyWidgets = new Set();
 
-        for (let widget of this._lineWidgets) {
+        for (let widget of this.lineWidgets) {
             alreadyWidgets.add(widget);
         }
 
@@ -223,7 +233,7 @@ export default class MarkdownEditor extends PureComponent {
                     url = 'http:' + url;
                 }
 
-                if (this._addLineWidget(alreadyWidgets, line, url)) {
+                if (this.addLineWidget(alreadyWidgets, line, url)) {
                     continue;
                 }
             }
@@ -237,7 +247,7 @@ export default class MarkdownEditor extends PureComponent {
                 );
 
             if (match) {
-                this._addLineWidget(
+                this.addLineWidget(
                     alreadyWidgets,
                     line,
                     `https://img.youtube.com/vi/${match[1]}/0.jpg`
@@ -245,15 +255,15 @@ export default class MarkdownEditor extends PureComponent {
             }
         }
 
-        this._lineWidgets = this._lineWidgets.filter(widget => !alreadyWidgets.has(widget));
+        this.lineWidgets = this.lineWidgets.filter(widget => !alreadyWidgets.has(widget));
 
         for (let widget of alreadyWidgets) {
             widget.clear();
         }
     }
 
-    _cutIframes() {
-        const text = this._simplemde.value();
+    cutIframes() {
+        const text = this.simplemde.value();
 
         let updated = false;
 
@@ -289,23 +299,23 @@ export default class MarkdownEditor extends PureComponent {
         });
 
         if (updated) {
-            for (let w of this._lineWidgets) {
+            for (let w of this.lineWidgets) {
                 w.clear();
             }
 
-            this._lineWidgets = [];
+            this.lineWidgets = [];
 
-            const cursor = this._cm.getCursor();
-            this._simplemde.value(updatedText);
+            const cursor = this.cm.getCursor();
+            this.simplemde.value(updatedText);
 
             setTimeout(() => {
-                this._cm.setCursor(cursor);
+                this.cm.setCursor(cursor);
             }, 0);
         }
     }
 
-    _addLineWidget(alreadyWidgets, line, url) {
-        for (let widget of this._lineWidgets) {
+    addLineWidget(alreadyWidgets, line, url) {
+        for (let widget of this.lineWidgets) {
             if (widget.line.lineNo() === line) {
                 if (widget.url === url) {
                     alreadyWidgets.delete(widget);
@@ -318,30 +328,30 @@ export default class MarkdownEditor extends PureComponent {
         img.classList.add('MarkdownEditor__preview');
 
         img.addEventListener('load', () => {
-            const widget = this._cm.addLineWidget(line, img, {
+            const widget = this.cm.addLineWidget(line, img, {
                 handleMouseEvents: true,
             });
             widget.id = ++lastWidgetId;
             widget.url = url;
-            this._lineWidgets.push(widget);
+            this.lineWidgets.push(widget);
         });
 
         img.addEventListener('error', () => {
             const div = document.createElement('div');
             div.classList.add('MarkdownEditor__preview-error');
             div.innerText = tt('post_editor.image_preview_error');
-            const widget = this._cm.addLineWidget(line, div, {
+            const widget = this.cm.addLineWidget(line, div, {
                 handleMouseEvents: true,
             });
             widget.id = ++lastWidgetId;
             widget.url = url;
-            this._lineWidgets.push(widget);
+            this.lineWidgets.push(widget);
         });
 
         img.src = $STM_Config.img_proxy_prefix + '0x0/' + url;
     }
 
-    _onPaste = (cm, e) => {
+    onPaste = (cm, e) => {
         try {
             if (e.clipboardData) {
                 let fileName = null;
@@ -362,7 +372,7 @@ export default class MarkdownEditor extends PureComponent {
                             if (progress.url) {
                                 const imageUrl = `![${fileName || file.name}](${progress.url})`;
 
-                                this._cm.replaceSelection(imageUrl);
+                                this.cm.replaceSelection(imageUrl);
                             }
                         });
                     }
@@ -376,20 +386,20 @@ export default class MarkdownEditor extends PureComponent {
     // _tryToFixCursorPosition() {
     //     // Hack: Need some action for fix cursor position
     //     if (this.props.initialValue) {
-    //         this._cm.execCommand('selectAll');
-    //         this._cm.execCommand('undoSelection');
+    //         this.cm.execCommand('selectAll');
+    //         this.cm.execCommand('undoSelection');
     //     } else {
-    //         this._cm.execCommand('goLineEnd');
-    //         this._cm.replaceSelection(' ');
-    //         this._cm.execCommand('delCharBefore');
+    //         this.cm.execCommand('goLineEnd');
+    //         this.cm.replaceSelection(' ');
+    //         this.cm.execCommand('delCharBefore');
     //     }
     // }
 
-    _onCursorActivity = () => {
+    onCursorActivity = () => {
         const { scrollContainer } = this.props;
 
         if (scrollContainer) {
-            const cursorPos = this._cm.cursorCoords();
+            const cursorPos = this.cm.cursorCoords();
 
             if (
                 cursorPos.top + LINE_HEIGHT + 4 >

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import is, { isNot } from 'styled-is';
+import is from 'styled-is';
 import tt from 'counterpart';
 import Icon from 'golos-ui/Icon';
 
@@ -29,7 +30,9 @@ const Splitter = styled.div`
     background: #e1e1e1;
 `;
 
-const ReplyLink = styled(Link)`
+const ReplyButton = styled(
+    ({ to, ...otherProps }) => (to ? <Link to={to} {...otherProps} /> : <div {...otherProps} />)
+)`
     height: 100%;
     min-height: 50px;
     padding: 0 18px 0 10px;
@@ -42,12 +45,6 @@ const ReplyLink = styled(Link)`
     letter-spacing: 0.8px;
     color: #393636 !important;
     cursor: pointer;
-
-    ${isNot('showtext')`
-        @media (min-width: 890px) and (max-width: 1200px), (max-width: 639px) {
-            display: none;
-        }
-    `};
 `;
 
 const ReplyIcon = styled(Icon)`
@@ -74,26 +71,56 @@ const Root = styled.div`
     `};
 `;
 
-ReplyBlock.defaultProps = {
-    showText: true,
-};
+export class ReplyBlock extends Component {
+    static defaultProps = {
+        notOwner: true,
+    };
 
-export default function ReplyBlock({ grid, count, link, text, className, showText }) {
-    return (
-        <Root grid={grid} className={className}>
-            <ReplyCounterBlock
-                to={`${link}#comments`}
-                role="button"
-                data-tooltip={tt('reply.comments_count')}
-                aria-label={tt('reply.comments_count')}
-            >
-                <ReplyIcon name="reply" />
-                <ReplyCount>{count}</ReplyCount>
-            </ReplyCounterBlock>
-            <Splitter />
-            <ReplyLink to={`${link}#comments`} role="button" showtext={showText ? 1 : 0}>
-                {text}
-            </ReplyLink>
-        </Root>
-    );
+    static propTypes = {
+        grid: PropTypes.bool,
+        count: PropTypes.number,
+        link: PropTypes.string,
+        text: PropTypes.string,
+        notOwner: PropTypes.bool,
+        onReplyClick: PropTypes.func,
+
+        toggleCommentInputFocus: PropTypes.func.isRequired,
+    };
+
+    toggleCommentInputFocus = () => {
+        this.props.toggleCommentInputFocus(true);
+    };
+
+    render() {
+        const { grid, count, link, text, notOwner, onReplyClick, className } = this.props;
+
+        return (
+            <Root grid={grid} className={className}>
+                <ReplyCounterBlock
+                    to={`${link}#comments`}
+                    role="button"
+                    data-tooltip={tt('reply.comments_count')}
+                    aria-label={tt('reply.comments_count')}
+                >
+                    <ReplyIcon name="reply" />
+                    <ReplyCount>{count}</ReplyCount>
+                </ReplyCounterBlock>
+                {!onReplyClick && (
+                    <Fragment>
+                        <Splitter />
+                        <ReplyButton role="button" to={`${link}#comments`} onClick={this.toggleCommentInputFocus}>
+                            {text}
+                        </ReplyButton>
+                    </Fragment>
+                )}
+                {Boolean(onReplyClick) &&
+                    notOwner && (
+                        <Fragment>
+                            <Splitter />
+                            <ReplyButton role="button" onClick={onReplyClick}>{text}</ReplyButton>
+                        </Fragment>
+                    )}
+            </Root>
+        );
+    }
 }

@@ -53,7 +53,6 @@
     "category": "Категория",
     "channel_card": "Канал",
     "close_button": "Закрыть",
-    "expected_payout": "Ожидаемая выплата",
     "dislikers_list": "Проголосовали против",
     "expected_payout": "Ожидаемая выплата",
     "facebook_link": "Страница Golos.io на Facebook",
@@ -219,6 +218,10 @@
     "you_can_change_your_number": "* Вы можете изменить номер телефона. ",
     "you_need_to": "Вам нужно "
   },
+  "data-tooltip": {
+    "grid": "Сетка",
+    "list": "Список"
+  },
   "delegate_vesting_shares_info_jsx": {
     "confirm_cancel_delegation": "Вы действительно хотите отозвать делегированную %(VESTING_TOKEN2)s у пользователя %(delegatee)s",
     "confirm_title": "Отмена делегирования %(VESTING_TOKENS)s",
@@ -238,17 +241,19 @@
     "prompt": "Введите данные",
     "show_all": "Показать все"
   },
+  "dialogs_convert": {
+    "power_down_line": "Запущен процесс понижения Силы Голоса на **%(all)s GOLOS** (**%(done)s GOLOS** уже выплачено)."
+  },
   "dialogs_dislike": {
     "header": "Голос против может снять вознаграждения и сделать пост менее видимым. Голосование против должно основываться на:",
-    "item_1": "несогласие на награды;",
-    "item_2": "мошенничество или плагиат;",
-    "item_3": "разжигание ненависти или Интернет троллинг;",
-    "item_4": "преднамеренная неправильная категоризация контента или спаме.",
+    "item_1": "Несогласие на награды",
+    "item_2": "Мошенничество или плагиат",
+    "item_3": "Разжигание ненависти или Интернет троллинг",
+    "item_4": "Преднамеренная неправильная категоризация контента или спаме",
     "ok": "Голосовать против",
     "title": "Голосовать против"
   },
   "dialogs_promote": {
-    "active_key": "Активный ключ",
     "amount": "Количество",
     "description": "Используйте Ваши GBG, чтобы прорекламировать этот пост в секции продвигаемого контента.",
     "fill_form_error": "Заполните все поля корректно",
@@ -373,11 +378,6 @@
     "this_information_allows_steemit_to_assist_with_account_recovery_in_case_your_account_is_ever_compormised": "Эта информация позволяет Голосу помочь Вам восстановить аккаунт, если он когда-нибудь будет украден",
     "to_continue_please_click_on_the_link_in_the_email_weve_sent_you": "Для продолжения, перейдите по ссылке в письме, которое мы Вам прислали",
     "user_not_found": "пользователь не найден"
-  },
-  "explorepost_jsx": {
-    "alternative_sources": "Альтернативные источники",
-    "copied": "Скопировано!",
-    "copy": "Скопировать"
   },
   "faq_jsq": {
     "email": "почта",
@@ -534,6 +534,7 @@
     "login_to_see_memo": "Авторизуйтесь, чтобы увидеть примечание",
     "login_to_show": "Авторизуйтесь для этой транзакции",
     "logout": "Выйти",
+    "market": "Биржа",
     "memo": "Ключ заметок",
     "messages": "Сообщения",
     "more": "больше",
@@ -968,7 +969,10 @@
     "beneficiary": "Бенефициарские выплаты",
     "curator": "Кураторские выплаты",
     "payout": "Выплата",
-    "potential_payout": "Потенциальная выплата"
+    "potential_payout": "Потенциальная выплата",
+    "author_hint": "Награда за пост",
+    "curator_hint": "Награда за кураторство",
+    "beneficiary_hint": "Награда бенефициару golos.io"
   },
   "plurals": {
     "author_rewards_last_24_hours": "Авторские вознаграждения за последние 24 часа",
@@ -1080,15 +1084,6 @@
     "this_post_is": "Этот пост",
     "to_save_your_preferences": "сохранить ваши настройки",
     "you_can": "Вы можете"
-  },
-  "powerdown_jsx": {
-    "already_power_down": "Вы уже запустили понижение силы голоса на %(AMOUNT)s %(LIQUID_TICKER)s (%(WITHDRAWN)s %(LIQUID_TICKER)s уже выплачено). Если вы измените количество, отсчет времени сбросится и составит 13 недель от сегодняшего дня.",
-    "amount": "Количество",
-    "delegating": "Вы делегируете %(AMOUNT)s %(LIQUID_TICKER)s. Это количество заблокировано и не может быть выведено пока делегирование не будет отменено и не пройдет один полный цикл выплат вознаграждений.",
-    "error": "Неполучается уменьшить силу голоса (ERROR: %(MESSAGE)s)",
-    "per_week": "Это ~%(AMOUNT)s %(LIQUID_TICKER)s в неделю.",
-    "power_down": "Уменьшить силу голоса",
-    "warning": "Оставлять меньше чем %(AMOUNT)s %(LIQUID_TICKER)s не рекомендуется, т.к. это может остановить все транзакции с использованием это аккаунта."
   },
   "recoveraccountstep1_jsx": {
     "account_name_is_not_found": "Имя аккаунта не найдено",
@@ -1273,22 +1268,6 @@
     "payouts": "Выплаты",
     "replies": "Ответы"
   },
-  "tips_js": {
-    "LIQUID_TOKEN_can_be_converted_to_VESTING_TOKEN_in_a_process_called_powering_up": "%(LIQUID_TOKEN)s может быть конвертирован в %(VESTING_TOKEN2)s, этот процесс называется \"увеличение %(VESTING_TOKENS)s\".",
-    "VESTING_TOKEN_is_non_transferrable_and_requires_convert_back_to_LIQUID_TOKEN": "%(VESTING_TOKEN2)s нельзя передать, и Вам потребуются 13 недель, чтобы перевести её обратно в токены %(LIQUID_TOKEN)s.",
-    "authenticate_for_this_transaction": "Авторизуйтесь для этой транзакции",
-    "confirm_email": "Подтвердить email",
-    "confirm_phone": "Пожалуйста подтвердите Ваш телефон",
-    "converted_VESTING_TOKEN_can_be_sent_to_yourself_but_can_not_transfer_again": "Конвертированная %(VESTING_TOKEN)s может быть отправлена себе или кому-то еще, но не может быть передана вновь без конвертирования назад в %(LIQUID_TOKEN)s.",
-    "influence_tokens_which_give_you_more_control_over": "%(VESTING_TOKEN)s неперемещаемая, её количество увеличивается при долгосрочном хранении. Чем больше у Вас %(VESTING_TOKENS)s, тем сильней вы влияете на вознаграждения за пост и тем больше зарабатываете за голосование.",
-    "login_to_your_APP_NAME_account": "Зайдите в Ваш %(APP_NAME)s аккаунт",
-    "profile": "Профиль",
-    "send_to_account": "Отправить аккаунту",
-    "the_estimated_value_is_based_on_an_average_value_of_steem_in_US_dollars": "Оценочная стоимость рассчитывается из 7-ми дневной средней стоимости %(LIQUID_TOKEN)s.",
-    "the_more_you_hold_the_more_you_influence_post_rewards": "Чем больше у Вас %(VESTING_TOKENS)s, тем сильней вы влияете на вознаграждения за пост и тем больше зарабатываете за голосование.'",
-    "tokens_worth_about_AMOUNT_of_LIQUID_TOKEN": "Перемещаемые цифровые токены, цена которых всегда равна %(amount)s в %(LIQUID_TOKEN)s.",
-    "tradeable_tokens_that_may_be_transferred_anywhere_at_anytime": "Перемещаемые цифровые токены, которые могут переданы куда угодно в любой момент."
-  },
   "token_names": {
     "DEBT_TOKEN": "Золотой",
     "DEBT_TOKEN2": "Золото",
@@ -1339,7 +1318,7 @@
       "about": "О себе",
       "followers": "Подписчиков",
       "following": "Подписок",
-      "gender": "Пол",
+      "gender": "пол",
       "post_count": {
         "one": "Пост",
         "other": "Постов",
@@ -1495,26 +1474,6 @@
     "the_owner_key_is_required_to_change_other_keys": "Ключ владельца это главный ключ ко всему аккаунта, он необходим для изменения других ключей.",
     "the_private_key_or_password_should_be_kept_offline": "Приватный ключ или пароль должен храниться в оффлайне насколько это возможно."
   },
-  "userwallet_jsx": {
-    "balances": "БАЛАНСЫ",
-    "buy_LIQUID_TOKEN_or_VESTING_TOKEN": "Купить %(LIQUID_TOKEN)s или %(VESTING_TOKEN2)s",
-    "cancel_power_down": "Отменить понижение Силы",
-    "conversion_complete_tip": "Завершается",
-    "convert_to_LIQUID_TOKEN": "Перевести в %(LIQUID_TOKEN)s",
-    "estimated_account_value": "Оценка стоимости аккаунта",
-    "history": "ИСТОРИЯ",
-    "in_conversion": "%(amount)s на конвертации",
-    "market": "Биржа",
-    "next_power_down_is_scheduled_to_happen": "Следующее понижение Силы запланировано",
-    "power_down": "Уменьшить Силу Голоса",
-    "power_up": "Увеличить Силу Голоса",
-    "savings": "СЕЙФ",
-    "tokens_worth_about_1_of_LIQUID_TICKER": "Перемещаемые цифровые токены, цена которых равна %(TOKEN_WORTH)s в %(LIQUID_TICKER)s.",
-    "transfer_to_savings": "Перевести в сейф",
-    "transfers_are_temporary_disabled": "Переводы временно отключены.",
-    "withdraw_DEBT_TOKENS": "Вывести %(DEBT_TOKENS)s на текущий баланс",
-    "withdraw_LIQUID_TOKEN": "Вывести %(LIQUID_TOKEN)s на текущий баланс"
-  },
   "votesandcomments_jsx": {
     "click_to_respond": "Нажмите, чтобы ответить",
     "no_responses_yet_click_to_respond": "Ответов пока нет. Нажмите, чтобы ответить.",
@@ -1560,6 +1519,12 @@
     "trending_30_day": "популярное (30 дней)",
     "we_will_reset_curation_rewards_for_this_post": " сбросит Ваши кураторские вознаграждения за этот пост",
     "your_existing_DEBT_TOKEN_are_liquid_and_transferable": "Ваши существующие %(DEBT_TOKEN)s ликвидны и перемещаемы. Возможно, Вы хотите торговать %(DEBT_TOKEN)s напрямую на этом сайте в разделе %(link)s или перевести на внешний рынок."
+  },
+  "wallet": {
+    "cancel": "Отменить",
+    "next_power_down_date": "Следующее понижение Силы Голоса произойдет ",
+    "power_down_line": "Вы запустили понижение силы голоса на **%(all)s GOLOS** (**%(done)s GOLOS** уже выплачено)",
+    "success": "Операция завершилась успешно"
   },
   "welcome_page": {
     "about": {

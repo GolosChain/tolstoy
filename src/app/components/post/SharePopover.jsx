@@ -19,6 +19,10 @@ const ItemContainer = styled.div`
     padding: 18px;
     cursor: pointer;
 
+    &[type='button'] {
+        -webkit-appearance: none;
+    }
+
     &:hover {
         color: #2879ff;
     }
@@ -73,7 +77,12 @@ export default class SharePopover extends Component {
         return (
             <Wrapper horizontal={horizontal}>
                 {shareMenu.map(item => (
-                    <ItemContainer type="button" aria-label={item.label} key={item.value} onClick={item.onClick}>
+                    <ItemContainer
+                        type="button"
+                        aria-label={item.label}
+                        key={item.value}
+                        onClick={item.onClick}
+                    >
                         <Icon name={item.icon} />
                     </ItemContainer>
                 ))}

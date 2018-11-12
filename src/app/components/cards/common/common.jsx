@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import is from 'styled-is';
 
+import { breakWordStyles } from 'src/app/helpers/styles';
+
 export const EntryWrapper = styled.div`
     margin-bottom: 16px;
 
@@ -24,12 +26,9 @@ export const PostTitle = styled.h3`
     font-weight: 500;
     font-size: 1.5rem;
     line-height: 36.4px;
-    word-wrap: break-word;
-    word-break: break-word;
-    overflow-wrap: break-word;
-    hyphens: auto;
     color: #343434;
     max-width: 100%;
+    ${breakWordStyles};
 
     @media (max-width: 900px) {
         font-size: 1.4375rem;
@@ -42,5 +41,5 @@ export const PostContent = styled.div`
     line-height: 1.56;
     color: #333;
     overflow: hidden;
-    word-wrap: break-word;
+    ${breakWordStyles};
 `;

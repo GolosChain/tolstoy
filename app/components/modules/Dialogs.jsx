@@ -9,7 +9,6 @@ import CloseButton from 'react-foundation-components/lib/global/close-button';
 import Reveal from 'react-foundation-components/lib/global/reveal';
 
 import CheckLoginOwner from 'app/components/elements/CheckLoginOwner';
-import ExplorePost from 'app/components/modules/ExplorePost';
 import QrKeyView from 'app/components/elements/QrKeyView';
 
 class Dialogs extends Component {
@@ -37,16 +36,7 @@ class Dialogs extends Component {
         const dialogs = [];
 
         active_dialogs.forEach((v, k) => {
-            if (k === 'explorePost') {
-                dialogs.push(
-                    <span key={idx++}>
-                        <Reveal onHide={this['hide_' + k]} show>
-                            <CloseButton onClick={this['hide_' + k]} />
-                            <ExplorePost onClick={this['hide_' + k]} {...v.get('params').toJS()} />
-                        </Reveal>
-                    </span>
-                );
-            } else if (k === 'qr_key') {
+            if (k === 'qr_key') {
                 dialogs.push(
                     <span key={idx++}>
                         <Reveal onHide={this['hide_' + k]} show>
