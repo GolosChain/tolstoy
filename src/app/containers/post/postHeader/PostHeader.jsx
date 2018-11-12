@@ -19,13 +19,17 @@ import PostActions from 'src/app/components/post/PostActions';
 
 const Wrapper = styled.div`
     position: relative;
-    display: flex;
+    /*display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: flex-start;*/
     padding-bottom: 25px;
+    
+     display: grid;
+     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+     grid-template-areas: 'author follow . promoted actions ';
 
     @media (max-width: 576px) {
-        justify-content: space-between;
+        /*justify-content: space-between;*/
         padding-bottom: 15px;
     }
 `;
@@ -85,6 +89,9 @@ const FollowRound = styled(Button)`
     margin-left: 30px;
     border-radius: 50%;
     cursor: pointer;
+    
+    grid-area: follow;
+    align-self: center;
 `;
 
 const UserInfoWrapper = styled(Link)`
@@ -92,6 +99,8 @@ const UserInfoWrapper = styled(Link)`
     align-items: center;
     cursor: pointer;
     outline: none;
+    
+    grid-area: author;
 `;
 
 const UserpicStyled = styled(Userpic)`
@@ -107,12 +116,13 @@ const PostActionsWrapper = styled.div`
     display: flex;
     align-items: center;
     margin-left: auto;
-    margin-right: -7px;
 `;
 
 const PostActionsStyled = styled(PostActions)`
     padding: 5px;
     margin: 0 3px;
+    
+    grid-area: actions;
 `;
 
 const AvatarBox = styled.div`
@@ -137,6 +147,8 @@ const PromotedMark = styled.div`
         height: 17px;
         box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.4);
     }
+    
+    grid-area: promoted;
 `;
 
 const PromotedIcon = styled(Icon)`
@@ -235,7 +247,7 @@ export class PostHeader extends Component {
                             <CustomIcon name="plus" width={12} height={12} />
                         </FollowRound>
                     ))}
-                <PostActionsWrapper>
+                {/*<PostActionsWrapper>*/}
                     {isPromoted && (
                         <PromotedMark>
                             <PromotedIcon name="best" width="34" height="37" />
@@ -256,7 +268,7 @@ export class PostHeader extends Component {
                         toggleFavorite={toggleFavorite}
                         togglePin={togglePin}
                     />
-                </PostActionsWrapper>
+                {/*</PostActionsWrapper>*/}
                 {showPopover ? (
                     <AvatarBox>
                         <PopoverStyled onClose={this.closePopover} show>
