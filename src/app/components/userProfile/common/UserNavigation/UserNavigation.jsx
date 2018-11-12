@@ -5,7 +5,7 @@ import tt from 'counterpart';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-import { TabLink as StyledTabLink, TabLinkIndex as StyledTabLinkIndex } from 'golos-ui/Tab';
+import { TabLink, TabLinkIndex } from 'golos-ui/Tab';
 import Icon from 'golos-ui/Icon';
 
 import { changeProfileLayout } from 'src/app/redux/actions/ui';
@@ -32,7 +32,14 @@ const Container = styled.div`
     }
 `;
 
-const TabLink = styled(StyledTabLink)`
+const Wrapper = styled.div`
+    display: flex;
+    margin: 0 -3px;
+`;
+
+const TabLinkStyled = styled(TabLink)`
+    height: 50px;
+
     &.${({ activeClassName }) => activeClassName} {
         :after {
             content: '';
@@ -45,11 +52,11 @@ const TabLink = styled(StyledTabLink)`
         }
     }
 `;
-TabLink.defaultProps = {
+TabLinkStyled.defaultProps = {
     activeClassName: 'active',
 };
 
-const TabLinkIndex = TabLink.withComponent(StyledTabLinkIndex);
+const TabLinkIndexStyled = TabLinkStyled.withComponent(TabLinkIndex);
 
 const RightIcons = styled.div`
     display: flex;
@@ -136,21 +143,19 @@ class UserNavigation extends PureComponent {
             tabLinks.push({ value: tt('g.activity'), to: `/@${accountName}/activity` });
         }
 
+        //tabLinks.push({ value: tt('g.messages'), to: `/@${accountName}/messages` });
+
         return (
             <SlideContainerStyled className={className}>
                 <Container>
-                    {tabLinks.map(({ value, to }) => (
-                        <TabLinkIndex key={to} to={to}>
-                            {value}
-                        </TabLinkIndex>
-                    ))}
-                    {/* <TabLinkIndex
-                        key={`/@${accountName}/messages`}
-                        to={`/@${accountName}/messages`}
-                    >
-                        {tt('g.messages')}
-                    </TabLinkIndex> */}
-                    {this._renderRightIcons()}
+                    <Wrapper>
+                        {tabLinks.map(({ value, to }) => (
+                            <TabLinkIndexStyled key={to} to={to}>
+                                {value}
+                            </TabLinkIndexStyled>
+                        ))}
+                        {this._renderRightIcons()}
+                    </Wrapper>
                 </Container>
             </SlideContainerStyled>
         );

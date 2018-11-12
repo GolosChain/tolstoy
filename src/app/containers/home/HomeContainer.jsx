@@ -12,7 +12,7 @@ const Wrapper = styled.div`
 
 const ContainerStyled = styled(Container)`
     padding: 22px 0 40px;
-    margin: 0 !important;
+    margin: 0 auto !important;
 
     @media (max-width: 768px) {
         flex-direction: column;

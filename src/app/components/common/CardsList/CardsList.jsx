@@ -22,7 +22,7 @@ const Root = styled.div`
     `};
 
     @media (max-width: 890px) {
-        margin: 0 12px;
+        margin: 0 ${({ customCards }) => (customCards ? 20 : 12)}px;
     }
 `;
 
@@ -239,13 +239,13 @@ export default class CardsList extends PureComponent {
     };
 
     render() {
-        const { items, layout, disallowGrid } = this.props;
+        const { items, layout, disallowGrid, itemRender } = this.props;
         const { forceGrid } = this.state;
 
         const isGrid = !disallowGrid && (layout === 'grid' || forceGrid);
 
         return (
-            <Root innerRef={this.rootRef} grid={isGrid}>
+            <Root innerRef={this.rootRef} grid={isGrid} customCards={Boolean(itemRender)}>
                 {items.map(this.renderCard)}
                 {this.renderLoaderIfNeed()}
             </Root>

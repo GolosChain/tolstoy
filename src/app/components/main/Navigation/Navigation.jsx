@@ -14,6 +14,7 @@ const SlideContainerStyled = styled(SlideContainer)`
 `;
 
 const TabLinkStyled = styled(TabLink)`
+    height: 50px;
     padding: 0 12px;
 
     &.${({ activeClassName }) => activeClassName} {
