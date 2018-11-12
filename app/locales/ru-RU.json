@@ -53,7 +53,6 @@
     "category": "Категория",
     "channel_card": "Канал",
     "close_button": "Закрыть",
-    "expected_payout": "Ожидаемая выплата",
     "dislikers_list": "Проголосовали против",
     "expected_payout": "Ожидаемая выплата",
     "facebook_link": "Страница Golos.io на Facebook",
@@ -1481,7 +1480,6 @@
     "history": "ИСТОРИЯ",
     "in_conversion": "%(amount)s на конвертации",
     "market": "Биржа",
-    "next_power_down_is_scheduled_to_happen": "Следующее понижение Силы запланировано",
     "power_down": "Уменьшить Силу Голоса",
     "power_up": "Увеличить Силу Голоса",
     "savings": "СЕЙФ",
@@ -1539,6 +1537,7 @@
   },
   "wallet": {
     "cancel": "Отменить",
+    "next_power_down_date": "Следующее понижение Силы Голоса произойдет ",
     "power_down_line": "Вы запустили понижение силы голоса на **%(all)s GOLOS** (**%(done)s GOLOS** уже выплачено)",
     "success": "Операция завершилась успешно"
   },

@@ -1352,7 +1352,6 @@
     "history": "ІСТОРІЯ",
     "in_conversion": "%(amount)s на конвертації",
     "market": "Біржа",
-    "next_power_down_is_scheduled_to_happen": "Наступне зниження Сили заплановано",
     "power_down": "Зменьшити Силу Голоса",
     "power_up": "Збільшити Силу Голоса",
     "savings": "СЕЙФ",
@@ -1410,6 +1409,7 @@
   },
   "wallet": {
     "cancel": "Отменить",
+    "next_power_down_date": "Наступне зниження Сили заплановано ",
     "power_down_line": "Ви запустили зниження Сили Голосу на **%(all)s GOLOS** (**%(done)s GOLOS** вже виплачено)",
     "success": "Операція завершилася успішно"
   },

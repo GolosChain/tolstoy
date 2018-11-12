@@ -53,7 +53,6 @@
     "category": "Category",
     "chanel_card": "Contact",
     "close_button": "Close",
-    "expected_payout": "Expected payout",
     "dislikers_list": "Voted with dislike",
     "expected_payout": "Expected payout",
     "facebook_link": "Golos.io on Facebook page",
@@ -1471,7 +1470,6 @@
     "history": "HISTORY",
     "in_conversion": "%(amount)s in conversion",
     "market": "Market",
-    "next_power_down_is_scheduled_to_happen": "The next power down is scheduled to happen",
     "power_down": "Power Down",
     "power_up": "Power Up",
     "savings": "SAVINGS",
@@ -1528,7 +1526,9 @@
   },
   "wallet": {
     "cancel": "Cancel",
-    "power_down_line": "You've started power down process for **%(all)s GOLOS** (**%(done)s GOLOS** have already paid off)"
+    "next_power_down_date": "The next power down is scheduled to happen ",
+    "power_down_line": "You've started power down process for **%(all)s GOLOS** (**%(done)s GOLOS** have already paid off)",
+    "success": "Operation completed successfully"
   },
   "welcome_page": {
     "about": {
