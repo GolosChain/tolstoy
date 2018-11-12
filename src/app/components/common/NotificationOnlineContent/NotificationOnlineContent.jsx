@@ -17,7 +17,6 @@ import Icon from 'golos-ui/Icon';
 const Wrapper = styled.div`
     display: flex;
     align-items: center;
-    box-sizing: border-box;
     overflow: hidden;
     max-width: 100%;
     width: 100%;
@@ -37,7 +36,7 @@ const Message = styled.div`
     line-height: 20px;
     max-width: 100%;
 
-    & > div > a {
+    a {
         max-width: 100%;
         ${breakWordStyles};
     }

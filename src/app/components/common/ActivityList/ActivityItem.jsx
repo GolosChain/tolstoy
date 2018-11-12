@@ -34,7 +34,6 @@ const ActivityDesc = styled.div`
     flex-direction: column;
     margin-left: 10px;
     max-width: 100%;
-    box-sizing: border-box;
     overflow: hidden;
     flex-shrink: 0;
 `;
