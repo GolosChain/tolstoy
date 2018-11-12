@@ -35,8 +35,8 @@ export function* accountAuthLookup(account, privateKeys, isConfirmWithSave) {
         const privateKey = privateKeys[`${role}_private`];
 
         if (privateKey) {
-            auth[role] = yield authorityLookup({
-                pubKeys: Set([toPub(privateKey)]),
+            auth[role] = yield call(authStr, {
+                pubKey: toPub(privateKey),
                 authority: account.get(role),
                 authType: role === 'active' ? 'active' : '',
             });
@@ -55,43 +55,36 @@ export function* accountAuthLookup(account, privateKeys, isConfirmWithSave) {
     );
 }
 
-function* authorityLookup({ pubKeys, authority, authType }) {
-    return yield call(authStr, { pubKeys, authority, authType });
-}
-
-function* authStr({ pubKeys, authority, authType, recurse = 1 }) {
-    const t = yield call(threshold, { pubKeys, authority, authType, recurse });
+function* authStr({ pubKey, authority, authType, recurse = 1 }) {
+    const t = yield call(threshold, { pubKey, authority, authType, recurse });
     const r = authority.get('weight_threshold');
 
     return t >= r ? 'full' : t > 0 ? 'partial' : 'none';
 }
 
-function* threshold({ pubKeys, authority, authType, recurse = 1 }) {
-    if (!pubKeys.size) {
-        return 0;
-    }
-
+function* threshold({ pubKey, authority, authType, recurse = 1 }) {
     const accountAuths = authority.get('account_auths');
-    const accountAuthsNames = accountAuths.map(v => v.get(0), List());
 
-    let t = pubKeyThreshold({ pubKeys, authority });
+    let t = pubKeyThreshold({ pubKey, authority });
 
-    if (accountAuthsNames.size) {
+    if (accountAuths.size) {
+        const accountAuthsNames = accountAuths.map(v => v.get(0));
+
         const aaAccounts = yield api.getAccountsAsync(accountAuthsNames);
-        const aaThreshes = accountAuths.map(v => v.get(1), List());
+        const aaThreshes = accountAuths.map(v => v.get(1));
 
-        for (let i = 0; i < aaAccounts.size; i++) {
-            const aaAccount = aaAccounts.get(i);
+        for (let i = 0; i < aaAccounts.length; i++) {
+            const aaAccount = fromJS(aaAccounts[i]);
 
             t += pubKeyThreshold({
                 authority: aaAccount.get(authType),
-                pubKeys,
+                pubKey,
             });
 
             if (recurse <= 2) {
                 const auth = yield call(authStr, {
                     authority: aaAccount,
-                    pubKeys,
+                    pubKey,
                     recurse: ++recurse,
                 });
 
@@ -105,12 +98,12 @@ function* threshold({ pubKeys, authority, authType, recurse = 1 }) {
     return t;
 }
 
-function pubKeyThreshold({ pubKeys, authority }) {
+function pubKeyThreshold({ pubKey, authority }) {
     const keyAuths = authority.get('key_auths');
     let available = 0;
 
     keyAuths.forEach(k => {
-        if (pubKeys.has(k.get(0))) {
+        if (pubKey === k.get(0)) {
             available += k.get(1);
         }
     });
@@ -154,9 +147,11 @@ export function* findSigningKey({ opType, username, password }) {
         }
 
         if (privateKey) {
-            const pubKeys = Set([privateKey.toPublicKey().toString()]);
-            const authority = account.get(authType);
-            const auth = yield call(authorityLookup, { pubKeys, authority, authType });
+            const auth = yield call(authStr, {
+                pubKey: privateKey.toPublicKey().toString(),
+                authority: account.get(authType),
+                authType,
+            });
 
             if (auth === 'full') {
                 return privateKey;

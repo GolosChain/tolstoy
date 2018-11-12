@@ -1,4 +1,4 @@
-import { fromJS } from 'immutable';
+import { List, fromJS } from 'immutable';
 import { call, put, select, fork, takeLatest, takeEvery } from 'redux-saga/effects';
 import { browserHistory } from 'react-router';
 import { api } from 'golos-js';

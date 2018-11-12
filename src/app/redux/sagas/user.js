@@ -53,7 +53,7 @@ function* loadSavingsWithdraw() {
         temp[v.id] = v;
     }
 
-    const list = Array.from(temp.values()).sort((a, b) =>
+    const list = Array.from(Object.values(temp)).sort((a, b) =>
         compareFunc(a.get('complete'), b.get('complete'))
     );
 

@@ -20,7 +20,7 @@ export function tryRestoreAuth() {
 
     const parts = new Buffer(data, 'hex').toString().split('\t');
 
-    if (!parts || !parts[0] || !parts[1]) {
+    if (parts.length < 2 || !parts[0] || !parts[1]) {
         return null;
     }
 
