@@ -23,10 +23,19 @@ const Wrapper = styled.div`
     align-items: center;
     justify-content: flex-start;*/
     padding-bottom: 25px;
-    
-     display: grid;
-     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-     grid-template-areas: 'author follow . promoted actions ';
+
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: auto auto 1fr auto auto auto;
+    grid-template-areas: 'author follow . promoted category actions';
+
+    @media (max-width: 768px) {
+        grid-template-rows: auto auto;
+        grid-template-columns: auto auto auto 1fr auto;
+        grid-template-areas:
+            'author author follow . actions'
+            'category . . . promoted';
+    }
 
     @media (max-width: 576px) {
         /*justify-content: space-between;*/
@@ -62,6 +71,7 @@ const AuthorName = styled.div`
     margin: -5px 0 0 -10px;
     font-size: 15px;
     font-weight: 500;
+    white-space: nowrap;
     color: #333;
     text-decoration: none;
 
@@ -89,7 +99,7 @@ const FollowRound = styled(Button)`
     margin-left: 30px;
     border-radius: 50%;
     cursor: pointer;
-    
+
     grid-area: follow;
     align-self: center;
 `;
@@ -99,7 +109,7 @@ const UserInfoWrapper = styled(Link)`
     align-items: center;
     cursor: pointer;
     outline: none;
-    
+
     grid-area: author;
 `;
 
@@ -115,14 +125,13 @@ const UserpicStyled = styled(Userpic)`
 const PostActionsWrapper = styled.div`
     display: flex;
     align-items: center;
-    margin-left: auto;
+
+    grid-area: actions;
 `;
 
 const PostActionsStyled = styled(PostActions)`
     padding: 5px;
     margin: 0 3px;
-    
-    grid-area: actions;
 `;
 
 const AvatarBox = styled.div`
@@ -135,7 +144,7 @@ const PromotedMark = styled.div`
     position: relative;
     display: flex;
     margin: 0 18px;
-    
+
     &::after {
         content: '';
         position: absolute;
@@ -147,8 +156,9 @@ const PromotedMark = styled.div`
         height: 17px;
         box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.4);
     }
-    
+
     grid-area: promoted;
+    align-self: center;
 `;
 
 const PromotedIcon = styled(Icon)`
@@ -156,6 +166,11 @@ const PromotedIcon = styled(Icon)`
     z-index: 2;
     min-width: 34px;
     min-height: 37px;
+`;
+
+const Category = styled(TagLink)`
+    grid-area: category;
+    align-self: center;
 `;
 
 export class PostHeader extends Component {
@@ -247,19 +262,20 @@ export class PostHeader extends Component {
                             <CustomIcon name="plus" width={12} height={12} />
                         </FollowRound>
                     ))}
-                {/*<PostActionsWrapper>*/}
-                    {isPromoted && (
-                        <PromotedMark>
-                            <PromotedIcon name="best" width="34" height="37" />
-                        </PromotedMark>
-                    )}
-                    <TagLink
-                        to={'/trending/' + category.origin}
-                        category={1}
-                        aria-label={tt('aria_label.category')}
-                    >
-                        {category.tag}
-                    </TagLink>
+
+                {isPromoted && (
+                    <PromotedMark>
+                        <PromotedIcon name="best" width="34" height="37" />
+                    </PromotedMark>
+                )}
+                <Category
+                    to={'/trending/' + category.origin}
+                    category={1}
+                    aria-label={tt('aria_label.category')}
+                >
+                    {category.tag}
+                </Category>
+                <PostActionsWrapper>
                     <PostActionsStyled
                         fullUrl={postUrl}
                         isFavorite={isFavorite}
@@ -268,7 +284,8 @@ export class PostHeader extends Component {
                         toggleFavorite={toggleFavorite}
                         togglePin={togglePin}
                     />
-                {/*</PostActionsWrapper>*/}
+                </PostActionsWrapper>
+
                 {showPopover ? (
                     <AvatarBox>
                         <PopoverStyled onClose={this.closePopover} show>
