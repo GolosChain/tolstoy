@@ -39,11 +39,12 @@ const Root = styled.i`
 
     ${is('isStatic')`
         position: static;
+        transform: translateX(0);
     `};
 
     &:hover {
         color: #0078c4;
-     }
+    }
 
     .PreviewButton__icon {
         width: 24px;
@@ -68,7 +69,7 @@ export default class PreviewButton extends PureComponent {
                 innerRef={this.previewButton}
                 isStatic={isStatic}
                 isPreview={isPreview}
-                isInvisible={!isVisible}
+                isInvisible={!isVisible && !isStatic}
                 onClick={this._onPreviewClick}
             >
                 <Icon
