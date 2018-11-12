@@ -11,7 +11,10 @@ export function showLogin({ onClose } = {}) {
     };
 }
 
-export function dispatchLogin({ username, password, saveLogin, isLogin }, loginBroadcastOperation) {
+export function dispatchLogin(
+    { username, password, saveLogin, isLogin, isConfirm },
+    loginBroadcastOperation
+) {
     return dispatch => {
         if (loginBroadcastOperation) {
             const {
@@ -29,6 +32,7 @@ export function dispatchLogin({ username, password, saveLogin, isLogin }, loginB
                         password,
                         saveLogin,
                         isLogin,
+                        isConfirm,
                         operationType: type,
                     })
                 );
@@ -52,6 +56,7 @@ export function dispatchLogin({ username, password, saveLogin, isLogin }, loginB
                     password,
                     saveLogin,
                     isLogin,
+                    isConfirm,
                 })
             );
         }

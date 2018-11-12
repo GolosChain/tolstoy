@@ -247,7 +247,8 @@ export class LoginForm extends Component {
                 .replace(/\/.+$/, ''),
             password,
             saveLogin: this.state.saveCredentials,
-            isLogin: true,
+            isLogin: !isConfirm,
+            isConfirm,
         };
 
         this.props.dispatchSubmit(data, this.props.loginBroadcastOperation);

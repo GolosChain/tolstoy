@@ -63,9 +63,11 @@ function* removeHighSecurityKeys({ payload: { pathname } }) {
 
 function* usernamePasswordLoginWrapper({ payload }) {
     const { pathname, query } = yield select(state => state.routing.locationBeforeTransitions);
-    const sender = pathname.split('/')[1].substring(1);
     const { to, amount, token, memo } = query;
+
+    const sender = pathname.split('/')[1].substring(1);
     const externalTransferRequested = Boolean(to && amount && token && memo);
+
     const offchainAccount = yield select(state => state.offchain.get('account'));
 
     if (externalTransferRequested && offchainAccount && offchainAccount !== sender) {
@@ -81,6 +83,7 @@ function* usernamePasswordLogin(payload) {
         password,
         saveLogin,
         isLogin,
+        isConfirm,
         operationType,
         afterLoginRedirectToWelcome,
     } = payload;
@@ -109,6 +112,12 @@ function* usernamePasswordLogin(payload) {
         return;
     }
 
+    // Если мы зашли сюда из диалога подтверждения, но галка "сохранить на время сессии"
+    // выключена, то делать ничего не надо.
+    if (isConfirm && !saveLogin) {
+        return;
+    }
+
     if (loginInfo.username.indexOf('/') !== -1) {
         // "alice/active" will login only with Alices active key
         const [username, userProvidedRole] = loginInfo.username.split('/');
@@ -126,17 +135,11 @@ function* usernamePasswordLogin(payload) {
 
     loginInfo.privateKeys = extractPrivateKeys(loginInfo);
 
-    yield call(accountAuthLookup, {
-        payload: {
-            account,
-            private_keys: loginInfo.privateKeys,
-            login_owner_pubkey: loginInfo.loginOwnerPubKey,
-        },
-    });
+    yield call(accountAuthLookup, account, loginInfo.privateKeys, isConfirm);
 
     let authority = yield select(state => state.user.getIn(['authority', loginInfo.username]));
 
-    let loginWithActivePassword;
+    let loginWithActiveKey;
 
     if (isLogin && authority.get('active') === 'full') {
         authority = authority.set('active', 'none');
@@ -148,11 +151,11 @@ function* usernamePasswordLogin(payload) {
             })
         );
 
-        loginWithActivePassword = true;
+        loginWithActiveKey = true;
     }
 
     if (authority.every(auth => auth !== 'full')) {
-        yield onAuthorizeError(account, authority, loginInfo, loginWithActivePassword);
+        yield onAuthorizeError(account, authority, loginInfo, loginWithActiveKey);
         return;
     }
 
@@ -293,7 +296,7 @@ function* loadCurrentUserFollowing() {
     }
 }
 
-function* onAuthorizeError(account, authority, loginInfo, loginWithActivePassword) {
+function* onAuthorizeError(account, authority, loginInfo, loginWithActiveKey) {
     resetAuth();
 
     const ownerPubKey = account.getIn(['owner', 'key_auths', 0, 0]);
@@ -307,7 +310,7 @@ function* onAuthorizeError(account, authority, loginInfo, loginWithActivePasswor
         ownerPubKey === loginInfo.loginWifOwnerPubKey
     ) {
         errorText = 'owner_login_blocked';
-    } else if (loginWithActivePassword) {
+    } else if (loginWithActiveKey) {
         errorText = 'active_login_blocked';
     } else {
         recordLoginAttempt(loginInfo, ownerPubKey);

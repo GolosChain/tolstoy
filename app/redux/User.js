@@ -7,7 +7,6 @@ const defaultState = fromJS({
     current: null,
     show_login_modal: false,
     show_promote_post_modal: false,
-    pub_keys_used: null,
     locale: DEFAULT_LANGUAGE,
     show_messages_modal: false,
 });
@@ -174,22 +173,11 @@ export default createModule({
             action: 'KEYS_ERROR',
             reducer: (state, { payload: { error } }) => state.merge({ keys_error: error }),
         },
-        // { action: 'UPDATE_PERMISSIONS', reducer: state => {
-        //     return state // saga
-        // }},
-        {
-            // auth saga
-            action: 'ACCOUNT_AUTH_LOOKUP',
-            reducer: state => state,
-        },
         {
             // auth saga
             action: 'SET_AUTHORITY',
-            reducer: (state, { payload: { accountName, auth, pub_keys_used } }) => {
-                state = state.setIn(['authority', accountName], fromJS(auth));
-                if (pub_keys_used) state = state.set('pub_keys_used', pub_keys_used);
-                return state;
-            },
+            reducer: (state, { payload: { accountName, auth } }) =>
+                state.setIn(['authority', accountName], fromJS(auth)),
         },
         {
             action: 'HIDE_CONNECTION_ERROR_MODAL',
