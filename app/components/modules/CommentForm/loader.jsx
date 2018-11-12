@@ -21,7 +21,7 @@ export default class CommentFormLoader extends PureComponent {
 
     render() {
         if (CommentForm) {
-            return <CommentForm {...this.props} />
+            return <CommentForm {...this.props} />;
         }
 
         return <div />;

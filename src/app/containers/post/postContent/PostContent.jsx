@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
+import { breakWordStyles } from 'src/app/helpers/styles';
 import PostHeader from 'src/app/containers/post/postHeader';
 import MarkdownViewer from 'app/components/cards/MarkdownViewer';
 import PostFormLoader from 'app/components/modules/PostForm/loader';
@@ -24,11 +25,10 @@ const Wrapper = styled.article`
 const Preview = styled.div``;
 
 const Body = styled.div`
-    margin-top: 27px;
+    margin-top: 5px;
 `;
 
 const PostTitle = styled.h1`
-    margin-top: 20px;
     color: #343434;
     font-weight: 500;
     font-size: 2rem;
@@ -37,6 +37,7 @@ const PostTitle = styled.h1`
     word-wrap: break-word;
     overflow-wrap: break-word;
     -webkit-font-smoothing: antialiased;
+    ${breakWordStyles};
 
     @media (max-width: 576px) {
         font-size: 30px;

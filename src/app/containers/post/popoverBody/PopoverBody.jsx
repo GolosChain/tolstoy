@@ -6,6 +6,7 @@ import { Link } from 'react-router';
 
 import Icon from 'golos-ui/Icon';
 
+import { breakWordStyles } from 'src/app/helpers/styles';
 import Userpic from 'app/components/elements/Userpic';
 import Mute from 'src/app/components/common/Mute/index';
 import Follow from 'src/app/components/common/Follow';
@@ -114,7 +115,7 @@ const PostTitle = styled(Link)`
     font-weight: 500;
     line-height: 24px;
     text-decoration: none;
-    word-break: break-word;
+    ${breakWordStyles};
 
     &:visited,
     &:hover,
