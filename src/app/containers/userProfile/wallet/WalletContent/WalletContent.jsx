@@ -175,9 +175,9 @@ export default class WalletContent extends Component {
         let list;
 
         if (mainTab === MAIN_TABS.POWER) {
-            list = this._makeGolosPowerList();
+            list = this.makeGolosPowerList();
         } else {
-            list = this._makeTransferList();
+            list = this.makeTransferList();
         }
 
         if (list == null) {
@@ -236,7 +236,7 @@ export default class WalletContent extends Component {
         }
     }
 
-    _makeTransferList() {
+    makeTransferList() {
         const { pageAccount, pageAccountName } = this.props;
         const { mainTab, rewardType, limit } = this.state;
 
@@ -279,12 +279,12 @@ export default class WalletContent extends Component {
                     type === 'transfer_from_savings' ||
                     type === 'transfer_to_vesting'
                 ) {
-                    line = this._processTransactions(type, data, stamp);
+                    line = this.processTransactions(type, data, stamp);
                 }
             } else if (mainTab === MAIN_TABS.POWER) {
             } else if (mainTab === MAIN_TABS.REWARDS) {
                 if (type === 'curation_reward' || type === 'author_reward') {
-                    line = this._processRewards(type, data, stamp);
+                    line = this.processRewards(type, data, stamp);
                 }
             }
 
@@ -306,7 +306,7 @@ export default class WalletContent extends Component {
         return this._loadDelegationsData();
     };
 
-    _makeGolosPowerList() {
+    makeGolosPowerList() {
         const { myAccountName, pageAccountName, globalProps } = this.props;
         const { delegationData, direction } = this.state;
 
@@ -383,7 +383,7 @@ export default class WalletContent extends Component {
         }
     }
 
-    _processTransactions(type, data) {
+    processTransactions(type, data) {
         const { pageAccountName } = this.props;
         const { currency, direction } = this.state;
 
@@ -506,7 +506,7 @@ export default class WalletContent extends Component {
         }
     }
 
-    _processRewards(type, data) {
+    processRewards(type, data) {
         const { rewardType } = this.state;
 
         if (rewardType === REWARDS_TYPES.CURATORIAL && type === 'curation_reward') {

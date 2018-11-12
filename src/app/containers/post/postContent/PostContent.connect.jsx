@@ -29,7 +29,6 @@ export default connect(
                 pictures: post.pictures,
                 created: post.created,
                 permLink: post.permLink,
-                isPromoted: post.promotedAmount > 0,
                 url: post.url,
                 action,
                 relapioToken,

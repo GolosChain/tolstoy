@@ -120,6 +120,32 @@ const AvatarBox = styled.div`
     top: 50px;
     width: 50px;
 `;
+
+const PromotedMark = styled.div`
+    position: relative;
+    display: flex;
+    margin: 0 18px;
+    
+    &::after {
+        content: '';
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -40%);
+        z-index: 1;
+        width: 14px;
+        height: 17px;
+        box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.4);
+    }
+`;
+
+const PromotedIcon = styled(Icon)`
+    position: relative;
+    z-index: 2;
+    min-width: 34px;
+    min-height: 37px;
+`;
+
 export class PostHeader extends Component {
     static propTypes = {
         postUrl: PropTypes.string,
@@ -171,8 +197,9 @@ export class PostHeader extends Component {
             toggleFavorite,
             author,
             isFollow,
-            className,
             postUrl,
+            isPromoted,
+            className,
         } = this.props;
 
         const { showPopover } = this.state;
@@ -209,6 +236,11 @@ export class PostHeader extends Component {
                         </FollowRound>
                     ))}
                 <PostActionsWrapper>
+                    {isPromoted && (
+                        <PromotedMark>
+                            <PromotedIcon name="best" width="34" height="37" />
+                        </PromotedMark>
+                    )}
                     <TagLink
                         to={'/trending/' + category.origin}
                         category={1}
