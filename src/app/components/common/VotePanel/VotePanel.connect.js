@@ -12,6 +12,10 @@ export default connect(
     createSelector(
         [currentUsernameSelector, (state, props) => postSelector(state, props.contentLink)],
         (username, post) => {
+            if (!post) {
+                return;
+            }
+
             const votes = post.get('active_votes');
 
             let myVote = null;
