@@ -119,12 +119,11 @@ class CommentForm extends Component {
     }
 
     componentDidMount() {
-        if (this.props.autoFocus) {
-            this.setFocus();
-        }
         if (location.hash === '#comments') {
             this.setFocus();
             this.onInputFocused();
+        } else if (this.props.autoFocus) {
+            this.setFocus();
         }
 
         if (this.props.forwardRef) {
