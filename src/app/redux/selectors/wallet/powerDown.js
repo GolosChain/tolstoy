@@ -22,6 +22,7 @@ export const powerDownSelector = createSelector(
         const withdrawnGolos = vestsToGolosPower(globalProps, withdrawn);
 
         return {
+            nextWithdrawal: account.get('next_vesting_withdrawal'),
             toWithdraw: toWithdrawGolos,
             withdrawn: withdrawnGolos,
         };

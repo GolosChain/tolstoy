@@ -53,7 +53,6 @@
     "category": "Категория",
     "channel_card": "Канал",
     "close_button": "Закрыть",
-    "expected_payout": "Ожидаемая выплата",
     "dislikers_list": "Проголосовали против",
     "expected_payout": "Ожидаемая выплата",
     "facebook_link": "Страница Golos.io на Facebook",
@@ -535,6 +534,7 @@
     "login_to_see_memo": "Авторизуйтесь, чтобы увидеть примечание",
     "login_to_show": "Авторизуйтесь для этой транзакции",
     "logout": "Выйти",
+    "market": "Биржа",
     "memo": "Ключ заметок",
     "messages": "Сообщения",
     "more": "больше",
@@ -1471,26 +1471,6 @@
     "the_owner_key_is_required_to_change_other_keys": "Ключ владельца это главный ключ ко всему аккаунта, он необходим для изменения других ключей.",
     "the_private_key_or_password_should_be_kept_offline": "Приватный ключ или пароль должен храниться в оффлайне насколько это возможно."
   },
-  "userwallet_jsx": {
-    "balances": "БАЛАНСЫ",
-    "buy_LIQUID_TOKEN_or_VESTING_TOKEN": "Купить %(LIQUID_TOKEN)s или %(VESTING_TOKEN2)s",
-    "cancel_power_down": "Отменить понижение Силы",
-    "conversion_complete_tip": "Завершается",
-    "convert_to_LIQUID_TOKEN": "Перевести в %(LIQUID_TOKEN)s",
-    "estimated_account_value": "Оценка стоимости аккаунта",
-    "history": "ИСТОРИЯ",
-    "in_conversion": "%(amount)s на конвертации",
-    "market": "Биржа",
-    "next_power_down_is_scheduled_to_happen": "Следующее понижение Силы запланировано",
-    "power_down": "Уменьшить Силу Голоса",
-    "power_up": "Увеличить Силу Голоса",
-    "savings": "СЕЙФ",
-    "tokens_worth_about_1_of_LIQUID_TICKER": "Перемещаемые цифровые токены, цена которых равна %(TOKEN_WORTH)s в %(LIQUID_TICKER)s.",
-    "transfer_to_savings": "Перевести в сейф",
-    "transfers_are_temporary_disabled": "Переводы временно отключены.",
-    "withdraw_DEBT_TOKENS": "Вывести %(DEBT_TOKENS)s на текущий баланс",
-    "withdraw_LIQUID_TOKEN": "Вывести %(LIQUID_TOKEN)s на текущий баланс"
-  },
   "votesandcomments_jsx": {
     "click_to_respond": "Нажмите, чтобы ответить",
     "no_responses_yet_click_to_respond": "Ответов пока нет. Нажмите, чтобы ответить.",
@@ -1539,6 +1519,7 @@
   },
   "wallet": {
     "cancel": "Отменить",
+    "next_power_down_date": "Следующее понижение Силы Голоса произойдет ",
     "power_down_line": "Вы запустили понижение силы голоса на **%(all)s GOLOS** (**%(done)s GOLOS** уже выплачено)",
     "success": "Операция завершилась успешно"
   },

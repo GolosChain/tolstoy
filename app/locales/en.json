@@ -53,7 +53,6 @@
     "category": "Category",
     "chanel_card": "Contact",
     "close_button": "Close",
-    "expected_payout": "Expected payout",
     "dislikers_list": "Voted with dislike",
     "expected_payout": "Expected payout",
     "facebook_link": "Golos.io on Facebook page",
@@ -533,6 +532,7 @@
     "login_to_see_memo": "login to see memo",
     "login_to_show": "Login to show",
     "logout": "Logout",
+    "market": "Market",
     "memo": "Memo key",
     "messages": "Messages",
     "more": "more",
@@ -1461,26 +1461,6 @@
     "the_owner_key_is_required_to_change_other_keys": "The owner key is the master key for the account and is required to change the other keys.",
     "the_private_key_or_password_should_be_kept_offline": "The private key or password for the owner key should be kept offline as much as possible."
   },
-  "userwallet_jsx": {
-    "balances": "BALANCES",
-    "buy_LIQUID_TOKEN_or_VESTING_TOKEN": "Buy %(LIQUID_TOKEN)s or %(VESTING_TOKEN)s",
-    "cancel_power_down": "Cancel Power Down",
-    "conversion_complete_tip": "Will complete on",
-    "convert_to_LIQUID_TOKEN": "Convert to %(LIQUID_TOKEN)s",
-    "estimated_account_value": "Estimated Account Value",
-    "history": "HISTORY",
-    "in_conversion": "%(amount)s in conversion",
-    "market": "Market",
-    "next_power_down_is_scheduled_to_happen": "The next power down is scheduled to happen",
-    "power_down": "Power Down",
-    "power_up": "Power Up",
-    "savings": "SAVINGS",
-    "tokens_worth_about_1_of_LIQUID_TICKER": "Tokens worth about %(TOKEN_WORTH)s in %(LIQUID_TICKER)s.",
-    "transfer_to_savings": "Transfer to Savings",
-    "transfers_are_temporary_disabled": "Transfers are temporary disabled.",
-    "withdraw_DEBT_TOKENS": "Withdraw %(DEBT_TOKENS)s",
-    "withdraw_LIQUID_TOKEN": "Withdraw %(LIQUID_TOKEN)s"
-  },
   "votesandcomments_jsx": {
     "click_to_respond": "Click to respond",
     "no_responses_yet_click_to_respond": "No responses yet. Click to respond.",
@@ -1528,7 +1508,9 @@
   },
   "wallet": {
     "cancel": "Cancel",
-    "power_down_line": "You've started power down process for **%(all)s GOLOS** (**%(done)s GOLOS** have already paid off)"
+    "next_power_down_date": "The next power down is scheduled to happen ",
+    "power_down_line": "You've started power down process for **%(all)s GOLOS** (**%(done)s GOLOS** have already paid off)",
+    "success": "Operation completed successfully"
   },
   "welcome_page": {
     "about": {
