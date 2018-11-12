@@ -20,6 +20,10 @@ const Root = styled.div`
         position: relative;
         margin: 0 -8px;
     `};
+
+    @media (max-width: 890px) {
+        margin: 0 12px;
+    }
 `;
 
 const Loader = styled.div`
