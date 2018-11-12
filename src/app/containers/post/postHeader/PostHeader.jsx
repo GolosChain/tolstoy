@@ -19,9 +19,6 @@ import PostActions from 'src/app/components/post/PostActions';
 
 const Wrapper = styled.div`
     position: relative;
-    /*display: flex;
-    align-items: center;
-    justify-content: flex-start;*/
     padding-bottom: 25px;
 
     display: grid;
@@ -31,14 +28,14 @@ const Wrapper = styled.div`
 
     @media (max-width: 768px) {
         grid-template-rows: auto auto;
-        grid-template-columns: auto auto auto 1fr auto;
+        grid-template-columns: auto auto auto 1fr auto auto;
         grid-template-areas:
-            'author author follow . actions'
-            'category . . . promoted';
+            'author author follow . . actions'
+            'category . . . promoted promoted';
+        grid-row-gap: 25px;
     }
 
     @media (max-width: 576px) {
-        /*justify-content: space-between;*/
         padding-bottom: 15px;
     }
 `;
@@ -143,6 +140,8 @@ const AvatarBox = styled.div`
 const PromotedMark = styled.div`
     position: relative;
     display: flex;
+    grid-area: promoted;
+    align-self: center;
     margin: 0 18px;
 
     &::after {
@@ -157,8 +156,9 @@ const PromotedMark = styled.div`
         box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.4);
     }
 
-    grid-area: promoted;
-    align-self: center;
+    @media (max-width: 768px) {
+        margin-right: 0;
+    }
 `;
 
 const PromotedIcon = styled(Icon)`
