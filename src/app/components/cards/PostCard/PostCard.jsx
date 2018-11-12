@@ -219,7 +219,7 @@ export default class PostCard extends PureComponent {
         postLink: PropTypes.string.isRequired,
         sanitizedData: PropTypes.object,
         isRepost: PropTypes.bool,
-        repostHtml: PropTypes.string,
+        repostHtml: PropTypes.object,
         isFavorite: PropTypes.bool,
         pinDisabled: PropTypes.bool,
         isPinned: PropTypes.bool,
