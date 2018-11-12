@@ -3,10 +3,20 @@
   background-color: #fff !important;
   border-radius: 6px !important;
   color: #666 !important;
-  box-shadow: 0 2px 12px 0 rgba(0,0,0, 0.15) !important;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15) !important;
   z-index: 9999;
 }
 
 .notification-bar-wrapper {
   display: flex;
+  max-width: 100%;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.notification-bar-message {
+  box-sizing: border-box;
+  overflow: hidden;
+  max-width: 100%;
 }

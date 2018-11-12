@@ -17,6 +17,10 @@ import Icon from 'golos-ui/Icon';
 const Wrapper = styled.div`
     display: flex;
     align-items: center;
+    box-sizing: border-box;
+    overflow: hidden;
+    max-width: 100%;
+    width: 100%;
 `;
 
 const LeftSide = styled.div`
@@ -31,7 +35,12 @@ const LeftSide = styled.div`
 const Message = styled.div`
     font-size: 14px;
     line-height: 20px;
-    ${breakWordStyles};
+    max-width: 100%;
+
+    & > div > a {
+        max-width: 100%;
+        ${breakWordStyles};
+    }
 `;
 
 const icons = {
