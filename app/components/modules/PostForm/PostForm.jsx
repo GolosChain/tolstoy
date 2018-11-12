@@ -24,7 +24,6 @@ import {
     updateFavoriteTags,
 } from 'app/utils/tags';
 import { DRAFT_KEY, EDIT_KEY } from 'app/utils/postForm';
-breakWordStyles;
 import { breakWordStyles } from 'src/app/helpers/styles';
 import './PostForm.scss';
 
