@@ -4,6 +4,7 @@ import {
     UI_PROFILE_CHANGE_LAYOUT,
     UI_PROFILE_ACTIVITY_CHANGE_TAB,
     UI_HOME_TAGS_CARD_COLLAPSE,
+    UI_TOGGLE_COMMENT_INPUT_FOCUS,
 } from 'src/app/redux/constants/ui';
 
 export function saveListScrollPosition(y) {
@@ -43,5 +44,12 @@ export function showNotification(text, keyPrefix, dismissDelay = 5000) {
             message: text,
             dismissAfter: dismissDelay,
         },
+    };
+}
+
+export function toggleCommentInputFocus(focused) {
+    return {
+        type: UI_TOGGLE_COMMENT_INPUT_FOCUS,
+        payload: { focused },
     };
 }
