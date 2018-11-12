@@ -87,7 +87,6 @@ function* usernamePasswordLogin(payload) {
 
     const loginInfo = {
         autoLogin: false,
-        isLogin,
         username,
         password,
         loginOwnerPubKey: null,
@@ -163,9 +162,7 @@ function* usernamePasswordLogin(payload) {
 
     deleteUnneededPrivateKeys(loginInfo, authority, account, ownerPubKey, activePubKey);
 
-    const acc = account.toJS();
-
-    if (loginInfo.isLogin && (postingPubKey === ownerPubKey || postingPubKey === activePubKey)) {
+    if (isLogin && (postingPubKey === ownerPubKey || postingPubKey === activePubKey)) {
         yield setLoginError(PERMISSIONS_ERROR);
         resetAuth();
         return;
@@ -355,7 +352,7 @@ function extractPrivateKeys(loginInfo) {
     }
 
     function getPrivateTypeKey(type) {
-        PrivateKey.fromSeed(loginInfo.username + type + loginInfo.password);
+        return PrivateKey.fromSeed(loginInfo.username + type + loginInfo.password);
     }
 
     let privateKeys;
