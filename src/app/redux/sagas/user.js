@@ -1,4 +1,4 @@
-import { List, fromJS } from 'immutable';
+import { fromJS } from 'immutable';
 import { call, put, select, fork, takeLatest, takeEvery } from 'redux-saga/effects';
 import { api } from 'golos-js';
 
@@ -41,26 +41,26 @@ function* getAccountHandler({ payload: { usernames, resolve, reject } }) {
 function* loadSavingsWithdraw() {
     const username = yield select(state => state.user.getIn(['current', 'username']));
     const to = yield call([api, api.getSavingsWithdrawToAsync], username);
-    const fro = yield call([api, api.getSavingsWithdrawFromAsync], username);
+    const from = yield call([api, api.getSavingsWithdrawFromAsync], username);
 
-    const m = {};
+    const temp = {};
 
-    for (const v of to) {
-        m[v.id] = v;
+    for (let v of to) {
+        temp[v.id] = v;
     }
 
-    for (const v of fro) {
-        m[v.id] = v;
+    for (let v of from) {
+        temp[v.id] = v;
     }
 
-    const withdraws = List(fromJS(m).values()).sort((a, b) =>
+    const list = Array.from(temp.values()).sort((a, b) =>
         compareFunc(a.get('complete'), b.get('complete'))
     );
 
     yield put(
         user.actions.set({
             key: 'savings_withdraws',
-            value: withdraws,
+            value: fromJS(list),
         })
     );
 }

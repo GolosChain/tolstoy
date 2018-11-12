@@ -56,7 +56,7 @@ function* watchRemoveHighSecurityKeys() {
 
 function* removeHighSecurityKeys({ payload: { pathname } }) {
     // Let the user keep the active key when going from one high security page to another.
-    if (!highSecurityPages.some(regExp => regExp.test(pathname))) {
+    if (highSecurityPages.every(regExp => !regExp.test(pathname))) {
         yield put(user.actions.removeHighSecurityKeys());
     }
 }
@@ -75,16 +75,19 @@ function* usernamePasswordLoginWrapper({ payload }) {
     yield call(usernamePasswordLogin, payload);
 }
 
-function* usernamePasswordLogin({
-    username,
-    password,
-    saveLogin,
-    isLogin,
-    operationType,
-    afterLoginRedirectToWelcome,
-}) {
+function* usernamePasswordLogin(payload) {
+    const {
+        username,
+        password,
+        saveLogin,
+        isLogin,
+        operationType,
+        afterLoginRedirectToWelcome,
+    } = payload;
+
     const loginInfo = {
         autoLogin: false,
+        isLogin,
         username,
         password,
         loginOwnerPubKey: null,
@@ -132,10 +135,25 @@ function* usernamePasswordLogin({
         },
     });
 
-    const authority = yield select(state => state.user.getIn(['authority', loginInfo.username]));
+    let authority = yield select(state => state.user.getIn(['authority', loginInfo.username]));
+
+    let loginWithActivePassword;
+
+    if (isLogin && authority.get('active') === 'full') {
+        authority = authority.set('active', 'none');
+
+        yield put(
+            user.actions.setAuthority({
+                accountName: account.get('name'),
+                auth: authority,
+            })
+        );
+
+        loginWithActivePassword = true;
+    }
 
     if (authority.every(auth => auth !== 'full')) {
-        yield onAuthorizeError(account, loginInfo);
+        yield onAuthorizeError(account, authority, loginInfo, loginWithActivePassword);
         return;
     }
 
@@ -145,7 +163,9 @@ function* usernamePasswordLogin({
 
     deleteUnneededPrivateKeys(loginInfo, authority, account, ownerPubKey, activePubKey);
 
-    if (isLogin && (postingPubKey === ownerPubKey || postingPubKey === activePubKey)) {
+    const acc = account.toJS();
+
+    if (loginInfo.isLogin && (postingPubKey === ownerPubKey || postingPubKey === activePubKey)) {
         yield setLoginError(PERMISSIONS_ERROR);
         resetAuth();
         return;
@@ -276,7 +296,7 @@ function* loadCurrentUserFollowing() {
     }
 }
 
-function* onAuthorizeError(account, loginInfo) {
+function* onAuthorizeError(account, authority, loginInfo, loginWithActivePassword) {
     resetAuth();
 
     const ownerPubKey = account.getIn(['owner', 'key_auths', 0, 0]);
@@ -290,10 +310,10 @@ function* onAuthorizeError(account, loginInfo) {
         ownerPubKey === loginInfo.loginWifOwnerPubKey
     ) {
         errorText = 'owner_login_blocked';
-    } else if (isLogin && authority.get('active') === 'full') {
+    } else if (loginWithActivePassword) {
         errorText = 'active_login_blocked';
     } else {
-        recordLoginAttempt(loginInfo);
+        recordLoginAttempt(loginInfo, ownerPubKey);
         errorText = 'Incorrect Password';
     }
 
@@ -395,7 +415,7 @@ function compareFunc(a, b) {
     return a > b ? 1 : a < b ? -1 : 0;
 }
 
-function recordLoginAttempt(loginInfo) {
+function recordLoginAttempt(loginInfo, ownerPubKey) {
     serverApiRecordEvent(
         'login_attempt',
         JSON.stringify({
