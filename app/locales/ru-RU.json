@@ -972,7 +972,10 @@
     "beneficiary": "Бенефициарские выплаты",
     "curator": "Кураторские выплаты",
     "payout": "Выплата",
-    "potential_payout": "Потенциальная выплата"
+    "potential_payout": "Потенциальная выплата",
+    "author_hint": "Награда за пост",
+    "curator_hint": "Награда за кураторство",
+    "beneficiary_hint": "Награда бенефициару golos.io"
   },
   "plurals": {
     "author_rewards_last_24_hours": "Авторские вознаграждения за последние 24 часа",

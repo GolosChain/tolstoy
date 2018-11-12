@@ -1,6 +1,4 @@
-
 .MarkdownEditor {
-
   & .CodeMirror {
     padding: 0;
     margin: 0 -4px;
@@ -33,5 +31,9 @@
 
   & .cm-formatting-strikethrough {
     text-decoration: none !important;
+  }
+
+  & .CodeMirror-focused .CodeMirror-placeholder {
+    opacity: 0.2;
   }
 }

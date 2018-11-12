@@ -24,11 +24,15 @@ export class CommentsContainer extends Component {
     };
 
     render() {
-        const { commentsCount, data, pathname } = this.props;
+        const { commentsCount, data, pathname, commentInputFocused } = this.props;
         return (
             <Wrapper>
                 <CommentsHeader commentsCount={commentsCount} pathname={pathname} />
-                <CreateComment data={data} updateComments={this.updateComments} />
+                <CreateComment
+                    data={data}
+                    updateComments={this.updateComments}
+                    commentInputFocused={commentInputFocused}
+                />
                 <CommentsList updateComments={this.updateComments} />
             </Wrapper>
         );
