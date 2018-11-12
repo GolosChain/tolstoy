@@ -2,12 +2,15 @@ import styled from 'styled-components';
 import is from 'styled-is';
 import Flex from 'golos-ui/Flex';
 
+export const MAX_WIDTH = 1150;
+export const OFFSET = 20;
+
 const Container = styled(Flex)`
-    max-width: 1150px;
+    max-width: ${MAX_WIDTH}px;
     margin: 0 auto;
 
-    @media (max-width: 1190px) {
-        margin: 0 20px;
+    @media (max-width: ${MAX_WIDTH + OFFSET * 2}px) {
+        margin: 0 ${OFFSET}px;
     }
 
     ${is('small')`
