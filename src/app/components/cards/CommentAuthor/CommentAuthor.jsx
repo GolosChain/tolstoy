@@ -38,28 +38,18 @@ const AuthorName = styled.span`
 
 const AuthorNameLink = AuthorName.withComponent(Link);
 
-const CommentAuthor = ({ author, noLinks }) => {
-    let AvatarComp = AvatarLink;
-    let AuthorNameComp = AuthorNameLink;
-
-    if (noLinks) {
-        AvatarComp = Avatar;
-        AuthorNameComp = AuthorName;
-    }
-
-    return (
-        <Wrapper>
-            <AvatarComp to={`/@${author}`} aria-label={tt('aria_label.avatar')}>
-                <Userpic account={author} size={37} />
-            </AvatarComp>
-            <PostDesc>
-                <AuthorLine>
-                    <AuthorNameComp to={`/@${author}`}>{author}</AuthorNameComp>
-                </AuthorLine>
-            </PostDesc>
-        </Wrapper>
-    );
-};
+const CommentAuthor = ({ author }) => (
+    <Wrapper>
+        <AvatarLink to={`/@${author}`} aria-label={tt('aria_label.avatar')}>
+            <Userpic account={author} size={37} />
+        </AvatarLink>
+        <PostDesc>
+            <AuthorLine>
+                <AuthorNameLink to={`/@${author}`}>{author}</AuthorNameLink>
+            </AuthorLine>
+        </PostDesc>
+    </Wrapper>
+);
 
 CommentAuthor.propTypes = {
     author: PropTypes.string.isRequired,
