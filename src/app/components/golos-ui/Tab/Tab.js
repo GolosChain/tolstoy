@@ -12,7 +12,7 @@ const Tab = styled.div`
     display: inline-flex;
     align-items: center;
 
-    height: 50px;
+    height: 36px;
     padding: 0 6px;
     margin: 0 3px;
 
@@ -25,29 +25,19 @@ const Tab = styled.div`
 
     cursor: pointer;
 
-    :first-of-type {
-        margin-left: 0;
+    &:hover {
+        color: #333;
     }
 
-    :last-of-type {
-        margin-right: 0;
-    }
+    ${({ active }) => active && activeStyles};
 
-    :hover {
-        color: #333333;
-    }
-
-    ${({ active }) => active && activeStyles}
     &.${({ activeClassName }) => activeClassName} {
-        ${activeStyles}
+        ${activeStyles};
     }
 `;
 
 Tab.propTypes = {
-    active: PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.bool
-    ]),
+    active: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
     activeClassName: PropTypes.string,
 };
 
