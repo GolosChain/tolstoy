@@ -36,17 +36,18 @@ export default class PostLink extends Component {
         this.isMounted = false;
     }
 
-    fetchContent() {
+    async fetchContent() {
         const { getContent, post } = this.props;
-        getContent({ author: post.author, permlink: post.permLink })
-            .then(content => {
-                if (content && this.isMounted) {
-                    this.setState({ category: `/${content.category}` });
-                }
-            })
-            .catch(error => {
-                console.error(error);
-            });
+
+        try {
+            const content = await getContent({ author: post.author, permlink: post.permLink });
+
+            if (content && this.isMounted) {
+                this.setState({ category: `/${content.category}` });
+            }
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     render() {
