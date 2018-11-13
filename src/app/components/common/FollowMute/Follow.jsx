@@ -8,10 +8,9 @@ import tt from 'counterpart';
 import Button from 'golos-ui/Button';
 import Icon from 'golos-ui/Icon';
 
-import user from 'app/redux/User';
-import transaction from 'app/redux/Transaction';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import { confirmUnfollowDialog } from 'src/app/redux/actions/dialogs';
+import { updateFollow } from 'src/app/redux/actions/follow';
 
 const ButtonStyled = styled(Button)`
     margin-right: 8px;
@@ -32,65 +31,78 @@ class Follow extends Component {
         showFollow: PropTypes.bool,
         showMute: PropTypes.bool,
         children: PropTypes.any,
-        showLogin: PropTypes.func.isRequired,
     };
 
-    static defaultProps = { showFollow: true, showMute: true };
+    static defaultProps = {
+        showFollow: true,
+        showMute: true,
+    };
 
-    state = { busy: false };
+    state = {
+        busy: false,
+    };
 
-    handleUpdateFollow = type => {
-        const { updateFollow, follower, following } = this.props;
-        if (this.state.busy) return;
+    handleUpdateFollow(type) {
+        if (this.state.busy) {
+            return;
+        }
+
+        const { follower, following } = this.props;
 
         this.setState({ busy: true });
-        const done = () => this.setState({ busy: false });
 
-        updateFollow(follower, following, type, done);
+        this.props.updateFollow(follower, following, type, () => {
+            this.setState({ busy: false });
+        });
+    }
+
+    follow = () => {
+        this.handleUpdateFollow('blog');
     };
 
-    follow = () => this.handleUpdateFollow('blog');
     unfollow = () => {
-        const { following, confirmUnfollowDialog } = this.props;
-        confirmUnfollowDialog(following);
+        this.props.confirmUnfollowDialog(this.props.following);
     };
-    ignore = () => this.handleUpdateFollow('ignore');
-    unignore = () => this.handleUpdateFollow(null);
 
-    followLoggedOut = e => {
-        // close author preview if present
-        const author_preview = document.querySelector('.dropdown-pane.is-open');
-        if (author_preview) author_preview.remove();
-        // resume authenticate modal
-        this.props.showLogin(e);
+    ignore = () => {
+        this.handleUpdateFollow('ignore');
+    };
+
+    unignore = () => {
+        this.handleUpdateFollow(null);
     };
 
     render() {
         const { loading } = this.props;
-        if (loading)
+
+        if (loading) {
             return (
                 <span>
                     <LoadingIndicator /> {tt('g.loading')}
                     &hellip;
                 </span>
             );
+        }
+
         if (loading !== false) {
             // must know what the user is already following before any update can happen
             return null;
         }
 
-        const { follower, following } = this.props; // html
+        const { follower, following } = this.props;
         // Show follow preview for new users
         if (!follower || !following)
             return (
-                <ButtonStyled onClick={this.followLoggedOut}>
+                <ButtonStyled onClick={this.follow}>
                     <IconStyled name="plus" height="14" width="14" />
                     {tt('g.follow')}
                 </ButtonStyled>
             );
 
         // Can't follow or ignore self
-        if (follower === following) return null;
+        if (follower === following) {
+            return null;
+        }
 
         const { showFollow, showMute, children, followingWhat } = this.props;
         const { busy } = this.state;
@@ -119,12 +131,12 @@ class Follow extends Component {
                     </ButtonStyled>
                 )}
 
-                {children && (
+                {children ? (
                     <span>
                         &nbsp;&nbsp;
                         {children}
                     </span>
-                )}
+                ) : null}
             </Fragment>
         );
     }
@@ -136,6 +148,7 @@ const emptySet = Set();
 export default connect(
     (state, ownProps) => {
         let { follower } = ownProps;
+
         if (!follower) {
             const current_user = state.user.get('current');
             follower = current_user ? current_user.get('username') : null;
@@ -144,11 +157,16 @@ export default connect(
         const { following } = ownProps;
         const follow = state.global.getIn(['follow', 'getFollowingAsync', follower], emptyMap);
         const loading = follow.get('blog_loading', false) || follow.get('ignore_loading', false);
-        const followingWhat = follow.get('blog_result', emptySet).contains(following)
-            ? 'blog'
-            : follow.get('ignore_result', emptySet).contains(following)
-                ? 'ignore'
-                : null;
+
+        let followingWhat;
+
+        if (follow.get('blog_result', emptySet).contains(following)) {
+            followingWhat = 'blog';
+        } else if (follow.get('ignore_result', emptySet).contains(following)) {
+            followingWhat = 'ignore';
+        } else {
+            followingWhat = null;
+        }
 
         return {
             follower,
@@ -157,29 +175,8 @@ export default connect(
             loading,
         };
     },
-    dispatch => ({
-        updateFollow: (follower, following, action, done) => {
-            const what = action ? [action] : [];
-            const json = ['follow', { follower, following, what }];
-            dispatch(
-                transaction.actions.broadcastOperation({
-                    type: 'custom_json',
-                    operation: {
-                        id: 'follow',
-                        required_posting_auths: [follower],
-                        json: JSON.stringify(json),
-                    },
-                    successCallback: done,
-                    errorCallback: done,
-                })
-            );
-        },
-        showLogin: e => {
-            if (e) e.preventDefault();
-            dispatch(user.actions.showLogin());
-        },
-        confirmUnfollowDialog: following => {
-            dispatch(confirmUnfollowDialog(following));
-        },
-    })
+    {
+        updateFollow,
+        confirmUnfollowDialog,
+    }
 )(Follow);

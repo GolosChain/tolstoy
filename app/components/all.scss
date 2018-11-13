@@ -4,11 +4,9 @@
 @import "./App";
 
 // cards
-@import "./cards/Comment";
 @import "./cards/MarkdownViewer";
 
 // elements
-@import "./elements/Author";
 @import "./elements/Button";
 @import "./elements/ChangePassword";
 @import "./elements/CircularProgress";
@@ -18,7 +16,6 @@
 @import "./elements/Icon";
 @import "./elements/LoadingIndicator";
 @import "./elements/ReplyEditor";
-@import "./elements/Reputation";
 @import "./elements/TickerPriceStat";
 @import "./elements/Userpic";
 @import "./elements/VerticalMenu";

@@ -1,7 +1,9 @@
-import { call, takeEvery, takeLatest, put } from 'redux-saga/effects';
+import { select, call, takeEvery, takeLatest, put } from 'redux-saga/effects';
 import { api } from 'golos-js';
 
+import transaction from 'app/redux/Transaction';
 import { fetchFollowCount } from 'app/redux/sagas/follow';
+import { loginIfNeed } from './login';
 import {
     USER_FOLLOW_DATA_LOAD,
     FOLLOWERS_GET_FOLLOWERS,
@@ -14,6 +16,7 @@ export default function* watch() {
     yield takeEvery(USER_FOLLOW_DATA_LOAD, loadUserFollowData);
     yield takeLatest(FOLLOWERS_GET_FOLLOWERS, getFollowers);
     yield takeLatest(FOLLOWERS_GET_FOLLOWING, getFollowing);
+    yield takeEvery('user/UPDATE_FOLLOW', updateFollow);
 }
 
 // TODO: need to refactoring while merging with Post PR
@@ -77,4 +80,39 @@ export function* getFollowing({
         payload: result,
         meta: { follower, startFollowing, followType, limit },
     });
+}
+
+function* updateFollow({ payload }) {
+    const { following, action, callback } = payload;
+
+    const logged = yield loginIfNeed();
+
+    if (!logged) {
+        if (callback) {
+            callback('Canceled');
+        }
+        return;
+    }
+
+    let follower = payload.follower;
+
+    if (!follower) {
+        follower = yield select(state => state.user.getIn(['current', 'username']));
+    }
+
+    const what = action ? [action] : [];
+    const json = ['follow', { follower, following, what }];
+
+    yield put(
+        transaction.actions.broadcastOperation({
+            type: 'custom_json',
+            operation: {
+                id: 'follow',
+                required_posting_auths: [follower],
+                json: JSON.stringify(json),
+            },
+            successCallback: callback,
+            errorCallback: callback,
+        })
+    );
 }
