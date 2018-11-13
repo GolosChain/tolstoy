@@ -293,7 +293,7 @@ export default class VotePanel extends PureComponent {
                         data-tooltip={likersList}
                         data-tooltip-html
                         role="button"
-                        aria-label={tt('aria_label.likers_list')}
+                        aria-label={tt('aria_label.likers_list', { count: votesSummary.likes })}
                         onClick={votesSummary.likes === 0 ? null : this.onLikesNumberClick}
                     >
                         {votesSummary.likes}
@@ -320,7 +320,9 @@ export default class VotePanel extends PureComponent {
                         data-tooltip={dislikersList}
                         data-tooltip-html
                         role="button"
-                        aria-label={tt('aria_label.dislikers_list')}
+                        aria-label={tt('aria_label.dislikers_list', {
+                            count: votesSummary.dislikes,
+                        })}
                         onClick={votesSummary.dislikes === 0 ? null : this.onDislikesNumberClick}
                     >
                         {votesSummary.dislikes}

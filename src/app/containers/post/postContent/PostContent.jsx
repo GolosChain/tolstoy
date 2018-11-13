@@ -171,7 +171,7 @@ export class PostContent extends Component {
                                     to={'/trending/' + tag.origin}
                                     category={tag.origin === category.origin}
                                     key={index}
-                                    aria-label={tt('aria_label.tag')}
+                                    aria-label={tt('aria_label.tag', {tag: tag.tag})}
                                 >
                                     {tag.tag}
                                 </TagLink>
