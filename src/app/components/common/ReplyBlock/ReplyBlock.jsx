@@ -93,14 +93,13 @@ export class ReplyBlock extends Component {
 
     render() {
         const { grid, count, link, text, notOwner, onReplyClick, className } = this.props;
-
         return (
             <Root grid={grid} className={className}>
                 <ReplyCounterBlock
                     to={`${link}#comments`}
                     role="button"
                     data-tooltip={tt('reply.comments_count')}
-                    aria-label={tt('reply.comments_count')}
+                    aria-label={tt('aria_label.comments', { count })}
                 >
                     <ReplyIcon name="reply" />
                     <ReplyCount>{count}</ReplyCount>

@@ -495,7 +495,7 @@ export default class Header extends PureComponent {
         return (
             <Notifications
                 role="button"
-                aria-label={tt('aria_label.notifications')}
+                aria-label={tt('aria_label.notifications', { count: freshCount })}
                 mobile={isPadScreen ? 1 : 0}
                 innerRef={this.noticationsRef}
                 active={isNotificationsOpen}
@@ -541,7 +541,11 @@ export default class Header extends PureComponent {
                                 />
                             </svg>
                         </PowerCircle>
-                        <UserpicMobile account={currentUsername} size={44} ariaLabel={tt('aria_label.avatar')} />
+                        <UserpicMobile
+                            account={currentUsername}
+                            size={44}
+                            ariaLabel={tt('aria_label.avatar')}
+                        />
                     </MobileAccountContainer>
                 </MobileAccountBlock>
             </Fragment>
