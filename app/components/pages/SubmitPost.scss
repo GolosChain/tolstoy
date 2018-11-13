@@ -1,10 +1,13 @@
-BODY.submit-page {
-  &, #content, .App, .App__content, .PostForm {
+body.submit-page {
+  &,
+  #content,
+  .App,
+  .PostForm {
     height: 100%;
   }
 
   .App__content {
-    margin-top: 0;
+    height: calc(100% - 60px);
   }
 }
 
