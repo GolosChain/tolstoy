@@ -74,7 +74,7 @@ export function parseAmount3(amount, balance, isFinal, multiplier) {
     };
 }
 
-export function formatCurrency(amount, currency, decimals) {
+export function formatCurrency(amount, currency, decimals, allowZero) {
     let amountString;
 
     if (!amount) {
@@ -118,6 +118,10 @@ export function formatCurrency(amount, currency, decimals) {
             }
 
             amountString = amount.toFixed(decimalsCount);
+
+            if (allowZero && /^0\.0+$/.test(amountString)) {
+                amountString = '0';
+            }
         }
     }
 
@@ -152,13 +156,19 @@ function getHistoricalRates(rates, date) {
 export function renderValue(
     amount,
     originalCurrency,
-    { decimals, date, toCurrency, rates, settings } = {}
+    { decimals, date, toCurrency, rates, settings, allowZero } = {}
 ) {
     if (!process.env.BROWSER) {
         if (typeof amount === 'string') {
             return amount;
         } else {
-            return `${amount.toFixed(3)} ${originalCurrency}`;
+            let amountString = amount.toFixed(3);
+
+            if (allowZero && amountString === '0.000') {
+                amountString = '0';
+            }
+
+            return `${amountString} ${originalCurrency}`;
         }
     }
 
@@ -211,5 +221,5 @@ export function renderValue(
         decimals = (settings || getStoreState().data.settings).getIn(['basic', 'rounding'], 3);
     }
 
-    return formatCurrency(amount * rate, currency, decimals);
+    return formatCurrency(amount * rate, currency, decimals, allowZero);
 }
