@@ -58,7 +58,7 @@ export default class Navigation extends PureComponent {
 
         return (
             <SlideContainerStyled className={className}>
-                <Container>
+                <Container usePadding>
                     {tabLinks.map(({ value, to }) => (
                         <TabLinkStyled key={to} to={to}>
                             {value}
