@@ -33,6 +33,9 @@ const ActivityDesc = styled.div`
     flex: 1;
     flex-direction: column;
     margin-left: 10px;
+    max-width: 100%;
+    overflow: hidden;
+    flex-shrink: 0;
 `;
 
 const AuthorName = styled(Link)`
@@ -59,6 +62,7 @@ const ActivityText = styled.div`
     color: #959595;
     font-size: 16px;
     font-weight: 300;
+    max-width: 100%;
     ${breakWordStyles};
 
     ${is('isCompact')`
@@ -70,8 +74,7 @@ const ActivityText = styled.div`
         font-weight: 500;
         text-decoration: underline;
         max-width: 100%;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
+        ${breakWordStyles};
     }
 `;
 

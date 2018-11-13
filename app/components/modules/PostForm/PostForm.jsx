@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import throttle from 'lodash/throttle';
 import Turndown from 'turndown';
 import cn from 'classnames';
@@ -23,6 +24,7 @@ import {
     updateFavoriteTags,
 } from 'app/utils/tags';
 import { DRAFT_KEY, EDIT_KEY } from 'app/utils/postForm';
+import { breakWordStyles } from 'src/app/helpers/styles';
 import './PostForm.scss';
 
 const EDITORS_TYPES = {
@@ -54,6 +56,17 @@ export const PAYOUT_OPTIONS = [
         hint: 'post_editor.payout_option_0_hint',
     },
 ];
+
+const Preview = styled.div`
+    max-width: 700px;
+    margin: 0 auto;
+`;
+
+const PreviewHeader = styled.h1`
+    font-weight: 700;
+    font-size: 200%;
+    ${breakWordStyles};
+`;
 
 export default class PostForm extends React.Component {
     static propTypes = {
@@ -250,12 +263,12 @@ export default class PostForm extends React.Component {
                             {this._renderEditorPanel()}
                         </div>
                         {isPreview ? (
-                            <div className="PostForm__preview">
-                                <h1 className="PostForm__title-preview">
+                            <Preview>
+                                <PreviewHeader>
                                     {title.trim() || tt('post_editor.title_placeholder')}
-                                </h1>
+                                </PreviewHeader>
                                 <MarkdownViewer text={text} large />
-                            </div>
+                            </Preview>
                         ) : null}
                     </div>
                 </div>
