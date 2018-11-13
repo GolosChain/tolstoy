@@ -1,6 +1,5 @@
-import { Set, Map, fromJS, List } from 'immutable';
+import { Set, Map } from 'immutable';
 import { call, put, select } from 'redux-saga/effects';
-import { api } from 'golos-js';
 import { PrivateKey } from 'golos-js/lib/auth/ecc';
 
 import user from 'app/redux/User';
@@ -63,39 +62,45 @@ function* authStr({ pubKey, authority, authType, recurse = 1 }) {
 }
 
 function* threshold({ pubKey, authority, authType, recurse = 1 }) {
-    const accountAuths = authority.get('account_auths');
+    return pubKeyThreshold({ pubKey, authority });
 
-    let t = pubKeyThreshold({ pubKey, authority });
-
-    if (accountAuths.size) {
-        const accountAuthsNames = accountAuths.map(v => v.get(0));
-
-        const aaAccounts = yield api.getAccountsAsync(accountAuthsNames);
-        const aaThreshes = accountAuths.map(v => v.get(1));
-
-        for (let i = 0; i < aaAccounts.length; i++) {
-            const aaAccount = fromJS(aaAccounts[i]);
-
-            t += pubKeyThreshold({
-                authority: aaAccount.get(authType),
-                pubKey,
-            });
-
-            if (recurse <= 2) {
-                const auth = yield call(authStr, {
-                    authority: aaAccount,
-                    pubKey,
-                    recurse: ++recurse,
-                });
-
-                if (auth === 'full') {
-                    t += aaThreshes.get(i);
-                }
-            }
-        }
-    }
-
-    return t;
+    /**
+     * Этот код раньше был, но не работал, так как в цикле было условие
+     *     for (let i = 0; i < aaAccounts.size; i++) {
+     * где aaAccounts.size был undefined, так как golos-js возвращает обычный массив.
+     */
+    // let t = pubKeyThreshold({ pubKey, authority })
+    // const accountAuths = authority.get('account_auths');
+    //
+    // if (accountAuths.size) {
+    //     const accountAuthsNames = accountAuths.map(v => v.get(0));
+    //
+    //     const aaAccounts = yield api.getAccountsAsync(accountAuthsNames);
+    //     const aaThreshes = accountAuths.map(v => v.get(1));
+    //
+    //     for (let i = 0; i < aaAccounts.length; i++) {
+    //         const aaAccount = fromJS(aaAccounts[i]);
+    //
+    //         t += pubKeyThreshold({
+    //             authority: aaAccount.get(authType),
+    //             pubKey,
+    //         });
+    //
+    //         if (recurse <= 2) {
+    //             const auth = yield call(authStr, {
+    //                 authority: aaAccount,
+    //                 pubKey,
+    //                 recurse: ++recurse,
+    //             });
+    //
+    //             if (auth === 'full') {
+    //                 t += aaThreshes.get(i);
+    //             }
+    //         }
+    //     }
+    // }
+    //
+    // return t;
 }
 
 function pubKeyThreshold({ pubKey, authority }) {
@@ -131,7 +136,7 @@ export function* findSigningKey({ opType, username, password }) {
 
     const authTypes = postingOps.has(opType) ? ['posting', 'active'] : ['active', 'owner'];
 
-    for (const authType of authTypes) {
+    for (let authType of authTypes) {
         let privateKey;
 
         if (password) {
