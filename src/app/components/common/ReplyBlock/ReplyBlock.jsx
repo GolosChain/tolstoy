@@ -6,7 +6,10 @@ import is from 'styled-is';
 import tt from 'counterpart';
 import Icon from 'golos-ui/Icon';
 
-const ReplyCounterBlock = styled(Link)`
+const Replies = styled(
+    ({ to, role, clickAble, ...otherProps }) =>
+        clickAble ? <Link to={to} role={role} {...otherProps} /> : <div {...otherProps} />
+)`
     height: 100%;
     min-height: 50px;
     padding: 0 11px 0 18px;
@@ -14,10 +17,13 @@ const ReplyCounterBlock = styled(Link)`
     align-items: center;
     flex-grow: 1;
     justify-content: flex-end;
-    cursor: pointer;
+
+    ${is('clickAble')`
+        cursor: pointer;
+    `};
 `;
 
-const ReplyCount = styled.div`
+const RepliesQuantity = styled.div`
     font-size: 16px;
     font-weight: 500;
     color: #959595;
@@ -93,21 +99,28 @@ export class ReplyBlock extends Component {
 
     render() {
         const { grid, count, link, text, notOwner, onReplyClick, className } = this.props;
+        const clickAble = typeof grid === 'boolean';
+
         return (
             <Root grid={grid} className={className}>
-                <ReplyCounterBlock
+                <Replies
                     to={`${link}#comments`}
                     role="button"
                     data-tooltip={tt('reply.comments_count')}
                     aria-label={tt('aria_label.comments', { count })}
+                    clickAble={clickAble}
                 >
                     <ReplyIcon name="reply" />
-                    <ReplyCount>{count}</ReplyCount>
-                </ReplyCounterBlock>
+                    <RepliesQuantity>{count}</RepliesQuantity>
+                </Replies>
                 {!onReplyClick && (
                     <Fragment>
                         <Splitter />
-                        <ReplyButton role="button" to={`${link}#comments`} onClick={this.toggleCommentInputFocus}>
+                        <ReplyButton
+                            role="button"
+                            to={`${link}#createComment`}
+                            onClick={this.toggleCommentInputFocus}
+                        >
                             {text}
                         </ReplyButton>
                     </Fragment>
@@ -116,7 +129,9 @@ export class ReplyBlock extends Component {
                     notOwner && (
                         <Fragment>
                             <Splitter />
-                            <ReplyButton role="button" onClick={onReplyClick}>{text}</ReplyButton>
+                            <ReplyButton role="button" onClick={onReplyClick}>
+                                {text}
+                            </ReplyButton>
                         </Fragment>
                     )}
             </Root>
