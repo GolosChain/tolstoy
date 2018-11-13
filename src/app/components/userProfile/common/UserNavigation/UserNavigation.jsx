@@ -22,6 +22,7 @@ const SlideContainerStyled = styled(SlideContainer)`
 
 const Container = styled.div`
     display: flex;
+    flex-grow: 1;
     max-width: ${MAX_WIDTH}px;
     margin: 0 auto;
 
