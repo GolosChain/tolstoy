@@ -224,7 +224,7 @@ const PostPayoutStyled = styled(PostPayout)`
 @listenLazy('resize')
 export default class VotePanel extends PureComponent {
     static propTypes = {
-        data: PropTypes.instanceOf(Map).isRequired,
+        data: PropTypes.instanceOf(Map),
         username: PropTypes.string,
         sidePanel: PropTypes.bool,
     };
@@ -253,8 +253,12 @@ export default class VotePanel extends PureComponent {
     };
 
     render() {
-        const { className, sidePanel, votesSummary } = this.props;
+        const { data, className, sidePanel, votesSummary } = this.props;
         const { showSlider, sliderAction } = this.state;
+
+        if (!data) {
+            return null;
+        }
 
         const likersList = showSlider
             ? null
