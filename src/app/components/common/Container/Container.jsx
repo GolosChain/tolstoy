@@ -11,6 +11,11 @@ const Container = styled(Flex)`
 
     @media (max-width: ${MAX_WIDTH + OFFSET * 2}px) {
         margin: 0 ${OFFSET}px;
+
+        ${is('usePadding')`
+            margin: 0;
+            padding: 0 ${OFFSET}px;
+        `};
     }
 
     ${is('small')`
