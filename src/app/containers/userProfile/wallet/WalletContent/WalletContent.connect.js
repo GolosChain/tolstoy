@@ -30,24 +30,34 @@ export default connect(
             };
         }
     ),
-    {
+    dispatch => ({
         delegate: (operation, callback) =>
-            transaction.actions.broadcastOperation({
-                type: 'delegate_vesting_shares',
-                operation,
-                successCallback() {
-                    callback(null);
-                },
-                errorCallback(err) {
-                    callback(err);
+            dispatch(
+                transaction.actions.broadcastOperation({
+                    type: 'delegate_vesting_shares',
+                    operation,
+                    successCallback() {
+                        callback(null);
+                    },
+                    errorCallback(err) {
+                        callback(err);
+                    },
+                })
+            ),
+        loadRewards: (account, type) =>
+            dispatch({
+                type: 'FETCH_REWARDS',
+                payload: {
+                    account,
+                    type,
                 },
             }),
-        loadRewards: (account, type) => ({
-            type: 'FETCH_REWARDS',
-            payload: {
-                account,
-                type,
-            },
-        }),
-    }
+        getContent: payload =>
+            new Promise((resolve, reject) => {
+                dispatch({
+                    type: 'GET_CONTENT',
+                    payload: { ...payload, resolve, reject },
+                });
+            }),
+    })
 )(WalletContent);
