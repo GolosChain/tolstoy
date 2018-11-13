@@ -105,18 +105,14 @@ export class PostContent extends Component {
     componentWillUnmount() {
         window.removeEventListener('scroll', this.onScrollLazy);
         window.removeEventListener('resize', this.onScrollLazy);
+        this.onScrollLazy.cancel();
     }
 
     onScrollLazy = throttle(
         () => {
-            let { hideTagsCategory } = this.state;
             const rect = this.headerRef.current.getBoundingClientRect();
 
-            if (rect.top - rect.height / 2 < 0) {
-                hideTagsCategory = false;
-            } else {
-                hideTagsCategory = true;
-            }
+            const hideTagsCategory = rect.top - rect.height / 2 >= 0;
 
             if (this.state.hideTagsCategory !== hideTagsCategory) {
                 this.setState({ hideTagsCategory });
@@ -164,7 +160,7 @@ export class PostContent extends Component {
                         />
                     </PostBody>
                 </Body>
-                {tags.length && (
+                {tags.length ? (
                     <Tags>
                         {tags.map((tag, index) => {
                             if (hideTagsCategory && tag.origin === category.origin) {
@@ -183,7 +179,7 @@ export class PostContent extends Component {
                             );
                         })}
                     </Tags>
-                )}
+                ) : null}
             </Preview>
         );
     }
