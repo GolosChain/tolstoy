@@ -1,4 +1,4 @@
-import React, { Component, createRef } from 'react';
+import React, { Component, createRef, Fragment } from 'react';
 import { createPortal } from 'react-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -170,13 +170,13 @@ class CommentForm extends Component {
         const allowPost = uploadingCount === 0 && !emptyBody;
 
         return (
-            <React.Fragment>
-                {withHeader ? (
+            <Fragment>
+                {withHeader && (
                     <ReplyHeader>
                         <CommentAuthor author={replyAuthor} />
                         {this.getPreviewButton()}
                     </ReplyHeader>
-                ) : null}
+                )}
                 <div className={cn('CommentForm', { CommentForm_edit: editMode })}>
                     <div className="CommentForm__work-area">
                         {withHeader ? null : this.getPreviewButton()}
@@ -222,7 +222,7 @@ class CommentForm extends Component {
                         </div>
                     ) : null}
                 </div>
-            </React.Fragment>
+            </Fragment>
         );
     }
 
