@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import is, { isOr } from 'styled-is';
@@ -59,5 +60,5 @@ Tag.defaultProps = {
     category: 0,
 };
 
-export const TagLink = Tag.withComponent(Link);
+export const TagLink = Tag.withComponent(({category, ...otherProps}) => <Link {...otherProps} />);
 export default Tag;
