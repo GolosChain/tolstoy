@@ -425,7 +425,7 @@ export default class VotePanel extends PureComponent {
         this._disLike = el;
     };
 
-    onLikeClick = () => {
+    onLikeClick = this.loginProtection(() => {
         const { votesSummary } = this.props;
 
         if (this.state.showSlider) {
@@ -443,9 +443,9 @@ export default class VotePanel extends PureComponent {
         } else {
             this.onChange(1);
         }
-    };
+    });
 
-    onDislikeClick = async () => {
+    onDislikeClick = this.loginProtection(async () => {
         const { votesSummary } = this.props;
 
         if (this.state.showSlider) {
@@ -465,7 +465,7 @@ export default class VotePanel extends PureComponent {
                 this.onChange(-1);
             }
         }
-    };
+    });
 
     async onChange(percent) {
         const { username, data, myVote } = this.props;
@@ -536,6 +536,16 @@ export default class VotePanel extends PureComponent {
             isMobile: this._isMobile(),
         });
     };
+
+    loginProtection(func) {
+        return (...args) => {
+            this.props.loginIfNeed(logged => {
+                if (logged) {
+                    func(...args);
+                }
+            });
+        };
+    }
 }
 
 function makeTooltip(accounts, isMore) {

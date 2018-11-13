@@ -1,5 +1,5 @@
 import { takeEvery, takeLatest, take, select, put } from 'redux-saga/effects';
-import { SHOW_LOGIN, LOGIN_SUCCESS } from 'src/app/redux/constants/login';
+import { SHOW_LOGIN, LOGIN_SUCCESS, LOGIN_IF_NEED } from 'src/app/redux/constants/login';
 import DialogManager from 'app/components/elements/common/DialogManager';
 import { showLogin } from '../actions/login';
 import { resetAuth, saveAuth } from '../../helpers/localStorage';
@@ -7,6 +7,8 @@ import { resetAuth, saveAuth } from '../../helpers/localStorage';
 export default function* watch() {
     yield takeEvery(SHOW_LOGIN, showLoginWorker);
     yield takeLatest('user/SAVE_LOGIN', saveLogin);
+
+    yield takeEvery(LOGIN_IF_NEED, loginIfNeedWrapper);
 }
 
 function* showLoginWorker({ payload } = {}) {
@@ -19,6 +21,10 @@ function* showLoginWorker({ payload } = {}) {
     const action = yield take(LOGIN_SUCCESS);
 
     dialog.close(action.payload.username);
+}
+
+function* loginIfNeedWrapper({ payload }) {
+    payload.callback(yield loginIfNeed());
 }
 
 export function* loginIfNeed() {
