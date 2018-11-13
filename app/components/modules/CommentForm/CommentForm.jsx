@@ -21,6 +21,7 @@ import { getTags } from 'shared/HtmlReady';
 import './CommentForm.scss';
 import { toggleCommentInputFocus } from 'src/app/redux/actions/ui';
 import CommentAuthor from 'src/app/components/cards/CommentAuthor';
+import { loginIfNeed } from 'src/app/redux/actions/login';
 
 const DRAFT_KEY = 'golos.comment.draft';
 
@@ -312,7 +313,6 @@ class CommentForm extends Component {
     }
 
     _post = () => {
-        const { author, editMode, params, jsonMetadata } = this.props;
         let error;
 
         const body = this.editorRef.current.getValue();
@@ -325,12 +325,24 @@ class CommentForm extends Component {
 
         html = getRemarkable().render(body);
 
-        const rtags = getTags(html);
+        const rTags = getTags(html);
 
-        if ((error = checkPostHtml(rtags))) {
+        if ((error = checkPostHtml(rTags))) {
             this.footerRef.current.showPostError(error.text);
             return;
         }
+
+        this.props.loginIfNeed(logged => {
+            if (!logged) {
+                return;
+            }
+
+            this.publish({ rTags, body });
+        });
+    };
+
+    publish({ rTags, body }) {
+        const { author, editMode, params, jsonMetadata } = this.props;
 
         const meta = {
             app: 'golos.io/0.1',
@@ -350,16 +362,16 @@ class CommentForm extends Component {
             meta.tags.unshift(params.category);
         }
 
-        if (rtags.usertags.size) {
-            meta.users = rtags.usertags;
+        if (rTags.usertags.size) {
+            meta.users = rTags.usertags;
         }
 
-        if (rtags.images.size) {
-            meta.image = rtags.images;
+        if (rTags.images.size) {
+            meta.image = rTags.images;
         }
 
-        if (rtags.links.size) {
-            meta.links = rtags.links;
+        if (rTags.links.size) {
+            meta.links = rTags.links;
         }
 
         const data = {
@@ -399,7 +411,7 @@ class CommentForm extends Component {
                 this.footerRef.current.showPostError(err.toString().trim());
             }
         );
-    };
+    }
 
     onCancelClick = async () => {
         const body = this.editorRef.current.getValue();
@@ -477,19 +489,18 @@ export default connect(
         author: state.user.getIn(['current', 'username']),
         commentInputFocused: state.ui.common.get('commentInputFocused'),
     }),
-    dispatch => ({
-        onPost(payload, onSuccess, onError) {
-            dispatch(
-                transaction.actions.broadcastOperation({
-                    type: 'comment',
-                    operation: payload,
-                    hideErrors: true,
-                    errorCallback: onError,
-                    successCallback: onSuccess,
-                })
-            );
-        },
-        uploadImage({ file, progress }) {
+    {
+        loginIfNeed,
+        toggleCommentInputFocus,
+        onPost: (operation, onSuccess, onError) =>
+            transaction.actions.broadcastOperation({
+                type: 'comment',
+                operation,
+                hideErrors: true,
+                errorCallback: onError,
+                successCallback: onSuccess,
+            }),
+        uploadImage: ({ file, progress }) => dispatch => {
             dispatch({
                 type: 'user/UPLOAD_IMAGE',
                 payload: {
@@ -504,8 +515,5 @@ export default connect(
                 },
             });
         },
-        toggleCommentInputFocus: focused => {
-            dispatch(toggleCommentInputFocus(focused));
-        },
-    })
+    }
 )(CommentForm);
