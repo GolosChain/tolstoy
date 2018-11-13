@@ -7,6 +7,7 @@ import { List, Map } from 'immutable';
 import tt from 'counterpart';
 import Interpolate from 'react-interpolate-component';
 
+import { breakWordStyles } from 'src/app/helpers/styles';
 import normalizeProfile from 'app/utils/NormalizeProfile';
 import { getPropsForInterpolation } from 'src/app/helpers/notifications';
 
@@ -32,6 +33,9 @@ const ActivityDesc = styled.div`
     flex: 1;
     flex-direction: column;
     margin-left: 10px;
+    max-width: 100%;
+    overflow: hidden;
+    flex-shrink: 0;
 `;
 
 const AuthorName = styled(Link)`
@@ -58,7 +62,8 @@ const ActivityText = styled.div`
     color: #959595;
     font-size: 16px;
     font-weight: 300;
-    word-break: break-word;
+    max-width: 100%;
+    ${breakWordStyles};
 
     ${is('isCompact')`
         color: #757575;
@@ -69,8 +74,7 @@ const ActivityText = styled.div`
         font-weight: 500;
         text-decoration: underline;
         max-width: 100%;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
+        ${breakWordStyles};
     }
 `;
 

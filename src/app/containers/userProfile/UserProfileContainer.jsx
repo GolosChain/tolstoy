@@ -55,7 +55,6 @@ const Content = styled.div`
     @media (max-width: 890px) {
         order: 4;
         max-width: none;
-        margin: 0 20px;
     }
 `;
 

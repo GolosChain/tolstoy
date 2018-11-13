@@ -20,7 +20,7 @@ export default connect(
         })
     ),
     {
-        loginUser: user.actions.usernamePasswordLogin,
+        loginUser: () => user.actions.autoLogin({}),
         logoutUser: user.actions.logout,
         locationChanged,
     }

@@ -71,6 +71,7 @@ export default class SelectTag extends Component {
         tag: PropTypes.string,
         onTagClick: PropTypes.func,
         onlyRemove: PropTypes.bool,
+        ariaLabel: PropTypes.string,
         className: PropTypes.string,
     };
 
@@ -125,7 +126,7 @@ export default class SelectTag extends Component {
     };
 
     render() {
-        const { tag, isSelected, isFiltered, onlyRemove, className } = this.props;
+        const { tag, isSelected, isFiltered, onlyRemove, ariaLabel, className } = this.props;
 
         if (onlyRemove) {
             return (
@@ -140,7 +141,7 @@ export default class SelectTag extends Component {
         }
 
         return (
-            <Wrapper className={className}>
+            <Wrapper role="button" aria-label={ariaLabel} className={className}>
                 <TagStyled
                     onClick={this.handleTagSelectClick}
                     selected={isSelected ? 1 : 0}

@@ -8,7 +8,7 @@ export function* hydrateNotifications(notifications) {
     const hydrateContents = [];
 
     const currentUser = yield select(state => state.user.get('current'));
-    const state = yield select(state => state);
+    const globalProps = yield select(state => state.global.get('props'));
 
     for (let notification of notifications) {
         const { fromUsers = [], eventType } = notification;
@@ -30,14 +30,14 @@ export function* hydrateNotifications(notifications) {
                 author = currentUser.get('username');
                 if (notification.reward && notification.reward.golosPower) {
                     const golosPower = numberWithCommas(
-                        vestsToGolosPower(state, `${notification.reward.golosPower} GESTS`)
+                        vestsToGolosPower(globalProps, `${notification.reward.golosPower} GESTS`)
                     );
                     notification.reward.golosPower = golosPower;
                 }
             } else if (['curatorReward'].includes(eventType)) {
                 author = notification.curatorTargetAuthor;
                 notification.curatorReward = numberWithCommas(
-                    vestsToGolosPower(state, `${notification.curatorReward} GESTS`)
+                    vestsToGolosPower(globalProps, `${notification.curatorReward} GESTS`)
                 );
             } else if (['repost', 'reply', 'mention'].includes(eventType)) {
                 author = fromUsers[0];

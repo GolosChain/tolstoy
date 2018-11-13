@@ -36,7 +36,7 @@ export const Tag = styled.div`
             background-color: #ddd;
             border-color: #ddd;
         }
-    `} 
+    `};
     
     ${isOr('selected', 'category')`
         color: #fff;
@@ -52,7 +52,7 @@ export const Tag = styled.div`
 `;
 
 Tag.propTypes = {
-    category: PropTypes.number,
+    category: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
 };
 
 Tag.defaultProps = {

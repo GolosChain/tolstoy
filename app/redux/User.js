@@ -7,7 +7,6 @@ const defaultState = fromJS({
     current: null,
     show_login_modal: false,
     show_promote_post_modal: false,
-    pub_keys_used: null,
     locale: DEFAULT_LANGUAGE,
     show_messages_modal: false,
 });
@@ -99,8 +98,6 @@ export default createModule({
                 return state.set('locale', payload);
             },
         },
-        { action: 'SHOW_POWERDOWN', reducer: state => state.set('show_powerdown_modal', true) },
-        { action: 'HIDE_POWERDOWN', reducer: state => state.set('show_powerdown_modal', false) },
         {
             action: 'SET_POWERDOWN_DEFAULTS',
             reducer: (state, { payload }) => state.set('powerdown_defaults', fromJS(payload)),
@@ -124,6 +121,10 @@ export default createModule({
         { action: 'CLEAR_TRANSFER_DEFAULTS', reducer: state => state.remove('transfer_defaults') },
         {
             action: 'USERNAME_PASSWORD_LOGIN',
+            reducer: state => state, // saga
+        },
+        {
+            action: 'AUTO_LOGIN',
             reducer: state => state, // saga
         },
         {
@@ -176,22 +177,11 @@ export default createModule({
             action: 'KEYS_ERROR',
             reducer: (state, { payload: { error } }) => state.merge({ keys_error: error }),
         },
-        // { action: 'UPDATE_PERMISSIONS', reducer: state => {
-        //     return state // saga
-        // }},
-        {
-            // auth saga
-            action: 'ACCOUNT_AUTH_LOOKUP',
-            reducer: state => state,
-        },
         {
             // auth saga
             action: 'SET_AUTHORITY',
-            reducer: (state, { payload: { accountName, auth, pub_keys_used } }) => {
-                state = state.setIn(['authority', accountName], fromJS(auth));
-                if (pub_keys_used) state = state.set('pub_keys_used', pub_keys_used);
-                return state;
-            },
+            reducer: (state, { payload: { accountName, auth } }) =>
+                state.setIn(['authority', accountName], fromJS(auth)),
         },
         {
             action: 'HIDE_CONNECTION_ERROR_MODAL',

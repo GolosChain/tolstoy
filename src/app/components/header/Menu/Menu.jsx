@@ -62,7 +62,7 @@ export default class Menu extends PureComponent {
             {
                 link: '/market',
                 icon: 'transfer',
-                text: tt('userwallet_jsx.market'),
+                text: tt('g.market'),
                 width: 20,
                 height: 16,
             },

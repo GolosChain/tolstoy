@@ -1,6 +1,6 @@
 import transaction from 'app/redux/Transaction';
 import user from 'app/redux/User';
-import { SHOW_LOGIN, LOGIN_CANCELED } from '../constants/login';
+import { SHOW_LOGIN, LOGIN_CANCELED, LOGIN_IF_NEED } from '../constants/login';
 
 export function showLogin({ onClose } = {}) {
     return {
@@ -11,9 +11,11 @@ export function showLogin({ onClose } = {}) {
     };
 }
 
-export function dispatchLogin(data, loginBroadcastOperation) {
+export function dispatchLogin(
+    { username, password, saveLogin, isLogin, isConfirm },
+    loginBroadcastOperation
+) {
     return dispatch => {
-        const { username, password, saveLogin } = data;
         if (loginBroadcastOperation) {
             const {
                 type,
@@ -29,6 +31,8 @@ export function dispatchLogin(data, loginBroadcastOperation) {
                         username,
                         password,
                         saveLogin,
+                        isLogin,
+                        isConfirm,
                         operationType: type,
                     })
                 );
@@ -51,6 +55,8 @@ export function dispatchLogin(data, loginBroadcastOperation) {
                     username,
                     password,
                     saveLogin,
+                    isLogin,
+                    isConfirm,
                 })
             );
         }
@@ -61,5 +67,14 @@ export function loginCanceled() {
     return {
         type: LOGIN_CANCELED,
         payload: {},
+    };
+}
+
+export function loginIfNeed(callback) {
+    return {
+        type: LOGIN_IF_NEED,
+        payload: {
+            callback,
+        },
     };
 }

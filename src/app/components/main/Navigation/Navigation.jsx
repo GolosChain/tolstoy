@@ -14,6 +14,7 @@ const SlideContainerStyled = styled(SlideContainer)`
 `;
 
 const TabLinkStyled = styled(TabLink)`
+    height: 50px;
     padding: 0 12px;
 
     &.${({ activeClassName }) => activeClassName} {
@@ -58,7 +59,7 @@ export default class Navigation extends PureComponent {
 
         return (
             <SlideContainerStyled className={className}>
-                <Container>
+                <Container usePadding>
                     {tabLinks.map(({ value, to }) => (
                         <TabLinkStyled key={to} to={to}>
                             {value}

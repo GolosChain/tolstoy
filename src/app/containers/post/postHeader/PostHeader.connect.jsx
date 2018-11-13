@@ -21,6 +21,7 @@ export default connect(
             created: post.created,
             isFavorite: post.isFavorite,
             category: post.category,
+            isPromoted: post.promotedAmount > 0,
             author: author.account,
             isFollow: follow.includes(author.account),
             permLink: post.permLink,
@@ -28,9 +29,10 @@ export default connect(
             isPinned: author.pinnedPostsUrls.includes(author.account + '/' + post.permLink),
         })
     ),
-
     {
         updateFollow,
         confirmUnfollowDialog,
-    }
+    },
+    null,
+    { withRef: true }
 )(PostHeader);

@@ -20,6 +20,10 @@ const Root = styled.div`
         position: relative;
         margin: 0 -8px;
     `};
+
+    @media (max-width: 890px) {
+        margin: 0 ${({ customCards }) => (customCards ? 20 : 12)}px;
+    }
 `;
 
 const Loader = styled.div`
@@ -66,7 +70,7 @@ export default class CardsList extends PureComponent {
 
         const { location, backClickTs, listScrollPosition } = this.props;
 
-        if (location.action === 'POP' || (backClickTs && backClickTs > Date.now() - 1000)) {
+        if (location.action === 'POP' || (backClickTs && backClickTs > Date.now() - 5000)) {
             getScrollElement().scrollTop = listScrollPosition;
 
             let setScrollIterations = 0;
@@ -74,7 +78,7 @@ export default class CardsList extends PureComponent {
             this._scrollIntervalId = setInterval(() => {
                 getScrollElement().scrollTop = listScrollPosition;
 
-                if (++setScrollIterations === 5) {
+                if (++setScrollIterations === 10) {
                     clearInterval(this._scrollIntervalId);
                 }
             }, 50);
@@ -235,13 +239,13 @@ export default class CardsList extends PureComponent {
     };
 
     render() {
-        const { items, layout, disallowGrid } = this.props;
+        const { items, layout, disallowGrid, itemRender } = this.props;
         const { forceGrid } = this.state;
 
         const isGrid = !disallowGrid && (layout === 'grid' || forceGrid);
 
         return (
-            <Root innerRef={this.rootRef} grid={isGrid}>
+            <Root innerRef={this.rootRef} grid={isGrid} customCards={Boolean(itemRender)}>
                 {items.map(this.renderCard)}
                 {this.renderLoaderIfNeed()}
             </Root>

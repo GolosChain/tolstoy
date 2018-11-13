@@ -5,12 +5,12 @@ import tt from 'counterpart';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-import { TabLink as StyledTabLink, TabLinkIndex as StyledTabLinkIndex } from 'golos-ui/Tab';
+import { TabLink, TabLinkIndex } from 'golos-ui/Tab';
 import Icon from 'golos-ui/Icon';
 
 import { changeProfileLayout } from 'src/app/redux/actions/ui';
 import SlideContainer from 'src/app/components/common/SlideContainer';
-import Container from 'src/app/components/common/Container';
+import { MAX_WIDTH, OFFSET } from 'src/app/components/common/Container/Container';
 import throttle from 'lodash/throttle';
 
 const MAIN_CONTAINER_WIDTH_POINT = 1200;
@@ -20,7 +20,26 @@ const SlideContainerStyled = styled(SlideContainer)`
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
 `;
 
-const TabLink = styled(StyledTabLink)`
+const Container = styled.div`
+    display: flex;
+    flex-grow: 1;
+    max-width: ${MAX_WIDTH}px;
+    margin: 0 auto;
+
+    @media (max-width: ${MAX_WIDTH + OFFSET * 2}px) {
+        padding: 0 ${OFFSET - 6}px;
+        margin: 0;
+    }
+`;
+
+const Wrapper = styled.div`
+    display: flex;
+    margin: 0 -3px;
+`;
+
+const TabLinkStyled = styled(TabLink)`
+    height: 50px;
+
     &.${({ activeClassName }) => activeClassName} {
         :after {
             content: '';
@@ -33,11 +52,11 @@ const TabLink = styled(StyledTabLink)`
         }
     }
 `;
-TabLink.defaultProps = {
+TabLinkStyled.defaultProps = {
     activeClassName: 'active',
 };
 
-const TabLinkIndex = TabLink.withComponent(StyledTabLinkIndex);
+const TabLinkIndexStyled = TabLinkStyled.withComponent(TabLinkIndex);
 
 const RightIcons = styled.div`
     display: flex;
@@ -124,21 +143,19 @@ class UserNavigation extends PureComponent {
             tabLinks.push({ value: tt('g.activity'), to: `/@${accountName}/activity` });
         }
 
+        //tabLinks.push({ value: tt('g.messages'), to: `/@${accountName}/messages` });
+
         return (
             <SlideContainerStyled className={className}>
                 <Container>
-                    {tabLinks.map(({ value, to }) => (
-                        <TabLinkIndex key={to} to={to}>
-                            {value}
-                        </TabLinkIndex>
-                    ))}
-                    {/* <TabLinkIndex
-                        key={`/@${accountName}/messages`}
-                        to={`/@${accountName}/messages`}
-                    >
-                        {tt('g.messages')}
-                    </TabLinkIndex> */}
-                    {this._renderRightIcons()}
+                    <Wrapper>
+                        {tabLinks.map(({ value, to }) => (
+                            <TabLinkIndexStyled key={to} to={to}>
+                                {value}
+                            </TabLinkIndexStyled>
+                        ))}
+                        {this._renderRightIcons()}
+                    </Wrapper>
                 </Container>
             </SlideContainerStyled>
         );
@@ -156,8 +173,8 @@ class UserNavigation extends PureComponent {
                     <IconWrap
                         key="l-grid"
                         role="button"
-                        aria-label={tt('g.grid_posts')}
-                        data-tooltip={tt('g.grid_posts')}
+                        aria-label={tt('data-tooltip.grid')}
+                        data-tooltip={tt('data-tooltip.grid')}
                         onClick={this._onGridClick}
                     >
                         <SimpleIcon name="layout_grid" />
@@ -168,8 +185,8 @@ class UserNavigation extends PureComponent {
                     <IconWrap
                         key="l-list"
                         role="button"
-                        aria-label={tt('g.list_posts')}
-                        data-tooltip={tt('g.list_posts')}
+                        aria-label={tt('data-tooltip.list')}
+                        data-tooltip={tt('data-tooltip.list')}
                         onClick={this._onListClick}
                     >
                         <SimpleIcon name="layout_list" />

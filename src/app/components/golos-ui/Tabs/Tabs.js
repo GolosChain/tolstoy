@@ -3,11 +3,11 @@ import styled from 'styled-components';
 
 import { TabsConsumer, TabsProvider } from './TabsContext';
 
-import { default as StyledTab } from 'golos-ui/Tab';
+import Tab from 'golos-ui/Tab';
 
 const TabsList = styled.ul`
-    padding-left: 0;
-    margin: 0;
+    padding: 0;
+    margin: 7px -3px;
     list-style: none;
 `;
 
@@ -16,7 +16,7 @@ const activeStyles = `
     cursor: default;
 `;
 
-const TabTitleItem = styled(StyledTab)`
+const TabTitleItem = styled(Tab)`
     transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
 

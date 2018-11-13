@@ -1,12 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
 import { browserHistory } from 'react-router';
 import { Helmet } from 'react-helmet';
+import throttle from 'lodash/throttle';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
+import { TagLink } from 'golos-ui/Tag';
 
+import { breakWordStyles } from 'src/app/helpers/styles';
 import PostHeader from 'src/app/containers/post/postHeader';
 import MarkdownViewer from 'app/components/cards/MarkdownViewer';
 import PostFormLoader from 'app/components/modules/PostForm/loader';
@@ -26,11 +29,10 @@ const Wrapper = styled.article`
 const Preview = styled.div``;
 
 const Body = styled.div`
-    margin-top: 27px;
+    margin-top: 5px;
 `;
 
 const PostTitle = styled.h1`
-    margin-top: 20px;
     color: #343434;
     font-weight: 500;
     font-size: 2rem;
@@ -39,6 +41,7 @@ const PostTitle = styled.h1`
     word-wrap: break-word;
     overflow-wrap: break-word;
     -webkit-font-smoothing: antialiased;
+    ${breakWordStyles};
 
     @media (max-width: 576px) {
         font-size: 30px;
@@ -63,32 +66,14 @@ const PostBody = styled.div`
     }
 `;
 
-const BodyHeaderWrapper = styled.div`
+const Tags = styled.div`
     display: flex;
-    justify-content: space-between;
-`;
+    flex-wrap: wrap;
+    margin-top: 30px;
 
-const PromotedMark = styled.div`
-    position: relative;
-    display: flex;
-    &::after {
-        content: '';
-        position: absolute;
-        top: 40%;
-        left: 50%;
-        transform: translate(-50%, -40%);
-        z-index: 1;
-        width: 14px;
-        height: 17px;
-        box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.4);
+    ${TagLink} {
+        margin: 0 10px 0 0;
     }
-`;
-
-const PromotedIcon = styled(Icon)`
-    position: relative;
-    z-index: 2;
-    min-width: 34px;
-    min-height: 37px;
 `;
 
 export class PostContent extends Component {
@@ -100,6 +85,42 @@ export class PostContent extends Component {
         url: PropTypes.string.isRequired,
         relapioToken: PropTypes.string,
     };
+
+    state = {
+        hideTagsCategory: false,
+    };
+
+    headerRef = createRef();
+
+    componentDidMount() {
+        const { action } = this.props;
+
+        if (action !== 'edit') {
+            window.addEventListener('scroll', this.onScrollLazy);
+            window.addEventListener('resize', this.onScrollLazy);
+            this.onScrollLazy();
+        }
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.onScrollLazy);
+        window.removeEventListener('resize', this.onScrollLazy);
+        this.onScrollLazy.cancel();
+    }
+
+    onScrollLazy = throttle(
+        () => {
+            const rect = this.headerRef.current.getBoundingClientRect();
+
+            const hideTagsCategory = rect.top - rect.height / 2 >= 0;
+
+            if (this.state.hideTagsCategory !== hideTagsCategory) {
+                this.setState({ hideTagsCategory });
+            }
+        },
+        100,
+        { leading: false, trailing: true }
+    );
 
     onEditFinish = () => {
         const { url } = this.props;
@@ -122,18 +143,12 @@ export class PostContent extends Component {
     }
 
     renderPreview() {
-        const { payout, title, body, pictures, created, isPromoted } = this.props;
+        const { payout, title, body, pictures, created, tags, category } = this.props;
+        const { hideTagsCategory } = this.state;
 
         return (
             <Preview>
                 <Body>
-                    <BodyHeaderWrapper>
-                        {isPromoted && (
-                            <PromotedMark>
-                                <PromotedIcon name="best" width="34" height="37" />
-                            </PromotedMark>
-                        )}
-                    </BodyHeaderWrapper>
                     <PostTitle>{title}</PostTitle>
                     <PostBody>
                         <MarkdownViewer
@@ -145,6 +160,26 @@ export class PostContent extends Component {
                         />
                     </PostBody>
                 </Body>
+                {tags.length ? (
+                    <Tags>
+                        {tags.map((tag, index) => {
+                            if (hideTagsCategory && tag.origin === category.origin) {
+                                return null;
+                            }
+
+                            return (
+                                <TagLink
+                                    to={'/trending/' + tag.origin}
+                                    category={tag.origin === category.origin}
+                                    key={index}
+                                    aria-label={tt('aria_label.tag')}
+                                >
+                                    {tag.tag}
+                                </TagLink>
+                            );
+                        })}
+                    </Tags>
+                ) : null}
             </Preview>
         );
     }
@@ -169,7 +204,12 @@ export class PostContent extends Component {
         return (
             <Wrapper className={className}>
                 {this.renderHelmet()}
-                <PostHeader postUrl={url} togglePin={togglePin} toggleFavorite={toggleFavorite} />
+                <PostHeader
+                    forwardRef={this.headerRef}
+                    postUrl={url}
+                    togglePin={togglePin}
+                    toggleFavorite={toggleFavorite}
+                />
                 {action === 'edit' && isAuthor ? this.renderEditor() : this.renderPreview()}
             </Wrapper>
         );

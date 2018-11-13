@@ -29,6 +29,8 @@ const OFFSET = -42;
 const VERT_OFFSET_UP = -44;
 const VERT_OFFSET_DOWN = 26;
 
+const USERS_NUMBER_IN_TOOLTIP = 8;
+
 const LikeWrapper = styled.i`
     margin-right: 8px;
 
@@ -222,7 +224,7 @@ const PostPayoutStyled = styled(PostPayout)`
 @listenLazy('resize')
 export default class VotePanel extends PureComponent {
     static propTypes = {
-        data: PropTypes.instanceOf(Map).isRequired,
+        data: PropTypes.instanceOf(Map),
         username: PropTypes.string,
         sidePanel: PropTypes.bool,
     };
@@ -251,15 +253,25 @@ export default class VotePanel extends PureComponent {
     };
 
     render() {
-        const { className, sidePanel, votesSummary } = this.props;
+        const { data, className, sidePanel, votesSummary } = this.props;
         const { showSlider, sliderAction } = this.state;
+
+        if (!data) {
+            return null;
+        }
 
         const likersList = showSlider
             ? null
-            : makeTooltip(votesSummary.firstLikes, votesSummary.likes > 10);
+            : makeTooltip(
+                  usersListForTooltip(votesSummary.firstLikes),
+                  votesSummary.likes > USERS_NUMBER_IN_TOOLTIP
+              );
         const dislikersList = showSlider
             ? null
-            : makeTooltip(votesSummary.firstDislikes, votesSummary.dislikes > 10);
+            : makeTooltip(
+                  usersListForTooltip(votesSummary.firstDislikes),
+                  votesSummary.dislikes > USERS_NUMBER_IN_TOOLTIP
+              );
 
         return (
             <Root className={className} innerRef={this._onRef} vertical={sidePanel}>
@@ -315,12 +327,12 @@ export default class VotePanel extends PureComponent {
                         {sidePanel ? null : <IconTriangle />}
                     </LikeCount>
                 </LikeBlockNeg>
-                {showSlider ? this._renderSlider() : null}
+                {showSlider ? this.renderSlider() : null}
             </Root>
         );
     }
 
-    _renderSlider() {
+    renderSlider() {
         const { sidePanel } = this.props;
         const { sliderAction, votePercent } = this.state;
 
@@ -417,13 +429,13 @@ export default class VotePanel extends PureComponent {
         this._disLike = el;
     };
 
-    onLikeClick = () => {
+    onLikeClick = this.loginProtection(() => {
         const { votesSummary } = this.props;
 
         if (this.state.showSlider) {
             this._hideSlider();
         } else if (votesSummary.myVote === 'like') {
-            this._onChange(0);
+            this.onChange(0);
         } else if (isNeedShowSlider()) {
             this.setState({
                 votePercent: getSavedPercent(LIKE_PERCENT_KEY),
@@ -433,17 +445,17 @@ export default class VotePanel extends PureComponent {
 
             window.addEventListener('click', this._onAwayClick);
         } else {
-            this._onChange(1);
+            this.onChange(1);
         }
-    };
+    });
 
-    onDislikeClick = async () => {
+    onDislikeClick = this.loginProtection(async () => {
         const { votesSummary } = this.props;
 
         if (this.state.showSlider) {
             this._hideSlider();
         } else if (votesSummary.myVote === 'dislike') {
-            this._onChange(0);
+            this.onChange(0);
         } else if (isNeedShowSlider()) {
             this.setState({
                 votePercent: getSavedPercent(DISLIKE_PERCENT_KEY),
@@ -454,12 +466,12 @@ export default class VotePanel extends PureComponent {
             window.addEventListener('click', this._onAwayClick);
         } else {
             if (await this.showDislikeAlert()) {
-                this._onChange(-1);
+                this.onChange(-1);
             }
         }
-    };
+    });
 
-    async _onChange(percent) {
+    async onChange(percent) {
         const { username, data, myVote } = this.props;
 
         if (await confirmVote(myVote, percent)) {
@@ -500,7 +512,7 @@ export default class VotePanel extends PureComponent {
         }
 
         const multiplier = sliderAction === 'like' ? 1 : -1;
-        this._onChange(multiplier * (votePercent / 100));
+        this.onChange(multiplier * (votePercent / 100));
         savePercent(sliderAction === 'like' ? LIKE_PERCENT_KEY : DISLIKE_PERCENT_KEY, votePercent);
 
         this._hideSlider();
@@ -528,10 +540,27 @@ export default class VotePanel extends PureComponent {
             isMobile: this._isMobile(),
         });
     };
+
+    loginProtection(func) {
+        return (...args) => {
+            this.props.loginIfNeed(logged => {
+                if (logged) {
+                    func(...args);
+                }
+            });
+        };
+    }
 }
 
 function makeTooltip(accounts, isMore) {
     return accounts.join('<br>') + (isMore ? '<br>...' : '');
+}
+
+function usersListForTooltip(usersList) {
+    if (usersList.length > USERS_NUMBER_IN_TOOLTIP) {
+        usersList = usersList.slice(0, USERS_NUMBER_IN_TOOLTIP);
+    }
+    return usersList;
 }
 
 function isNeedShowSlider() {

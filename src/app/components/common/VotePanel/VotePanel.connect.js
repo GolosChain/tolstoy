@@ -7,11 +7,16 @@ import { onVote } from 'src/app/redux/actions/vote';
 import { calcVotesStats } from 'app/utils/StateFunctions';
 import { openVotersDialog } from 'src/app/redux/actions/dialogs';
 import VotePanel from './VotePanel';
+import { loginIfNeed } from 'src/app/redux/actions/login';
 
 export default connect(
     createSelector(
         [currentUsernameSelector, (state, props) => postSelector(state, props.contentLink)],
         (username, post) => {
+            if (!post) {
+                return;
+            }
+
             const votes = post.get('active_votes');
 
             let myVote = null;
@@ -41,5 +46,6 @@ export default connect(
     {
         onVote,
         openVotersDialog,
+        loginIfNeed,
     }
 )(VotePanel);

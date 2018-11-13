@@ -20,7 +20,7 @@ export default connect(
         };
     },
     dispatch => ({
-        promote: ({ amount, author, permLink, myAccountName, password, onSuccess, onError }) => {
+        promote: ({ amount, author, permLink, myAccountName, onSuccess, onError }) => {
             dispatch(
                 transaction.actions.broadcastOperation({
                     type: 'transfer',
@@ -31,7 +31,6 @@ export default connect(
                         memo: `@${author}/${permLink}`,
                     },
                     username: myAccountName,
-                    password,
                     successCallback: () => {
                         dispatch(fetchPathStateAction(`@${myAccountName}/transfers`));
                         onSuccess();

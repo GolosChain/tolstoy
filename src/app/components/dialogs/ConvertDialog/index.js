@@ -1,1 +1,2 @@
-export { default } from './ConvertDialog';
+export { default } from './ConvertDialog.connect';
+export { default as ConvertDialog } from './ConvertDialog';

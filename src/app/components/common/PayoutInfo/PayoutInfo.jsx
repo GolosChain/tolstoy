@@ -5,6 +5,7 @@ import tt from 'counterpart';
 import capitalize from 'lodash/capitalize';
 
 import { renderValue } from 'src/app/helpers/currency';
+import HintIcon from 'app/components/elements/common/HintIcon/HintIcon';
 
 const Root = styled.div`
     border-radius: 8px;
@@ -62,6 +63,7 @@ const Label = styled.div`
 const Money = styled.span`
     white-space: nowrap;
     font-weight: bold;
+    margin-right: 24px;
 `;
 
 const MoneyConvert = styled.span``;
@@ -137,14 +139,17 @@ export default class PayoutInfo extends PureComponent {
                                 <Money>{authorGbg.toFixed(3)} GBG</Money>
                             </Fragment>
                         ) : null}
+                        <HintIcon hint={tt('payout_info.author_hint')} />
                     </Line>
                     <Line>
                         <Label>{tt('payout_info.curator')}</Label>
                         <Money>{curator.toFixed(3)} GOLOS</Money>
+                        <HintIcon hint={tt('payout_info.curator_hint')} />
                     </Line>
                     <Line>
                         <Label>{tt('payout_info.beneficiary')}</Label>
                         <Money>{benefactor.toFixed(3)} GOLOS</Money>
+                        <HintIcon hint={tt('payout_info.beneficiary_hint')} />
                     </Line>
                 </Part>
             </Root>

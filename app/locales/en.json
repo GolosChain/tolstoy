@@ -50,10 +50,11 @@
     "android_link": "Download Golos.io android app",
     "avatar": "User's avatar",
     "bitcoin_link": "Golos.io thread on Bitcoin Forum",
+    "cancel_sort_by_tag": "Cancel sort by tag: %(tag)s",
     "category": "Category",
     "chanel_card": "Contact",
     "close_button": "Close",
-    "expected_payout": "Expected payout",
+    "comments": "Comments. Quantity: %(count)s",
     "dislikers_list": "Voted with dislike",
     "expected_payout": "Expected payout",
     "facebook_link": "Golos.io on Facebook page",
@@ -61,11 +62,12 @@
     "following": "Following",
     "header_logo": "Golos.io logo",
     "likers_list": "Voted with like",
-    "notifications": "Notifications",
+    "notifications": "Notifications. Quantity: %(count)s",
     "share_on_facebook": "Share on Facebook",
     "share_on_lj": "Share on LiveJournal",
     "share_on_twitter": "Share on Twitter",
     "share_on_vk": "Share on VKontakte",
+    "sort_by_tag": "Sort by tag: %(tag)s",
     "tag": "Hashtag",
     "telegram_link": "Golos.io Telegram Chat",
     "total_paid": "Total paid",
@@ -217,6 +219,10 @@
     "you_can_change_your_number": "You can change your number at any time if we didn't receive your sms with verification code. ",
     "you_need_to": "You need to "
   },
+  "data-tooltip": {
+    "grid": "Grid",
+    "list": "List"
+  },
   "delegate_vesting_shares_info_jsx": {
     "confirm_cancel_delegation": "Are you sure you want to cancel %(VESTING_TOKEN2)s delegation",
     "confirm_title": "Cancel %(VESTING_TOKENS)s delegation",
@@ -236,17 +242,19 @@
     "prompt": "Enter the data",
     "show_all": "Show all"
   },
+  "dialogs_convert": {
+    "power_down_line": "Power down process are running for **%(all)s GOLOS** (**%(done)s GOLOS** have already paid off)."
+  },
   "dialogs_dislike": {
     "header": "By voting against you reduce the reward, and make the post less noticeable in the feed. There should be a good reason to vote against, for example:",
-    "item_1": "disagreement with the award;",
-    "item_2": "fraud or plagiarism;",
-    "item_3": "incitement of hatred or Internet trolling;",
-    "item_4": "intentionally false information or spam.",
+    "item_1": "Disagreement with the award",
+    "item_2": "Fraud or plagiarism",
+    "item_3": "Incitement of hatred or Internet trolling",
+    "item_4": "Intentionally false information or spam",
     "ok": "Vote against",
     "title": "Voting against"
   },
   "dialogs_promote": {
-    "active_key": "Active key",
     "amount": "Amount",
     "description": "Spend your GBG to advertise this post in the promoted content section.",
     "fill_form_error": "Fill all fields correctly",
@@ -371,11 +379,6 @@
     "this_information_allows_steemit_to_assist_with_account_recovery_in_case_your_account_is_ever_compormised": "This information allows Steemit to assist with Account Recovery in case your account is ever compromised",
     "to_continue_please_click_on_the_link_in_the_email_weve_sent_you": "To continue please click on the link in the email we've sent you",
     "user_not_found": "user not found"
-  },
-  "explorepost_jsx": {
-    "alternative_sources": "Alternative Sources",
-    "copied": "Copied!",
-    "copy": "COPY"
   },
   "faq_jsq": {
     "email": "email",
@@ -532,6 +535,7 @@
     "login_to_see_memo": "login to see memo",
     "login_to_show": "Login to show",
     "logout": "Logout",
+    "market": "Market",
     "memo": "Memo key",
     "messages": "Messages",
     "more": "more",
@@ -760,7 +764,7 @@
     "password_update_succes": "The password for %(accountName)s was successfully updated",
     "password_warning": "Entered master password. For safety you could use private posting key.\n\nContinue with the password?",
     "posting": "Posting",
-    "save_password_on_session": "Save password for this session",
+    "save_password_on_page": "Save password for this page",
     "sign_up_now_to_receive": "Sign up now to receive ",
     "the_latest_versions_of": "The latest versions of ",
     "this_operation_requires_your_key_or_master_password": "This operation requires your %(authType)s key or Master password.",
@@ -958,8 +962,11 @@
   "on_golos_from": "On Golos from",
   "payout_info": {
     "author": "Author's payout",
+    "author_hint": "Reward for the post",
     "beneficiary": "Beneficiary rewards",
+    "beneficiary_hint": "Reward to the golos.io beneficiary",
     "curator": "Curator's payout",
+    "curator_hint": "Curating reward",
     "payout": "Payout",
     "potential_payout": "Potential payout"
   },
@@ -1073,15 +1080,6 @@
     "this_post_is": "This post is",
     "to_save_your_preferences": "to save your preferences",
     "you_can": "You can"
-  },
-  "powerdown_jsx": {
-    "already_power_down": "You are already powering down %(AMOUNT)s %(LIQUID_TICKER)s (%(WITHDRAWN)s %(LIQUID_TICKER)s paid out so far). Note that if you change the power down amount the payout schedule will reset.",
-    "amount": "Amount",
-    "delegating": "You are delegating %(AMOUNT)s %(LIQUID_TICKER)s. That amount is locked up and not available to power down until the delegation is removed and a full reward period has passed.",
-    "error": "Unable to power down (ERROR: %(MESSAGE)s)",
-    "per_week": "That's ~%(AMOUNT)s %(LIQUID_TICKER)s per week.",
-    "power_down": "Power Down",
-    "warning": "Leaving less than %(AMOUNT)s %(VESTING_TOKEN)s in your account is not recommended and can leave your account in a unusable state."
   },
   "recoveraccountstep1_jsx": {
     "account_name_is_not_found": "Account name is not found",
@@ -1266,22 +1264,6 @@
     "payouts": "Payouts",
     "replies": "Replies"
   },
-  "tips_js": {
-    "LIQUID_TOKEN_can_be_converted_to_VESTING_TOKEN_in_a_process_called_powering_up": "%(LIQUID_TOKEN)s can be converted to %(VESTING_TOKEN2)s in a process called powering up.",
-    "VESTING_TOKEN_is_non_transferrable_and_requires_convert_back_to_LIQUID_TOKEN": "%(VESTING_TOKEN2)s is non-transferrable and requires 3 months (13 payments) to convert back to %(LIQUID_TOKEN)s.",
-    "authenticate_for_this_transaction": "Authenticate for this transaction",
-    "confirm_email": "Confirm Email",
-    "confirm_phone": "Please verify your phone number",
-    "converted_VESTING_TOKEN_can_be_sent_to_yourself_but_can_not_transfer_again": "Converted %(VESTING_TOKEN)s can be sent to yourself or someone else but can not transfer again without converting back to %(LIQUID_TOKEN)s.",
-    "influence_tokens_which_give_you_more_control_over": "Influence tokens which give you more control over post payouts and allow you to earn on curation rewards.",
-    "login_to_your_APP_NAME_account": "Login to your %(APP_NAME)s Account",
-    "profile": "Profile",
-    "send_to_account": "Send to account",
-    "the_estimated_value_is_based_on_an_average_value_of_steem_in_US_dollars": "The estimated value is based on an average value of %(LIQUID_TOKEN)s in US dollars.",
-    "the_more_you_hold_the_more_you_influence_post_rewards": "The more you hold the more you influence post rewards and earn for accurate voting.",
-    "tokens_worth_about_AMOUNT_of_LIQUID_TOKEN": "Tokens worth about %(amount)s of %(LIQUID_TOKEN)s.",
-    "tradeable_tokens_that_may_be_transferred_anywhere_at_anytime": "Tradeable tokens that may be transferred anywhere at anytime."
-  },
   "token_names": {
     "DEBT_TOKEN": "Gold Backed Golos",
     "DEBT_TOKEN2": "Gold",
@@ -1331,7 +1313,7 @@
       "about": "About",
       "followers": "Followers",
       "following": "Following",
-      "gender": "Gender",
+      "gender": "gender",
       "post_count": {
         "one": "Post",
         "other": "Posts",
@@ -1485,26 +1467,6 @@
     "the_owner_key_is_required_to_change_other_keys": "The owner key is the master key for the account and is required to change the other keys.",
     "the_private_key_or_password_should_be_kept_offline": "The private key or password for the owner key should be kept offline as much as possible."
   },
-  "userwallet_jsx": {
-    "balances": "BALANCES",
-    "buy_LIQUID_TOKEN_or_VESTING_TOKEN": "Buy %(LIQUID_TOKEN)s or %(VESTING_TOKEN)s",
-    "cancel_power_down": "Cancel Power Down",
-    "conversion_complete_tip": "Will complete on",
-    "convert_to_LIQUID_TOKEN": "Convert to %(LIQUID_TOKEN)s",
-    "estimated_account_value": "Estimated Account Value",
-    "history": "HISTORY",
-    "in_conversion": "%(amount)s in conversion",
-    "market": "Market",
-    "next_power_down_is_scheduled_to_happen": "The next power down is scheduled to happen",
-    "power_down": "Power Down",
-    "power_up": "Power Up",
-    "savings": "SAVINGS",
-    "tokens_worth_about_1_of_LIQUID_TICKER": "Tokens worth about %(TOKEN_WORTH)s in %(LIQUID_TICKER)s.",
-    "transfer_to_savings": "Transfer to Savings",
-    "transfers_are_temporary_disabled": "Transfers are temporary disabled.",
-    "withdraw_DEBT_TOKENS": "Withdraw %(DEBT_TOKENS)s",
-    "withdraw_LIQUID_TOKEN": "Withdraw %(LIQUID_TOKEN)s"
-  },
   "votesandcomments_jsx": {
     "click_to_respond": "Click to respond",
     "no_responses_yet_click_to_respond": "No responses yet. Click to respond.",
@@ -1549,6 +1511,12 @@
     "this_password_is_bound_to_your_accounts_private_key": "This password is bound to your account's active key and can not be used to login to this page. You may use this active key on other more secure pages like the Wallet or Market pages.",
     "trending_30_day": "trending (30 day)",
     "we_will_reset_curation_rewards_for_this_post": "will reset your curation rewards for this post"
+  },
+  "wallet": {
+    "cancel": "Cancel",
+    "next_power_down_date": "The next power down is scheduled to happen ",
+    "power_down_line": "You've started power down process for **%(all)s GOLOS** (**%(done)s GOLOS** have already paid off)",
+    "success": "Operation completed successfully"
   },
   "welcome_page": {
     "about": {

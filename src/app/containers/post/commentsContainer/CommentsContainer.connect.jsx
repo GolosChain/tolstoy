@@ -7,10 +7,11 @@ import { locationSelector } from 'src/app/redux/selectors/ui/location';
 
 export default connect(
     createSelector(
-        [routePostSelector, commentsSelector, locationSelector],
-        (data, commentsData, location) => ({
+        [routePostSelector, commentsSelector, locationSelector, state => state.ui.common],
+        (data, commentsData, location, uiCommon) => ({
             pathname: location.pathname,
             data,
+            commentInputFocused: uiCommon.get('commentInputFocused'),
             ...commentsData,
         })
     ),

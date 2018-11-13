@@ -8,6 +8,7 @@ import tt from 'counterpart';
 import Interpolate from 'react-interpolate-component';
 import normalizeProfile from 'app/utils/NormalizeProfile';
 
+import { breakWordStyles } from 'src/app/helpers/styles';
 import { getPropsForInterpolation } from 'src/app/helpers/notifications';
 
 import Avatar from 'src/app/components/common/Avatar';
@@ -16,6 +17,9 @@ import Icon from 'golos-ui/Icon';
 const Wrapper = styled.div`
     display: flex;
     align-items: center;
+    overflow: hidden;
+    max-width: 100%;
+    width: 100%;
 `;
 
 const LeftSide = styled.div`
@@ -30,7 +34,12 @@ const LeftSide = styled.div`
 const Message = styled.div`
     font-size: 14px;
     line-height: 20px;
-    word-break: break-word;
+    max-width: 100%;
+
+    a {
+        max-width: 100%;
+        ${breakWordStyles};
+    }
 `;
 
 const icons = {

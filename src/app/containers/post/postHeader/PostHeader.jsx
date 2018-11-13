@@ -19,13 +19,23 @@ import PostActions from 'src/app/components/post/PostActions';
 
 const Wrapper = styled.div`
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
     padding-bottom: 25px;
 
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: auto auto 1fr auto auto auto;
+    grid-template-areas: 'author follow . promoted category actions';
+
+    @media (max-width: 768px) {
+        grid-template-rows: auto auto;
+        grid-template-columns: auto auto auto 1fr auto auto;
+        grid-template-areas:
+            'author author follow . . actions'
+            'category . . . promoted promoted';
+        grid-row-gap: 25px;
+    }
+
     @media (max-width: 576px) {
-        justify-content: space-between;
         padding-bottom: 15px;
     }
 `;
@@ -58,6 +68,7 @@ const AuthorName = styled.div`
     margin: -5px 0 0 -10px;
     font-size: 15px;
     font-weight: 500;
+    white-space: nowrap;
     color: #333;
     text-decoration: none;
 
@@ -85,6 +96,9 @@ const FollowRound = styled(Button)`
     margin-left: 30px;
     border-radius: 50%;
     cursor: pointer;
+
+    grid-area: follow;
+    align-self: center;
 `;
 
 const UserInfoWrapper = styled(Link)`
@@ -92,6 +106,8 @@ const UserInfoWrapper = styled(Link)`
     align-items: center;
     cursor: pointer;
     outline: none;
+
+    grid-area: author;
 `;
 
 const UserpicStyled = styled(Userpic)`
@@ -105,12 +121,13 @@ const UserpicStyled = styled(Userpic)`
 
 const PostActionsWrapper = styled.div`
     display: flex;
-    align-items: center;
-    margin-left: auto;
-    margin-right: -7px;
+
+    grid-area: actions;
+    align-self: center;
 `;
 
 const PostActionsStyled = styled(PostActions)`
+    height: 34px;
     padding: 5px;
     margin: 0 3px;
 `;
@@ -120,6 +137,45 @@ const AvatarBox = styled.div`
     top: 50px;
     width: 50px;
 `;
+
+const PromotedMark = styled.div`
+    position: relative;
+    display: flex;
+    grid-area: promoted;
+    align-self: center;
+    margin: 0 18px;
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -40%);
+        z-index: 1;
+        width: 14px;
+        height: 17px;
+        box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.4);
+    }
+
+    @media (max-width: 768px) {
+        justify-self: end;
+        max-width: 34px;
+        margin-right: 0;
+    }
+`;
+
+const PromotedIcon = styled(Icon)`
+    position: relative;
+    z-index: 2;
+    min-width: 34px;
+    min-height: 37px;
+`;
+
+const Category = styled(TagLink)`
+    grid-area: category;
+    align-self: center;
+`;
+
 export class PostHeader extends Component {
     static propTypes = {
         postUrl: PropTypes.string,
@@ -162,6 +218,7 @@ export class PostHeader extends Component {
 
     render() {
         const {
+            forwardRef,
             created,
             category,
             isPinned,
@@ -171,14 +228,15 @@ export class PostHeader extends Component {
             toggleFavorite,
             author,
             isFollow,
-            className,
             postUrl,
+            isPromoted,
+            className,
         } = this.props;
 
         const { showPopover } = this.state;
 
         return (
-            <Wrapper className={className}>
+            <Wrapper innerRef={forwardRef} className={className}>
                 <UserInfoWrapper to={`/@${author}`} onClick={this.onUserInfoClick}>
                     <Avatar aria-label={tt('aria_label.avatar')}>
                         <PopoverBackgroundShade show={showPopover} />
@@ -208,14 +266,19 @@ export class PostHeader extends Component {
                             <CustomIcon name="plus" width={12} height={12} />
                         </FollowRound>
                     ))}
+                {isPromoted && (
+                    <PromotedMark>
+                        <PromotedIcon name="best" width="34" height="37" />
+                    </PromotedMark>
+                )}
+                <Category
+                    to={'/trending/' + category.origin}
+                    category={1}
+                    aria-label={tt('aria_label.category')}
+                >
+                    {category.tag}
+                </Category>
                 <PostActionsWrapper>
-                    <TagLink
-                        to={'/trending/' + category.origin}
-                        category={1}
-                        aria-label={tt('aria_label.category')}
-                    >
-                        {category.tag}
-                    </TagLink>
                     <PostActionsStyled
                         fullUrl={postUrl}
                         isFavorite={isFavorite}

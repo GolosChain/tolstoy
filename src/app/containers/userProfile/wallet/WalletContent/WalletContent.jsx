@@ -13,6 +13,7 @@ import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import { vestsToGolos, vestsToGolosEasy } from 'app/utils/StateFunctions';
 import WalletTabs from 'src/app/components/userProfile/wallet/WalletTabs';
 import WalletLine from 'src/app/components/userProfile/wallet/WalletLine';
+import PowerDownLine from 'src/app/components/wallet/PowerDownLine';
 
 const DEFAULT_ROWS_LIMIT = 25;
 const LOAD_LIMIT = 500;
@@ -37,7 +38,7 @@ export const CURRENCY_COLOR = {
     GOLOS_POWER: '#f57c02',
     GOLOS_POWER_DELEGATION: '#78c2d0;',
     IN_SAFE: '#f57c02',
-    FROM_SAFE: '#b7b7ba'
+    FROM_SAFE: '#b7b7ba',
 };
 
 export const REWARDS_TABS = {
@@ -113,12 +114,15 @@ export default class WalletContent extends Component {
     }
 
     render() {
-        const { pageAccountName } = this.props;
+        const { isOwner, pageAccountName } = this.props;
         const { mainTab, currency, rewardType, direction } = this.state;
 
         return (
             <Card auto>
                 <Helmet title={tt('meta.title.profile.wallet', { name: pageAccountName })} />
+                {isOwner && pageAccountName ? (
+                    <PowerDownLine accountName={pageAccountName} />
+                ) : null}
                 <WalletTabs
                     mainTab={mainTab}
                     currency={currency}
@@ -171,9 +175,9 @@ export default class WalletContent extends Component {
         let list;
 
         if (mainTab === MAIN_TABS.POWER) {
-            list = this._makeGolosPowerList();
+            list = this.makeGolosPowerList();
         } else {
-            list = this._makeTransferList();
+            list = this.makeTransferList();
         }
 
         if (list == null) {
@@ -233,7 +237,7 @@ export default class WalletContent extends Component {
         }
     }
 
-    _makeTransferList() {
+    makeTransferList() {
         const { pageAccount, pageAccountName } = this.props;
         const { mainTab, rewardType, limit } = this.state;
 
@@ -276,12 +280,12 @@ export default class WalletContent extends Component {
                     type === 'transfer_from_savings' ||
                     type === 'transfer_to_vesting'
                 ) {
-                    line = this._processTransactions(type, data, stamp);
+                    line = this.processTransactions(type, data, stamp);
                 }
             } else if (mainTab === MAIN_TABS.POWER) {
             } else if (mainTab === MAIN_TABS.REWARDS) {
                 if (type === 'curation_reward' || type === 'author_reward') {
-                    line = this._processRewards(type, data, stamp);
+                    line = this.processRewards(type, data, stamp);
                 }
             }
 
@@ -303,7 +307,7 @@ export default class WalletContent extends Component {
         return this._loadDelegationsData();
     };
 
-    _makeGolosPowerList() {
+    makeGolosPowerList() {
         const { myAccountName, pageAccountName, globalProps } = this.props;
         const { delegationData, direction } = this.state;
 
@@ -380,7 +384,7 @@ export default class WalletContent extends Component {
         }
     }
 
-    _processTransactions(type, data) {
+    processTransactions(type, data) {
         const { pageAccountName } = this.props;
         const { currency, direction } = this.state;
 
@@ -471,11 +475,10 @@ export default class WalletContent extends Component {
                         }
                     }
 
-
                     let safeColor = CURRENCY_COLOR.FROM_SAFE;
                     if (isSafe) {
                         if (sign === '+') {
-                            safeColor = CURRENCY_COLOR.IN_SAFE
+                            safeColor = CURRENCY_COLOR.IN_SAFE;
                         }
                     }
 
@@ -497,18 +500,14 @@ export default class WalletContent extends Component {
                             : opCurrency === CURRENCY.GOLOS
                                 ? 'logo'
                                 : 'brilliant',
-                        color: isSafe
-                            ? safeColor
-                            : isReceive
-                                ? CURRENCY_COLOR[opCurrency]
-                                : null,
+                        color: isSafe ? safeColor : isReceive ? CURRENCY_COLOR[opCurrency] : null,
                     };
                 }
             }
         }
     }
 
-    _processRewards(type, data) {
+    processRewards(type, data) {
         const { rewardType } = this.state;
 
         if (rewardType === REWARDS_TYPES.CURATORIAL && type === 'curation_reward') {

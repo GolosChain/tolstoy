@@ -155,12 +155,6 @@ const LoginButton = styled(Button)`
     margin-bottom: 0;
 `;
 
-const SuitableKeys = styled.div`
-    margin: 22px 0 12px;
-    line-height: 20px;
-    color: #333;
-`;
-
 export class LoginForm extends Component {
     static propTypes = {
         username: PropTypes.string,
@@ -253,6 +247,8 @@ export class LoginForm extends Component {
                 .replace(/\/.+$/, ''),
             password,
             saveLogin: this.state.saveCredentials,
+            isLogin: !isConfirm,
+            isConfirm,
         };
 
         this.props.dispatchSubmit(data, this.props.loginBroadcastOperation);
@@ -342,7 +338,7 @@ export class LoginForm extends Component {
                             autoCapitalize="no"
                             autoCorrect="off"
                             spellCheck="false"
-                            disabled={submitting || lockUsername}
+                            readOnly={submitting || lockUsername}
                             required
                             value={username}
                             onChange={this.onLoginChange}
@@ -376,7 +372,7 @@ export class LoginForm extends Component {
                             <Checkbox value={saveCredentials} />
                             <CheckboxLabel>
                                 {isConfirm
-                                    ? tt('loginform_jsx.save_password_on_session')
+                                    ? tt('loginform_jsx.save_password_on_page')
                                     : tt('loginform_jsx.keep_me_logged_in')}
                             </CheckboxLabel>
                         </ConsentCheckbox>

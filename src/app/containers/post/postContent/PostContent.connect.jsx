@@ -22,6 +22,8 @@ export default connect(
             return {
                 isAuthor: username === post.author,
                 author: post.author,
+                tags: post.tags,
+                category: post.category,
                 payout: post.payout,
                 data: post.data,
                 title: post.title,
@@ -29,7 +31,6 @@ export default connect(
                 pictures: post.pictures,
                 created: post.created,
                 permLink: post.permLink,
-                isPromoted: post.promotedAmount > 0,
                 url: post.url,
                 action,
                 relapioToken,

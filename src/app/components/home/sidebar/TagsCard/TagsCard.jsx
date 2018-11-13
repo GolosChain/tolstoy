@@ -151,11 +151,15 @@ export default class TagsCard extends Component {
 
         const isSelected = selectedTags.get(tag) === TAGS_FILTER_TYPES.SELECT;
         const isFiltered = selectedTags.get(tag) === TAGS_FILTER_TYPES.EXCLUDE;
-
         return (
             <TagSelectStyled
                 key={key}
                 tag={tag}
+                ariaLabel={
+                    isSelected
+                        ? tt('aria_label.cancel_sort_by_tag', { tag })
+                        : tt('aria_label.sort_by_tag', { tag })
+                }
                 isSelected={isSelected}
                 isFiltered={isFiltered}
                 onTagClick={this.onTagClick}
@@ -184,7 +188,7 @@ export default class TagsCard extends Component {
                 <Title>{tt('tags.popularTags')}</Title>
                 <TagsWrapper>{tags.map(this.renderTag)}</TagsWrapper>
                 {collapsed ? (
-                    <Title onClick={this.onToggleClick}>
+                    <Title role="button" onClick={this.onToggleClick}>
                         {tt('tags.show_more_tags')}
                         <CollapseIcon />
                     </Title>

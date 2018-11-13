@@ -1,0 +1,6 @@
+export const breakWordStyles = `
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+`;
