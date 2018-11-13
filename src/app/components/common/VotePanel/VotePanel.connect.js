@@ -7,6 +7,7 @@ import { onVote } from 'src/app/redux/actions/vote';
 import { calcVotesStats } from 'app/utils/StateFunctions';
 import { openVotersDialog } from 'src/app/redux/actions/dialogs';
 import VotePanel from './VotePanel';
+import { loginIfNeed } from 'src/app/redux/actions/login';
 
 export default connect(
     createSelector(
@@ -45,5 +46,6 @@ export default connect(
     {
         onVote,
         openVotersDialog,
+        loginIfNeed,
     }
 )(VotePanel);

@@ -864,13 +864,13 @@
   "on_golos_from": "На Golos з",
   "payout_info": {
     "author": "Авторські виплати",
-    "beneficiary": "Бенефіціарскі виплати",
-    "curator": "Кураторські виплати",
-    "payout": "Виплата",
-    "potential_payout": "Потенційна виплата",
     "author_hint": "Винагорода за пост",
+    "beneficiary": "Бенефіціарскі виплати",
+    "beneficiary_hint": "Винагорода бенефіціару golos.io",
+    "curator": "Кураторські виплати",
     "curator_hint": "Винагорода за кураторство",
-    "beneficiary_hint": "Винагорода бенефіціару golos.io"
+    "payout": "Виплата",
+    "potential_payout": "Потенційна виплата"
   },
   "plurals": {
     "author_rewards_last_24_hours": "Авторські винагороди за останні 24 години",
