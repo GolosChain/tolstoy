@@ -1,9 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
 import { browserHistory } from 'react-router';
 import { Helmet } from 'react-helmet';
+import throttle from 'lodash/throttle';
 import styled from 'styled-components';
 import tt from 'counterpart';
+
+import Icon from 'golos-ui/Icon';
+import { TagLink } from 'golos-ui/Tag';
 
 import { breakWordStyles } from 'src/app/helpers/styles';
 import PostHeader from 'src/app/containers/post/postHeader';
@@ -62,6 +66,16 @@ const PostBody = styled.div`
     }
 `;
 
+const Tags = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 30px;
+
+    ${TagLink} {
+        margin: 0 10px 0 0;
+    }
+`;
+
 export class PostContent extends Component {
     static propTypes = {
         togglePin: PropTypes.func.isRequired,
@@ -71,6 +85,42 @@ export class PostContent extends Component {
         url: PropTypes.string.isRequired,
         relapioToken: PropTypes.string,
     };
+
+    state = {
+        hideTagsCategory: false,
+    };
+
+    headerRef = createRef();
+
+    componentDidMount() {
+        const { action } = this.props;
+
+        if (action !== 'edit') {
+            window.addEventListener('scroll', this.onScrollLazy);
+            window.addEventListener('resize', this.onScrollLazy);
+            this.onScrollLazy();
+        }
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.onScrollLazy);
+        window.removeEventListener('resize', this.onScrollLazy);
+        this.onScrollLazy.cancel();
+    }
+
+    onScrollLazy = throttle(
+        () => {
+            const rect = this.headerRef.current.getBoundingClientRect();
+
+            const hideTagsCategory = rect.top - rect.height / 2 >= 0;
+
+            if (this.state.hideTagsCategory !== hideTagsCategory) {
+                this.setState({ hideTagsCategory });
+            }
+        },
+        100,
+        { leading: false, trailing: true }
+    );
 
     onEditFinish = () => {
         const { url } = this.props;
@@ -93,7 +143,8 @@ export class PostContent extends Component {
     }
 
     renderPreview() {
-        const { payout, title, body, pictures, created } = this.props;
+        const { payout, title, body, pictures, created, tags, category } = this.props;
+        const { hideTagsCategory } = this.state;
 
         return (
             <Preview>
@@ -109,6 +160,26 @@ export class PostContent extends Component {
                         />
                     </PostBody>
                 </Body>
+                {tags.length ? (
+                    <Tags>
+                        {tags.map((tag, index) => {
+                            if (hideTagsCategory && tag.origin === category.origin) {
+                                return null;
+                            }
+
+                            return (
+                                <TagLink
+                                    to={'/trending/' + tag.origin}
+                                    category={tag.origin === category.origin}
+                                    key={index}
+                                    aria-label={tt('aria_label.tag')}
+                                >
+                                    {tag.tag}
+                                </TagLink>
+                            );
+                        })}
+                    </Tags>
+                ) : null}
             </Preview>
         );
     }
@@ -133,7 +204,12 @@ export class PostContent extends Component {
         return (
             <Wrapper className={className}>
                 {this.renderHelmet()}
-                <PostHeader postUrl={url} togglePin={togglePin} toggleFavorite={toggleFavorite} />
+                <PostHeader
+                    forwardRef={this.headerRef}
+                    postUrl={url}
+                    togglePin={togglePin}
+                    toggleFavorite={toggleFavorite}
+                />
                 {action === 'edit' && isAuthor ? this.renderEditor() : this.renderPreview()}
             </Wrapper>
         );
