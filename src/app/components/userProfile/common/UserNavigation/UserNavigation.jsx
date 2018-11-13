@@ -10,7 +10,7 @@ import Icon from 'golos-ui/Icon';
 
 import { changeProfileLayout } from 'src/app/redux/actions/ui';
 import SlideContainer from 'src/app/components/common/SlideContainer';
-import Container from 'src/app/components/common/Container';
+import { MAX_WIDTH, OFFSET } from 'src/app/components/common/Container/Container';
 import throttle from 'lodash/throttle';
 
 const MAIN_CONTAINER_WIDTH_POINT = 1200;
@@ -18,6 +18,17 @@ const MAIN_CONTAINER_WIDTH_POINT = 1200;
 const SlideContainerStyled = styled(SlideContainer)`
     background: #fff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
+`;
+
+const Container = styled.div`
+    display: flex;
+    max-width: ${MAX_WIDTH}px;
+    margin: 0 auto;
+
+    @media (max-width: ${MAX_WIDTH + OFFSET * 2}px) {
+        padding: 0 ${OFFSET - 6}px;
+        margin: 0;
+    }
 `;
 
 const TabLink = styled(StyledTabLink)`
