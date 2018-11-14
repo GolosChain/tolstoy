@@ -42,7 +42,6 @@ const Row = styled.div`
     height: 70px;
 
     &:not(:last-of-type) {
-
         &:after {
             content: '';
             position: absolute;
@@ -212,13 +211,21 @@ export default class UserCardAbout extends PureComponent {
             >
                 <CardContentCounters>
                     <Row>
-                        <ColumnClick role="button" aria-label={tt('aria_label.followers')} onClick={this.onShowFollowers}>
+                        <ColumnClick
+                            role="button"
+                            aria-label={tt('aria_label.followers')}
+                            onClick={this.onShowFollowers}
+                        >
                             <Bold>
                                 {followerCount} <IconTriangle />
                             </Bold>
                             <Title>{tt('user_profile.account_summary.followers')}</Title>
                         </ColumnClick>
-                        <ColumnClick role="button" aria-label={tt('aria_label.following')} onClick={this.onShowFollowing}>
+                        <ColumnClick
+                            role="button"
+                            aria-label={tt('aria_label.following')}
+                            onClick={this.onShowFollowing}
+                        >
                             <Bold>
                                 {followingCount} <IconTriangle />
                             </Bold>

@@ -22,40 +22,36 @@ import {
     Name,
     LoaderWrapper,
 } from 'src/app/components/dialogs/common/Dialog';
+import { USERS_PER_PAGE } from 'src/app/redux/constants/common';
 
 const StyledDialog = styled(Dialog)`
     ${is('cutContent')`
         @media (max-width: 768px) {
             position: relative;
-    
+
             max-height: calc(100vh - 80px);
             overflow: hidden;
         }
     `};
 `;
 
-const ShowAll = styled.div`
-    display: none;
-    position: absolute;
-    bottom: 0;
+const ShowMore = styled.button`
     width: 100%;
+    height: 50px;
     padding: 17px 0;
 
     border-radius: 0 0 8px 8px;
     box-shadow: 0 -2px 12px 0 rgba(0, 0, 0, 0.15);
     background-color: #ffffff;
     font-weight: bold;
+
     color: #111111;
     text-align: center;
-    text-transform: uppercase;
+    font-size: 14px;
     cursor: pointer;
 
     &:hover {
         color: #2879ff;
-    }
-
-    @media (max-width: 768px) {
-        display: ${({ cutContent }) => (cutContent ? 'block' : 'none')};
     }
 `;
 
@@ -64,6 +60,8 @@ const StyledLoaderWrapper = styled(LoaderWrapper)`
         align-items: ${({ cutContent }) => (cutContent ? 'flex-start' : 'center')};
     }
 `;
+
+const MAX_FOLLOWERS_PER_REQUEST = 100;
 
 export default class FollowersDialog extends PureComponent {
     static propTypes = {
@@ -79,41 +77,22 @@ export default class FollowersDialog extends PureComponent {
         getFollowing: PropTypes.func,
     };
 
-    state = {
-        showAll: false,
-    };
-
     rootRef = null;
     lastUserName = '';
 
     componentDidMount() {
-        this.props.dialogRoot.addEventListener('scroll', this.handleScroll);
         this.loadMore();
-    }
-
-    componentWillUnmount() {
-        this.props.dialogRoot.removeEventListener('scroll', this.handleScroll);
-        this.handleScroll.cancel();
     }
 
     setRootRef = el => (this.rootRef = el);
 
-    showAll = () => {
-        this.setState({ showAll: true });
+    showMore = () => {
+        const { followCount, users } = this.props;
+        const loadCount = Math.min(MAX_FOLLOWERS_PER_REQUEST, followCount - (users.size + 1));
+        this.loadMore(loadCount);
     };
 
-    handleScroll = throttle(() => {
-        const { loading } = this.props;
-
-        if (!loading) {
-            const rect = this.rootRef.getBoundingClientRect();
-            if (rect.top + rect.height < window.innerHeight * 1.5) {
-                this.loadMore();
-            }
-        }
-    }, 1000);
-
-    loadMore = () => {
+    loadMore = (limit = USERS_PER_PAGE) => {
         const { pageAccountName, users, type } = this.props;
 
         const lastUser = users && users.last(null);
@@ -124,11 +103,13 @@ export default class FollowersDialog extends PureComponent {
                 this.props.getFollowers({
                     following: pageAccountName,
                     startFollower: startUserName,
+                    limit,
                 });
             } else {
                 this.props.getFollowing({
                     follower: pageAccountName,
                     startFollowing: startUserName,
+                    limit,
                 });
             }
         }
@@ -155,11 +136,11 @@ export default class FollowersDialog extends PureComponent {
     };
 
     render() {
-        const { showAll } = this.state;
         const { loading, followCount, users, type } = this.props;
+        const hasMore = followCount > users.size;
 
         return (
-            <StyledDialog cutContent={!showAll}>
+            <StyledDialog cutContent={!hasMore}>
                 <Header>
                     <Title>{tt(`user_profile.${type}_count`, { count: followCount })}</Title>
                     <IconClose onClick={this.props.onClose} />
@@ -167,14 +148,14 @@ export default class FollowersDialog extends PureComponent {
                 <Content innerRef={this.setRootRef}>
                     {users.map(this.renderUser)}
                     {loading && (
-                        <StyledLoaderWrapper cutContent={!showAll}>
+                        <StyledLoaderWrapper cutContent={!hasMore}>
                             <LoadingIndicator type="circle" size={40} />
                         </StyledLoaderWrapper>
                     )}
                 </Content>
-                <ShowAll onClick={this.showAll} cutContent={!showAll}>
-                    {tt('dialog.show_all')}
-                </ShowAll>
+                {hasMore && !loading ? (
+                    <ShowMore onClick={this.showMore}>{tt('dialog.show_more')}</ShowMore>
+                ) : null}
             </StyledDialog>
         );
     }

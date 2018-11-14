@@ -30,6 +30,11 @@ const ShowAll = styled.button`
     color: #111111;
     font-size: 14px;
     font-weight: bold;
+    cursor: pointer;
+
+    &:hover {
+        color: #2879ff;
+    }
 `;
 
 const EmptyBlockLikeFollow = styled.div`
