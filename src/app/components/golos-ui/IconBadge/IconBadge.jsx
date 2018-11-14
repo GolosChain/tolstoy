@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import is from 'styled-is';
 
 import Icon from 'golos-ui/Icon';
 
@@ -22,21 +21,17 @@ const Badge = styled.div`
 
     padding: 2px 4px;
 
-    border-radius: 50%;
+    border-radius: 40px;
     min-width: 20px;
     min-height: 20px;
-    border: 2px solid #ffffff;
+    border: 2px solid #fff;
     background-color: #fc5d16;
 
-    color: #ffffff;
+    color: #fff;
     font-size: 10px;
     font-weight: bold;
     line-height: 12px;
     text-align: center;
-
-    ${is('gtTen')`
-        border-radius: 8px;
-    `};
 `;
 
 export default class IconBadge extends Component {
@@ -50,17 +45,12 @@ export default class IconBadge extends Component {
 
     render() {
         const { count, ...props } = this.props;
-        const gtTen = count > 9;
         const gtThousand = count > 999;
 
         return (
             <Wrapper>
                 <Icon {...props} />
-                {Boolean(count) && (
-                    <Badge gtTen={gtTen}>
-                        {gtThousand ? '999+' : count}
-                    </Badge>
-                )}
+                {Boolean(count) && <Badge>{gtThousand ? '999+' : count}</Badge>}
             </Wrapper>
         );
     }
