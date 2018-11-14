@@ -278,7 +278,11 @@ export default class PostCard extends PureComponent {
                     <CardAuthor author={author} created={created} />
                     <Filler />
                     {grid ? null : (
-                        <Category to={'/trending/' + data.get('category')} category={1}>
+                        <Category
+                            to={'/trending/' + data.get('category')}
+                            category={1}
+                            aria-label={tt('aria_label.category', { category: category })}
+                        >
                             {category}
                         </Category>
                     )}
