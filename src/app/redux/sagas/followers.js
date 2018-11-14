@@ -5,6 +5,7 @@ import transaction from 'app/redux/Transaction';
 import { fetchFollowCount } from 'app/redux/sagas/follow';
 import { loginIfNeed } from './login';
 import {
+    FOLLOWERS_UPDATE_FOLLOW,
     USER_FOLLOW_DATA_LOAD,
     FOLLOWERS_GET_FOLLOWERS,
     FOLLOWERS_GET_FOLLOWERS_SUCCESS,
@@ -16,7 +17,7 @@ export default function* watch() {
     yield takeEvery(USER_FOLLOW_DATA_LOAD, loadUserFollowData);
     yield takeLatest(FOLLOWERS_GET_FOLLOWERS, getFollowers);
     yield takeLatest(FOLLOWERS_GET_FOLLOWING, getFollowing);
-    yield takeEvery('user/UPDATE_FOLLOW', updateFollow);
+    yield takeEvery(FOLLOWERS_UPDATE_FOLLOW, updateFollow);
 }
 
 // TODO: need to refactoring while merging with Post PR
