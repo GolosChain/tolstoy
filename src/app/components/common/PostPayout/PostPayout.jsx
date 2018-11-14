@@ -17,6 +17,7 @@ const CurrencyValueStyled = styled(CurrencyValue)`
 export default class PostPayout extends PureComponent {
     render() {
         const { limitedOverallTotal, isLimit, isDeclined, lastPayout, className } = this.props;
+
         return (
             <CurrencyValueStyled
                 limited={isLimit ? 1 : 0}
@@ -24,6 +25,7 @@ export default class PostPayout extends PureComponent {
                 value={limitedOverallTotal}
                 currency="GOLOS"
                 date={lastPayout}
+                allowZero
                 className={className}
             />
         );

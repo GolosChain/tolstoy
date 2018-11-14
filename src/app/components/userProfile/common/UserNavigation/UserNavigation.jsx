@@ -34,6 +34,7 @@ const Container = styled.div`
 
 const Wrapper = styled.div`
     display: flex;
+    flex-grow: 1;
     margin: 0 -3px;
 `;
 
