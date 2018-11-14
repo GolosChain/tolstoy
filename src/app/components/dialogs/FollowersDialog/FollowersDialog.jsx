@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Set } from 'immutable';
 import styled from 'styled-components';
 import is from 'styled-is';
-import throttle from 'lodash/throttle';
 import tt from 'counterpart';
 
 import normalizeProfile from 'app/utils/NormalizeProfile';
