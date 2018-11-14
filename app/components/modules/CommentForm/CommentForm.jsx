@@ -71,7 +71,6 @@ class CommentForm extends Component {
         this.state = {
             text: reply ? `@${params.author} ` : '',
             emptyBody: true,
-            postError: null,
             uploadingCount: 0,
         };
 
@@ -165,7 +164,7 @@ class CommentForm extends Component {
     render() {
         const { editMode, hideFooter, autoFocus, withHeader, replyAuthor } = this.props;
 
-        const { text, emptyBody, postError, isPreview, uploadingCount } = this.state;
+        const { text, emptyBody, isPreview, uploadingCount } = this.state;
 
         const allowPost = uploadingCount === 0 && !emptyBody;
 
@@ -390,13 +389,17 @@ class CommentForm extends Component {
                 try {
                     localStorage.removeItem(DRAFT_KEY);
                 } catch (err) {}
+
                 if (this.props.clearAfterAction) {
                     this.editorRef.current.setValue('');
                 }
+
                 this.props.onSuccess();
             },
             err => {
-                this.footerRef.current.showPostError(err.toString().trim());
+                if (err !== 'Canceled') {
+                    this.footerRef.current.showPostError(err.toString().trim());
+                }
             }
         );
     };
