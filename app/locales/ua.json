@@ -45,6 +45,12 @@
       "social_placeholder": "Підписуйся на авторів і створюй цікавий контент, щоб підписувалися на тебе."
     }
   },
+  "aria_label": {
+    "category": "Категорiя: %(category)s",
+    "comments": "Коментарi. Кiлькicть: %(count)s",
+    "dislikers_list": "Проголосували проти: %(count)s",
+    "likers_list": "Проголосували за: %(count)s"
+  },
   "auth_protection": {
     "need_auth": "Немає доступу, авторизуйтесь.",
     "not_allowed": "Немає доступу."

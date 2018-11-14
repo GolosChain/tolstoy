@@ -98,7 +98,7 @@ const BodyLink = styled(Link)`
     display: block;
     transition: none !important;
 
-    ${is('grid')`
+    ${is('compact')`
         flex-shrink: 1;
         flex-grow: 1;
         overflow: hidden;
@@ -135,14 +135,14 @@ const Footer = styled.div`
         pointer-events: initial;
     }
 
-    ${is('grid')`
+    ${is('compact')`
         flex-direction: column;
         align-items: center;
     `};
 `;
 
 const VotePanelStyled = styled(VotePanel)`
-    ${is('grid')`
+    ${is('compact')`
         padding: 0;
         padding-bottom: 15px;
         justify-content: space-around;
@@ -150,7 +150,7 @@ const VotePanelStyled = styled(VotePanel)`
 `;
 
 const VotePanelWrapper = styled.div`
-    ${is('grid')`
+    ${is('compact')`
         display: flex;
         justify-content: flex-start;
         width: 100%;
@@ -176,7 +176,7 @@ const PostImage = styled.div.attrs({
     background-position: center;
     background-size: cover;
 
-    ${is('grid')`
+    ${is('compact')`
         height: 183px;
     `};
 `;
@@ -206,7 +206,7 @@ export default class PostCard extends PureComponent {
         // external
         permLink: PropTypes.string.isRequired,
         additionalData: PropTypes.instanceOf(Map),
-        grid: PropTypes.bool,
+        compact: PropTypes.bool,
         pageAccountName: PropTypes.string,
         showPinButton: PropTypes.bool,
         onClick: PropTypes.func,
@@ -240,7 +240,7 @@ export default class PostCard extends PureComponent {
     }
 
     render() {
-        const { className, isRepost, grid, hideNsfw, stats } = this.props;
+        const { className, isRepost, hideNsfw, stats } = this.props;
 
         // user wishes to hide these posts entirely
         if (hideNsfw) {
@@ -248,7 +248,7 @@ export default class PostCard extends PureComponent {
         }
 
         return (
-            <Root className={className} grid={grid} gray={stats.gray || stats.hide}>
+            <Root className={className} gray={stats.gray || stats.hide}>
                 {this.renderHeader()}
                 {isRepost ? this.renderRepostPart() : null}
                 {this.renderBody()}
@@ -258,7 +258,7 @@ export default class PostCard extends PureComponent {
     }
 
     renderHeader() {
-        const { data, isRepost, additionalData, grid } = this.props;
+        const { data, isRepost, additionalData, compact } = this.props;
 
         const category = detransliterate(data.get('category'));
         let author;
@@ -277,8 +277,12 @@ export default class PostCard extends PureComponent {
                 <HeaderLine>
                     <CardAuthor author={author} created={created} />
                     <Filler />
-                    {grid ? null : (
-                        <Category to={'/trending/' + data.get('category')} category={1}>
+                    {compact ? null : (
+                        <Category
+                            to={'/trending/' + data.get('category')}
+                            category={1}
+                            aria-label={tt('aria_label.category', { category: category })}
+                        >
                             {category}
                         </Category>
                     )}
@@ -289,7 +293,7 @@ export default class PostCard extends PureComponent {
                         {this.renderFavoriteButton()}
                     </Toolbar>
                 </HeaderLine>
-                {grid ? (
+                {compact ? (
                     <HeaderLineGrid>
                         <Category to={'/trending/' + data.get('category')} category={1}>
                             {category}
@@ -435,13 +439,16 @@ export default class PostCard extends PureComponent {
     }
 
     renderBody() {
-        const { grid, sanitizedData, stats } = this.props;
+        const { compact, sanitizedData, stats } = this.props;
         const withImage = sanitizedData.image_link && !stats.gray && !stats.hide;
 
         return (
-            <BodyLink to={sanitizedData.link} grid={grid ? 1 : 0} onClick={this._onClick}>
+            <BodyLink to={sanitizedData.link} compact={compact ? 1 : 0} onClick={this._onClick}>
                 {withImage ? (
-                    <PostImage grid={grid} src={this._getImageSrc(sanitizedData.image_link)} />
+                    <PostImage
+                        compact={compact}
+                        src={this._getImageSrc(sanitizedData.image_link)}
+                    />
                 ) : null}
                 <Body>
                     <PostTitle>{sanitizedData.title}</PostTitle>
@@ -462,16 +469,16 @@ export default class PostCard extends PureComponent {
     }
 
     renderFooter() {
-        const { data, sanitizedData, grid, permLink } = this.props;
+        const { data, sanitizedData, compact, permLink } = this.props;
 
         return (
-            <Footer grid={grid}>
-                <VotePanelWrapper grid={grid}>
-                    <VotePanelStyled contentLink={permLink} grid={grid} />
+            <Footer compact={compact}>
+                <VotePanelWrapper compact={compact}>
+                    <VotePanelStyled contentLink={permLink} compact={compact} />
                 </VotePanelWrapper>
-                {grid ? null : <Filler />}
+                {compact ? null : <Filler />}
                 <ReplyBlock
-                    grid={grid}
+                    compact={compact}
                     count={data.get('children')}
                     link={sanitizedData.link}
                     text={tt('g.reply')}

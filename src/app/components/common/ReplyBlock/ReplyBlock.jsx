@@ -65,7 +65,7 @@ const Root = styled.div`
     display: flex;
     align-items: center;
 
-    ${is('grid')`
+    ${is('compact')`
         width: 100%;
         height: 56px;
         justify-content: center;
@@ -83,7 +83,7 @@ export class ReplyBlock extends Component {
     };
 
     static propTypes = {
-        grid: PropTypes.bool,
+        compact: PropTypes.bool,
         count: PropTypes.number,
         link: PropTypes.string,
         text: PropTypes.string,
@@ -98,11 +98,11 @@ export class ReplyBlock extends Component {
     };
 
     render() {
-        const { grid, count, link, text, notOwner, onReplyClick, className } = this.props;
-        const isLink = typeof grid === 'boolean';
+        const { compact, count, link, text, notOwner, onReplyClick, className } = this.props;
+        const isLink = typeof compact === 'boolean';
 
         return (
-            <Root grid={grid} className={className}>
+            <Root compact={compact} className={className}>
                 <Replies
                     to={`${link}#comments`}
                     data-tooltip={tt('reply.comments_count')}

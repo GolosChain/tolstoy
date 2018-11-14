@@ -168,7 +168,9 @@ export default class MarkdownEditor extends PureComponent {
     }
 
     onBlur = () => {
-        this.props.onInputBlured();
+        if (this.props.onInputBlured) {
+            this.props.onInputBlured();
+        }
     };
 
     onChange = () => {
