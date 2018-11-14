@@ -1,50 +1,60 @@
-import React, { PureComponent, createRef } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
 import KEYS from 'app/utils/keyCodes';
 import Hint from 'app/components/elements/common/Hint';
 import { breakWordStyles } from 'src/app/helpers/styles';
-
-const MIN_INPUT_HEIGHT = 50;
-const MAX_INPUT_HEIGHT = 114;
+import { safePaste } from 'src/app/helpers/browser';
 
 const Root = styled.div`
     position: relative;
-    padding-top: 2px;
+    padding: 2px 0 12px;
     ${breakWordStyles};
 `;
 
-const Input = styled.textarea`
+const Input = styled.div`
     display: block;
     width: 100%;
     padding: 0;
     margin: 0;
-    border: none !important;
-    background: none;
     line-height: 38px;
-    outline: none !important;
+    outline: none;
     color: #343434;
-    font-weight: 500;
     font-size: 2rem;
-    box-shadow: none !important;
-    resize: none;
-    -webkit-appearance: none;
-    -webkit-font-smoothing: antialiased;
+    font-weight: 500;
+    overflow: hidden;
+`;
 
-    &::placeholder {
-        color: #999;
-    }
+const Placeholder = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin-top: 2px;
+    line-height: 38px;
+    color: #999;
+    font-size: 2rem;
+    font-weight: 300;
+    pointer-events: none;
+    user-select: none;
 `;
 
 export default class PostTitle extends PureComponent {
-    state = {
-        inputHeight: MIN_INPUT_HEIGHT,
-        showDotAlert: false,
-        dotAlertAlreadyShown: false,
+    static propTypes = {
+        initialValue: PropTypes.string,
+        placeholder: PropTypes.string,
+        validate: PropTypes.func.isRequired,
+        onChange: PropTypes.func.isRequired,
+        onTab: PropTypes.func.isRequired,
     };
 
-    input = createRef();
+    state = {
+        showDotAlert: false,
+        dotAlertAlreadyShown: false,
+        showPlaceholder: !this.props.initialValue,
+    };
 
     componentWillReceiveProps(newProps) {
         const { dotAlertAlreadyShown, showDotAlert } = this.state;
@@ -63,21 +73,17 @@ export default class PostTitle extends PureComponent {
         }
     }
 
-    componentDidMount() {
-        setTimeout(() => {
-            this.syncInputHeight();
-        }, 0);
-    }
-
     componentWillUnmount() {
         clearTimeout(this._dotTimeout);
     }
 
     render() {
-        const { value, placeholder } = this.props;
-        const { inputHeight, showDotAlert } = this.state;
+        const { placeholder } = this.props;
+        const { showDotAlert } = this.state;
 
-        let error = this.props.validate(value);
+        const text = this.input ? this.input.innerText : this.props.initialValue;
+
+        let error = this.props.validate(text);
         let isDotWarning = false;
 
         if (!error && showDotAlert) {
@@ -87,13 +93,14 @@ export default class PostTitle extends PureComponent {
 
         return (
             <Root>
+                {text && text !== '\n' ? null : <Placeholder>{placeholder}</Placeholder>}
                 <Input
-                    innerRef={this.input}
-                    placeholder={placeholder}
-                    value={value}
-                    style={{ height: inputHeight }}
-                    onKeyDown={this._onKeyDown}
-                    onChange={this._onChange}
+                    innerRef={this.onRef}
+                    contentEditable
+                    tabIndex="0"
+                    onKeyDown={this.onKeyDown}
+                    onInput={this.onInput}
+                    onPaste={safePaste}
                 />
                 {error ? (
                     <Hint
@@ -109,29 +116,30 @@ export default class PostTitle extends PureComponent {
         );
     }
 
-    _onKeyDown = e => {
+    onRef = el => {
+        this.input = el;
+
+        if (el) {
+            el.innerText = this.props.initialValue;
+        }
+    };
+
+    onKeyDown = e => {
         if (e.which === KEYS.TAB || e.which === KEYS.ENTER) {
             e.preventDefault();
             this.props.onTab();
         }
     };
 
-    _onChange = e => {
-        this.props.onChange(e.target.value);
+    onInput = () => {
+        const text = this.input.innerText;
 
-        this.syncInputHeight();
-    };
+        const showPlaceholder = !text;
 
-    syncInputHeight() {
-        const { inputHeight } = this.state;
-        const input = this.input.current;
-
-        const height = Math.max(MIN_INPUT_HEIGHT, Math.min(MAX_INPUT_HEIGHT, input.scrollHeight));
-
-        if (inputHeight !== height) {
-            this.setState({
-                inputHeight: height,
-            });
+        if (this.state.showPlaceholder !== showPlaceholder) {
+            this.setState({ showPlaceholder });
         }
-    }
+
+        this.props.onChange(text);
+    };
 }
