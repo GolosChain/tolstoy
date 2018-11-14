@@ -29,14 +29,12 @@ const AuthorLine = styled.div`
     line-height: 1.1;
 `;
 
-const AuthorName = styled.span`
+const AuthorName = styled(Link)`
     font-size: 14px;
     font-weight: 500;
     color: #333;
     text-decoration: none;
 `;
-
-const AuthorNameLink = AuthorName.withComponent(Link);
 
 const CommentAuthor = ({ author }) => (
     <Wrapper>
@@ -45,7 +43,7 @@ const CommentAuthor = ({ author }) => (
         </AvatarLink>
         <PostDesc>
             <AuthorLine>
-                <AuthorNameLink to={`/@${author}`}>{author}</AuthorNameLink>
+                <AuthorName to={`/@${author}`}>{author}</AuthorName>
             </AuthorLine>
         </PostDesc>
     </Wrapper>
