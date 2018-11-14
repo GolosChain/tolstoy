@@ -164,7 +164,6 @@ const SpamText = styled.div`
 export class CommentCard extends PureComponent {
     static propTypes = {
         permLink: PropTypes.string,
-        grid: PropTypes.bool,
         isPostPage: PropTypes.bool,
         updateComments: PropTypes.func,
 
