@@ -7,6 +7,7 @@ import is from 'styled-is';
 import tt from 'counterpart';
 
 import { detransliterate } from 'app/utils/ParsersAndFormatters';
+import { getScrollElement } from 'src/app/helpers/window';
 import CommentFormLoader from 'app/components/modules/CommentForm/loader';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 
@@ -197,15 +198,23 @@ export class CommentCard extends PureComponent {
     replyRef = createRef();
     commentTitleRef = createRef();
 
-    componentWillReceiveProps(props) {
+    componentDidMount() {
         const { anchorId } = this.props;
         const { highlighted } = this.state;
 
         if (window.location.hash.replace('#', '') === anchorId && !highlighted) {
-            this.setState({ highlighted: true });
-        }
+            const commentEl = document.getElementById(anchorId);
 
-        if (!this.props.state && props.state) {
+            if (commentEl) {
+                commentEl.scrollIntoView(true);
+                getScrollElement().scrollTop -= 200;
+                this.setState({ highlighted: true });
+            }
+        }
+    }
+
+    componentWillReceiveProps(props) {
+        if (!this.props.stats && props.stats) {
             this.setState({
                 showAlert: this.isNeedShowAlert(props),
             });
@@ -322,7 +331,7 @@ export class CommentCard extends PureComponent {
                 ) : (
                     <CommentBodyWrapper highlighted={highlighted}>
                         <CommentBody
-                            to={extractedContent.link}
+                            to={comment.get('url')}
                             onClick={this.rememberScrollPosition}
                             isPostPage={isPostPage}
                         >
