@@ -245,7 +245,7 @@ export default class UserCardAbout extends PureComponent {
                         {localizedGender[gender] && (
                             <Column>
                                 <Title>
-                                    {localizedGender[gender]}
+                                    {localizedGender[gender]}{' '}
                                     {tt('user_profile.account_summary.gender')}
                                 </Title>
                             </Column>
