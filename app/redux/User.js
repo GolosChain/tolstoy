@@ -23,21 +23,12 @@ export default createModule({
     transformations: [
         {
             action: 'SHOW_LOGIN',
-            reducer: (state, { payload }) => {
-                // https://github.com/mboperator/redux-modules/issues/11
-                if (typeof payload === 'function') payload = undefined;
-                let operation, loginDefault;
-                if (payload) {
-                    operation = fromJS(payload.operation);
-                    loginDefault = fromJS(payload.loginDefault);
-                }
-
-                return state.merge({
+            reducer: (state, { payload }) =>
+                state.merge({
                     show_login_modal: true,
-                    loginBroadcastOperation: operation,
-                    loginDefault,
-                });
-            },
+                    loginBroadcastOperation:
+                        payload && payload.operation ? fromJS(payload.operation) : null,
+                }),
         },
         {
             action: 'LOGIN_CANCELED',
@@ -53,7 +44,6 @@ export default createModule({
                 return state.merge({
                     show_login_modal: false,
                     loginBroadcastOperation: undefined,
-                    loginDefault: undefined,
                 });
             },
         },
@@ -141,7 +131,6 @@ export default createModule({
                     current: payload,
                     show_login_modal: false,
                     loginBroadcastOperation: undefined,
-                    loginDefault: undefined,
                     logged_out: undefined,
                 });
             },
@@ -153,7 +142,6 @@ export default createModule({
                     login_error: undefined,
                     show_login_modal: false,
                     loginBroadcastOperation: undefined,
-                    loginDefault: undefined,
                 }),
         },
         {

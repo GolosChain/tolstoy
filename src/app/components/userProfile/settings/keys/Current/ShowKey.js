@@ -97,12 +97,26 @@ export default class ShowKey extends Component {
         }
     }
 
-    handleToggleShow = () => this.setState({ showPrivate: !this.state.showPrivate });
+    handleToggleShow = () => {
+        this.setState({
+            showPrivate: !this.state.showPrivate,
+        });
+    };
 
     handleShowLogin = () => {
-        const { showLogin, accountName, authType } = this.props;
+        const { accountName, authType } = this.props;
 
-        showLogin({ username: accountName, authType });
+        this.props.showLogin({
+            username: accountName,
+            authType,
+            onClose: username => {
+                if (username) {
+                    this.setState({
+                        showPrivate: true,
+                    });
+                }
+            },
+        });
     };
 
     handleShowQr = () => {
@@ -148,9 +162,9 @@ export default class ShowKey extends Component {
                     {showPrivate ? tt('g.hide_private_key') : tt('g.show_private_key')}
                 </ButtonStyled>
             );
-        } else if (!['memo', 'owner'].includes(authType)) {
+        } else if (authType !== 'memo' && authType !== 'owner') {
             return (
-                <ButtonStyled onClick={this.handleShowLogin}>{tt('g.login_to_show')}</ButtonStyled>
+                <ButtonStyled onClick={this.handleShowLogin}>{tt('g.auth_to_show')}</ButtonStyled>
             );
         }
 

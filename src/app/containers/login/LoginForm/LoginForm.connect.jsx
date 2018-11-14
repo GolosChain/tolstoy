@@ -9,7 +9,7 @@ export default connect(
     state => ({
         loginBroadcastOperation: userSelector('loginBroadcastOperation')(state),
         loginError: userSelector('login_error')(state),
-        username: currentUsernameSelector(state),
+        currentUsername: currentUsernameSelector(state),
     }),
     {
         clearError: () => user.actions.loginError({ error: null }),

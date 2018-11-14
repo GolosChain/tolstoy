@@ -157,8 +157,11 @@ const LoginButton = styled(Button)`
 
 export class LoginForm extends Component {
     static propTypes = {
+        currentUsername: PropTypes.string,
         username: PropTypes.string,
+        authType: PropTypes.oneOf(['owner', 'active', 'memo']),
         isConfirm: PropTypes.bool,
+        forceSave: PropTypes.bool,
         operationType: PropTypes.string,
         loginError: PropTypes.string,
         loginCanceled: PropTypes.func.isRequired,
@@ -175,15 +178,17 @@ export class LoginForm extends Component {
     };
 
     getUsernameFromProps() {
-        const { isConfirm, username, operationType } = this.props;
+        const { isConfirm, currentUsername, username, operationType } = this.props;
 
-        if (!username) {
+        const name = username || currentUsername;
+
+        if (!name) {
             return '';
         }
 
-        let stateUsername = username;
+        let stateUsername = name;
 
-        if (isConfirm && username && !username.includes('/')) {
+        if (isConfirm && name && !name.includes('/')) {
             let needKeyType = 'active';
 
             if (operationType && OWNER_KEY_OPERATIONS.includes(operationType)) {
@@ -209,15 +214,14 @@ export class LoginForm extends Component {
     };
 
     changeSaveCredentials = () => {
-        this.setState({
-            saveCredentials: !this.state.saveCredentials,
-        });
-        localStorage.setItem('saveLogin', !this.state.saveCredentials ? 'yes' : 'no');
+        const saveCredentials = !this.state.saveCredentials;
+        this.setState({ saveCredentials });
+        localStorage.setItem('saveLogin', saveCredentials ? 'yes' : 'no');
         this.clearError();
     };
 
     submit = async () => {
-        const { isConfirm } = this.props;
+        const { isConfirm, forceSave } = this.props;
         const { username, password, activeConfirmed } = this.state;
 
         if (
@@ -246,7 +250,7 @@ export class LoginForm extends Component {
                 .toLowerCase()
                 .replace(/\/.+$/, ''),
             password,
-            saveLogin: this.state.saveCredentials,
+            saveLogin: forceSave || this.state.saveCredentials,
             isLogin: !isConfirm,
             isConfirm,
         };
@@ -294,7 +298,7 @@ export class LoginForm extends Component {
     };
 
     render() {
-        const { onClose, loginError, isConfirm, operationType, className } = this.props;
+        const { onClose, loginError, isConfirm, forceSave, operationType, className } = this.props;
         const { username, password, consent, saveCredentials, submitting } = this.state;
 
         let loginErr = null;
@@ -368,14 +372,16 @@ export class LoginForm extends Component {
                             <CheckboxLabel>{tt('loginform_jsx.consent')}</CheckboxLabel>
                         </ConsentCheckbox>*/
                         }
-                        <ConsentCheckbox tabIndex="0" onClick={this.changeSaveCredentials}>
-                            <Checkbox value={saveCredentials} />
-                            <CheckboxLabel>
-                                {isConfirm
-                                    ? tt('loginform_jsx.save_password_on_page')
-                                    : tt('loginform_jsx.keep_me_logged_in')}
-                            </CheckboxLabel>
-                        </ConsentCheckbox>
+                        {forceSave ? null : (
+                            <ConsentCheckbox tabIndex="0" onClick={this.changeSaveCredentials}>
+                                <Checkbox value={saveCredentials} />
+                                <CheckboxLabel>
+                                    {isConfirm
+                                        ? tt('loginform_jsx.save_password_on_page')
+                                        : tt('loginform_jsx.keep_me_logged_in')}
+                                </CheckboxLabel>
+                            </ConsentCheckbox>
+                        )}
                     </BlockCheckboxes>
                     <LoginButton disabled={submitting || !consent} onClick={this.submit}>
                         {isConfirm ? tt('g.authorize') : tt('g.login')}
