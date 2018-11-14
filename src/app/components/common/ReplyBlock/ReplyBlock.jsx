@@ -7,8 +7,8 @@ import tt from 'counterpart';
 import Icon from 'golos-ui/Icon';
 
 const Replies = styled(
-    ({ to, role, clickAble, ...otherProps }) =>
-        clickAble ? <Link to={to} role={role} {...otherProps} /> : <div {...otherProps} />
+    ({ to, isLink, ...otherProps }) =>
+        isLink ? <Link to={to} {...otherProps} /> : <div {...otherProps} />
 )`
     height: 100%;
     min-height: 50px;
@@ -18,7 +18,7 @@ const Replies = styled(
     flex-grow: 1;
     justify-content: flex-end;
 
-    ${is('clickAble')`
+    ${is('isLink')`
         cursor: pointer;
     `};
 `;
@@ -99,16 +99,15 @@ export class ReplyBlock extends Component {
 
     render() {
         const { grid, count, link, text, notOwner, onReplyClick, className } = this.props;
-        const clickAble = typeof grid === 'boolean';
+        const isLink = typeof grid === 'boolean';
 
         return (
             <Root grid={grid} className={className}>
                 <Replies
                     to={`${link}#comments`}
-                    role="button"
                     data-tooltip={tt('reply.comments_count')}
                     aria-label={tt('aria_label.comments', { count })}
-                    clickAble={clickAble}
+                    isLink={isLink}
                 >
                     <ReplyIcon name="reply" />
                     <RepliesQuantity>{count}</RepliesQuantity>
@@ -117,7 +116,6 @@ export class ReplyBlock extends Component {
                     <Fragment>
                         <Splitter />
                         <ReplyButton
-                            role="button"
                             to={`${link}#createComment`}
                             onClick={this.toggleCommentInputFocus}
                         >
