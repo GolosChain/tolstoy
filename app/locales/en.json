@@ -309,11 +309,11 @@
         "delegated": {
           "actions": "Action",
           "amount": "Golos Power",
-          "amount_label": "Amount to gelegate",
+          "amount_label": "Amount to delegate",
           "cancel": "Cancel",
           "edit": "Edit",
           "title": "Delegated",
-          "to_placeholder": "Dellegate to account"
+          "to_placeholder": "Delegate to account"
         }
       },
       "title": "Delegate Golos Power"
