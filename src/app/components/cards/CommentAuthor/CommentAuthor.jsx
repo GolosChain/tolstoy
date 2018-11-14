@@ -11,41 +11,30 @@ const Wrapper = styled.div`
     align-items: center;
 `;
 
-const Avatar = styled.span`
+const Avatar = styled(Link)`
     position: relative;
     display: flex;
     margin-right: 10px;
     border-radius: 50%;
 `;
 
-const AvatarLink = Avatar.withComponent(Link);
-
-const PostDesc = styled.div`
-    font-family: ${a => a.theme.fontFamily};
-`;
-
-const AuthorLine = styled.div`
-    margin: 3px 0;
-    line-height: 1.1;
-`;
-
 const AuthorName = styled(Link)`
+    display: block;
+    margin: 3px 0;
+    font-family: ${a => a.theme.fontFamily};
     font-size: 14px;
     font-weight: 500;
+    line-height: 1.1;
     color: #333;
     text-decoration: none;
 `;
 
 const CommentAuthor = ({ author }) => (
     <Wrapper>
-        <AvatarLink to={`/@${author}`} aria-label={tt('aria_label.avatar')}>
+        <Avatar to={`/@${author}`} aria-label={tt('aria_label.avatar')}>
             <Userpic account={author} size={37} />
-        </AvatarLink>
-        <PostDesc>
-            <AuthorLine>
-                <AuthorName to={`/@${author}`}>{author}</AuthorName>
-            </AuthorLine>
-        </PostDesc>
+        </Avatar>
+        <AuthorName to={`/@${author}`}>{author}</AuthorName>
     </Wrapper>
 );
 
