@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import throttle from 'lodash/throttle';
 
 import { TabLink, TabLinkIndex } from 'golos-ui/Tab';
 import Icon from 'golos-ui/Icon';
@@ -11,9 +12,7 @@ import Icon from 'golos-ui/Icon';
 import { changeProfileLayout } from 'src/app/redux/actions/ui';
 import SlideContainer from 'src/app/components/common/SlideContainer';
 import { MAX_WIDTH, OFFSET } from 'src/app/components/common/Container/Container';
-import throttle from 'lodash/throttle';
-
-const MAIN_CONTAINER_WIDTH_POINT = 1200;
+import { FORCE_LINES_WIDTH } from 'src/app/components/common/CardsList/CardsList';
 
 const SlideContainerStyled = styled(SlideContainer)`
     background: #fff;
@@ -34,6 +33,7 @@ const Container = styled.div`
 
 const Wrapper = styled.div`
     display: flex;
+    flex-grow: 1;
     margin: 0 -3px;
 `;
 
@@ -224,7 +224,7 @@ class UserNavigation extends PureComponent {
 
     _checkScreenSize = () => {
         this.setState({
-            isMobile: window.innerWidth < MAIN_CONTAINER_WIDTH_POINT,
+            isMobile: window.innerWidth < FORCE_LINES_WIDTH,
         });
     };
 

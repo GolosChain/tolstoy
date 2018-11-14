@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { List, OrderedSet } from 'immutable';
 import throttle from 'lodash/throttle';
 import styled from 'styled-components';
-import is from 'styled-is';
 
 import { getScrollElement } from 'src/app/helpers/window';
 import { isFetchingOrRecentlyUpdated } from 'app/utils/StateFunctions';
@@ -11,18 +10,24 @@ import { isFetchingOrRecentlyUpdated } from 'app/utils/StateFunctions';
 import PostCard from 'src/app/components/cards/PostCard';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 
-const FORCE_GRID_WIDTH = 650;
+export const FORCE_LINES_WIDTH = 1000;
+const FORCE_COMPACT_WIDTH = 550;
 
 const Root = styled.div`
-    ${is('grid')`
-        display: flex;
-        flex-wrap: wrap;
-        position: relative;
-        margin: 0 -8px;
-    `};
-
     @media (max-width: 890px) {
         margin: 0 ${({ customCards }) => (customCards ? 20 : 12)}px;
+    }
+`;
+
+const ColumnsContainer = styled.div`
+    display: flex;
+`;
+
+const Column = styled.div`
+    flex: 1 1 100px;
+
+    &:first-child {
+        margin-right: 16px;
     }
 `;
 
@@ -59,7 +64,8 @@ export default class CardsList extends PureComponent {
     };
 
     state = {
-        forceGrid: false,
+        forceLines: false,
+        forceCompact: false,
     };
 
     rootRef = React.createRef();
@@ -84,9 +90,12 @@ export default class CardsList extends PureComponent {
             }, 50);
         }
 
-        if (window.innerWidth < FORCE_GRID_WIDTH) {
+        const width = window.innerWidth;
+
+        if (width < FORCE_LINES_WIDTH) {
             this.setState({
-                forceGrid: true,
+                forceLines: width < FORCE_LINES_WIDTH,
+                forceCompact: width < FORCE_COMPACT_WIDTH,
             });
         }
     }
@@ -114,8 +123,11 @@ export default class CardsList extends PureComponent {
     );
 
     onResizeLazy = throttle(() => {
+        const width = window.innerWidth;
+
         this.setState({
-            forceGrid: window.innerWidth < FORCE_GRID_WIDTH,
+            forceLines: width < FORCE_LINES_WIDTH,
+            forceCompact: width < FORCE_COMPACT_WIDTH,
         });
     }, 100);
 
@@ -197,6 +209,31 @@ export default class CardsList extends PureComponent {
         return <PostCard {...props} />;
     }
 
+    renderCards() {
+        const { items, layout, disallowGrid } = this.props;
+        const { forceLines } = this.state;
+
+        const isGrid = !disallowGrid && !forceLines && layout === 'grid';
+
+        if (isGrid) {
+            const columns = [[], []];
+
+            for (let i = 0; i < items.size; i++) {
+                columns[i % 2 === 0 ? 0 : 1].push(items.get(i));
+            }
+
+            return (
+                <ColumnsContainer>
+                    {columns.map((column, i) => (
+                        <Column key={i}>{column.map(this.renderCard)}</Column>
+                    ))}
+                </ColumnsContainer>
+            );
+        } else {
+            return items.map(this.renderCard);
+        }
+    }
+
     renderCard = data => {
         const {
             pageAccountName,
@@ -207,10 +244,10 @@ export default class CardsList extends PureComponent {
             itemRender,
         } = this.props;
 
-        const { forceGrid } = this.state;
+        const { forceCompact, forceLines } = this.state;
 
         const itemRenderFunc = itemRender || this.itemRender;
-        const isGrid = !disallowGrid && (layout === 'grid' || forceGrid);
+        const compact = (!disallowGrid && !forceLines && layout === 'grid') || forceCompact;
 
         let permLink;
         let additionalData = null;
@@ -230,7 +267,7 @@ export default class CardsList extends PureComponent {
             key: permLink,
             permLink,
             additionalData,
-            grid: isGrid,
+            compact,
             allowInlineReply,
             pageAccountName,
             showPinButton,
@@ -239,14 +276,11 @@ export default class CardsList extends PureComponent {
     };
 
     render() {
-        const { items, layout, disallowGrid, itemRender } = this.props;
-        const { forceGrid } = this.state;
-
-        const isGrid = !disallowGrid && (layout === 'grid' || forceGrid);
+        const { itemRender } = this.props;
 
         return (
-            <Root innerRef={this.rootRef} grid={isGrid} customCards={Boolean(itemRender)}>
-                {items.map(this.renderCard)}
+            <Root innerRef={this.rootRef} customCards={Boolean(itemRender)}>
+                {this.renderCards()}
                 {this.renderLoaderIfNeed()}
             </Root>
         );

@@ -6,7 +6,6 @@ import throttle from 'lodash/throttle';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import Icon from 'golos-ui/Icon';
 import { TagLink } from 'golos-ui/Tag';
 
 import { breakWordStyles } from 'src/app/helpers/styles';
@@ -69,10 +68,10 @@ const PostBody = styled.div`
 const Tags = styled.div`
     display: flex;
     flex-wrap: wrap;
-    margin-top: 30px;
+    margin-top: 20px;
 
     ${TagLink} {
-        margin: 0 10px 0 0;
+        margin: 10px 10px 0 0;
     }
 `;
 
@@ -171,7 +170,7 @@ export class PostContent extends Component {
                                 <TagLink
                                     to={'/trending/' + tag.origin}
                                     key={index}
-                                    aria-label={tt('aria_label.tag')}
+                                    aria-label={tt('aria_label.tag', {tag: tag.tag})}
                                     category={tag.origin === category.origin}
                                 >
                                     {tag.tag}

@@ -1,24 +1,9 @@
 import styled from 'styled-components';
-import is from 'styled-is';
 
 import { breakWordStyles } from 'src/app/helpers/styles';
 
 export const EntryWrapper = styled.div`
     margin-bottom: 16px;
-
-    ${is('grid')`
-        display: flex;
-        flex-direction: column;
-        flex-basis: 317px;
-        flex-grow: 1;
-        max-width: 50%;
-        margin: 0 8px 16px;
-        vertical-align: top;
-        
-        @media (max-width: 950px) {
-            max-width: 100%;
-        }
-    `};
 `;
 
 export const PostTitle = styled.h3`

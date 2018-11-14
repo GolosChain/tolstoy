@@ -59,7 +59,7 @@ const Root = styled.div`
     display: flex;
     align-items: center;
 
-    ${is('grid')`
+    ${is('compact')`
         width: 100%;
         height: 56px;
         justify-content: center;
@@ -77,7 +77,7 @@ export class ReplyBlock extends Component {
     };
 
     static propTypes = {
-        grid: PropTypes.bool,
+        compact: PropTypes.bool,
         count: PropTypes.number,
         link: PropTypes.string,
         text: PropTypes.string,
@@ -92,9 +92,9 @@ export class ReplyBlock extends Component {
     };
 
     render() {
-        const { grid, count, link, text, notOwner, onReplyClick, className } = this.props;
+        const { compact, count, link, text, notOwner, onReplyClick, className } = this.props;
         return (
-            <Root grid={grid} className={className}>
+            <Root compact={compact} className={className}>
                 <ReplyCounterBlock
                     to={`${link}#comments`}
                     role="button"
@@ -107,7 +107,11 @@ export class ReplyBlock extends Component {
                 {!onReplyClick && (
                     <Fragment>
                         <Splitter />
-                        <ReplyButton role="button" to={`${link}#comments`} onClick={this.toggleCommentInputFocus}>
+                        <ReplyButton
+                            role="button"
+                            to={`${link}#comments`}
+                            onClick={this.toggleCommentInputFocus}
+                        >
                             {text}
                         </ReplyButton>
                     </Fragment>
@@ -116,7 +120,9 @@ export class ReplyBlock extends Component {
                     notOwner && (
                         <Fragment>
                             <Splitter />
-                            <ReplyButton role="button" onClick={onReplyClick}>{text}</ReplyButton>
+                            <ReplyButton role="button" onClick={onReplyClick}>
+                                {text}
+                            </ReplyButton>
                         </Fragment>
                     )}
             </Root>
