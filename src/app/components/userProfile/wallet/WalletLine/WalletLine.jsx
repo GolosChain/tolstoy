@@ -21,6 +21,7 @@ import {
     DIRECTION,
     CURRENCY_COLOR,
 } from 'src/app/containers/userProfile/wallet/WalletContent/WalletContent';
+import PostLink from './PostLink';
 
 const Root = styled.div`
     &:nth-child(even) {
@@ -232,15 +233,6 @@ const ActionIcon = styled(Icon)`
     }
 `;
 
-const WhoPostLink = styled(Link)`
-    display: block;
-    color: #333;
-    white-space: nowrap;
-    text-decoration: underline;
-    overflow: hidden;
-    text-overflow: ellipsis;
-`;
-
 export default class WalletLine extends PureComponent {
     static propTypes = {
         data: PropTypes.object.isRequired,
@@ -248,6 +240,7 @@ export default class WalletLine extends PureComponent {
         delegationData: PropTypes.array,
         delegate: PropTypes.func.isRequired,
         onLoadDelegationsData: PropTypes.func.isRequired,
+        getContent: PropTypes.func.isRequired,
     };
 
     state = {
@@ -263,7 +256,7 @@ export default class WalletLine extends PureComponent {
     }
 
     render() {
-        const { data } = this.props;
+        const { data, getContent } = this.props;
         const { loader } = this.state;
         const {
             stamp,
@@ -302,7 +295,7 @@ export default class WalletLine extends PureComponent {
                             </WhoName>
                         ) : null}
                         {title ? <WhoTitle>{title}</WhoTitle> : null}
-                        {post ? this.renderPostLink(post) : null}
+                        {post ? <PostLink post={post} getContent={getContent}/> : null}
                         <TimeStamp>
                             <TimeAgoWrapper date={stamp} />
                         </TimeStamp>
@@ -320,7 +313,7 @@ export default class WalletLine extends PureComponent {
                         </Memo>
                     ) : null}
                     {data.data ? <DataLink to={link}>{data.data}</DataLink> : null}
-                    {showDelegationActions ? this._renderDelegationActions() : null}
+                    {showDelegationActions ? this.renderDelegationActions() : null}
                     {currencies ? (
                         <Currencies>
                             {currencies.map(({ amount, currency }) => (
@@ -337,19 +330,13 @@ export default class WalletLine extends PureComponent {
                         </Value>
                     )}
                 </Line>
-                {this._renderEditDelegation()}
+                {this.renderEditDelegation()}
                 {loader ? <SplashLoader light /> : null}
             </Root>
         );
     }
 
-    renderPostLink(post) {
-        const postLink = post.author + '/' + post.permLink;
-
-        return <WhoPostLink to={'/@' + postLink}>{postLink}</WhoPostLink>;
-    }
-
-    _renderEditDelegation() {
+    renderEditDelegation() {
         const { data } = this.props;
         const { id, amount } = data;
         const { edit } = this.state;
@@ -374,15 +361,15 @@ export default class WalletLine extends PureComponent {
                     <EditGolosPower
                         value={value}
                         max={availableBalance + value}
-                        onSave={value => this._onDelegationSaveClick(data, value)}
-                        onCancel={this._onDelegationEditCancelClick}
+                        onSave={value => this.onDelegationSaveClick(data, value)}
+                        onCancel={this.onDelegationEditCancelClick}
                     />
                 </EditDelegationBlock>
             );
         }
     }
 
-    _renderDelegationActions() {
+    renderDelegationActions() {
         const { loader } = this.state;
 
         return (
@@ -391,19 +378,19 @@ export default class WalletLine extends PureComponent {
                     color="#3684ff"
                     name="pen"
                     data-tooltip={tt('user_wallet.content.tip.edit_delegation')}
-                    onClick={loader ? null : () => this._onEditDelegationClick()}
+                    onClick={loader ? null : () => this.onEditDelegationClick()}
                 />
                 <ActionIcon
                     color="#fc544e"
                     name="round-cross"
                     data-tooltip={tt('user_wallet.content.tip.cancel_delegation')}
-                    onClick={loader ? null : () => this._onCancelDelegationClick()}
+                    onClick={loader ? null : () => this.onCancelDelegationClick()}
                 />
             </Actions>
         );
     }
 
-    _onEditDelegationClick = () => {
+    onEditDelegationClick = () => {
         const { edit, startEditDelegationGrow } = this.state;
 
         if (edit && startEditDelegationGrow) {
@@ -427,7 +414,7 @@ export default class WalletLine extends PureComponent {
         }
     };
 
-    _onDelegationEditCancelClick = () => {
+    onDelegationEditCancelClick = () => {
         this.setState(
             {
                 startEditDelegationGrow: false,
@@ -442,27 +429,27 @@ export default class WalletLine extends PureComponent {
         );
     };
 
-    _onDelegationSaveClick = (item, value) => {
+    onDelegationSaveClick = (item, value) => {
         const { loader } = this.state;
 
         if (loader) {
             return;
         }
 
-        this._updateDelegation(item, value);
+        this.updateDelegation(item, value);
     };
 
-    _onCancelDelegationClick = async () => {
+    onCancelDelegationClick = async () => {
         if (await DialogManager.dangerConfirm()) {
             const { data } = this.props;
 
             const delegationData = this.props.delegationData.find(d => d.id === data.id);
 
-            this._updateDelegation(delegationData, 0);
+            this.updateDelegation(delegationData, 0);
         }
     };
 
-    _updateDelegation({ id, delegatee }, value) {
+    updateDelegation({ id, delegatee }, value) {
         const { myAccountName, globalProps } = this.props;
 
         const vesting = value > 0 ? golosToVests(value / 1000, globalProps) : '0.000000';

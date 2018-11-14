@@ -185,7 +185,7 @@ export default class WalletContent extends Component {
         }
 
         if (list.length) {
-            const { myAccountName, myAccount } = this.props;
+            const { myAccountName, myAccount, getContent } = this.props;
             const { delegationData } = this.state;
 
             return (
@@ -201,6 +201,7 @@ export default class WalletContent extends Component {
                             globalProps={globalProps}
                             delegate={this.props.delegate}
                             onLoadDelegationsData={this._onLoadDelegationsData}
+                            getContent={getContent}
                         />
                     ))}
                 </Lines>
