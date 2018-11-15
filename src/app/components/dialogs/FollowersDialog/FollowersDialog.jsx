@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Set } from 'immutable';
 import styled from 'styled-components';
-import is from 'styled-is';
 import tt from 'counterpart';
 
 import normalizeProfile from 'app/utils/NormalizeProfile';
@@ -21,18 +20,8 @@ import {
     Name,
     LoaderWrapper,
 } from 'src/app/components/dialogs/common/Dialog';
+
 import { USERS_PER_PAGE } from 'src/app/redux/constants/common';
-
-const StyledDialog = styled(Dialog)`
-    ${is('cutContent')`
-        @media (max-width: 768px) {
-            position: relative;
-
-            max-height: calc(100vh - 80px);
-            overflow: hidden;
-        }
-    `};
-`;
 
 const ShowMore = styled.button`
     width: 100%;
@@ -60,7 +49,7 @@ const StyledLoaderWrapper = styled(LoaderWrapper)`
     }
 `;
 
-const MAX_FOLLOWERS_PER_REQUEST = 100;
+const MAX_FOLLOWERS_PER_REQUEST = 100; // from golos-js
 
 export default class FollowersDialog extends PureComponent {
     static propTypes = {
@@ -86,9 +75,7 @@ export default class FollowersDialog extends PureComponent {
     setRootRef = el => (this.rootRef = el);
 
     showMore = () => {
-        const { followCount, users } = this.props;
-        const loadCount = Math.min(MAX_FOLLOWERS_PER_REQUEST, followCount - (users.size + 1));
-        this.loadMore(loadCount);
+        this.loadMore(MAX_FOLLOWERS_PER_REQUEST);
     };
 
     loadMore = (limit = USERS_PER_PAGE) => {
@@ -136,10 +123,10 @@ export default class FollowersDialog extends PureComponent {
 
     render() {
         const { loading, followCount, users, type } = this.props;
-        const hasMore = followCount > users.size;
+        const hasMore = followCount > users.size + 1;
 
         return (
-            <StyledDialog cutContent={!hasMore}>
+            <Dialog>
                 <Header>
                     <Title>{tt(`user_profile.${type}_count`, { count: followCount })}</Title>
                     <IconClose onClick={this.props.onClose} />
@@ -147,7 +134,7 @@ export default class FollowersDialog extends PureComponent {
                 <Content innerRef={this.setRootRef}>
                     {users.map(this.renderUser)}
                     {loading && (
-                        <StyledLoaderWrapper cutContent={!hasMore}>
+                        <StyledLoaderWrapper cutContent={hasMore}>
                             <LoadingIndicator type="circle" size={40} />
                         </StyledLoaderWrapper>
                     )}
@@ -155,7 +142,7 @@ export default class FollowersDialog extends PureComponent {
                 {hasMore && !loading ? (
                     <ShowMore onClick={this.showMore}>{tt('dialog.show_more')}</ShowMore>
                 ) : null}
-            </StyledDialog>
+            </Dialog>
         );
     }
 }
