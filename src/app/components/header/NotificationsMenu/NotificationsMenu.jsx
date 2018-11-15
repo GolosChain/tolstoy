@@ -99,6 +99,7 @@ export default class NotificationsMenu extends PureComponent {
                             notifications={notifications}
                             accounts={accounts}
                             isCompact={true}
+                            emptyListPlaceholder={tt('g.empty')}
                         />
                     )}
                 </WrapperActivity>
