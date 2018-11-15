@@ -9,16 +9,16 @@ import CommentFormLoader from 'app/components/modules/CommentForm/loader';
 
 const shadowScale = keyframes`
   0% {
-    box-shadow: 0 0 10px 0 rgba(40, 121, 255, 0.06);
-    border-color: rgba(40, 121, 255, 0.06);
+    box-shadow: 0 0 10px 0 rgba(200, 225, 255, 0.06);
+    border-color: rgba(33, 136, 255, 0.06);
   }
   50% {
-    box-shadow: 0 0 10px 0 rgba(40, 121, 255, 0.46);
-    border-color: rgba(40, 121, 255, 0.46);
+    box-shadow: 0 0 10px 0 rgba(200, 225, 255, 1);
+    border-color: rgba(33, 136, 255, 1);
   }
   100% {
-    box-shadow: 0 0 10px 0 rgba(40, 121, 255, 0.06);
-    border-color: rgba(40, 121, 255, 0.06);
+    box-shadow: 0 0 10px 0 rgba(200, 225, 255, 0.06);
+    border-color: rgba(33, 136, 255, 0.06);
   }
 `;
 

@@ -28,10 +28,6 @@ const Header = styled.div`
     ${is('collapsed')`
         padding: 5px 0;
     `};
-
-    ${is('highlighted')`
-        background-color: #e7eef9;
-    `};
 `;
 
 const HeaderLine = styled.div`
@@ -91,10 +87,6 @@ const CommentBodyWrapper = styled.div`
     align-items: center;
 
     padding: 0 18px;
-
-    ${is('highlighted')`
-        background-color: #e7eef9;
-    `};
 `;
 
 const Root = styled(EntryWrapper)`
@@ -103,6 +95,12 @@ const Root = styled(EntryWrapper)`
     flex-direction: column;
 
     min-height: 50px;
+
+    ${is('highlighted')`
+        box-shadow: 0 0 0 0.2rem #c8e1ff;
+        border: 1px solid #2188ff;
+        border-radius: 3px;
+    `};
 
     ${is('renderCard')`
         border-radius: 8px;
@@ -164,6 +162,7 @@ const SpamText = styled.div`
 
 export class CommentCard extends PureComponent {
     static propTypes = {
+        location: PropTypes.object,
         permLink: PropTypes.string,
         isPostPage: PropTypes.bool,
         updateComments: PropTypes.func,
@@ -171,7 +170,6 @@ export class CommentCard extends PureComponent {
         comment: PropTypes.instanceOf(Map),
         stats: PropTypes.object,
         title: PropTypes.string.isRequired,
-        fullParentURL: PropTypes.string.isRequired,
         extractedContent: PropTypes.shape({
             link: PropTypes.string,
             desc: PropTypes.string,
@@ -199,27 +197,38 @@ export class CommentCard extends PureComponent {
     commentTitleRef = createRef();
 
     componentDidMount() {
-        const { anchorId } = this.props;
-        const { highlighted } = this.state;
-
-        if (window.location.hash.replace('#', '') === anchorId && !highlighted) {
-            const commentEl = document.getElementById(anchorId);
-
-            if (commentEl) {
-                commentEl.scrollIntoView(true);
-                getScrollElement().scrollTop -= 200;
-                this.setState({ highlighted: true });
-            }
-        }
+        this.tryHighlightComment();
     }
 
     componentWillReceiveProps(props) {
-        if (!this.props.stats && props.stats) {
+        const { location, stats } = this.props;
+
+        if (props.location.hash !== location.hash) {
+            this.tryHighlightComment();
+        }
+
+        if (!stats && props.stats) {
             this.setState({
                 showAlert: this.isNeedShowAlert(props),
             });
         }
     }
+
+    tryHighlightComment = () => {
+        const { anchorId } = this.props;
+        const { highlighted } = this.state;
+
+        if (window.location.hash.replace('#', '') === anchorId && !highlighted) {
+            const commentEl = document.getElementById(anchorId);
+            if (commentEl) {
+                commentEl.scrollIntoView(true);
+                getScrollElement().scrollTop -= 200;
+                this.setState({ highlighted: true });
+            }
+        } else if (highlighted) {
+            this.setState({ highlighted: false });
+        }
+    };
 
     isNeedShowAlert(props) {
         if (props.stats && !props.showSpam) {
@@ -230,13 +239,17 @@ export class CommentCard extends PureComponent {
     }
 
     renderHeaderForPost() {
-        const { comment, extractedContent, anchorId, isPostPage } = this.props;
-        const { collapsed, highlighted, showAlert } = this.state;
+        const { comment, extractedContent, isPostPage } = this.props;
+        const { collapsed, showAlert } = this.state;
 
         return (
-            <Header collapsed={collapsed} id={anchorId} highlighted={highlighted}>
+            <Header collapsed={collapsed}>
                 <HeaderLine alertmode={showAlert}>
-                    <CardAuthor author={comment.get('author')} created={comment.get('created')} />
+                    <CardAuthor
+                        contentLink={comment.get('url')}
+                        author={comment.get('author')}
+                        created={comment.get('created')}
+                    />
                     {showAlert ? (
                         <SpamBlock>
                             <SpamText>{tt('comment_card.hidden')}</SpamText>
@@ -264,21 +277,24 @@ export class CommentCard extends PureComponent {
     }
 
     renderHeaderForProfile() {
-        const { fullParentURL, title, comment, anchorId } = this.props;
-        const { collapsed, highlighted } = this.state;
+        const { title, comment } = this.props;
+        const { collapsed } = this.state;
         const detransliteratedCategory = detransliterate(comment.get('category'));
 
         return (
-            <Header collapsed={collapsed} id={anchorId} highlighted={highlighted}>
+            <Header collapsed={collapsed}>
                 <HeaderLine>
                     {collapsed ? (
                         <ReLink
-                            fullParentURL={fullParentURL}
+                            fullParentURL={`/@${comment.get('parent_author')}/${comment.get(
+                                'parent_permlink'
+                            )}`}
                             title={title}
                             onClick={this.rememberScrollPosition}
                         />
                     ) : (
                         <CardAuthor
+                            contentLink={comment.get('url')}
                             author={comment.get('author')}
                             created={comment.get('created')}
                         />
@@ -295,13 +311,15 @@ export class CommentCard extends PureComponent {
     }
 
     renderTitle() {
-        const { isOwner, fullParentURL, title } = this.props;
+        const { isOwner, comment, title } = this.props;
         const { edit } = this.state;
 
         return (
             <Title innerRef={this.commentTitleRef}>
                 <ReLink
-                    fullParentURL={fullParentURL}
+                    fullParentURL={`/@${comment.get('parent_author')}/${comment.get(
+                        'parent_permlink'
+                    )}`}
                     title={title}
                     onClick={this.rememberScrollPosition}
                 />
@@ -312,7 +330,7 @@ export class CommentCard extends PureComponent {
 
     renderBodyText() {
         const { extractedContent, comment, isOwner, isPostPage, payout } = this.props;
-        const { edit, highlighted } = this.state;
+        const { edit } = this.state;
 
         return (
             <Fragment>
@@ -329,7 +347,7 @@ export class CommentCard extends PureComponent {
                         onCancel={this.onEditDone}
                     />
                 ) : (
-                    <CommentBodyWrapper highlighted={highlighted}>
+                    <CommentBodyWrapper>
                         <CommentBody
                             to={comment.get('url')}
                             onClick={this.rememberScrollPosition}
@@ -431,6 +449,7 @@ export class CommentCard extends PureComponent {
             className,
             stats,
             showSpam,
+            anchorId,
         } = this.props;
 
         const { showReply, collapsed, edit, highlighted, showAlert } = this.state;
@@ -449,6 +468,8 @@ export class CommentCard extends PureComponent {
 
         return (
             <Root
+                id={anchorId}
+                highlighted={highlighted}
                 renderCard={!isPostPage}
                 collapsed={collapsed}
                 className={className}
@@ -471,7 +492,6 @@ export class CommentCard extends PureComponent {
                             replyRef={this.replyRef}
                             commentRef={this.commentRef}
                             onReplyClick={this.onReplyClick}
-                            highlighted={highlighted}
                         />
                     </Fragment>
                 )}

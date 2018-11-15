@@ -6,7 +6,6 @@ import tt from 'counterpart';
 import { key_utils } from 'golos-js/lib/auth/ecc';
 import CloseButton from 'react-foundation-components/lib/global/close-button'; // TODO: make new component and delete
 
-import { REGISTRATION_URL } from 'app/client_config';
 import { init as initAnchorHelper } from 'app/utils/anchorHelper';
 
 import defaultTheme from 'src/app/themes';
