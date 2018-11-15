@@ -15,7 +15,7 @@ const FORCE_COMPACT_WIDTH = 550;
 
 const Root = styled.div`
     @media (max-width: 890px) {
-        margin: 0 ${({ customCards }) => (customCards ? 20 : 12)}px;
+        margin: 0 16px;
     }
 `;
 
@@ -276,10 +276,8 @@ export default class CardsList extends PureComponent {
     };
 
     render() {
-        const { itemRender } = this.props;
-
         return (
-            <Root innerRef={this.rootRef} customCards={Boolean(itemRender)}>
+            <Root innerRef={this.rootRef}>
                 {this.renderCards()}
                 {this.renderLoaderIfNeed()}
             </Root>
