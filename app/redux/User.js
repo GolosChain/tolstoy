@@ -49,7 +49,6 @@ export default createModule({
             action: 'SAVE_LOGIN_CONFIRM',
             reducer: (state, { payload }) => state.set('saveLoginConfirm', payload),
         },
-        { action: 'SAVE_LOGIN', reducer: state => state }, // Use only for low security keys (like posting only keys)
         { action: 'GET_ACCOUNT', reducer: state => state },
         {
             action: 'REMOVE_HIGH_SECURITY_KEYS',
@@ -131,7 +130,7 @@ export default createModule({
             },
         },
         {
-            action: 'CLOSE_LOGIN',
+            action: 'HIDE_LOGIN',
             reducer: state =>
                 state.merge({
                     login_error: undefined,
@@ -160,10 +159,9 @@ export default createModule({
             reducer: (state, { payload: { error } }) => state.merge({ keys_error: error }),
         },
         {
-            // auth saga
             action: 'SET_AUTHORITY',
-            reducer: (state, { payload: { accountName, auth } }) =>
-                state.setIn(['authority', accountName], fromJS(auth)),
+            reducer: (state, { payload: { accountName, authority } }) =>
+                state.setIn(['authority', accountName], fromJS(authority)),
         },
         {
             action: 'HIDE_CONNECTION_ERROR_MODAL',

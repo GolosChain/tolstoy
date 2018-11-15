@@ -46,7 +46,7 @@ export function dispatchLogin(
                                 operationType: type,
                             })
                         );
-                        dispatch(user.actions.closeLogin());
+                        dispatch(user.actions.hideLogin());
                     },
                 })
             );

@@ -13,7 +13,7 @@ export default connect(
     }),
     {
         clearError: () => user.actions.loginError({ error: null }),
-        dispatchSubmit: dispatchLogin,
+        dispatchLogin,
         loginCanceled,
     },
     null,
