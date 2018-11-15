@@ -240,7 +240,8 @@
     "info": "Information",
     "liked": "Liked post",
     "prompt": "Enter the data",
-    "show_all": "Show all"
+    "show_all": "Show all",
+    "show_more": "Show more"
   },
   "dialogs_convert": {
     "power_down_line": "Power down process are running for **%(all)s GOLOS** (**%(done)s GOLOS** have already paid off)."
