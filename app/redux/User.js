@@ -1,11 +1,11 @@
 import { fromJS } from 'immutable';
 import createModule from 'redux-modules';
-import { DEFAULT_LANGUAGE, LOCALE_COOKIE_KEY } from 'app/client_config';
 import cookie from 'react-cookie';
+
+import { DEFAULT_LANGUAGE, LOCALE_COOKIE_KEY } from 'app/client_config';
 
 const defaultState = fromJS({
     current: null,
-    show_login_modal: false,
     show_promote_post_modal: false,
     locale: DEFAULT_LANGUAGE,
     show_messages_modal: false,
@@ -23,21 +23,11 @@ export default createModule({
     transformations: [
         {
             action: 'SHOW_LOGIN',
-            reducer: (state, { payload }) => {
-                // https://github.com/mboperator/redux-modules/issues/11
-                if (typeof payload === 'function') payload = undefined;
-                let operation, loginDefault;
-                if (payload) {
-                    operation = fromJS(payload.operation);
-                    loginDefault = fromJS(payload.loginDefault);
-                }
-
-                return state.merge({
-                    show_login_modal: true,
-                    loginBroadcastOperation: operation,
-                    loginDefault,
-                });
-            },
+            reducer: (state, { payload }) =>
+                state.merge({
+                    loginBroadcastOperation:
+                        payload && payload.operation ? fromJS(payload.operation) : null,
+                }),
         },
         {
             action: 'LOGIN_CANCELED',
@@ -51,9 +41,7 @@ export default createModule({
                 }
 
                 return state.merge({
-                    show_login_modal: false,
                     loginBroadcastOperation: undefined,
-                    loginDefault: undefined,
                 });
             },
         },
@@ -67,19 +55,14 @@ export default createModule({
             action: 'REMOVE_HIGH_SECURITY_KEYS',
             reducer: state => {
                 if (!state.hasIn(['current', 'private_keys'])) return state;
-                let empty = false;
+
                 state = state.updateIn(['current', 'private_keys'], private_keys => {
                     if (!private_keys) return null;
                     if (private_keys.has('active_private')) console.log('removeHighSecurityKeys');
                     private_keys = private_keys.delete('active_private');
-                    empty = private_keys.size === 0;
                     return private_keys;
                 });
-                if (empty) {
-                    // User logged in with Active key then navigates away from the page
-                    // LOGOUT
-                    return defaultState.merge({ logged_out: true });
-                }
+
                 const username = state.getIn(['current', 'username']);
                 state = state.setIn(['authority', username, 'active'], 'none');
                 state = state.setIn(['authority', username, 'owner'], 'none');
@@ -88,15 +71,11 @@ export default createModule({
         },
         {
             action: 'CHANGE_CURRENCY',
-            reducer: (state, { payload }) => {
-                return state.set('currency', payload);
-            },
+            reducer: (state, { payload }) => state.set('currency', payload),
         },
         {
             action: 'CHANGE_LANGUAGE',
-            reducer: (state, { payload }) => {
-                return state.set('locale', payload);
-            },
+            reducer: (state, { payload }) => state.set('locale', payload),
         },
         {
             action: 'SET_POWERDOWN_DEFAULTS',
@@ -118,7 +97,10 @@ export default createModule({
             action: 'SET_TRANSFER_DEFAULTS',
             reducer: (state, { payload }) => state.set('transfer_defaults', fromJS(payload)),
         },
-        { action: 'CLEAR_TRANSFER_DEFAULTS', reducer: state => state.remove('transfer_defaults') },
+        {
+            action: 'CLEAR_TRANSFER_DEFAULTS',
+            reducer: state => state.remove('transfer_defaults'),
+        },
         {
             action: 'USERNAME_PASSWORD_LOGIN',
             reducer: state => state, // saga
@@ -130,19 +112,21 @@ export default createModule({
         {
             action: 'SET_USER',
             reducer: (state, { payload }) => {
-                if (payload.vesting_shares)
+                if (payload.vesting_shares) {
                     payload.vesting_shares = parseFloat(payload.vesting_shares);
-                if (payload.delegated_vesting_shares)
+                }
+
+                if (payload.delegated_vesting_shares) {
                     payload.delegated_vesting_shares = parseFloat(payload.delegated_vesting_shares);
-                if (payload.received_vesting_shares)
+                }
+
+                if (payload.received_vesting_shares) {
                     payload.received_vesting_shares = parseFloat(payload.received_vesting_shares);
+                }
 
                 return state.mergeDeep({
                     current: payload,
-                    show_login_modal: false,
                     loginBroadcastOperation: undefined,
-                    loginDefault: undefined,
-                    logged_out: undefined,
                 });
             },
         },
@@ -151,21 +135,19 @@ export default createModule({
             reducer: state =>
                 state.merge({
                     login_error: undefined,
-                    show_login_modal: false,
                     loginBroadcastOperation: undefined,
-                    loginDefault: undefined,
                 }),
         },
         {
             action: 'LOGIN_ERROR',
             reducer: (state, { payload: { error } }) =>
-                state.merge({ login_error: error, logged_out: undefined }),
+                state.merge({
+                    login_error: error,
+                }),
         },
         {
             action: 'LOGOUT',
-            reducer: () => {
-                return defaultState.merge({ logged_out: true });
-            },
+            reducer: () => defaultState,
         },
         // {
         //     action: 'ACCEPTED_COMMENT',

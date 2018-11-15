@@ -6,8 +6,7 @@ import { Map, List } from 'immutable';
 import tt from 'counterpart';
 
 import { CardContent } from 'golos-ui/Card';
-// import KeysItem from './KeysItem';
-import ShowKey from './ShowKey';
+import ShowKey from './ShowKey.connect';
 
 const KeysBlock = styled.div`
     &:not(:last-child) {
@@ -41,9 +40,6 @@ export default class Current extends Component {
     static propTypes = {
         account: PropTypes.object.isRequired,
         privateKeys: PropTypes.instanceOf(Map),
-
-        showLogin: PropTypes.func,
-        showQRKey: PropTypes.func,
     };
 
     getPubKeys(authType) {
@@ -57,7 +53,7 @@ export default class Current extends Component {
     }
 
     renderKeys() {
-        const { account, privateKeys, showQRKey, showLogin } = this.props;
+        const { account, privateKeys } = this.props;
 
         return authTypes.map((authType, key) => {
             const pubkeys = this.getPubKeys(authType);
@@ -71,8 +67,6 @@ export default class Current extends Component {
                             pubkey={pubkey}
                             privateKey={privateKeys.get(authType + '_private')}
                             accountName={account.get('name')}
-                            showQRKey={showQRKey}
-                            showLogin={showLogin}
                         />
                     ))}
                 </KeysBlock>

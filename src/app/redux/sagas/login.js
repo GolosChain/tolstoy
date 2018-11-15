@@ -12,10 +12,20 @@ export default function* watch() {
 }
 
 function* showLoginWorker({ payload } = {}) {
+    const { username, authType, forceSave, operation, onClose } = payload;
+
+    let fullUsername = username;
+
+    if (fullUsername && authType) {
+        fullUsername += `/${authType}`;
+    }
+
     const dialog = DialogManager.showLogin({
-        isConfirm: Boolean(payload.operation),
-        operationType: payload.operation ? payload.operation.type : null,
-        onClose: payload.onClose,
+        username: fullUsername,
+        isConfirm: Boolean(payload.operation || authType),
+        forceSave,
+        operationType: operation ? operation.type : null,
+        onClose,
     });
 
     const action = yield take(LOGIN_SUCCESS);

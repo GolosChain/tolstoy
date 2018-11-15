@@ -26,9 +26,6 @@ export default class SettingsShow extends PureComponent {
         onSubmitBlockchain: PropTypes.func,
         onSubmitGate: PropTypes.func,
         onSubmitChangePassword: PropTypes.func,
-
-        showLogin: PropTypes.func,
-        showQRKey: PropTypes.func,
     };
 
     render() {
@@ -44,9 +41,6 @@ export default class SettingsShow extends PureComponent {
             onSubmitBlockchain,
             onSubmitGate,
             onSubmitChangePassword,
-
-            showLogin,
-            showQRKey,
         } = this.props;
 
         return (
@@ -71,7 +65,10 @@ export default class SettingsShow extends PureComponent {
                             onSubmitBlockchain={onSubmitBlockchain}
                         />
                     </TabContainer>
-                    <TabContainer id="notificationsTab" title={tt('settings_jsx.tabs.notifications')}>
+                    <TabContainer
+                        id="notificationsTab"
+                        title={tt('settings_jsx.tabs.notifications')}
+                    >
                         <Online
                             options={options}
                             isChanging={isChanging}
@@ -89,8 +86,6 @@ export default class SettingsShow extends PureComponent {
                             account={account}
                             privateKeys={privateKeys}
                             onSubmitChangePassword={onSubmitChangePassword}
-                            showLogin={showLogin}
-                            showQRKey={showQRKey}
                         />
                     </TabContainer>
                 </Tabs>
