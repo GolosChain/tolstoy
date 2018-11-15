@@ -6,6 +6,7 @@ import {
     UI_HOME_TAGS_CARD_COLLAPSE,
     UI_TOGGLE_COMMENT_INPUT_FOCUS,
 } from 'src/app/redux/constants/ui';
+import { UI_SET_WALLET_TAB_STATE, UI_SET_WALLET_TABS_STATE } from '../constants/ui';
 
 export function saveListScrollPosition(y) {
     return {
@@ -51,5 +52,19 @@ export function toggleCommentInputFocus(focused) {
     return {
         type: UI_TOGGLE_COMMENT_INPUT_FOCUS,
         payload: { focused },
+    };
+}
+
+export function setWalletTabState(tab) {
+    return {
+        type: UI_SET_WALLET_TAB_STATE,
+        payload: { tab },
+    };
+}
+
+export function setWalletTabsState(tabs) {
+    return {
+        type: UI_SET_WALLET_TABS_STATE,
+        payload: { tabs },
     };
 }

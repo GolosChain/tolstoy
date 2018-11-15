@@ -93,24 +93,24 @@ const Stub = styled.div`
 
 export default class WalletContent extends Component {
     state = {
-        mainTab: MAIN_TABS.TRANSACTIONS,
-        currency: CURRENCY.ALL,
-        direction: DIRECTION.ALL,
+        mainTab: this.props.walletTabsState.get('mainTab'),
+        currency: this.props.walletTabsState.get('currency'),
+        direction: this.props.walletTabsState.get('direction'),
+        rewardType: this.props.walletTabsState.get('rewardType'),
         rewardTab: REWARDS_TABS.HISTORY,
-        rewardType: REWARDS_TYPES.CURATORIAL,
         limit: DEFAULT_ROWS_LIMIT,
     };
 
     componentDidMount() {
-        this._loadDelegationsData();
+        this.loadDelegationsData();
 
-        window.addEventListener('scroll', this._onScrollLazy);
+        window.addEventListener('scroll', this.onScrollLazy);
     }
 
     componentWillUnmount() {
         this._unmount = true;
 
-        window.removeEventListener('scroll', this._onScrollLazy);
+        window.removeEventListener('scroll', this.onScrollLazy);
     }
 
     render() {
@@ -128,12 +128,12 @@ export default class WalletContent extends Component {
                     currency={currency}
                     rewardType={rewardType}
                     direction={direction}
-                    onMainTabChange={this._onMainTabChange}
-                    onCurrencyChange={this._onCurrencyChange}
-                    onRewardTypeChange={this._onRewardTypeChange}
-                    onDirectionChange={this._onDirectionChange}
+                    onMainTabChange={this.onMainTabChange}
+                    onCurrencyChange={this.onCurrencyChange}
+                    onRewardTypeChange={this.onRewardTypeChange}
+                    onDirectionChange={this.onDirectionChange}
                 />
-                <Content innerRef={this._onContentRef}>{this._renderContent()}</Content>
+                <Content innerRef={this._onContentRef}>{this.renderContent()}</Content>
             </Card>
         );
     }
@@ -146,7 +146,7 @@ export default class WalletContent extends Component {
         );
     }
 
-    _renderContent() {
+    renderContent() {
         const { mainTab, delegationData, delegationError } = this.state;
 
         if (mainTab === MAIN_TABS.POWER) {
@@ -157,10 +157,10 @@ export default class WalletContent extends Component {
             }
         }
 
-        return this._renderList();
+        return this.renderList();
     }
 
-    _renderList() {
+    renderList() {
         const { pageAccount, isOwner, globalProps } = this.props;
         const { mainTab, rewardTab, rewardType } = this.state;
 
@@ -200,7 +200,7 @@ export default class WalletContent extends Component {
                             delegationData={delegationData}
                             globalProps={globalProps}
                             delegate={this.props.delegate}
-                            onLoadDelegationsData={this._onLoadDelegationsData}
+                            onLoadDelegationsData={this.onLoadDelegationsData}
                             getContent={getContent}
                         />
                     ))}
@@ -303,8 +303,8 @@ export default class WalletContent extends Component {
         return list;
     }
 
-    _onLoadDelegationsData = () => {
-        return this._loadDelegationsData();
+    onLoadDelegationsData = () => {
+        return this.loadDelegationsData();
     };
 
     makeGolosPowerList() {
@@ -348,7 +348,7 @@ export default class WalletContent extends Component {
         return list;
     }
 
-    async _loadDelegationsData() {
+    async loadDelegationsData() {
         const { pageAccountName } = this.props;
 
         try {
@@ -555,49 +555,70 @@ export default class WalletContent extends Component {
         }
     }
 
-    _onMainTabChange = ({ id }) => {
+    setTabState(key, id) {
+        this.props.setWalletTabState({
+            key: key,
+            [key]: id,
+        })
+    }
+
+    setTabsState(id) {
+        this.props.setWalletTabsState({
+            mainTab: id,
+            currency: CURRENCY.ALL,
+            direction: DIRECTION.ALL,
+            rewardType: REWARDS_TYPES.CURATORIAL,
+        });
+    }
+
+    onMainTabChange = ({ id }) => {
+        this.setTabsState(id);
         this.setState({
             mainTab: id,
             currency: CURRENCY.ALL,
             direction: DIRECTION.ALL,
+            rewardType: REWARDS_TYPES.CURATORIAL,
             limit: DEFAULT_ROWS_LIMIT,
         });
     };
 
-    _onCurrencyChange = ({ id }) => {
+    onCurrencyChange = ({ id }) => {
+        this.setTabState('currency', id);
         this.setState({
             currency: id,
             limit: DEFAULT_ROWS_LIMIT,
         });
     };
 
-    _onDirectionChange = ({ id }) => {
+    onDirectionChange = ({ id }) => {
+        this.setTabState('direction', id);
         this.setState({
             direction: id,
             limit: DEFAULT_ROWS_LIMIT,
         });
     };
 
-    _onRewardTabChange = ({ id }) => {
+    onRewardTabChange = ({ id }) => {
         this.setState({
             rewardTab: id,
             limit: DEFAULT_ROWS_LIMIT,
         });
     };
 
-    _onRewardTypeChange = ({ id }) => {
+    onRewardTypeChange = ({ id }) => {
+        this.setTabState('rewardType', id);
         this.setState({
             rewardType: id,
             limit: DEFAULT_ROWS_LIMIT,
         });
     };
 
-    _onPostClick = async post => {
+    onPostClick = async post => {
         const postData = await api.getContentAsync(post.author, post.permLink, 0);
         browserHistory.push(postData.url);
     };
 
-    _onScrollLazy = throttle(
+    onScrollLazy = throttle(
         () => {
             if (this._hasMore) {
                 if (this._content.getBoundingClientRect().bottom < window.innerHeight * 1.2) {
