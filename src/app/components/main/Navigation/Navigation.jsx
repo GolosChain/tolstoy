@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { TabLink } from 'golos-ui/Tab';
 import SlideContainer from 'src/app/components/common/SlideContainer';
 import Container from 'src/app/components/common/Container';
+import LayoutSwitcher from 'src/app/components/common/LayoutSwitcher';
 
 const SlideContainerStyled = styled(SlideContainer)`
     background: #fff;
@@ -32,6 +33,13 @@ const TabLinkStyled = styled(TabLink)`
 TabLinkStyled.defaultProps = {
     activeClassName: 'active',
 };
+
+const Right = styled.div`
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+    align-items: center;
+`;
 
 @connect(state => ({
     myAccountName: state.user.getIn(['current', 'username']),
@@ -65,6 +73,9 @@ export default class Navigation extends PureComponent {
                             {value}
                         </TabLinkStyled>
                     ))}
+                    <Right>
+                        <LayoutSwitcher />
+                    </Right>
                 </Container>
             </SlideContainerStyled>
         );

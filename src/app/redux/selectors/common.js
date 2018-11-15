@@ -27,8 +27,15 @@ export const entitiesSelector = (path, defaultValue) => state =>
     pathOr(defaultValue, toArray(path))(state.entities);
 export const dataSelector = (path, defaultValue) => state =>
     pathOr(defaultValue, toArray(path))(state.data);
-export const uiSelector = (path, defaultValue) => state =>
-    pathOr(defaultValue, toArray(path))(state.ui);
+export const uiSelector = (namespace, path, defaultValue) => state => {
+    const data = state.ui[namespace];
+
+    if (path) {
+        return data.getIn(toArray(path), defaultValue);
+    } else {
+        return data;
+    }
+};
 
 // Router selectors
 

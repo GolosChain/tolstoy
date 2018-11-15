@@ -25,7 +25,7 @@ export default connect(
 
             globalSelector('discussion_idx'),
             globalSelector('accounts'),
-            uiSelector(['profile', 'layout'], DEFAULT_LAYOUT),
+            uiSelector('profile', 'layout', DEFAULT_LAYOUT),
             dataSelector('settings'),
             currentUsernameSelector,
             (_, props) => props.routeParams,
@@ -41,8 +41,6 @@ export default connect(
             currentUsername,
             { category = '', order = constants.DEFAULT_SORT_ORDER }
         ) => {
-            let posts = null;
-
             if (category === 'feed') {
                 category = '';
                 order = 'feed';
@@ -65,7 +63,7 @@ export default connect(
                 joinedTags += `|${selectedFilterTags}`;
             }
 
-            posts = discussions.getIn([category || joinedTags, order]);
+            const posts = discussions.getIn([category || joinedTags, order]);
 
             const status = globalStatus && globalStatus.getIn([category, order], null);
             const isFetching = (status && status.fetching) || loading || fetching || false;

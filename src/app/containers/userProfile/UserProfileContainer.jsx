@@ -219,6 +219,7 @@ class UserProfileContainer extends Component {
         }
 
         const route = last(this.props.routes).path;
+        const showLayoutSwitcher = !route || route === 'blog' || route === 'favorites';
 
         return (
             <Fragment>
@@ -234,14 +235,14 @@ class UserProfileContainer extends Component {
                 <BigUserNavigation
                     accountName={currentAccount.get('name')}
                     isOwner={isOwner}
-                    showLayout={!route || route === 'blog' || route === 'favorites'}
+                    showLayout={showLayoutSwitcher}
                 />
                 <WrapperMain>
                     <Main>
                         <SmallUserNavigation
                             accountName={currentAccount.get('name')}
                             isOwner={isOwner}
-                            showLayout={!route || route === 'blog' || route === 'favorites'}
+                            showLayout={showLayoutSwitcher}
                         />
                         {route === 'settings' ? null : (
                             <SidebarLeft>

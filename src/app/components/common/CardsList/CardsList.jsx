@@ -25,6 +25,7 @@ const ColumnsContainer = styled.div`
 
 const Column = styled.div`
     flex: 1 1 100px;
+    min-width: 100px;
 
     &:first-child {
         margin-right: 16px;
