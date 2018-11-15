@@ -8,11 +8,9 @@ import g from 'app/redux/GlobalReducer';
 import CloseButton from 'react-foundation-components/lib/global/close-button';
 import Reveal from 'react-foundation-components/lib/global/reveal';
 
-import CheckLoginOwner from 'app/components/elements/CheckLoginOwner';
 import QrKeyView from 'app/components/elements/QrKeyView';
 
 class Dialogs extends Component {
-
     static propTypes = {
         active_dialogs: PropTypes.object,
         hide: PropTypes.func.isRequired,
@@ -48,12 +46,7 @@ class Dialogs extends Component {
             }
         });
 
-        return (
-            <div>
-                {dialogs}
-                <CheckLoginOwner />
-            </div>
-        );
+        return <div>{dialogs}</div>;
     }
 }
 
