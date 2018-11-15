@@ -97,7 +97,6 @@ export default class PostForm extends React.Component {
             emptyBody: true,
             rteState: null,
             tags: [],
-            postError: null,
             payoutType: PAYOUT_TYPES.PAY_50,
             isPosting: false,
             uploadingCount: 0,
@@ -213,7 +212,6 @@ export default class PostForm extends React.Component {
             tags,
             payoutType,
             isPreview,
-            postError,
             uploadingCount,
             isPosting,
             isPreviewButtonVisible,
@@ -277,7 +275,6 @@ export default class PostForm extends React.Component {
                         <PostFooter
                             ref="footer"
                             editMode={editMode}
-                            errorText={postError}
                             tags={tags}
                             onTagsChange={this._onTagsChange}
                             payoutType={payoutType}

@@ -208,7 +208,6 @@ class CommentForm extends Component {
                                 <CommentFooter
                                     ref={this.footerRef}
                                     editMode={editMode}
-                                    errorText={postError}
                                     postDisabled={!allowPost}
                                     onPostClick={this._postSafe}
                                     onCancelClick={this.onCancelClick}
