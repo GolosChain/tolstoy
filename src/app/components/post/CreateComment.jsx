@@ -9,13 +9,16 @@ import CommentFormLoader from 'app/components/modules/CommentForm/loader';
 
 const shadowScale = keyframes`
   0% {
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
+    box-shadow: 0 0 10px 0 rgba(40, 121, 255, 0.06);
+    border-color: rgba(40, 121, 255, 0.06);
   }
   50% {
-    box-shadow: 0 2px 28px 0 rgba(0, 0, 0, 0.36);
+    box-shadow: 0 0 10px 0 rgba(40, 121, 255, 0.46);
+    border-color: rgba(40, 121, 255, 0.46);
   }
   100% {
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
+    box-shadow: 0 0 10px 0 rgba(40, 121, 255, 0.06);
+    border-color: rgba(40, 121, 255, 0.06);
   }
 `;
 
@@ -24,6 +27,7 @@ const Wrapper = styled.div`
     padding: 27px 20px ${by('padding-bottom')};
     background-color: white;
     border-radius: 8px;
+    border: 1px solid transparent;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
 
     ${is('commentInputFocused')`
