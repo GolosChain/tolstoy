@@ -16,7 +16,6 @@ import Footer from 'src/app/components/common/Footer';
 import TooltipManager from 'app/components/elements/common/TooltipManager';
 import MobileAppButton from 'app/components/elements/MobileBanners/MobileAppButton';
 import DialogManager from 'app/components/elements/common/DialogManager';
-import Dialogs from '@modules/Dialogs';
 import PageViewsCounter from '@elements/PageViewsCounter';
 import ScrollUpstairsButton from 'src/app/components/common/ScrollUpstairsButton';
 import CheckLoginOwner from 'src/app/components/common/CheckLoginOwner';
@@ -179,7 +178,6 @@ export class App extends Component {
                         <ScrollUpstairsButton />
                         <MobileAppButton />
                     </div>
-                    <Dialogs />
                     <DialogManager />
                     <CheckLoginOwner />
                     <Notifications />
