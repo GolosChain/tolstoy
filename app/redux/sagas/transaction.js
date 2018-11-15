@@ -14,6 +14,7 @@ import tr from 'app/redux/Transaction';
 import { DEBT_TICKER } from 'app/client_config';
 import { serverApiRecordEvent } from 'app/utils/ServerApiClient';
 import constants from './../constants';
+import DialogManager from 'app/components/elements/common/DialogManager';
 
 export function* transactionWatches() {
     yield fork(watchForBroadcast);
@@ -185,28 +186,18 @@ function* broadcastOperation({
         errorCallback,
     },
 }) {
-    const operationParam = {
-        type,
-        operation,
-        keys,
-        username,
-        password,
-        successCallback,
-        errorCallback,
-    };
-    const conf = typeof confirm === 'function' ? confirm() : confirm;
+    const confirmText = typeof confirm === 'function' ? confirm() : confirm;
 
-    if (conf) {
-        yield put(
-            tr.actions.confirmOperation({
-                confirm,
-                warning,
-                operation: operationParam,
-                errorCallback,
-            })
-        );
-        return;
+    debugger;
+
+    if (confirmText) {
+        if (!(yield DialogManager[warning ? 'dangerConfirm' : 'confirm'](confirmText))) {
+            errorCallback();
+            return;
+        }
     }
+
+    debugger;
 
     const payload = {
         operations: [[type, operation]],
