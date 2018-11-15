@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import { browserHistory } from 'react-router';
 import throttle from 'lodash/throttle';
 import styled from 'styled-components';
@@ -101,6 +101,8 @@ export default class WalletContent extends Component {
         limit: DEFAULT_ROWS_LIMIT,
     };
 
+    contentRef = createRef();
+
     componentDidMount() {
         this.loadDelegationsData();
 
@@ -133,7 +135,7 @@ export default class WalletContent extends Component {
                     onRewardTypeChange={this.onRewardTypeChange}
                     onDirectionChange={this.onDirectionChange}
                 />
-                <Content innerRef={this._onContentRef}>{this.renderContent()}</Content>
+                <Content innerRef={this.contentRef}>{this.renderContent()}</Content>
             </Card>
         );
     }
@@ -598,13 +600,6 @@ export default class WalletContent extends Component {
         });
     };
 
-    onRewardTabChange = ({ id }) => {
-        this.setState({
-            rewardTab: id,
-            limit: DEFAULT_ROWS_LIMIT,
-        });
-    };
-
     onRewardTypeChange = ({ id }) => {
         this.setTabState('rewardType', id);
         this.setState({
@@ -613,15 +608,22 @@ export default class WalletContent extends Component {
         });
     };
 
-    onPostClick = async post => {
+    /*onRewardTabChange = ({ id }) => {
+        this.setState({
+            rewardTab: id,
+            limit: DEFAULT_ROWS_LIMIT,
+        });
+    };*/
+
+    /*onPostClick = async post => {
         const postData = await api.getContentAsync(post.author, post.permLink, 0);
         browserHistory.push(postData.url);
-    };
+    };*/
 
     onScrollLazy = throttle(
         () => {
             if (this._hasMore) {
-                if (this._content.getBoundingClientRect().bottom < window.innerHeight * 1.2) {
+                if (this.contentRef.current.getBoundingClientRect().bottom < window.innerHeight * 1.2) {
                     this.setState({
                         limit: this.state.limit + DEFAULT_ROWS_LIMIT,
                     });
@@ -631,10 +633,6 @@ export default class WalletContent extends Component {
         100,
         { leading: false }
     );
-
-    _onContentRef = el => {
-        this._content = el;
-    };
 }
 
 function addValueIfNotZero(list, amount, currency) {
