@@ -558,11 +558,11 @@ export default class PostForm extends React.Component {
         }
 
         if (rtags.images.size) {
-            meta.image = rtags.images;
+            meta.image = Array.from(rtags.images);
         }
 
         if (rtags.links.size) {
-            meta.links = rtags.links;
+            meta.links = Array.from(rtags.links);
         }
 
         const data = {
