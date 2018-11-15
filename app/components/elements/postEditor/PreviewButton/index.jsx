@@ -40,6 +40,7 @@ const Root = styled.i`
     ${is('isStatic')`
         position: static;
         transform: translateX(0);
+        margin-top: 0;
     `};
 
     &:hover {

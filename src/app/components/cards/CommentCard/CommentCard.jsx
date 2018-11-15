@@ -315,9 +315,9 @@ export class CommentCard extends PureComponent {
                         autoFocus
                         params={comment.toJS()}
                         forwardRef={this.commentRef}
+                        commentTitleRef={this.commentTitleRef.current}
                         onSuccess={this.onEditDone}
                         onCancel={this.onEditDone}
-                        commentTitleRef={this.commentTitleRef.current}
                     />
                 ) : (
                     <CommentBodyWrapper highlighted={highlighted}>
@@ -342,7 +342,7 @@ export class CommentCard extends PureComponent {
     }
 
     renderReplyEditor() {
-        const { comment } = this.props;
+        const { comment, username } = this.props;
 
         return (
             <Reply>
@@ -350,8 +350,10 @@ export class CommentCard extends PureComponent {
                     reply
                     hideFooter
                     autoFocus
+                    withHeader
                     params={comment.toJS()}
                     forwardRef={this.replyRef}
+                    replyAuthor={username}
                     onSuccess={this.onReplySuccess}
                     onCancel={this.onReplyCancel}
                 />

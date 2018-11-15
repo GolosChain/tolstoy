@@ -1,4 +1,4 @@
-import React, { Component, createRef } from 'react';
+import React, { Component, createRef, Fragment } from 'react';
 import { createPortal } from 'react-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -20,6 +20,7 @@ import { showNotification } from 'src/app/redux/actions/ui';
 import { getTags } from 'shared/HtmlReady';
 import './CommentForm.scss';
 import { toggleCommentInputFocus } from 'src/app/redux/actions/ui';
+import CommentAuthor from 'src/app/components/cards/CommentAuthor';
 
 const DRAFT_KEY = 'golos.comment.draft';
 
@@ -38,6 +39,15 @@ const PreviewButtonWrapper = styled.div`
         position: static;
         transform: translateX(0);
     `};
+`;
+
+const ReplyHeader = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 12px 0 8px 0;
+    margin-right: 18px;
 `;
 
 class CommentForm extends Component {
@@ -153,75 +163,94 @@ class CommentForm extends Component {
     }
 
     render() {
-        const { editMode, hideFooter, autoFocus, commentTitleRef } = this.props;
+        const { editMode, hideFooter, autoFocus, withHeader, replyAuthor } = this.props;
 
         const { text, emptyBody, postError, isPreview, uploadingCount } = this.state;
 
         const allowPost = uploadingCount === 0 && !emptyBody;
 
-        const previewButton = (
-            <PreviewButton isStatic isPreview={isPreview} onPreviewChange={this._onPreviewChange} />
-        );
-
         return (
-            <div className={cn('CommentForm', { CommentForm_edit: editMode })}>
-                <div className="CommentForm__work-area">
-                    {commentTitleRef ? (
-                        createPortal(
-                            <PreviewButtonWrapper emptyBody={emptyBody} isStatic>
-                                {previewButton}
-                            </PreviewButtonWrapper>,
-                            commentTitleRef
-                        )
-                    ) : (
-                        <PreviewButtonWrapper emptyBody={emptyBody}>
-                            {previewButton}
-                        </PreviewButtonWrapper>
-                    )}
-                    {isPreview ? (
-                        <div className="CommentForm__preview">
-                            <MarkdownViewer text={text} />
-                        </div>
-                    ) : null}
-                    <div
-                        className={cn('CommentForm__content', {
-                            CommentForm__content_hidden: isPreview,
-                        })}
-                    >
-                        <MarkdownEditor
-                            ref={this.editorRef}
-                            autoFocus={autoFocus}
-                            commentMode
-                            initialValue={text}
-                            placeholder={tt('g.reply')}
-                            uploadImage={this.onUploadImage}
-                            onChangeNotify={this.onTextChangeNotify}
-                            onInputBlured={this.onInputBlured}
-                        />
-                    </div>
-                </div>
-                {hideFooter ? null : (
-                    <div className="CommentForm__footer">
-                        <div className="CommentForm__footer-content">
-                            <CommentFooter
-                                ref={this.footerRef}
-                                editMode={editMode}
-                                errorText={postError}
-                                postDisabled={!allowPost}
-                                onPostClick={this._postSafe}
-                                onCancelClick={this.onCancelClick}
+            <Fragment>
+                {withHeader && (
+                    <ReplyHeader>
+                        <CommentAuthor author={replyAuthor} />
+                        {this.getPreviewButton()}
+                    </ReplyHeader>
+                )}
+                <div className={cn('CommentForm', { CommentForm_edit: editMode })}>
+                    <div className="CommentForm__work-area">
+                        {withHeader ? null : this.getPreviewButton()}
+                        {isPreview ? (
+                            <div className="CommentForm__preview">
+                                <MarkdownViewer text={text} />
+                            </div>
+                        ) : null}
+                        <div
+                            className={cn('CommentForm__content', {
+                                CommentForm__content_hidden: isPreview,
+                            })}
+                        >
+                            <MarkdownEditor
+                                ref={this.editorRef}
+                                autoFocus={autoFocus}
+                                commentMode
+                                initialValue={text}
+                                placeholder={tt('g.reply')}
+                                uploadImage={this.onUploadImage}
+                                onChangeNotify={this.onTextChangeNotify}
+                                onInputBlured={this.onInputBlured}
                             />
                         </div>
                     </div>
-                )}
-                {uploadingCount > 0 ? (
-                    <div className="CommentForm__spinner">
-                        <Icon name="clock" size="4x" className="CommentForm__spinner-inner" />
-                    </div>
-                ) : null}
-            </div>
+                    {hideFooter ? null : (
+                        <div className="CommentForm__footer">
+                            <div className="CommentForm__footer-content">
+                                <CommentFooter
+                                    ref={this.footerRef}
+                                    editMode={editMode}
+                                    errorText={postError}
+                                    postDisabled={!allowPost}
+                                    onPostClick={this._postSafe}
+                                    onCancelClick={this.onCancelClick}
+                                />
+                            </div>
+                        </div>
+                    )}
+                    {uploadingCount > 0 ? (
+                        <div className="CommentForm__spinner">
+                            <Icon name="clock" size="4x" className="CommentForm__spinner-inner" />
+                        </div>
+                    ) : null}
+                </div>
+            </Fragment>
         );
     }
+
+    getPreviewButton = () => {
+        const { commentTitleRef, withHeader } = this.props;
+        const { emptyBody, isPreview } = this.state;
+        const previewButton = (
+            <PreviewButton isStatic isPreview={isPreview} onPreviewChange={this._onPreviewChange} />
+        );
+        if (commentTitleRef) {
+            return createPortal(
+                <PreviewButtonWrapper emptyBody={emptyBody} isStatic>
+                    {previewButton}
+                </PreviewButtonWrapper>,
+                commentTitleRef
+            );
+        }
+
+        if (withHeader) {
+            return (
+                <PreviewButtonWrapper emptyBody={emptyBody} isStatic>
+                    {previewButton}
+                </PreviewButtonWrapper>
+            );
+        }
+
+        return <PreviewButtonWrapper emptyBody={emptyBody}>{previewButton}</PreviewButtonWrapper>;
+    };
 
     onInputBlured = () => {
         this.props.toggleCommentInputFocus(false);
