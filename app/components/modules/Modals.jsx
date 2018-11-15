@@ -11,9 +11,7 @@ import MessageBox from 'app/components/modules/Messages';
 class Modals extends React.Component {
     static propTypes = {
         show_confirm_modal: PropTypes.bool,
-        show_promote_post_modal: PropTypes.bool,
         hideConfirm: PropTypes.func.isRequired,
-        hidePromotePost: PropTypes.func.isRequired,
         show_messages_modal: PropTypes.bool,
         hideMessages: PropTypes.func.isRequired,
     };
@@ -49,22 +47,17 @@ export default connect(
     state => {
         return {
             show_confirm_modal: state.transaction.get('show_confirm_modal'),
-            show_promote_post_modal: state.user.get('show_promote_post_modal'),
             show_messages_modal: state.user.get('show_messages_modal'),
         };
     },
-    dispatch => ({
+    {
         hideConfirm: e => {
             if (e) e.preventDefault();
-            dispatch(tr.actions.hideConfirm());
-        },
-        hidePromotePost: e => {
-            if (e) e.preventDefault();
-            dispatch(user.actions.hidePromotePost());
+            return tr.actions.hideConfirm();
         },
         hideMessages: e => {
             if (e) e.preventDefault();
-            dispatch(user.actions.hideMessages());
+            return user.actions.hideMessages();
         },
-    })
+    }
 )(Modals);

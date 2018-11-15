@@ -259,7 +259,7 @@ export class LoginForm extends Component {
             isConfirm,
         };
 
-        this.props.dispatchLogin(data, this.props.loginBroadcastOperation);
+        this.props.dispatchLogin(data);
     };
 
     onFormSubmit = e => {

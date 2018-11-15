@@ -6,7 +6,6 @@ import { DEFAULT_LANGUAGE, LOCALE_COOKIE_KEY } from 'app/client_config';
 
 const defaultState = fromJS({
     current: null,
-    show_promote_post_modal: false,
     locale: DEFAULT_LANGUAGE,
     show_messages_modal: false,
 });
@@ -23,27 +22,11 @@ export default createModule({
     transformations: [
         {
             action: 'SHOW_LOGIN',
-            reducer: (state, { payload }) =>
-                state.merge({
-                    loginBroadcastOperation:
-                        payload && payload.operation ? fromJS(payload.operation) : null,
-                }),
+            reducer: state => state,
         },
         {
             action: 'LOGIN_CANCELED',
-            reducer: state => {
-                const errorCallback = state.getIn(['loginBroadcastOperation', 'errorCallback']);
-
-                if (errorCallback) {
-                    setTimeout(() => {
-                        errorCallback('Canceled');
-                    }, 0);
-                }
-
-                return state.merge({
-                    loginBroadcastOperation: undefined,
-                });
-            },
+            reducer: state => state,
         },
         {
             action: 'SAVE_LOGIN_CONFIRM',
@@ -85,14 +68,6 @@ export default createModule({
             reducer: state => state.remove('powerdown_defaults'),
         },
         {
-            action: 'SHOW_PROMOTE_POST',
-            reducer: state => state.set('show_promote_post_modal', true),
-        },
-        {
-            action: 'HIDE_PROMOTE_POST',
-            reducer: state => state.set('show_promote_post_modal', false),
-        },
-        {
             action: 'SET_TRANSFER_DEFAULTS',
             reducer: (state, { payload }) => state.set('transfer_defaults', fromJS(payload)),
         },
@@ -125,17 +100,12 @@ export default createModule({
 
                 return state.mergeDeep({
                     current: payload,
-                    loginBroadcastOperation: undefined,
                 });
             },
         },
         {
             action: 'HIDE_LOGIN',
-            reducer: state =>
-                state.merge({
-                    login_error: undefined,
-                    loginBroadcastOperation: undefined,
-                }),
+            reducer: state => state.delete('login_error'),
         },
         {
             action: 'LOGIN_ERROR',
