@@ -118,7 +118,7 @@ export default class CommentsHeader extends Component {
 
         return (
             <CommentsHeaderWrapper>
-                <CommentsCount>
+                <CommentsCount id="comments">
                     {tt('g.comments')} ({commentsCount})
                 </CommentsCount>
                 <SortComments>

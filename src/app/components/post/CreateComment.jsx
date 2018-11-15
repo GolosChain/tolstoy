@@ -67,7 +67,7 @@ export default class CreateComment extends Component {
                 padding-bottom={inputText.length === 0 ? '17px' : '0'}
                 commentInputFocused={commentInputFocused}
             >
-                <a id="comments" />
+                <a id="createComment" />
                 <CommentFormLoader
                     hideFooter={inputText.length === 0}
                     params={data.toJS()}

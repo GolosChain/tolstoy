@@ -6,7 +6,10 @@ import is from 'styled-is';
 import tt from 'counterpart';
 import Icon from 'golos-ui/Icon';
 
-const ReplyCounterBlock = styled(Link)`
+const Replies = styled(
+    ({ to, isLink, ...otherProps }) =>
+        isLink ? <Link to={to} {...otherProps} /> : <div {...otherProps} />
+)`
     height: 100%;
     min-height: 50px;
     padding: 0 11px 0 18px;
@@ -14,10 +17,13 @@ const ReplyCounterBlock = styled(Link)`
     align-items: center;
     flex-grow: 1;
     justify-content: flex-end;
-    cursor: pointer;
+
+    ${is('isLink')`
+        cursor: pointer;
+    `};
 `;
 
-const ReplyCount = styled.div`
+const RepliesQuantity = styled.div`
     font-size: 16px;
     font-weight: 500;
     color: #959595;
@@ -93,23 +99,24 @@ export class ReplyBlock extends Component {
 
     render() {
         const { compact, count, link, text, notOwner, onReplyClick, className } = this.props;
+        const isLink = typeof compact === 'boolean';
+
         return (
             <Root compact={compact} className={className}>
-                <ReplyCounterBlock
+                <Replies
                     to={`${link}#comments`}
-                    role="button"
                     data-tooltip={tt('reply.comments_count')}
                     aria-label={tt('aria_label.comments', { count })}
+                    isLink={isLink}
                 >
                     <ReplyIcon name="reply" />
-                    <ReplyCount>{count}</ReplyCount>
-                </ReplyCounterBlock>
+                    <RepliesQuantity>{count}</RepliesQuantity>
+                </Replies>
                 {!onReplyClick && (
                     <Fragment>
                         <Splitter />
                         <ReplyButton
-                            role="button"
-                            to={`${link}#comments`}
+                            to={`${link}#createComment`}
                             onClick={this.toggleCommentInputFocus}
                         >
                             {text}
