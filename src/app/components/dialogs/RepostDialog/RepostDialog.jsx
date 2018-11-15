@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
+import { safePaste } from 'src/app/helpers/browser';
 import { breakWordStyles } from 'src/app/helpers/styles';
 import DialogManager from 'app/components/elements/common/DialogManager';
 import { PostTitle, PostContent } from 'src/app/components/cards/common';
@@ -144,20 +145,6 @@ export default class RepostDialog extends Component {
         });
     };
 
-    onTextPaste = e => {
-        try {
-            const text = e.clipboardData.getData('text/plain');
-            document.execCommand('insertHTML', false, text);
-
-            e.preventDefault();
-            e.stopPropagation();
-        } catch (error) {
-            console.log('not supported in this browser');
-        }
-
-        this.onTextChange();
-    };
-
     onCancelClick = () => {
         this.props.onClose();
     };
@@ -211,7 +198,7 @@ export default class RepostDialog extends Component {
                         autoFocus
                         innerRef={this.inputRef}
                         onInput={this.onTextChange}
-                        onPaste={this.onTextPaste}
+                        onPaste={safePaste}
                     />
                     {error ? <ErrorBlock>{error}</ErrorBlock> : null}
                 </InputWrapper>

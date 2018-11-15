@@ -252,7 +252,7 @@ export default class PostForm extends React.Component {
                         />
                         {isPreview ? null : (
                             <PostTitle
-                                value={title}
+                                initialValue={title}
                                 placeholder={tt('post_editor.title_placeholder')}
                                 validate={this._validateTitle}
                                 onTab={this._onTitleTab}
