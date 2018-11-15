@@ -20,11 +20,14 @@ function* showLoginWorker({ payload } = {}) {
         fullUsername += `/${authType}`;
     }
 
+    const operationType = operation ? operation.type : null;
+    const isConfirm = Boolean(authType || (operation && operationType !== 'custom_json'));
+
     const dialog = DialogManager.showLogin({
         username: fullUsername,
-        isConfirm: Boolean(payload.operation || authType),
+        isConfirm,
         forceSave,
-        operationType: operation ? operation.type : null,
+        operationType,
         onClose,
     });
 

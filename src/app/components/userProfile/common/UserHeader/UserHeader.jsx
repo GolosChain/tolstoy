@@ -99,10 +99,10 @@ const Login = styled.div`
 `;
 
 const Buttons = styled(Flex)`
-    justify-content: center;
     margin-top: 24px;
 
     @media (max-width: 768px) {
+        justify-content: center;
         margin-top: 16px;
     }
 `;

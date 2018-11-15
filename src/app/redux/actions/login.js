@@ -24,29 +24,30 @@ export function dispatchLogin(
                 errorCallback,
             } = loginBroadcastOperation.toJS();
 
-            const success = () => {
-                successCallback();
-                dispatch(
-                    user.actions.usernamePasswordLogin({
-                        username,
-                        password,
-                        saveLogin,
-                        isLogin,
-                        isConfirm,
-                        operationType: type,
-                    })
-                );
-                dispatch(user.actions.closeLogin());
-            };
-
             dispatch(
                 transaction.actions.broadcastOperation({
                     type,
                     operation,
                     username,
                     password,
-                    successCallback: success,
                     errorCallback,
+                    successCallback: () => {
+                        if (successCallback) {
+                            successCallback();
+                        }
+
+                        dispatch(
+                            user.actions.usernamePasswordLogin({
+                                username,
+                                password,
+                                saveLogin,
+                                isLogin,
+                                isConfirm,
+                                operationType: type,
+                            })
+                        );
+                        dispatch(user.actions.closeLogin());
+                    },
                 })
             );
         } else {

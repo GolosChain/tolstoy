@@ -41,12 +41,8 @@ const UnmuteButton = styled(Button)`
             username: currentUsernameSelector(state),
         };
     },
-    (dispatch, { muting }) => {
-        return {
-            updateFollow: (follower, action) => {
-                dispatch(updateFollow(follower, muting, action));
-            },
-        };
+    {
+        updateFollow,
     }
 )
 export default class Mute extends Component {
@@ -73,12 +69,18 @@ export default class Mute extends Component {
     }
 
     _mute = e => {
-        this.props.updateFollow(this.props.username, 'ignore');
+        this.updateFollow('ignore');
         this.props.onClick(e);
     };
 
     _unmute = e => {
-        this.props.updateFollow(this.props.username, null);
+        this.updateFollow(null);
         this.props.onClick(e);
     };
+
+    updateFollow(action) {
+        const { username, muting } = this.props;
+
+        this.props.updateFollow(username, muting, action);
+    }
 }

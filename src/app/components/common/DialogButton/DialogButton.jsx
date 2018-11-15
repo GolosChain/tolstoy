@@ -31,9 +31,8 @@ const Button = styled.button`
     display: block;
     width: 100%;
     height: 50px;
-    padding: 0 10px;
+    padding: 0 14px;
     border-radius: 0;
-    
     
     font-size: 15px;
     font-weight: 500;
