@@ -8,7 +8,7 @@ import Container, {
     BASE_MARGIN,
     MOBILE_MARGIN,
 } from 'src/app/components/common/Container';
-import Navigation from 'src/app/components/main/Navigation';
+import MainNavigation from 'src/app/components/main/MainNavigation';
 import TagsBox from 'src/app/components/home/TagsBox';
 
 const SINGLE_COLUMN_WIDTH = 768;
@@ -64,7 +64,7 @@ export default class HomeContainer extends Component {
 
         return (
             <Wrapper>
-                <Navigation />
+                <MainNavigation />
                 <ContainerStyled>
                     <Content>
                         <TagsBox />

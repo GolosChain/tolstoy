@@ -1,13 +1,15 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import tt from 'counterpart';
 import styled from 'styled-components';
-import { connect } from 'react-redux';
 
-import { TabLink } from 'golos-ui/Tab';
+import { TabLinkIndex } from 'golos-ui/Tab';
 import SlideContainer from 'src/app/components/common/SlideContainer';
-import LayoutSwitcher from 'src/app/components/common/LayoutSwitcher';
-import { MAX_WIDTH, BASE_MARGIN, MOBILE_WIDTH, MOBILE_MARGIN } from '../../common/Container';
+import {
+    MAX_WIDTH,
+    BASE_MARGIN,
+    MOBILE_WIDTH,
+    MOBILE_MARGIN,
+} from 'src/app/components/common/Container';
 
 const SlideContainerStyled = styled(SlideContainer)`
     background: #fff;
@@ -35,20 +37,18 @@ const Wrapper = styled.div`
     margin: 0 -3px;
 `;
 
-const TabLinkStyled = styled(TabLink)`
+const TabLinkStyled = styled(TabLinkIndex)`
     height: 50px;
-    padding: 0 12px;
+    padding: 0 ${({ compact }) => (compact ? '6px' : '12px')};
 
-    &.${({ activeClassName }) => activeClassName} {
-        :after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: #333;
-        }
+    &.${({ activeClassName }) => activeClassName}:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: #333;
     }
 `;
 TabLinkStyled.defaultProps = {
@@ -62,42 +62,25 @@ const Right = styled.div`
     align-items: center;
 `;
 
-@connect(state => ({
-    myAccountName: state.user.getIn(['current', 'username']),
-}))
 export default class Navigation extends PureComponent {
     static propTypes = {
-        myAccountName: PropTypes.string,
+        compact: PropTypes.bool,
+        tabLinks: PropTypes.array.isRequired,
     };
 
     render() {
-        const { myAccountName, className } = this.props;
-
-        const tabLinks = [];
-
-        if (myAccountName) {
-            tabLinks.push({ value: tt('header_jsx.home'), to: `/@${myAccountName}/feed` });
-        }
-
-        tabLinks.push(
-            { value: tt('g.new'), to: '/created' },
-            { value: tt('main_menu.hot'), to: '/hot' },
-            { value: tt('main_menu.trending'), to: '/trending' },
-            { value: tt('g.promoted'), to: '/promoted' }
-        );
+        const { tabLinks, rightItems, compact, className } = this.props;
 
         return (
             <SlideContainerStyled className={className}>
                 <Container>
                     <Wrapper>
                         {tabLinks.map(({ value, to }) => (
-                            <TabLinkStyled key={to} to={to}>
+                            <TabLinkStyled key={to} to={to} compact={compact ? 1 : 0}>
                                 {value}
                             </TabLinkStyled>
                         ))}
-                        <Right>
-                            <LayoutSwitcher />
-                        </Right>
+                        {rightItems ? <Right>{rightItems}</Right> : null}
                     </Wrapper>
                 </Container>
             </SlideContainerStyled>
