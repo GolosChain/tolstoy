@@ -1,1 +1,1 @@
-export { default } from './CheckLoginOwner';
+export { default } from './CheckLoginOwner.connect';

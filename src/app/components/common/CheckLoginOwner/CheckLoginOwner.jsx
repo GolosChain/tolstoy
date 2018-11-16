@@ -1,11 +1,10 @@
 import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 import DialogManager from 'app/components/elements/common/DialogManager';
 
 import CheckLoginOwnerDialog from './CheckLoginOwnerDialog';
 
-class CheckLoginOwner extends PureComponent {
+export default class CheckLoginOwner extends PureComponent {
     state = {
         closed: false,
     };
@@ -79,22 +78,3 @@ class CheckLoginOwner extends PureComponent {
         return null;
     }
 }
-
-export default connect(
-    state => {
-        const current = state.user.get('current');
-        const loginOwnerPubKey = current && current.get('login_owner_pubkey');
-        const previousOwnerAuthority = current && current.get('previous_owner_authority');
-
-        return {
-            loginOwnerPubKey,
-            previousOwnerAuthority,
-        };
-    },
-    {
-        lookupPreviousOwnerAuthority: () => ({
-            type: 'user/lookupPreviousOwnerAuthority',
-            payload: {},
-        }),
-    }
-)(CheckLoginOwner);
