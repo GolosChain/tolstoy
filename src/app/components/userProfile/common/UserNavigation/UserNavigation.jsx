@@ -9,7 +9,12 @@ import Icon from 'golos-ui/Icon';
 
 import SlideContainer from 'src/app/components/common/SlideContainer';
 import LayoutSwitcher from 'src/app/components/common/LayoutSwitcher';
-import { MAX_WIDTH, OFFSET } from 'src/app/components/common/Container/Container';
+import {
+    MAX_WIDTH,
+    BASE_MARGIN,
+    MOBILE_WIDTH,
+    MOBILE_MARGIN,
+} from 'src/app/components/common/Container';
 
 const SlideContainerStyled = styled(SlideContainer)`
     background: #fff;
@@ -17,14 +22,17 @@ const SlideContainerStyled = styled(SlideContainer)`
 `;
 
 const Container = styled.div`
-    display: flex;
-    flex-grow: 1;
+    flex: 1 0;
     max-width: ${MAX_WIDTH}px;
     margin: 0 auto;
 
-    @media (max-width: ${MAX_WIDTH + OFFSET * 2}px) {
-        padding: 0 ${OFFSET - 4}px;
+    @media (max-width: ${MAX_WIDTH + BASE_MARGIN * 2}px) {
+        padding: 0 ${BASE_MARGIN}px;
         margin: 0;
+    }
+
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        padding: 0 ${MOBILE_MARGIN}px;
     }
 `;
 
@@ -49,6 +57,7 @@ const TabLinkStyled = styled(TabLink)`
         }
     }
 `;
+
 TabLinkStyled.defaultProps = {
     activeClassName: 'active',
 };
@@ -71,6 +80,7 @@ const IconLink = styled(Link)`
         color: #2879ff;
     }
 `;
+
 IconLink.defaultProps = {
     activeClassName: 'active',
 };

@@ -13,11 +13,7 @@ import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 export const FORCE_LINES_WIDTH = 1000;
 const FORCE_COMPACT_WIDTH = 550;
 
-const Root = styled.div`
-    @media (max-width: 890px) {
-        margin: 0 16px;
-    }
-`;
+const Root = styled.div``;
 
 const ColumnsContainer = styled.div`
     display: flex;

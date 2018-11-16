@@ -9,6 +9,7 @@ import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import BlogCardsList from 'src/app/components/common/CardsList/BlogCardsList';
 import InfoBlock from 'src/app/components/common/InfoBlock';
 import EmptyBlock, { EmptySubText } from 'src/app/components/common/EmptyBlock';
+import CardsListWrapper from '../CardsListWrapper';
 
 const Loader = styled(LoadingIndicator)`
     margin-top: 30px;
@@ -21,7 +22,7 @@ class BlogContent extends Component {
         return (
             <Fragment>
                 <Helmet title={tt('meta.title.profile.blog', { name: pageAccount.get('name') })} />
-                {this._render()}
+                <CardsListWrapper>{this._render()}</CardsListWrapper>
             </Fragment>
         );
     }

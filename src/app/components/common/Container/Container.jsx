@@ -3,19 +3,22 @@ import is from 'styled-is';
 import Flex from 'golos-ui/Flex';
 
 export const MAX_WIDTH = 1150;
-export const OFFSET = 20;
+export const MOBILE_WIDTH = 500;
+export const BASE_MARGIN = 20;
+export const MOBILE_MARGIN = 16;
 
 const Container = styled(Flex)`
     max-width: ${MAX_WIDTH}px;
     margin: 0 auto;
 
-    @media (max-width: ${MAX_WIDTH + OFFSET * 2}px) {
-        margin: 0 ${OFFSET}px;
+    @media (max-width: ${MAX_WIDTH + BASE_MARGIN * 2}px) {
+        margin-left: ${BASE_MARGIN}px;
+        margin-right: ${BASE_MARGIN}px;
+    }
 
-        ${is('usePadding')`
-            margin: 0;
-            padding: 0 ${OFFSET}px;
-        `};
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        margin-left: ${MOBILE_MARGIN}px;
+        margin-right: ${MOBILE_MARGIN}px;
     }
 
     ${is('small')`

@@ -6,12 +6,33 @@ import { connect } from 'react-redux';
 
 import { TabLink } from 'golos-ui/Tab';
 import SlideContainer from 'src/app/components/common/SlideContainer';
-import Container from 'src/app/components/common/Container';
 import LayoutSwitcher from 'src/app/components/common/LayoutSwitcher';
+import { MAX_WIDTH, BASE_MARGIN, MOBILE_WIDTH, MOBILE_MARGIN } from '../../common/Container';
 
 const SlideContainerStyled = styled(SlideContainer)`
     background: #fff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
+`;
+
+const Container = styled.div`
+    flex: 1 0;
+    max-width: ${MAX_WIDTH}px;
+    margin: 0 auto;
+
+    @media (max-width: ${MAX_WIDTH + BASE_MARGIN * 2}px) {
+        margin: 0;
+        padding: 0 ${BASE_MARGIN}px;
+    }
+
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        padding: 0 ${MOBILE_MARGIN}px;
+    }
+`;
+
+const Wrapper = styled.div`
+    display: flex;
+    flex: 1 0;
+    margin: 0 -3px;
 `;
 
 const TabLinkStyled = styled(TabLink)`
@@ -67,15 +88,17 @@ export default class Navigation extends PureComponent {
 
         return (
             <SlideContainerStyled className={className}>
-                <Container usePadding>
-                    {tabLinks.map(({ value, to }) => (
-                        <TabLinkStyled key={to} to={to}>
-                            {value}
-                        </TabLinkStyled>
-                    ))}
-                    <Right>
-                        <LayoutSwitcher />
-                    </Right>
+                <Container>
+                    <Wrapper>
+                        {tabLinks.map(({ value, to }) => (
+                            <TabLinkStyled key={to} to={to}>
+                                {value}
+                            </TabLinkStyled>
+                        ))}
+                        <Right>
+                            <LayoutSwitcher />
+                        </Right>
+                    </Wrapper>
                 </Container>
             </SlideContainerStyled>
         );

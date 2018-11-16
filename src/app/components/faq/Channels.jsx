@@ -5,7 +5,7 @@ import tt from 'counterpart';
 
 import Flex from 'golos-ui/Flex';
 
-import Container from 'src/app/components/common/Container/Container';
+import Container from 'src/app/components/common/Container';
 import ChannelsCard from './ChannelsCard';
 
 const ChannelsList = styled.div`

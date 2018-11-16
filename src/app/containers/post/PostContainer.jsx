@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 
 import Button from 'golos-ui/Button';
-import Container from 'src/app/components/common/Container/Container';
 import SidePanel from 'src/app/containers/post/sidePanel';
 import PostContent from 'src/app/containers/post/postContent';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
@@ -21,25 +20,22 @@ const Wrapper = styled.div`
     background-color: #f9f9f9;
 `;
 
-const ContentWrapper = styled(Container)`
+const ContentWrapper = styled.div`
     position: relative;
     display: flex;
     flex-direction: column;
     max-width: ${POST_MAX_WIDTH}px;
     padding-top: 22px;
     padding-bottom: 17px;
-
-    @media (max-width: 1200px) {
-        margin: 0 auto;
-    }
+    margin: 0 auto;
 
     @media (max-width: ${POST_MAX_WIDTH + POST_MARGINS_MOBILE * 2}px) {
         margin: 0 ${POST_MARGINS_MOBILE}px;
     }
 
     @media (max-width: 576px) {
-        margin: 0;
         padding-top: 8px;
+        margin: 0;
     }
 `;
 
