@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import Container from 'src/app/components/common/Container';
+import { MAX_WIDTH, OFFSET } from 'src/app/components/common/Container/Container';
 import Navigation from 'src/app/components/main/Navigation';
 import TagsBox from 'src/app/components/home/TagsBox';
 
@@ -13,6 +14,10 @@ const Wrapper = styled.div`
 const ContainerStyled = styled(Container)`
     padding: 22px 0 40px;
     margin: 0 auto !important;
+
+    @media (max-width: ${MAX_WIDTH + OFFSET * 2}px) {
+        padding-top: 16px;
+    }
 
     @media (max-width: 768px) {
         flex-direction: column;

@@ -26,7 +26,7 @@ const Container = styled.div`
     margin: 0 auto;
 
     @media (max-width: ${MAX_WIDTH + OFFSET * 2}px) {
-        padding: 0 ${OFFSET - 6}px;
+        padding: 0 ${OFFSET - 4}px;
         margin: 0;
     }
 `;
