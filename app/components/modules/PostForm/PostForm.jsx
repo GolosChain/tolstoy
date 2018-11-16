@@ -126,6 +126,7 @@ export default class PostForm extends React.Component {
 
     componentDidMount() {
         window.addEventListener('scroll', this._checkPreviewButtonPosition);
+        console.log(this.props.selfVote);
     }
 
     _tryLoadDraft() {
@@ -493,7 +494,7 @@ export default class PostForm extends React.Component {
     }
 
     _post = () => {
-        const { author, editMode } = this.props;
+        const { author, editMode, selfVote } = this.props;
         const { title, tags, payoutType, editorId } = this.state;
         let error;
 
@@ -570,7 +571,7 @@ export default class PostForm extends React.Component {
             parent_author: '',
             json_metadata: meta,
             __config: {
-                autoVote: false,
+                autoVote: selfVote ? true : false,
             },
         };
 

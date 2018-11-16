@@ -1,4 +1,3 @@
-import React from 'react';
 import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
 
@@ -19,6 +18,8 @@ const editPostSelector = createSelector(
     })
 );
 
+const selfVoteSelector = state => state.data.settings.get('basic').get('selfVote');
+
 export default connect(
     (state, props) => {
         if (props.editMode) {
@@ -26,6 +27,7 @@ export default connect(
         } else {
             return {
                 author: currentUsernameSelector(state),
+                selfVote: selfVoteSelector(state),
             };
         }
     },
