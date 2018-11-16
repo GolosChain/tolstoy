@@ -24,7 +24,7 @@ export default class PostLink extends Component {
     isMounted = false;
     state = {
         category: '',
-        count: 0,
+        title: '',
     };
 
     componentDidMount() {
@@ -38,12 +38,11 @@ export default class PostLink extends Component {
 
     async fetchContent() {
         const { getContent, post } = this.props;
-
         try {
             const content = await getContent({ author: post.author, permlink: post.permLink });
 
             if (content && this.isMounted) {
-                this.setState({ category: `/${content.category}` });
+                this.setState({ category: `/${content.category}`, title: content.title });
             }
         } catch (error) {
             console.error(error);
@@ -52,9 +51,8 @@ export default class PostLink extends Component {
 
     render() {
         const { post } = this.props;
-        const { category } = this.state;
+        const { category, title } = this.state;
         const postLink = `${category}/@${post.author}/${post.permLink}`;
-        const postLinkText = `${post.author}/${post.permLink}`;
-        return <WhoPostLink to={postLink}>{postLinkText}</WhoPostLink>;
+        return <WhoPostLink to={postLink}>{title}</WhoPostLink>;
     }
 }
