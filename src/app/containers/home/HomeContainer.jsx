@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import Container, {
-    MAX_WIDTH,
-    MOBILE_WIDTH,
-    BASE_MARGIN,
-    MOBILE_MARGIN,
+    CONTAINER_FULL_WIDTH,
+    CONTAINER_MOBILE_WIDTH,
+    CONTAINER_MOBILE_MARGIN,
 } from 'src/app/components/common/Container';
 import MainNavigation from 'src/app/components/main/MainNavigation';
 import TagsBox from 'src/app/components/home/TagsBox';
@@ -20,12 +19,12 @@ const Wrapper = styled.div`
 const ContainerStyled = styled(Container)`
     padding: 22px 0 40px;
 
-    @media (max-width: ${MAX_WIDTH + BASE_MARGIN * 2}px) {
+    @media (max-width: ${CONTAINER_FULL_WIDTH}px) {
         padding-top: 20px;
     }
 
-    @media (max-width: ${MOBILE_WIDTH}px) {
-        padding: ${MOBILE_MARGIN}px 0;
+    @media (max-width: ${CONTAINER_MOBILE_WIDTH}px) {
+        padding: ${CONTAINER_MOBILE_MARGIN}px 0;
     }
 
     @media (max-width: ${SINGLE_COLUMN_WIDTH}px) {

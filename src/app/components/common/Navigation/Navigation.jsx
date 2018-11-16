@@ -5,10 +5,11 @@ import styled from 'styled-components';
 import { TabLinkIndex } from 'golos-ui/Tab';
 import SlideContainer from 'src/app/components/common/SlideContainer';
 import {
-    MAX_WIDTH,
-    BASE_MARGIN,
-    MOBILE_WIDTH,
-    MOBILE_MARGIN,
+    CONTAINER_MAX_WIDTH,
+    CONTAINER_FULL_WIDTH,
+    CONTAINER_BASE_MARGIN,
+    CONTAINER_MOBILE_WIDTH,
+    CONTAINER_MOBILE_MARGIN,
 } from 'src/app/components/common/Container';
 
 const SlideContainerStyled = styled(SlideContainer)`
@@ -18,16 +19,16 @@ const SlideContainerStyled = styled(SlideContainer)`
 
 const Container = styled.div`
     flex: 1 0;
-    max-width: ${MAX_WIDTH}px;
+    max-width: ${CONTAINER_MAX_WIDTH}px;
     margin: 0 auto;
 
-    @media (max-width: ${MAX_WIDTH + BASE_MARGIN * 2}px) {
+    @media (max-width: ${CONTAINER_FULL_WIDTH}px) {
         margin: 0;
-        padding: 0 ${BASE_MARGIN}px;
+        padding: 0 ${CONTAINER_BASE_MARGIN}px;
     }
 
-    @media (max-width: ${MOBILE_WIDTH}px) {
-        padding: 0 ${MOBILE_MARGIN}px;
+    @media (max-width: ${CONTAINER_MOBILE_WIDTH}px) {
+        padding: 0 ${CONTAINER_MOBILE_MARGIN}px;
     }
 `;
 
