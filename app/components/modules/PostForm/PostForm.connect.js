@@ -18,7 +18,7 @@ const editPostSelector = createSelector(
     })
 );
 
-const selfVoteSelector = state => state.data.settings.get('basic').get('selfVote');
+const selfVoteSelector = state => state.data.settings.getIn(['basic', 'selfVote']);
 
 export default connect(
     (state, props) => {

@@ -570,7 +570,7 @@ export default class PostForm extends React.Component {
             parent_author: '',
             json_metadata: meta,
             __config: {
-                autoVote: !!selfVote,
+                autoVote: Boolean(selfVote),
             },
         };
 
