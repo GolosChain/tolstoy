@@ -2,17 +2,14 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
-import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import throttle from 'lodash/throttle';
 
 import { TabLink, TabLinkIndex } from 'golos-ui/Tab';
 import Icon from 'golos-ui/Icon';
 
-import { changeProfileLayout } from 'src/app/redux/actions/ui';
 import SlideContainer from 'src/app/components/common/SlideContainer';
+import LayoutSwitcher from 'src/app/components/common/LayoutSwitcher';
 import { MAX_WIDTH, OFFSET } from 'src/app/components/common/Container/Container';
-import { FORCE_LINES_WIDTH } from 'src/app/components/common/CardsList/CardsList';
 
 const SlideContainerStyled = styled(SlideContainer)`
     background: #fff;
@@ -78,49 +75,12 @@ IconLink.defaultProps = {
     activeClassName: 'active',
 };
 
-const IconWrap = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 32px;
-    margin-right: 15px;
-    cursor: pointer;
-    color: #b7b7b9;
-    transition: color 0.15s;
-
-    &:hover {
-        color: #393636;
-    }
-`;
-
-const SimpleIcon = styled(Icon)`
-    width: 20px;
-    height: 20px;
-`;
-
-class UserNavigation extends PureComponent {
+export default class UserNavigation extends PureComponent {
     static propTypes = {
         accountName: PropTypes.string,
         isOwner: PropTypes.bool,
         showLayout: PropTypes.bool,
-        layout: PropTypes.oneOf(['list', 'grid']).isRequired,
-        changeProfileLayout: PropTypes.func.isRequired,
     };
-
-    state = {
-        isMobile: false,
-    };
-
-    componentDidMount() {
-        this._checkScreenSize();
-        window.addEventListener('resize', this._checkScreenSizeLazy);
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('resize', this._checkScreenSizeLazy);
-        this._checkScreenSizeLazy.cancel();
-    }
 
     render() {
         const { accountName, isOwner, className } = this.props;
@@ -162,80 +122,23 @@ class UserNavigation extends PureComponent {
     }
 
     _renderRightIcons() {
-        const { accountName, isOwner, layout, showLayout } = this.props;
-        const { isMobile } = this.state;
+        const { accountName, isOwner, showLayout } = this.props;
 
-        const icons = [];
-
-        if (showLayout && !isMobile) {
-            if (layout === 'list') {
-                icons.push(
-                    <IconWrap
-                        key="l-grid"
+        return (
+            <RightIcons>
+                {showLayout ? <LayoutSwitcher /> : null}
+                {isOwner ? (
+                    <IconLink
+                        key="settings"
+                        to={`/@${accountName}/settings`}
                         role="button"
-                        aria-label={tt('data-tooltip.grid')}
-                        data-tooltip={tt('data-tooltip.grid')}
-                        onClick={this._onGridClick}
+                        aria-label={tt('g.settings')}
+                        data-tooltip={tt('g.settings')}
                     >
-                        <SimpleIcon name="layout_grid" />
-                    </IconWrap>
-                );
-            } else {
-                icons.push(
-                    <IconWrap
-                        key="l-list"
-                        role="button"
-                        aria-label={tt('data-tooltip.list')}
-                        data-tooltip={tt('data-tooltip.list')}
-                        onClick={this._onListClick}
-                    >
-                        <SimpleIcon name="layout_list" />
-                    </IconWrap>
-                );
-            }
-        }
-
-        if (isOwner) {
-            icons.push(
-                <IconLink
-                    key="settings"
-                    to={`/@${accountName}/settings`}
-                    role="button"
-                    aria-label={tt('g.settings')}
-                    data-tooltip={tt('g.settings')}
-                >
-                    <Icon name="settings" size="24" />
-                </IconLink>
-            );
-        }
-
-        if (icons.length) {
-            return <RightIcons>{icons}</RightIcons>;
-        }
+                        <Icon name="settings" size="24" />
+                    </IconLink>
+                ) : null}
+            </RightIcons>
+        );
     }
-
-    _onGridClick = () => {
-        this.props.changeProfileLayout('grid');
-    };
-
-    _onListClick = () => {
-        this.props.changeProfileLayout('list');
-    };
-
-    _checkScreenSize = () => {
-        this.setState({
-            isMobile: window.innerWidth < FORCE_LINES_WIDTH,
-        });
-    };
-
-    _checkScreenSizeLazy = throttle(this._checkScreenSize, 50);
 }
-
-export default connect(
-    state => ({
-        layout: (state.ui.profile && state.ui.profile.get('layout')) || 'list',
-    }),
-    {
-        changeProfileLayout,
-    }
-)(UserNavigation);
