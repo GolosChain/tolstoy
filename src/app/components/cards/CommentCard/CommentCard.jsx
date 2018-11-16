@@ -93,12 +93,13 @@ const Root = styled(EntryWrapper)`
     position: relative;
     display: flex;
     flex-direction: column;
+    border: 1px solid transparent;
 
     min-height: 50px;
 
     ${is('highlighted')`
         box-shadow: 0 0 0 0.2rem #c8e1ff;
-        border: 1px solid #2188ff;
+        border-color: #2188ff;
         border-radius: 3px;
     `};
 
