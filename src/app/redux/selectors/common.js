@@ -40,6 +40,7 @@ export const uiSelector = (namespace, path, defaultValue) => state => {
 // Router selectors
 
 export const routerParamSelector = name => (state, props) => props.params[name];
+export const locationSelector = state => state.ui.location.getIn(['current', 'pathname']);
 export const routeParamSelector = (name, defaultValue) => state =>
     state.ui.location.getIn(['current', 'params', name], defaultValue);
 // Entities selectors

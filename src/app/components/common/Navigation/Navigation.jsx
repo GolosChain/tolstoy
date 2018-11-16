@@ -69,14 +69,19 @@ export default class Navigation extends PureComponent {
     };
 
     render() {
-        const { tabLinks, rightItems, compact, className } = this.props;
+        const { tabLinks, rightItems, compact, location, className } = this.props;
 
         return (
             <SlideContainerStyled className={className}>
                 <Container>
                     <Wrapper>
-                        {tabLinks.map(({ value, to }) => (
-                            <TabLinkStyled key={to} to={to} compact={compact ? 1 : 0}>
+                        {tabLinks.map(({ value, to, index }) => (
+                            <TabLinkStyled
+                                key={to}
+                                to={to}
+                                compact={compact ? 1 : 0}
+                                className={index && location === '/' ? 'active' : null}
+                            >
                                 {value}
                             </TabLinkStyled>
                         ))}

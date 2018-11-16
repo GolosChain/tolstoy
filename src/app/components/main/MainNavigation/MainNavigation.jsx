@@ -15,7 +15,7 @@ export default function MainNavigation({ myAccountName, className }) {
     tabLinks.push(
         { value: tt('g.new'), to: '/created' },
         { value: tt('main_menu.hot'), to: '/hot' },
-        { value: tt('main_menu.trending'), to: '/trending' },
+        { value: tt('main_menu.trending'), to: '/trending', index: true },
         { value: tt('g.promoted'), to: '/promoted' }
     );
 
