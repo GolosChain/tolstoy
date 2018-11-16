@@ -36,14 +36,23 @@ export default connect(
                 parseFloat(comment.get('total_payout_value'));
 
             let title = extractedContent.title;
-
             if (comment.get('parent_author')) {
                 title = comment.get('root_title');
+            }
+
+            let fullParentUrl = `/@${comment.get('parent_author')}/${comment.get(
+                'parent_permlink'
+            )}`;
+            if (comment.has('category')) {
+                fullParentUrl = `/${comment.get('category')}/@${comment.get(
+                    'parent_author'
+                )}/${comment.get('parent_permlink')}`;
             }
 
             return {
                 comment,
                 location,
+                fullParentUrl,
                 stats: comment.get('stats').toJS(),
                 title,
                 extractedContent,

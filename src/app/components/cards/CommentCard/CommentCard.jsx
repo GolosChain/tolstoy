@@ -181,6 +181,7 @@ export class CommentCard extends PureComponent {
     };
 
     static defaultProps = {
+        location: {},
         updateComments: () => {},
     };
 
@@ -277,7 +278,7 @@ export class CommentCard extends PureComponent {
     }
 
     renderHeaderForProfile() {
-        const { title, comment } = this.props;
+        const { title, comment, fullParentUrl } = this.props;
         const { collapsed } = this.state;
         const detransliteratedCategory = detransliterate(comment.get('category'));
 
@@ -286,9 +287,7 @@ export class CommentCard extends PureComponent {
                 <HeaderLine>
                     {collapsed ? (
                         <ReLink
-                            fullParentURL={`/@${comment.get('parent_author')}/${comment.get(
-                                'parent_permlink'
-                            )}`}
+                            fullParentURL={fullParentUrl}
                             title={title}
                             onClick={this.rememberScrollPosition}
                         />
@@ -311,15 +310,13 @@ export class CommentCard extends PureComponent {
     }
 
     renderTitle() {
-        const { isOwner, comment, title } = this.props;
+        const { isOwner, fullParentUrl, title } = this.props;
         const { edit } = this.state;
 
         return (
             <Title innerRef={this.commentTitleRef}>
                 <ReLink
-                    fullParentURL={`/@${comment.get('parent_author')}/${comment.get(
-                        'parent_permlink'
-                    )}`}
+                    fullParentURL={fullParentUrl}
                     title={title}
                     onClick={this.rememberScrollPosition}
                 />
