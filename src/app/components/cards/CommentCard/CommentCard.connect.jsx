@@ -40,14 +40,7 @@ export default connect(
                 title = comment.get('root_title');
             }
 
-            let fullParentUrl = `/@${comment.get('parent_author')}/${comment.get(
-                'parent_permlink'
-            )}`;
-            if (comment.has('category')) {
-                fullParentUrl = `/${comment.get('category')}/@${comment.get(
-                    'parent_author'
-                )}/${comment.get('parent_permlink')}`;
-            }
+            const fullParentUrl = comment.get('url').split('#')[0];
 
             return {
                 comment,
