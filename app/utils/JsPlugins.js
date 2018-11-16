@@ -89,9 +89,8 @@ export default function init(config) {
             f();
         }
     })(window.document, window, 'yandex_metrika_callbacks');
-    /* /Yandex.Metrika counter */
 
-    /*if (config.amplitude_id) {
+    if (config.amplitude_id) {
         (function(e, t) {
             var n = e.amplitude || { _q: [], _iq: {} };
             var r = t.createElement('script');
@@ -182,5 +181,6 @@ export default function init(config) {
         })(window, document);
 
         amplitude.getInstance().init(config.amplitude_id);
-    }*/
+    }
+    /* /Yandex.Metrika counter */
 }
