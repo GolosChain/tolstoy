@@ -188,16 +188,12 @@ function* broadcastOperation({
 }) {
     const confirmText = typeof confirm === 'function' ? confirm() : confirm;
 
-    debugger;
-
     if (confirmText) {
         if (!(yield DialogManager[warning ? 'dangerConfirm' : 'confirm'](confirmText))) {
             errorCallback();
             return;
         }
     }
-
-    debugger;
 
     const payload = {
         operations: [[type, operation]],
