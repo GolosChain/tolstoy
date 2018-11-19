@@ -58,7 +58,7 @@ export class App extends Component {
 
     componentDidMount() {
         this.props.loginUser();
-        this.sendSignInToAmplitudeCom();
+        this.sendNewVisitToAmplitudeCom();
 
         window.addEventListener('storage', this.checkLogin);
 
@@ -108,7 +108,7 @@ export class App extends Component {
         }
     };
 
-    sendSignInToAmplitudeCom() {
+    sendNewVisitToAmplitudeCom() {
         if (!sessionStorage.getItem(AMPLITUDE_SESSION)) {
             window.amplitude.getInstance().logEvent('Attendance - new visitation');
             sessionStorage.setItem(AMPLITUDE_SESSION, true);
