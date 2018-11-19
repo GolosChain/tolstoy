@@ -13,11 +13,7 @@ import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 export const FORCE_LINES_WIDTH = 1000;
 const FORCE_COMPACT_WIDTH = 550;
 
-const Root = styled.div`
-    @media (max-width: 890px) {
-        margin: 0 ${({ customCards }) => (customCards ? 20 : 12)}px;
-    }
-`;
+const Root = styled.div``;
 
 const ColumnsContainer = styled.div`
     display: flex;
@@ -25,6 +21,7 @@ const ColumnsContainer = styled.div`
 
 const Column = styled.div`
     flex: 1 1 100px;
+    min-width: 100px;
 
     &:first-child {
         margin-right: 16px;
@@ -276,10 +273,8 @@ export default class CardsList extends PureComponent {
     };
 
     render() {
-        const { itemRender } = this.props;
-
         return (
-            <Root innerRef={this.rootRef} customCards={Boolean(itemRender)}>
+            <Root innerRef={this.rootRef}>
                 {this.renderCards()}
                 {this.renderLoaderIfNeed()}
             </Root>

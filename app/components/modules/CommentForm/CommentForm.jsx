@@ -208,7 +208,6 @@ class CommentForm extends Component {
                                 <CommentFooter
                                     ref={this.footerRef}
                                     editMode={editMode}
-                                    errorText={postError}
                                     postDisabled={!allowPost}
                                     onPostClick={this._postSafe}
                                     onCancelClick={this.onCancelClick}
@@ -366,11 +365,11 @@ class CommentForm extends Component {
         }
 
         if (rTags.images.size) {
-            meta.image = rTags.images;
+            meta.image = Array.from(rTags.images);
         }
 
         if (rTags.links.size) {
-            meta.links = rTags.links;
+            meta.links = Array.from(rTags.links);
         }
 
         const data = {

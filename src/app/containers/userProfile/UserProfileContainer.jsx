@@ -31,6 +31,7 @@ const Main = styled(Container).attrs({
 
     @media (max-width: 890px) {
         padding-top: 0;
+        margin: 0 !important;
     }
 `;
 
@@ -65,7 +66,7 @@ const SidebarLeft = styled.div`
 
     @media (max-width: 890px) {
         width: 100%;
-        margin-left: 0;
+        margin-right: 0;
         order: 1;
     }
 `;
@@ -82,7 +83,6 @@ const SmallUserNavigation = styled(UserNavigation)`
     @media (max-width: 890px) {
         display: block;
         order: 3;
-        margin-bottom: 16px;
     }
 `;
 
@@ -219,6 +219,7 @@ class UserProfileContainer extends Component {
         }
 
         const route = last(this.props.routes).path;
+        const showLayoutSwitcher = !route || route === 'blog' || route === 'favorites';
 
         return (
             <Fragment>
@@ -234,14 +235,14 @@ class UserProfileContainer extends Component {
                 <BigUserNavigation
                     accountName={currentAccount.get('name')}
                     isOwner={isOwner}
-                    showLayout={!route || route === 'blog' || route === 'favorites'}
+                    showLayout={showLayoutSwitcher}
                 />
                 <WrapperMain>
                     <Main>
                         <SmallUserNavigation
                             accountName={currentAccount.get('name')}
                             isOwner={isOwner}
-                            showLayout={!route || route === 'blog' || route === 'favorites'}
+                            showLayout={showLayoutSwitcher}
                         />
                         {route === 'settings' ? null : (
                             <SidebarLeft>

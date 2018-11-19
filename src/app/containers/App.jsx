@@ -6,6 +6,7 @@ import tt from 'counterpart';
 import { key_utils } from 'golos-js/lib/auth/ecc';
 import CloseButton from 'react-foundation-components/lib/global/close-button'; // TODO: make new component and delete
 
+import { AMPLITUDE_SESSION } from 'app/client_config';
 import { init as initAnchorHelper } from 'app/utils/anchorHelper';
 
 import defaultTheme from 'src/app/themes';
@@ -19,6 +20,7 @@ import Dialogs from '@modules/Dialogs';
 import Modals from '@modules/Modals';
 import PageViewsCounter from '@elements/PageViewsCounter';
 import ScrollUpstairsButton from 'src/app/components/common/ScrollUpstairsButton';
+import CheckLoginOwner from 'src/app/components/common/CheckLoginOwner';
 
 injectGlobal`
     html {
@@ -57,6 +59,7 @@ export class App extends Component {
 
     componentDidMount() {
         this.props.loginUser();
+        this.sendNewVisitToAmplitudeCom();
 
         window.addEventListener('storage', this.checkLogin);
 
@@ -105,6 +108,13 @@ export class App extends Component {
             }
         }
     };
+
+    sendNewVisitToAmplitudeCom() {
+        if (!sessionStorage.getItem(AMPLITUDE_SESSION)) {
+            window.amplitude.getInstance().logEvent('Attendance - new visitation');
+            sessionStorage.setItem(AMPLITUDE_SESSION, true);
+        }
+    }
 
     onEntropyEvent(e) {
         if (e.type === 'mousemove') {
@@ -173,6 +183,7 @@ export class App extends Component {
                     <Dialogs />
                     <Modals />
                     <DialogManager />
+                    <CheckLoginOwner />
                     <Notifications />
                     {process.env.BROWSER ? <TooltipManager /> : null}
                     <PageViewsCounter hidden />

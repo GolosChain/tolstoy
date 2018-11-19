@@ -29,29 +29,29 @@ export default class WalletTabs extends PureComponent {
                         id={MAIN_TABS.TRANSACTIONS}
                         title={tt('user_wallet.tab_title.transaction_history')}
                     >
-                        {this._renderTransactionsTabs()}
+                        {this.renderTransactionsTabs()}
                     </TabContainer>
                     <TabContainer
                         id={MAIN_TABS.POWER}
                         title={tt('user_wallet.tab_title.delegation')}
                     >
-                        {this._renderTransactionsType()}
+                        {this.renderTransactionsType()}
                     </TabContainer>
                     <TabContainer
                         id={MAIN_TABS.REWARDS}
                         title={tt('user_wallet.tab_title.rewards')}
                     >
-                        {this._renderRewardsTabs()}
+                        {this.renderRewardsTabs()}
                     </TabContainer>
                 </CardContentStyled>
             </Tabs>
         );
     }
 
-    _renderTransactionsTabs() {
+    renderTransactionsTabs() {
         const { currency } = this.props;
 
-        const innerTabs = this._renderTransactionsType();
+        const innerTabs = this.renderTransactionsType();
 
         return (
             <Tabs activeTab={{ id: currency }} onChange={this.props.onCurrencyChange}>
@@ -79,8 +79,8 @@ export default class WalletTabs extends PureComponent {
         );
     }
 
-    _renderRewardsTabs() {
-        return this._renderRewardsType();
+    renderRewardsTabs() {
+        return this.renderRewardsType();
 
         // const { rewardTab } = this.props;
         //
@@ -88,17 +88,17 @@ export default class WalletTabs extends PureComponent {
         //     <Tabs activeTab={{ id: rewardTab }} onChange={this.props.onRewardTabChange}>
         //         <TabsContent>
         //             <TabContainer id={REWARDS_TABS.HISTORY} title="История">
-        //                 {this._renderRewardsType()}
+        //                 {this.renderRewardsType()}
         //             </TabContainer>
         //             <TabContainer id={REWARDS_TABS.STATISTIC} title="Статистика">
-        //                 {this._renderRewardsType()}
+        //                 {this.renderRewardsType()}
         //             </TabContainer>
         //         </TabsContent>
         //     </Tabs>
         // );
     }
 
-    _renderRewardsType() {
+    renderRewardsType() {
         const { rewardType } = this.props;
 
         return (
@@ -117,7 +117,7 @@ export default class WalletTabs extends PureComponent {
         );
     }
 
-    _renderTransactionsType() {
+    renderTransactionsType() {
         const { direction } = this.props;
 
         return (

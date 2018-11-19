@@ -8,6 +8,8 @@ import {
     pageAccountSelector,
     globalSelector,
 } from 'src/app/redux/selectors/common';
+import { setWalletTabState, setWalletTabsState } from 'src/app/redux/actions/ui';
+import { uiSelector } from 'src/app/redux/selectors/common';
 
 export const getGlobalPropsSelector = createSelector([globalSelector('props')], props =>
     props.toJS()
@@ -15,16 +17,18 @@ export const getGlobalPropsSelector = createSelector([globalSelector('props')], 
 
 export default connect(
     createSelector(
-        [getGlobalPropsSelector, currentUserSelector, pageAccountSelector],
-        (globalProps, myAccount, pageAccount) => {
+        [getGlobalPropsSelector, currentUserSelector, pageAccountSelector, uiSelector('wallet')],
+        (globalProps, myAccount, pageAccount, wallet) => {
             const pageAccountName = pageAccount.get('name');
             const myAccountName = myAccount ? myAccount.get('username') : null;
+            const walletTabsState = wallet.get('tabsState');
 
             return {
                 myAccount,
                 myAccountName,
                 pageAccount,
                 pageAccountName,
+                walletTabsState,
                 isOwner: myAccountName && pageAccountName === myAccountName,
                 globalProps,
             };
@@ -59,5 +63,11 @@ export default connect(
                     payload: { ...payload, resolve, reject },
                 });
             }),
+        setWalletTabState: tab => {
+            dispatch(setWalletTabState(tab));
+        },
+        setWalletTabsState: tabs => {
+            dispatch(setWalletTabsState(tabs));
+        },
     })
 )(WalletContent);

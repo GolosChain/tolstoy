@@ -10,6 +10,7 @@ import FavoritePostsList from 'src/app/components/common/CardsList/FavoritePosts
 import InfoBlock from 'src/app/components/common/InfoBlock';
 import { favoritesLoadNextPageAction } from 'src/app/redux/actions/favorites';
 import EmptyBlock, { EmptySubText } from 'src/app/components/common/EmptyBlock';
+import CardsListWrapper from '../CardsListWrapper';
 
 const Loader = styled(LoadingIndicator)`
     margin-top: 30px;
@@ -49,7 +50,7 @@ export default class FavoritesContent extends Component {
         return (
             <Fragment>
                 <Helmet title={tt('meta.title.profile.favorites', { name: pageAccountName })} />
-                {this._render()}
+                <CardsListWrapper>{this._render()}</CardsListWrapper>
             </Fragment>
         );
     }

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import styled, { css } from 'styled-components';
 import is from 'styled-is';
 
@@ -43,10 +43,9 @@ const labelStyles = css`
     text-transform: none;
     cursor: pointer;
 
-
     ${is('dark')`
         color: #393636;
-    `}
+    `};
 
     ${is('bold')`
         font-weight: bold;

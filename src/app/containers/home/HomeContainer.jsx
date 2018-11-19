@@ -2,9 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import Container from 'src/app/components/common/Container';
-import Navigation from 'src/app/components/main/Navigation';
+import Container, {
+    CONTAINER_FULL_WIDTH,
+    CONTAINER_MOBILE_WIDTH,
+    CONTAINER_MOBILE_MARGIN,
+} from 'src/app/components/common/Container';
+import MainNavigation from 'src/app/components/main/MainNavigation';
 import TagsBox from 'src/app/components/home/TagsBox';
+
+const SINGLE_COLUMN_WIDTH = 768;
 
 const Wrapper = styled.div`
     background-color: #f9f9f9;
@@ -12,9 +18,16 @@ const Wrapper = styled.div`
 
 const ContainerStyled = styled(Container)`
     padding: 22px 0 40px;
-    margin: 0 auto !important;
 
-    @media (max-width: 768px) {
+    @media (max-width: ${CONTAINER_FULL_WIDTH}px) {
+        padding-top: 20px;
+    }
+
+    @media (max-width: ${CONTAINER_MOBILE_WIDTH}px) {
+        padding: ${CONTAINER_MOBILE_MARGIN}px 0;
+    }
+
+    @media (max-width: ${SINGLE_COLUMN_WIDTH}px) {
         flex-direction: column;
     }
 `;
@@ -23,7 +36,7 @@ const Content = styled.div`
     flex: 1;
     min-width: 280px;
 
-    @media (max-width: 768px) {
+    @media (max-width: ${SINGLE_COLUMN_WIDTH}px) {
         order: 2;
     }
 `;
@@ -50,7 +63,7 @@ export default class HomeContainer extends Component {
 
         return (
             <Wrapper>
-                <Navigation />
+                <MainNavigation />
                 <ContainerStyled>
                     <Content>
                         <TagsBox />

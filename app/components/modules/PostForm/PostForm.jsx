@@ -97,7 +97,6 @@ export default class PostForm extends React.Component {
             emptyBody: true,
             rteState: null,
             tags: [],
-            postError: null,
             payoutType: PAYOUT_TYPES.PAY_50,
             isPosting: false,
             uploadingCount: 0,
@@ -213,7 +212,6 @@ export default class PostForm extends React.Component {
             tags,
             payoutType,
             isPreview,
-            postError,
             uploadingCount,
             isPosting,
             isPreviewButtonVisible,
@@ -277,7 +275,6 @@ export default class PostForm extends React.Component {
                         <PostFooter
                             ref="footer"
                             editMode={editMode}
-                            errorText={postError}
                             tags={tags}
                             onTagsChange={this._onTagsChange}
                             payoutType={payoutType}
@@ -496,7 +493,7 @@ export default class PostForm extends React.Component {
     }
 
     _post = () => {
-        const { author, editMode } = this.props;
+        const { author, editMode, selfVote } = this.props;
         const { title, tags, payoutType, editorId } = this.state;
         let error;
 
@@ -558,11 +555,11 @@ export default class PostForm extends React.Component {
         }
 
         if (rtags.images.size) {
-            meta.image = rtags.images;
+            meta.image = Array.from(rtags.images);
         }
 
         if (rtags.links.size) {
-            meta.links = rtags.links;
+            meta.links = Array.from(rtags.links);
         }
 
         const data = {
@@ -573,7 +570,7 @@ export default class PostForm extends React.Component {
             parent_author: '',
             json_metadata: meta,
             __config: {
-                autoVote: false,
+                autoVote: Boolean(selfVote),
             },
         };
 

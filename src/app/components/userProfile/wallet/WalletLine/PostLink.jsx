@@ -24,7 +24,7 @@ export default class PostLink extends Component {
     isMounted = false;
     state = {
         category: '',
-        count: 0,
+        title: '',
     };
 
     componentDidMount() {
@@ -36,14 +36,28 @@ export default class PostLink extends Component {
         this.isMounted = false;
     }
 
-    async fetchContent() {
+    componentWillReceiveProps(nextProps) {
+        const { post } = this.props;
+        if (`${post.author}/${post.permLink}` !== `${nextProps.post.author}/${nextProps.post.permLink}`) {
+            this.fetchContent(nextProps.post);
+        }
+    }
+
+    async fetchContent(relevantPost) {
         const { getContent, post } = this.props;
 
+        let author = post.author;
+        let permLink = post.permLink;
+        if (relevantPost) {
+            author = relevantPost.author;
+            permLink = relevantPost.permLink;
+        }
+
         try {
-            const content = await getContent({ author: post.author, permlink: post.permLink });
+            const content = await getContent({ author: author, permlink: permLink });
 
             if (content && this.isMounted) {
-                this.setState({ category: `/${content.category}` });
+                this.setState({ category: `/${content.category}`, title: content.title });
             }
         } catch (error) {
             console.error(error);
@@ -52,9 +66,8 @@ export default class PostLink extends Component {
 
     render() {
         const { post } = this.props;
-        const { category } = this.state;
+        const { category, title } = this.state;
         const postLink = `${category}/@${post.author}/${post.permLink}`;
-        const postLinkText = `${post.author}/${post.permLink}`;
-        return <WhoPostLink to={postLink}>{postLinkText}</WhoPostLink>;
+        return <WhoPostLink to={postLink}>{title}</WhoPostLink>;
     }
 }
