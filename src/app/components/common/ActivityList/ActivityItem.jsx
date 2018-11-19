@@ -31,12 +31,12 @@ const Wrapper = styled.div`
 `;
 
 const ActivityDesc = styled.div`
-    flex: 1;
-    flex-direction: column;
+    display: flex;
+    align-items: center;
+    flex: 1 0;
     margin-left: 10px;
     max-width: 100%;
     overflow: hidden;
-    flex-shrink: 0;
 `;
 
 const AuthorName = styled(Link)`
@@ -48,12 +48,11 @@ const AuthorName = styled(Link)`
 
 const ActivityTop = styled.div`
     display: flex;
-    flex: 1;
+    flex-direction: column;
     justify-content: space-between;
 `;
 
 const ActivityDate = styled.div`
-    flex: 1;
     text-align: right;
     font-size: 12px;
     color: #959595;
@@ -86,6 +85,16 @@ const LeftSide = styled.div`
     width: 40px;
     margin-left: 6px;
     color: #2879ff;
+`;
+
+const WrapperRight = styled.div`
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+`;
+
+const StyledFollow = styled(Follow)`
+    margin-right: 10px
 `;
 
 const icons = {
@@ -146,6 +155,7 @@ export default class ActivityItem extends Component {
 
     render() {
         const { notification, isCompact } = this.props;
+        console.log(notification.get('eventType'));
         let leftSide = null;
         let nameLink = null;
         let followButton = null;
@@ -176,7 +186,7 @@ export default class ActivityItem extends Component {
             nameLink = <AuthorName to={`/@${userName}`}>{name || userName}</AuthorName>;
             followButton =
                 isSubscribeNotification ? (
-                    <Follow following={userName} collapseOnMobile />
+                    <StyledFollow following={userName} collapseOnMobile />
                 ) : null;
         }
 
@@ -186,18 +196,21 @@ export default class ActivityItem extends Component {
                 <ActivityDesc>
                     <ActivityTop>
                         {nameLink}
+                        <ActivityText isCompact={isCompact}>
+                            <Interpolate with={getPropsForInterpolation(notification)} component="div">
+                                {tt(['notifications', 'activity', notification.get('eventType')], {
+                                    count: 1,
+                                    interpolate: false,
+                                })}
+                            </Interpolate>
+                        </ActivityText>
+                    </ActivityTop>
+                    <WrapperRight>
+                        {followButton}
                         <ActivityDate>
                             <TimeAgoWrapper date={notification.get('createdAt')} />
                         </ActivityDate>
-                    </ActivityTop>
-                    <ActivityText isCompact={isCompact}>
-                        <Interpolate with={getPropsForInterpolation(notification)} component="div">
-                            {tt(['notifications', 'activity', notification.get('eventType')], {
-                                count: 1,
-                                interpolate: false,
-                            })}
-                        </Interpolate>
-                    </ActivityText>
+                    </WrapperRight>
                 </ActivityDesc>
             </Wrapper>
         );
