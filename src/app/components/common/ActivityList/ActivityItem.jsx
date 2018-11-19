@@ -10,10 +10,11 @@ import Interpolate from 'react-interpolate-component';
 import { breakWordStyles } from 'src/app/helpers/styles';
 import normalizeProfile from 'app/utils/NormalizeProfile';
 import { getPropsForInterpolation } from 'src/app/helpers/notifications';
-
 import Icon from 'golos-ui/Icon';
+
 import Avatar from 'src/app/components/common/Avatar';
 import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
+import Follow from 'src/app/components/common/Follow';
 
 const Wrapper = styled.div`
     display: flex;
@@ -145,9 +146,9 @@ export default class ActivityItem extends Component {
 
     render() {
         const { notification, isCompact } = this.props;
-
         let leftSide = null;
         let nameLink = null;
+        let followButton = null;
 
         if (['reward', 'curatorReward'].includes(notification.get('eventType'))) {
             leftSide = (
@@ -161,6 +162,8 @@ export default class ActivityItem extends Component {
         if (account) {
             const userName = account.get('name');
             const { name, profile_image } = normalizeProfile(account.toJS());
+            const isSubscribeNotification = notification.get('eventType') === 'subscribe';
+
             leftSide = (
                 <Link to={`/@${userName}`}>
                     <Avatar
@@ -171,6 +174,10 @@ export default class ActivityItem extends Component {
                 </Link>
             );
             nameLink = <AuthorName to={`/@${userName}`}>{name || userName}</AuthorName>;
+            followButton =
+                isSubscribeNotification ? (
+                    <Follow following={userName} collapseOnMobile />
+                ) : null;
         }
 
         return (
