@@ -12,6 +12,23 @@ const IconStyled = styled(Icon)`
     margin-right: 6px;
 `;
 
+const collapseStyles = `
+    width: 34px;
+    height: 34px;
+    min-width: 0;
+    border-radius: 50%;
+
+    & > svg {
+        min-width: 12px;
+        min-height: 12px;
+        margin: 0;
+    };
+
+    span {
+        display: none;
+    }
+`;
+
 const Wrapper = styled(Button)`
     display: flex;
     justify-content: center;
@@ -27,38 +44,12 @@ const Wrapper = styled(Button)`
     }
 
     ${is('collapse')`
-        width: 34px;
-        height: 34px;
-        min-width: 0;
-        border-radius: 50%;
-
-        ${IconStyled} {
-            min-width: 12px;
-            min-height: 12px;
-            margin: 0;
-        };
-
-        span {
-            display: none;
-        }
+        ${collapseStyles}
     `};
 
     ${is('collapseOnMobile')`
         @media (max-width: 500px) {
-            width: 34px;
-            height: 34px;
-            min-width: 0;
-            border-radius: 50%;
-    
-            ${IconStyled} {
-                min-width: 12px;
-                min-height: 12px;
-                margin: 0;
-            };
-    
-            span {
-                display: none;
-            }
+            ${collapseStyles}
         }
     `};
 `;
