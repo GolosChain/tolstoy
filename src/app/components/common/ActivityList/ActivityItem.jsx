@@ -32,7 +32,6 @@ const Wrapper = styled.div`
 
 const ActivityDesc = styled.div`
     display: flex;
-    align-items: center;
     flex: 1 0;
     margin-left: 10px;
     max-width: 100%;
@@ -46,16 +45,27 @@ const AuthorName = styled(Link)`
     text-decoration: none;
 `;
 
-const ActivityTop = styled.div`
+const ActivityLeft = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 `;
 
+const ActivityRight = styled.div`
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+`;
+
 const ActivityDate = styled.div`
+    margin-left: 10px;
     text-align: right;
     font-size: 12px;
     color: #959595;
+
+    ${is('isSubscribeNotification')`
+        margin-left: 0;
+    `};
 `;
 
 const ActivityText = styled.div`
@@ -87,14 +97,10 @@ const LeftSide = styled.div`
     color: #2879ff;
 `;
 
-const WrapperRight = styled.div`
+const FollowWrapper = styled.div`
     display: flex;
-    flex: 1;
-    justify-content: flex-end;
-`;
-
-const StyledFollow = styled(Follow)`
-    margin-right: 10px
+    align-items: center;
+    padding: 0 10px;
 `;
 
 const icons = {
@@ -155,10 +161,9 @@ export default class ActivityItem extends Component {
 
     render() {
         const { notification, isCompact } = this.props;
-        console.log(notification.get('eventType'));
         let leftSide = null;
         let nameLink = null;
-        let followButton = null;
+        let followBlock = null;
 
         if (['reward', 'curatorReward'].includes(notification.get('eventType'))) {
             leftSide = (
@@ -169,10 +174,10 @@ export default class ActivityItem extends Component {
         }
 
         const account = notification.getIn(['computed', 'accounts'], emptyList).get(0);
+        const isSubscribeNotification = notification.get('eventType') === 'subscribe';
         if (account) {
             const userName = account.get('name');
             const { name, profile_image } = normalizeProfile(account.toJS());
-            const isSubscribeNotification = notification.get('eventType') === 'subscribe';
 
             leftSide = (
                 <Link to={`/@${userName}`}>
@@ -184,33 +189,37 @@ export default class ActivityItem extends Component {
                 </Link>
             );
             nameLink = <AuthorName to={`/@${userName}`}>{name || userName}</AuthorName>;
-            followButton =
-                isSubscribeNotification ? (
-                    <StyledFollow following={userName} collapseOnMobile />
-                ) : null;
+            followBlock = isSubscribeNotification ? (
+                <FollowWrapper>
+                    <Follow following={userName} collapseOnMobile />
+                </FollowWrapper>
+            ) : null;
         }
 
         return (
             <Wrapper>
                 {leftSide}
                 <ActivityDesc>
-                    <ActivityTop>
+                    <ActivityLeft>
                         {nameLink}
                         <ActivityText isCompact={isCompact}>
-                            <Interpolate with={getPropsForInterpolation(notification)} component="div">
+                            <Interpolate
+                                with={getPropsForInterpolation(notification)}
+                                component="div"
+                            >
                                 {tt(['notifications', 'activity', notification.get('eventType')], {
                                     count: 1,
                                     interpolate: false,
                                 })}
                             </Interpolate>
                         </ActivityText>
-                    </ActivityTop>
-                    <WrapperRight>
-                        {followButton}
-                        <ActivityDate>
+                    </ActivityLeft>
+                    <ActivityRight>
+                        {followBlock}
+                        <ActivityDate isSubscribeNotification={isSubscribeNotification}>
                             <TimeAgoWrapper date={notification.get('createdAt')} />
                         </ActivityDate>
-                    </WrapperRight>
+                    </ActivityRight>
                 </ActivityDesc>
             </Wrapper>
         );

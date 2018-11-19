@@ -8,6 +8,7 @@ import Icon from 'golos-ui/Icon';
 import Button from 'golos-ui/Button';
 
 const IconStyled = styled(Icon)`
+    flex-shrink: 0;
     margin-right: 6px;
 `;
 
