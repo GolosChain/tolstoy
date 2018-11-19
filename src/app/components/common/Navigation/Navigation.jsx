@@ -66,11 +66,12 @@ const Right = styled.div`
 export default class Navigation extends PureComponent {
     static propTypes = {
         compact: PropTypes.bool,
+        pathname: PropTypes.string,
         tabLinks: PropTypes.array.isRequired,
     };
 
     render() {
-        const { tabLinks, rightItems, compact, location, className } = this.props;
+        const { tabLinks, rightItems, compact, pathname, className } = this.props;
 
         return (
             <SlideContainerStyled className={className}>
@@ -81,7 +82,7 @@ export default class Navigation extends PureComponent {
                                 key={to}
                                 to={to}
                                 compact={compact ? 1 : 0}
-                                className={index && location === '/' ? 'active' : null}
+                                className={index && pathname === '/' ? 'active' : null}
                             >
                                 {value}
                             </TabLinkStyled>

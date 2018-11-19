@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
-import { locationSelector } from 'src/app/redux/selectors/common';
+import { pathnameSelector } from 'src/app/redux/selectors/ui/location';
 
 import Navigation from './Navigation';
 
 export default connect(state => ({
-    location: locationSelector(state),
+    pathname: pathnameSelector(state),
 }))(Navigation);
