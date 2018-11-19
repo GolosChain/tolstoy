@@ -76,7 +76,7 @@ const ActivityDate = styled.div`
     font-size: 12px;
     color: #959595;
 
-    ${is('isSubscribeNotification')`
+    ${is('marginNulling')`
         margin-left: 0;
     `};
 `;
@@ -236,7 +236,7 @@ export default class ActivityItem extends Component {
                     </ActivityLeft>
                     <ActivityRight isCompact={isCompact}>
                         {followBlock}
-                        <ActivityDate isSubscribeNotification={isSubscribeNotification}>
+                        <ActivityDate marginNulling={isSubscribeNotification && !isCompact}>
                             <TimeAgoWrapper date={notification.get('createdAt')} />
                         </ActivityDate>
                     </ActivityRight>
