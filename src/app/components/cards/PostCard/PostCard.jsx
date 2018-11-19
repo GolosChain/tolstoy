@@ -258,7 +258,7 @@ export default class PostCard extends PureComponent {
     }
 
     renderHeader() {
-        const { data, isRepost, additionalData, compact } = this.props;
+        const { data, isRepost, additionalData, compact, postLink } = this.props;
 
         const category = detransliterate(data.get('category'));
         let author;
@@ -275,7 +275,7 @@ export default class PostCard extends PureComponent {
         return (
             <Header>
                 <HeaderLine>
-                    <CardAuthor author={author} created={created} />
+                    <CardAuthor contentLink={postLink} author={author} created={created} />
                     <Filler />
                     {compact ? null : (
                         <Category
@@ -415,7 +415,7 @@ export default class PostCard extends PureComponent {
     }
 
     renderRepostPart() {
-        const { repostHtml, data } = this.props;
+        const { repostHtml, data, postLink } = this.props;
 
         return (
             <RepostBlock>
@@ -427,6 +427,7 @@ export default class PostCard extends PureComponent {
                 <HeaderRepost>
                     <HeaderLine>
                         <CardAuthor
+                            contentLink={postLink}
                             author={data.get('author')}
                             created={data.get('created')}
                             isRepost
