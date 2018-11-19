@@ -22,7 +22,7 @@ export default connect(
     createDeepEqualSelector(
         [
             hydratedNotificationsSelector(filteredNotificationsSelector),
-            statusSelector('notificationsOnline')
+            statusSelector('notificationsOnline'),
         ],
         (notifications, notificationsStatus) => ({
             notifications,

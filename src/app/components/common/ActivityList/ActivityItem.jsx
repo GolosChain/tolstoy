@@ -36,6 +36,10 @@ const ActivityDesc = styled.div`
     margin-left: 10px;
     max-width: 100%;
     overflow: hidden;
+
+    ${is('isCompact')`
+        justify-content: space-between;
+    `};
 `;
 
 const AuthorName = styled(Link)`
@@ -49,12 +53,21 @@ const ActivityLeft = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
+    ${is('isCompact')`
+        justify-content: center;
+    `};
 `;
 
 const ActivityRight = styled.div`
     display: flex;
     flex: 1;
     justify-content: flex-end;
+
+    ${is('isCompact')`
+        flex: 0;
+        flex-direction: column;
+    `};
 `;
 
 const ActivityDate = styled.div`
@@ -101,6 +114,13 @@ const FollowWrapper = styled.div`
     display: flex;
     align-items: center;
     padding: 0 10px;
+
+    ${is('isCompact')`
+        justify-content: flex-end;
+        order: 2;
+        padding: 0;
+        margin-top: 5px;
+    `};
 `;
 
 const icons = {
@@ -190,8 +210,8 @@ export default class ActivityItem extends Component {
             );
             nameLink = <AuthorName to={`/@${userName}`}>{name || userName}</AuthorName>;
             followBlock = isSubscribeNotification ? (
-                <FollowWrapper>
-                    <Follow following={userName} collapseOnMobile />
+                <FollowWrapper isCompact={isCompact}>
+                    <Follow following={userName} collapseOnMobile collapse={isCompact} />
                 </FollowWrapper>
             ) : null;
         }
@@ -199,8 +219,8 @@ export default class ActivityItem extends Component {
         return (
             <Wrapper>
                 {leftSide}
-                <ActivityDesc>
-                    <ActivityLeft>
+                <ActivityDesc isCompact={isCompact}>
+                    <ActivityLeft isCompact={isCompact}>
                         {nameLink}
                         <ActivityText isCompact={isCompact}>
                             <Interpolate
@@ -214,7 +234,7 @@ export default class ActivityItem extends Component {
                             </Interpolate>
                         </ActivityText>
                     </ActivityLeft>
-                    <ActivityRight>
+                    <ActivityRight isCompact={isCompact}>
                         {followBlock}
                         <ActivityDate isSubscribeNotification={isSubscribeNotification}>
                             <TimeAgoWrapper date={notification.get('createdAt')} />

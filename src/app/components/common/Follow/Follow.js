@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import is from 'styled-is';
 import PropTypes from 'prop-types';
 import tt from 'counterpart';
+import is from 'styled-is';
 
 import Icon from 'golos-ui/Icon';
 import Button from 'golos-ui/Button';
@@ -25,6 +25,23 @@ const Wrapper = styled(Button)`
     span {
         margin-top: 1px;
     }
+
+    ${is('collapse')`
+        width: 34px;
+        height: 34px;
+        min-width: 0;
+        border-radius: 50%;
+
+        ${IconStyled} {
+            min-width: 12px;
+            min-height: 12px;
+            margin: 0;
+        };
+
+        span {
+            display: none;
+        }
+    `};
 
     ${is('collapseOnMobile')`
         @media (max-width: 500px) {
@@ -51,6 +68,7 @@ export default class Follow extends Component {
         // external
         following: PropTypes.string.isRequired,
         collapseOnMobile: PropTypes.bool,
+        collapse: PropTypes.bool,
         onClick: PropTypes.func,
 
         // connect
@@ -60,6 +78,7 @@ export default class Follow extends Component {
 
     static defaultProps = {
         collapseOnMobile: false,
+        collapse: false,
         onClick: () => {},
     };
 
@@ -76,13 +95,14 @@ export default class Follow extends Component {
     };
 
     render() {
-        const { collapseOnMobile, isFollow, className } = this.props;
+        const { collapseOnMobile, collapse, isFollow, className } = this.props;
 
         if (isFollow) {
             return (
                 <Wrapper
                     light
                     collapseOnMobile={collapseOnMobile}
+                    collapse={collapse}
                     onClick={this.unfollow}
                     className={className}
                 >
@@ -95,6 +115,7 @@ export default class Follow extends Component {
         return (
             <Wrapper
                 collapseOnMobile={collapseOnMobile}
+                collapse={collapse}
                 onClick={this.follow}
                 className={className}
             >
