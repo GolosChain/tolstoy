@@ -6,7 +6,7 @@ import tt from 'counterpart';
 import { key_utils } from 'golos-js/lib/auth/ecc';
 import CloseButton from 'react-foundation-components/lib/global/close-button'; // TODO: make new component and delete
 
-import { REGISTRATION_URL } from 'app/client_config';
+import { AMPLITUDE_SESSION } from 'app/client_config';
 import { init as initAnchorHelper } from 'app/utils/anchorHelper';
 
 import defaultTheme from 'src/app/themes';
@@ -58,6 +58,7 @@ export class App extends Component {
 
     componentDidMount() {
         this.props.loginUser();
+        this.sendNewVisitToAmplitudeCom();
 
         window.addEventListener('storage', this.checkLogin);
 
@@ -106,6 +107,13 @@ export class App extends Component {
             }
         }
     };
+
+    sendNewVisitToAmplitudeCom() {
+        if (!sessionStorage.getItem(AMPLITUDE_SESSION)) {
+            window.amplitude.getInstance().logEvent('Attendance - new visitation');
+            sessionStorage.setItem(AMPLITUDE_SESSION, true);
+        }
+    }
 
     onEntropyEvent(e) {
         if (e.type === 'mousemove') {

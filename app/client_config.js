@@ -136,3 +136,5 @@ export const LEAVE_PAGE_WHITELIST_DOMAINS = [
 ];
 
 export const DONATION_FOR = 'Donation for';
+
+export const AMPLITUDE_SESSION = 'amplitudeSession';
