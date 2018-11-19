@@ -1,15 +1,14 @@
 import { Set, Map } from 'immutable';
-import { call, put, select } from 'redux-saga/effects';
+import { call, select } from 'redux-saga/effects';
 import { PrivateKey } from 'golos-js/lib/auth/ecc';
 
-import user from 'app/redux/User';
 import { getAccount } from 'app/redux/sagas/shared';
 
 // operations that require only posting authority
 const postingOps = Set(['vote', 'comment', 'delete_comment', 'custom_json', 'account_metadata']);
 
 export function* accountAuthLookup(account, privateKeys, isConfirmWithSave) {
-    let auth = {
+    let authority = {
         posting: 'none',
         active: 'none',
         owner: 'none',
@@ -17,24 +16,18 @@ export function* accountAuthLookup(account, privateKeys, isConfirmWithSave) {
     };
 
     if (isConfirmWithSave) {
-        const currentAuth = yield select(state =>
-            state.user.getIn(['authority', account.get('name')])
-        );
+        const auth = yield select(state => state.user.getIn(['authority', account.get('name')]));
 
-        if (currentAuth) {
-            auth = currentAuth.toJS();
+        if (auth) {
+            authority = auth.toJS();
         }
-    }
-
-    if (!privateKeys || !privateKeys['posting_private']) {
-        return;
     }
 
     for (let role of ['posting', 'active']) {
         const privateKey = privateKeys[`${role}_private`];
 
         if (privateKey) {
-            auth[role] = yield call(authStr, {
+            authority[role] = yield call(authStr, {
                 pubKey: toPub(privateKey),
                 authority: account.get(role),
                 authType: role === 'active' ? 'active' : '',
@@ -43,15 +36,10 @@ export function* accountAuthLookup(account, privateKeys, isConfirmWithSave) {
     }
 
     if (account.get('memo_key') === toPub(privateKeys['memo_private'])) {
-        auth.memo = 'full';
+        authority.memo = 'full';
     }
 
-    yield put(
-        user.actions.setAuthority({
-            accountName: account.get('name'),
-            auth,
-        })
-    );
+    return authority;
 }
 
 function* authStr({ pubKey, authority, authType, recurse = 1 }) {

@@ -106,7 +106,14 @@ export default class DialogManager extends React.PureComponent {
         });
     }
 
-    static showLogin({ username, forceSave, isConfirm, operationType, onClose } = {}) {
+    static showLogin({
+        username,
+        forceSave,
+        isConfirm,
+        operationType,
+        strictAuthType,
+        onClose,
+    } = {}) {
         return DialogManager.showDialog({
             component: LoginForm,
             props: {
@@ -114,6 +121,7 @@ export default class DialogManager extends React.PureComponent {
                 isConfirm,
                 forceSave,
                 operationType,
+                strictAuthType,
             },
             onClose,
         });

@@ -1,4 +1,4 @@
-import { List, fromJS } from 'immutable';
+import { fromJS } from 'immutable';
 import { call, put, select, fork, takeLatest, takeEvery } from 'redux-saga/effects';
 import { browserHistory } from 'react-router';
 import { api } from 'golos-js';
@@ -11,7 +11,8 @@ import { serverApiLogin, serverApiLogout } from 'app/utils/ServerApiClient';
 import { serverApiRecordEvent } from 'app/utils/ServerApiClient';
 import { loadFollows } from 'app/redux/sagas/follow';
 import uploadImageWatch from '../UserSaga_UploadImage';
-import { tryRestoreAuth, resetAuth } from 'src/app/helpers/localStorage';
+import { tryRestoreAuth, resetSavedAuth } from 'src/app/helpers/localStorage';
+import { saveCurrentUserAuth } from 'src/app/redux/sagas/login';
 
 const COMPROMISED_ERROR =
     'Hello. Your account may have been compromised. We are working on restoring an access to your account. Please send an email to t@cyber.fund.';
@@ -90,6 +91,12 @@ function* usernamePasswordLogin({ payload }) {
         return;
     }
 
+    // Если мы зашли сюда из диалога подтверждения, но галка "сохранить на время сессии"
+    // выключена, то делать ничего не надо.
+    if (payload.isConfirm && !payload.saveLogin) {
+        return;
+    }
+
     const loginInfo = {
         username: payload.username,
         password: payload.password,
@@ -101,12 +108,6 @@ function* usernamePasswordLogin({ payload }) {
         isLogin: payload.isLogin,
         isConfirm: payload.isConfirm,
     };
-
-    // Если мы зашли сюда из диалога подтверждения, но галка "сохранить на время сессии"
-    // выключена, то делать ничего не надо.
-    if (payload.isConfirm && !payload.saveLogin) {
-        return;
-    }
 
     yield usernamePasswordLoginInner(payload, loginInfo);
 }
@@ -132,26 +133,38 @@ function* usernamePasswordLoginInner(
 
     loginInfo.privateKeys = extractPrivateKeys(loginInfo);
 
-    yield call(accountAuthLookup, account, loginInfo.privateKeys, loginInfo.isConfirm);
+    const authority = yield call(
+        accountAuthLookup,
+        account,
+        loginInfo.privateKeys,
+        loginInfo.isConfirm
+    );
 
-    let authority = yield select(state => state.user.getIn(['authority', loginInfo.username]));
+    if (
+        !loginInfo.isLogin &&
+        loginInfo.userProvidedRole &&
+        authority[loginInfo.userProvidedRole] !== 'full'
+    ) {
+        yield setLoginError('Incorrect Password');
+        return;
+    }
 
     let hasActiveKey = false;
 
-    if (loginInfo.isLogin && authority.get('active') === 'full') {
-        authority = authority.set('active', 'none');
-
-        yield put(
-            user.actions.setAuthority({
-                accountName: account.get('name'),
-                auth: authority,
-            })
-        );
+    if (loginInfo.isLogin && authority['active'] === 'full') {
+        authority['active'] = 'none';
         hasActiveKey = true;
     }
 
-    if (authority.every(auth => auth !== 'full')) {
-        yield onAuthorizeError(account, authority, loginInfo, hasActiveKey);
+    yield put(
+        user.actions.setAuthority({
+            accountName: account.get('name'),
+            authority,
+        })
+    );
+
+    if (Object.values(authority).every(auth => auth !== 'full')) {
+        yield onAuthorizeError(account, loginInfo, hasActiveKey);
         return;
     }
 
@@ -163,14 +176,19 @@ function* usernamePasswordLoginInner(
 
     if (loginInfo.isLogin && (postingPubKey === ownerPubKey || postingPubKey === activePubKey)) {
         yield setLoginError(PERMISSIONS_ERROR);
-        resetAuth();
+        resetSavedAuth();
         return;
     }
 
     yield setUser(loginInfo, account, !operationType || saveLogin);
+    yield user.actions.hideLogin();
 
-    if (!loginInfo.autoLogin && saveLogin) {
-        yield put(user.actions.saveLogin());
+    if (saveLogin) {
+        if (!loginInfo.autoLogin && loginInfo.privateKeys.posting_private) {
+            yield saveCurrentUserAuth();
+        }
+    } else if (loginInfo.isLogin) {
+        resetSavedAuth();
     }
 
     try {
@@ -199,11 +217,11 @@ function* isNeedSkipLogin() {
 }
 
 function deleteUnneededPrivateKeys(loginInfo, authority, account, ownerPubKey, activePubKey) {
-    if (authority.get('posting') !== 'full') {
+    if (authority['posting'] !== 'full') {
         delete loginInfo.privateKeys['posting_private'];
     }
 
-    if (authority.get('active') !== 'full') {
+    if (authority['active'] !== 'full') {
         delete loginInfo.privateKeys['active_private'];
     }
 
@@ -230,7 +248,7 @@ function* logout() {
     yield put(user.actions.saveLoginConfirm(false));
 
     if (process.env.BROWSER) {
-        resetAuth();
+        resetSavedAuth();
         localStorage.removeItem('guid');
     }
 
@@ -304,8 +322,8 @@ function* loadCurrentUserFollowing() {
     }
 }
 
-function* onAuthorizeError(account, authority, loginInfo, hasActiveKey) {
-    resetAuth();
+function* onAuthorizeError(account, loginInfo, hasActiveKey) {
+    resetSavedAuth();
 
     const ownerPubKey = account.getIn(['owner', 'key_auths', 0, 0]);
 
