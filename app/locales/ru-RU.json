@@ -1051,12 +1051,12 @@
     "account_name_is_not_available": "Имя аккаунта недоступно",
     "author_reward_of_VESTING_TOKEN_for": "Авторские вознаграждения %(payout)s и %(reward)s %(VESTING_TOKENS)s за",
     "curation_reward_of_VESTING_TOKEN_for": "Кураторские вознаграждения %(reward)s %(VESTING_TOKENS)s за",
-    "deadline_for_recovery_is": "Крайним сроком для восстановления является",
+    "deadline_for_recovery_is": "Крайний срок для восстановления",
     "i_understand_dont_show_again": "Понимаю, больше не показывать",
     "if_you_did_not_make_this_change": "Если Вы не делали этих изменений, пожалуйста",
     "in_week_convert_DEBT_TOKEN_to_LIQUID_TOKEN": "В 3-5 дней перевести %(amount)s %(DEBT_TOKEN)s в %(LIQUID_TOKEN)s",
     "insufficent_balance": "Недостаточный баланс",
-    "owhership_changed_on": "Изменение владельца на",
+    "owhership_changed_on": "Изменение владельца произошло",
     "recent_password": "Недавний пароль",
     "recieve_amount_VESTING_TOKEN_from": "Получено %(amount)s %(VESTING_TOKENS)s от",
     "recieve_amount_from": "Получено %(amount)s от",
@@ -1076,7 +1076,7 @@
     "transfer_amount_from": "Перевод %(amount)s со счёта",
     "transfer_amount_to": "Перевод %(amount)s на счёт",
     "transfer_amount_to_VESTING_TOKEN": "Перевести %(amount)s %(VESTING_TOKEN2)s",
-    "your_password_permissions_were_reduced": "Ваши резрешения пароля были снижены"
+    "your_password_permissions_were_reduced": "Ваши разрешения пароля были снижены"
   },
   "postsummary_jsx": {
     "adjust_your": "откорректируйте свои",

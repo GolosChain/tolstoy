@@ -20,6 +20,7 @@ import Dialogs from '@modules/Dialogs';
 import Modals from '@modules/Modals';
 import PageViewsCounter from '@elements/PageViewsCounter';
 import ScrollUpstairsButton from 'src/app/components/common/ScrollUpstairsButton';
+import CheckLoginOwner from 'src/app/components/common/CheckLoginOwner';
 
 injectGlobal`
     html {
@@ -182,6 +183,7 @@ export class App extends Component {
                     <Dialogs />
                     <Modals />
                     <DialogManager />
+                    <CheckLoginOwner />
                     <Notifications />
                     {process.env.BROWSER ? <TooltipManager /> : null}
                     <PageViewsCounter hidden />
