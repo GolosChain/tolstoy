@@ -107,7 +107,7 @@ export default class Initial extends PureComponent {
                                 </div>
                             ) : (
                                 <div className="columns">
-                                    <div className="row small-up-1 medium-up-2 large-up-3">
+                                    <div className="row small-up-1 medium-up-2">
                                         {tagsCards[tagsActiveId] &&
                                             tagsCards[tagsActiveId].map(post => (
                                                 <div className="columns" key={post.id}>

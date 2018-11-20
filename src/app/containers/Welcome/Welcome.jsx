@@ -11,6 +11,8 @@ import Mobile from 'src/app/components/welcome/Mobile';
 import Reviews from 'src/app/components/welcome/Reviews';
 import Questions from 'src/app/components/welcome/Questions';
 
+const CATEGORY_NUMBER = 3;
+
 class Welcome extends Component {
     state = {
         tagsLoading: false,
@@ -48,7 +50,7 @@ class Welcome extends Component {
     differences = this.differencesByLocale(this.locale);
 
     async componentDidMount() {
-        this.fetchTagContents(this.tags[3]);
+        this.fetchTagContents(this.tags[CATEGORY_NUMBER]);
 
         // questions posts
         this.setState({ questionsLoading: true });

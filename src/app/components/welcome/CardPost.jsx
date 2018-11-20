@@ -4,11 +4,11 @@ import { Link } from 'react-router';
 import tt from 'counterpart';
 
 import extractContent from 'app/utils/ExtractContent';
+import { detransliterate } from 'app/utils/ParsersAndFormatters';
+import Icon from 'golos-ui/Icon';
 
-import PostPayout from '../common/PostPayout';
 import Userpic from 'app/components/elements/Userpic';
 import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
-import Icon from 'app/components/elements/Icon';
 
 const Root = styled.div`
     border-radius: 8.5px;
@@ -24,57 +24,56 @@ const Root = styled.div`
 
 const Main = styled(Link)`
     display: block;
-    height: 342px;
+    height: 356px;
     overflow: hidden;
-`;
-
-const Img = styled.img`
-    width: 100%;
-    z-index: 1;
-    position: relative;
 `;
 
 const Content = styled.div`
     display: block;
     height: 100%;
-    padding: 26px 46px 26px 26px;
+    padding: 10px 20px;
 `;
 
 const ContentTitle = styled.div`
-    margin-bottom: 15px;
-    line-height: 1.2;
-    color: #212121;
+    margin-bottom: 10px;
+    line-height: 1.36;
+    color: #393636;
     font-family: ${a => a.theme.fontFamilySerif};
-    font-size: 17px;
+    font-size: 22px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 `;
 
 const ContentText = styled.div`
     font-family: 'Open Sans', sans-serif;
-    font-size: 14px;
-    line-height: 1.57;
-    color: #9fa3a7;
+    font-size: 16px;
+    line-height: 1.5;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #959595;
 `;
 
-const Footer = styled.div`
+const Header = styled.div`
     position: relative;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    height: 70px;
-    padding: 0 16px;
+    height: 72px;
+    padding: 0 20px;
     box-shadow: 0px -7px 20px #fff;
 `;
 
-const FooterProfile = styled(Link)`
+const HeaderProfile = styled(Link)`
     display: flex;
     align-items: center;
 `;
 
-const FooterInfo = styled.div`
-    margin-left: 5px;
+const HeaderInfo = styled.div`
+    margin-left: 10px;
 `;
 
-const FooterName = styled.div`
+const HeaderName = styled.div`
     font-size: 14px;
     font-weight: 500;
     line-height: 1;
@@ -82,83 +81,102 @@ const FooterName = styled.div`
     margin-bottom: 7px;
 `;
 
-const FooterTime = styled.div`
+const HeaderTime = styled.div`
     font-size: 12px;
     font-weight: 300;
     line-height: 1;
     color: #9fa3a7;
 `;
 
-const FooterActions = styled.div`
-    display: flex;
-    justify-content: flex-end;
-`;
-
-const IconStyled = styled(Icon)`
-    margin-right: 5px;
-    fill: #333;
-`;
-
-const FooterVotes = styled.div`
-    display: flex;
-    align-items: center;
-    margin: 3px 5px;
+const Category = styled(Link)`
+    display: block;
+    padding: 5px 8px;
+    margin-left: auto;
+    border: 1px solid #cde0ff;
+    border-radius: 6px;
     font-size: 12px;
-    font-weight: 300;
-    line-height: 1.28;
-    color: #757575;
+    color: #2879ff;
 
-    &:hover ${IconStyled} {
-        fill: #222;
+    &:hover {
+        border: 1px solid #2879ff;
     }
 `;
 
-const FooterPayout = styled.div`
-    padding: 4px 7px;
-    border: 1px solid #e1e1e1;
-    border-radius: 100px;
-    line-height: 1;
-    text-align: center;
-    white-space: nowrap;
-    font-size: 12px;
-    font-weight: 300;
-    color: #757575;
+const Action = styled.div`
+    display: flex;
+    padding: 5px;
+    margin: 0 -5px 0 15px;
+    cursor: pointer;
+    transition: transform 0.15s;
+    
+    &:hover {
+        transform: scale(1.15);
+    }
+`;
+
+const ActionIcon = styled(Icon)`
+    flex-shrink: 0;
+`;
+
+const PostImg = styled.div`
+    background: url('${({src}) => src}') center no-repeat;
+    background-size: cover;
+    height: 225px;
+    max-height: 60vh;
 `;
 
 export default class CardPost extends Component {
+
+    renderActions() {
+        let isFavorite = true;
+        const favoriteTooltip =  isFavorite
+                ? tt('g.remove_from_favorites')
+                : tt('g.add_to_favorites');
+
+        return (
+            <Action
+                role="button"
+                data-tooltip={favoriteTooltip}
+                aria-label={favoriteTooltip}
+            >
+                <ActionIcon name={isFavorite ? 'star_filled' : 'star'} width={20} />
+            </Action>
+        )
+    }
+
     render() {
         const { post, className } = this.props;
         const p = extractContent(post);
 
         return (
             <Root className={className} aria-label={tt('g.post')}>
+                <Header>
+                    <HeaderProfile to={`/@${p.author}`} title={p.author}>
+                        <Userpic size={40} account={p.author} />
+                        <HeaderInfo>
+                            <HeaderName>{p.author}</HeaderName>
+                            <HeaderTime>
+                                <TimeAgoWrapper date={p.created} />
+                            </HeaderTime>
+                        </HeaderInfo>
+                    </HeaderProfile>
+                    <Category
+                        to={`/trending/${p.category}`}
+                        aria-label={tt('aria_label.category', { category: p.category })}
+                    >
+                        {detransliterate(p.category)}
+                    </Category>
+                    {this.renderActions()}
+                </Header>
                 <Main to={p.link}>
-                    {p.image_link && <Img src={`${$STM_Config.img_proxy_prefix}0x0/${p.image_link}`} title={p.title} />}
+                    {p.image_link && (
+                        <PostImg src={`${$STM_Config.img_proxy_prefix}0x0/${p.image_link}`} />
+                    )}
                     <Content>
                         <ContentTitle>{p.title}</ContentTitle>
                         <ContentText>{p.desc}</ContentText>
                     </Content>
                 </Main>
-                <Footer>
-                    <FooterProfile to={`/@${p.author}`} title={p.author}>
-                        <Userpic account={p.author} />
-                        <FooterInfo>
-                            <FooterName>{p.author}</FooterName>
-                            <FooterTime>
-                                <TimeAgoWrapper date={p.created} />
-                            </FooterTime>
-                        </FooterInfo>
-                    </FooterProfile>
-                    <FooterActions>
-                        <FooterVotes>
-                            <IconStyled name="new/like" />
-                            {post.net_votes}
-                        </FooterVotes>
-                        <FooterPayout>
-                            <PostPayout postLink={post.author + '/' + post.permlink} />
-                        </FooterPayout>
-                    </FooterActions>
-                </Footer>
             </Root>
         );
     }
