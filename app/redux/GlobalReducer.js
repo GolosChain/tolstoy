@@ -1,7 +1,7 @@
 import { Map, Set, List, fromJS, Iterable } from 'immutable';
 import createModule from 'redux-modules';
 import constants from './constants';
-import { contentStats, fromJSGreedy, hasReblog, extractReblogData } from 'app/utils/StateFunctions';
+import { contentStats, fromJSGreedy } from 'app/utils/StateFunctions';
 import { LIQUID_TICKER, DEBT_TICKER } from 'app/client_config';
 
 const emptyContentMap = Map({
@@ -335,12 +335,12 @@ export default createModule({
 
                 newState = newState.updateIn(['content'], content => {
                     return content.withMutations(map => {
-                        data.forEach(value => {
+                        for (let value of data) {
                             const key = `${value.author}/${value.permlink}`;
                             value = fromJS(value);
                             value = value.set('stats', fromJS(contentStats(value)));
                             map.set(key, value);
-                        });
+                        }
                     });
                 });
 
