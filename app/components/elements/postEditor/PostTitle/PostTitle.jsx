@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import  React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
@@ -7,6 +7,8 @@ import KEYS from 'app/utils/keyCodes';
 import Hint from 'app/components/elements/common/Hint';
 import { breakWordStyles } from 'src/app/helpers/styles';
 import { safePaste } from 'src/app/helpers/browser';
+
+const INPUT_HEIGHT = 38;
 
 const Root = styled.div`
     position: relative;
@@ -17,9 +19,10 @@ const Root = styled.div`
 const Input = styled.div`
     display: block;
     width: 100%;
+    min-height: ${INPUT_HEIGHT}px;
     padding: 0;
     margin: 0;
-    line-height: 38px;
+    line-height: ${INPUT_HEIGHT}px;
     outline: none;
     color: #343434;
     font-size: 2rem;
@@ -33,7 +36,7 @@ const Placeholder = styled.div`
     left: 0;
     right: 0;
     margin-top: 2px;
-    line-height: 38px;
+    line-height: ${INPUT_HEIGHT}px;
     color: #999;
     font-size: 2rem;
     font-weight: 300;
