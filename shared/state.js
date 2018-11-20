@@ -1,5 +1,5 @@
 import { api } from 'golos-js';
-import { is, without } from 'ramda';
+import { is, without, reverse } from 'ramda';
 
 export async function processBlog(state, { uname, voteLimit }) {
     const discussions = await api.getDiscussionsByBlogAsync({
@@ -33,7 +33,7 @@ export async function processBlog(state, { uname, voteLimit }) {
         state.content[postLink] = discussion;
     }
 
-    for (let pinned of pinnedPosts) {
+    for (let pinned of reverse(pinnedPosts)) {
         if (account.blog.includes(pinned)) {
             account.blog = without([pinned], account.blog);
             account.blog.unshift(pinned);

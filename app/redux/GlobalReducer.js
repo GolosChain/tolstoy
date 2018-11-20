@@ -323,26 +323,22 @@ export default createModule({
                     const items = data.map(v => `${v.author}/${v.permlink}`);
 
                     if (startPermLink) {
-                        return posts.withMutations(posts => {
-                            let newItems = items.filter(id => !posts.includes(id));
-
-                            posts.push(...newItems);
-                        });
+                        return posts.concat(items.filter(id => !posts.includes(id)));
                     } else {
                         return fromJS(items);
                     }
                 });
 
-                newState = newState.updateIn(['content'], content => {
-                    return content.withMutations(map => {
+                newState = newState.updateIn(['content'], content =>
+                    content.withMutations(map => {
                         for (let value of data) {
                             const key = `${value.author}/${value.permlink}`;
                             value = fromJS(value);
                             value = value.set('stats', fromJS(contentStats(value)));
                             map.set(key, value);
                         }
-                    });
-                });
+                    })
+                );
 
                 newState = newState.updateIn(['status', category || '', order], () => {
                     if (data.length < constants.FETCH_DATA_BATCH_SIZE) {
