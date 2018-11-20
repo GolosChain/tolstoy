@@ -2,7 +2,7 @@ import { Map, fromJS } from 'immutable';
 import { combineReducers, __DO_NOT_USE__ActionTypes as ActionTypes } from 'redux';
 import { routerReducer } from 'react-router-redux/lib';
 
-import { contentStats } from 'app/utils/StateFunctions';
+import { contentStats, hasReblog, extractReblogData } from 'app/utils/StateFunctions';
 
 import app from './app';
 import globalReducerModule from './../GlobalReducer';
@@ -31,6 +31,9 @@ export function initReducer(reducer, type) {
                     c.forEach((cc, key) => {
                         if (!c.getIn([key, 'stats'])) {
                             c.setIn([key, 'stats'], fromJS(contentStats(cc)));
+                        }
+                        if (hasReblog(cc)) {
+                            c.setIn([key, 'reblog_data'], fromJS(extractReblogData(cc)));
                         }
                     });
                 });

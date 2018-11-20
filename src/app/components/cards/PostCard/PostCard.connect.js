@@ -29,15 +29,13 @@ export default connect(
             let repostHtml = null;
             let isRepost = false;
 
-            if (props.additionalData) {
-                if (props.additionalData.get('isRepost')) {
-                    isRepost = true;
+            if (data.has('reblog_data')) {
+                isRepost = true;
 
-                    const body = props.additionalData.get('body');
+                const body = data.getIn(['reblog_data', 'body']);
 
-                    if (body) {
-                        repostHtml = sanitizeRepostData(body);
-                    }
+                if (body) {
+                    repostHtml = sanitizeRepostData(body);
                 }
             }
 
