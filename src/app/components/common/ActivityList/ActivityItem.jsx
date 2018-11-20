@@ -10,10 +10,11 @@ import Interpolate from 'react-interpolate-component';
 import { breakWordStyles } from 'src/app/helpers/styles';
 import normalizeProfile from 'app/utils/NormalizeProfile';
 import { getPropsForInterpolation } from 'src/app/helpers/notifications';
-
 import Icon from 'golos-ui/Icon';
+
 import Avatar from 'src/app/components/common/Avatar';
 import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
+import Follow from 'src/app/components/common/Follow';
 
 const Wrapper = styled.div`
     display: flex;
@@ -30,12 +31,15 @@ const Wrapper = styled.div`
 `;
 
 const ActivityDesc = styled.div`
-    flex: 1;
-    flex-direction: column;
+    display: flex;
+    flex: 1 0;
     margin-left: 10px;
     max-width: 100%;
     overflow: hidden;
-    flex-shrink: 0;
+
+    ${is('isCompact')`
+        justify-content: space-between;
+    `};
 `;
 
 const AuthorName = styled(Link)`
@@ -45,17 +49,36 @@ const AuthorName = styled(Link)`
     text-decoration: none;
 `;
 
-const ActivityTop = styled.div`
+const ActivityLeft = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    ${is('isCompact')`
+        justify-content: center;
+    `};
+`;
+
+const ActivityRight = styled.div`
     display: flex;
     flex: 1;
-    justify-content: space-between;
+    justify-content: flex-end;
+
+    ${is('isCompact')`
+        flex: 0;
+        flex-direction: column;
+    `};
 `;
 
 const ActivityDate = styled.div`
-    flex: 1;
+    margin-left: 10px;
     text-align: right;
     font-size: 12px;
     color: #959595;
+
+    ${is('marginNulling')`
+        margin-left: 0;
+    `};
 `;
 
 const ActivityText = styled.div`
@@ -85,6 +108,19 @@ const LeftSide = styled.div`
     width: 40px;
     margin-left: 6px;
     color: #2879ff;
+`;
+
+const FollowWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+
+    ${is('isCompact')`
+        justify-content: flex-end;
+        order: 2;
+        padding: 0;
+        margin-top: 5px;
+    `};
 `;
 
 const icons = {
@@ -145,9 +181,9 @@ export default class ActivityItem extends Component {
 
     render() {
         const { notification, isCompact } = this.props;
-
         let leftSide = null;
         let nameLink = null;
+        let followBlock = null;
 
         if (['reward', 'curatorReward'].includes(notification.get('eventType'))) {
             leftSide = (
@@ -158,9 +194,11 @@ export default class ActivityItem extends Component {
         }
 
         const account = notification.getIn(['computed', 'accounts'], emptyList).get(0);
+        const isSubscribeNotification = notification.get('eventType') === 'subscribe';
         if (account) {
             const userName = account.get('name');
             const { name, profile_image } = normalizeProfile(account.toJS());
+
             leftSide = (
                 <Link to={`/@${userName}`}>
                     <Avatar
@@ -171,26 +209,37 @@ export default class ActivityItem extends Component {
                 </Link>
             );
             nameLink = <AuthorName to={`/@${userName}`}>{name || userName}</AuthorName>;
+            followBlock = isSubscribeNotification ? (
+                <FollowWrapper isCompact={isCompact}>
+                    <Follow following={userName} collapseOnMobile collapse={isCompact} />
+                </FollowWrapper>
+            ) : null;
         }
 
         return (
             <Wrapper>
                 {leftSide}
-                <ActivityDesc>
-                    <ActivityTop>
+                <ActivityDesc isCompact={isCompact}>
+                    <ActivityLeft isCompact={isCompact}>
                         {nameLink}
-                        <ActivityDate>
+                        <ActivityText isCompact={isCompact}>
+                            <Interpolate
+                                with={getPropsForInterpolation(notification)}
+                                component="div"
+                            >
+                                {tt(['notifications', 'activity', notification.get('eventType')], {
+                                    count: 1,
+                                    interpolate: false,
+                                })}
+                            </Interpolate>
+                        </ActivityText>
+                    </ActivityLeft>
+                    <ActivityRight isCompact={isCompact}>
+                        {followBlock}
+                        <ActivityDate marginNulling={isSubscribeNotification && !isCompact}>
                             <TimeAgoWrapper date={notification.get('createdAt')} />
                         </ActivityDate>
-                    </ActivityTop>
-                    <ActivityText isCompact={isCompact}>
-                        <Interpolate with={getPropsForInterpolation(notification)} component="div">
-                            {tt(['notifications', 'activity', notification.get('eventType')], {
-                                count: 1,
-                                interpolate: false,
-                            })}
-                        </Interpolate>
-                    </ActivityText>
+                    </ActivityRight>
                 </ActivityDesc>
             </Wrapper>
         );

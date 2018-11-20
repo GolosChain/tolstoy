@@ -40,7 +40,7 @@ export default async function getState(api, url = '/', options, offchain, settin
 
     if (route.page === 'UserProfile') {
         stateFillerFunction = getStateForProfile;
-    } else if (route.page === 'Post') {
+    } else if (route.page === 'Post' || route.page === 'PostNoCategory') {
         stateFillerFunction = getStateForPost;
     } else if (route.page === 'Witnesses') {
         stateFillerFunction = getStateForWitnesses;

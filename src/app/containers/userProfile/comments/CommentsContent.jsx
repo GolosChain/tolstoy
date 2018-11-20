@@ -9,6 +9,7 @@ import BlogCardsList from 'src/app/components/common/CardsList/BlogCardsList';
 import InfoBlock from 'src/app/components/common/InfoBlock';
 import EmptyBlock, { EmptySubText } from 'src/app/components/common/EmptyBlock';
 import CommentCard from 'src/app/components/cards/CommentCard';
+import CardsListWrapper from '../CardsListWrapper';
 
 const Loader = styled(LoadingIndicator)`
     margin-top: 30px;
@@ -23,7 +24,7 @@ class CommentsContent extends Component {
                 <Helmet
                     title={tt('meta.title.profile.comments', { name: pageAccount.get('name') })}
                 />
-                {this._render()}
+                <CardsListWrapper>{this._render()}</CardsListWrapper>
             </Fragment>
         );
     }

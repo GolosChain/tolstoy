@@ -34,7 +34,7 @@ export function tryRestoreAuth() {
     };
 }
 
-export function resetAuth() {
+export function resetSavedAuth() {
     localStorage.removeItem(SAVE_KEY);
 }
 

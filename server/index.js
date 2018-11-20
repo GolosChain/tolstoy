@@ -23,8 +23,9 @@ global.$STM_Config = {
     site_domain: config.get('site_domain'),
     facebook_app_id: config.get('facebook_app_id'),
     google_analytics_id: config.get('google_analytics_id'),
+    amplitude_id: config.get('amplitude_id'),
     chain_id: config.get('chain_id'),
-    lang_server : config.get('lang_server'),
+    lang_server: config.get('lang_server'),
     /* isTestnet: config.get('is_testnet'), */
     is_sandbox: config.get('is_sandbox') === 'false' ? false : true,
     gate_service_url: config.get('gate_service_url'),
@@ -32,10 +33,12 @@ global.$STM_Config = {
 };
 
 const WebpackIsomorphicTools = require('webpack-isomorphic-tools');
-global.webpackIsomorphicTools = new WebpackIsomorphicTools(require('../webpack/webpack-isotools-config'));
+global.webpackIsomorphicTools = new WebpackIsomorphicTools(
+    require('../webpack/webpack-isotools-config')
+);
 
 global.webpackIsomorphicTools.server(ROOT, () => {
-    golos.config.set('websocket', config.get('ws_connection_server'))
+    golos.config.set('websocket', config.get('ws_connection_server'));
 
     try {
         require('./server');

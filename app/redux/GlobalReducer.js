@@ -443,16 +443,6 @@ export default createModule({
                 state.set(id, fromJS({ result, error })),
         },
         {
-            action: 'SHOW_DIALOG',
-            reducer: (state, { payload: { name, params = {} } }) =>
-                state.update('active_dialogs', Map(), d => d.set(name, fromJS({ params }))),
-        },
-        {
-            action: 'HIDE_DIALOG',
-            reducer: (state, { payload: { name } }) =>
-                state.update('active_dialogs', d => d.delete(name)),
-        },
-        {
             action: 'RECEIVE_ACCOUNT_VESTING_DELEGATIONS',
             reducer: (state, { payload: { account, type, vesting_delegations } }) =>
                 state.setIn(['accounts', account, `${type}_vesting`], fromJS(vesting_delegations)),

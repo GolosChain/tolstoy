@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -42,18 +42,18 @@ const AuthorName = styled.span`
 
 const AuthorNameLink = AuthorName.withComponent(Link);
 
-const PostDate = styled.div`
+const PostDate = styled(Link)`
     font-size: 13px;
     letter-spacing: 0.4px;
     line-height: 1.5;
     white-space: nowrap;
     color: #959595;
-    cursor: default;
-`;
+    cursor: pointer;
 
-const RepostText = styled.span`
-    font-size: 14px;
-    color: #757575;
+    &:hover,
+    &:focus {
+        color: #8b8989;
+    }
 `;
 
 const RepostIconWrapper = styled.div`
@@ -76,7 +76,7 @@ const RepostIcon = styled(Icon)`
     color: #2879ff;
 `;
 
-const CardAuthor = ({ author, isRepost, created, className, noLinks }) => {
+const CardAuthor = ({ contentLink, author, isRepost, created, className, noLinks }) => {
     let AvatarComp = AvatarLink;
     let AuthorNameComp = AuthorNameLink;
 
@@ -99,7 +99,7 @@ const CardAuthor = ({ author, isRepost, created, className, noLinks }) => {
                 <AuthorLine>
                     <AuthorNameComp to={`/@${author}`}>{author}</AuthorNameComp>
                 </AuthorLine>
-                <PostDate>
+                <PostDate to={contentLink}>
                     <TimeAgoWrapper date={created} />
                 </PostDate>
             </PostDesc>
@@ -109,6 +109,10 @@ const CardAuthor = ({ author, isRepost, created, className, noLinks }) => {
 
 CardAuthor.propTypes = {
     author: PropTypes.string.isRequired,
+};
+
+CardAuthor.defaultProps = {
+    contentLink: null,
 };
 
 export default CardAuthor;

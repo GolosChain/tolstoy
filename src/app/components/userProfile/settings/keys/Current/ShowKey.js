@@ -7,6 +7,8 @@ import tt from 'counterpart';
 
 import Flex from 'golos-ui/Flex';
 import Button from 'golos-ui/Button';
+import DialogManager from 'app/components/elements/common/DialogManager';
+import QrKeyView from 'app/components/elements/QrKeyView';
 
 const QR_SIZES = 58;
 const QR_MARGIN = 18;
@@ -14,6 +16,7 @@ const QR_MARGIN = 18;
 const Wrapper = styled.div``;
 
 const ImageQR = styled.img`
+    flex: 0;
     width: ${QR_SIZES}px;
     height: ${QR_SIZES}px;
     cursor: pointer;
@@ -21,7 +24,7 @@ const ImageQR = styled.img`
 `;
 
 const KeyInfo = styled.div`
-    flex: 0;
+    flex: 1 0;
 
     @media (max-width: 620px) {
         max-width: calc(100% - ${QR_SIZES + QR_MARGIN}px);
@@ -72,7 +75,6 @@ export default class ShowKey extends Component {
         privateKey: PropTypes.object,
         // connect
         showLogin: PropTypes.func.isRequired,
-        showQRKey: PropTypes.func.isRequired,
     };
 
     state = {
@@ -120,13 +122,16 @@ export default class ShowKey extends Component {
     };
 
     handleShowQr = () => {
-        const { showQRKey, authType, pubkey } = this.props;
+        const { authType, pubkey } = this.props;
         const { showPrivate, wif } = this.state;
 
-        showQRKey({
-            type: authType,
-            text: showPrivate ? wif : pubkey,
-            isPrivate: showPrivate,
+        DialogManager.showDialog({
+            component: QrKeyView,
+            props: {
+                type: authType,
+                text: showPrivate ? wif : pubkey,
+                isPrivate: showPrivate,
+            },
         });
     };
 

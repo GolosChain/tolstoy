@@ -12,30 +12,6 @@ export default createModule({
     }),
     transformations: [
         {
-            action: 'CONFIRM_OPERATION',
-            reducer: (state, { payload }) => {
-                const operation = fromJS(payload.operation);
-                const confirm = payload.confirm;
-                const warning = payload.warning;
-                return state.merge({
-                    show_confirm_modal: true,
-                    confirmBroadcastOperation: operation,
-                    confirmErrorCallback: payload.errorCallback,
-                    confirm,
-                    warning,
-                });
-            },
-        },
-        {
-            action: 'HIDE_CONFIRM',
-            reducer: state =>
-                state.merge({
-                    show_confirm_modal: false,
-                    confirmBroadcastOperation: undefined,
-                    confirm: undefined,
-                }),
-        },
-        {
             // An error will end up in QUEUE
             action: 'BROADCAST_OPERATION',
             reducer: state => {

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
-import Container from '../common/Container/Container';
+import Container from '../common/Container';
 
 const Wrapper = styled.div`
     background-color: #f9f9f9;

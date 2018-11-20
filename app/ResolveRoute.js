@@ -39,7 +39,7 @@ export default function resolveRoute(path) {
     }
 
     if (path === '/faq') {
-        return {page: 'Faq'};
+        return { page: 'Faq' };
     }
 
     if (path === '/login') {
@@ -121,7 +121,13 @@ export default function resolveRoute(path) {
     match = path.match(routeRegex.PostNoCategory);
 
     if (match) {
-        return { page: 'PostNoCategory' };
+        return {
+            page: 'PostNoCategory',
+            params: {
+                username: normalize(match[1]),
+                permLink: match[2],
+            },
+        };
     }
 
     match = path.match(routeRegex.Post);
