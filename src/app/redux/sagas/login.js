@@ -1,13 +1,19 @@
-import { takeEvery, takeLatest, take, select, put } from 'redux-saga/effects';
-import { SHOW_LOGIN, LOGIN_SUCCESS, LOGIN_IF_NEED } from 'src/app/redux/constants/login';
+import { takeEvery, take, select, put } from 'redux-saga/effects';
+import {
+    SHOW_LOGIN,
+    HIDE_LOGIN,
+    LOGIN_SUCCESS,
+    LOGIN_IF_NEED,
+} from 'src/app/redux/constants/login';
 import DialogManager from 'app/components/elements/common/DialogManager';
 import { showLogin } from '../actions/login';
-import { resetAuth, saveAuth } from '../../helpers/localStorage';
+import { resetSavedAuth, saveAuth } from '../../helpers/localStorage';
+
+let dialog;
 
 export default function* watch() {
     yield takeEvery(SHOW_LOGIN, showLoginWorker);
-    yield takeLatest('user/SAVE_LOGIN', saveLogin);
-
+    yield takeEvery(HIDE_LOGIN, hideLoginWorker);
     yield takeEvery(LOGIN_IF_NEED, loginIfNeedWrapper);
 }
 
@@ -15,25 +21,32 @@ function* showLoginWorker({ payload } = {}) {
     const { username, authType, forceSave, operation, onClose } = payload;
 
     let fullUsername = username;
+    let strictAuthType = false;
 
     if (fullUsername && authType) {
         fullUsername += `/${authType}`;
+        strictAuthType = true;
     }
 
     const operationType = operation ? operation.type : null;
     const isConfirm = Boolean(authType || (operation && operationType !== 'custom_json'));
 
-    const dialog = DialogManager.showLogin({
+    dialog = DialogManager.showLogin({
         username: fullUsername,
         isConfirm,
         forceSave,
         operationType,
+        strictAuthType,
         onClose,
     });
 
     const action = yield take(LOGIN_SUCCESS);
 
     dialog.close(action.payload.username);
+}
+
+function* hideLoginWorker() {
+    dialog.close();
 }
 
 function* loginIfNeedWrapper({ payload }) {
@@ -64,12 +77,12 @@ export function* loginIfNeed() {
     return yield promise;
 }
 
-function* saveLogin() {
+export function* saveCurrentUserAuth() {
     if (!process.env.BROWSER) {
         return;
     }
 
-    resetAuth();
+    resetSavedAuth();
 
     const current = yield select(state => state.user.get('current'));
 

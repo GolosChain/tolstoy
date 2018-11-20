@@ -6,9 +6,7 @@ import { DEFAULT_LANGUAGE, LOCALE_COOKIE_KEY } from 'app/client_config';
 
 const defaultState = fromJS({
     current: null,
-    show_promote_post_modal: false,
     locale: DEFAULT_LANGUAGE,
-    show_messages_modal: false,
 });
 
 // TODO: beautyfree - delete after new profile
@@ -23,33 +21,16 @@ export default createModule({
     transformations: [
         {
             action: 'SHOW_LOGIN',
-            reducer: (state, { payload }) =>
-                state.merge({
-                    loginBroadcastOperation:
-                        payload && payload.operation ? fromJS(payload.operation) : null,
-                }),
+            reducer: state => state,
         },
         {
             action: 'LOGIN_CANCELED',
-            reducer: state => {
-                const errorCallback = state.getIn(['loginBroadcastOperation', 'errorCallback']);
-
-                if (errorCallback) {
-                    setTimeout(() => {
-                        errorCallback('Canceled');
-                    }, 0);
-                }
-
-                return state.merge({
-                    loginBroadcastOperation: undefined,
-                });
-            },
+            reducer: state => state,
         },
         {
             action: 'SAVE_LOGIN_CONFIRM',
             reducer: (state, { payload }) => state.set('saveLoginConfirm', payload),
         },
-        { action: 'SAVE_LOGIN', reducer: state => state }, // Use only for low security keys (like posting only keys)
         { action: 'GET_ACCOUNT', reducer: state => state },
         {
             action: 'REMOVE_HIGH_SECURITY_KEYS',
@@ -86,14 +67,6 @@ export default createModule({
             reducer: state => state.remove('powerdown_defaults'),
         },
         {
-            action: 'SHOW_PROMOTE_POST',
-            reducer: state => state.set('show_promote_post_modal', true),
-        },
-        {
-            action: 'HIDE_PROMOTE_POST',
-            reducer: state => state.set('show_promote_post_modal', false),
-        },
-        {
             action: 'SET_TRANSFER_DEFAULTS',
             reducer: (state, { payload }) => state.set('transfer_defaults', fromJS(payload)),
         },
@@ -126,17 +99,12 @@ export default createModule({
 
                 return state.mergeDeep({
                     current: payload,
-                    loginBroadcastOperation: undefined,
                 });
             },
         },
         {
-            action: 'CLOSE_LOGIN',
-            reducer: state =>
-                state.merge({
-                    login_error: undefined,
-                    loginBroadcastOperation: undefined,
-                }),
+            action: 'HIDE_LOGIN',
+            reducer: state => state.delete('login_error'),
         },
         {
             action: 'LOGIN_ERROR',
@@ -160,10 +128,9 @@ export default createModule({
             reducer: (state, { payload: { error } }) => state.merge({ keys_error: error }),
         },
         {
-            // auth saga
             action: 'SET_AUTHORITY',
-            reducer: (state, { payload: { accountName, auth } }) =>
-                state.setIn(['authority', accountName], fromJS(auth)),
+            reducer: (state, { payload: { accountName, authority } }) =>
+                state.setIn(['authority', accountName], fromJS(authority)),
         },
         {
             action: 'HIDE_CONNECTION_ERROR_MODAL',
@@ -176,9 +143,5 @@ export default createModule({
                 return state.setIn(key, fromJS(value));
             },
         },
-        // { action: 'NOTIFICATION_CHANNEL_CREATED', reducer: state => state.set('notification_channel_created', true) },
-        // { action: 'NOTIFICATION_CHANNEL_DESTROYED', reducer: state => state.set('notification_channel_created', false) },
-        { action: 'SHOW_MESSAGES', reducer: state => state.set('show_messages_modal', true) },
-        { action: 'HIDE_MESSAGES', reducer: state => state.set('show_messages_modal', false) },
     ],
 });

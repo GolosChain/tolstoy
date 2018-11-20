@@ -14,7 +14,6 @@ export default connect(
         (post, author, username, location) => {
             const prev = location.get('previous');
             let backURL = null;
-
             if (prev) {
                 backURL = prev.get('pathname') + prev.get('search') + prev.get('hash');
             }

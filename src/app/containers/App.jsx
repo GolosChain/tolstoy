@@ -6,7 +6,7 @@ import tt from 'counterpart';
 import { key_utils } from 'golos-js/lib/auth/ecc';
 import CloseButton from 'react-foundation-components/lib/global/close-button'; // TODO: make new component and delete
 
-import { REGISTRATION_URL } from 'app/client_config';
+import { AMPLITUDE_SESSION } from 'app/client_config';
 import { init as initAnchorHelper } from 'app/utils/anchorHelper';
 
 import defaultTheme from 'src/app/themes';
@@ -16,10 +16,9 @@ import Footer from 'src/app/components/common/Footer';
 import TooltipManager from 'app/components/elements/common/TooltipManager';
 import MobileAppButton from 'app/components/elements/MobileBanners/MobileAppButton';
 import DialogManager from 'app/components/elements/common/DialogManager';
-import Dialogs from '@modules/Dialogs';
-import Modals from '@modules/Modals';
 import PageViewsCounter from '@elements/PageViewsCounter';
 import ScrollUpstairsButton from 'src/app/components/common/ScrollUpstairsButton';
+import CheckLoginOwner from 'src/app/components/common/CheckLoginOwner';
 
 injectGlobal`
     html {
@@ -47,9 +46,7 @@ export class App extends Component {
 
     componentWillMount() {
         if (process.env.BROWSER) {
-            window.IS_MOBILE =
-                /android|iphone/i.test(navigator.userAgent) || window.innerWidth < 765;
-
+            window.IS_MOBILE = checkMobileDevice() || window.innerWidth < 765;
             window.INIT_TIMESSTAMP = Date.now();
         }
 
@@ -58,6 +55,7 @@ export class App extends Component {
 
     componentDidMount() {
         this.props.loginUser();
+        sendNewVisitToAmplitudeCom();
 
         window.addEventListener('storage', this.checkLogin);
 
@@ -171,14 +169,30 @@ export class App extends Component {
                         <ScrollUpstairsButton />
                         <MobileAppButton />
                     </div>
-                    <Dialogs />
-                    <Modals />
                     <DialogManager />
+                    <CheckLoginOwner />
                     <Notifications />
                     {process.env.BROWSER ? <TooltipManager /> : null}
                     <PageViewsCounter hidden />
                 </div>
             </ThemeProvider>
         );
+    }
+}
+
+function checkMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(
+        window.navigator.userAgent
+    );
+}
+
+function sendNewVisitToAmplitudeCom() {
+    if (!sessionStorage.getItem(AMPLITUDE_SESSION)) {
+        if (checkMobileDevice()) {
+            window.amplitude.getInstance().logEvent('Attendance - new visitation (mobile)');
+        } else {
+            window.amplitude.getInstance().logEvent('Attendance - new visitation (desktop)');
+        }
+        sessionStorage.setItem(AMPLITUDE_SESSION, true);
     }
 }

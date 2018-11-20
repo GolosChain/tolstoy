@@ -13,7 +13,7 @@ import Icon from 'golos-ui/Icon';
 import Flex from 'golos-ui/Flex';
 
 import Follow from 'src/app/components/common/FollowMute';
-import StyledContainer from 'src/app/components/common/Container';
+import Container from 'src/app/components/common/Container';
 import UserProfileAvatar from './../UserProfileAvatar';
 import Dropdown from 'src/app/components/common/Dropdown';
 
@@ -53,17 +53,18 @@ const Wrapper = styled.div`
         `};
 `;
 
-const Container = StyledContainer.extend`
+const ContainerStyled = styled(Container)`
     position: relative;
-
-    @media (max-width: 768px) {
-        flex-direction: column;
-        margin: 19px 10px 23px;
-    }
+    align-items: center;
 
     @media (max-width: 1200px) {
         margin-top: 23px;
         margin-bottom: 23px;
+    }
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        margin: 19px 10px 23px;
     }
 `;
 
@@ -182,7 +183,7 @@ export default class UserHeader extends Component {
 
         return (
             <Wrapper backgroundUrl={backgroundUrl}>
-                <Container align="center">
+                <ContainerStyled>
                     <UserProfileAvatar avatarUrl={profile_image}>
                         {isOwner &&
                             isSettingsPage && (
@@ -202,15 +203,15 @@ export default class UserHeader extends Component {
                             {!isOwner && (
                                 <Fragment>
                                     {/* <Button light>
-                                    <Icon name="reply" height="17" width="18" />Написать
-                                    </Button> */}
+                                        <Icon name="reply" height="17" width="18" />Написать
+                                        </Button> */}
                                     <ButtonFollow following={currentAccount.get('name')} />
                                 </Fragment>
                             )}
                         </Buttons>
                     </Details>
                     {isOwner && isSettingsPage && this._renderCoverDropDown()}
-                </Container>
+                </ContainerStyled>
             </Wrapper>
         );
     }

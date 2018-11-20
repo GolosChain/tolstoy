@@ -267,7 +267,7 @@
   },
   "dialogs_repost": {
     "ok": "Поделиться",
-    "placeholder": "Напишите свой комменатрий",
+    "placeholder": "Напишите свой комментарий",
     "success": "Репост успешно добавлен",
     "title": "Поделиться этим постом",
     "too_long": "Тело репоста не может превышать %(count)s символов."
@@ -1051,12 +1051,12 @@
     "account_name_is_not_available": "Имя аккаунта недоступно",
     "author_reward_of_VESTING_TOKEN_for": "Авторские вознаграждения %(payout)s и %(reward)s %(VESTING_TOKENS)s за",
     "curation_reward_of_VESTING_TOKEN_for": "Кураторские вознаграждения %(reward)s %(VESTING_TOKENS)s за",
-    "deadline_for_recovery_is": "Крайним сроком для восстановления является",
+    "deadline_for_recovery_is": "Крайний срок для восстановления",
     "i_understand_dont_show_again": "Понимаю, больше не показывать",
     "if_you_did_not_make_this_change": "Если Вы не делали этих изменений, пожалуйста",
     "in_week_convert_DEBT_TOKEN_to_LIQUID_TOKEN": "В 3-5 дней перевести %(amount)s %(DEBT_TOKEN)s в %(LIQUID_TOKEN)s",
     "insufficent_balance": "Недостаточный баланс",
-    "owhership_changed_on": "Изменение владельца на",
+    "owhership_changed_on": "Изменение владельца произошло",
     "recent_password": "Недавний пароль",
     "recieve_amount_VESTING_TOKEN_from": "Получено %(amount)s %(VESTING_TOKENS)s от",
     "recieve_amount_from": "Получено %(amount)s от",
@@ -1076,7 +1076,7 @@
     "transfer_amount_from": "Перевод %(amount)s со счёта",
     "transfer_amount_to": "Перевод %(amount)s на счёт",
     "transfer_amount_to_VESTING_TOKEN": "Перевести %(amount)s %(VESTING_TOKEN2)s",
-    "your_password_permissions_were_reduced": "Ваши резрешения пароля были снижены"
+    "your_password_permissions_were_reduced": "Ваши разрешения пароля были снижены"
   },
   "postsummary_jsx": {
     "adjust_your": "откорректируйте свои",
@@ -1173,7 +1173,7 @@
     "cover_image_url": "Вставьте ссылку на обложку или загрузите ее",
     "invalid_url": "Недопустимый URL-адрес",
     "keys": {
-      "info": "Важно сохранить свой ключ-пароль. Golos.io не хранит ваши пароли. Убедитесь, что надежно сохранили ваши ключ.",
+      "info": "Важно сохранить свой ключ-пароль. Golos.io не хранит ваши пароли. Убедитесь, что надежно сохранили ваши ключи.",
       "tabs": {
         "keys": "Ключи",
         "new": "Новый ключ"
@@ -1475,7 +1475,7 @@
     "public_something_key": "Публичный %(key)s ключ",
     "the_active_key_is_used_to_make_transfers_and_place_orders": "Активный ключ используется для переводов и размещения заказов на внутреннем рынке.",
     "the_memo_key_is_used_to_create_and_read_memos": "Ключ заметок используется для создания и чтения заметок.",
-    "the_owner_key_is_required_to_change_other_keys": "Ключ владельца это главный ключ ко всему аккаунта, он необходим для изменения других ключей.",
+    "the_owner_key_is_required_to_change_other_keys": "Ключ владельца - это главный ключ ко всему аккаунту. Он необходим для изменения других ключей.",
     "the_private_key_or_password_should_be_kept_offline": "Приватный ключ или пароль должен храниться в оффлайне насколько это возможно."
   },
   "votesandcomments_jsx": {

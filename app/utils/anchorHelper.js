@@ -6,7 +6,7 @@ export function init() {
     });
 
     window.addEventListener('click', e => {
-        if (e.target.closest('a[href]')) {
+        if (!e.defaultPrevented && e.target.closest('a[href]')) {
             setTimeout(() => {
                 tryMoveToAnchor();
             }, 10);

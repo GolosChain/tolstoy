@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import Question from './Question';
-import Container from '../common/Container/Container';
+import Container from '../common/Container';
 
 const Wrapper = styled(Container).attrs({
     column: true,
