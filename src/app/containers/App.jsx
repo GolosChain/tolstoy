@@ -46,9 +46,7 @@ export class App extends Component {
 
     componentWillMount() {
         if (process.env.BROWSER) {
-            window.IS_MOBILE =
-                /android|iphone/i.test(navigator.userAgent) || window.innerWidth < 765;
-
+            window.IS_MOBILE = checkMobileDevice() || window.innerWidth < 765;
             window.INIT_TIMESSTAMP = Date.now();
         }
 
@@ -57,7 +55,7 @@ export class App extends Component {
 
     componentDidMount() {
         this.props.loginUser();
-        this.sendNewVisitToAmplitudeCom();
+        sendNewVisitToAmplitudeCom();
 
         window.addEventListener('storage', this.checkLogin);
 
@@ -106,13 +104,6 @@ export class App extends Component {
             }
         }
     };
-
-    sendNewVisitToAmplitudeCom() {
-        if (!sessionStorage.getItem(AMPLITUDE_SESSION)) {
-            window.amplitude.getInstance().logEvent('Attendance - new visitation');
-            sessionStorage.setItem(AMPLITUDE_SESSION, true);
-        }
-    }
 
     onEntropyEvent(e) {
         if (e.type === 'mousemove') {
@@ -186,5 +177,22 @@ export class App extends Component {
                 </div>
             </ThemeProvider>
         );
+    }
+}
+
+function checkMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(
+        window.navigator.userAgent
+    );
+}
+
+function sendNewVisitToAmplitudeCom() {
+    if (!sessionStorage.getItem(AMPLITUDE_SESSION)) {
+        if (checkMobileDevice()) {
+            window.amplitude.getInstance().logEvent('Attendance - new visitation (mobile)');
+        } else {
+            window.amplitude.getInstance().logEvent('Attendance - new visitation (desktop)');
+        }
+        sessionStorage.setItem(AMPLITUDE_SESSION, true);
     }
 }
