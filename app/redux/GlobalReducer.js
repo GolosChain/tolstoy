@@ -74,9 +74,6 @@ export default createModule({
                             cc = emptyContentMap.mergeDeep(cc);
                             const stats = fromJS(contentStats(cc));
                             c.setIn([key, 'stats'], stats);
-                            if (hasReblog(cc)) {
-                                c.setIn([key, 'reblog_data'], fromJS(extractReblogData(cc)));
-                            }
                         });
                     });
                     payload = payload.set('content', content);
@@ -342,9 +339,6 @@ export default createModule({
                             const key = `${value.author}/${value.permlink}`;
                             value = fromJS(value);
                             value = value.set('stats', fromJS(contentStats(value)));
-                            if (hasReblog(value)) {
-                                value = value.set('reblog_data', fromJS(extractReblogData(value)));
-                            }
                             map.set(key, value);
                         });
                     });

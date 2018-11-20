@@ -175,7 +175,7 @@ export function extractReblogData(content) {
         return {};
     }
 
-    const isRepost = content.get('first_reblogged_on') !== DEFAULT_DATE;
+    const isRepost = hasReblog(content);
 
     if (!isRepost) {
         return {};
@@ -194,14 +194,14 @@ export function extractReblogData(content) {
         ? content.getIn(['reblog_entries', 0, 'json_metadata'])
         : content.get('reblog_json_metadata');
 
-    return {
+    return fromJS({
         isRepost,
         repostAuthor,
         date,
         title,
         body,
         metadata: json_metadata ? JSON.parse(json_metadata) : {},
-    };
+    });
 }
 
 function filterTags(tags) {

@@ -223,6 +223,7 @@ export default class PostCard extends PureComponent {
         pinDisabled: PropTypes.bool,
         isPinned: PropTypes.bool,
         isOwner: PropTypes.bool,
+        reblogData: PropTypes.instanceOf(Map),
     };
 
     static defaultProps = {
@@ -257,15 +258,15 @@ export default class PostCard extends PureComponent {
     }
 
     renderHeader() {
-        const { data, isRepost, compact } = this.props;
+        const { data, isRepost, compact, reblogData } = this.props;
 
         const category = detransliterate(data.get('category'));
         let author;
         let created;
 
         if (isRepost) {
-            author = data.getIn(['reblog_data', 'repostAuthor']);
-            created = data.getIn(['reblog_data', 'date']);
+            author = reblogData.get('repostAuthor');
+            created = reblogData.get('date');
         } else {
             author = data.get('author');
             created = data.get('created');
@@ -366,9 +367,9 @@ export default class PostCard extends PureComponent {
     }
 
     renderRepostButton() {
-        const { isOwner, isRepost, myAccount, data } = this.props;
+        const { isOwner, isRepost, myAccount, reblogData } = this.props;
 
-        if (isOwner || (isRepost && data.getIn(['reblog_data', 'repostAuthor']) === myAccount)) {
+        if (isOwner || (isRepost && reblogData.get('repostAuthor') === myAccount)) {
             return;
         }
 

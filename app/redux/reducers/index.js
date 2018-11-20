@@ -32,9 +32,6 @@ export function initReducer(reducer, type) {
                         if (!c.getIn([key, 'stats'])) {
                             c.setIn([key, 'stats'], fromJS(contentStats(cc)));
                         }
-                        if (hasReblog(cc)) {
-                            c.setIn([key, 'reblog_data'], fromJS(extractReblogData(cc)));
-                        }
                     });
                 });
                 state = state.set('content', content);
