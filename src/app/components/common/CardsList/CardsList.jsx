@@ -145,9 +145,7 @@ export default class CardsList extends PureComponent {
             }
 
             const lastPost = items.last();
-            const postLink = typeof lastPost === 'string' ? lastPost : lastPost.get('postLink');
-
-            const [author, permlink] = postLink.split('/');
+            const [author, permlink] = lastPost.split('/');
 
             this.props.loadMore({
                 order,
@@ -192,7 +190,7 @@ export default class CardsList extends PureComponent {
             return false;
         }
 
-        let author = data.split('/')[0];
+        const author = data.split('/')[0];
 
         return ignoreResult && ignoreResult.has(author);
     };
@@ -204,7 +202,7 @@ export default class CardsList extends PureComponent {
     renderCards() {
         const { items, layout, disallowGrid } = this.props;
         const { forceLines } = this.state;
-        
+
         const isGrid = !disallowGrid && !forceLines && layout === 'grid';
 
         if (isGrid) {
@@ -241,7 +239,7 @@ export default class CardsList extends PureComponent {
         const itemRenderFunc = itemRender || this.itemRender;
         const compact = (!disallowGrid && !forceLines && layout === 'grid') || forceCompact;
 
-        let permLink = data;
+        const permLink = data;
 
         if (this.checkIsIgnored(data)) {
             return null;
