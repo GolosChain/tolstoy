@@ -9,6 +9,7 @@ import Icon from 'golos-ui/Icon';
 
 import Userpic from 'app/components/elements/Userpic';
 import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
+import VotePanel from 'src/app/components/common/VotePanel';
 
 const Root = styled.div`
     border-radius: 8.5px;
@@ -22,15 +23,12 @@ const Root = styled.div`
     }
 `;
 
-const Main = styled(Link)`
-    display: block;
-    height: 356px;
+const Main = styled.div`
     overflow: hidden;
 `;
 
-const Content = styled.div`
+const Content = styled(Link)`
     display: block;
-    height: 100%;
     padding: 10px 20px;
 `;
 
@@ -108,7 +106,7 @@ const Action = styled.div`
     margin: 0 -5px 0 15px;
     cursor: pointer;
     transition: transform 0.15s;
-    
+
     &:hover {
         transform: scale(1.15);
     }
@@ -118,35 +116,69 @@ const ActionIcon = styled(Icon)`
     flex-shrink: 0;
 `;
 
-const PostImg = styled.div`
-    background: url('${({src}) => src}') center no-repeat;
+const PostImg = styled(({ imgUrl, ...props }) => <Link {...props} />)`
+    display: block;
+    background: url('${({ imgUrl }) => imgUrl}') center no-repeat;
     background-size: cover;
     height: 225px;
     max-height: 60vh;
 `;
 
-export default class CardPost extends Component {
+const VotePanelWrapper = styled(VotePanel)`
+    padding: 0;
+`;
 
+const Footer = styled.div`
+    display: flex;
+    align-items: center;
+    padding: 10px 20px 15px 20px;
+`;
+
+const ReBlog = styled(Action)`
+    margin: 0 0 0 auto;
+`;
+
+const ToReplies = styled(Link)`
+    display: flex;
+    align-items: center;
+    margin-left: 40px;
+    
+    ${ActionIcon} {
+        color: #393636;
+    }
+`;
+
+const CommentsCount = styled.div`
+    margin-left: 10px;
+    font-size: 16px;
+    color: #959595;
+`;
+
+export default class CardPost extends Component {
     renderActions() {
         let isFavorite = true;
-        const favoriteTooltip =  isFavorite
-                ? tt('g.remove_from_favorites')
-                : tt('g.add_to_favorites');
+
+        const favoriteTooltip = isFavorite
+            ? tt('g.remove_from_favorites')
+            : tt('g.add_to_favorites');
 
         return (
-            <Action
-                role="button"
-                data-tooltip={favoriteTooltip}
-                aria-label={favoriteTooltip}
-            >
-                <ActionIcon name={isFavorite ? 'star_filled' : 'star'} width={20} />
+            <Action role="button" data-tooltip={favoriteTooltip} aria-label={favoriteTooltip}>
+                <ActionIcon name={isFavorite ? 'star_filled' : 'star'} size="20" />
             </Action>
-        )
+        );
     }
+
+    reBlog = () => {
+
+    };
 
     render() {
         const { post, className } = this.props;
         const p = extractContent(post);
+        const authorAndPermLink = `${p.author}/${p.permlink}`;
+
+        let count = 11;
 
         return (
             <Root className={className} aria-label={tt('g.post')}>
@@ -170,12 +202,35 @@ export default class CardPost extends Component {
                 </Header>
                 <Main to={p.link}>
                     {p.image_link && (
-                        <PostImg src={`${$STM_Config.img_proxy_prefix}0x0/${p.image_link}`} />
+                        <PostImg
+                            to={p.link}
+                            imgUrl={`${$STM_Config.img_proxy_prefix}0x0/${p.image_link}`}
+                        />
                     )}
-                    <Content>
+                    <Content to={p.link}>
                         <ContentTitle>{p.title}</ContentTitle>
                         <ContentText>{p.desc}</ContentText>
                     </Content>
+                    <Footer>
+                        <VotePanelWrapper contentLink={authorAndPermLink} />
+                        <ReBlog
+                            onClick={this.reBlog}
+                            role="button"
+                            data-tooltip={tt('g.reblog')}
+                            aria-label={tt('g.reblog')}
+                        >
+                            <ActionIcon width="21" height="18" name="repost" />
+                        </ReBlog>
+                        <ToReplies
+                            to={`${p.link}#comments`}
+                            role="button"
+                            data-tooltip={tt('reply.comments_count')}
+                            aria-label={tt('aria_label.comments', { count })}
+                        >
+                            <ActionIcon width="20" height="20" name="reply" />
+                            <CommentsCount>{count}</CommentsCount>
+                        </ToReplies>
+                    </Footer>
                 </Main>
             </Root>
         );

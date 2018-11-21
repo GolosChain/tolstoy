@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 
 import { togglePinAction } from 'src/app/redux/actions/pinnedPosts';
 import { ActivePanel } from 'src/app/containers/post/activePanel/ActivePanel';
-import { openPromoteDialog, openRepostDialog } from 'src/app/redux/actions/dialogs';
+import { openPromoteDialog, openReBlogDialog } from 'src/app/redux/actions/dialogs';
 import { currentUsernameSelector } from 'src/app/redux/selectors/common';
 import {
     authorSelector,
@@ -27,6 +27,6 @@ export default connect(
     {
         togglePinAction,
         openPromoteDialog,
-        openRepostDialog,
+        openReBlogDialog,
     }
 )(ActivePanel);

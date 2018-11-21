@@ -219,7 +219,7 @@ export class ActivePanel extends Component {
 
     repost = () => {
         const { account, permLink } = this.props;
-        this.props.openRepostDialog(`${account}/${permLink}`);
+        this.props.openReBlogDialog(`${account}/${permLink}`);
     };
 
     render() {
