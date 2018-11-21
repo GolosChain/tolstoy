@@ -33,16 +33,17 @@ export class ReBlog extends Component {
     };
 
     render() {
-        const { isOwner } = this.props;
+        const { isOwner, className } = this.props;
 
         return (
             <Fragment>
                 {isOwner ? null : (
                     <Wrapper
-                        onClick={this.reBlog}
                         role="button"
                         data-tooltip={tt('g.reblog')}
                         aria-label={tt('g.reblog')}
+                        className={className}
+                        onClick={this.reBlog}
                     >
                         <ActionIcon width="20" height="20" name="repost" />
                     </Wrapper>

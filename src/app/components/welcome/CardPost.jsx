@@ -10,6 +10,7 @@ import Icon from 'golos-ui/Icon';
 import Userpic from 'app/components/elements/Userpic';
 import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
 import VotePanel from 'src/app/components/common/VotePanel';
+import ReBlog from 'src/app/components/post/ReBlog';
 
 const Root = styled.div`
     border-radius: 8.5px;
@@ -134,8 +135,8 @@ const Footer = styled.div`
     padding: 10px 20px 15px 20px;
 `;
 
-const ReBlog = styled(Action)`
-    margin: 0 0 0 auto;
+const ReBlogWrapper = styled(ReBlog)`
+    margin-left: auto;
 `;
 
 const ToReplies = styled(Link)`
@@ -169,16 +170,10 @@ export default class CardPost extends Component {
         );
     }
 
-    reBlog = () => {
-
-    };
-
     render() {
         const { post, className } = this.props;
         const p = extractContent(post);
-        const authorAndPermLink = `${p.author}/${p.permlink}`;
-
-        let count = 11;
+        const contentLink = `${p.author}/${p.permlink}`;
 
         return (
             <Root className={className} aria-label={tt('g.post')}>
@@ -212,23 +207,16 @@ export default class CardPost extends Component {
                         <ContentText>{p.desc}</ContentText>
                     </Content>
                     <Footer>
-                        <VotePanelWrapper contentLink={authorAndPermLink} />
-                        <ReBlog
-                            onClick={this.reBlog}
-                            role="button"
-                            data-tooltip={tt('g.reblog')}
-                            aria-label={tt('g.reblog')}
-                        >
-                            <ActionIcon width="21" height="18" name="repost" />
-                        </ReBlog>
+                        <VotePanelWrapper contentLink={contentLink} />
+                        <ReBlogWrapper contentLink={contentLink} />
                         <ToReplies
                             to={`${p.link}#comments`}
                             role="button"
                             data-tooltip={tt('reply.comments_count')}
-                            aria-label={tt('aria_label.comments', { count })}
+                            aria-label={tt('aria_label.comments', { count: p.children })}
                         >
                             <ActionIcon width="20" height="20" name="reply" />
-                            <CommentsCount>{count}</CommentsCount>
+                            <CommentsCount>{p.children}</CommentsCount>
                         </ToReplies>
                     </Footer>
                 </Main>
