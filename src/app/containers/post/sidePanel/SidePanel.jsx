@@ -14,7 +14,7 @@ import { PopoverStyled } from 'src/app/components/post/PopoverAdditionalStyles';
 import PostActions from 'src/app/components/post/PostActions';
 import { POST_MAX_WIDTH } from 'src/app/containers/post/PostContainer';
 import VotePanel from 'src/app/components/common/VotePanel';
-import ReBlog from 'src/app/components/post/ReBlog';
+import ReBlog from 'src/app/components/post/reBlog';
 
 const HEADER_HEIGHT = 60;
 const DESKTOP_FOOTER_HEIGHT = 324;

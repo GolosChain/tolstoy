@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import { currentUsernameSelector } from 'src/app/redux/selectors/common';
 import { openReBlogDialog } from 'src/app/redux/actions/dialogs';
 import { authorSelector } from 'src/app/redux/selectors/post/commonPost';
-import { ReBlog } from './ReBlog';
+import { ReBlog } from 'src/app/components/post/reBlog/ReBlog';
 
 export default connect(
     createSelector([authorSelector, currentUsernameSelector], (author, username) => {

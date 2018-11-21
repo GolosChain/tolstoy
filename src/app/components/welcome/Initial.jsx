@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
-import CardPost from 'src/app/components/welcome/CardPost';
+import CardPost from 'src/app/components/welcome/cardPost';
 
 const Root = styled.section`
     padding: 20px 0;

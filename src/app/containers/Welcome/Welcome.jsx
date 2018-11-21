@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import tt from 'counterpart';
 
-import user from 'app/redux/User';
 import Hero from 'src/app/components/welcome/Hero';
 import About from 'src/app/components/welcome/About';
 import Initial from 'src/app/components/welcome/Initial';
@@ -13,7 +11,7 @@ import Questions from 'src/app/components/welcome/Questions';
 
 const CATEGORY_NUMBER = 3;
 
-class Welcome extends Component {
+export class Welcome extends Component {
     state = {
         tagsLoading: false,
         tagsActiveId: false,
@@ -50,7 +48,10 @@ class Welcome extends Component {
     differences = this.differencesByLocale(this.locale);
 
     async componentDidMount() {
+        const { loadFavorites, getContent, getAccount } = this.props;
+
         this.fetchTagContents(this.tags[CATEGORY_NUMBER]);
+        loadFavorites();
 
         // questions posts
         this.setState({ questionsLoading: true });
@@ -58,14 +59,14 @@ class Welcome extends Component {
         try {
             const posts = await Promise.all(
                 this.questions.map(item =>
-                    this.props.getContent({
+                    getContent({
                         author: item.author,
                         permlink: item.permlink,
                     })
                 )
             );
 
-            await this.props.getAccount({
+            await getAccount({
                 usernames: posts.map(post => post.author),
             });
 
@@ -140,30 +141,8 @@ class Welcome extends Component {
                 <Differences differences={this.differences} />
                 <Mobile />
                 <Reviews slides={this.slides} />
-                <Questions
-                    questionsLoading={questionsLoading}
-                    questionsCards={questionsCards}
-                />
+                <Questions questionsLoading={questionsLoading} questionsCards={questionsCards} />
             </div>
         );
     }
 }
-
-export default connect(
-    null,
-    dispatch => ({
-        getContent: payload =>
-            new Promise((resolve, reject) => {
-                dispatch({
-                    type: 'GET_CONTENT',
-                    payload: { ...payload, resolve, reject },
-                });
-            }),
-        getAccount: payload =>
-            new Promise((resolve, reject) => {
-                dispatch(
-                    user.actions.getAccount({ ...payload, resolve, reject })
-                );
-            }),
-    })
-)(Welcome);

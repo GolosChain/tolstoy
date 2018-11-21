@@ -88,8 +88,8 @@ export class PostContainer extends Component {
     };
 
     toggleFavorite = () => {
-        const { author, permLink, isFavorite } = this.props;
-        this.props.toggleFavorite(author + '/' + permLink, !isFavorite);
+        const { author, permLink, isFavorite, toggleFavorite } = this.props;
+        toggleFavorite(author + '/' + permLink, !isFavorite);
     };
 
     onShowClick = () => {

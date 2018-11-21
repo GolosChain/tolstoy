@@ -5,12 +5,13 @@ import tt from 'counterpart';
 
 import extractContent from 'app/utils/ExtractContent';
 import { detransliterate } from 'app/utils/ParsersAndFormatters';
-import Icon from 'golos-ui/Icon';
+import Icon from 'golos-ui/Icon/index';
 
 import Userpic from 'app/components/elements/Userpic';
 import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
-import VotePanel from 'src/app/components/common/VotePanel';
-import ReBlog from 'src/app/components/post/ReBlog';
+import VotePanel from 'src/app/components/common/VotePanel/index';
+import ReBlog from 'src/app/components/post/reBlog/index';
+import PostActions from 'src/app/components/post/PostActions';
 
 const Root = styled.div`
     border-radius: 8.5px;
@@ -143,7 +144,7 @@ const ToReplies = styled(Link)`
     display: flex;
     align-items: center;
     margin-left: 40px;
-    
+
     ${ActionIcon} {
         color: #393636;
     }
@@ -155,25 +156,33 @@ const CommentsCount = styled.div`
     color: #959595;
 `;
 
-export default class CardPost extends Component {
-    renderActions() {
-        let isFavorite = true;
-
-        const favoriteTooltip = isFavorite
-            ? tt('g.remove_from_favorites')
-            : tt('g.add_to_favorites');
-
-        return (
-            <Action role="button" data-tooltip={favoriteTooltip} aria-label={favoriteTooltip}>
-                <ActionIcon name={isFavorite ? 'star_filled' : 'star'} size="20" />
-            </Action>
-        );
+const PostActionsWrapper = styled.div`
+    display: flex;
+    margin-left: 20px;
+    
+    & > * {
+        padding: 5px;
     }
+    
+    & > a {
+        margin-right: 10px;
+    }
+`;
+
+export class CardPost extends Component {
+    togglePin = () => {
+        const { contentLink, isPinned, togglePin } = this.props;
+        togglePin(contentLink, !isPinned);
+    };
+
+    toggleFavorite = () => {
+        const { contentLink, isFavorite, toggleFavorite } = this.props;
+        toggleFavorite(contentLink, !isFavorite);
+    };
 
     render() {
-        const { post, className } = this.props;
+        const { post, contentLink, isFavorite, isPinned, isOwner, className } = this.props;
         const p = extractContent(post);
-        const contentLink = `${p.author}/${p.permlink}`;
 
         return (
             <Root className={className} aria-label={tt('g.post')}>
@@ -193,7 +202,16 @@ export default class CardPost extends Component {
                     >
                         {detransliterate(p.category)}
                     </Category>
-                    {this.renderActions()}
+                    <PostActionsWrapper>
+                        <PostActions
+                            fullUrl={p.link}
+                            isFavorite={isFavorite}
+                            isPinned={isPinned}
+                            isOwner={isOwner}
+                            toggleFavorite={this.toggleFavorite}
+                            togglePin={this.togglePin}
+                        />
+                    </PostActionsWrapper>
                 </Header>
                 <Main to={p.link}>
                     {p.image_link && (

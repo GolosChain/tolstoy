@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 
 import Icon from 'app/components/elements/Icon';
-import CardPost from 'src/app/components/welcome/CardPost';
+import CardPost from 'src/app/components/welcome/cardPost';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import { WIKI_URL } from 'app/client_config';
 

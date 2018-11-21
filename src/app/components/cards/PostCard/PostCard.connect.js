@@ -6,8 +6,8 @@ import {
     globalSelector,
     currentUsernameSelector,
 } from 'src/app/redux/selectors/common';
-import { toggleFavoriteAction } from 'src/app/redux/actions/favorites';
-import { togglePinAction } from 'src/app/redux/actions/pinnedPosts';
+import { toggleFavorite } from 'src/app/redux/actions/favorites';
+import { togglePin } from 'src/app/redux/actions/pinnedPosts';
 import { openReBlogDialog } from 'src/app/redux/actions/dialogs';
 import { getPinnedPosts } from 'src/app/redux/selectors/account/pinnedPosts';
 import { sanitizeCardPostData, sanitizeRepostData } from 'src/app/redux/selectors/post/commonPost';
@@ -65,8 +65,8 @@ export default connect(
         }
     ),
     {
-        toggleFavorite: (link, isAdd) => toggleFavoriteAction({ link, isAdd }),
-        togglePin: togglePinAction,
+        toggleFavorite,
+        togglePin,
         openReBlogDialog,
     }
 )(PostCard);
