@@ -10,6 +10,7 @@ import {
     dataSelector,
     uiSelector,
 } from 'src/app/redux/selectors/common';
+import { locationQuerySelector } from 'src/app/redux/selectors/ui/location';
 import { TAGS_FILTER_TYPES } from 'src/app/redux/constants/common';
 
 import HomeContent from './HomeContent';
@@ -22,12 +23,11 @@ export default connect(
             globalSelector('status'),
             appSelector('loading'),
             globalSelector('fetching'),
-
             globalSelector('discussion_idx'),
-            globalSelector('accounts'),
             uiSelector('profile', 'layout', DEFAULT_LAYOUT),
             dataSelector('settings'),
             currentUsernameSelector,
+            locationQuerySelector,
             (_, props) => props.routeParams,
         ],
         (
@@ -35,12 +35,13 @@ export default connect(
             loading,
             fetching,
             discussions,
-            accounts,
             layout,
             settings,
             currentUsername,
+            query,
             { category = '', order = constants.DEFAULT_SORT_ORDER }
         ) => {
+            console.log(query);
             if (category === 'feed') {
                 category = '';
                 order = 'feed';
@@ -63,9 +64,9 @@ export default connect(
                 joinedTags += `|${selectedFilterTags}`;
             }
 
-            const posts = discussions.getIn([category || joinedTags, order]);
+            const posts = discussions.getIn([joinedTags, order]);
 
-            const status = globalStatus && globalStatus.getIn([category, order], null);
+            const status = globalStatus && globalStatus.getIn([joinedTags, order], null);
             const isFetching = (status && status.fetching) || loading || fetching || false;
 
             return {

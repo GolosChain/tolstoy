@@ -73,7 +73,7 @@ export default class CardsList extends PureComponent {
 
         const { location, backClickTs, listScrollPosition } = this.props;
 
-        if (location.action === 'POP' || (backClickTs && backClickTs > Date.now() - 5000)) {
+        if (location.get('action') === 'POP' || (backClickTs && backClickTs > Date.now() - 5000)) {
             getScrollElement().scrollTop = listScrollPosition;
 
             let setScrollIterations = 0;

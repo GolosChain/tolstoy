@@ -66,7 +66,7 @@ export default connect(
             const structuredComments = buildCommentsStructure(
                 comments,
                 postPermLink,
-                location.query.sort
+                location.getIn(['query', 'sort'])
             );
 
             return {

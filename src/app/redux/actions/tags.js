@@ -6,11 +6,14 @@ import { setSettingsOptions } from './settings';
 
 const emptyMap = Map();
 
-export function saveTag(tag, action) {
+export function saveTag(tag, action, onlyOne, forceDelete = true) {
     return (dispatch, getState) => {
         const settings = dataSelector('settings')(getState());
 
-        const selectedTags = settings.getIn(['basic', 'selectedTags'], emptyMap);
+        let selectedTags = emptyMap;
+        if (!onlyOne) {
+            selectedTags = settings.getIn(['basic', 'selectedTags'], emptyMap);
+        }
 
         const basic = {};
         const value = selectedTags.get(tag);
@@ -18,13 +21,13 @@ export function saveTag(tag, action) {
         if (action === 'filter') {
             if (!value || value === TAGS_FILTER_TYPES.SELECT) {
                 basic.selectedTags = selectedTags.set(tag, TAGS_FILTER_TYPES.EXCLUDE);
-            } else {
+            } else if (forceDelete) {
                 basic.selectedTags = selectedTags.delete(tag);
             }
         } else if (action === 'select') {
             if (!value || value === TAGS_FILTER_TYPES.EXCLUDE) {
                 basic.selectedTags = selectedTags.set(tag, TAGS_FILTER_TYPES.SELECT);
-            } else {
+            } else if (forceDelete) {
                 basic.selectedTags = selectedTags.delete(tag);
             }
         }

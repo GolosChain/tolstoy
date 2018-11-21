@@ -11,6 +11,7 @@ import { reverseTag } from 'app/utils/tags';
 import { IGNORE_TAGS, PUBLIC_API, ACCOUNT_OPERATIONS } from 'app/client_config';
 import { processBlog } from 'shared/state';
 import { RATES_GET_ACTUAL } from 'src/app/redux/constants/rates';
+import { saveTag } from 'src/app/redux/actions/tags';
 
 const FETCH_MOST_RECENT = -1;
 const DEFAULT_ACCOUNT_HISTORY_LIMIT = 500;
@@ -199,7 +200,7 @@ function* fetchState(action) {
         } else if (Object.keys(PUBLIC_API).includes(parts[0])) {
             const tag = parts[1] == null ? '' : parts[1];
 
-            yield call(fetchData, { payload: { order: parts[0], category: tag } });
+            yield call(fetchData, { payload: { order: parts[0], category: tag, clearTags: true } });
         } else if (parts[0] == 'tags') {
             const tags = {};
             const trending_tags = yield call([api, api.getTrendingTagsAsync], '', 250);
@@ -294,7 +295,7 @@ export function* watchDataRequests() {
 }
 
 function* fetchData(action) {
-    const { order, author, permlink, accountname, keys } = action.payload;
+    const { order, author, permlink, accountname, keys, clearTags } = action.payload;
     let { category } = action.payload;
 
     if (!category) category = '';
@@ -311,60 +312,54 @@ function* fetchData(action) {
     ];
 
     if (category.length && order !== 'feed') {
-        const reversed = reverseTag(category);
-        if (reversed) {
-            args[0].select_tags = [category, reversed];
-        } else {
-            args[0].select_tags = [category];
-        }
+        const reversed = reverseTag(category) || category;
+        yield put(saveTag(reversed, 'select', clearTags, false));
+    }
+
+    const arrSelectedTags = [];
+    const selectedTags = yield select(state =>
+        state.data.settings.getIn(['basic', 'selectedTags'], Map())
+    );
+
+    const select_tags = selectedTags.filter(type => type === TAGS_FILTER_TYPES.SELECT).keySeq();
+
+    if (select_tags && select_tags.size) {
+        let selectTags = [];
+
+        select_tags.forEach(t => {
+            const reversed = reverseTag(t);
+            if (reversed) {
+                selectTags.push(t, reversed);
+            } else {
+                selectTags.push(t);
+            }
+        });
+        args[0].select_tags = selectTags;
+
+        arrSelectedTags.push(select_tags.sort().join('/'));
+    }
+
+    const filter_tags = selectedTags.filter(type => type === TAGS_FILTER_TYPES.EXCLUDE).keySeq();
+    if (filter_tags && filter_tags.size) {
+        let filterTags = [];
+
+        filter_tags.forEach(t => {
+            const reversed = reverseTag(t);
+            if (reversed) {
+                filterTags.push(t, reversed);
+            } else {
+                filterTags.push(t);
+            }
+        });
+        args[0].filter_tags = filterTags;
+
+        arrSelectedTags.push(filter_tags.sort().join('/'));
     } else {
-        const arrSelectedTags = [];
-        const selectedTags = yield select(state =>
-            state.data.settings.getIn(['basic', 'selectedTags'], Map())
-        );
+        args[0].filter_tags = IGNORE_TAGS;
+    }
 
-        const select_tags = selectedTags.filter(type => type === TAGS_FILTER_TYPES.SELECT).keySeq();
-
-        if (select_tags && select_tags.size) {
-            let selectTags = [];
-
-            select_tags.forEach(t => {
-                const reversed = reverseTag(t);
-                if (reversed) {
-                    selectTags.push(t, reversed);
-                } else {
-                    selectTags.push(t);
-                }
-            });
-            args[0].select_tags = selectTags;
-
-            arrSelectedTags.push(select_tags.sort().join('/'));
-        }
-
-        const filter_tags = selectedTags
-            .filter(type => type === TAGS_FILTER_TYPES.EXCLUDE)
-            .keySeq();
-        if (filter_tags && filter_tags.size) {
-            let filterTags = [];
-
-            filter_tags.forEach(t => {
-                const reversed = reverseTag(t);
-                if (reversed) {
-                    filterTags.push(t, reversed);
-                } else {
-                    filterTags.push(t);
-                }
-            });
-            args[0].filter_tags = filterTags;
-
-            arrSelectedTags.push(filter_tags.sort().join('/'));
-        } else {
-            args[0].filter_tags = IGNORE_TAGS;
-        }
-
-        if (arrSelectedTags.length) {
-            category = arrSelectedTags.join('|');
-        }
+    if (arrSelectedTags.length) {
+        category = arrSelectedTags.join('|');
     }
 
     yield put({ type: 'global/FETCHING_DATA', payload: { order, category } });

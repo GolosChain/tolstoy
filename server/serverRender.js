@@ -39,7 +39,7 @@ export default async function serverRender({ location, offchain, ErrorPage, sett
     }
 
     // below is only executed on the server
-    let serverStore, onchain;
+    let serverStore, initialState;
     try {
         let url = location === '/' ? 'trending' : location;
         // Replace /curation-rewards and /author-rewards with /transfers for UserProfile to resolve data correctly
@@ -50,11 +50,11 @@ export default async function serverRender({ location, offchain, ErrorPage, sett
 
         const options = { IGNORE_TAGS };
 
-        onchain = await getState(api, url, options, offchain, settings);
+        initialState = await getState(api, url, options, { offchain, settings, rates });
 
         // protect for invalid account
         if (
-            Object.getOwnPropertyNames(onchain.accounts).length === 0 &&
+            Object.getOwnPropertyNames(initialState.global.accounts).length === 0 &&
             (location.match(routeRegex.UserProfile1) || location.match(routeRegex.UserProfile3))
         ) {
             return {
@@ -66,9 +66,8 @@ export default async function serverRender({ location, offchain, ErrorPage, sett
 
         // If we are not loading a post, truncate state data to bring response size down.
         if (!url.match(routeRegex.Post)) {
-            for (let key in onchain.content) {
-                const post = onchain.content[key];
-                //onchain.content[key]['body'] = onchain.content[key]['body'].substring(0, 1024) // TODO: can be removed. will be handled by steemd
+            for (let key in initialState.global.content) {
+                const post = initialState.global.content[key];
                 // Count some stats then remove voting data. But keep current user's votes. (#1040)
                 post.stats = contentStats(post);
                 post.votesSummary = calcVotesStats(post['active_votes'], offchain.account);
@@ -88,7 +87,7 @@ export default async function serverRender({ location, offchain, ErrorPage, sett
             const content = await api.getContentAsync(params[0], params[1], undefined);
             if (content.author && content.permlink) {
                 // valid short post url
-                onchain.content[url.substr(2, url.length - 1)] = content;
+                initialState.global.content[url.substr(2, url.length - 1)] = content;
             } else {
                 // protect on invalid user pages (i.e /user/transferss)
                 return {
@@ -99,21 +98,7 @@ export default async function serverRender({ location, offchain, ErrorPage, sett
             }
         }
 
-        offchain.server_location = location;
-        const initialState = {
-            global: onchain,
-            offchain,
-            data: {
-                rates: {
-                    actual: rates,
-                    dates: [],
-                },
-            },
-        };
-
-        if (settings) {
-            initialState.data.settings = settings;
-        }
+        initialState.offchain.server_location = location;
 
         serverStore = createStore(rootReducer, initialState);
         serverStore.dispatch({ type: '@@router/LOCATION_CHANGE', payload: { pathname: location } });
@@ -149,7 +134,7 @@ export default async function serverRender({ location, offchain, ErrorPage, sett
             </Provider>
         );
         helmet = Helmet.renderStatic();
-        meta = extractMeta(onchain, renderProps.params);
+        meta = extractMeta(initialState.global, renderProps.params);
         status = 200;
     } catch (err) {
         console.error('Rendering error: ', err, err.stack);
