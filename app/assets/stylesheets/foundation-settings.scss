@@ -12,14 +12,14 @@ $global-lineheight: 1.6 !default;
 /// Colors used for buttons, callouts, links, etc. There must always be a color called `primary`.
 /// @type Map
 $foundation-palette: (
-        primary: #0078C4,
-        secondary: #777,
-        success: #3adb76,
-        warning: #ffae00,
-        alert: #FD3A28,
+  primary: #0078c4,
+  secondary: #777,
+  success: #3adb76,
+  warning: #ffae00,
+  alert: #fd3a28,
 ) !default;
 
-$mainly-blue: #1A5099;
+$mainly-blue: #1a5099;
 
 $gray95: #f2f2f2;
 
@@ -62,11 +62,11 @@ $body-font-family: 'Roboto', Arial, sans-serif !default;
 $global-radius: 3px !default;
 
 $button-palette: (
-        primary: #0078C4,
-        secondary: #777,
-        success: #3adb76,
-        warning: #ffae00,
-        alert: #fc544e,
+  primary: #0078c4,
+  secondary: #777,
+  success: #3adb76,
+  warning: #ffae00,
+  alert: #fc544e,
 ) !default;
 $button-font-family: 'Roboto' !default;
 $button-radius: 100px !default;

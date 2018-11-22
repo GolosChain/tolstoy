@@ -4,7 +4,6 @@ import { ThemeProvider, injectGlobal } from 'styled-components';
 import { Helmet } from 'react-helmet';
 import tt from 'counterpart';
 import { key_utils } from 'golos-js/lib/auth/ecc';
-import CloseButton from 'react-foundation-components/lib/global/close-button'; // TODO: make new component and delete
 
 import { AMPLITUDE_SESSION } from 'app/client_config';
 import { init as initAnchorHelper } from 'app/utils/anchorHelper';
@@ -29,6 +28,14 @@ injectGlobal`
         fill: currentColor;
     }
 `;
+
+function CloseButton() {
+    return (
+        <button className="close-button">
+            <span aria-hidden="true">×</span>
+        </button>
+    );
+}
 
 export class App extends Component {
     static propTypes = {

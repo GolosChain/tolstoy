@@ -5,7 +5,6 @@ import reactForm from 'app/utils/ReactForm';
 import MarkdownViewer from 'app/components/cards/MarkdownViewer';
 import CategorySelector, { validateCategory } from 'app/components/cards/CategorySelector';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
-import Tooltip from 'app/components/elements/Tooltip';
 import HtmlReady from 'shared/HtmlReady';
 import g from 'app/redux/GlobalReducer';
 import { Set } from 'immutable';
@@ -401,7 +400,9 @@ class ReplyEditor extends React.Component {
             errorCallback,
         };
         const postLabel = username ? (
-            <Tooltip t={tt('g.post_as') + ' “' + username + '”'}>{tt('g.post')}</Tooltip>
+            <span title={tt('g.post_as') + ' “' + username + '”'} className={className}>
+                {tt('g.post')}
+            </span>
         ) : (
             tt('g.post')
         );
