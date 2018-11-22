@@ -10,6 +10,7 @@ import Icon from 'app/components/elements/Icon';
 import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
 import transaction from 'app/redux/Transaction';
 import { formatDecimal } from 'app/utils/ParsersAndFormatters';
+import './Witnesses.scss';
 
 const Long = ByteBuffer.Long;
 
@@ -68,14 +69,11 @@ class Witnesses extends Component {
             //https://github.com/roadscape/db.steemd.com/blob/acabdcb7c7a9c9c4260a464ca86ae4da347bbd7a/app/views/witnesses/index.html.erb#L116
             const oneM = Math.pow(10, 6);
             const approval = votes / oneM / oneM;
-            const percentage =
-                100 * (votes / oneM / totalVestingShares.split(' ')[0]);
+            const percentage = 100 * (votes / oneM / totalVestingShares.split(' ')[0]);
 
             const lastFeedDate = new Date(lastUpdateFeed).getTime();
-            const isOneDayAgo =
-                lastFeedDate < new Date().setDate(new Date().getDate() - 1);
-            const isOneWeekAgo =
-                lastFeedDate < new Date().setDate(new Date().getDate() - 7);
+            const isOneDayAgo = lastFeedDate < new Date().setDate(new Date().getDate() - 1);
+            const isOneWeekAgo = lastFeedDate < new Date().setDate(new Date().getDate() - 7);
 
             const isWitnessesDeactive = /GLS1111111111111111111111111111111114T1Anm/.test(
                 signingKey
@@ -92,21 +90,17 @@ class Witnesses extends Component {
             }
 
             const myVote = witnessVotes ? witnessVotes.has(owner) : null;
-            const classUp =
-                'Voting__button Voting__button-up' +
-                (myVote === true ? ' Voting__button--upvoted' : '');
+            const classUp = 'VotingButton' + (myVote === true ? ' VotingButton_upvoted' : '');
             let witness_thread = '';
             if (thread) {
                 if (links.local.test(thread)) {
-                    witness_thread = (
-                        <Link to={thread}>
-                            {tt('witnesses_jsx.witness_thread')}
-                        </Link>
-                    );
+                    witness_thread = <Link to={thread}>{tt('witnesses_jsx.witness_thread')}</Link>;
                 } else {
                     witness_thread = (
                         <a href={thread}>
-                            {tt('witnesses_jsx.witness_thread')}&nbsp;<Icon name="extlink" />
+                            {tt('witnesses_jsx.witness_thread')}
+                            &nbsp;
+                            <Icon name="extlink" />
                         </a>
                     );
                 }
@@ -114,11 +108,7 @@ class Witnesses extends Component {
             return (
                 <tr
                     key={owner}
-                    style={
-                        isWitnessesDeactive || noPriceFeed
-                            ? { opacity: '0.4' }
-                            : null
-                    }
+                    style={isWitnessesDeactive || noPriceFeed ? { opacity: '0.4' } : null}
                     title={
                         isWitnessesDeactive
                             ? tt('witnesses_jsx.witness_deactive')
@@ -134,9 +124,8 @@ class Witnesses extends Component {
                         <span className={classUp}>
                             <a
                                 href="#"
-                                onClick={e =>
-                                    this._accountWitnessVote(owner, !myVote, e)
-                                }
+                                className="VotingButton__link"
+                                onClick={e => this._accountWitnessVote(owner, !myVote, e)}
                                 title={tt('g.vote')}
                             >
                                 {up}
@@ -148,13 +137,9 @@ class Witnesses extends Component {
                     </td>
                     <td>
                         {formatDecimal(approval.toFixed(), 0)}
-                        <span style={{ fontSize: '65%', opacity: '.5' }}>
-                            M
-                        </span>
+                        <span style={{ fontSize: '65%', opacity: '.5' }}>M</span>
                     </td>
-                    <td style={{ textAlign: 'center' }}>
-                        {percentage.toFixed(2)}%
-                    </td>
+                    <td style={{ textAlign: 'center' }}>{percentage.toFixed(2)}%</td>
                     <td>{witness_thread}</td>
                     <td style={{ textAlign: 'center' }}>{missed}</td>
                     <td>{lastBlock}</td>
@@ -162,9 +147,7 @@ class Witnesses extends Component {
                         <div style={{ fontSize: '.9rem', fontWeight: 'bold' }}>
                             {priceFeed.get('quote')}
                         </div>
-                        <div style={{ fontSize: '.9rem' }}>
-                            {priceFeed.get('base')}
-                        </div>
+                        <div style={{ fontSize: '.9rem' }}>{priceFeed.get('base')}</div>
                         <div style={{ fontSize: '1rem' }}>
                             <TimeAgoWrapper
                                 date={lastUpdateFeed}
@@ -173,22 +156,13 @@ class Witnesses extends Component {
                         </div>
                     </td>
                     <td>
-                        <div
-                            style={{ fontSize: '.9rem' }}
-                            title={tt('witnesses_jsx.reg_fee')}
-                        >
+                        <div style={{ fontSize: '.9rem' }} title={tt('witnesses_jsx.reg_fee')}>
                             {props.account_creation_fee}
                         </div>
-                        <div
-                            style={{ fontSize: '.9rem' }}
-                            title={tt('witnesses_jsx.apr')}
-                        >
+                        <div style={{ fontSize: '.9rem' }} title={tt('witnesses_jsx.apr')}>
                             {props.sbd_interest_rate / 100}%
                         </div>
-                        <div
-                            style={{ fontSize: '.9rem' }}
-                            title={tt('witnesses_jsx.block_size')}
-                        >
+                        <div style={{ fontSize: '.9rem' }} title={tt('witnesses_jsx.block_size')}>
                             {props.maximum_block_size}
                         </div>
                     </td>
@@ -210,8 +184,9 @@ class Witnesses extends Component {
                         <div className="row" key={item}>
                             <div className="column small-12">
                                 <span>
-                                    <span className="Voting__button Voting__button-up space-right Voting__button--upvoted">
+                                    <span className="VotingButton VotingButton_upvoted space-right">
                                         <a
+                                            className="VotingButton__link"
                                             href="#"
                                             onClick={this._accountWitnessVote.bind(
                                                 this,
@@ -241,17 +216,13 @@ class Witnesses extends Component {
                         {currentProxy && currentProxy.length ? null : (
                             <p>
                                 <strong>
-                                    {tt(
-                                        'witnesses_jsx.you_have_votes_remaining'
-                                    ) +
-                                        tt(
-                                            'witnesses_jsx.you_have_votes_remaining_count',
-                                            { count: witness_vote_count }
-                                        )}.
+                                    {tt('witnesses_jsx.you_have_votes_remaining') +
+                                        tt('witnesses_jsx.you_have_votes_remaining_count', {
+                                            count: witness_vote_count,
+                                        })}
+                                    .
                                 </strong>{' '}
-                                {tt(
-                                    'witnesses_jsx.you_can_vote_for_maximum_of_witnesses'
-                                )}.
+                                {tt('witnesses_jsx.you_can_vote_for_maximum_of_witnesses')}.
                             </p>
                         )}
                     </div>
@@ -266,26 +237,16 @@ class Witnesses extends Component {
                                         <th />
                                         <th>{tt('witnesses_jsx.witness')}</th>
                                         <th>{tt('witnesses_jsx.approval')}</th>
+                                        <th style={{ textAlign: 'center' }}>%</th>
+                                        <th>{tt('witnesses_jsx.information')}</th>
                                         <th style={{ textAlign: 'center' }}>
-                                            %
-                                        </th>
-                                        <th>
-                                            {tt('witnesses_jsx.information')}
-                                        </th>
-                                        <th style={{ textAlign: 'center' }}>
-                                            <div>
-                                                {tt('witnesses_jsx.missed_1')}
-                                            </div>
-                                            <div>
-                                                {tt('witnesses_jsx.missed_2')}
-                                            </div>
+                                            <div>{tt('witnesses_jsx.missed_1')}</div>
+                                            <div>{tt('witnesses_jsx.missed_2')}</div>
                                         </th>
                                         <th style={{ textAlign: 'center' }}>
                                             {tt('witnesses_jsx.last_block')}
                                         </th>
-                                        <th>
-                                            {tt('witnesses_jsx.price_feed')}
-                                        </th>
+                                        <th>{tt('witnesses_jsx.price_feed')}</th>
                                         <th>{tt('witnesses_jsx.props')}</th>
                                         <th>{tt('witnesses_jsx.version')}</th>
                                     </tr>
@@ -302,7 +263,8 @@ class Witnesses extends Component {
                             <p>
                                 {tt(
                                     'witnesses_jsx.if_you_want_to_vote_outside_of_top_enter_account_name'
-                                )}.
+                                )}
+                                .
                             </p>
                             <form>
                                 <div className="input-group">
@@ -324,9 +286,7 @@ class Witnesses extends Component {
                                                 this._accountWitnessVote(
                                                     customUsername,
                                                     witnessVotes
-                                                        ? !witnessVotes.has(
-                                                              customUsername
-                                                          )
+                                                        ? !witnessVotes.has(customUsername)
                                                         : true,
                                                     e
                                                 )
@@ -405,10 +365,8 @@ export default connect(
     state => {
         const currentUser = state.user.get('current');
         const username = currentUser && currentUser.get('username');
-        const currentAccount =
-            currentUser && state.global.getIn(['accounts', username]);
-        const witnessVotes =
-            currentAccount && currentAccount.get('witness_votes').toSet();
+        const currentAccount = currentUser && state.global.getIn(['accounts', username]);
+        const witnessVotes = currentAccount && currentAccount.get('witness_votes').toSet();
         const currentProxy = currentAccount && currentAccount.get('proxy');
 
         return {
@@ -416,10 +374,7 @@ export default connect(
             username,
             witnessVotes,
             currentProxy,
-            totalVestingShares: state.global.getIn([
-                'props',
-                'total_vesting_shares',
-            ]),
+            totalVestingShares: state.global.getIn(['props', 'total_vesting_shares']),
         };
     },
     dispatch => {
