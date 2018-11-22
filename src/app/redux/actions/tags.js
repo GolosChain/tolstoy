@@ -1,59 +1,78 @@
-import { Map } from 'immutable';
+import { push } from 'react-router-redux';
 
-import { TAGS_FILTER_TYPES } from 'src/app/redux/constants/common';
-import { dataSelector } from 'src/app/redux/selectors/common';
-import { setSettingsOptions } from './settings';
+import { locationTagsSelector } from 'src/app/redux/selectors/app/location';
 
-const emptyMap = Map();
-
-export function saveTag(tag, action, onlyOne, forceDelete = true) {
+export function saveTag(tag, action) {
     return (dispatch, getState) => {
-        const settings = dataSelector('settings')(getState());
+        const tags = locationTagsSelector(getState());
 
-        let selectedTags = emptyMap;
-        if (!onlyOne) {
-            selectedTags = settings.getIn(['basic', 'selectedTags'], emptyMap);
-        }
+        const { tagsSelect, tagsFilter } = tags;
 
-        const basic = {};
-        const value = selectedTags.get(tag);
+        const tagsSelectIndex = tagsSelect.indexOf(tag);
+        const tagsFilterIndex = tagsFilter.indexOf(tag);
 
         if (action === 'filter') {
-            if (!value || value === TAGS_FILTER_TYPES.SELECT) {
-                basic.selectedTags = selectedTags.set(tag, TAGS_FILTER_TYPES.EXCLUDE);
-            } else if (forceDelete) {
-                basic.selectedTags = selectedTags.delete(tag);
+            if (tagsFilterIndex !== -1) {
+                tagsFilter.splice(tagsFilterIndex, 1);
+            } else {
+                tagsFilter.push(tag);
+
+                // remove from select tags if exists
+                if (tagsSelectIndex !== -1) {
+                    tagsSelect(tagsSelectIndex);
+                }
             }
         } else if (action === 'select') {
-            if (!value || value === TAGS_FILTER_TYPES.EXCLUDE) {
-                basic.selectedTags = selectedTags.set(tag, TAGS_FILTER_TYPES.SELECT);
-            } else if (forceDelete) {
-                basic.selectedTags = selectedTags.delete(tag);
+            if (tagsSelectIndex !== -1) {
+                tagsSelect.splice(tagsSelectIndex, 1);
+            } else {
+                tagsSelect.push(tag);
+
+                // remove from filter tags if exists
+                if (tagsFilterIndex !== -1) {
+                    tagsSelect.splice(tagsFilterIndex, 1);
+                }
             }
         }
 
-        dispatch(setSettingsOptions({ basic }));
-    };
-}
+        let tagsStr = tagsSelect.join(',');
+        if (tagsFilter.length) {
+            tagsStr += `|${tagsFilter.join(',')}`;
+        }
 
-export function clearTags() {
-    return setSettingsOptions({
-        basic: {
-            selectedTags: emptyMap,
-        },
-    });
+        dispatch(
+            push({
+                pathname: window.location.pathname,
+                query: tagsStr.length ? { tags: tagsStr } : {},
+            })
+        );
+    };
 }
 
 export function deleteTag(tag) {
     return (dispatch, getState) => {
-        const settings = dataSelector('settings')(getState());
-        const selectedTags = settings.getIn(['basic', 'selectedTags'], emptyMap);
+        const { tagsSelect, tagsFilter } = locationTagsSelector(getState());
+
+        const tagsSelectIndex = tagsSelect.indexOf(tag);
+        const tagsFilterIndex = tagsFilter.indexOf(tag);
+
+        if (tagsSelectIndex !== -1) {
+            tagsSelect.splice(tagsSelectIndex, 1);
+        }
+
+        if (tagsFilterIndex !== -1) {
+            tagsFilter.splice(tagsFilterIndex, 1);
+        }
+
+        let tagsStr = tagsSelect.join(',');
+        if (tagsFilter.length) {
+            tagsStr += `|${tagsFilter.join(',')}`;
+        }
 
         dispatch(
-            setSettingsOptions({
-                basic: {
-                    selectedTags: selectedTags.delete(tag),
-                },
+            push({
+                pathname: window.location.pathname,
+                query: tagsStr.length ? { tags: tagsStr } : {},
             })
         );
     };

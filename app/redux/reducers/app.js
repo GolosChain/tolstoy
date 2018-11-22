@@ -1,20 +1,22 @@
-import { Map, OrderedMap } from 'immutable';
+import { Map, OrderedMap, fromJS } from 'immutable';
 import tt from 'counterpart';
 
-const defaultState = Map({
+const defaultState = fromJS({
     requests: {},
     loading: false,
     error: '',
-    location: {},
+    location: {
+        current: null,
+        previous: null,
+    },
     notifications: null,
     ignoredLoadingRequestCount: 0,
 });
 
 export default function reducer(state = defaultState, { type, payload, error }) {
     if (type === '@@router/LOCATION_CHANGE') {
-        return state.set('location', {
-            pathname: payload.pathname,
-            hash: payload.hash,
+        return state.updateIn(['location'], Map(), c => {
+            return c.set('previous', c.get('current')).set('current', fromJS(payload));
         });
     }
 

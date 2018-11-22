@@ -1,23 +1,26 @@
-import { pathOr, filter } from 'ramda';
-
 import { processBlog } from 'shared/state';
 import resolveRoute from 'app/ResolveRoute';
 import { reverseTag, prepareTrendingTags } from 'app/utils/tags';
 import { IGNORE_TAGS, PUBLIC_API } from 'app/client_config';
-import { TAGS_FILTER_TYPES, COUNT_OF_TAGS } from 'src/app/redux/constants/common';
+import { COUNT_OF_TAGS } from 'src/app/redux/constants/common';
 
 const DEFAULT_VOTE_LIMIT = 10000;
 const COUNT_TAGS_ON_PAGE = 250;
 
-export default async function getState(api, url = '/', options, { offchain, settings, rates }) {
-    const route = resolveRoute(url);
+export default async function getState(
+    api,
+    { pathname = '/', query },
+    { offchain, settings, rates }
+) {
+    pathname = pathname === '/' ? 'trending' : pathname;
+    const route = resolveRoute(pathname);
 
-    const normalizedUrl = url.replace(/^\//, '');
+    const normalizedUrl = pathname.replace(/^\//, '');
     const routeParts = normalizedUrl.split('/');
 
     const state = {
         global: {
-            current_route: url === '/' ? 'trending' : url, // used for testing
+            current_route: pathname === '/' ? 'trending' : pathname, // used for testing
             props: await api.getDynamicGlobalPropertiesAsync(),
             categories: {},
             tags: {},
@@ -73,7 +76,7 @@ export default async function getState(api, url = '/', options, { offchain, sett
             api,
             trendingTags,
             accounts,
-            options,
+            query,
         });
     }
 
@@ -191,10 +194,12 @@ async function getStateForWitnesses(state, route, { api }) {
     }
 }
 
-async function getStateForApi(state, { params }, { routeParts, api }) {
+async function getStateForApi(state, { params }, { routeParts, api, query }) {
     const args = { limit: 20, truncate_body: 1024 };
 
-    let discussionsType, tag;
+    let discussionsType,
+        discussionsKey = '',
+        tagsStr = '';
 
     // Home page
     if (params && params.category && params.username) {
@@ -209,74 +214,62 @@ async function getStateForApi(state, { params }, { routeParts, api }) {
         discussionsType = category;
     } else {
         // decode tag for cyrillic symbols
-        tag = routeParts[1] !== undefined ? decodeURIComponent(routeParts[1]) : '';
+        tagsStr = query.tags !== undefined ? decodeURIComponent(query.tags) : '';
         discussionsType = routeParts[0];
     }
 
-    if (typeof tag === 'string' && tag.length) {
-        const reversed = reverseTag(tag) || tag;
-        state.data.settings.basic.selectTags = { [reversed]: TAGS_FILTER_TYPES.SELECT };
-    }
+    if (typeof tagsStr === 'string' && tagsStr.length) {
+        const tags = tagsStr.split('|');
+        const tagsSelect = tags[0] ? tags[0].split(',').sort() : [];
+        const tagsFilter = tags[1] ? tags[1].split(',').sort() : [];
 
-    console.log(state);
-
-    const selectedTags = pathOr({}, ['basic', 'selectedTags'], state.data.settings);
-
-    const select_tags = Object.keys(
-        filter(type => type === TAGS_FILTER_TYPES.SELECT, selectedTags)
-    );
-    if (select_tags && select_tags.length) {
         let selectTags = [];
+        if (tagsSelect && tagsSelect.length) {
+            tagsSelect.forEach(t => {
+                const reversed = reverseTag(t);
+                if (reversed) {
+                    selectTags.push(t, reversed);
+                } else {
+                    selectTags.push(t);
+                }
+            });
+            args.select_tags = selectTags;
+        }
 
-        select_tags.forEach(t => {
-            const reversed = reverseTag(t);
-            if (reversed) {
-                selectTags.push(t, reversed);
-            } else {
-                selectTags.push(t);
-            }
-        });
-        args.select_tags = selectTags;
-    }
-
-    const filter_tags = Object.keys(
-        filter(type => type === TAGS_FILTER_TYPES.EXCLUDE, selectedTags)
-    );
-    if (filter_tags && filter_tags.length) {
         let filterTags = [];
+        if (tagsFilter && tagsFilter.length) {
+            tagsFilter.forEach(t => {
+                const reversed = reverseTag(t);
+                if (reversed) {
+                    filterTags.push(t, reversed);
+                } else {
+                    filterTags.push(t);
+                }
+            });
+            args.filter_tags = filterTags;
+        } else {
+            args.filter_tags = IGNORE_TAGS;
+        }
 
-        filter_tags.forEach(t => {
-            const reversed = reverseTag(t);
-            if (reversed) {
-                filterTags.push(t, reversed);
-            } else {
-                filterTags.push(t);
-            }
-        });
-        args.filter_tags = filterTags;
-    } else {
-        args.filter_tags = IGNORE_TAGS;
+        const selectedSelectTags = selectTags
+            .filter(tag => !tag.startsWith('ru--'))
+            .sort()
+            .join(',');
+        const selectedFilterTags = filterTags
+            .filter(tag => !tag.startsWith('ru--'))
+            .sort()
+            .join(',');
+
+        const arrSelectedTags = [];
+        if (selectedSelectTags) {
+            arrSelectedTags.push(selectedSelectTags);
+        }
+
+        if (selectedFilterTags) {
+            arrSelectedTags.push(selectedFilterTags);
+        }
+        discussionsKey = arrSelectedTags.join('|');
     }
-
-    const selectedSelectTags = select_tags
-        .filter(tag => !tag.startsWith('ru--'))
-        .sort()
-        .join('/');
-    const selectedFilterTags = filter_tags
-        .filter(tag => !tag.startsWith('ru--'))
-        .sort()
-        .join('/');
-
-    const arrSelectedTags = [];
-    if (selectedSelectTags) {
-        arrSelectedTags.push(selectedSelectTags);
-    }
-
-    if (selectedFilterTags) {
-        arrSelectedTags.push(selectedFilterTags);
-    }
-
-    const discussionsKey = arrSelectedTags.join('|');
 
     const discussions = await api[PUBLIC_API[discussionsType]](args);
 

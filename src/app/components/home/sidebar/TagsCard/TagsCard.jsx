@@ -7,7 +7,6 @@ import is from 'styled-is';
 import tt from 'counterpart';
 
 // import { TAGS_MAX_LENGTH } from 'app/utils/tags';
-import { TAGS_FILTER_TYPES } from 'src/app/redux/constants/common';
 
 import Icon from 'golos-ui/Icon';
 import Button from 'golos-ui/Button';
@@ -124,7 +123,8 @@ export default class TagsCard extends Component {
         order: PropTypes.string,
         currentUsername: PropTypes.string,
         tags: PropTypes.instanceOf(List),
-        selectedTags: PropTypes.instanceOf(Map),
+        tagsSelect: PropTypes.array,
+        tagsFilter: PropTypes.array,
         collapsed: PropTypes.bool,
         changeHomeTagsCardCollapse: PropTypes.func,
         saveTag: PropTypes.func,
@@ -147,10 +147,10 @@ export default class TagsCard extends Component {
     };
 
     renderTag = (tag, key) => {
-        const { selectedTags } = this.props;
+        const { tagsSelect, tagsFilter } = this.props;
 
-        const isSelected = selectedTags.get(tag) === TAGS_FILTER_TYPES.SELECT;
-        const isFiltered = selectedTags.get(tag) === TAGS_FILTER_TYPES.EXCLUDE;
+        const isSelected = tagsSelect.includes(tag);
+        const isFiltered = tagsFilter.includes(tag);
         return (
             <TagSelectStyled
                 key={key}

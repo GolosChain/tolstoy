@@ -1,8 +1,6 @@
 import { call, put, select, fork, cancelled, takeLatest, takeEvery } from 'redux-saga/effects';
 import { api } from 'golos-js';
-import { Map } from 'immutable';
 
-import { TAGS_FILTER_TYPES } from 'src/app/redux/constants/common';
 import { loadFollows, fetchFollowCount } from 'app/redux/sagas/follow';
 import { getContent } from 'app/redux/sagas/shared';
 import GlobalReducer from './../GlobalReducer';
@@ -11,7 +9,7 @@ import { reverseTag } from 'app/utils/tags';
 import { IGNORE_TAGS, PUBLIC_API, ACCOUNT_OPERATIONS } from 'app/client_config';
 import { processBlog } from 'shared/state';
 import { RATES_GET_ACTUAL } from 'src/app/redux/constants/rates';
-import { saveTag } from 'src/app/redux/actions/tags';
+import { locationTagsSelector } from 'src/app/redux/selectors/app/location';
 
 const FETCH_MOST_RECENT = -1;
 const DEFAULT_ACCOUNT_HISTORY_LIMIT = 500;
@@ -200,7 +198,7 @@ function* fetchState(action) {
         } else if (Object.keys(PUBLIC_API).includes(parts[0])) {
             const tag = parts[1] == null ? '' : parts[1];
 
-            yield call(fetchData, { payload: { order: parts[0], category: tag, clearTags: true } });
+            yield call(fetchData, { payload: { order: parts[0], category: tag } });
         } else if (parts[0] == 'tags') {
             const tags = {};
             const trending_tags = yield call([api, api.getTrendingTagsAsync], '', 250);
@@ -295,7 +293,7 @@ export function* watchDataRequests() {
 }
 
 function* fetchData(action) {
-    const { order, author, permlink, accountname, keys, clearTags } = action.payload;
+    const { order, author, permlink, accountname, keys } = action.payload;
     let { category } = action.payload;
 
     if (!category) category = '';
@@ -311,22 +309,13 @@ function* fetchData(action) {
         },
     ];
 
-    if (category.length && order !== 'feed') {
-        const reversed = reverseTag(category) || category;
-        yield put(saveTag(reversed, 'select', clearTags, false));
-    }
+    const { tagsSelect, tagsFilter } = yield select(state => locationTagsSelector(state));
 
     const arrSelectedTags = [];
-    const selectedTags = yield select(state =>
-        state.data.settings.getIn(['basic', 'selectedTags'], Map())
-    );
-
-    const select_tags = selectedTags.filter(type => type === TAGS_FILTER_TYPES.SELECT).keySeq();
-
-    if (select_tags && select_tags.size) {
+    if (tagsSelect && tagsSelect.length) {
         let selectTags = [];
 
-        select_tags.forEach(t => {
+        tagsSelect.forEach(t => {
             const reversed = reverseTag(t);
             if (reversed) {
                 selectTags.push(t, reversed);
@@ -336,14 +325,13 @@ function* fetchData(action) {
         });
         args[0].select_tags = selectTags;
 
-        arrSelectedTags.push(select_tags.sort().join('/'));
+        arrSelectedTags.push(tagsSelect.sort().join(','));
     }
 
-    const filter_tags = selectedTags.filter(type => type === TAGS_FILTER_TYPES.EXCLUDE).keySeq();
-    if (filter_tags && filter_tags.size) {
+    if (tagsFilter && tagsFilter.length) {
         let filterTags = [];
 
-        filter_tags.forEach(t => {
+        tagsFilter.forEach(t => {
             const reversed = reverseTag(t);
             if (reversed) {
                 filterTags.push(t, reversed);
@@ -353,7 +341,7 @@ function* fetchData(action) {
         });
         args[0].filter_tags = filterTags;
 
-        arrSelectedTags.push(filter_tags.sort().join('/'));
+        arrSelectedTags.push(tagsFilter.sort().join(','));
     } else {
         args[0].filter_tags = IGNORE_TAGS;
     }

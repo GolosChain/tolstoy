@@ -279,7 +279,7 @@ export default class PostCard extends PureComponent {
                     <Filler />
                     {compact ? null : (
                         <Category
-                            to={'/trending/' + data.get('category')}
+                            to={'/trending?tags=' + category}
                             category={1}
                             aria-label={tt('aria_label.category', { category: category })}
                         >
@@ -295,7 +295,7 @@ export default class PostCard extends PureComponent {
                 </HeaderLine>
                 {compact ? (
                     <HeaderLineGrid>
-                        <Category to={'/trending/' + data.get('category')} category={1}>
+                        <Category to={'/trending?tags=' + category} category={1}>
                             {category}
                         </Category>
                         <Filler />
