@@ -13,6 +13,8 @@ import { getPinnedPosts } from 'src/app/redux/selectors/account/pinnedPosts';
 import { sanitizeCardPostData, sanitizeRepostData } from 'src/app/redux/selectors/post/commonPost';
 import PostCard from './PostCard';
 
+import { hasReblog, extractReblogData } from 'app/utils/StateFunctions';
+
 export default connect(
     createDeepEqualSelector(
         [
@@ -28,16 +30,16 @@ export default connect(
         (currentUsername, favoritesSet, settings, data, isPinned, props) => {
             let repostHtml = null;
             let isRepost = false;
+            let reblogData = null;
 
-            if (props.additionalData) {
-                if (props.additionalData.get('isRepost')) {
-                    isRepost = true;
+            if (hasReblog(data)) {
+                isRepost = true;
+                reblogData = extractReblogData(data);
 
-                    const body = props.additionalData.get('body');
+                const body = reblogData.get('body');
 
-                    if (body) {
-                        repostHtml = sanitizeRepostData(body);
-                    }
+                if (body) {
+                    repostHtml = sanitizeRepostData(body);
                 }
             }
 
@@ -52,7 +54,7 @@ export default connect(
                     settings.getIn(['basic', 'nsfw']) === 'hide' &&
                     !isOwner,
                 data,
-                postLink: data.get('author') + '/' + data.get('permlink'),
+                postLink: data.get('url'),
                 sanitizedData: sanitizeCardPostData(data),
                 isRepost,
                 repostHtml,
@@ -61,6 +63,7 @@ export default connect(
                 isPinned,
                 isOwner,
                 stats: data.get('stats').toJS(),
+                reblogData,
             };
         }
     ),

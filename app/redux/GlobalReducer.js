@@ -3,7 +3,6 @@ import createModule from 'redux-modules';
 import constants from './constants';
 import { contentStats, fromJSGreedy } from 'app/utils/StateFunctions';
 import { LIQUID_TICKER, DEBT_TICKER } from 'app/client_config';
-import { dataToBlogItem } from 'shared/state';
 
 const emptyContentMap = Map({
     fetched: new Date(), /// the date at which this data was requested from the server
@@ -321,55 +320,22 @@ export default createModule({
                 }
 
                 newState = newState.updateIn(dataPath, List(), posts => {
-                    // In account blog we have list of objects instead of simple postLink strings
-                    // because we have to store information about reposting.
-                    const isBlog = category === 'blog';
-
-                    const items = isBlog
-                        ? data.map(dataToBlogItem)
-                        : data.map(v => `${v.author}/${v.permlink}`);
+                    const items = data.map(v => `${v.author}/${v.permlink}`);
 
                     if (startPermLink) {
-                        return posts.withMutations(posts => {
-                            let newItems;
-
-                            if (isBlog) {
-                                newItems = items
-                                    .filter(blogItem =>
-                                        posts.every(
-                                            post => post.get('postLink') !== blogItem.postLink
-                                        )
-                                    )
-                                    .map(data => fromJS(data));
-                            } else {
-                                newItems = items.filter(id => !posts.includes(id));
-                            }
-
-                            posts.push(...newItems);
-                        });
+                        return posts.concat(items.filter(id => !posts.includes(id)));
                     } else {
                         return fromJS(items);
                     }
                 });
 
                 newState = newState.updateIn(['content'], content =>
-                    content.withMutations(content => {
+                    content.withMutations(map => {
                         for (let value of data) {
-                            let item = fromJS({
-                                ...value,
-                                stats: contentStats(value),
-                            });
-
-                            // This fields make sense only for specific account, not need in global storage
-                            item = item
-                                .delete('reblog_author')
-                                .delete('reblog_body')
-                                .delete('reblog_entries')
-                                .delete('reblog_json_metadata')
-                                .delete('reblog_title')
-                                .delete('reblogged_by');
-
-                            content.set(`${value.author}/${value.permlink}`, item);
+                            const key = `${value.author}/${value.permlink}`;
+                            value = fromJS(value);
+                            value = value.set('stats', fromJS(contentStats(value)));
+                            map.set(key, value);
                         }
                     })
                 );

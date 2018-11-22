@@ -1,11 +1,10 @@
 import React, { PureComponent, Fragment } from 'react';
 import styled from 'styled-components';
-import { injectIntl } from 'react-intl';
 import tt from 'counterpart';
-import capitalize from 'lodash/capitalize';
 
 import { renderValue } from 'src/app/helpers/currency';
 import HintIcon from 'app/components/elements/common/HintIcon/HintIcon';
+import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
 
 const Root = styled.div`
     border-radius: 8px;
@@ -72,7 +71,6 @@ const Plus = styled.span`
     margin: 0 4px;
 `;
 
-@injectIntl
 export default class PayoutInfo extends PureComponent {
     componentWillReceiveProps(newProps) {
         const { needLoadRatesForDate } = this.props;
@@ -116,9 +114,7 @@ export default class PayoutInfo extends PureComponent {
     }
 
     render() {
-        const { intl, isPending, author, authorGbg, curator, benefactor, cashoutTime } = this.props;
-
-        const duration = capitalize(intl.formatRelative(cashoutTime));
+        const { isPending, author, authorGbg, curator, benefactor, cashoutTime } = this.props;
 
         return (
             <Root>
@@ -127,7 +123,11 @@ export default class PayoutInfo extends PureComponent {
                         {isPending ? tt('payout_info.potential_payout') : tt('payout_info.payout')}
                     </Title>
                     <Payout>{this.renderOverallValue()}</Payout>
-                    {isPending ? <Duration>{duration}</Duration> : null}
+                    {isPending ? (
+                        <Duration>
+                            <TimeAgoWrapper date={cashoutTime} />
+                        </Duration>
+                    ) : null}
                 </Part>
                 <Part>
                     <Line>
