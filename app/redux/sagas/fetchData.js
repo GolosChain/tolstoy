@@ -5,7 +5,7 @@ import { loadFollows, fetchFollowCount } from 'app/redux/sagas/follow';
 import { getContent } from 'app/redux/sagas/shared';
 import GlobalReducer from './../GlobalReducer';
 import constants from './../constants';
-import { reverseTag } from 'app/utils/tags';
+import { reverseTags } from 'app/utils/tags';
 import { IGNORE_TAGS, PUBLIC_API, ACCOUNT_OPERATIONS } from 'app/client_config';
 import { processBlog } from 'shared/state';
 import { RATES_GET_ACTUAL } from 'src/app/redux/constants/rates';
@@ -313,33 +313,13 @@ function* fetchData(action) {
 
     const arrSelectedTags = [];
     if (tagsSelect && tagsSelect.length) {
-        let selectTags = [];
-
-        tagsSelect.forEach(t => {
-            const reversed = reverseTag(t);
-            if (reversed) {
-                selectTags.push(t, reversed);
-            } else {
-                selectTags.push(t);
-            }
-        });
-        args[0].select_tags = selectTags;
+        args[0].select_tags = reverseTags(tagsSelect);
 
         arrSelectedTags.push(tagsSelect.sort().join(','));
     }
 
     if (tagsFilter && tagsFilter.length) {
-        let filterTags = [];
-
-        tagsFilter.forEach(t => {
-            const reversed = reverseTag(t);
-            if (reversed) {
-                filterTags.push(t, reversed);
-            } else {
-                filterTags.push(t);
-            }
-        });
-        args[0].filter_tags = filterTags;
+        args[0].filter_tags = reverseTags(tagsFilter);
 
         arrSelectedTags.push(tagsFilter.sort().join(','));
     } else {

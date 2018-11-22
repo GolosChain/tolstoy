@@ -1,6 +1,6 @@
 import { processBlog } from 'shared/state';
 import resolveRoute from 'app/ResolveRoute';
-import { reverseTag, prepareTrendingTags } from 'app/utils/tags';
+import { reverseTags, prepareTrendingTags } from 'app/utils/tags';
 import { IGNORE_TAGS, PUBLIC_API } from 'app/client_config';
 import { COUNT_OF_TAGS } from 'src/app/redux/constants/common';
 
@@ -197,9 +197,9 @@ async function getStateForWitnesses(state, route, { api }) {
 async function getStateForApi(state, { params }, { routeParts, api, query }) {
     const args = { limit: 20, truncate_body: 1024 };
 
-    let discussionsType,
-        discussionsKey = '',
-        tagsStr = '';
+    let discussionsType;
+    let discussionsKey = '';
+    let tagsStr = '';
 
     // Home page
     if (params && params.category && params.username) {
@@ -225,28 +225,12 @@ async function getStateForApi(state, { params }, { routeParts, api, query }) {
 
         let selectTags = [];
         if (tagsSelect && tagsSelect.length) {
-            tagsSelect.forEach(t => {
-                const reversed = reverseTag(t);
-                if (reversed) {
-                    selectTags.push(t, reversed);
-                } else {
-                    selectTags.push(t);
-                }
-            });
-            args.select_tags = selectTags;
+            args.select_tags = selectTags = reverseTags(tagsSelect);
         }
 
         let filterTags = [];
         if (tagsFilter && tagsFilter.length) {
-            tagsFilter.forEach(t => {
-                const reversed = reverseTag(t);
-                if (reversed) {
-                    filterTags.push(t, reversed);
-                } else {
-                    filterTags.push(t);
-                }
-            });
-            args.filter_tags = filterTags;
+            args.filter_tags = filterTags = reverseTags(tagsFilter);
         } else {
             args.filter_tags = IGNORE_TAGS;
         }

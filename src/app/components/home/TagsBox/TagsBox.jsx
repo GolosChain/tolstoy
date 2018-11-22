@@ -100,7 +100,7 @@ export default class TagsBox extends Component {
                     <ClearTags
                         to={window.location.pathname}
                         role="button"
-                        ariaLabel={tt('aria_label.reset_tags')}
+                        aria-label={tt('aria_label.reset_tags')}
                     >
                         <IconCross />
                     </ClearTags>
