@@ -223,7 +223,8 @@
   },
   "data-tooltip": {
     "grid": "Сетка",
-    "list": "Список"
+    "list": "Список",
+    "clear_notifications_history": "Все уведомления перейдут в статус прочитанные и счетчик уведомлений обнулится"
   },
   "delegate_vesting_shares_info_jsx": {
     "confirm_cancel_delegation": "Вы действительно хотите отозвать делегированную %(VESTING_TOKEN2)s у пользователя %(delegatee)s",
@@ -243,7 +244,8 @@
     "liked": "Понравился пост",
     "prompt": "Введите данные",
     "show_all": "Показать все",
-    "show_more": "Показать ещё"
+    "show_more": "Показать ещё",
+    "clear": "Очистить"
   },
   "dialogs_convert": {
     "power_down_line": "Запущен процесс понижения Силы Голоса на **%(all)s GOLOS** (**%(done)s GOLOS** уже выплачено)."

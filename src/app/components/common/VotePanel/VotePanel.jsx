@@ -266,6 +266,7 @@ export default class VotePanel extends PureComponent {
                   usersListForTooltip(votesSummary.firstLikes),
                   votesSummary.likes > USERS_NUMBER_IN_TOOLTIP
               );
+
         const dislikersList = showSlider
             ? null
             : makeTooltip(

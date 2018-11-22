@@ -187,7 +187,8 @@
     "liked": "Пост сподобався",
     "prompt": "Введіть дані",
     "show_all": "Показати все",
-    "show_more": "Показати ще"
+    "show_more": "Показати ще",
+    "clear": "Очистити"
   },
   "dialogs_convert": {
     "power_down_line": "Запущено процес зниження Cили Голосу на **%(all)s GOLOS** (**%(done)s GOLOS** вже виплачено)."

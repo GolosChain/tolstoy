@@ -221,7 +221,8 @@
   },
   "data-tooltip": {
     "grid": "Grid",
-    "list": "List"
+    "list": "List",
+    "clear_notifications_history": "All notifications will mark as viewed and notification's meter will set in 0"
   },
   "delegate_vesting_shares_info_jsx": {
     "confirm_cancel_delegation": "Are you sure you want to cancel %(VESTING_TOKEN2)s delegation",
@@ -241,7 +242,8 @@
     "liked": "Liked post",
     "prompt": "Enter the data",
     "show_all": "Show all",
-    "show_more": "Show more"
+    "show_more": "Show more",
+    "clear": "Clear"
   },
   "dialogs_convert": {
     "power_down_line": "Power down process are running for **%(all)s GOLOS** (**%(done)s GOLOS** have already paid off)."

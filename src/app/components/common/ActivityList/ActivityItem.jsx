@@ -67,6 +67,7 @@ const ActivityRight = styled.div`
     ${is('isCompact')`
         flex: 0;
         flex-direction: column;
+        justify-content: flex-start;
     `};
 `;
 

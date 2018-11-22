@@ -274,7 +274,6 @@ export class SidePanel extends Component {
                         role="button"
                         data-tooltip={shareTooltip}
                         aria-label={shareTooltip}
-                        data-tooltip-html
                     >
                         <IconWrapper>
                             <IconWithState
