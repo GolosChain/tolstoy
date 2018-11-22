@@ -105,7 +105,7 @@ export default class NotificationsMenu extends PureComponent {
                 </WrapperActivity>
                 <StyledDialogFooter>
                     <DialogButtonLink primary={1} to={`/@${accountName}/activity`}>
-                        {tt('g.show_all')}
+                        {tt('g.show_more')}
                     </DialogButtonLink>
                 </StyledDialogFooter>
             </Wrapper>
