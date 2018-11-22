@@ -9,8 +9,8 @@ import Icon from 'golos-ui/Icon/index';
 
 import Userpic from 'app/components/elements/Userpic';
 import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
-import VotePanel from 'src/app/components/common/VotePanel/index';
-import ReBlog from 'src/app/components/post/reBlog/index';
+import VotePanel from 'src/app/components/common/VotePanel';
+import ReBlog from 'src/app/components/post/reBlog';
 import PostActions from 'src/app/components/post/PostActions';
 
 const Root = styled.div`
