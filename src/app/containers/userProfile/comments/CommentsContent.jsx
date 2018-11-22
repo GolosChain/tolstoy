@@ -66,7 +66,7 @@ class CommentsContent extends Component {
                 itemRender={this.renderItem}
                 disallowGrid
                 allowInlineReply={!isOwner}
-                //order="by_author"
+                order="by_comments"
             />
         );
     }
