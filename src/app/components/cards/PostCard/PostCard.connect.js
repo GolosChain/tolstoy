@@ -54,7 +54,7 @@ export default connect(
                     settings.getIn(['basic', 'nsfw']) === 'hide' &&
                     !isOwner,
                 data,
-                postLink: data.get('url'),
+                postLink: data.get('author') + '/' + data.get('permlink'),
                 sanitizedData: sanitizeCardPostData(data),
                 isRepost,
                 repostHtml,

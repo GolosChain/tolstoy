@@ -275,7 +275,7 @@ export default class PostCard extends PureComponent {
         return (
             <Header>
                 <HeaderLine>
-                    <CardAuthor contentLink={postLink} author={author} created={created} />
+                    <CardAuthor contentLink={data.get('url')} author={author} created={created} />
                     <Filler />
                     {compact ? null : (
                         <Category
