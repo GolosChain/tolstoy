@@ -102,18 +102,6 @@ const Category = styled(Link)`
     }
 `;
 
-const Action = styled.div`
-    display: flex;
-    padding: 5px;
-    margin: 0 -5px 0 15px;
-    cursor: pointer;
-    transition: transform 0.15s;
-
-    &:hover {
-        transform: scale(1.15);
-    }
-`;
-
 const ActionIcon = styled(Icon)`
     flex-shrink: 0;
 `;
@@ -124,6 +112,10 @@ const PostImg = styled(({ imgUrl, ...props }) => <Link {...props} />)`
     background-size: cover;
     height: 225px;
     max-height: 60vh;
+    
+    @media (max-width: 1150px) and (min-width: 1024px), (max-width: 439px) {
+        height: 180px;
+    }
 `;
 
 const VotePanelWrapper = styled(VotePanel)`
@@ -134,10 +126,11 @@ const Footer = styled.div`
     display: flex;
     align-items: center;
     padding: 10px 20px 15px 20px;
-`;
-
-const ReBlogWrapper = styled(ReBlog)`
-    margin-left: auto;
+    
+    @media (max-width: 1150px) and (min-width: 1024px), (max-width: 439px) {
+        align-items: flex-start;
+        flex-direction: column;
+    }
 `;
 
 const ToReplies = styled(Link)`
@@ -147,6 +140,21 @@ const ToReplies = styled(Link)`
 
     ${ActionIcon} {
         color: #393636;
+    }
+    
+    @media (max-width: 1150px) and (min-width: 1024px), (max-width: 439px) {
+        display: none;
+    }
+`;
+
+const ToRepliesMobile = styled(ToReplies)`
+    @media (max-width: 1150px) and (min-width: 1024px), (max-width: 439px) {
+        display: flex;
+        flex-grow: 1;
+        justify-content: center;
+        height: 100%;
+        padding: 15px 0;
+        margin-left: 0;
     }
 `;
 
@@ -166,6 +174,33 @@ const PostActionsWrapper = styled.div`
     
     & > a {
         margin-right: 10px;
+    }
+`;
+
+const ReBlogWrapper = styled(ReBlog)`
+    margin-left: auto;
+    
+    @media (max-width: 1150px) and (min-width: 1024px), (max-width: 439px) {
+        display: none;
+    }
+`;
+
+const ReBlogWrapperMobile = styled(ReBlogWrapper)`
+    @media (max-width: 1150px) and (min-width: 1024px), (max-width: 439px) {
+        display: flex;
+        flex-grow: 1;
+        padding: 20px 0;
+    }
+`;
+
+const MobileFooter = styled.div`
+    display: none;
+    justify-content: center;
+    align-items: center;
+    border-top: 1px solid #e9e9e9;
+    
+    @media (max-width: 1150px) and (min-width: 1024px), (max-width: 439px) {
+        display: flex;
     }
 `;
 
@@ -225,9 +260,21 @@ export class CardPost extends Component {
                         <ContentText>{p.desc}</ContentText>
                     </Content>
                     <Footer>
-                        <VotePanelWrapper contentLink={contentLink} />
-                        <ReBlogWrapper contentLink={contentLink} />
-                        <ToReplies
+                            <VotePanelWrapper contentLink={contentLink} />
+                            <ReBlogWrapper contentLink={contentLink} />
+                            <ToReplies
+                                to={`${p.link}#comments`}
+                                role="button"
+                                data-tooltip={tt('reply.comments_count')}
+                                aria-label={tt('aria_label.comments', { count: p.children })}
+                            >
+                                <ActionIcon width="20" height="20" name="reply" />
+                                <CommentsCount>{p.children}</CommentsCount>
+                            </ToReplies>
+                    </Footer>
+                    <MobileFooter>
+                        <ReBlogWrapperMobile contentLink={contentLink} />
+                        <ToRepliesMobile
                             to={`${p.link}#comments`}
                             role="button"
                             data-tooltip={tt('reply.comments_count')}
@@ -235,8 +282,8 @@ export class CardPost extends Component {
                         >
                             <ActionIcon width="20" height="20" name="reply" />
                             <CommentsCount>{p.children}</CommentsCount>
-                        </ToReplies>
-                    </Footer>
+                        </ToRepliesMobile>
+                    </MobileFooter>
                 </Main>
             </Root>
         );
