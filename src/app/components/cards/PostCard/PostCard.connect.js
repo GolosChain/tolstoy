@@ -8,7 +8,7 @@ import {
 } from 'src/app/redux/selectors/common';
 import { toggleFavorite } from 'src/app/redux/actions/favorites';
 import { togglePin } from 'src/app/redux/actions/pinnedPosts';
-import { openReBlogDialog } from 'src/app/redux/actions/dialogs';
+import { openRepostDialog } from 'src/app/redux/actions/dialogs';
 import { getPinnedPosts } from 'src/app/redux/selectors/account/pinnedPosts';
 import { sanitizeCardPostData, sanitizeRepostData } from 'src/app/redux/selectors/post/commonPost';
 import PostCard from './PostCard';
@@ -67,6 +67,6 @@ export default connect(
     {
         toggleFavorite,
         togglePin,
-        openReBlogDialog,
+        openRepostDialog,
     }
 )(PostCard);

@@ -501,7 +501,7 @@ export default class PostCard extends PureComponent {
     _onRepostClick = () => {
         const { postLink } = this.props;
 
-        this.props.openReBlogDialog(postLink);
+        this.props.openRepostDialog(postLink);
     };
 
     _onPinClick = () => {

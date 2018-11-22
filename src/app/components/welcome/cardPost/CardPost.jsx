@@ -10,7 +10,7 @@ import Icon from 'golos-ui/Icon/index';
 import Userpic from 'app/components/elements/Userpic';
 import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
 import VotePanel from 'src/app/components/common/VotePanel';
-import ReBlog from 'src/app/components/post/reBlog';
+import Repost from 'src/app/components/post/repost';
 import PostActions from 'src/app/components/post/PostActions';
 
 const Root = styled.div`
@@ -192,7 +192,7 @@ const PostActionsWrapper = styled.div`
     }
 `;
 
-const ReBlogWrapper = styled(ReBlog)`
+const RepostWrapper = styled(Repost)`
     margin-left: auto;
 
     @media (max-width: 1150px) and (min-width: 1024px), (max-width: 439px) {
@@ -200,7 +200,7 @@ const ReBlogWrapper = styled(ReBlog)`
     }
 `;
 
-const ReBlogWrapperMobile = styled(ReBlogWrapper)`
+const RepostWrapperMobile = styled(RepostWrapper)`
     @media (max-width: 1150px) and (min-width: 1024px), (max-width: 439px) {
         display: flex;
         flex-grow: 1;
@@ -276,7 +276,7 @@ export class CardPost extends Component {
                     </Content>
                     <Footer>
                         <VotePanelWrapper contentLink={contentLink} />
-                        <ReBlogWrapper contentLink={contentLink} />
+                        <RepostWrapper contentLink={contentLink} />
                         <ToReplies
                             to={`${p.link}#comments`}
                             role="button"
@@ -288,7 +288,7 @@ export class CardPost extends Component {
                         </ToReplies>
                     </Footer>
                     <MobileFooter>
-                        <ReBlogWrapperMobile contentLink={contentLink} />
+                        <RepostWrapperMobile contentLink={contentLink} />
                         <ToRepliesMobile
                             to={`${p.link}#comments`}
                             role="button"

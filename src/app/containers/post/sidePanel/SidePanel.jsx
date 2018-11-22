@@ -14,7 +14,7 @@ import { PopoverStyled } from 'src/app/components/post/PopoverAdditionalStyles';
 import PostActions from 'src/app/components/post/PostActions';
 import { POST_MAX_WIDTH } from 'src/app/containers/post/PostContainer';
 import VotePanel from 'src/app/components/common/VotePanel';
-import ReBlog from 'src/app/components/post/reBlog';
+import Repost from 'src/app/components/post/repost';
 
 const HEADER_HEIGHT = 60;
 const DESKTOP_FOOTER_HEIGHT = 324;
@@ -130,7 +130,7 @@ const VotePanelStyled = styled(VotePanel)`
     padding-bottom: 2px;
 `;
 
-const ReBlogWrapper = styled.div``;
+const RepostWrapper = styled.div``;
 
 export class SidePanel extends Component {
     static propTypes = {
@@ -253,9 +253,9 @@ export class SidePanel extends Component {
             >
                 <PanelWrapper>
                     <VotePanelStyled contentLink={contentLink} sidePanel />
-                    <ReBlogWrapper>
-                        <ReBlog contentLink={contentLink} />
-                    </ReBlogWrapper>
+                    <RepostWrapper>
+                        <Repost contentLink={contentLink} />
+                    </RepostWrapper>
                     <ShareWrapper
                         onClick={this.openSharePopover}
                         role="button"

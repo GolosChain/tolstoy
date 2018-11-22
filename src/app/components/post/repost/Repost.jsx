@@ -22,14 +22,14 @@ const ActionIcon = styled(Icon)`
     flex-shrink: 0;
 `;
 
-export class ReBlog extends Component {
+export class Repost extends Component {
     static propTypes = {
         contentLink: PropTypes.string.isRequired,
     };
 
-    reBlog = () => {
-        const { contentLink, openReBlogDialog } = this.props;
-        openReBlogDialog(contentLink);
+    repost = () => {
+        const { contentLink, openRepostDialog } = this.props;
+        openRepostDialog(contentLink);
     };
 
     render() {
@@ -40,10 +40,10 @@ export class ReBlog extends Component {
                 {isOwner ? null : (
                     <Wrapper
                         role="button"
-                        data-tooltip={tt('g.reblog')}
-                        aria-label={tt('g.reblog')}
+                        data-tooltip={tt('g.repost')}
+                        aria-label={tt('g.repost')}
                         className={className}
-                        onClick={this.reBlog}
+                        onClick={this.repost}
                     >
                         <ActionIcon width="20" height="20" name="repost" />
                     </Wrapper>

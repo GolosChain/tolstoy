@@ -24,7 +24,7 @@ export function openPromoteDialog(postLink) {
     };
 }
 
-export function openReBlogDialog(postLink) {
+export function openRepostDialog(postLink) {
     return {
         type: SHOW_DIALOG,
         payload: {

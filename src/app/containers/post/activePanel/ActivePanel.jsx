@@ -219,7 +219,7 @@ export class ActivePanel extends Component {
 
     repost = () => {
         const { account, permLink } = this.props;
-        this.props.openReBlogDialog(`${account}/${permLink}`);
+        this.props.openRepostDialog(`${account}/${permLink}`);
     };
 
     render() {
@@ -236,7 +236,7 @@ export class ActivePanel extends Component {
                 <RepostSharingWrapper>
                     {isOwner ? null : (
                         <Fragment>
-                            <Repost role="button" data-tooltip={tt('g.reblog')} aria-label={tt('g.reblog')}>
+                            <Repost role="button" data-tooltip={tt('g.repost')} aria-label={tt('g.repost')}>
                                 <Icon width="30" height="27" name="repost" onClick={this.repost} />
                             </Repost>
                             <Divider />
