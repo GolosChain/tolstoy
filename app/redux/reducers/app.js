@@ -15,9 +15,9 @@ const defaultState = fromJS({
 
 export default function reducer(state = defaultState, { type, payload, error }) {
     if (type === '@@router/LOCATION_CHANGE') {
-        return state.updateIn(['location'], Map(), c => {
-            return c.set('previous', c.get('current')).set('current', fromJS(payload));
-        });
+        return state.updateIn(['location'], Map(), c =>
+            c.set('previous', c.get('current')).set('current', fromJS(payload))
+        );
     }
 
     if (type === 'CHAIN_API_ERROR') {
