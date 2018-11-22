@@ -222,9 +222,9 @@
     "you_need_to": "Вам нужно "
   },
   "data-tooltip": {
+    "clear_notifications_history": "Все уведомления перейдут в статус прочитанные и счетчик уведомлений обнулится",
     "grid": "Сетка",
-    "list": "Список",
-    "clear_notifications_history": "Все уведомления перейдут в статус прочитанные и счетчик уведомлений обнулится"
+    "list": "Список"
   },
   "delegate_vesting_shares_info_jsx": {
     "confirm_cancel_delegation": "Вы действительно хотите отозвать делегированную %(VESTING_TOKEN2)s у пользователя %(delegatee)s",
@@ -238,14 +238,14 @@
   },
   "dialog": {
     "alert": "Предупреждение",
+    "clear": "Очистить",
     "confirm": "Подтверждение",
     "disliked": "Не понравился пост",
     "info": "Информация",
     "liked": "Понравился пост",
     "prompt": "Введите данные",
     "show_all": "Показать все",
-    "show_more": "Показать ещё",
-    "clear": "Очистить"
+    "show_more": "Показать ещё"
   },
   "dialogs_convert": {
     "power_down_line": "Запущен процесс понижения Силы Голоса на **%(all)s GOLOS** (**%(done)s GOLOS** уже выплачено)."
