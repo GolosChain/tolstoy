@@ -43,6 +43,7 @@ const AuthorName = styled.span`
 const AuthorNameLink = AuthorName.withComponent(Link);
 
 const PostDate = styled(Link)`
+    display: block;
     font-size: 13px;
     letter-spacing: 0.4px;
     line-height: 1.5;

@@ -9,18 +9,16 @@ class NotFound extends React.Component {
             <div>
                 <div className="Header__top header">
                     <div className="columns">
-                        <div className="top-bar-left">
-                            <ul className="menu" style={{ alignItems: 'center' }}>
-                                <li className="Header__top-logo">
-                                    <Link to="/">
-                                        <Icon name={APP_ICON} size="2x" />
-                                    </Link>
-                                </li>
-                                <li className="Header__top-steemit show-for-medium noPrint">
-                                    <a href="/">{APP_NAME}</a>
-                                </li>
-                            </ul>
-                        </div>
+                        <ul className="menu" style={{ alignItems: 'center' }}>
+                            <li className="Header__top-logo">
+                                <Link to="/">
+                                    <Icon name={APP_ICON} size="2x" />
+                                </Link>
+                            </li>
+                            <li className="Header__top-steemit show-for-medium noPrint">
+                                <a href="/">{APP_NAME}</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
                 <div className="NotFound float-center">
