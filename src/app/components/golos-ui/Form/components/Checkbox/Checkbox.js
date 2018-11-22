@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Icon from 'golos-ui/Icon';
 
 const Wrapper = styled.div`
-    display: ${props => props.inline ? 'inline-flex' : 'flex'};
+    display: ${props => (props.inline ? 'inline-flex' : 'flex')};
     align-items: center;
     cursor: pointer;
 `;
@@ -22,7 +22,7 @@ const Title = styled.div`
 `;
 
 const Checked = ({ value, title, inline, onChange }) => (
-    <Wrapper inline={inline} onClick={() => onChange(!value)}>
+    <Wrapper inline={inline} onClick={onChange ? () => onChange(!value) : null}>
         {value ? (
             <IconOn name="checkbox-on" size="18" />
         ) : (
