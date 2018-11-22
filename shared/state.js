@@ -65,17 +65,17 @@ export function dataToBlogItem(post) {
     // In Api method getDiscussionsByBlog repost date comes in first_reblogged_on field,
     // but in getBlogEntries repost date comes in field reblog_on.
     // 1970-01-01T00:00:00 is date default (like null) in some methods.
-    const hasReblogDate = Boolean(post.reblog_on) && post.reblog_on !== DEFAULT_DATE;
-    const hasFirstReblogDate =
+    const hasRepostDate = Boolean(post.reblog_on) && post.reblog_on !== DEFAULT_DATE;
+    const hasFirstRepostDate =
         Boolean(post.first_reblogged_on) && post.first_reblogged_on !== DEFAULT_DATE;
-    const isRepost = hasReblogDate || hasFirstReblogDate || Boolean(post.reblog_author);
+    const isRepost = hasRepostDate || hasFirstRepostDate || Boolean(post.reblog_author);
 
     let repostDate;
 
     if (isRepost) {
-        if (hasReblogDate) {
+        if (hasRepostDate) {
             repostDate = post.reblog_on;
-        } else if (hasFirstReblogDate) {
+        } else if (hasFirstRepostDate) {
             repostDate = post.first_reblogged_on;
         } else {
             repostDate = post.created;
