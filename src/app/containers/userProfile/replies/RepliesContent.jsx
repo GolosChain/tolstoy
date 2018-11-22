@@ -64,6 +64,7 @@ class RepliesContent extends Component {
                 disallowGrid
                 category="recent_replies"
                 allowInlineReply={isOwner}
+                order="by_replies"
             />
         );
     }
