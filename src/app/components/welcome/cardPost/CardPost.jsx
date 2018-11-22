@@ -57,16 +57,30 @@ const ContentText = styled.div`
 
 const Header = styled.div`
     position: relative;
-    display: flex;
     align-items: center;
-    height: 72px;
-    padding: 0 20px;
+    padding: 12px 20px;
     box-shadow: 0px -7px 20px #fff;
+
+    display: grid;
+    grid-template-columns: auto 1fr auto 20px auto;
+    grid-template-rows: auto;
+    grid-template-areas: 'author . category . actions';
+
+    @media (max-width: 1150px) and (min-width: 1024px), (max-width: 439px) {
+        grid-template-columns: auto 1fr auto;
+        grid-template-rows: auto auto;
+        row-gap: 15px;
+        grid-template-areas:
+            'author . actions'
+            'category . .';
+    }
 `;
 
 const HeaderProfile = styled(Link)`
     display: flex;
     align-items: center;
+    grid-area: author;
+    justify-self: start
 `;
 
 const HeaderInfo = styled.div`
@@ -91,11 +105,12 @@ const HeaderTime = styled.div`
 const Category = styled(Link)`
     display: block;
     padding: 5px 8px;
-    margin-left: auto;
     border: 1px solid #cde0ff;
     border-radius: 6px;
     font-size: 12px;
     color: #2879ff;
+    grid-area: category;
+    justify-self: start;
 
     &:hover {
         border: 1px solid #2879ff;
@@ -126,7 +141,7 @@ const Footer = styled.div`
     display: flex;
     align-items: center;
     padding: 10px 20px 15px 20px;
-    
+
     @media (max-width: 1150px) and (min-width: 1024px), (max-width: 439px) {
         align-items: flex-start;
         flex-direction: column;
@@ -141,7 +156,7 @@ const ToReplies = styled(Link)`
     ${ActionIcon} {
         color: #393636;
     }
-    
+
     @media (max-width: 1150px) and (min-width: 1024px), (max-width: 439px) {
         display: none;
     }
@@ -166,12 +181,12 @@ const CommentsCount = styled.div`
 
 const PostActionsWrapper = styled.div`
     display: flex;
-    margin-left: 20px;
-    
+    grid-area: actions;
+
     & > * {
         padding: 5px;
     }
-    
+
     & > a {
         margin-right: 10px;
     }
@@ -179,7 +194,7 @@ const PostActionsWrapper = styled.div`
 
 const ReBlogWrapper = styled(ReBlog)`
     margin-left: auto;
-    
+
     @media (max-width: 1150px) and (min-width: 1024px), (max-width: 439px) {
         display: none;
     }
@@ -198,7 +213,7 @@ const MobileFooter = styled.div`
     justify-content: center;
     align-items: center;
     border-top: 1px solid #e9e9e9;
-    
+
     @media (max-width: 1150px) and (min-width: 1024px), (max-width: 439px) {
         display: flex;
     }
@@ -260,17 +275,17 @@ export class CardPost extends Component {
                         <ContentText>{p.desc}</ContentText>
                     </Content>
                     <Footer>
-                            <VotePanelWrapper contentLink={contentLink} />
-                            <ReBlogWrapper contentLink={contentLink} />
-                            <ToReplies
-                                to={`${p.link}#comments`}
-                                role="button"
-                                data-tooltip={tt('reply.comments_count')}
-                                aria-label={tt('aria_label.comments', { count: p.children })}
-                            >
-                                <ActionIcon width="20" height="20" name="reply" />
-                                <CommentsCount>{p.children}</CommentsCount>
-                            </ToReplies>
+                        <VotePanelWrapper contentLink={contentLink} />
+                        <ReBlogWrapper contentLink={contentLink} />
+                        <ToReplies
+                            to={`${p.link}#comments`}
+                            role="button"
+                            data-tooltip={tt('reply.comments_count')}
+                            aria-label={tt('aria_label.comments', { count: p.children })}
+                        >
+                            <ActionIcon width="20" height="20" name="reply" />
+                            <CommentsCount>{p.children}</CommentsCount>
+                        </ToReplies>
                     </Footer>
                     <MobileFooter>
                         <ReBlogWrapperMobile contentLink={contentLink} />
