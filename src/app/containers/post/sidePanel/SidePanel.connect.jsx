@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
 import { currentUsernameSelector, uiSelector } from 'src/app/redux/selectors/common';
-import { openRepostDialog } from 'src/app/redux/actions/dialogs';
 import { SidePanel } from 'src/app/containers/post/sidePanel/SidePanel';
 import { onBackClick } from 'src/app/redux/actions/post';
 import { onVote } from 'src/app/redux/actions/vote';
@@ -30,7 +29,6 @@ export default connect(
     ),
     {
         onVote,
-        openRepostDialog,
         onBackClick,
     }
 )(SidePanel);

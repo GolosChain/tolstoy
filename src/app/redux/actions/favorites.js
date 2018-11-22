@@ -10,8 +10,8 @@ import {
 } from '../constants/favorites';
 import { GATE_SEND_MESSAGE } from '../constants/gate';
 
-export function toggleFavoriteAction(payload) {
-    return { type: FAVORITES_TOGGLE, payload };
+export function toggleFavorite(link, isAdd) {
+    return { type: FAVORITES_TOGGLE, payload: { link, isAdd } };
 }
 
 export function favoritesLoadNextPageAction() {

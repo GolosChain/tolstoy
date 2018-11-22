@@ -14,6 +14,7 @@ import { PopoverStyled } from 'src/app/components/post/PopoverAdditionalStyles';
 import PostActions from 'src/app/components/post/PostActions';
 import { POST_MAX_WIDTH } from 'src/app/containers/post/PostContainer';
 import VotePanel from 'src/app/components/common/VotePanel';
+import Repost from 'src/app/components/post/repost';
 
 const HEADER_HEIGHT = 60;
 const DESKTOP_FOOTER_HEIGHT = 324;
@@ -129,6 +130,8 @@ const VotePanelStyled = styled(VotePanel)`
     padding-bottom: 2px;
 `;
 
+const RepostWrapper = styled.div``;
+
 export class SidePanel extends Component {
     static propTypes = {
         togglePin: PropTypes.func.isRequired,
@@ -223,11 +226,6 @@ export class SidePanel extends Component {
         });
     };
 
-    repost = () => {
-        const { contentLink } = this.props;
-        this.props.openRepostDialog(contentLink);
-    };
-
     onBackClick = () => {
         this.props.onBackClick();
     };
@@ -255,20 +253,9 @@ export class SidePanel extends Component {
             >
                 <PanelWrapper>
                     <VotePanelStyled contentLink={contentLink} sidePanel />
-                    {isOwner ? null : (
-                        <ActionWrapper
-                            onClick={this.repost}
-                            role="button"
-                            data-tooltip={tt('g.reblog')}
-                            aria-label={tt('g.reblog')}
-                            data-tooltip-html
-                        >
-                            <IconWrapper>
-                                <Icon width="20" height="20" name="repost" />
-                            </IconWrapper>
-                        </ActionWrapper>
-                    )}
-
+                    <RepostWrapper>
+                        <Repost contentLink={contentLink} />
+                    </RepostWrapper>
                     <ShareWrapper
                         onClick={this.openSharePopover}
                         role="button"
@@ -292,7 +279,6 @@ export class SidePanel extends Component {
                             <SharePopover post={post} />
                         </PopoverStyled>
                     </ShareWrapper>
-
                     <PostActions
                         fullUrl={post.url}
                         isFavorite={post.isFavorite}

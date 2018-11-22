@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 
 import Icon from 'app/components/elements/Icon';
-import CardPost from 'src/app/components/welcome/CardPost';
+import CardPost from 'src/app/components/welcome/cardPost';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import { WIKI_URL } from 'app/client_config';
 
@@ -137,7 +137,7 @@ export default class Questions extends PureComponent {
                                 </div>
                             ) : (
                                     <div className="columns">
-                                        <div className="row small-up-1 medium-up-2 large-up-3">
+                                        <div className="row small-up-1 large-up-2">
                                             {questionsCards.map(post => (
                                                 <div
                                                     className="columns"

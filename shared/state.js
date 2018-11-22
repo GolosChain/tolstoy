@@ -32,7 +32,7 @@ export async function processBlog(state, { uname, voteLimit }) {
         account.blog.push(postLink);
         state.content[postLink] = discussion;
     }
-
+  
     for (let pinned of reverse(pinnedPosts)) {
         if (account.blog.includes(pinned)) {
             account.blog = without([pinned], account.blog);

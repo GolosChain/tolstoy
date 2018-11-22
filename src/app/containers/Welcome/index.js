@@ -1,1 +1,2 @@
-export { default } from './Welcome';
+export { default } from './Welcome.connect';
+export { Welcome } from './Welcome';

@@ -6,8 +6,8 @@ import { currentPostSelector, authorSelector } from 'src/app/redux/selectors/pos
 import { USER_FOLLOW_DATA_LOAD } from 'src/app/redux/constants/followers';
 import { FAVORITES_LOAD } from 'src/app/redux/constants/favorites';
 import { PostContainer } from 'src/app/containers/post/PostContainer';
-import { togglePinAction } from 'src/app/redux/actions/pinnedPosts';
-import { toggleFavoriteAction } from 'src/app/redux/actions/favorites';
+import { togglePin } from 'src/app/redux/actions/pinnedPosts';
+import { toggleFavorite } from 'src/app/redux/actions/favorites';
 
 export default connect(
     createSelector(
@@ -41,7 +41,7 @@ export default connect(
             type: FAVORITES_LOAD,
             payload: {},
         }),
-        togglePin: togglePinAction,
-        toggleFavorite: (link, isAdd) => toggleFavoriteAction({ link, isAdd }),
+        togglePin,
+        toggleFavorite,
     }
 )(PostContainer);
