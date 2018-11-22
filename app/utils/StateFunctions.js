@@ -6,6 +6,8 @@ import { VEST_TICKER, LIQUID_TICKER } from 'app/client_config';
 import { Map, Seq, fromJS } from 'immutable';
 import { getStoreState } from 'app/clientRender';
 
+const DEFAULT_DATE = '1970-01-01T00:00:00';
+
 export const numberWithCommas = x => x.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
 export const toAsset = value => {
@@ -162,6 +164,44 @@ export function contentStats(content) {
         up_votes,
         hasPendingPayout,
     };
+}
+
+export function hasReblog(content) {
+    return content.has('first_reblogged_on') && content.get('first_reblogged_on') !== DEFAULT_DATE;
+}
+
+export function extractReblogData(content) {
+    if (!content) {
+        return {};
+    }
+
+    const isRepost = hasReblog(content);
+
+    if (!isRepost) {
+        return {};
+    }
+
+    const isFeed = content.has('first_reblogged_by');
+    const repostAuthor = isFeed
+        ? content.getIn(['reblog_entries', 0, 'author'])
+        : content.get('reblog_author');
+    const date = content.get('first_reblogged_on');
+    const title = isFeed
+        ? content.getIn(['reblog_entries', 0, 'title'])
+        : content.get('reblog_title');
+    const body = isFeed ? content.getIn(['reblog_entries', 0, 'body']) : content.get('reblog_body');
+    const json_metadata = isFeed
+        ? content.getIn(['reblog_entries', 0, 'json_metadata'])
+        : content.get('reblog_json_metadata');
+
+    return fromJS({
+        isRepost,
+        repostAuthor,
+        date,
+        title,
+        body,
+        metadata: json_metadata ? JSON.parse(json_metadata) : {},
+    });
 }
 
 function filterTags(tags) {

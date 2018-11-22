@@ -145,9 +145,7 @@ export default class CardsList extends PureComponent {
             }
 
             const lastPost = items.last();
-            const postLink = typeof lastPost === 'string' ? lastPost : lastPost.get('postLink');
-
-            const [author, permlink] = postLink.split('/');
+            const [author, permlink] = lastPost.split('/');
 
             this.props.loadMore({
                 order,
@@ -192,12 +190,7 @@ export default class CardsList extends PureComponent {
             return false;
         }
 
-        let author;
-        if (typeof data === 'string') {
-            author = data.split('/')[0];
-        } else {
-            author = data.get('author');
-        }
+        const author = data.split('/')[0];
 
         return ignoreResult && ignoreResult.has(author);
     };
@@ -246,15 +239,7 @@ export default class CardsList extends PureComponent {
         const itemRenderFunc = itemRender || this.itemRender;
         const compact = (!disallowGrid && !forceLines && layout === 'grid') || forceCompact;
 
-        let permLink;
-        let additionalData = null;
-
-        if (typeof data === 'string') {
-            permLink = data;
-        } else {
-            permLink = data.get('postLink');
-            additionalData = data.get('repostData');
-        }
+        const permLink = data;
 
         if (this.checkIsIgnored(data)) {
             return null;
@@ -263,7 +248,6 @@ export default class CardsList extends PureComponent {
         return itemRenderFunc({
             key: permLink,
             permLink,
-            additionalData,
             compact,
             allowInlineReply,
             pageAccountName,
