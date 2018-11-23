@@ -97,6 +97,33 @@ class CommentForm extends Component {
     footerRef = createRef();
     editorRef = createRef();
 
+    componentDidMount() {
+        if (location.hash === '#createComment') {
+            this.setFocus();
+            this.onInputFocused();
+        } else if (this.props.autoFocus) {
+            this.setFocus();
+        }
+
+        if (this.props.forwardRef) {
+            this.props.forwardRef.current = this;
+        }
+    }
+
+    componentWillUnmount() {
+        this.unmount = true;
+
+        if (this.props.forwardRef) {
+            this.props.forwardRef.current = null;
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (!this.props.commentInputFocused && nextProps.commentInputFocused) {
+            this.setFocus();
+        }
+    }
+
     tryLoadDraft() {
         const { editMode, params } = this.props;
 
@@ -133,33 +160,6 @@ class CommentForm extends Component {
                 clearInterval(intervalId);
             }
         }, 50);
-    }
-
-    componentDidMount() {
-        if (location.hash === '#createComment') {
-            this.setFocus();
-            this.onInputFocused();
-        } else if (this.props.autoFocus) {
-            this.setFocus();
-        }
-
-        if (this.props.forwardRef) {
-            this.props.forwardRef.current = this;
-        }
-    }
-
-    componentWillUnmount() {
-        this._unmount = true;
-
-        if (this.props.forwardRef) {
-            this.props.forwardRef.current = null;
-        }
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (!this.props.commentInputFocused && nextProps.commentInputFocused) {
-            this.setFocus();
-        }
     }
 
     render() {
@@ -401,14 +401,16 @@ class CommentForm extends Component {
                     localStorage.removeItem(DRAFT_KEY);
                 } catch (err) {}
 
-                if (this.props.clearAfterAction) {
-                    this.editorRef.current.setValue('');
-                }
+                if (!this.unmount) {
+                    if (this.props.clearAfterAction) {
+                        this.editorRef.current.setValue('');
+                    }
 
-                this.props.onSuccess();
+                    this.props.onSuccess();
+                }
             },
             err => {
-                if (err !== 'Canceled') {
+                if (!this.unmount && err !== 'Canceled') {
                     this.footerRef.current.showPostError(err.toString().trim());
                 }
             }
@@ -443,7 +445,7 @@ class CommentForm extends Component {
                 this.props.uploadImage({
                     file,
                     progress: data => {
-                        if (!this._unmount) {
+                        if (!this.unmount) {
                             if (data && (data.url || data.error)) {
                                 this.setState({
                                     uploadingCount: this.state.uploadingCount - 1,
