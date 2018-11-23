@@ -1,3 +1,4 @@
+const noImageSrc = '(Image not shown due to non-existent src)';
 export const noImageText = '(Image not shown due to low ratings)';
 export const allowedTags = [
     'div',
@@ -234,6 +235,10 @@ export default ({
 
             //See https://github.com/punkave/sanitize-html/issues/117
             let { src, alt } = attribs;
+
+            if (!src) {
+                return { tagName: 'div', text: noImageSrc };
+            }
 
             if (!/^(https?:)?\/\//i.test(src) && !src.startsWith('data:image/')) {
                 console.log('Blocked, image tag src does not appear to be a url', tagName, attribs);
