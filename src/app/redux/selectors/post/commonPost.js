@@ -1,13 +1,7 @@
 import { Map, List } from 'immutable';
 import memoize from 'lodash/memoize';
 import { createSelector } from 'reselect';
-import {
-    createDeepEqualSelector,
-    currentUsernameSelector,
-    dataSelector,
-    globalSelector,
-    parseJSON,
-} from '../common';
+import { createDeepEqualSelector, dataSelector, globalSelector, parseJSON } from '../common';
 
 import { extractPinnedPosts } from 'src/app/redux/selectors/account/pinnedPosts';
 import { detransliterate, parsePayoutAmount } from 'app/utils/ParsersAndFormatters';

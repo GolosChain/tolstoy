@@ -34,17 +34,17 @@ export default function(state = initialState, { type, payload, error }) {
                 .set('isFetching', false)
                 .set('error', null);
 
-        case NOTIFICATION_ONLINE_MARK_ALL_AS_VIEWED_SUCCESS:
-            return state
-                .set('freshCount', 0)
-                .set('isFetching', false)
-                .set('error', null);
-
         case NOTIFICATION_ONLINE_GET_HISTORY_ERROR:
             return state.set('isFetching', false).set('error', error);
 
         case NOTIFICATION_GET_HISTORY_SUCCESS:
             return state.set('freshCount', payload.freshByTypes.summary);
+
+        case NOTIFICATION_ONLINE_MARK_ALL_AS_VIEWED_SUCCESS:
+            return state
+                .set('freshCount', 0)
+                .set('isFetching', false)
+                .set('error', null);
 
         default:
             return state;

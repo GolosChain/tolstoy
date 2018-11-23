@@ -80,8 +80,9 @@ export default class NotificationsMenu extends PureComponent {
     };
 
     markNotificationsAsViewed = () => {
-        this.props.markAllNotificationsOnlineAsViewed({
-            user: 'joseph.kalu'
+        const { authorizedUsername, markAllNotificationsOnlineAsViewed } = this.props;
+        markAllNotificationsOnlineAsViewed({
+            user: authorizedUsername,
         });
     };
 
@@ -94,7 +95,9 @@ export default class NotificationsMenu extends PureComponent {
             params: { accountName },
         } = this.props;
 
-        const clearTooltip = `<div style="text-align: center">${tt('data-tooltip.clear_notifications_history')}</div>`;
+        const clearTooltip = `<div style="text-align: center">${tt(
+            'data-tooltip.clear_notifications_history'
+        )}</div>`;
 
         return (
             <Wrapper mobile={isMobile}>

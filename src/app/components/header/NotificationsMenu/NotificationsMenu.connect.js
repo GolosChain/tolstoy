@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 
 import {
     createDeepEqualSelector,
+    currentUsernameSelector,
     entitiesArraySelector,
     statusSelector,
 } from 'src/app/redux/selectors/common';
@@ -24,10 +25,12 @@ export default connect(
         [
             hydratedNotificationsSelector(filteredNotificationsSelector),
             statusSelector('notificationsOnline'),
+            currentUsernameSelector,
         ],
-        (notifications, notificationsStatus) => ({
+        (notifications, notificationsStatus, authorizedUsername) => ({
             notifications,
             isFetching: notificationsStatus.get('isFetching'),
+            authorizedUsername,
         })
     ),
     { markAllNotificationsOnlineAsViewed }
