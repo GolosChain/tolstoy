@@ -7,7 +7,7 @@ import {
     statusSelector,
 } from 'src/app/redux/selectors/common';
 import { hydratedNotificationsSelector } from 'src/app/redux/selectors/notifications';
-import { markAllNotificationsOnlineAsViewed } from 'src/app/redux/actions/notificationsOnline';
+import { markAllNotificationsAsViewed } from 'src/app/redux/actions/notifications';
 import NotificationsMenu from './NotificationsMenu';
 
 const filteredNotificationsSelector = createDeepEqualSelector(
@@ -32,5 +32,5 @@ export default connect(
             authorizedUsername,
         })
     ),
-    { markAllNotificationsOnlineAsViewed }
+    { markAllNotificationsAsViewed }
 )(NotificationsMenu);

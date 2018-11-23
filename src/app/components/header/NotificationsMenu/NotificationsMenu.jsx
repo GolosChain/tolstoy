@@ -80,8 +80,8 @@ export default class NotificationsMenu extends PureComponent {
     };
 
     markNotificationsAsViewed = () => {
-        const { authorizedUsername, markAllNotificationsOnlineAsViewed } = this.props;
-        markAllNotificationsOnlineAsViewed({
+        const { authorizedUsername, markAllNotificationsAsViewed } = this.props;
+        markAllNotificationsAsViewed({
             user: authorizedUsername,
         });
     };

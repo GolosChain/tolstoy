@@ -203,7 +203,7 @@ class TransferDialog extends PureComponent {
                         text: tt('dialogs_transfer.transfer.transfer_button'),
                         primary: true,
                         disabled: !allow,
-                        onClick: this._onOkClick,
+                        onClick: this.onOkClick,
                     },
                 ]}
                 onCloseClick={this._onCloseClick}
@@ -320,7 +320,7 @@ class TransferDialog extends PureComponent {
         this.props.onClose();
     };
 
-    _onOkClick = () => {
+    onOkClick = () => {
         const { myUser, type, donatePostUrl } = this.props;
         const { target, amount, currency, note, loader, disabled } = this.state;
 

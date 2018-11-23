@@ -7,9 +7,11 @@ import {
     NOTIFICATION_ONLINE_GET_HISTORY_SUCCESS,
     NOTIFICATION_ONLINE_GET_HISTORY_ERROR,
     NOTIFICATION_ONLINE_GET_HISTORY_FRESH_SUCCESS,
-    NOTIFICATION_ONLINE_MARK_ALL_AS_VIEWED_SUCCESS,
 } from 'src/app/redux/constants/notificationsOnline';
-import { NOTIFICATION_GET_HISTORY_SUCCESS } from 'src/app/redux/constants/notifications';
+import {
+    NOTIFICATION_GET_HISTORY_SUCCESS,
+    NOTIFICATION_MARK_ALL_AS_VIEWED_SUCCESS,
+} from 'src/app/redux/constants/notifications';
 
 const initialState = fromJS({
     freshCount: 0, // count on new notifications
@@ -40,7 +42,7 @@ export default function(state = initialState, { type, payload, error }) {
         case NOTIFICATION_GET_HISTORY_SUCCESS:
             return state.set('freshCount', payload.freshByTypes.summary);
 
-        case NOTIFICATION_ONLINE_MARK_ALL_AS_VIEWED_SUCCESS:
+        case NOTIFICATION_MARK_ALL_AS_VIEWED_SUCCESS:
             return state
                 .set('freshCount', 0)
                 .set('isFetching', false)
