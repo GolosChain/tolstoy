@@ -41,7 +41,7 @@ const StyledDialogFooter = styled(DialogFooter)`
 
 const ButtonShowAll = DialogButton.withComponent(Link);
 
-const ButtonClearNotifications = styled(DialogButton)``;
+const ButtonMarkAsViewedNotifications = styled(DialogButton)``;
 
 export default class NotificationsMenu extends PureComponent {
     static propTypes = {
@@ -79,7 +79,11 @@ export default class NotificationsMenu extends PureComponent {
         }
     };
 
-    clearAllNotifications = () => {};
+    markNotificationsAsViewed = () => {
+        this.props.markAllNotificationsOnlineAsViewed({
+            user: 'joseph.kalu'
+        });
+    };
 
     render() {
         const {
@@ -110,15 +114,15 @@ export default class NotificationsMenu extends PureComponent {
                     )}
                 </WrapperActivity>
                 <StyledDialogFooter>
-                    <ButtonClearNotifications
+                    <ButtonMarkAsViewedNotifications
                         data-tooltip={clearTooltip}
                         data-tooltip-html
                         aria-label={tt('data-tooltip.clear_notifications_history')}
                         cancel={1}
-                        onClick={this.clearAllNotifications}
+                        onClick={this.markNotificationsAsViewed}
                     >
                         {tt('dialog.clear')}
-                    </ButtonClearNotifications>
+                    </ButtonMarkAsViewedNotifications>
                     <ButtonShowAll
                         to={`/@${accountName}/activity`}
                         aria-label={tt('dialog.show_all')}

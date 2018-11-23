@@ -8,6 +8,7 @@ import {
 import { hydratedNotificationsSelector } from 'src/app/redux/selectors/notifications';
 
 import NotificationsMenu from './NotificationsMenu';
+import { markAllNotificationsOnlineAsViewed } from 'src/app/redux/actions/notificationsOnline';
 
 const filteredNotificationsSelector = createDeepEqualSelector(
     [entitiesArraySelector('notificationsOnline')],
@@ -28,5 +29,6 @@ export default connect(
             notifications,
             isFetching: notificationsStatus.get('isFetching'),
         })
-    )
+    ),
+    { markAllNotificationsOnlineAsViewed }
 )(NotificationsMenu);
