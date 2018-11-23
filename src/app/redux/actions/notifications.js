@@ -3,11 +3,9 @@ import {
     NOTIFICATION_GET_HISTORY,
     NOTIFICATION_GET_HISTORY_SUCCESS,
     NOTIFICATION_GET_HISTORY_ERROR,
-
     NOTIFICATION_GET_HISTORY_FRESH,
     NOTIFICATION_GET_HISTORY_FRESH_SUCCESS,
     NOTIFICATION_GET_HISTORY_FRESH_ERROR,
-
     NOTIFICATION_MARK_ALL_AS_VIEWED,
     NOTIFICATION_MARK_ALL_AS_VIEWED_SUCCESS,
     NOTIFICATION_MARK_ALL_AS_VIEWED_ERROR,
@@ -52,7 +50,7 @@ export function getNotificationsHistoryFreshCount({ user = null } = {}) {
     };
 }
 
-export function notifyMarkAllAsViewed({ user = null } = {}) {
+export function markAllNotificationsAsViewed({ user = null } = {}) {
     return {
         type: GATE_SEND_MESSAGE,
         payload: {

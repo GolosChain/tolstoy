@@ -26,7 +26,7 @@ const Date = styled.div`
 `;
 
 const Empty = styled.div`
-    margin: 20px;
+    padding: 20px;
 `;
 
 export default class ActivityList extends Component {

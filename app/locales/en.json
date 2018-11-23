@@ -221,6 +221,7 @@
     "you_need_to": "You need to "
   },
   "data-tooltip": {
+    "clear_notifications_history": "Mark all notifications as read",
     "grid": "Grid",
     "list": "List"
   },
@@ -236,6 +237,7 @@
   },
   "dialog": {
     "alert": "Alert",
+    "clear": "Clear",
     "confirm": "Confirmation",
     "disliked": "Disliked post",
     "info": "Information",

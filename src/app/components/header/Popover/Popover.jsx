@@ -18,7 +18,6 @@ const Root = styled.div`
     animation: fade-in 0.15s;
 
     ${is('notificationMobile')`
-        top: 56px;
         width: 100%;
         border-radius: 0;
     `};

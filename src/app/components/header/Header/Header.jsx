@@ -39,8 +39,6 @@ const Fixed = styled.div`
     ${is('mobile')`
         position: relative;
         
-        height: 56px;
-        
         border: none;
     `};
 `;

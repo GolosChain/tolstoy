@@ -66,15 +66,17 @@ export const DialogButton = styled.button`
     cursor: pointer;
     outline: none;
 
+    transition: background 0.3s ease, color 0.3s ease;
+
     :not(:last-child) {
-        margin-right: -1px;
+        margin-right: 1px;
 
         &::after {
             content: '';
             position: absolute;
             top: 7px;
             bottom: 7px;
-            right: 0;
+            right: -1px;
             width: 1px;
             background: #f3f3f3;
         }
@@ -97,14 +99,28 @@ export const DialogButton = styled.button`
 
         &:hover,
         &:focus {
+          color: #2879ff;
           background: #ddebff;
         }
-    `} ${is('warning')`
+    `};
+
+    ${is('warning')`
         color: #ff4641;
 
         &:hover,
         &:focus {
+          color: #ff4641;
           background: #ffe3dd;
+        }
+    `};
+
+    ${is('cancel')`
+        color: #b7b7ba;
+
+        &:hover,
+        &:focus {
+          color: #3a3a3a;
+          background: transparent;
         }
     `};
 `;

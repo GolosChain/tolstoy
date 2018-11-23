@@ -39,7 +39,9 @@ const StyledDialogFooter = styled(DialogFooter)`
     margin: 0;
 `;
 
-const DialogButtonLink = DialogButton.withComponent(Link);
+const ButtonShowAll = DialogButton.withComponent(Link);
+
+const ButtonMarkAsViewedNotifications = styled(DialogButton)``;
 
 export default class NotificationsMenu extends PureComponent {
     static propTypes = {
@@ -77,6 +79,13 @@ export default class NotificationsMenu extends PureComponent {
         }
     };
 
+    markNotificationsAsViewed = () => {
+        const { authorizedUsername, markAllNotificationsAsViewed } = this.props;
+        markAllNotificationsAsViewed({
+            user: authorizedUsername,
+        });
+    };
+
     render() {
         const {
             isFetching,
@@ -85,6 +94,10 @@ export default class NotificationsMenu extends PureComponent {
             isMobile,
             params: { accountName },
         } = this.props;
+
+        const clearTooltip = `<div style="text-align: center">${tt(
+            'data-tooltip.clear_notifications_history'
+        )}</div>`;
 
         return (
             <Wrapper mobile={isMobile}>
@@ -104,9 +117,22 @@ export default class NotificationsMenu extends PureComponent {
                     )}
                 </WrapperActivity>
                 <StyledDialogFooter>
-                    <DialogButtonLink primary={1} to={`/@${accountName}/activity`}>
-                        {tt('g.show_more')}
-                    </DialogButtonLink>
+                    <ButtonMarkAsViewedNotifications
+                        data-tooltip={clearTooltip}
+                        data-tooltip-html
+                        aria-label={tt('data-tooltip.clear_notifications_history')}
+                        cancel={1}
+                        onClick={this.markNotificationsAsViewed}
+                    >
+                        {tt('dialog.clear')}
+                    </ButtonMarkAsViewedNotifications>
+                    <ButtonShowAll
+                        to={`/@${accountName}/activity`}
+                        aria-label={tt('dialog.show_all')}
+                        primary={1}
+                    >
+                        {tt('dialog.show_all')}
+                    </ButtonShowAll>
                 </StyledDialogFooter>
             </Wrapper>
         );
