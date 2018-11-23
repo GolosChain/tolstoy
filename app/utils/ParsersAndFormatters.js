@@ -198,7 +198,7 @@ export function detransliterate(str, reverse) {
     return str;
 }
 
-export const validateTransferQuery = location => {
+export function validateTransferQuery(location) {
     const { pathname, query } = location;
 
     if (
@@ -210,7 +210,7 @@ export const validateTransferQuery = location => {
         const to = query.to.toLowerCase();
 
         let amount = '';
-        if (/^[0-9]+\.?[0-9]+$/.test(query.amount)) {
+        if (/^[0-9]+(?:\.[0-9]+)?$/.test(query.amount)) {
             amount = parseFloat(query.amount).toFixed(3);
         }
 
@@ -234,4 +234,4 @@ export const validateTransferQuery = location => {
     } else {
         return null;
     }
-};
+}

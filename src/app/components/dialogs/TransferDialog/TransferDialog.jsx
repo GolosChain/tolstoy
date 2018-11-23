@@ -145,10 +145,12 @@ class TransferDialog extends PureComponent {
             amount = props.amount;
         }
 
-        let currency = getValue(CURRENCY_SAVE_KEY, [CURRENCIES.GBG, CURRENCIES.GOLOS]) || CURRENCIES.GOLOS;
+        let currency;
 
         if (props.type === 'query' && props.token) {
             currency = props.token;
+        } else {
+            currency = getValue(CURRENCY_SAVE_KEY, [CURRENCIES.GBG, CURRENCIES.GOLOS]) || CURRENCIES.GOLOS;
         }
 
         this.state = {
