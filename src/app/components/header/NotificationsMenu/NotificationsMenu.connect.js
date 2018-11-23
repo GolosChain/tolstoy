@@ -7,9 +7,8 @@ import {
     statusSelector,
 } from 'src/app/redux/selectors/common';
 import { hydratedNotificationsSelector } from 'src/app/redux/selectors/notifications';
-
-import NotificationsMenu from './NotificationsMenu';
 import { markAllNotificationsOnlineAsViewed } from 'src/app/redux/actions/notificationsOnline';
+import NotificationsMenu from './NotificationsMenu';
 
 const filteredNotificationsSelector = createDeepEqualSelector(
     [entitiesArraySelector('notificationsOnline')],
