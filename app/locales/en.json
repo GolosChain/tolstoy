@@ -220,7 +220,7 @@
     "you_need_to": "You need to "
   },
   "data-tooltip": {
-    "clear_notifications_history": "All notifications will mark as viewed and notification's meter will set in 0",
+    "clear_notifications_history": "Mark all notifications as read",
     "grid": "Grid",
     "list": "List"
   },

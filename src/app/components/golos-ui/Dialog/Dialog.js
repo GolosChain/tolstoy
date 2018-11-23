@@ -66,7 +66,7 @@ export const DialogButton = styled.button`
     cursor: pointer;
     outline: none;
 
-    transition: all 0.3s ease 0s;
+    transition: background 0.3s ease, color 0.3s ease;
 
     :not(:last-child) {
         margin-right: 1px;
