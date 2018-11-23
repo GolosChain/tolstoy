@@ -89,7 +89,7 @@ export default class CommentsHeader extends Component {
 
     state = {
         showPopover: false,
-        sortCategory: tt('post_jsx.popularity'),
+        sortCategory: tt('post_jsx.first_old'),
     };
 
     closePopover = e => {
@@ -108,8 +108,8 @@ export default class CommentsHeader extends Component {
         });
     };
 
-    changeSortCategory = (category) => {
-        this.setState({sortCategory: tt(`post_jsx.${category}`)});
+    changeSortCategory = category => {
+        this.setState({ sortCategory: tt(`post_jsx.${category}`) });
     };
 
     render() {
@@ -128,20 +128,28 @@ export default class CommentsHeader extends Component {
                         {showPopover ? (
                             <CustomPopover show onClose={this.closePopover} withArrow={false}>
                                 <SortWrapper onClick={this.closePopover}>
-                                    <SortLine to={`${pathname}?sort=trending#comments`}
-                                              onClick={() => this.changeSortCategory('popularity')}>
+                                    <SortLine
+                                        to={`${pathname}?sort=trending#comments`}
+                                        onClick={() => this.changeSortCategory('popularity')}
+                                    >
                                         {tt('post_jsx.popularity')}
                                     </SortLine>
-                                    <SortLine to={`${pathname}?sort=votes#comments`}
-                                              onClick={() => this.changeSortCategory('voices')}>
+                                    <SortLine
+                                        to={`${pathname}?sort=votes#comments`}
+                                        onClick={() => this.changeSortCategory('voices')}
+                                    >
                                         {tt('post_jsx.voices')}
                                     </SortLine>
-                                    <SortLine to={`${pathname}?sort=new#comments`}
-                                              onClick={() => this.changeSortCategory('first_new')}>
+                                    <SortLine
+                                        to={`${pathname}?sort=new#comments`}
+                                        onClick={() => this.changeSortCategory('first_new')}
+                                    >
                                         {tt('post_jsx.first_new')}
                                     </SortLine>
-                                    <SortLine to={`${pathname}?sort=old#comments`}
-                                              onClick={() => this.changeSortCategory('first_old')}>
+                                    <SortLine
+                                        to={`${pathname}?sort=old#comments`}
+                                        onClick={() => this.changeSortCategory('first_old')}
+                                    >
                                         {tt('post_jsx.first_old')}
                                     </SortLine>
                                 </SortWrapper>

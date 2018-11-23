@@ -13,7 +13,7 @@ export function getSortFunction(sortOrder, commentsFullData) {
         const commentA = commentsFullData[a.url];
         const commentB = commentsFullData[b.url];
 
-        if (sortOrder !== 'votes') {
+        if (sortOrder && sortOrder !== 'votes') {
             if (netNegative(commentA)) {
                 return 1;
             } else if (netNegative(commentB)) {
