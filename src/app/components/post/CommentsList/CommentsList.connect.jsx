@@ -7,7 +7,7 @@ import { CommentsList } from 'src/app/components/post/CommentsList/CommentsList'
 import { commentsArrayToObject, getSortFunction } from 'src/app/helpers/comments';
 import { locationSelector } from 'src/app/redux/selectors/app/location';
 
-function buildCommentsStructure(commentsFromStore, postPermLink, sortBy) {
+function buildCommentsStructure(commentsFromStore, postPermLink, sortBy = 'old') {
     const commentsFullData = commentsArrayToObject([...commentsFromStore.toJS()]);
 
     const result = [];
