@@ -172,7 +172,7 @@ function* error_account_witness_vote({ operation: { account, witness, approve } 
 }
 
 /** Keys, username, and password are not needed for the initial call.  This will check the login and may trigger an action to prompt for the password / key. */
-function* broadcastOperation({
+export function* broadcastOperation({
     payload: {
         type,
         operation,
@@ -195,43 +195,48 @@ function* broadcastOperation({
         }
     }
 
-    const payload = {
-        operations: [[type, operation]],
-        keys,
-        username,
-        hideErrors,
-        successCallback,
-        errorCallback,
-    };
+    if (!keys) {
+        keys = [];
+    }
 
     try {
-        if (!keys || keys.length === 0) {
-            payload.keys = [];
-            // user may already be logged in, or just enterend a signing passowrd or wif
+        if (!keys.length) {
+            // user may already be logged in, or just entered a signing password or wif
             const signingKey = yield call(findSigningKey, { opType: type, username, password });
 
             if (signingKey) {
-                payload.keys.push(signingKey);
-            } else {
-                if (!password) {
-                    yield put(
-                        user.actions.showLogin({
-                            operation: {
-                                type,
-                                operation,
-                                username,
-                                successCallback,
-                                errorCallback,
-                                saveLogin: true,
-                            },
-                        })
-                    );
-                    return;
-                }
+                keys.push(signingKey);
+            } else if (!password) {
+                yield put(
+                    user.actions.showLogin({
+                        loginOperation: {
+                            type,
+                            operation,
+                            username,
+                            successCallback,
+                            errorCallback,
+                            saveLogin: true,
+                        },
+                    })
+                );
+                return;
             }
         }
 
-        yield call(broadcastPayload, { payload });
+        const error = yield call(broadcastPayload, {
+            payload: {
+                operations: [[type, operation]],
+                keys,
+                username,
+                hideErrors,
+                successCallback,
+                errorCallback,
+            },
+        });
+
+        if (error) {
+            return error;
+        }
 
         let eventType = type
             .replace(/^([a-z])/, g => g.toUpperCase())
@@ -249,6 +254,8 @@ function* broadcastOperation({
         if (errorCallback) {
             errorCallback(err.toString());
         }
+
+        return err;
     }
 }
 
@@ -346,6 +353,8 @@ function* broadcastPayload({
                 }
             }
         }
+
+        return err;
     }
 }
 

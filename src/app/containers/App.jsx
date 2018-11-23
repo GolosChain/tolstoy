@@ -44,7 +44,6 @@ export class App extends Component {
         location: PropTypes.object,
         loginUser: PropTypes.func.isRequired,
         logoutUser: PropTypes.func.isRequired,
-        locationChanged: PropTypes.func.isRequired,
     };
 
     state = {
@@ -56,8 +55,6 @@ export class App extends Component {
             window.IS_MOBILE = checkMobileDevice() || window.innerWidth < 765;
             window.INIT_TIMESSTAMP = Date.now();
         }
-
-        this.onLocationChange(this.props);
     }
 
     componentDidMount() {
@@ -78,14 +75,6 @@ export class App extends Component {
     componentDidUpdate(nextProps) {
         if (nextProps.location.pathname !== this.props.location.pathname) {
             this.setState({ showCallout: false });
-        }
-    }
-
-    componentWillReceiveProps(props) {
-        const { location } = this.props;
-
-        if (location.key !== props.location.key || location.action !== props.location.action) {
-            this.onLocationChange(props);
         }
     }
 
@@ -118,10 +107,6 @@ export class App extends Component {
         } else {
             console.log('onEntropyEvent Unknown', e.type, e);
         }
-    }
-
-    onLocationChange(props) {
-        props.locationChanged({ params: props.params, ...props.location });
     }
 
     renderCallout() {

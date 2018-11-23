@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import { currentUsernameSelector, uiSelector } from 'src/app/redux/selectors/common';
+import { currentUsernameSelector, appSelector } from 'src/app/redux/selectors/common';
 import { SidePanel } from 'src/app/containers/post/sidePanel/SidePanel';
 import { onBackClick } from 'src/app/redux/actions/post';
 import { onVote } from 'src/app/redux/actions/vote';
@@ -9,7 +9,7 @@ import { currentPostSelector, authorSelector } from 'src/app/redux/selectors/pos
 
 export default connect(
     createSelector(
-        [currentPostSelector, authorSelector, currentUsernameSelector, uiSelector('location')],
+        [currentPostSelector, authorSelector, currentUsernameSelector, appSelector('location')],
         (post, author, username, location) => {
             const prev = location.get('previous');
             let backURL = null;

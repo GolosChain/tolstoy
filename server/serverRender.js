@@ -6,8 +6,9 @@ import Iso from 'iso';
 import { RouterContext, match } from 'react-router';
 import { api } from 'golos-js';
 import { Helmet } from 'react-helmet';
+
 import RootRoute from 'app/RootRoute';
-import { TITLE_SUFFIX, IGNORE_TAGS, SEO_TITLE } from 'app/client_config';
+import { TITLE_SUFFIX, SEO_TITLE } from 'app/client_config';
 import NotFound from 'app/components/pages/NotFound';
 import getState from 'server/StateBuilder';
 import { routeRegex } from 'app/ResolveRoute';
@@ -16,13 +17,13 @@ import rootReducer from 'app/redux/reducers';
 import Translator from 'app/Translator';
 import extractMeta from 'app/utils/ExtractMeta';
 
-export default async function serverRender({ location, offchain, ErrorPage, settings, rates }) {
+export default async function serverRender({ uri, offchain, ErrorPage, settings, rates }) {
     let error, redirect, renderProps;
 
     try {
-        [error, redirect, renderProps] = await runRouter(location, RootRoute);
+        [error, redirect, renderProps] = await runRouter(uri, RootRoute);
     } catch (e) {
-        console.error('Routing error:', e.toString(), location);
+        console.error('Routing error:', e.toString(), uri);
         return {
             title: 'Routing error | ' + TITLE_SUFFIX,
             statusCode: 500,
@@ -39,23 +40,17 @@ export default async function serverRender({ location, offchain, ErrorPage, sett
     }
 
     // below is only executed on the server
-    let serverStore, onchain;
+    let serverStore, initialState;
     try {
-        let url = location === '/' ? 'trending' : location;
-        // Replace /curation-rewards and /author-rewards with /transfers for UserProfile to resolve data correctly
-        if (url.indexOf('/curation-rewards') !== -1)
-            url = url.replace(/\/curation-rewards$/, '/transfers');
-        if (url.indexOf('/author-rewards') !== -1)
-            url = url.replace(/\/author-rewards$/, '/transfers');
+        // uri = uri === '/' ? 'trending' : uri;
 
-        const options = { IGNORE_TAGS };
-
-        onchain = await getState(api, url, options, offchain, settings);
+        const { location } = renderProps;
+        initialState = await getState(api, location, { offchain, settings, rates });
 
         // protect for invalid account
         if (
-            Object.getOwnPropertyNames(onchain.accounts).length === 0 &&
-            (location.match(routeRegex.UserProfile1) || location.match(routeRegex.UserProfile3))
+            Object.getOwnPropertyNames(initialState.global.accounts).length === 0 &&
+            (uri.match(routeRegex.UserProfile1) || uri.match(routeRegex.UserProfile3))
         ) {
             return {
                 title: 'User Not Found | ' + TITLE_SUFFIX,
@@ -65,10 +60,9 @@ export default async function serverRender({ location, offchain, ErrorPage, sett
         }
 
         // If we are not loading a post, truncate state data to bring response size down.
-        if (!url.match(routeRegex.Post)) {
-            for (let key in onchain.content) {
-                const post = onchain.content[key];
-                //onchain.content[key]['body'] = onchain.content[key]['body'].substring(0, 1024) // TODO: can be removed. will be handled by steemd
+        if (!uri.match(routeRegex.Post)) {
+            for (let key in initialState.global.content) {
+                const post = initialState.global.content[key];
                 // Count some stats then remove voting data. But keep current user's votes. (#1040)
                 post.stats = contentStats(post);
                 post.votesSummary = calcVotesStats(post['active_votes'], offchain.account);
@@ -79,16 +73,16 @@ export default async function serverRender({ location, offchain, ErrorPage, sett
         }
 
         if (
-            !url.match(routeRegex.PostsIndex) &&
-            !url.match(routeRegex.UserProfile1) &&
-            !url.match(routeRegex.UserProfile2) &&
-            url.match(routeRegex.PostNoCategory)
+            !uri.match(routeRegex.PostsIndex) &&
+            !uri.match(routeRegex.UserProfile1) &&
+            !uri.match(routeRegex.UserProfile2) &&
+            uri.match(routeRegex.PostNoCategory)
         ) {
-            const params = url.substr(2, url.length - 1).split('/');
+            const params = uri.substr(2, uri.length - 1).split('/');
             const content = await api.getContentAsync(params[0], params[1], undefined);
             if (content.author && content.permlink) {
-                // valid short post url
-                onchain.content[url.substr(2, url.length - 1)] = content;
+                // valid short post uri
+                initialState.global.content[uri.substr(2, uri.length - 1)] = content;
             } else {
                 // protect on invalid user pages (i.e /user/transferss)
                 return {
@@ -99,28 +93,14 @@ export default async function serverRender({ location, offchain, ErrorPage, sett
             }
         }
 
-        offchain.server_location = location;
-        const initialState = {
-            global: onchain,
-            offchain,
-            data: {
-                rates: {
-                    actual: rates,
-                    dates: [],
-                },
-            },
-        };
-
-        if (settings) {
-            initialState.data.settings = settings;
-        }
+        initialState.offchain.server_location = uri;
 
         serverStore = createStore(rootReducer, initialState);
-        serverStore.dispatch({ type: '@@router/LOCATION_CHANGE', payload: { pathname: location } });
+        serverStore.dispatch({ type: '@@router/LOCATION_CHANGE', payload: { pathname: uri } });
     } catch (e) {
         // Ensure 404 page when username not found
-        if (location.match(routeRegex.UserProfile1)) {
-            console.error('User/not found: ', location);
+        if (uri.match(routeRegex.UserProfile1)) {
+            console.error('User/not found: ', uri);
             return {
                 title: 'Page Not Found | ' + TITLE_SUFFIX,
                 statusCode: 404,
@@ -149,7 +129,7 @@ export default async function serverRender({ location, offchain, ErrorPage, sett
             </Provider>
         );
         helmet = Helmet.renderStatic();
-        meta = extractMeta(onchain, renderProps.params);
+        meta = extractMeta(initialState.global, renderProps.params);
         status = 200;
     } catch (err) {
         console.error('Rendering error: ', err, err.stack);

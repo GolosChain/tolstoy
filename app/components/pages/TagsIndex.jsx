@@ -65,7 +65,7 @@ class TagsIndex extends React.Component {
             return this.compareTags(a, b, order)
         }).map(tag => {
             let name = tag.get('name');
-            const link = `/trending/${name}`;
+            const link = `/trending?tags=${name}`;
 
             if (/[а-яёґєії]/.test(name)) {
               name = 'ru--' + detransliterate(name.toLowerCase(), true)

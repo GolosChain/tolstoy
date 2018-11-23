@@ -63,6 +63,7 @@
     "header_logo": "Логотип golos.io",
     "likers_list": "Проголосовали за: %(count)s",
     "notifications": "Уведомления. Количество: %(count)s",
+    "reset_tags": "Сбросить тэги",
     "share_on_facebook": "Поделиться на Facebook",
     "share_on_lj": "Поделиться на LiveJournal",
     "share_on_twitter": "Поделиться в Twitter",

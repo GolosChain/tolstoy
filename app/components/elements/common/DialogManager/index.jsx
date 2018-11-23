@@ -111,6 +111,7 @@ export default class DialogManager extends React.PureComponent {
         forceSave,
         isConfirm,
         operationType,
+        loginOperation,
         strictAuthType,
         onClose,
     } = {}) {
@@ -121,6 +122,7 @@ export default class DialogManager extends React.PureComponent {
                 isConfirm,
                 forceSave,
                 operationType,
+                loginOperation,
                 strictAuthType,
             },
             onClose,

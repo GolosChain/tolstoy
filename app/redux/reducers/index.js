@@ -1,6 +1,6 @@
 import { Map, fromJS } from 'immutable';
 import { combineReducers, __DO_NOT_USE__ActionTypes as ActionTypes } from 'redux';
-import { routerReducer } from 'react-router-redux/lib';
+import { routerReducer } from 'react-router-redux';
 
 import { contentStats } from 'app/utils/StateFunctions';
 

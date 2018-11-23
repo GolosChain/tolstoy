@@ -7,6 +7,7 @@ import { PrivateKey, Signature, hash } from 'golos-js/lib/auth/ecc';
 import { accountAuthLookup } from 'app/redux/sagas/auth';
 import user from 'app/redux/User';
 import { getAccount } from 'app/redux/sagas/shared';
+import { broadcastOperation } from 'app/redux/sagas/transaction';
 import { serverApiLogin, serverApiLogout } from 'app/utils/ServerApiClient';
 import { serverApiRecordEvent } from 'app/utils/ServerApiClient';
 import { loadFollows } from 'app/redux/sagas/follow';
@@ -87,6 +88,20 @@ function* tryAutoLogin() {
 }
 
 function* usernamePasswordLogin({ payload }) {
+    if (payload.loginOperation) {
+        const error = yield call(broadcastOperation, {
+            payload: {
+                ...payload.loginOperation,
+                username: payload.username,
+                password: payload.password,
+            },
+        });
+
+        if (error) {
+            return;
+        }
+    }
+
     if (yield isNeedSkipLogin()) {
         return;
     }

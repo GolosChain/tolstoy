@@ -64,22 +64,19 @@ export function processTagsFromData(tags) {
 }
 
 function isCyrillicTag(tag) {
-    return /[а-яёґєії]/.test(tag)
+    return /[а-яёґєії]/.test(tag);
 }
 
 function startsWithRU(tag) {
-    return /ru--/.test(tag)
+    return /ru--/.test(tag);
 }
 
 function processCyrillicTag(tag) {
-    return `ru--${detransliterate(tag, true)}`
+    return `ru--${detransliterate(tag, true)}`;
 }
 
 export function processTagsToSend(tags) {
-    return tags.map(
-        item =>
-            isCyrillicTag(item) ? processCyrillicTag(item) : item
-    );
+    return tags.map(item => (isCyrillicTag(item) ? processCyrillicTag(item) : item));
 }
 
 function loadFavoriteTags() {
@@ -131,24 +128,34 @@ export function updateFavoriteTags(tags) {
 
 export function reverseTag(tag) {
     if (isCyrillicTag(tag)) {
-        return processCyrillicTag(tag)
-    } else if (startsWithRU(tag)){
-        return detransliterate(tag)
+        return processCyrillicTag(tag);
+    } else if (startsWithRU(tag)) {
+        return detransliterate(tag);
     }
 }
 
-export function prepareTrendingTags(tags) {
-    const t_tags = new Set()
-    tags
-        .map(t => {
-            t_tags.add(
-                startsWithRU(t.name)
-                    ? detransliterate(t.name)
-                    : t.name
-            )
-        })
+export function reverseTags(tags) {
+    const newTags = [];
 
-    return Array.from(t_tags)
+    for (let t of tags) {
+        newTags.push(t);
+
+        const reversed = reverseTag(t);
+        if (reversed) {
+            newTags.push(reversed);
+        }
+    }
+
+    return newTags;
+}
+
+export function prepareTrendingTags(tags) {
+    const t_tags = new Set();
+    tags.map(t => {
+        t_tags.add(startsWithRU(t.name) ? detransliterate(t.name) : t.name);
+    });
+
+    return Array.from(t_tags);
 }
 
 if (process.env.BROWSER) {

@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import { App } from 'src/app/containers/App';
 import { createSelector } from 'reselect';
 
-import { locationChanged } from 'src/app/redux/actions/ui';
 import user from 'app/redux/User';
 import {
     newVisitorSelector,
@@ -22,6 +21,5 @@ export default connect(
     {
         loginUser: () => user.actions.autoLogin({}),
         logoutUser: user.actions.logout,
-        locationChanged,
     }
 )(App);

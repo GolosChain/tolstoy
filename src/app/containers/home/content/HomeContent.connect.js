@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { Map } from 'immutable';
 
 import constants from 'app/redux/constants';
 import {
@@ -7,10 +6,9 @@ import {
     globalSelector,
     appSelector,
     currentUsernameSelector,
-    dataSelector,
     uiSelector,
 } from 'src/app/redux/selectors/common';
-import { TAGS_FILTER_TYPES } from 'src/app/redux/constants/common';
+import { locationTagsSelector } from 'src/app/redux/selectors/app/location';
 
 import HomeContent from './HomeContent';
 
@@ -22,12 +20,10 @@ export default connect(
             globalSelector('status'),
             appSelector('loading'),
             globalSelector('fetching'),
-
             globalSelector('discussion_idx'),
-            globalSelector('accounts'),
             uiSelector('profile', 'layout', DEFAULT_LAYOUT),
-            dataSelector('settings'),
             currentUsernameSelector,
+            locationTagsSelector,
             (_, props) => props.routeParams,
         ],
         (
@@ -35,10 +31,9 @@ export default connect(
             loading,
             fetching,
             discussions,
-            accounts,
             layout,
-            settings,
             currentUsername,
+            { tagsStr },
             { category = '', order = constants.DEFAULT_SORT_ORDER }
         ) => {
             if (category === 'feed') {
@@ -46,26 +41,9 @@ export default connect(
                 order = 'feed';
             }
 
-            const selectedTags = settings.getIn(['basic', 'selectedTags'], Map());
-            const selectedSelectTags = selectedTags
-                .filter(tag => tag === TAGS_FILTER_TYPES.SELECT)
-                .keySeq()
-                .sort()
-                .join('/');
-            const selectedFilterTags = selectedTags
-                .filter(tag => tag === TAGS_FILTER_TYPES.EXCLUDE)
-                .keySeq()
-                .sort()
-                .join('/');
+            const posts = discussions.getIn([tagsStr, order]);
 
-            let joinedTags = selectedSelectTags;
-            if (selectedFilterTags) {
-                joinedTags += `|${selectedFilterTags}`;
-            }
-
-            const posts = discussions.getIn([category || joinedTags, order]);
-
-            const status = globalStatus && globalStatus.getIn([category, order], null);
+            const status = globalStatus && globalStatus.getIn([tagsStr, order], null);
             const isFetching = (status && status.fetching) || loading || fetching || false;
 
             return {

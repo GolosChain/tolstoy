@@ -8,11 +8,11 @@ import { saveTag } from 'src/app/redux/actions/tags';
 import {
     createDeepEqualSelector,
     uiSelector,
-    dataSelector,
     currentUsernameSelector,
     globalSelector,
     routeParamSelector,
 } from 'src/app/redux/selectors/common';
+import { locationTagsSelector } from 'src/app/redux/selectors/app/location';
 import { COUNT_OF_TAGS } from 'src/app/redux/constants/common';
 
 import TagsCard from './TagsCard';
@@ -23,13 +23,13 @@ export default connect(
     createDeepEqualSelector(
         [
             uiSelector('home'),
-            dataSelector('settings'),
             currentUsernameSelector,
             globalSelector(['tag_idx', 'trending'], emptyList),
             routeParamSelector('category', ''),
             routeParamSelector('order', constants.DEFAULT_SORT_ORDER),
+            locationTagsSelector,
         ],
-        (uiHome, settings, currentUsername, trendingTags, category, order) => {
+        (uiHome, currentUsername, trendingTags, category, order, { tagsSelect, tagsFilter }) => {
             if (category === 'feed') {
                 category = '';
                 order = 'feed';
@@ -55,7 +55,8 @@ export default connect(
                 order,
                 tags,
                 currentUsername,
-                selectedTags: settings.getIn(['basic', 'selectedTags'], Map()),
+                tagsSelect,
+                tagsFilter,
                 collapsed,
                 order,
             };

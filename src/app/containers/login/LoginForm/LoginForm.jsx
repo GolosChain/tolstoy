@@ -163,6 +163,7 @@ export class LoginForm extends Component {
         isConfirm: PropTypes.bool,
         forceSave: PropTypes.bool,
         operationType: PropTypes.string,
+        loginOperation: PropTypes.object,
         strictAuthType: PropTypes.bool,
         loginError: PropTypes.string,
         loginCanceled: PropTypes.func.isRequired,
@@ -222,7 +223,7 @@ export class LoginForm extends Component {
     };
 
     submit = async () => {
-        const { isConfirm, strictAuthType, forceSave } = this.props;
+        const { isConfirm, strictAuthType, loginOperation, forceSave } = this.props;
         const { username, password, activeConfirmed } = this.state;
 
         if (
@@ -251,15 +252,14 @@ export class LoginForm extends Component {
             name = name.replace(/\/.+$/, '');
         }
 
-        const data = {
+        this.props.dispatchLogin({
             username: name,
             password,
             saveLogin: forceSave || this.state.saveCredentials,
             isLogin: !isConfirm,
+            loginOperation,
             isConfirm,
-        };
-
-        this.props.dispatchLogin(data);
+        });
     };
 
     onFormSubmit = e => {
