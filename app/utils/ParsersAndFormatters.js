@@ -1,4 +1,5 @@
 import tt from 'counterpart';
+import { has } from 'ramda';
 
 function fractionalPartLen(value) {
     const parts = Number(value)
@@ -196,3 +197,41 @@ export function detransliterate(str, reverse) {
 
     return str;
 }
+
+export const validateTransferQuery = location => {
+    const { pathname, query } = location;
+
+    if (
+        pathname.endsWith('/transfers') &&
+        has('to', query) &&
+        has('amount', query) &&
+        has('token', query)
+    ) {
+        let to = query.to.toLowerCase();
+
+        let amount = '';
+        if (/^[0-9]+\.?[0-9]+$/.test(query.amount)) {
+            amount = parseFloat(query.amount).toFixed(3);
+        }
+
+        let token = '';
+        const upperCaseToken = query.token.toUpperCase();
+        if (/\b(GOLOS|GBG)\b/.test(upperCaseToken)) {
+            token = upperCaseToken;
+        }
+
+        let memo = '';
+        if (has('memo', query)) {
+            memo = query.memo;
+        }
+
+        return {
+            to,
+            amount,
+            token,
+            memo,
+        };
+    } else {
+        return null;
+    }
+};

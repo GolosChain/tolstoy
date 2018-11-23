@@ -108,11 +108,14 @@ const ErrorLine = styled.div`
 
 class TransferDialog extends PureComponent {
     static propTypes = {
-        type: PropTypes.oneOf(['donate']),
+        type: PropTypes.oneOf(['donate', 'query']),
         toAccountName: PropTypes.string.isRequired,
         donatePostUrl: PropTypes.string,
         showNotification: PropTypes.func.isRequired,
         onClose: PropTypes.func.isRequired,
+        amount: PropTypes.string,
+        token: PropTypes.string,
+        memo: PropTypes.string,
     };
 
     constructor(props) {
@@ -132,12 +135,27 @@ class TransferDialog extends PureComponent {
             });
         }
 
+        if (props.type === 'query' && props.memo) {
+            note = props.memo;
+        }
+
+        let amount = '';
+
+        if (props.type === 'query' && props.amount) {
+            amount = props.amount;
+        }
+
+        let currency = getValue(CURRENCY_SAVE_KEY, [CURRENCIES.GBG, CURRENCIES.GOLOS]) || CURRENCIES.GOLOS;
+
+        if (props.type === 'query' && props.token) {
+            currency = props.token;
+        }
+
         this.state = {
             target,
             initialTarget: Boolean(target),
-            amount: '',
-            currency:
-                getValue(CURRENCY_SAVE_KEY, [CURRENCIES.GBG, CURRENCIES.GOLOS]) || CURRENCIES.GOLOS,
+            amount,
+            currency,
             note,
             amountInFocus: false,
             loader: false,

@@ -8,6 +8,7 @@ import {
     pageAccountSelector,
     globalSelector,
 } from 'src/app/redux/selectors/common';
+import { openTransferDialog } from 'src/app/redux/actions/dialogs';
 import { setWalletTabState, setWalletTabsState } from 'src/app/redux/actions/ui';
 import { uiSelector } from 'src/app/redux/selectors/common';
 
@@ -68,6 +69,16 @@ export default connect(
         },
         setWalletTabsState: tabs => {
             dispatch(setWalletTabsState(tabs));
+        },
+        openTransferDialog: ({ to, amount, token, memo }) => {
+            dispatch(
+                openTransferDialog(to, {
+                    type: 'query',
+                    amount,
+                    token,
+                    memo,
+                })
+            );
         },
     })
 )(WalletContent);
