@@ -207,7 +207,7 @@ export const validateTransferQuery = location => {
         has('amount', query) &&
         has('token', query)
     ) {
-        let to = query.to.toLowerCase();
+        const to = query.to.toLowerCase();
 
         let amount = '';
         if (/^[0-9]+\.?[0-9]+$/.test(query.amount)) {
