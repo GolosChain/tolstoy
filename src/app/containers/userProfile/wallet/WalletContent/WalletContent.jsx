@@ -1,5 +1,4 @@
 import React, { Component, createRef } from 'react';
-import { browserHistory } from 'react-router';
 import throttle from 'lodash/throttle';
 import styled from 'styled-components';
 import tt from 'counterpart';
@@ -11,6 +10,7 @@ import Card from 'golos-ui/Card';
 import { APP_DOMAIN, DONATION_FOR } from 'app/client_config';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import { vestsToGolos, vestsToGolosEasy } from 'app/utils/StateFunctions';
+import { validateTransferQuery } from 'app/utils/ParsersAndFormatters';
 import WalletTabs from 'src/app/components/userProfile/wallet/WalletTabs';
 import WalletLine from 'src/app/components/userProfile/wallet/WalletLine';
 import PowerDownLine from 'src/app/components/wallet/PowerDownLine';
@@ -105,6 +105,12 @@ export default class WalletContent extends Component {
 
     componentDidMount() {
         this.loadDelegationsData();
+
+        const transferQuery = validateTransferQuery(this.props.location);
+
+        if (transferQuery) {
+            this.props.openTransferDialog(transferQuery);
+        }
 
         window.addEventListener('scroll', this.onScrollLazy);
     }
