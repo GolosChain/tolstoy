@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { pathnameSelector } from 'src/app/redux/selectors/ui/location';
+import { pathnameSelector } from 'src/app/redux/selectors/app/location';
 
 import Navigation from './Navigation';
 

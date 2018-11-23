@@ -7,7 +7,7 @@ import {
     currentUsernameSelector,
 } from 'src/app/redux/selectors/common';
 import { saveListScrollPosition } from 'src/app/redux/actions/ui';
-import { locationSelector } from 'src/app/redux/selectors/ui/location';
+import { locationSelector } from 'src/app/redux/selectors/app/location';
 
 import CardsList from './CardsList';
 

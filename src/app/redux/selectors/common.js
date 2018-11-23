@@ -41,7 +41,7 @@ export const uiSelector = (namespace, path, defaultValue) => state => {
 
 export const routerParamSelector = name => (state, props) => props.params[name];
 export const routeParamSelector = (name, defaultValue) => state =>
-    state.ui.location.getIn(['current', 'params', name], defaultValue);
+    state.app.getIn(['location', 'current', 'params', name], defaultValue);
 // Entities selectors
 
 // Возвращает сущности определенного типа (type) в виде массива.

@@ -314,7 +314,7 @@ function linkify(state, content) {
             return tag;
         }
 
-        return space + `<a href="/trending/${tagLower}">${tag}</a>`;
+        return space + `<a href="/trending?tags=${tagLower}">${tag}</a>`;
     });
 
     // usertag (mention)

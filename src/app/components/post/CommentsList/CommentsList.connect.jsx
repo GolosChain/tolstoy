@@ -5,7 +5,7 @@ import { commentsSelector } from 'src/app/redux/selectors/post/commonPost';
 import { saveListScrollPosition } from 'src/app/redux/actions/ui';
 import { CommentsList } from 'src/app/components/post/CommentsList/CommentsList';
 import { commentsArrayToObject, getSortFunction } from 'src/app/helpers/comments';
-import { locationSelector } from 'src/app/redux/selectors/ui/location';
+import { locationSelector } from 'src/app/redux/selectors/app/location';
 
 function buildCommentsStructure(commentsFromStore, postPermLink, sortBy) {
     const commentsFullData = commentsArrayToObject([...commentsFromStore.toJS()]);
@@ -66,7 +66,7 @@ export default connect(
             const structuredComments = buildCommentsStructure(
                 comments,
                 postPermLink,
-                location.query.sort
+                location.getIn(['query', 'sort'])
             );
 
             return {

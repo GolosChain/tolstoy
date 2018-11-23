@@ -102,7 +102,7 @@ async function appRender(ctx) {
 
         const start = new Date();
         const { body, statusCode, title, meta, helmet } = await serverRender({
-            location: ctx.request.url,
+            uri: ctx.request.url,
             offchain,
             ErrorPage,
             settings,

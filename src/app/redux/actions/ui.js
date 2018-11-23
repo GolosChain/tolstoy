@@ -1,6 +1,5 @@
 import {
     UI_COMMON_SAVE_SCROLL_POSITION,
-    UI_LOCATION_CHANGED,
     UI_PROFILE_CHANGE_LAYOUT,
     UI_PROFILE_ACTIVITY_CHANGE_TAB,
     UI_HOME_TAGS_CARD_COLLAPSE,
@@ -12,16 +11,6 @@ export function saveListScrollPosition(y) {
     return {
         type: UI_COMMON_SAVE_SCROLL_POSITION,
         payload: { y },
-    };
-}
-
-export function locationChanged(location) {
-    return {
-        type: UI_LOCATION_CHANGED,
-        payload: {
-            ...location,
-            ts: Date.now(),
-        },
     };
 }
 

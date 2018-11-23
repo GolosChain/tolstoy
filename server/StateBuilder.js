@@ -1,30 +1,46 @@
-import { pathOr, filter } from 'ramda';
-
 import { processBlog } from 'shared/state';
 import resolveRoute from 'app/ResolveRoute';
-import { reverseTag, prepareTrendingTags } from 'app/utils/tags';
+import { reverseTags, prepareTrendingTags } from 'app/utils/tags';
 import { IGNORE_TAGS, PUBLIC_API } from 'app/client_config';
-import { TAGS_FILTER_TYPES, COUNT_OF_TAGS } from 'src/app/redux/constants/common';
+import { COUNT_OF_TAGS } from 'src/app/redux/constants/common';
 
 const DEFAULT_VOTE_LIMIT = 10000;
 const COUNT_TAGS_ON_PAGE = 250;
 
-export default async function getState(api, url = '/', options, offchain, settings) {
-    const route = resolveRoute(url);
+export default async function getState(
+    api,
+    { pathname = '/', query },
+    { offchain, settings, rates }
+) {
+    pathname = pathname === '/' ? 'trending' : pathname;
+    const route = resolveRoute(pathname);
 
-    const normalizedUrl = url.replace(/^\//, '');
+    const normalizedUrl = pathname.replace(/^\//, '');
     const routeParts = normalizedUrl.split('/');
 
     const state = {
-        current_route: url === '/' ? 'trending' : url, // used for testing
-        props: await api.getDynamicGlobalPropertiesAsync(),
-        categories: {},
-        tags: {},
-        content: {},
-        accounts: {},
-        witnesses: {},
-        discussion_idx: {},
+        global: {
+            current_route: pathname === '/' ? 'trending' : pathname, // used for testing
+            props: await api.getDynamicGlobalPropertiesAsync(),
+            categories: {},
+            tags: {},
+            content: {},
+            accounts: {},
+            witnesses: {},
+            discussion_idx: {},
+        },
+        offchain,
+        data: {
+            rates: {
+                actual: rates,
+                dates: [],
+            },
+        },
     };
+
+    if (settings) {
+        state.data.settings = settings;
+    }
 
     const accounts = new Set();
 
@@ -32,7 +48,7 @@ export default async function getState(api, url = '/', options, offchain, settin
     const tagsLimit = route.page === 'Tags' ? COUNT_TAGS_ON_PAGE : COUNT_OF_TAGS.EXPANDED;
     const trendingTags = await api.getTrendingTagsAsync('', tagsLimit);
 
-    state.tag_idx = {
+    state.global.tag_idx = {
         trending: prepareTrendingTags(trendingTags),
     };
 
@@ -40,7 +56,7 @@ export default async function getState(api, url = '/', options, offchain, settin
 
     if (route.page === 'UserProfile') {
         stateFillerFunction = getStateForProfile;
-    } else if (route.page === 'Post' || route.page === 'PostNoCategory') {
+    } else if (route.page === 'Post') {
         stateFillerFunction = getStateForPost;
     } else if (route.page === 'Witnesses') {
         stateFillerFunction = getStateForWitnesses;
@@ -60,8 +76,7 @@ export default async function getState(api, url = '/', options, offchain, settin
             api,
             trendingTags,
             accounts,
-            options,
-            settings,
+            query,
         });
     }
 
@@ -69,7 +84,7 @@ export default async function getState(api, url = '/', options, offchain, settin
         const accountsData = await api.getAccountsAsync(Array.from(accounts));
 
         for (let accountData of accountsData) {
-            state.accounts[accountData.name] = accountData;
+            state.global.accounts[accountData.name] = accountData;
         }
     }
 
@@ -85,10 +100,10 @@ async function getStateForProfile(state, route, { api }) {
         return;
     }
 
-    state.accounts[username] = account;
+    state.global.accounts[username] = account;
 
-    state.accounts[username].tags_usage = await api.getTagsUsedByAuthorAsync(username);
-    state.accounts[username].guest_bloggers = await api.getBlogAuthorsAsync(username);
+    state.global.accounts[username].tags_usage = await api.getTagsUsedByAuthorAsync(username);
+    state.global.accounts[username].guest_bloggers = await api.getBlogAuthorsAsync(username);
 
     switch (route.params.category) {
         case 'recent-replies':
@@ -99,12 +114,12 @@ async function getStateForProfile(state, route, { api }) {
                 DEFAULT_VOTE_LIMIT
             );
 
-            state.accounts[username].recent_replies = [];
+            state.global.accounts[username].recent_replies = [];
 
             for (let reply of replies) {
                 const link = `${reply.author}/${reply.permlink}`;
-                state.content[link] = reply;
-                state.accounts[username].recent_replies.push(link);
+                state.global.content[link] = reply;
+                state.global.accounts[username].recent_replies.push(link);
             }
             break;
 
@@ -115,19 +130,19 @@ async function getStateForProfile(state, route, { api }) {
                 limit: 20,
             });
 
-            state.accounts[username].comments = [];
+            state.global.accounts[username].comments = [];
 
             for (let comment of comments) {
                 const link = `${comment.author}/${comment.permlink}`;
-                state.content[link] = comment;
-                state.accounts[username].comments.push(link);
+                state.global.content[link] = comment;
+                state.global.accounts[username].comments.push(link);
             }
             break;
 
         case 'blog':
         default:
             try {
-                await processBlog(state, {
+                await processBlog(state.global, {
                     uname: username,
                     voteLimit: DEFAULT_VOTE_LIMIT,
                 });
@@ -144,7 +159,7 @@ async function getStateForPost(state, route, { api, accounts }) {
 
     const url = `${account}/${routeParams.permLink}`;
 
-    state.content[url] = await api.getContentAsync(
+    state.global.content[url] = await api.getContentAsync(
         account,
         routeParams.permLink,
         DEFAULT_VOTE_LIMIT
@@ -161,12 +176,12 @@ async function getStateForPost(state, route, { api, accounts }) {
     for (let reply of replies) {
         const link = `${reply.author}/${reply.permlink}`;
 
-        state.content[link] = reply;
+        state.global.content[link] = reply;
 
         accounts.add(reply.author);
 
         if (reply.parent_permlink === routeParams.permLink) {
-            state.content[url].replies.push(link);
+            state.global.content[url].replies.push(link);
         }
     }
 }
@@ -175,14 +190,16 @@ async function getStateForWitnesses(state, route, { api }) {
     const witnesses = await api.getWitnessesByVoteAsync('', 100);
 
     for (let witness of witnesses) {
-        state.witnesses[witness.owner] = witness;
+        state.global.witnesses[witness.owner] = witness;
     }
 }
 
-async function getStateForApi(state, { params }, { routeParts, api, settings }) {
+async function getStateForApi(state, { params }, { routeParts, api, query }) {
     const args = { limit: 20, truncate_body: 1024 };
 
-    let discussionsType, tag;
+    let discussionsType;
+    let discussionsKey = '';
+    let tagsStr = '';
 
     // Home page
     if (params && params.category && params.username) {
@@ -191,74 +208,41 @@ async function getStateForApi(state, { params }, { routeParts, api, settings }) 
         if (!account) {
             return;
         }
-        state.accounts[username] = account;
+        state.global.accounts[username] = account;
 
         args.select_authors = [username];
         discussionsType = category;
     } else {
         // decode tag for cyrillic symbols
-        tag = routeParts[1] !== undefined ? decodeURIComponent(routeParts[1]) : '';
+        tagsStr = query.tags !== undefined ? decodeURIComponent(query.tags) : '';
         discussionsType = routeParts[0];
     }
 
-    let discussionsKey;
+    if (typeof tagsStr === 'string' && tagsStr.length) {
+        const tags = tagsStr.split('|');
+        const tagsSelect = tags[0] ? tags[0].split(',').sort() : [];
+        const tagsFilter = tags[1] ? tags[1].split(',').sort() : [];
 
-    if (typeof tag === 'string' && tag.length) {
-        const reversed = reverseTag(tag);
-        if (reversed) {
-            args.select_tags = [tag, reversed];
-        } else {
-            args.select_tags = [tag];
+        let selectTags = [];
+        if (tagsSelect && tagsSelect.length) {
+            args.select_tags = selectTags = reverseTags(tagsSelect);
         }
 
-        discussionsKey = tag;
-    } else {
-        const selectedTags = pathOr({}, ['basic', 'selectedTags'], settings);
-
-        const select_tags = Object.keys(
-            filter(type => type === TAGS_FILTER_TYPES.SELECT, selectedTags)
-        );
-        if (select_tags && select_tags.length) {
-            let selectTags = [];
-
-            select_tags.forEach(t => {
-                const reversed = reverseTag(t);
-                if (reversed) {
-                    selectTags.push(t, reversed);
-                } else {
-                    selectTags.push(t);
-                }
-            });
-            args.select_tags = selectTags;
-        }
-
-        const filter_tags = Object.keys(
-            filter(type => type === TAGS_FILTER_TYPES.EXCLUDE, selectedTags)
-        );
-        if (filter_tags && filter_tags.length) {
-            let filterTags = [];
-
-            filter_tags.forEach(t => {
-                const reversed = reverseTag(t);
-                if (reversed) {
-                    filterTags.push(t, reversed);
-                } else {
-                    filterTags.push(t);
-                }
-            });
-            args.filter_tags = filterTags;
+        let filterTags = [];
+        if (tagsFilter && tagsFilter.length) {
+            args.filter_tags = filterTags = reverseTags(tagsFilter);
         } else {
             args.filter_tags = IGNORE_TAGS;
         }
 
-        const selectedSelectTags = select_tags
+        const selectedSelectTags = selectTags
             .filter(tag => !tag.startsWith('ru--'))
             .sort()
-            .join('/');
-        const selectedFilterTags = filter_tags
+            .join(',');
+        const selectedFilterTags = filterTags
             .filter(tag => !tag.startsWith('ru--'))
             .sort()
-            .join('/');
+            .join(',');
 
         const arrSelectedTags = [];
         if (selectedSelectTags) {
@@ -268,7 +252,6 @@ async function getStateForApi(state, { params }, { routeParts, api, settings }) 
         if (selectedFilterTags) {
             arrSelectedTags.push(selectedFilterTags);
         }
-
         discussionsKey = arrSelectedTags.join('|');
     }
 
@@ -281,10 +264,10 @@ async function getStateForApi(state, { params }, { routeParts, api, settings }) 
     for (let discussion of discussions) {
         const link = `${discussion.author}/${discussion.permlink}`;
         discussion_idxes[discussionsType].push(link);
-        state.content[link] = discussion;
+        state.global.content[link] = discussion;
     }
 
-    state.discussion_idx[discussionsKey] = discussion_idxes;
+    state.global.discussion_idx[discussionsKey] = discussion_idxes;
 }
 
 async function getStateForTags(state, params, { trendingTags }) {
@@ -294,5 +277,5 @@ async function getStateForTags(state, params, { trendingTags }) {
         tags[tag.name] = tag;
     }
 
-    state.tags = tags;
+    state.global.tags = tags;
 }

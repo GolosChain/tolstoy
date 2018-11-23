@@ -1,51 +1,41 @@
 import { connect } from 'react-redux';
-import { Map } from 'immutable';
 
 import constants from 'app/redux/constants';
 import {
     createDeepEqualSelector,
-    dataSelector,
     currentUsernameSelector,
     routeParamSelector,
 } from 'src/app/redux/selectors/common';
-import { deleteTag, clearTags } from 'src/app/redux/actions/tags';
-import { TAGS_FILTER_TYPES } from 'src/app/redux/constants/common';
+import { locationTagsSelector } from 'src/app/redux/selectors/app/location';
+import { deleteTag } from 'src/app/redux/actions/tags';
 
 import TagsBox from './TagsBox';
 
 export default connect(
     createDeepEqualSelector(
         [
-            dataSelector('settings'),
             currentUsernameSelector,
             routeParamSelector('category', ''),
             routeParamSelector('order', constants.DEFAULT_SORT_ORDER),
+            locationTagsSelector,
         ],
-        (settings, currentUsername, category, order) => {
+        (currentUsername, category, order, { tagsSelect, tagsFilter }) => {
             if (category === 'feed') {
                 category = '';
                 order = 'feed';
             }
 
-            const selectedTags = settings.getIn(['basic', 'selectedTags'], Map());
             return {
                 category,
                 order,
                 currentUsername,
-                selectedSelectTags: selectedTags
-                    .filter(tag => tag === TAGS_FILTER_TYPES.SELECT)
-                    .keySeq()
-                    .toArray(),
-                selectedFilterTags: selectedTags
-                    .filter(tag => tag === TAGS_FILTER_TYPES.EXCLUDE)
-                    .keySeq()
-                    .toArray(),
+                tagsSelect,
+                tagsFilter,
             };
         }
     ),
     {
         loadMore: payload => ({ type: 'REQUEST_DATA', payload }),
         deleteTag,
-        clearTags,
     }
 )(TagsBox);

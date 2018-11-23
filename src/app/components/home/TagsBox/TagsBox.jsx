@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router';
 import styled from 'styled-components';
-import { Map } from 'immutable';
 import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
@@ -54,15 +54,23 @@ const IconCross = styled(Icon).attrs({
     cursor: pointer;
 `;
 
+const ClearTags = styled(Link)`
+    color: #333333;
+
+    &:hover {
+        color: #2a2a2a;
+    }
+`;
+
 export default class TagsBox extends Component {
     static propTypes = {
         // connect
         category: PropTypes.string,
         order: PropTypes.string,
         currentUsername: PropTypes.string,
-        selectedFilterTags: PropTypes.array,
+        tagsSelect: PropTypes.array,
+        tagsFilter: PropTypes.array,
         deleteTag: PropTypes.func,
-        clearTags: PropTypes.func,
         loadMore: PropTypes.func,
     };
 
@@ -78,29 +86,29 @@ export default class TagsBox extends Component {
         this.loadMore();
     };
 
-    handleClearClick = () => {
-        const { clearTags } = this.props;
-
-        clearTags();
-        this.loadMore();
-    };
-
     render() {
-        const { selectedSelectTags, selectedFilterTags } = this.props;
+        const { tagsSelect, tagsFilter } = this.props;
 
-        if (!selectedSelectTags.length && !selectedFilterTags.length) {
+        if (!tagsSelect.length && !tagsFilter.length) {
             return null;
         }
 
         return (
             <Wrapper>
                 <Title>
-                    {tt('tags.selectedTags')} <IconCross onClick={this.handleClearClick} />
+                    {tt('tags.selectedTags')}{' '}
+                    <ClearTags
+                        to={window.location.pathname}
+                        role="button"
+                        aria-label={tt('aria_label.reset_tags')}
+                    >
+                        <IconCross />
+                    </ClearTags>
                 </Title>
 
                 <SlideContainer>
                     <Tags>
-                        {selectedSelectTags.map((tag, key) => (
+                        {tagsSelect.map((tag, key) => (
                             <TagSelectStyled
                                 key={key}
                                 tag={tag}
@@ -109,7 +117,7 @@ export default class TagsBox extends Component {
                                 onTagClick={this.handleTagClick}
                             />
                         ))}
-                        {selectedFilterTags.map((tag, key) => (
+                        {tagsFilter.map((tag, key) => (
                             <TagSelectStyled
                                 key={key}
                                 tag={tag}

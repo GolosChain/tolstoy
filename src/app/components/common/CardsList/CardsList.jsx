@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { List, OrderedSet } from 'immutable';
+import { List, Map, OrderedSet } from 'immutable';
 import throttle from 'lodash/throttle';
 import styled from 'styled-components';
 
@@ -48,7 +48,7 @@ export default class CardsList extends PureComponent {
         ignoreResult: PropTypes.instanceOf(OrderedSet),
 
         // connect
-        location: PropTypes.object,
+        location: PropTypes.instanceOf(Map),
         listScrollPosition: PropTypes.number,
     };
 
@@ -73,7 +73,7 @@ export default class CardsList extends PureComponent {
 
         const { location, backClickTs, listScrollPosition } = this.props;
 
-        if (location.action === 'POP' || (backClickTs && backClickTs > Date.now() - 5000)) {
+        if (location.get('action') === 'POP' || (backClickTs && backClickTs > Date.now() - 5000)) {
             getScrollElement().scrollTop = listScrollPosition;
 
             let setScrollIterations = 0;
