@@ -10,6 +10,7 @@ import Icon from 'app/components/elements/Icon';
 import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
 import transaction from 'app/redux/Transaction';
 import { formatDecimal } from 'app/utils/ParsersAndFormatters';
+import { loginIfNeed } from 'src/app/redux/actions/login';
 import './Witnesses.scss';
 
 const Long = ByteBuffer.Long;
@@ -18,6 +19,7 @@ class Witnesses extends Component {
     static propTypes = {
         witnesses: PropTypes.object.isRequired,
         accountWitnessVote: PropTypes.func.isRequired,
+        loginIfNeed: PropTypes.func.isRequired,
         username: PropTypes.string,
         witnessVotes: PropTypes.object,
     };
@@ -43,7 +45,7 @@ class Witnesses extends Component {
     render() {
         const { witnessVotes, currentProxy, totalVestingShares } = this.props;
 
-        const { customUsername, proxy } = this.state;
+        const { customUsername } = this.state;
         const sorted_witnesses = this.props.witnesses.sort((a, b) =>
             Long.fromString(String(b.get('votes'))).subtract(
                 Long.fromString(String(a.get('votes'))).toString()
@@ -304,35 +306,6 @@ class Witnesses extends Component {
                         </div>
                     </div>
                 )}
-                {/**  
-                <div className="row">
-                    <div className="column">
-                        <p>{tt(currentProxy && currentProxy.length ? 'witnesses_jsx.witness_set' : 'witnesses_jsx.set_witness_proxy', {proxy: currentProxy})}</p>
-                        {currentProxy && currentProxy.length ?
-                        <div>
-                            <div style={{paddingBottom: 10}}>{tt('witnesses_jsx.witness_proxy_current')}: <strong>{}</strong></div>
-
-                            <form>
-                                <div className="input-group">
-                                    <input className="input-group-field bold" disabled type="text" style={{float: "left", width: "75%", maxWidth: "20rem"}} value={currentProxy} />
-                                    <div className="input-group-button">
-                                        <button style={{marginBottom: 0}} className="button" onClick={this.props.accountWitnessProxy}>{tt('witnesses_jsx.witness_proxy_clear')}</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div> :
-                        <form>
-                            <div className="input-group">
-                                <input className="input-group-field bold" type="text" style={{float: "left", width: "75%", maxWidth: "20rem"}} value={proxy} onChange={(e) => {this.setState({proxy: e.target.value});}} />
-                                <div className="input-group-button">
-                                    <button style={{marginBottom: 0}} className="button" onClick={this.props.accountWitnessProxy}>{tt('witnesses_jsx.witness_proxy_set')}</button>
-                                </div>
-                            </div>
-                        </form>}
-                        {this.state.proxyFailed && <p className="error">{tt('witnesses_jsx.proxy_update_error')}.</p>}
-                        <br />
-                     </div>
-                </div>*/}
             </div>
         );
     }
@@ -340,25 +313,19 @@ class Witnesses extends Component {
     _accountWitnessVote = (accountName, approve, e) => {
         e.preventDefault();
 
-        const { username, accountWitnessVote } = this.props;
         this.setState({ customUsername: '' });
-        accountWitnessVote(username, accountName, approve);
+
+        this.props.loginIfNeed(logged => {
+            if (logged) {
+                this.props.accountWitnessVote(this.props.username, accountName, approve);
+            }
+        });
     };
 
     _onWitnessChange = e => {
         const customUsername = e.target.value;
         this.setState({ customUsername });
     };
-
-    // _accountWitnessProxy = e => {
-    //     e.preventDefault();
-    //
-    //     const { username, accountWitnessProxy } = this.props;
-    //
-    //     accountWitnessProxy(username, this.state.proxy, state => {
-    //         this.setState(state);
-    //     });
-    // };
 }
 
 export default connect(
@@ -377,41 +344,16 @@ export default connect(
             totalVestingShares: state.global.getIn(['props', 'total_vesting_shares']),
         };
     },
-    dispatch => {
-        return {
-            accountWitnessVote: (username, witness, approve) => {
-                dispatch(
-                    transaction.actions.broadcastOperation({
-                        type: 'account_witness_vote',
-                        operation: { account: username, witness, approve },
-                    })
-                );
-            },
-
-            // accountWitnessProxy: (account, proxy, stateCallback) => {
-            //     dispatch(
-            //         transaction.actions.broadcastOperation({
-            //             type: 'account_witness_proxy',
-            //             operation: { account, proxy },
-            //             confirm: proxy.length
-            //                 ? 'Set proxy to: ' + proxy
-            //                 : 'You are about to remove your proxy.',
-            //             successCallback: () => {
-            //                 dispatch(
-            //                     g.actions.updateAccountWitnessProxy({
-            //                         account,
-            //                         proxy,
-            //                     })
-            //                 );
-            //                 stateCallback({ proxyFailed: false, proxy: '' });
-            //             },
-            //             errorCallback: e => {
-            //                 console.log('error:', e);
-            //                 stateCallback({ proxyFailed: true });
-            //             },
-            //         })
-            //     );
-            // },
-        };
+    {
+        loginIfNeed,
+        accountWitnessVote: (username, witness, approve) =>
+            transaction.actions.broadcastOperation({
+                type: 'account_witness_vote',
+                operation: {
+                    account: username,
+                    witness,
+                    approve,
+                },
+            }),
     }
 )(Witnesses);

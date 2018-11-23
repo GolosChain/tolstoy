@@ -18,7 +18,7 @@ export default function* watch() {
 }
 
 function* showLoginWorker({ payload } = {}) {
-    const { username, authType, forceSave, operation, onClose } = payload;
+    const { username, authType, forceSave, loginOperation, onClose } = payload;
 
     let fullUsername = username;
     let strictAuthType = false;
@@ -28,14 +28,15 @@ function* showLoginWorker({ payload } = {}) {
         strictAuthType = true;
     }
 
-    const operationType = operation ? operation.type : null;
-    const isConfirm = Boolean(authType || (operation && operationType !== 'custom_json'));
+    const operationType = loginOperation ? loginOperation.type : null;
+    const isConfirm = Boolean(authType || (loginOperation && operationType !== 'custom_json'));
 
     dialog = DialogManager.showLogin({
         username: fullUsername,
         isConfirm,
         forceSave,
         operationType,
+        loginOperation,
         strictAuthType,
         onClose,
     });

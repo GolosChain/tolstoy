@@ -1,6 +1,6 @@
 import { fromJS, Map } from 'immutable';
 import tt from 'counterpart';
-import { path } from 'ramda';
+import { path, last } from 'ramda';
 
 export default function transactionErrorReducer(
     state,
@@ -21,16 +21,18 @@ export default function transactionErrorReducer(
             if (error.message) {
                 // Depends on FC_ASSERT formatting
                 // https://github.com/steemit/steemit.com/issues/222
-                const err_lines = error.message.split('\n');
+                const errorLines = error.message.split('\n').map(line => line.trim());
 
-                if (err_lines.length > 2) {
-                    errorKey = err_lines[2];
-                    const txt = errorKey.split(': ');
+                if (errorLines.length > 2) {
+                    errorKey = errorLines[2] || errorLines[1];
 
-                    if (txt.length && txt[txt.length - 1].trim() !== '') {
-                        errorKey = errorStr = txt[txt.length - 1];
+                    const parts = errorKey.split(/:\s+/);
+                    const lastMessage = last(parts).trim();
+
+                    if (lastMessage) {
+                        errorKey = errorStr = lastMessage;
                     } else {
-                        errorStr = `Transaction failed: ${err_lines[1]}`;
+                        errorStr = `Transaction failed: ${errorLines[1]}`;
                     }
                 }
             }
