@@ -63,7 +63,6 @@ export class PostContainer extends Component {
 
     componentDidMount() {
         this.props.loadUserFollowData(this.props.author);
-        this.props.loadFavorites();
     }
 
     componentWillReceiveProps(props) {

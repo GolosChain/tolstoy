@@ -1,4 +1,4 @@
-import { put, all, select, takeEvery } from 'redux-saga/effects';
+import { put, all, select, call, takeEvery, takeLatest } from 'redux-saga/effects';
 import { loadUserLazy } from 'src/app/helpers/users';
 import { loginIfNeed } from './login';
 import { loadFavoritesAction, toggleFavoriteRequestAction } from '../actions/favorites';
@@ -17,13 +17,17 @@ import {
     FAVORITES_TOGGLE_REQUEST_ERROR,
 } from '../constants/favorites';
 
-
 export default function* watch() {
+    yield takeLatest('user/SET_USER', userLogin);
     yield takeEvery(FAVORITES_LOAD, loadFavorites);
     yield takeEvery(FAVORITES_TOGGLE, toggleFavorite);
     yield takeEvery(FAVORITES_LOAD_NEXT_PAGE, loadFavoritesNextPage);
     yield takeEvery(FAVORITES_REQUEST_SUCCESS, loadFavoritesSuccess);
     yield takeEvery(FAVORITES_TOGGLE_REQUEST_ERROR, onToggleRequestError);
+}
+
+function* userLogin() {
+    yield call(loadFavorites);
 }
 
 function* loadFavorites() {

@@ -48,10 +48,9 @@ export class Welcome extends Component {
     differences = this.differencesByLocale(this.locale);
 
     async componentDidMount() {
-        const { loadFavorites, getContent, getAccount } = this.props;
+        const { getContent, getAccount } = this.props;
 
         this.fetchTagContents(this.tags[CATEGORY_NUMBER]);
-        loadFavorites();
 
         // questions posts
         this.setState({ questionsLoading: true });

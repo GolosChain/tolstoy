@@ -4,7 +4,6 @@ import { createSelector } from 'reselect';
 import { currentUsernameSelector, newVisitorSelector } from 'src/app/redux/selectors/common';
 import { currentPostSelector, authorSelector } from 'src/app/redux/selectors/post/commonPost';
 import { USER_FOLLOW_DATA_LOAD } from 'src/app/redux/constants/followers';
-import { FAVORITES_LOAD } from 'src/app/redux/constants/favorites';
 import { PostContainer } from 'src/app/containers/post/PostContainer';
 import { togglePin } from 'src/app/redux/actions/pinnedPosts';
 import { toggleFavorite } from 'src/app/redux/actions/favorites';
@@ -36,10 +35,6 @@ export default connect(
             payload: {
                 username,
             },
-        }),
-        loadFavorites: () => ({
-            type: FAVORITES_LOAD,
-            payload: {},
         }),
         togglePin,
         toggleFavorite,
