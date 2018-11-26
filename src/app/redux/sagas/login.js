@@ -47,7 +47,10 @@ function* showLoginWorker({ payload } = {}) {
 }
 
 function* hideLoginWorker() {
-    dialog.close();
+    if (dialog) {
+        dialog.close();
+        dialog = null;
+    }
 }
 
 function* loginIfNeedWrapper({ payload }) {
