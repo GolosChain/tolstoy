@@ -19,7 +19,6 @@ import { saveValue, getValue } from 'src/app/helpers/localStorageUtils';
 import DialogFrame from 'app/components/dialogs/DialogFrame';
 import DialogManager from 'app/components/elements/common/DialogManager';
 import AccountNameInput from 'src/app/components/common/AccountNameInput';
-import { CLOSED_LOGIN_MODAL } from 'src/app/containers/login/loginConstants/common';
 
 const CURRENCY_SAVE_KEY = 'transfer-dialog.default-currency';
 
@@ -379,7 +378,7 @@ class TransferDialog extends PureComponent {
                 const errStr = err.toString();
 
                 switch (errStr) {
-                    case CLOSED_LOGIN_MODAL:
+                    case 'Closed login modal':
                         return;
                     case 'Missing object (1020200)':
                         DialogManager.alert(tt('g.account_not_found'));
