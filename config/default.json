@@ -49,7 +49,7 @@
       "styleSrc": "'self' 'unsafe-inline' cdnjs.cloudflare.com fonts.googleapis.com",
       "imgSrc": "* data:",
       "fontSrc": "data: fonts.gstatic.com",
-      "connectSrc": "'self' cyber.fund wss://ws.golos.io *.facebook.com www.google-analytics.com api.segment.io api.blocktrades.us query.yahooapis.com api.blockcypher.com api.mixpanel.com mc.yandex.ru mc.yandex.ru",
+      "connectSrc": "'self' cyber.fund wss://ws.golos.io *.facebook.com www.google-analytics.com api.segment.io api.blocktrades.us query.yahooapis.com api.blockcypher.com api.mixpanel.com mc.yandex.ru mc.yandex.ru api.amplitude.com",
       "reportUri": "/api/v1/csp_violation",
       "objectSrc": "'self'",
       "pluginTypes": "application/pdf",
