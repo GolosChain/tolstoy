@@ -8,6 +8,7 @@ import {
 import DialogManager from 'app/components/elements/common/DialogManager';
 import { showLogin } from '../actions/login';
 import { resetSavedAuth, saveAuth } from '../../helpers/localStorage';
+import { CLOSED_LOGIN_MODAL } from 'src/app/containers/login/loginConstants/common';
 
 let dialog;
 
@@ -18,7 +19,10 @@ export default function* watch() {
 }
 
 function* showLoginWorker({ payload } = {}) {
-    const { username, authType, forceSave, loginOperation, onClose } = payload;
+    const { username, authType, forceSave, loginOperation } = payload;
+    const onClose = () => {
+        loginOperation.errorCallback(CLOSED_LOGIN_MODAL);
+    };
 
     let fullUsername = username;
     let strictAuthType = false;

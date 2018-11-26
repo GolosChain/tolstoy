@@ -19,6 +19,7 @@ import { saveValue, getValue } from 'src/app/helpers/localStorageUtils';
 import DialogFrame from 'app/components/dialogs/DialogFrame';
 import DialogManager from 'app/components/elements/common/DialogManager';
 import AccountNameInput from 'src/app/components/common/AccountNameInput';
+import { CLOSED_LOGIN_MODAL } from 'src/app/containers/login/loginConstants/common';
 
 const CURRENCY_SAVE_KEY = 'transfer-dialog.default-currency';
 
@@ -150,7 +151,8 @@ class TransferDialog extends PureComponent {
         if (props.type === 'query' && props.token) {
             currency = props.token;
         } else {
-            currency = getValue(CURRENCY_SAVE_KEY, [CURRENCIES.GBG, CURRENCIES.GOLOS]) || CURRENCIES.GOLOS;
+            currency =
+                getValue(CURRENCY_SAVE_KEY, [CURRENCIES.GBG, CURRENCIES.GOLOS]) || CURRENCIES.GOLOS;
         }
 
         this.state = {
@@ -373,6 +375,10 @@ class TransferDialog extends PureComponent {
                     loader: false,
                     disabled: false,
                 });
+
+                if (err === CLOSED_LOGIN_MODAL) {
+                    return;
+                }
 
                 const errStr = err.toString();
 
