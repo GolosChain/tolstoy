@@ -20,7 +20,6 @@ import Container from 'src/app/components/common/Container';
 import UserHeader from 'src/app/components/userProfile/common/UserHeader';
 import UserNavigation from 'src/app/components/userProfile/common/UserNavigation';
 import UserCardAbout from 'src/app/components/userProfile/common/UserCardAbout';
-import { FAVORITES_LOAD } from 'src/app/redux/constants/favorites';
 
 const Main = styled(Container).attrs({
     align: 'flex-start',
@@ -142,12 +141,6 @@ const SmallUserNavigation = styled(UserNavigation)`
         notify: (message, dismiss = 3000) => {
             dispatch(showNotification(message, 'settings', dismiss));
         },
-        loadFavorites() {
-            dispatch({
-                type: FAVORITES_LOAD,
-                payload: {},
-            });
-        },
     })
 )
 class UserProfileContainer extends Component {
@@ -163,10 +156,6 @@ class UserProfileContainer extends Component {
         currentUser: PropTypes.object, // Immutable.Map
         currentAccount: PropTypes.object, // Immutable.Map
     };
-
-    componentDidMount() {
-        this.props.loadFavorites();
-    }
 
     render() {
         const { pageAccountName } = this.props;
