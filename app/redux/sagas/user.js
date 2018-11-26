@@ -109,6 +109,7 @@ function* usernamePasswordLogin({ payload }) {
     // Если мы зашли сюда из диалога подтверждения, но галка "сохранить на время сессии"
     // выключена, то делать ничего не надо.
     if (payload.isConfirm && !payload.saveLogin) {
+        yield put(user.actions.hideLogin());
         return;
     }
 
@@ -196,7 +197,7 @@ function* usernamePasswordLoginInner(
     }
 
     yield setUser(loginInfo, account, !operationType || saveLogin);
-    yield user.actions.hideLogin();
+    yield put(user.actions.hideLogin());
 
     if (saveLogin) {
         if (!loginInfo.autoLogin && loginInfo.privateKeys.posting_private) {
