@@ -50,7 +50,7 @@
     "comments": "Коментарi. Кiлькicть: %(count)s",
     "dislikers_list": "Проголосували проти: %(count)s",
     "likers_list": "Проголосували за: %(count)s",
-    "reset_tags": "Cкинути теги"
+    "reset_tags": "Очистити теги"
   },
   "auth_protection": {
     "need_auth": "Немає доступу, авторизуйтесь.",
