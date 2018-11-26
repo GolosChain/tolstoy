@@ -21,6 +21,7 @@ import DialogManager from 'app/components/elements/common/DialogManager';
 import AccountNameInput from 'src/app/components/common/AccountNameInput';
 
 const CURRENCY_SAVE_KEY = 'transfer-dialog.default-currency';
+export const CLOSED_LOGIN_DIALOG = 'Closed login dialog';
 
 const CURRENCIES = {
     GBG: 'GBG',
@@ -378,7 +379,7 @@ class TransferDialog extends PureComponent {
                 const errStr = err.toString();
 
                 switch (errStr) {
-                    case 'Closed login dialog':
+                    case CLOSED_LOGIN_DIALOG:
                         return;
                     case 'Missing object (1020200)':
                         DialogManager.alert(tt('g.account_not_found'));
