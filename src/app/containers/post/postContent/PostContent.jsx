@@ -1,6 +1,6 @@
 import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
-import { browserHistory } from 'react-router';
+import { browserHistory, withRouter } from 'react-router';
 import { Helmet } from 'react-helmet';
 import throttle from 'lodash/throttle';
 import styled from 'styled-components';
@@ -75,6 +75,7 @@ const Tags = styled.div`
     }
 `;
 
+@withRouter
 export class PostContent extends Component {
     static propTypes = {
         togglePin: PropTypes.func.isRequired,
@@ -92,9 +93,9 @@ export class PostContent extends Component {
     headerRef = createRef();
 
     componentDidMount() {
-        const { action } = this.props;
+        const { params } = this.props;
 
-        if (action !== 'edit') {
+        if (params.action !== 'edit') {
             window.addEventListener('scroll', this.onScrollLazy);
             window.addEventListener('resize', this.onScrollLazy);
             this.onScrollLazy();
@@ -170,7 +171,7 @@ export class PostContent extends Component {
                                 <TagLink
                                     to={'/trending?tags=' + tag.tag}
                                     key={index}
-                                    aria-label={tt('aria_label.tag', {tag: tag.tag})}
+                                    aria-label={tt('aria_label.tag', { tag: tag.tag })}
                                     category={tag.origin === category.origin}
                                 >
                                     {tag.tag}
@@ -198,7 +199,7 @@ export class PostContent extends Component {
     }
 
     render() {
-        const { className, url, isAuthor, togglePin, toggleFavorite, action } = this.props;
+        const { className, url, isAuthor, togglePin, toggleFavorite, params } = this.props;
 
         return (
             <Wrapper className={className}>
@@ -209,7 +210,7 @@ export class PostContent extends Component {
                     togglePin={togglePin}
                     toggleFavorite={toggleFavorite}
                 />
-                {action === 'edit' && isAuthor ? this.renderEditor() : this.renderPreview()}
+                {params.action === 'edit' && isAuthor ? this.renderEditor() : this.renderPreview()}
             </Wrapper>
         );
     }

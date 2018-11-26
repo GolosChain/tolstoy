@@ -2,12 +2,7 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
 import { currentPostSelector } from 'src/app/redux/selectors/post/commonPost';
-import {
-    offchainSelector,
-    routeParamSelector,
-    currentUsernameSelector,
-} from 'src/app/redux/selectors/common';
-
+import { offchainSelector, currentUsernameSelector } from 'src/app/redux/selectors/common';
 import { PostContent } from 'src/app/containers/post/postContent/PostContent';
 
 export default connect(
@@ -15,10 +10,9 @@ export default connect(
         [
             currentPostSelector,
             currentUsernameSelector,
-            routeParamSelector('action'),
             offchainSelector(['config', 'relapio_token']),
         ],
-        (post, username, action, relapioToken) => {
+        (post, username, relapioToken) => {
             return {
                 isAuthor: username === post.author,
                 author: post.author,
@@ -32,7 +26,6 @@ export default connect(
                 created: post.created,
                 permLink: post.permLink,
                 url: post.url,
-                action,
                 relapioToken,
             };
         }
