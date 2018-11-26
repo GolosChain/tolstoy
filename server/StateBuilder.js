@@ -56,7 +56,7 @@ export default async function getState(
 
     if (route.page === 'UserProfile') {
         stateFillerFunction = getStateForProfile;
-    } else if (route.page === 'Post') {
+    } else if (route.page === 'Post' || route.page === 'PostNoCategory') {
         stateFillerFunction = getStateForPost;
     } else if (route.page === 'Witnesses') {
         stateFillerFunction = getStateForWitnesses;
