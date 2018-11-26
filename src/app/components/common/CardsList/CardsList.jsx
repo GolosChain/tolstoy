@@ -129,14 +129,14 @@ export default class CardsList extends PureComponent {
     }, 100);
 
     loadMore = () => {
-        const { isFavorite, items } = this.props;
+        const { isLoading, isFavorite, items } = this.props;
+
+        if (isLoading) {
+            return;
+        }
 
         if (isFavorite) {
-            const { isLoading } = this.props;
-
-            if (!isLoading) {
-                this.props.loadMore();
-            }
+            this.props.loadMore();
         } else {
             const { globalStatus, order, category, pageAccountName } = this.props;
 
