@@ -218,7 +218,7 @@ export function* broadcastOperation({
                             saveLogin: true,
                         },
                         onClose: () => {
-                            errorCallback('Closed login modal');
+                            errorCallback('Closed login dialog');
                         },
                     })
                 );

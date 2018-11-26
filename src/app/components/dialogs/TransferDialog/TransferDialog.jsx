@@ -378,7 +378,7 @@ class TransferDialog extends PureComponent {
                 const errStr = err.toString();
 
                 switch (errStr) {
-                    case 'Closed login modal':
+                    case 'Closed login dialog':
                         return;
                     case 'Missing object (1020200)':
                         DialogManager.alert(tt('g.account_not_found'));
