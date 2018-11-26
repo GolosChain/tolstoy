@@ -376,13 +376,11 @@ class TransferDialog extends PureComponent {
                     disabled: false,
                 });
 
-                if (err === CLOSED_LOGIN_MODAL) {
-                    return;
-                }
-
                 const errStr = err.toString();
 
-                if (errStr === 'Missing object (1020200)') {
+                if (err === CLOSED_LOGIN_MODAL) {
+                    return;
+                } else if (errStr === 'Missing object (1020200)') {
                     DialogManager.alert(tt('g.account_not_found'));
                 } else if (errStr !== 'Canceled') {
                     DialogManager.alert(errStr);
