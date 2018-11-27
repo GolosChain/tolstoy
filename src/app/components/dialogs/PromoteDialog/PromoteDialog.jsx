@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import { processingError } from 'src/app/components/dialogs/common/dialogUtils';
+import { processError } from 'src/app/helpers/dialogs';
 
 import ComplexInput from 'golos-ui/ComplexInput';
 import DialogFrame from 'app/components/dialogs/DialogFrame';
@@ -119,7 +119,7 @@ export default class PromoteDialog extends Component {
             isLock: false,
         });
 
-        processingError(err);
+        processError(err);
     };
 
     onCloseClick = () => {

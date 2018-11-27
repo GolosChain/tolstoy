@@ -14,7 +14,7 @@ import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';
 import { showNotification } from 'src/app/redux/actions/ui';
 import { parseAmount } from 'src/app/helpers/currency';
 import { saveValue, getValue } from 'src/app/helpers/localStorageUtils';
-import { processingError } from 'src/app/components/dialogs/common/dialogUtils';
+import { processError } from 'src/app/helpers/dialogs';
 
 import DialogFrame from 'app/components/dialogs/DialogFrame';
 import DialogManager from 'app/components/elements/common/DialogManager';
@@ -308,7 +308,7 @@ class SafeDialog extends PureComponent {
                     disabled: false,
                 });
 
-                processingError(err);
+                processError(err);
             } else {
                 this.setState({
                     loader: false,

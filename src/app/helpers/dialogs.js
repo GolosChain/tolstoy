@@ -3,7 +3,7 @@ import tt from 'counterpart';
 import { CLOSED_LOGIN_DIALOG } from 'src/app/redux/constants/common';
 import DialogManager from 'app/components/elements/common/DialogManager/index';
 
-export function processingError(err) {
+export function processError(err) {
     const errStr = err.toString();
     switch (errStr) {
         case CLOSED_LOGIN_DIALOG:

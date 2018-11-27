@@ -8,7 +8,7 @@ import { api } from 'golos-js';
 import ComplexInput from 'golos-ui/ComplexInput';
 import SplashLoader from 'golos-ui/SplashLoader';
 import Shrink from 'golos-ui/Shrink';
-import { processingError } from 'src/app/components/dialogs/common/dialogUtils';
+import { processError } from 'src/app/helpers/dialogs';
 
 import { MIN_VOICE_POWER } from 'app/client_config';
 import transaction from 'app/redux/Transaction';
@@ -455,7 +455,7 @@ class DelegateVestingDialog extends PureComponent {
                     disabled: false,
                 });
 
-                processingError(err);
+                processError(err);
             } else {
                 this.setState({
                     loader: false,
@@ -493,7 +493,7 @@ class DelegateVestingDialog extends PureComponent {
                     loader: false,
                 });
 
-                processingError(err);
+                processError(err);
             } else {
                 this.setState({
                     disabled: false,
