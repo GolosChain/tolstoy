@@ -17,3 +17,5 @@ export const COUNT_OF_TAGS = {
     COLLAPSED: 25,
     EXPANDED: 100,
 };
+
+export const CLOSED_LOGIN_DIALOG = 'Closed login dialog';

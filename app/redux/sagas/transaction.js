@@ -15,6 +15,7 @@ import { DEBT_TICKER } from 'app/client_config';
 import { serverApiRecordEvent } from 'app/utils/ServerApiClient';
 import constants from './../constants';
 import DialogManager from 'app/components/elements/common/DialogManager';
+import { CLOSED_LOGIN_DIALOG } from 'src/app/redux/constants/common';
 
 export function* transactionWatches() {
     yield fork(watchForBroadcast);
@@ -216,6 +217,9 @@ export function* broadcastOperation({
                             successCallback,
                             errorCallback,
                             saveLogin: true,
+                        },
+                        onClose: () => {
+                            errorCallback(CLOSED_LOGIN_DIALOG);
                         },
                     })
                 );

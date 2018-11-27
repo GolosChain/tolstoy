@@ -19,6 +19,7 @@ import { saveValue, getValue } from 'src/app/helpers/localStorageUtils';
 import DialogFrame from 'app/components/dialogs/DialogFrame';
 import DialogManager from 'app/components/elements/common/DialogManager';
 import AccountNameInput from 'src/app/components/common/AccountNameInput';
+import { CLOSED_LOGIN_DIALOG } from 'src/app/redux/constants/common';
 
 const CURRENCY_SAVE_KEY = 'transfer-dialog.default-currency';
 
@@ -150,7 +151,8 @@ class TransferDialog extends PureComponent {
         if (props.type === 'query' && props.token) {
             currency = props.token;
         } else {
-            currency = getValue(CURRENCY_SAVE_KEY, [CURRENCIES.GBG, CURRENCIES.GOLOS]) || CURRENCIES.GOLOS;
+            currency =
+                getValue(CURRENCY_SAVE_KEY, [CURRENCIES.GBG, CURRENCIES.GOLOS]) || CURRENCIES.GOLOS;
         }
 
         this.state = {
@@ -376,10 +378,15 @@ class TransferDialog extends PureComponent {
 
                 const errStr = err.toString();
 
-                if (errStr === 'Missing object (1020200)') {
-                    DialogManager.alert(tt('g.account_not_found'));
-                } else if (errStr !== 'Canceled') {
-                    DialogManager.alert(errStr);
+                switch (errStr) {
+                    case CLOSED_LOGIN_DIALOG:
+                        return;
+                    case 'Missing object (1020200)':
+                        DialogManager.alert(tt('g.account_not_found'));
+                        break;
+                    case 'Canceled':
+                        DialogManager.alert(errStr);
+                        break;
                 }
             } else {
                 this.setState({
