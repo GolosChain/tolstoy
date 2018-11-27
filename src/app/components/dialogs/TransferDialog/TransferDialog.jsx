@@ -377,7 +377,6 @@ class TransferDialog extends PureComponent {
                 });
 
                 const errStr = err.toString();
-
                 switch (errStr) {
                     case CLOSED_LOGIN_DIALOG:
                         return;

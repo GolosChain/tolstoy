@@ -19,6 +19,7 @@ import { boldify } from 'src/app/helpers/text';
 import { vestsToGolos, golosToVests } from 'app/utils/StateFunctions';
 import DialogTypeSelect from 'src/app/components/userProfile/common/DialogTypeSelect';
 import AccountNameInput from 'src/app/components/common/AccountNameInput';
+import { CLOSED_LOGIN_DIALOG } from 'src/app/redux/constants/common';
 
 const POWER_TO_GOLOS_INTERVAL = 13; // weeks
 
@@ -470,8 +471,12 @@ export default class ConvertDialog extends PureComponent {
                     disabled: false,
                 });
 
-                if (err !== 'Canceled') {
-                    DialogManager.alert(err.toString());
+                switch (err) {
+                    case CLOSED_LOGIN_DIALOG:
+                    case 'Canceled':
+                        return;
+                    default:
+                        DialogManager.alert(err.toString());
                 }
             } else {
                 this.setState({

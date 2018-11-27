@@ -23,6 +23,7 @@ import DelegationEdit from './DelegationEdit';
 import { showNotification } from 'src/app/redux/actions/ui';
 import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';
 import AccountNameInput from 'src/app/components/common/AccountNameInput';
+import { CLOSED_LOGIN_DIALOG } from 'src/app/redux/constants/common';
 
 const TYPES = {
     DELEGATE: 'DELEGATE',
@@ -145,7 +146,7 @@ class DelegateVestingDialog extends PureComponent {
     }
 
     componentDidMount() {
-        this._loadDelegationsData();
+        this.loadDelegationsData();
     }
 
     componentWillReceiveProps(newProps) {
@@ -186,20 +187,20 @@ class DelegateVestingDialog extends PureComponent {
             buttons = [
                 {
                     text: tt('g.cancel'),
-                    onClick: this._onCloseClick,
+                    onClick: this.onCloseClick,
                 },
                 {
                     text: tt('dialogs_transfer.delegate_vesting.delegate_button'),
                     primary: true,
                     disabled: !allow,
-                    onClick: this._onOkClick,
+                    onClick: this.onOkClick,
                 },
             ];
         } else {
             buttons = [
                 {
                     text: tt('g.close'),
-                    onClick: this._onCloseClick,
+                    onClick: this.onCloseClick,
                 },
             ];
         }
@@ -210,7 +211,7 @@ class DelegateVestingDialog extends PureComponent {
                 titleSize={20}
                 icon="voice"
                 buttons={buttons}
-                onCloseClick={this._onCloseClick}
+                onCloseClick={this.onCloseClick}
             >
                 <Container>
                     <DialogTypeSelect
@@ -407,11 +408,11 @@ class DelegateVestingDialog extends PureComponent {
         });
     };
 
-    _onCloseClick = () => {
+    onCloseClick = () => {
         this.props.onClose();
     };
 
-    _onOkClick = () => {
+    onOkClick = () => {
         const { myUser } = this.props;
         const { target, amount, loader, disabled, delegationData } = this.state;
 
@@ -454,8 +455,13 @@ class DelegateVestingDialog extends PureComponent {
                     disabled: false,
                 });
 
-                if (err !== 'Canceled') {
-                    DialogManager.alert(err.toString());
+                const errStr = err.toString();
+                switch (errStr) {
+                    case CLOSED_LOGIN_DIALOG:
+                    case 'Canceled':
+                        return;
+                    default:
+                        DialogManager.alert(`${tt('g.error')}:\n${errStr}`);
                 }
             } else {
                 this.setState({
@@ -464,12 +470,12 @@ class DelegateVestingDialog extends PureComponent {
 
                 DialogManager.info(tt('dialogs_transfer.operation_success'));
 
-                this._loadDelegationsData();
+                this.loadDelegationsData();
             }
         });
     };
 
-    _updateDelegation(delegatee, value) {
+    updateDelegation(delegatee, value) {
         const { myUser } = this.props;
 
         const vesting = value > 0 ? golosToVests(value / 1000, this._globalProps) : '0.000000';
@@ -494,8 +500,13 @@ class DelegateVestingDialog extends PureComponent {
                     loader: false,
                 });
 
-                if (err !== 'Canceled') {
-                    DialogManager.alert(err.toString());
+                const errStr = err.toString();
+                switch (errStr) {
+                    case CLOSED_LOGIN_DIALOG:
+                    case 'Canceled':
+                        return;
+                    default:
+                        DialogManager.alert(`${tt('g.error')}:\n${errStr}`);
                 }
             } else {
                 this.setState({
@@ -504,7 +515,7 @@ class DelegateVestingDialog extends PureComponent {
                     editAccountName: null,
                 });
 
-                this._loadDelegationsData();
+                this.loadDelegationsData();
             }
         });
     }
@@ -517,7 +528,7 @@ class DelegateVestingDialog extends PureComponent {
         });
     };
 
-    async _loadDelegationsData() {
+    async loadDelegationsData() {
         const { myUser } = this.props;
 
         try {
@@ -548,12 +559,12 @@ class DelegateVestingDialog extends PureComponent {
 
     _onDelegationCancel = async accountName => {
         if (await DialogManager.confirm()) {
-            this._updateDelegation(accountName, 0);
+            this.updateDelegation(accountName, 0);
         }
     };
 
     _onDelegationEditSave = value => {
-        this._updateDelegation(this.state.editAccountName, value);
+        this.updateDelegation(this.state.editAccountName, value);
     };
 
     _onDelegationEditCancel = () => {

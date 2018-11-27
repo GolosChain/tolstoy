@@ -19,6 +19,7 @@ import DialogFrame from 'app/components/dialogs/DialogFrame';
 import DialogManager from 'app/components/elements/common/DialogManager';
 import AccountNameInput from 'src/app/components/common/AccountNameInput';
 import DialogTypeSelect from 'src/app/components/userProfile/common/DialogTypeSelect';
+import { CLOSED_LOGIN_DIALOG } from 'src/app/redux/constants/common';
 
 const CURRENCY_SAVE_KEY = 'transfer-dialog.default-currency';
 
@@ -148,7 +149,7 @@ class SafeDialog extends PureComponent {
                         text: tt('dialogs_transfer.transfer_to_savings.transfer_button'),
                         primary: true,
                         disabled: !allow,
-                        onClick: this._onOkClick,
+                        onClick: this.onOkClick,
                     },
                 ]}
                 onCloseClick={this._onCloseClick}
@@ -275,7 +276,7 @@ class SafeDialog extends PureComponent {
         this.props.onClose();
     };
 
-    _onOkClick = () => {
+    onOkClick = () => {
         const { myUser } = this.props;
         const { target, amount, currency, type, saveTo, loader, disabled } = this.state;
 
@@ -307,8 +308,13 @@ class SafeDialog extends PureComponent {
                     disabled: false,
                 });
 
-                if (err !== 'Canceled') {
-                    DialogManager.alert(err.toString());
+                const errStr = err.toString();
+                switch (errStr) {
+                    case CLOSED_LOGIN_DIALOG:
+                    case 'Canceled':
+                        return;
+                    default:
+                        DialogManager.alert(`${tt('g.error')}:\n${errStr}`);
                 }
             } else {
                 this.setState({
