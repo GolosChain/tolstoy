@@ -19,9 +19,9 @@ import { saveValue, getValue } from 'src/app/helpers/localStorageUtils';
 import DialogFrame from 'app/components/dialogs/DialogFrame';
 import DialogManager from 'app/components/elements/common/DialogManager';
 import AccountNameInput from 'src/app/components/common/AccountNameInput';
+import { CLOSED_LOGIN_DIALOG } from 'src/app/redux/constants/common';
 
 const CURRENCY_SAVE_KEY = 'transfer-dialog.default-currency';
-export const CLOSED_LOGIN_DIALOG = 'Closed login dialog';
 
 const CURRENCIES = {
     GBG: 'GBG',
