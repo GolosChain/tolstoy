@@ -243,7 +243,6 @@ export class CommentCard extends PureComponent {
     renderHeaderForPost() {
         const { comment, extractedContent, isPostPage } = this.props;
         const { collapsed, showAlert } = this.state;
-
         return (
             <Header collapsed={collapsed}>
                 <HeaderLine alertmode={showAlert}>

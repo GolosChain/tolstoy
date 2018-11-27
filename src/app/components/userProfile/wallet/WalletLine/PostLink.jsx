@@ -4,6 +4,8 @@ import { Map } from 'immutable';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
+import extractContent from 'app/utils/ExtractContent';
+
 const WhoPostLink = styled(Link)`
     display: block;
     color: #333;
@@ -52,7 +54,8 @@ export default class PostLink extends Component {
         const { post, postsContent } = this.props;
         const fullPost = postsContent.get(`${post.author}/${post.permLink}`);
         if (fullPost) {
-            return <WhoPostLink to={fullPost.get('url')}>{fullPost.get('title')}</WhoPostLink>;
+            const postDesc = extractContent(fullPost).desc;
+            return <WhoPostLink to={fullPost.get('url')}>{fullPost.get('title') || postDesc}</WhoPostLink>;
         }
         return null;
     }
