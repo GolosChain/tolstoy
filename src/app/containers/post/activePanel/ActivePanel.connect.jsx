@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import { togglePin } from 'src/app/redux/actions/pinnedPosts';
 import { ActivePanel } from 'src/app/containers/post/activePanel/ActivePanel';
 import { openPromoteDialog, openRepostDialog } from 'src/app/redux/actions/dialogs';
 import { currentUsernameSelector } from 'src/app/redux/selectors/common';
@@ -25,7 +24,6 @@ export default connect(
         })
     ),
     {
-        togglePin,
         openPromoteDialog,
         openRepostDialog,
     }
