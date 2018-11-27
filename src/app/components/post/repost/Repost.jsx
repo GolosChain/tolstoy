@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
@@ -35,20 +35,20 @@ export class Repost extends Component {
     render() {
         const { isOwner, className } = this.props;
 
+        if (isOwner) {
+            return null;
+        }
+
         return (
-            <Fragment>
-                {isOwner ? null : (
-                    <Wrapper
-                        role="button"
-                        data-tooltip={tt('g.repost')}
-                        aria-label={tt('g.repost')}
-                        className={className}
-                        onClick={this.repost}
-                    >
-                        <ActionIcon width="20" height="20" name="repost" />
-                    </Wrapper>
-                )}
-            </Fragment>
+            <Wrapper
+                role="button"
+                data-tooltip={tt('g.repost')}
+                aria-label={tt('g.repost')}
+                className={className}
+                onClick={this.repost}
+            >
+                <ActionIcon width="20" height="20" name="repost" />
+            </Wrapper>
         );
     }
 }

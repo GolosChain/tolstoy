@@ -9,14 +9,19 @@ import Icon from 'golos-ui/Icon';
 const Action = styled.div`
     display: flex;
     align-items: center;
-    color: ${props => (props.active ? '#2879ff' : '#333')} !important;
+    color: ${props => (props.active ? '#2879ff' : '#333333')} !important;
     cursor: pointer;
 
-    transition: transform 0.15s;
-
-    &:hover {
-        transform: scale(1.15);
-    }
+    ${({ colored }) => colored ? `   
+        &:hover {
+            color: #2879ff !important;
+        }
+    ` : `
+        transition: transform 0.15s;
+        &:hover {
+            transform: scale(1.15);
+        }
+    `};
 `;
 
 const ActionEditLink = styled(Action.withComponent(Link))`
@@ -42,12 +47,12 @@ const PostActions = ({
     className,
     isFavorite,
     isPinned,
-    padding,
     togglePin,
     isOwner,
     showText = false,
     toggleFavorite,
     fullUrl,
+    coloredOnHover,
 }) => {
     if (isOwner) {
         const editTooltip = showText ? undefined : tt('active_panel_tooltip.edit');
@@ -61,6 +66,7 @@ const PostActions = ({
             <Fragment>
                 <ActionEditLink
                     className={className}
+                    colored={coloredOnHover ? 1 : 0}
                     to={`${fullUrl}/edit`}
                     role="button"
                     data-tooltip={editTooltip}
@@ -72,6 +78,7 @@ const PostActions = ({
                 <Action
                     className={className}
                     active={isPinned ? 1 : 0}
+                    colored={coloredOnHover ? 1 : 0}
                     role="button"
                     data-tooltip={pinTooltip}
                     aria-label={pinTooltip}
@@ -94,6 +101,7 @@ const PostActions = ({
     return (
         <Action
             className={className}
+            colored={coloredOnHover ? 1 : 0}
             role="button"
             data-tooltip={favoriteTooltip}
             aria-label={favoriteTooltip}
@@ -113,6 +121,7 @@ PostActions.propTypes = {
     togglePin: PropTypes.func.isRequired,
     toggleFavorite: PropTypes.func.isRequired,
     showText: PropTypes.bool,
+    coloredOnHover: PropTypes.bool,
 };
 
 export default PostActions;

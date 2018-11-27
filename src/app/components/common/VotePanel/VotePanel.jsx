@@ -134,7 +134,7 @@ const LikeBlock = styled.div`
     `};
 `;
 
-const LikeBlockNeg = LikeBlock.extend`
+const LikeBlockNeg = styled(LikeBlock)`
     margin-left: 5px;
 `;
 

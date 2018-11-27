@@ -25,14 +25,14 @@ const PanelWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 15px 22px;
+    padding: 15px 12px;
     border-radius: 32px;
     background-color: #ffffff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     opacity: 1;
 
     & > * {
-        padding: 10px 0;
+        padding: 10px;
         flex-shrink: 0;
     }
 `;
@@ -125,12 +125,6 @@ const IconWithState = styled(({ isOpen, ...rest }) => <Icon {...rest} />)`
         color: #2879ff;
     `};
 `;
-
-const VotePanelStyled = styled(VotePanel)`
-    padding-bottom: 2px;
-`;
-
-const RepostWrapper = styled.div``;
 
 export class SidePanel extends Component {
     static propTypes = {
@@ -252,10 +246,9 @@ export class SidePanel extends Component {
                 showSideBlock={showSideBlockByWidth && showSideBlockByHeight}
             >
                 <PanelWrapper>
-                    <VotePanelStyled contentLink={contentLink} sidePanel />
-                    <RepostWrapper>
+                    <VotePanel contentLink={contentLink} sidePanel />
+
                         <Repost contentLink={contentLink} />
-                    </RepostWrapper>
                     <ShareWrapper
                         onClick={this.openSharePopover}
                         role="button"

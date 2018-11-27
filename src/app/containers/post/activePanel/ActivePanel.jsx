@@ -121,15 +121,6 @@ const Action = styled.div`
     }
 `;
 
-const StyledPostActions = styled(PostActions)`
-    transition: none;
-
-    &:hover {
-        transform: none;
-        color: #2879ff !important;
-    }
-`;
-
 const ActionText = styled.div`
     margin-left: 25px;
     font-family: Roboto, sans-serif;
@@ -284,13 +275,14 @@ export class ActivePanel extends Component {
                         show={showDotsPopover}
                     >
                         <Actions>
-                            <StyledPostActions
+                            <PostActions
                                 fullUrl={post.url}
                                 isFavorite={post.isFavorite}
                                 isPinned={isPinned}
                                 isOwner={isOwner}
                                 toggleFavorite={toggleFavorite}
                                 togglePin={togglePin}
+                                coloredOnHover
                                 showText
                             />
                             {username ? (
