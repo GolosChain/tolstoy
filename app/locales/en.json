@@ -1185,7 +1185,7 @@
       "allOnlineLabel": "Instant notifications on the site",
       "award": "Author's award",
       "curatorAward": "Curating award",
-      "flag": "Dislike (flag)",
+      "flag": "Vote against",
       "mention": "Mention in a post or comments",
       "message": "Private message",
       "reply": "Reply to a post or comment",
@@ -1193,7 +1193,7 @@
       "subscribe": "Subscribe to the blog",
       "transfer": "Transfer",
       "unsubscribe": "Unsubscribe from blog",
-      "vote": "Like (vote)",
+      "vote": "Vote for",
       "witnessCancelVote": "Cancel vote for witness",
       "witnessVote": "Vote for witness"
     },
