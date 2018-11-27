@@ -10,15 +10,12 @@ import { api } from 'golos-js';
 
 import ServerHTML from './server-html';
 import serverRender from './serverRender';
-import models from 'db/models';
+// import models from 'db/models';
 import secureRandom from 'secure-random';
 
 import ErrorPage from 'server/server-error';
 import { DEFAULT_LANGUAGE, LANGUAGES, LOCALE_COOKIE_KEY } from 'app/client_config';
 import { metrics } from './metrics';
-
-const DB_RECONNECT_TIMEOUT =
-    process.env.NODE_ENV === 'development' ? 1000 * 60 * 60 : 1000 * 60 * 10;
 
 async function appRender(ctx) {
     try {
@@ -48,57 +45,16 @@ async function appRender(ctx) {
             settings = await getSettings(ctx.session.a);
         }
 
-        const user_id = ctx.session.user;
-        if (user_id) {
-            let user = null;
-            if (
-                appRender.dbStatus.ok ||
-                new Date() - appRender.dbStatus.lastAttempt > DB_RECONNECT_TIMEOUT
-            ) {
-                try {
-                    user = await models.User.findOne({
-                        attributes: ['name', 'email', 'picture_small'],
-                        where: { id: user_id },
-                        include: [{ model: models.Account, attributes: ['name', 'ignored'] }],
-                        logging: false,
-                    });
-                    appRender.dbStatus = { ok: true };
-                } catch (e) {
-                    appRender.dbStatus = { ok: false, lastAttempt: new Date() };
-                    console.error('WARNING! mysql query failed: ', e.toString());
-                    offchain.serverBusy = true;
-                }
-            } else {
-                offchain.serverBusy = true;
-            }
-            if (user) {
-                let account = null;
-                for (const a of user.Accounts) {
-                    if (!a.ignored) {
-                        account = a.name;
-                        break;
-                    }
-                }
-
-                offchain.user = {
-                    id: user_id,
-                    name: user.name,
-                    email: user.email,
-                    picture: user.picture_small,
-                    prv: ctx.session.prv,
-                    account,
-                };
-            }
-        }
-        if (ctx.session.arec) {
-            const account_recovery_record = await models.AccountRecoveryRequest.findOne({
-                attributes: ['id', 'account_name', 'status', 'provider'],
-                where: { id: ctx.session.arec, status: 'confirmed' },
-            });
-            if (account_recovery_record) {
-                offchain.recover_account = account_recovery_record.account_name;
-            }
-        }
+        // TODO: account recovery
+        // if (ctx.session.arec) {
+        //     const account_recovery_record = await models.AccountRecoveryRequest.findOne({
+        //         attributes: ['id', 'account_name', 'status', 'provider'],
+        //         where: { id: ctx.session.arec, status: 'confirmed' },
+        //     });
+        //     if (account_recovery_record) {
+        //         offchain.recover_account = account_recovery_record.account_name;
+        //     }
+        // }
 
         const start = new Date();
         const { body, statusCode, title, meta, helmet } = await serverRender({

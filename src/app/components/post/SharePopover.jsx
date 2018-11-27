@@ -59,7 +59,7 @@ export default class SharePopover extends Component {
             },
             {
                 link: '#',
-                onClick: e => fbShare(e, post),
+                onClick: e => fbShare(e),
                 value: 'Facebook',
                 title: tt('postfull_jsx.share_on_facebook'),
                 icon: 'facebook',

@@ -1,6 +1,4 @@
-import { serverApiRecordEvent } from 'app/utils/ServerApiClient';
-
-export const fbShare = (e, post) => {
+export const fbShare = e => {
     e.preventDefault();
 
     window.FB.ui(
@@ -8,11 +6,7 @@ export const fbShare = (e, post) => {
             method: 'share',
             href: location.href.replace(/#.*$/, ''),
         },
-        response => {
-            if (response && !response.error_message) {
-                serverApiRecordEvent('FbShare', post.link);
-            }
-        }
+        response => {}
     );
 };
 

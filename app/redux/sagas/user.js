@@ -9,7 +9,6 @@ import user from 'app/redux/User';
 import { getAccount } from 'app/redux/sagas/shared';
 import { broadcastOperation } from 'app/redux/sagas/transaction';
 import { serverApiLogin, serverApiLogout } from 'app/utils/ServerApiClient';
-import { serverApiRecordEvent } from 'app/utils/ServerApiClient';
 import { loadFollows } from 'app/redux/sagas/follow';
 import uploadImageWatch from '../UserSaga_UploadImage';
 import { tryRestoreAuth, resetSavedAuth } from 'src/app/helpers/localStorage';
@@ -355,7 +354,6 @@ function* onAuthorizeError(account, loginInfo, hasActiveKey) {
         // При попытке залогиниться активным ключем показываем ошибку
         errorText = 'active_login_blocked';
     } else {
-        recordLoginAttempt(loginInfo, ownerPubKey);
         errorText = 'Incorrect Password';
     }
 
@@ -455,16 +453,4 @@ function* setUser(loginInfo, account, keepLogin) {
 
 function compareFunc(a, b) {
     return a > b ? 1 : a < b ? -1 : 0;
-}
-
-function recordLoginAttempt(loginInfo, ownerPubKey) {
-    serverApiRecordEvent(
-        'login_attempt',
-        JSON.stringify({
-            name: loginInfo.username,
-            login_owner_pubkey: loginInfo.loginOwnerPubKey,
-            owner_pub_key: ownerPubKey,
-            generated_type: loginInfo.password[0] === 'P' && loginInfo.password.length > 40,
-        })
-    );
 }

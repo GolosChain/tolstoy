@@ -12,7 +12,6 @@ import g from 'app/redux/GlobalReducer';
 import user from 'app/redux/User';
 import tr from 'app/redux/Transaction';
 import { DEBT_TICKER } from 'app/client_config';
-import { serverApiRecordEvent } from 'app/utils/ServerApiClient';
 import constants from './../constants';
 import DialogManager from 'app/components/elements/common/DialogManager';
 
@@ -237,17 +236,6 @@ export function* broadcastOperation({
         if (error) {
             return error;
         }
-
-        let eventType = type
-            .replace(/^([a-z])/, g => g.toUpperCase())
-            .replace(/_([a-z])/g, g => g[1].toUpperCase());
-
-        if (eventType === 'Comment' && !operation.parent_author) {
-            eventType = 'Post';
-        }
-
-        const page = eventType === 'Vote' ? `@${operation.author}/${operation.permlink}` : '';
-        serverApiRecordEvent(eventType, page);
     } catch (err) {
         console.error('transaction saga', err);
 

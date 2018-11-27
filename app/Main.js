@@ -3,14 +3,9 @@ import '@babel/polyfill';
 import 'whatwg-fetch';
 import './assets/stylesheets/app.scss';
 import plugins from 'app/utils/JsPlugins';
-import { serverApiRecordEvent } from 'app/utils/ServerApiClient';
 import Iso from 'iso';
 import clientRender from 'app/clientRender';
 import * as golos from 'golos-js';
-
-// window.onerror = error => {
-//     if (window.$STM_csrf) serverApiRecordEvent('client_error', error);
-// };
 
 function runApp(initialState) {
     const config = initialState.offchain.config;
@@ -31,7 +26,6 @@ function runApp(initialState) {
         clientRender(initialState);
     } catch (error) {
         console.error(error);
-        serverApiRecordEvent('client_error', error);
     }
 
     if (process.env.BROWSER) {

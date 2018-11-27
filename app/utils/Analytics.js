@@ -1,50 +1,67 @@
-
 function send(target) {
     if (process.env.BROWSER) {
         if (window.ga) {
-            switch(target) {
-                case 'POPUP_CLICK_BUTTON': 
-                    window.ga('send', 'pageview', '/POPUP_CLICK_BUTTON')
-                    window.ga('send', 'pageview', '/SUCCESS_REG2')
-                break
+            switch (target) {
+                case 'POPUP_CLICK_BUTTON':
+                    window.ga('send', 'pageview', '/POPUP_CLICK_BUTTON');
+                    window.ga('send', 'pageview', '/SUCCESS_REG2');
+                    break;
 
                 case 'POPUP_CLICK_URL':
-                    window.ga('send', 'pageview', '/POPUP_CLICK_URL')
-                    window.ga('send', 'pageview', '/SUCCESS_REG3')
-                break
+                    window.ga('send', 'pageview', '/POPUP_CLICK_URL');
+                    window.ga('send', 'pageview', '/SUCCESS_REG3');
+                    break;
 
                 case 'BUTTON_CLICK':
-                    window.ga('send', 'pageview', '/BUTTON_CLICK')
-                    window.ga('send', 'pageview', '/SUCCESS_REG4')
-                break
+                    window.ga('send', 'pageview', '/BUTTON_CLICK');
+                    window.ga('send', 'pageview', '/SUCCESS_REG4');
+                    break;
 
                 default:
-                    window.ga('send', 'pageview', '/SUCCESS_REG1')
+                    window.ga('send', 'pageview', '/SUCCESS_REG1');
             }
         }
         if (window.yaCounter41829924) {
-            window.yaCounter41829924.reachGoal(target)
-            window.yaCounter41829924.reachGoal('SUCCESS_REG')
+            window.yaCounter41829924.reachGoal(target);
+            window.yaCounter41829924.reachGoal('SUCCESS_REG');
         }
-        localStorage.removeItem('_atarget')
+        localStorage.removeItem('_atarget');
     }
 }
 
 export function successReg() {
-    const target = localStorage.getItem('_atarget')
+    const target = localStorage.getItem('_atarget');
     if (target) {
-        send(target)
+        send(target);
     }
 }
 
 export function popupClickButton() {
-    localStorage.setItem('_atarget', 'POPUP_CLICK_BUTTON')
+    localStorage.setItem('_atarget', 'POPUP_CLICK_BUTTON');
 }
 
 export function popupClickUrl() {
-    localStorage.setItem('_atarget', 'POPUP_CLICK_URL')
+    localStorage.setItem('_atarget', 'POPUP_CLICK_URL');
 }
 
 export function buttonClick() {
-    localStorage.setItem('_atarget', 'BUTTON_CLICK')
+    localStorage.setItem('_atarget', 'BUTTON_CLICK');
+}
+
+export function pageView(page) {
+    if (process.env.BROWSER) {
+        if (window.ga) {
+            // virtual pageview
+            let guid = localStorage.getItem('guid');
+            if (guid) {
+                window.ga('set', 'userId', guid);
+            }
+            window.ga('set', 'page', page);
+            window.ga('send', 'pageview');
+        }
+
+        if (window.fbq) {
+            window.fbq('track', 'ViewContent');
+        }
+    }
 }
