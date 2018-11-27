@@ -193,7 +193,7 @@ export default class WalletContent extends Component {
         }
 
         if (list.length) {
-            const { myAccountName, myAccount, getContent } = this.props;
+            const { myAccountName, myAccount, getContent, postsContent } = this.props;
             const { delegationData } = this.state;
 
             return (
@@ -209,6 +209,7 @@ export default class WalletContent extends Component {
                             globalProps={globalProps}
                             delegate={this.props.delegate}
                             onLoadDelegationsData={this.onLoadDelegationsData}
+                            postsContent={postsContent}
                             getContent={getContent}
                         />
                     ))}
@@ -567,7 +568,7 @@ export default class WalletContent extends Component {
         this.props.setWalletTabState({
             key: key,
             [key]: id,
-        })
+        });
     }
 
     setTabsState(id) {
@@ -629,7 +630,10 @@ export default class WalletContent extends Component {
     onScrollLazy = throttle(
         () => {
             if (this._hasMore) {
-                if (this.contentRef.current.getBoundingClientRect().bottom < window.innerHeight * 1.2) {
+                if (
+                    this.contentRef.current.getBoundingClientRect().bottom <
+                    window.innerHeight * 1.2
+                ) {
                     this.setState({
                         limit: this.state.limit + DEFAULT_ROWS_LIMIT,
                     });

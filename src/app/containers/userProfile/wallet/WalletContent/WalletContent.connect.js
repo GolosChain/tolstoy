@@ -18,8 +18,14 @@ export const getGlobalPropsSelector = createSelector([globalSelector('props')], 
 
 export default connect(
     createSelector(
-        [getGlobalPropsSelector, currentUserSelector, pageAccountSelector, uiSelector('wallet')],
-        (globalProps, myAccount, pageAccount, wallet) => {
+        [
+            getGlobalPropsSelector,
+            currentUserSelector,
+            pageAccountSelector,
+            uiSelector('wallet'),
+            globalSelector('content'),
+        ],
+        (globalProps, myAccount, pageAccount, wallet, postsContent) => {
             const pageAccountName = pageAccount.get('name');
             const myAccountName = myAccount ? myAccount.get('username') : null;
             const walletTabsState = wallet.get('tabsState');
@@ -32,6 +38,7 @@ export default connect(
                 walletTabsState,
                 isOwner: myAccountName && pageAccountName === myAccountName,
                 globalProps,
+                postsContent,
             };
         }
     ),

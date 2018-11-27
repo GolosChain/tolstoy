@@ -256,7 +256,7 @@ export default class WalletLine extends PureComponent {
     }
 
     render() {
-        const { data, getContent } = this.props;
+        const { data, getContent, postsContent } = this.props;
         const { loader } = this.state;
         const {
             stamp,
@@ -295,7 +295,13 @@ export default class WalletLine extends PureComponent {
                             </WhoName>
                         ) : null}
                         {title ? <WhoTitle>{title}</WhoTitle> : null}
-                        {post ? <PostLink post={post} getContent={getContent}/> : null}
+                        {post ? (
+                            <PostLink
+                                post={post}
+                                getContent={getContent}
+                                postsContent={postsContent}
+                            />
+                        ) : null}
                         <TimeStamp>
                             <TimeAgoWrapper date={stamp} />
                         </TimeStamp>

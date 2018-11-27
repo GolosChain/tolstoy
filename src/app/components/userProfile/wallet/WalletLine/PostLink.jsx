@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import { Map } from 'immutable';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
@@ -19,13 +20,10 @@ export default class PostLink extends Component {
             permLink: PropTypes.string.isRequired,
         }),
         getContent: PropTypes.func.isRequired,
+        postsContent: PropTypes.instanceOf(Map),
     };
 
     isMounted = false;
-    state = {
-        category: '',
-        title: '',
-    };
 
     componentDidMount() {
         this.isMounted = true;
@@ -36,38 +34,26 @@ export default class PostLink extends Component {
         this.isMounted = false;
     }
 
-    componentWillReceiveProps(nextProps) {
-        const { post } = this.props;
-        if (`${post.author}/${post.permLink}` !== `${nextProps.post.author}/${nextProps.post.permLink}`) {
-            this.fetchContent(nextProps.post);
-        }
-    }
+    async fetchContent() {
+        const { post, getContent, postsContent } = this.props;
 
-    async fetchContent(relevantPost) {
-        const { getContent, post } = this.props;
-
-        let author = post.author;
-        let permLink = post.permLink;
-        if (relevantPost) {
-            author = relevantPost.author;
-            permLink = relevantPost.permLink;
+        if (postsContent.get(`${post.author}/${post.permLink}`)) {
+            return;
         }
 
         try {
-            const content = await getContent({ author: author, permlink: permLink });
-
-            if (content && this.isMounted) {
-                this.setState({ category: `/${content.category}`, title: content.title });
-            }
+            await getContent({ author: post.author, permlink: post.permLink });
         } catch (error) {
             console.error(error);
         }
     }
 
     render() {
-        const { post } = this.props;
-        const { category, title } = this.state;
-        const postLink = `${category}/@${post.author}/${post.permLink}`;
-        return <WhoPostLink to={postLink}>{title}</WhoPostLink>;
+        const { post, postsContent } = this.props;
+        const fullPost = postsContent.get(`${post.author}/${post.permLink}`);
+        if (fullPost) {
+            return <WhoPostLink to={fullPost.get('url')}>{fullPost.get('title')}</WhoPostLink>;
+        }
+        return null;
     }
 }
