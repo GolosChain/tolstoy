@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
-import styled from 'styled-components'
+import styled from 'styled-components';
 import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
@@ -11,8 +11,8 @@ const Action = styled.div`
     align-items: center;
     color: ${props => (props.active ? '#2879ff' : '#333333')} !important;
     cursor: pointer;
-    
-    ${({coloredOnHover}) => coloredOnHover ? `
+
+    ${({ colored }) => colored ? `   
         &:hover {
             color: #2879ff !important;
         }
@@ -21,7 +21,7 @@ const Action = styled.div`
         &:hover {
             transform: scale(1.15);
         }
-    `}
+    `};
 `;
 
 const ActionEditLink = styled(Action.withComponent(Link))`
@@ -66,7 +66,7 @@ const PostActions = ({
             <Fragment>
                 <ActionEditLink
                     className={className}
-                    coloredOnHover={coloredOnHover}
+                    colored={coloredOnHover ? 1 : 0}
                     to={`${fullUrl}/edit`}
                     role="button"
                     data-tooltip={editTooltip}
@@ -78,7 +78,7 @@ const PostActions = ({
                 <Action
                     className={className}
                     active={isPinned ? 1 : 0}
-                    coloredOnHover={coloredOnHover}
+                    colored={coloredOnHover ? 1 : 0}
                     role="button"
                     data-tooltip={pinTooltip}
                     aria-label={pinTooltip}
@@ -101,7 +101,7 @@ const PostActions = ({
     return (
         <Action
             className={className}
-            coloredOnHover={coloredOnHover}
+            colored={coloredOnHover ? 1 : 0}
             role="button"
             data-tooltip={favoriteTooltip}
             aria-label={favoriteTooltip}
