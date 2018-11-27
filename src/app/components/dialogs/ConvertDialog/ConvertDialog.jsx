@@ -9,6 +9,7 @@ import Slider from 'golos-ui/Slider';
 import ComplexInput from 'golos-ui/ComplexInput';
 import SplashLoader from 'golos-ui/SplashLoader';
 import { Checkbox } from 'golos-ui/Form';
+import { processingError } from 'src/app/components/dialogs/common/dialogUtils';
 
 import { MIN_VOICE_POWER } from 'app/client_config';
 import { isBadActor } from 'app/utils/ChainValidation';
@@ -19,7 +20,6 @@ import { boldify } from 'src/app/helpers/text';
 import { vestsToGolos, golosToVests } from 'app/utils/StateFunctions';
 import DialogTypeSelect from 'src/app/components/userProfile/common/DialogTypeSelect';
 import AccountNameInput from 'src/app/components/common/AccountNameInput';
-import { CLOSED_LOGIN_DIALOG } from 'src/app/redux/constants/common';
 
 const POWER_TO_GOLOS_INTERVAL = 13; // weeks
 
@@ -209,7 +209,7 @@ export default class ConvertDialog extends PureComponent {
                                 title: tt('dialogs_transfer.convert.tabs.gbg_golos.title'),
                             },
                         ]}
-                        onClick={this._onClickType}
+                        onClick={this.onClickType}
                     />
                     <SubHeader>
                         <Shrink height={72}>{this._renderSubHeader()}</Shrink>
@@ -298,7 +298,7 @@ export default class ConvertDialog extends PureComponent {
                             max={max}
                             showCaptions
                             hideHandleValue
-                            onChange={this._onSliderChange}
+                            onChange={this.onSliderChange}
                         />
                     </SliderWrapper>
                 );
@@ -471,13 +471,7 @@ export default class ConvertDialog extends PureComponent {
                     disabled: false,
                 });
 
-                switch (err) {
-                    case CLOSED_LOGIN_DIALOG:
-                    case 'Canceled':
-                        return;
-                    default:
-                        DialogManager.alert(err.toString());
-                }
+                processingError(err);
             } else {
                 this.setState({
                     loader: false,
@@ -489,7 +483,7 @@ export default class ConvertDialog extends PureComponent {
         });
     };
 
-    _onClickType = type => {
+    onClickType = type => {
         this.setState({
             type: type,
             amount: '',
@@ -497,7 +491,7 @@ export default class ConvertDialog extends PureComponent {
         });
     };
 
-    _onSliderChange = value => {
+    onSliderChange = value => {
         let amount = '';
 
         if (value > 0) {

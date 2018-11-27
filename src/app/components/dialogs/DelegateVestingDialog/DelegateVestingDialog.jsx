@@ -8,6 +8,7 @@ import { api } from 'golos-js';
 import ComplexInput from 'golos-ui/ComplexInput';
 import SplashLoader from 'golos-ui/SplashLoader';
 import Shrink from 'golos-ui/Shrink';
+import { processingError } from 'src/app/components/dialogs/common/dialogUtils';
 
 import { MIN_VOICE_POWER } from 'app/client_config';
 import transaction from 'app/redux/Transaction';
@@ -23,7 +24,6 @@ import DelegationEdit from './DelegationEdit';
 import { showNotification } from 'src/app/redux/actions/ui';
 import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';
 import AccountNameInput from 'src/app/components/common/AccountNameInput';
-import { CLOSED_LOGIN_DIALOG } from 'src/app/redux/constants/common';
 
 const TYPES = {
     DELEGATE: 'DELEGATE',
@@ -226,7 +226,7 @@ class DelegateVestingDialog extends PureComponent {
                                 title: tt('dialogs_transfer.delegate_vesting.tabs.delegated.title'),
                             },
                         ]}
-                        onClick={this._onTypeClick}
+                        onClick={this.onTypeClick}
                     />
                     {type === TYPES.DELEGATE ? (
                         <Fragment>
@@ -455,14 +455,7 @@ class DelegateVestingDialog extends PureComponent {
                     disabled: false,
                 });
 
-                const errStr = err.toString();
-                switch (errStr) {
-                    case CLOSED_LOGIN_DIALOG:
-                    case 'Canceled':
-                        return;
-                    default:
-                        DialogManager.alert(`${tt('g.error')}:\n${errStr}`);
-                }
+                processingError(err);
             } else {
                 this.setState({
                     loader: false,
@@ -500,14 +493,7 @@ class DelegateVestingDialog extends PureComponent {
                     loader: false,
                 });
 
-                const errStr = err.toString();
-                switch (errStr) {
-                    case CLOSED_LOGIN_DIALOG:
-                    case 'Canceled':
-                        return;
-                    default:
-                        DialogManager.alert(`${tt('g.error')}:\n${errStr}`);
-                }
+                processingError(err);
             } else {
                 this.setState({
                     disabled: false,
@@ -520,7 +506,7 @@ class DelegateVestingDialog extends PureComponent {
         });
     }
 
-    _onTypeClick = type => {
+    onTypeClick = type => {
         this.setState({
             type: type,
             amount: '',

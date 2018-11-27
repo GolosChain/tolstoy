@@ -15,11 +15,11 @@ import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';
 import { showNotification } from 'src/app/redux/actions/ui';
 import { parseAmount } from 'src/app/helpers/currency';
 import { saveValue, getValue } from 'src/app/helpers/localStorageUtils';
+import { processingError } from 'src/app/components/dialogs/common/dialogUtils';
 
 import DialogFrame from 'app/components/dialogs/DialogFrame';
 import DialogManager from 'app/components/elements/common/DialogManager';
 import AccountNameInput from 'src/app/components/common/AccountNameInput';
-import { CLOSED_LOGIN_DIALOG } from 'src/app/redux/constants/common';
 
 const CURRENCY_SAVE_KEY = 'transfer-dialog.default-currency';
 
@@ -376,17 +376,7 @@ class TransferDialog extends PureComponent {
                     disabled: false,
                 });
 
-                const errStr = err.toString();
-                switch (errStr) {
-                    case CLOSED_LOGIN_DIALOG:
-                        return;
-                    case 'Missing object (1020200)':
-                        DialogManager.alert(tt('g.account_not_found'));
-                        break;
-                    case 'Canceled':
-                        DialogManager.alert(errStr);
-                        break;
-                }
+                processingError(err);
             } else {
                 this.setState({
                     loader: false,

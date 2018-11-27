@@ -14,12 +14,12 @@ import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';
 import { showNotification } from 'src/app/redux/actions/ui';
 import { parseAmount } from 'src/app/helpers/currency';
 import { saveValue, getValue } from 'src/app/helpers/localStorageUtils';
+import { processingError } from 'src/app/components/dialogs/common/dialogUtils';
 
 import DialogFrame from 'app/components/dialogs/DialogFrame';
 import DialogManager from 'app/components/elements/common/DialogManager';
 import AccountNameInput from 'src/app/components/common/AccountNameInput';
 import DialogTypeSelect from 'src/app/components/userProfile/common/DialogTypeSelect';
-import { CLOSED_LOGIN_DIALOG } from 'src/app/redux/constants/common';
 
 const CURRENCY_SAVE_KEY = 'transfer-dialog.default-currency';
 
@@ -166,7 +166,7 @@ class SafeDialog extends PureComponent {
                             title: tt('dialogs_transfer.transfer_to_savings.withdraw'),
                         },
                     ]}
-                    onClick={this._onTypeClick}
+                    onClick={this.onTypeClick}
                 />
                 <Content>
                     <SubHeader>
@@ -308,14 +308,7 @@ class SafeDialog extends PureComponent {
                     disabled: false,
                 });
 
-                const errStr = err.toString();
-                switch (errStr) {
-                    case CLOSED_LOGIN_DIALOG:
-                    case 'Canceled':
-                        return;
-                    default:
-                        DialogManager.alert(`${tt('g.error')}:\n${errStr}`);
-                }
+                processingError(err);
             } else {
                 this.setState({
                     loader: false,
@@ -327,7 +320,7 @@ class SafeDialog extends PureComponent {
         });
     };
 
-    _onTypeClick = type => {
+    onTypeClick = type => {
         this.setState({
             type: type,
             amount: '',

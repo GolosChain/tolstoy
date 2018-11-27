@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
+import { processingError } from 'src/app/components/dialogs/common/dialogUtils';
+
 import ComplexInput from 'golos-ui/ComplexInput';
-import DialogManager from 'app/components/elements/common/DialogManager';
 import DialogFrame from 'app/components/dialogs/DialogFrame';
-import { CLOSED_LOGIN_DIALOG } from 'src/app/redux/constants/common';
 
 const DialogFrameStyled = styled(DialogFrame)`
     flex-basis: 240px;
@@ -119,14 +119,7 @@ export default class PromoteDialog extends Component {
             isLock: false,
         });
 
-        const errStr = err.toString();
-        switch (errStr) {
-            case CLOSED_LOGIN_DIALOG:
-            case 'Canceled':
-                return;
-            default:
-                DialogManager.alert(`${tt('g.error')}:\n${errStr}`);
-        }
+        processingError(err);
     };
 
     onCloseClick = () => {
