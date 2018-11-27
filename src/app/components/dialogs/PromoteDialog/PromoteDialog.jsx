@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
+import { processError } from 'src/app/helpers/dialogs';
+
 import ComplexInput from 'golos-ui/ComplexInput';
-import DialogManager from 'app/components/elements/common/DialogManager';
 import DialogFrame from 'app/components/dialogs/DialogFrame';
 
 const DialogFrameStyled = styled(DialogFrame)`
@@ -118,11 +119,7 @@ export default class PromoteDialog extends Component {
             isLock: false,
         });
 
-        const errStr = err.toString();
-
-        if (errStr !== 'Canceled') {
-            DialogManager.alert(`${tt('g.error')}:\n${errStr}`);
-        }
+        processError(err);
     };
 
     onCloseClick = () => {

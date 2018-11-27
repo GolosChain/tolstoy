@@ -14,6 +14,7 @@ import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';
 import { showNotification } from 'src/app/redux/actions/ui';
 import { parseAmount } from 'src/app/helpers/currency';
 import { saveValue, getValue } from 'src/app/helpers/localStorageUtils';
+import { processError } from 'src/app/helpers/dialogs';
 
 import DialogFrame from 'app/components/dialogs/DialogFrame';
 import DialogManager from 'app/components/elements/common/DialogManager';
@@ -148,7 +149,7 @@ class SafeDialog extends PureComponent {
                         text: tt('dialogs_transfer.transfer_to_savings.transfer_button'),
                         primary: true,
                         disabled: !allow,
-                        onClick: this._onOkClick,
+                        onClick: this.onOkClick,
                     },
                 ]}
                 onCloseClick={this._onCloseClick}
@@ -165,7 +166,7 @@ class SafeDialog extends PureComponent {
                             title: tt('dialogs_transfer.transfer_to_savings.withdraw'),
                         },
                     ]}
-                    onClick={this._onTypeClick}
+                    onClick={this.onTypeClick}
                 />
                 <Content>
                     <SubHeader>
@@ -275,7 +276,7 @@ class SafeDialog extends PureComponent {
         this.props.onClose();
     };
 
-    _onOkClick = () => {
+    onOkClick = () => {
         const { myUser } = this.props;
         const { target, amount, currency, type, saveTo, loader, disabled } = this.state;
 
@@ -307,9 +308,7 @@ class SafeDialog extends PureComponent {
                     disabled: false,
                 });
 
-                if (err !== 'Canceled') {
-                    DialogManager.alert(err.toString());
-                }
+                processError(err);
             } else {
                 this.setState({
                     loader: false,
@@ -321,7 +320,7 @@ class SafeDialog extends PureComponent {
         });
     };
 
-    _onTypeClick = type => {
+    onTypeClick = type => {
         this.setState({
             type: type,
             amount: '',

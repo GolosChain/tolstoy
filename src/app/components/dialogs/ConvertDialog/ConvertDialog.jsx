@@ -9,6 +9,7 @@ import Slider from 'golos-ui/Slider';
 import ComplexInput from 'golos-ui/ComplexInput';
 import SplashLoader from 'golos-ui/SplashLoader';
 import { Checkbox } from 'golos-ui/Form';
+import { processError } from 'src/app/helpers/dialogs';
 
 import { MIN_VOICE_POWER } from 'app/client_config';
 import { isBadActor } from 'app/utils/ChainValidation';
@@ -208,7 +209,7 @@ export default class ConvertDialog extends PureComponent {
                                 title: tt('dialogs_transfer.convert.tabs.gbg_golos.title'),
                             },
                         ]}
-                        onClick={this._onClickType}
+                        onClick={this.onClickType}
                     />
                     <SubHeader>
                         <Shrink height={72}>{this._renderSubHeader()}</Shrink>
@@ -297,7 +298,7 @@ export default class ConvertDialog extends PureComponent {
                             max={max}
                             showCaptions
                             hideHandleValue
-                            onChange={this._onSliderChange}
+                            onChange={this.onSliderChange}
                         />
                     </SliderWrapper>
                 );
@@ -470,9 +471,7 @@ export default class ConvertDialog extends PureComponent {
                     disabled: false,
                 });
 
-                if (err !== 'Canceled') {
-                    DialogManager.alert(err.toString());
-                }
+                processError(err);
             } else {
                 this.setState({
                     loader: false,
@@ -484,7 +483,7 @@ export default class ConvertDialog extends PureComponent {
         });
     };
 
-    _onClickType = type => {
+    onClickType = type => {
         this.setState({
             type: type,
             amount: '',
@@ -492,7 +491,7 @@ export default class ConvertDialog extends PureComponent {
         });
     };
 
-    _onSliderChange = value => {
+    onSliderChange = value => {
         let amount = '';
 
         if (value > 0) {
