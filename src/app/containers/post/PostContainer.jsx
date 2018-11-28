@@ -10,6 +10,7 @@ import RegistrationPanel from 'src/app/components/post/RegistrationPanel';
 import AboutPanel from 'src/app/containers/post/aboutPanel';
 import ActivePanel from 'src/app/containers/post/activePanel';
 import CommentsContainer from 'src/app/containers/post/commentsContainer';
+import NotFoundFragment from 'app/components/elements/NotFoundFragment';
 
 export const POST_MAX_WIDTH = 840;
 const POST_MARGINS_MOBILE = 20;
@@ -98,11 +99,15 @@ export class PostContainer extends Component {
     };
 
     render() {
-        const { postLoaded, newVisitor, isOwner } = this.props;
+        const { postLoaded, newVisitor, isOwner, isHidden } = this.props;
         const { showAlert } = this.state;
 
         if (!postLoaded) {
             return <Loader type="circle" center size={40} />;
+        }
+
+        if (isHidden) {
+            return <NotFoundFragment />
         }
 
         if (showAlert) {
