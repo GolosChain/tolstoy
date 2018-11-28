@@ -13,6 +13,7 @@ import Navigation from 'src/app/components/common/Navigation';
 const IconLink = styled(Link)`
     display: flex;
     padding: 4px;
+    margin-left: 7px;
     color: #b7b7b9;
 
     &.${({ activeClassName }) => activeClassName}, &:hover {

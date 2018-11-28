@@ -8,6 +8,7 @@ import { getScrollElement } from 'src/app/helpers/window';
 import { isFetchingOrRecentlyUpdated } from 'app/utils/StateFunctions';
 
 import PostCard from 'src/app/components/cards/PostCard';
+import PostCardCompact from 'src/app/components/cards/PostCardCompact';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 
 export const FORCE_LINES_WIDTH = 1000;
@@ -39,7 +40,7 @@ export default class CardsList extends PureComponent {
         order: PropTypes.string,
         category: PropTypes.string,
         items: PropTypes.instanceOf(List),
-        layout: PropTypes.oneOf(['list', 'grid']),
+        layout: PropTypes.oneOf(['list', 'grid', 'compact']),
         itemRender: PropTypes.func,
         allowInlineReply: PropTypes.bool,
         showPinButton: PropTypes.bool,
@@ -195,9 +196,15 @@ export default class CardsList extends PureComponent {
         return ignoreResult && ignoreResult.has(author);
     };
 
-    itemRender(props) {
-        return <PostCard {...props} />;
-    }
+    itemRender = cardProps => {
+        const { layout } = this.props;
+
+        if (layout === 'compact') {
+            return <PostCardCompact {...cardProps} />;
+        } else {
+            return <PostCard {...cardProps} />;
+        }
+    };
 
     renderCards() {
         const { items, layout, disallowGrid } = this.props;

@@ -1,12 +1,19 @@
 import { Map, List } from 'immutable';
 import memoize from 'lodash/memoize';
 import { createSelector } from 'reselect';
-import { createDeepEqualSelector, dataSelector, globalSelector, parseJSON } from '../common';
 
-import { extractPinnedPosts } from 'src/app/redux/selectors/account/pinnedPosts';
+import {
+    createDeepEqualSelector,
+    dataSelector,
+    globalSelector,
+    parseJSON,
+    currentUsernameSelector,
+} from '../common';
+import { extractPinnedPosts, getPinnedPosts } from 'src/app/redux/selectors/account/pinnedPosts';
 import { detransliterate, parsePayoutAmount } from 'app/utils/ParsersAndFormatters';
 import normalizeProfile from 'app/utils/NormalizeProfile';
 import { extractContentMemoized, extractRepost } from 'app/utils/ExtractContent';
+import { hasReblog, extractReblogData } from 'app/utils/StateFunctions';
 
 const emptyMap = Map();
 const emptyList = List();
@@ -115,7 +122,7 @@ export const authorSelector = createDeepEqualSelector(
             pinnedPostsUrls,
             pinnedPosts: pinnedPostsUrls
                 .map(url => content.get(url))
-                .filter(post => !!post)
+                .filter(post => post)
                 .map(post => ({
                     title: post.get('title'),
                     url: post.get('url'),
@@ -162,3 +169,57 @@ export const sanitizeRepostData = memoize(data => {
         __html: extractRepost(data),
     };
 });
+
+export const postCardSelector = createDeepEqualSelector(
+    [
+        currentUsernameSelector,
+        dataSelector(['favorites', 'set']),
+        dataSelector('settings'),
+        (state, props) => globalSelector(['content', props.permLink])(state),
+        (state, props) =>
+            props.showPinButton &&
+            getPinnedPosts(state, props.pageAccountName).includes(props.permLink),
+        (_, props) => props,
+    ],
+    (currentUsername, favoritesSet, settings, data, isPinned, props) => {
+        let repostHtml = null;
+        let isRepost = false;
+        let reblogData = null;
+
+        if (hasReblog(data)) {
+            isRepost = true;
+            reblogData = extractReblogData(data);
+
+            const body = reblogData.get('body');
+
+            if (body) {
+                repostHtml = sanitizeRepostData(body);
+            }
+        }
+
+        const isOwner = currentUsername === data.get('author');
+
+        return {
+            myAccount: currentUsername,
+            isNsfw: data.getIn(['stats', 'isNsfw']),
+            nsfwPref: settings.getIn(['basic', 'nsfw']),
+            hideNsfw:
+                data.getIn(['stats', 'isNsfw']) &&
+                settings.getIn(['basic', 'nsfw']) === 'hide' &&
+                !isOwner,
+            data,
+            postLink: data.get('author') + '/' + data.get('permlink'),
+            sanitizedData: sanitizeCardPostData(data),
+            isRepost,
+            repostHtml,
+            isFavorite: favoritesSet ? favoritesSet.includes(props.permLink) : false,
+            pinDisabled: props.pageAccountName !== currentUsername,
+            isPinned,
+            isOwner,
+            stats: data.get('stats').toJS(),
+            reblogData,
+            allowRepost:
+                !isOwner && (!isRepost || reblogData.get('repostAuthor') !== currentUsername),
+        };
+    }
+);

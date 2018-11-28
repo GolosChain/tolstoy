@@ -55,6 +55,7 @@ const CommentReplyWrapper = styled.div`
 `;
 
 const Splitter = styled.div`
+    flex-shrink: 0;
     width: 1px;
     height: 26px;
     margin: 0 6px;
@@ -128,14 +129,7 @@ export default class CommentFooter extends Component {
     };
 
     render() {
-        const {
-            comment,
-            contentLink,
-            isOwner,
-            showReply,
-            edit,
-            onReplyClick,
-        } = this.props;
+        const { comment, contentLink, isOwner, showReply, edit, onReplyClick } = this.props;
 
         if (showReply) {
             return (

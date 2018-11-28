@@ -1,2 +1,2 @@
 export { default } from './VotePanel.connect';
-export { default as VotePanel } from './VotePanel';
+export { default as VotePanelCompact } from './VotePanelCompact.connect';

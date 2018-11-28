@@ -10,7 +10,7 @@ import {
     CONTAINER_BASE_MARGIN,
     CONTAINER_MOBILE_WIDTH,
     CONTAINER_MOBILE_MARGIN,
-} from 'src/app/components/common/Container';
+} from 'src/app/constants/container';
 
 const SlideContainerStyled = styled(SlideContainer)`
     background: #fff;
