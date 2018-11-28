@@ -53,10 +53,16 @@ export default class PostLink extends Component {
     render() {
         const { post, postsContent } = this.props;
         const fullPost = postsContent.get(`${post.author}/${post.permLink}`);
-        if (fullPost) {
-            const postDesc = extractContent(fullPost).desc;
-            return <WhoPostLink to={fullPost.get('url')}>{fullPost.get('title') || postDesc}</WhoPostLink>;
-        }
-        return null;
+        return fullPost ? (
+            <WhoPostLink to={fullPost.get('url')}>{renderRewardTrxTitle(fullPost)}</WhoPostLink>
+        ) : null;
     }
+}
+
+function renderRewardTrxTitle(fullPost) {
+    let title = fullPost.get('title');
+    if (!title) {
+        title = extractContent(fullPost).desc;
+    }
+    return title;
 }

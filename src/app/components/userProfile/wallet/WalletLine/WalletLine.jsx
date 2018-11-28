@@ -21,7 +21,7 @@ import {
     DIRECTION,
     CURRENCY_COLOR,
 } from 'src/app/containers/userProfile/wallet/WalletContent/WalletContent';
-import PostLink from './PostLink';
+import PostLink from './RewardTrxTitle';
 
 const Root = styled.div`
     &:nth-child(even) {
