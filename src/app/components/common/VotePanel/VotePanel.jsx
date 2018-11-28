@@ -32,24 +32,29 @@ const VERT_OFFSET_DOWN = 26;
 const USERS_NUMBER_IN_TOOLTIP = 8;
 
 const LikeWrapper = styled.i`
-    margin-right: 8px;
-
+    margin-left: -8px;
+    padding: 8px;
     ${is('vertical')`
-        margin: 0 0 6px;
-        transition: transform 0.15s;
-
-        &:hover {
-            transform: scale(1.15);
-        }
+        margin: -8px 0 0 0;
     `};
+    
+    transition: transform 0.15s;
+    &:hover {
+        transform: scale(1.15);
+    }
 `;
 
 const LikeCount = styled.span`
+    ${({ vertical }) => vertical ? `padding: 0 8px;` : `padding: 8px 0;`};
     color: #959595;
     transition: color 0.15s;
+
+    &:hover {
+        color: #000000;
+    }
 `;
 
-const LikeIcon = Icon.extend`
+const LikeIcon = styled(Icon)`
     vertical-align: middle;
     width: 20px;
     height: 20px;
@@ -58,13 +63,13 @@ const LikeIcon = Icon.extend`
     transition: color 0.2s;
 `;
 
-const LikeIconNeg = LikeIcon.extend`
+const LikeIconNeg = styled(LikeIcon)`
     margin-top: 0;
     margin-bottom: -5px;
     transform: scale(1, -1);
 `;
 
-const OkIcon = Icon.extend`
+const OkIcon = styled(Icon)`
     width: 16px;
     margin-right: 8px;
     color: #a8a8a8;
@@ -98,8 +103,6 @@ const LikeBlock = styled.div`
     display: flex;
     align-items: center;
 
-    padding-right: 4px;
-
     cursor: pointer;
     user-select: none;
     white-space: nowrap;
@@ -107,7 +110,7 @@ const LikeBlock = styled.div`
     ${is('vertical')`
         flex-direction: column;
         margin: 0 !important;
-        padding: 0 0 12px;
+        padding: 0 0 10px;
     `};
 
     ${is('last')`
@@ -116,8 +119,8 @@ const LikeBlock = styled.div`
 
     ${isNot('vertical')`
         &:hover,
-        &:hover ${LikeCount}, &:hover ${LikeIcon}, &:hover ${LikeIconNeg} {
-            color: #000;
+        &:hover ${LikeIcon}, &:hover ${LikeIconNeg} {
+            color: #000000;
         }
     `};
 
@@ -226,7 +229,7 @@ export default class VotePanel extends PureComponent {
     static propTypes = {
         data: PropTypes.instanceOf(Map),
         username: PropTypes.string,
-        sidePanel: PropTypes.bool,
+        vertical: PropTypes.bool,
     };
 
     state = {
@@ -253,7 +256,7 @@ export default class VotePanel extends PureComponent {
     };
 
     render() {
-        const { data, className, sidePanel, votesSummary } = this.props;
+        const { data, className, vertical, votesSummary } = this.props;
         const { showSlider, sliderAction } = this.state;
 
         if (!data) {
@@ -273,19 +276,18 @@ export default class VotePanel extends PureComponent {
                   usersListForTooltip(votesSummary.firstDislikes),
                   votesSummary.dislikes > USERS_NUMBER_IN_TOOLTIP
               );
-
         return (
-            <Root className={className} innerRef={this._onRef} vertical={sidePanel}>
+            <Root className={className} innerRef={this._onRef} vertical={vertical}>
                 <LikeBlock
                     active={votesSummary.myVote === 'like' || sliderAction === 'like'}
-                    vertical={sidePanel}
+                    vertical={vertical}
                 >
                     <LikeWrapper
                         role="button"
                         data-tooltip={tt('g.like')}
                         aria-label={tt('g.like')}
                         innerRef={this.onLikeRef}
-                        vertical={sidePanel}
+                        vertical={vertical}
                         onClick={this.onLikeClick}
                     >
                         <LikeIcon name="like" />
@@ -295,24 +297,25 @@ export default class VotePanel extends PureComponent {
                         data-tooltip-html
                         role="button"
                         aria-label={tt('aria_label.likers_list', { count: votesSummary.likes })}
+                        vertical={vertical}
                         onClick={votesSummary.likes === 0 ? null : this.onLikesNumberClick}
                     >
                         {votesSummary.likes}
-                        {sidePanel ? null : <IconTriangle />}
+                        {vertical ? null : <IconTriangle />}
                     </LikeCount>
                 </LikeBlock>
-                {sidePanel ? null : this.renderPayout()}
+                {vertical ? null : this.renderPayout()}
                 <LikeBlockNeg
                     last
                     activeNeg={votesSummary.myVote === 'dislike' || sliderAction === 'dislike'}
-                    vertical={sidePanel}
+                    vertical={vertical}
                 >
                     <LikeWrapper
                         role="button"
                         data-tooltip={tt('g.dislike')}
                         aria-label={tt('g.dislike')}
                         innerRef={this.onDisLikeRef}
-                        vertical={sidePanel}
+                        vertical={vertical}
                         onClick={this.onDislikeClick}
                     >
                         <LikeIconNeg name="like" />
@@ -324,10 +327,11 @@ export default class VotePanel extends PureComponent {
                         aria-label={tt('aria_label.dislikers_list', {
                             count: votesSummary.dislikes,
                         })}
+                        vertical={vertical}
                         onClick={votesSummary.dislikes === 0 ? null : this.onDislikesNumberClick}
                     >
                         {votesSummary.dislikes}
-                        {sidePanel ? null : <IconTriangle />}
+                        {vertical ? null : <IconTriangle />}
                     </LikeCount>
                 </LikeBlockNeg>
                 {showSlider ? this.renderSlider() : null}
@@ -336,7 +340,7 @@ export default class VotePanel extends PureComponent {
     }
 
     renderSlider() {
-        const { sidePanel } = this.props;
+        const { vertical } = this.props;
         const { sliderAction, votePercent } = this.state;
 
         const like = sliderAction === 'like' ? this._like : this._disLike;
@@ -348,7 +352,7 @@ export default class VotePanel extends PureComponent {
 
         let verticalOffset = OFFSET;
 
-        if (sidePanel) {
+        if (vertical) {
             if (sliderAction === 'like') {
                 verticalOffset = VERT_OFFSET_UP;
             } else {

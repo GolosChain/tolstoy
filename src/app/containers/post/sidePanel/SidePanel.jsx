@@ -106,7 +106,6 @@ const ActionWrapper = styled.div`
 
 const IconWrapper = styled.div`
     display: flex;
-    padding: 5px;
     cursor: pointer;
     transition: transform 0.15s;
 
@@ -124,6 +123,10 @@ const IconWithState = styled(({ isOpen, ...rest }) => <Icon {...rest} />)`
         transition: color 0s;
         color: #2879ff;
     `};
+`;
+
+const WrapperVotePanel = styled(VotePanel)`
+    padding-bottom: 0;
 `;
 
 export class SidePanel extends Component {
@@ -246,9 +249,8 @@ export class SidePanel extends Component {
                 showSideBlock={showSideBlockByWidth && showSideBlockByHeight}
             >
                 <PanelWrapper>
-                    <VotePanel contentLink={contentLink} sidePanel />
-
-                        <Repost contentLink={contentLink} />
+                    <WrapperVotePanel contentLink={contentLink} vertical />
+                    <Repost contentLink={contentLink} />
                     <ShareWrapper
                         onClick={this.openSharePopover}
                         role="button"
