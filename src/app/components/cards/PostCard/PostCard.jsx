@@ -13,6 +13,7 @@ import { EntryWrapper, PostTitle, PostContent } from '../common';
 import VotePanel from '../../common/VotePanel';
 import ReplyBlock from '../../common/ReplyBlock';
 import CardAuthor from '../CardAuthor';
+import { getImageSrc } from 'src/app/helpers/images';
 
 const PREVIEW_IMAGE_SIZE = '859x356';
 
@@ -448,7 +449,7 @@ export default class PostCard extends PureComponent {
                 {withImage ? (
                     <PostImage
                         compact={compact}
-                        src={this._getImageSrc(sanitizedData.image_link)}
+                        src={getImageSrc(PREVIEW_IMAGE_SIZE, sanitizedData.image_link)}
                     />
                 ) : null}
                 <Body>
@@ -457,16 +458,6 @@ export default class PostCard extends PureComponent {
                 </Body>
             </BodyLink>
         );
-    }
-
-    _getImageSrc(url) {
-        const proxy = $STM_Config.img_proxy_prefix;
-
-        if (proxy) {
-            return `${proxy}${PREVIEW_IMAGE_SIZE}/${url}`;
-        } else {
-            return url;
-        }
     }
 
     renderFooter() {

@@ -8,6 +8,7 @@ import { getScrollElement } from 'src/app/helpers/window';
 import { isFetchingOrRecentlyUpdated } from 'app/utils/StateFunctions';
 
 import PostCard from 'src/app/components/cards/PostCard';
+import PostCardCompact from 'src/app/components/cards/PostCardCompact';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 
 export const FORCE_LINES_WIDTH = 1000;
@@ -196,7 +197,7 @@ export default class CardsList extends PureComponent {
     };
 
     itemRender(props) {
-        return <PostCard {...props} />;
+        return <PostCardCompact {...props} />;
     }
 
     renderCards() {
