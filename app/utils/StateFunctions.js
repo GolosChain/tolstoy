@@ -4,6 +4,7 @@ import { parsePayoutAmount, repLog10 } from 'app/utils/ParsersAndFormatters';
 import { Long } from 'bytebuffer';
 import { VEST_TICKER, LIQUID_TICKER } from 'app/client_config';
 import { Map, Seq, fromJS } from 'immutable';
+import { has } from 'ramda';
 import { getStoreState } from 'app/clientRender';
 
 const DEFAULT_DATE = '1970-01-01T00:00:00';
@@ -202,6 +203,17 @@ export function extractReblogData(content) {
         body,
         metadata: json_metadata ? JSON.parse(json_metadata) : {},
     });
+}
+
+export function isHide(post) {
+    if (!post) {
+        return false;
+    }
+    if (post instanceof Map) {
+        return post.get('json_metadata').startsWith('{"hash"');
+    } else {
+        return post.metadata ? has('hash', post.metadata) : false;
+    }
 }
 
 function filterTags(tags) {
