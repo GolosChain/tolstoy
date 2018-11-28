@@ -67,6 +67,7 @@ const CommentBody = styled(
         isPostPage ? <div {...otherProps} /> : <Link to={to} {...otherProps} />
 )`
     display: block;
+    flex-grow: 1;
 
     margin-right: 18px;
     overflow-x: hidden;
