@@ -8,7 +8,7 @@ import Icon from 'golos-ui/Icon';
 
 import VotePanel from 'src/app/components/common/VotePanel';
 import ReplyBlock from 'src/app/components/common/ReplyBlock';
-import SharePopover from 'src/app/components/post/SharePopover';
+import ShareList from 'src/app/components/post/ShareList';
 import {
     PopoverBackgroundShade,
     PopoverStyled,
@@ -257,7 +257,7 @@ export class ActivePanel extends Component {
                             onClose={this.closeSharePopover}
                             show={showSharePopover}
                         >
-                            <SharePopover horizontal={true} post={post} />
+                            <ShareList horizontal={true} post={post} />
                         </PopoverStyled>
                     </SharingTriangle>
                 </RepostSharingWrapper>

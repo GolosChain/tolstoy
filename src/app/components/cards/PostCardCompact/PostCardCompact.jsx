@@ -9,6 +9,7 @@ import { getImageSrc } from 'src/app/helpers/images';
 import { breakWordStyles } from 'src/app/helpers/styles';
 import { VotePanelCompact } from 'src/app/components/common/VotePanel';
 import { ReplyBlock } from '../../common/ReplyBlock';
+import CompactPostCardMenu from 'src/app/components/common/CompactPostCardMenu';
 import { detransliterate, repLog10 } from 'app/utils/ParsersAndFormatters';
 
 const PREVIEW_WIDTH = 148;
@@ -16,7 +17,7 @@ const PREVIEW_HEIGHT = 80;
 const PREVIEW_SIZE = `${PREVIEW_WIDTH}x${PREVIEW_HEIGHT}`;
 
 const Root = styled.div`
-    padding: 20px 20px 10px;
+    padding: 20px 20px 8px;
     margin-bottom: 20px;
     border-radius: 8px;
     background: #fff;
@@ -36,6 +37,7 @@ const PostTitle = styled.div`
 
 const activeStyle = css`
     color: #959595;
+    cursor: pointer;
     transition: color 0.15s;
 
     &:focus,
@@ -151,9 +153,45 @@ const RepostIcon = styled(Icon).attrs({
     width: 17px;
 `;
 
+const Filler = styled.div`
+    flex-grow: 1;
+`;
+
+const MenuWrapper = styled.div`
+    position: relative;
+`;
+
+const DotsIcon = styled(Icon).attrs({
+    name: 'dots_horizontal',
+})`
+    display: block;
+    width: 32px;
+    padding: 0 4px 0 10px;
+    margin-right: -4px;
+    color: #959595;
+    user-select: none;
+    ${activeStyle};
+`;
+
 export default class PostCardCompact extends PureComponent {
+    state = {
+        menu: false,
+    };
+
     onRepostClick = () => {
         this.props.openRepostDialog(this.props.postLink);
+    };
+
+    onMenuHandlerClick = () => {
+        this.setState({
+            menu: true,
+        });
+    };
+
+    onMenuClose = () => {
+        this.setState({
+            menu: false,
+        });
     };
 
     renderBody() {
@@ -196,16 +234,13 @@ export default class PostCardCompact extends PureComponent {
     }
 
     renderFooter() {
-        const { permLink, data, author } = this.props;
+        const { permLink, data } = this.props;
+        const { menu } = this.state;
 
         const category = detransliterate(data.get('category'));
         const categoryTooltip = tt('aria_label.category', { category: category });
 
         const created = data.get('created');
-
-        if (author) {
-            console.log(this.props.author.toJS());
-        }
 
         return (
             <Footer>
@@ -232,6 +267,11 @@ export default class PostCardCompact extends PureComponent {
                         </BlogLink>
                     </BlogLinkBlock>
                 </DetailsBlock>
+                <Filler />
+                <MenuWrapper>
+                    {menu ? <CompactPostCardMenu post={null} onClose={this.onMenuClose} /> : null}
+                    <DotsIcon onClick={this.onMenuHandlerClick} />
+                </MenuWrapper>
             </Footer>
         );
     }
