@@ -8,6 +8,7 @@ import {
     globalSelector,
     parseJSON,
     currentUsernameSelector,
+    accountSelector,
 } from '../common';
 import { extractPinnedPosts, getPinnedPosts } from 'src/app/redux/selectors/account/pinnedPosts';
 import { detransliterate, parsePayoutAmount } from 'app/utils/ParsersAndFormatters';
@@ -218,6 +219,8 @@ export const postCardSelector = createDeepEqualSelector(
             isOwner,
             stats: data.get('stats').toJS(),
             reblogData,
+            allowRepost:
+                !isOwner && (!isRepost || reblogData.get('repostAuthor') !== currentUsername),
         };
     }
 );

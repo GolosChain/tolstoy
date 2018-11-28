@@ -63,6 +63,7 @@
     "header_logo": "Golos.io logo",
     "likers_list": "Voted with like: %(count)s",
     "notifications": "Notifications. Quantity: %(count)s",
+    "post_image": "Post image",
     "reset_tags": "Reset tags",
     "share_on_facebook": "Share on Facebook",
     "share_on_lj": "Share on LiveJournal",

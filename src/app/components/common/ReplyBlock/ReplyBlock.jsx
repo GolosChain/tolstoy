@@ -6,6 +6,21 @@ import is from 'styled-is';
 import tt from 'counterpart';
 import Icon from 'golos-ui/Icon';
 
+const RepliesQuantity = styled.div`
+    font-size: 16px;
+    font-weight: 500;
+    color: #959595;
+    user-select: none;
+`;
+
+const ReplyIcon = styled(Icon)`
+    width: 20px;
+    height: 20px;
+    margin-right: 7px;
+    margin-bottom: -2px;
+    color: #393636;
+`;
+
 const Replies = styled(
     ({ to, isLink, ...otherProps }) =>
         isLink ? <Link to={to} {...otherProps} /> : <div {...otherProps} />
@@ -16,18 +31,34 @@ const Replies = styled(
     display: flex;
     align-items: center;
     flex-grow: 1;
+    user-select: none;
     justify-content: flex-end;
 
     ${is('isLink')`
         cursor: pointer;
     `};
-`;
 
-const RepliesQuantity = styled.div`
-    font-size: 16px;
-    font-weight: 500;
-    color: #959595;
-    user-select: none;
+    ${is('mini')`
+        height: unset;
+        min-height: unset;
+        padding: 0 10px;
+        
+        &:hover {
+            &, ${RepliesQuantity}, ${ReplyIcon} {
+                color: #333;    
+            }
+        }
+        
+        ${RepliesQuantity} {
+            font-size: 14px;
+            color: #959595;
+        }
+        
+        ${ReplyIcon} {
+            width: 17px;
+            color: #959595;
+        }
+    `};
 `;
 
 const Splitter = styled.div`
@@ -51,14 +82,6 @@ const ReplyButton = styled(
     letter-spacing: 0.8px;
     color: #393636 !important;
     cursor: pointer;
-`;
-
-const ReplyIcon = styled(Icon)`
-    width: 20px;
-    height: 20px;
-    margin-right: 7px;
-    margin-bottom: -2px;
-    color: #393636;
 `;
 
 const Root = styled.div`
@@ -88,9 +111,11 @@ export class ReplyBlock extends Component {
         link: PropTypes.string,
         text: PropTypes.string,
         notOwner: PropTypes.bool,
+        mini: PropTypes.bool,
         onReplyClick: PropTypes.func,
 
-        toggleCommentInputFocus: PropTypes.func.isRequired,
+        // connect
+        toggleCommentInputFocus: PropTypes.func,
     };
 
     toggleCommentInputFocus = () => {
@@ -98,7 +123,8 @@ export class ReplyBlock extends Component {
     };
 
     render() {
-        const { compact, count, link, text, notOwner, onReplyClick, className } = this.props;
+        const { compact, count, link, text, notOwner, mini, className, onReplyClick } = this.props;
+
         const isLink = typeof compact === 'boolean';
 
         return (
@@ -107,31 +133,36 @@ export class ReplyBlock extends Component {
                     to={`${link}#comments`}
                     data-tooltip={tt('reply.comments_count')}
                     aria-label={tt('aria_label.comments', { count })}
-                    isLink={isLink}
+                    isLink={isLink || mini}
+                    mini={mini ? 1 : 0}
                 >
                     <ReplyIcon name="reply" />
                     <RepliesQuantity>{count}</RepliesQuantity>
                 </Replies>
-                {!onReplyClick && (
+                {mini ? null : (
                     <Fragment>
-                        <Splitter />
-                        <ReplyButton
-                            to={`${link}#createComment`}
-                            onClick={this.toggleCommentInputFocus}
-                        >
-                            {text}
-                        </ReplyButton>
+                        {!onReplyClick && (
+                            <Fragment>
+                                <Splitter />
+                                <ReplyButton
+                                    to={`${link}#createComment`}
+                                    onClick={this.toggleCommentInputFocus}
+                                >
+                                    {text}
+                                </ReplyButton>
+                            </Fragment>
+                        )}
+                        {Boolean(onReplyClick) &&
+                            notOwner && (
+                                <Fragment>
+                                    <Splitter />
+                                    <ReplyButton role="button" onClick={onReplyClick}>
+                                        {text}
+                                    </ReplyButton>
+                                </Fragment>
+                            )}
                     </Fragment>
                 )}
-                {Boolean(onReplyClick) &&
-                    notOwner && (
-                        <Fragment>
-                            <Splitter />
-                            <ReplyButton role="button" onClick={onReplyClick}>
-                                {text}
-                            </ReplyButton>
-                        </Fragment>
-                    )}
             </Root>
         );
     }

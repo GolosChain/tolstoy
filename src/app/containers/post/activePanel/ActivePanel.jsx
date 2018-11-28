@@ -217,7 +217,9 @@ export class ActivePanel extends Component {
         const { showDotsPopover, showSharePopover } = this.state;
         const { post, data, username, isPinned, togglePin, isOwner, toggleFavorite } = this.props;
 
-        const shareTooltip = showSharePopover ? undefined : tt('postfull_jsx.share_in_social_networks');
+        const shareTooltip = showSharePopover
+            ? undefined
+            : tt('postfull_jsx.share_in_social_networks');
         const dotsTooltip = showDotsPopover ? undefined : tt('g.next_3_strings_together.show_more');
 
         return (
@@ -227,7 +229,11 @@ export class ActivePanel extends Component {
                 <RepostSharingWrapper>
                     {isOwner ? null : (
                         <Fragment>
-                            <Repost role="button" data-tooltip={tt('g.repost')} aria-label={tt('g.repost')}>
+                            <Repost
+                                role="button"
+                                data-tooltip={tt('g.repost')}
+                                aria-label={tt('g.repost')}
+                            >
                                 <Icon width="30" height="27" name="repost" onClick={this.repost} />
                             </Repost>
                             <Divider />
@@ -300,12 +306,7 @@ export class ActivePanel extends Component {
                         </Actions>
                     </PopoverStyled>
                 </DotsMore>
-                <ReplyBlockStyled
-                    withImage={false}
-                    count={post.children}
-                    link={post.url}
-                    text={tt('g.reply')}
-                />
+                <ReplyBlockStyled count={post.children} link={post.url} text={tt('g.reply')} />
             </Wrapper>
         );
     }

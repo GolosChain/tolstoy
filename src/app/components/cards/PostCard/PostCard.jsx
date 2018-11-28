@@ -259,7 +259,7 @@ export default class PostCard extends PureComponent {
     }
 
     renderHeader() {
-        const { data, isRepost, compact, reblogData, postLink } = this.props;
+        const { data, isRepost, compact, reblogData } = this.props;
 
         const category = detransliterate(data.get('category'));
         let author;
@@ -368,25 +368,23 @@ export default class PostCard extends PureComponent {
     }
 
     renderRepostButton() {
-        const { isOwner, isRepost, myAccount, reblogData } = this.props;
+        const { allowRepost } = this.props;
 
-        if (isOwner || (isRepost && reblogData.get('repostAuthor') === myAccount)) {
-            return;
+        if (allowRepost) {
+            return (
+                <ToolbarAction>
+                    <IconWrapper
+                        role="button"
+                        aria-label={tt('post_card.repost')}
+                        data-tooltip={tt('post_card.repost')}
+                        enabled
+                        onClick={this._onRepostClick}
+                    >
+                        <Icon name="repost" width={25} />
+                    </IconWrapper>
+                </ToolbarAction>
+            );
         }
-
-        return (
-            <ToolbarAction>
-                <IconWrapper
-                    role="button"
-                    aria-label={tt('post_card.repost')}
-                    data-tooltip={tt('post_card.repost')}
-                    enabled
-                    onClick={this._onRepostClick}
-                >
-                    <Icon name="repost" width={25} />
-                </IconWrapper>
-            </ToolbarAction>
-        );
     }
 
     renderFavoriteButton() {
@@ -445,7 +443,11 @@ export default class PostCard extends PureComponent {
         const withImage = sanitizedData.image_link && !stats.gray && !stats.hide;
 
         return (
-            <BodyLink to={sanitizedData.link} compact={compact ? 1 : 0} onClick={this._onClick}>
+            <BodyLink
+                to={sanitizedData.link}
+                compact={compact ? 1 : 0}
+                onClick={this.props.onClick}
+            >
                 {withImage ? (
                     <PostImage
                         compact={compact}
@@ -478,10 +480,6 @@ export default class PostCard extends PureComponent {
             </Footer>
         );
     }
-
-    _onClick = e => {
-        this.props.onClick(e);
-    };
 
     _onFavoriteClick = () => {
         const { postLink, isFavorite } = this.props;
