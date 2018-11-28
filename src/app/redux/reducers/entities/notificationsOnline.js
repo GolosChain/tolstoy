@@ -9,8 +9,6 @@ const initialState = Map();
 export default function(state = initialState, { type, payload }) {
     switch (type) {
         case NOTIFICATION_ONLINE_GET_HISTORY:
-            return initialState;
-
         case NOTIFICATION_MARK_ALL_AS_VIEWED_SUCCESS:
             return initialState;
 
