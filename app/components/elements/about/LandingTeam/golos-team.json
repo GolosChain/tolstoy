@@ -104,25 +104,6 @@
     }
   },
   {
-    "name": "Евгений Паршин",
-    "role": "QA Tester",
-    "avatar": "pevgenii",
-    "contacts": {
-      "golos": "dekol",
-      "github": "BaroH4er"
-    }
-  },
-  {
-    "name": "Александр Фирсов",
-    "role": "Head of Communications",
-    "avatar": "firsov",
-    "contacts": {
-      "golos": "alex-firsov",
-      "email": "pr@golos.io",
-      "facebook": "alex.v.firsov"
-    }
-  },
-  {
     "name": "Юлия Родникова",
     "role": "Комьюнити-менеджер",
     "avatar": "rodnikova",
@@ -158,14 +139,6 @@
     "avatar": "anastasiapirogova",
     "contacts": {
       "golos": "pirogova"
-    }
-  },
-  {
-    "name": "Ирина Немогаева",
-    "role": "HR",
-    "avatar": "irinanemogaeva",
-    "contacts": {
-      "github": "nemogaevairina"
     }
   }
 ]

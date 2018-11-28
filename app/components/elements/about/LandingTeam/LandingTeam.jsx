@@ -19,13 +19,13 @@ export default class LandingTeam extends PureComponent {
                         </h2>
                     </div>
                 </div>
-                {this._renderSection('GOLOS.io', golosTeam, 'golos.io')}
-                {this._renderSection('Golos Core', coreTeam, 'core')}
+                {this.renderSection('GOLOS.io', golosTeam, 'golos.io')}
+                {this.renderSection('Golos Core', coreTeam, 'core')}
             </section>
         );
     }
 
-    _renderSection(title, team, type) {
+    renderSection(title, team, type) {
         return (
             <React.Fragment>
                 <div className="row">
@@ -59,16 +59,14 @@ export default class LandingTeam extends PureComponent {
                     )}
                 </div>
                 <div className="row Team__members text-center">
-                    {team.map(member => this._renderMember(member))}
+                    {team.map(member => this.renderMember(member))}
                 </div>
             </React.Fragment>
         );
     }
 
-    _renderMember({ name, role, avatar, avatarUrl, contacts }) {
+    renderMember({ name, role, avatar, avatarUrl, contacts }) {
         const contactsElements = [];
-
-        let avaUrl;
 
         let avatarElement;
 
@@ -93,7 +91,7 @@ export default class LandingTeam extends PureComponent {
             if (contacts[contact]) {
                 contactsElements.push(
                     <span key={contact} className="Team__member-contact-item">
-                        {this._renderContact(contact, contacts[contact])}
+                        {this.renderContact(contact, contacts[contact])}
                     </span>
                 );
             }
@@ -113,7 +111,7 @@ export default class LandingTeam extends PureComponent {
         );
     }
 
-    _renderContact(type, data) {
+    renderContact(type, data) {
         switch (type) {
             case 'golos':
                 return (
