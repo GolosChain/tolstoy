@@ -8,6 +8,7 @@ import tt from 'counterpart';
 import o2j from 'shared/clash/object2json';
 import proxifyImageUrl from 'app/utils/ProxifyUrl';
 import normalizeProfile from 'app/utils/NormalizeProfile';
+import { getUserStatus } from 'src/app/helpers/users';
 
 import Icon from 'golos-ui/Icon';
 import Flex from 'golos-ui/Flex';
@@ -21,16 +22,21 @@ const Wrapper = styled.div`
     position: relative;
     display: flex;
     align-items: center;
-    min-height: 207px;
+    min-height: 267px;
 
     &:before {
         position: absolute;
         content: '';
-        top: 0;
+        height: 164px;
         left: 0;
         right: 0;
         bottom: 0;
-        background-color: rgba(255, 255, 255, 0.25);
+        background-image: linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0),
+            rgba(0, 0, 0, 0.18) 40%,
+            rgba(0, 0, 0, 0.61)
+        );
     }
 
     ${({ backgroundUrl }) =>
@@ -46,8 +52,8 @@ const Wrapper = styled.div`
         background-repeat: repeat;
         background-position: 0 -26px;
         background-image: url('/images/profile/pattern.png');
-        
-        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) { 
+
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
             background-image: url('/images/profile/pattern@2x.png');
         }
         `};
@@ -55,7 +61,10 @@ const Wrapper = styled.div`
 
 const ContainerStyled = styled(Container)`
     position: relative;
+    flex-direction: column;
     align-items: center;
+    height: 100%;
+    padding: 22px 0;
 
     @media (max-width: 1200px) {
         margin-top: 23px;
@@ -69,7 +78,10 @@ const ContainerStyled = styled(Container)`
 `;
 
 const Details = styled.div`
-    margin-left: 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
     @media (max-width: 768px) {
         margin-top: 9px;
@@ -79,28 +91,33 @@ const Details = styled.div`
 `;
 
 const Name = styled.div`
-    color: #393636;
+    color: #fff;
     font-family: ${({ theme }) => theme.fontFamilySerif};
-    font-size: 30px;
+    font-size: 22px;
     font-weight: bold;
     line-height: 1;
-    mix-blend-mode: multiply;
+    letter-spacing: 0.2;
 
     @media (max-width: 768px) {
         font-size: 34px;
     }
 `;
 
+const LoginContainer = styled.div`
+    display: flex;
+    align-items: center;
+    line-height: 1.57;
+    color: #fff;
+    font-size: 14px;
+    padding-top: 8px;
+`;
+
 const Login = styled.div`
-    line-height: 1;
-    margin-top: 6px;
-    mix-blend-mode: difference;
-    font-size: 20px;
-    color: #757575;
+    margin-right: 22px;
 `;
 
 const Buttons = styled(Flex)`
-    margin-top: 24px;
+    padding: 10px 0;
 
     @media (max-width: 768px) {
         justify-content: center;
@@ -135,6 +152,7 @@ const DropzoneItem = styled(Dropzone)`
 const DropdownStyled = styled(Dropdown)`
     position: absolute !important;
     top: 4px;
+
     right: 0;
     cursor: pointer;
 `;
@@ -160,7 +178,17 @@ const IconPicture = styled(Icon)`
 `;
 
 const ButtonFollow = styled(Follow)`
-    margin-right: 5px;
+    margin-right: 0;
+`;
+
+const StatusContainer = styled.div`
+    display: flex;
+    align-items: center;
+`;
+
+const UserStatus = styled.p`
+    margin: 0 0 0 4px;
+    padding: 0;
 `;
 
 export default class UserHeader extends Component {
@@ -176,7 +204,7 @@ export default class UserHeader extends Component {
     };
 
     render() {
-        const { currentAccount, isOwner, isSettingsPage } = this.props;
+        const { currentAccount, isOwner, isSettingsPage, power } = this.props;
         const { name, profile_image, cover_image } = normalizeProfile(currentAccount.toJS());
 
         const backgroundUrl = cover_image ? proxifyImageUrl(cover_image, '0x0') : false;
@@ -197,8 +225,6 @@ export default class UserHeader extends Component {
                             )}
                     </UserProfileAvatar>
                     <Details>
-                        {name ? <Name>{name}</Name> : null}
-                        <Login>@{currentAccount.get('name')}</Login>
                         <Buttons>
                             {!isOwner && (
                                 <Fragment>
@@ -209,6 +235,20 @@ export default class UserHeader extends Component {
                                 </Fragment>
                             )}
                         </Buttons>
+                        {name ? <Name>{name}</Name> : null}
+                        <LoginContainer>
+                            <Login>@{currentAccount.get('name')}</Login>
+                            <StatusContainer>
+                                <Icon name={getUserStatus(power)} width={15} height={15} />
+                                <UserStatus>
+                                    {tt(
+                                        `user_profile.account_summary.status.${getUserStatus(
+                                            power
+                                        )}`
+                                    )}
+                                </UserStatus>
+                            </StatusContainer>
+                        </LoginContainer>
                     </Details>
                     {isOwner && isSettingsPage && this._renderCoverDropDown()}
                 </ContainerStyled>

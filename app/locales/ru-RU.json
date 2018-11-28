@@ -1333,6 +1333,12 @@
       },
       "registered": "На Golos с",
       "reputation": "Рейтинг",
+      "status": {
+        "gudgeon": "пескарь",
+        "dolphin": "дельфин",
+        "killer_whale": "касатка",
+        "whale": "кит"
+      },
       "title": "Краткая информация"
     },
     "account_tokens": {

@@ -1325,6 +1325,12 @@
       },
       "registered": "Registered on",
       "reputation": "Reputation",
+      "status": {
+        "gudgeon": "gudgeon",
+        "dolphin": "dolphin",
+        "killer_whale": "killer whale",
+        "whale": "whale"
+      },
       "title": "Account Summary"
     },
     "account_tokens": {

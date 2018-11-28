@@ -23,7 +23,7 @@ const Wrapper = styled.div.attrs({
     height: 125px;
     width: 125px;
     border-radius: 50%;
-    box-shadow: 0 6px 14px 0 rgba(0, 0, 0, 0.18);
+    box-shadow: 0 7px 16px 0 rgba(0, 0, 0, 0.18);
 
     background-color: #fff;
     background-size: cover;
