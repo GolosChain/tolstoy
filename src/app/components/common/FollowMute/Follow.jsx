@@ -13,7 +13,9 @@ import { confirmUnfollowDialog } from 'src/app/redux/actions/dialogs';
 import { updateFollow } from 'src/app/redux/actions/follow';
 
 const ButtonStyled = styled(Button)`
-    margin-right: 8px;
+    &:not(:last-child) {
+        margin-right: 8px;
+    }
 
     @media (max-width: 890px) {
         height: 30px;

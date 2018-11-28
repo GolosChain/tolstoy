@@ -1206,6 +1206,12 @@
       "post_count": "Постів",
       "registered": "На Golos з",
       "reputation": "Рейтинг",
+      "status": {
+        "gudgeon": "піскар",
+        "dolphin": "дельфін",
+        "killer_whale": "косатка",
+        "whale": "кит"
+      },
       "title": "Коротка інформація"
     },
     "account_tokens": {

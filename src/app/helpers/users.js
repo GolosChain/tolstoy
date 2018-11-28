@@ -42,3 +42,15 @@ const lazyLoadUsers = throttle(
     100,
     { leading: false }
 );
+
+export const getUserStatus = voicePower => {
+    if (voicePower >= 0 && voicePower < 1000) {
+        return 'gudgeon';
+    } else if (voicePower >= 1000 && voicePower < 100000) {
+        return 'dolphin';
+    } else if (voicePower >= 100000 && voicePower < 1000000) {
+        return 'killer_whale';
+    } else if (voicePower >= 1000000) {
+        return 'whale';
+    }
+};
