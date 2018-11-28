@@ -67,6 +67,14 @@
     }
   },
   {
+    "name": "Сергей Марченко",
+    "role": "Designer",
+    "avatar": "sergey-designer",
+    "contacts": {
+      "golos": "des432"
+    }
+  },
+  {
     "name": "Юрий Бородкин",
     "role": "Android Developer",
     "avatarUrl": "https://avatars1.githubusercontent.com/u/13299756?s=460&v=4",
@@ -77,7 +85,7 @@
   },
   {
     "name": "Сергей Монастырский",
-    "role": "iOs dev",
+    "role": "iOS dev",
     "avatar": "sergeim",
     "contacts": {
       "golos": "msm72",
@@ -104,6 +112,14 @@
     }
   },
   {
+    "name": "Денис Белых",
+    "role": "Support Manager",
+    "avatar": "dankinescop",
+    "contacts": {
+      "github": "Azarod"
+    }
+  },
+  {
     "name": "Юлия Родникова",
     "role": "Комьюнити-менеджер",
     "avatar": "rodnikova",
@@ -114,12 +130,11 @@
     }
   },
   {
-    "name": "Денис Белых",
-    "role": "Support Manager",
-    "avatar": "dankinescop",
+    "name": "Степан Зинин",
+    "role": "Product manager",
+    "avatar": "stepashka",
     "contacts": {
       "golos": "dan-kinescop",
-      "email": "support@golos.io",
       "github": "dankinescop"
     }
   },
