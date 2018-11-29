@@ -86,6 +86,7 @@ export default class CompactPostCardMenu extends PureComponent {
     root = createRef();
 
     componentDidMount() {
+        // Отсрочка на timeout для того чтобы не словить click который и открыл это меню.
         setTimeout(() => {
             window.addEventListener('click', this.onAwayClick);
         });
