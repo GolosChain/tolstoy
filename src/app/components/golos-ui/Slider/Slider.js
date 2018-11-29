@@ -195,25 +195,10 @@ export default class Slider extends PureComponent {
 
         if (!this.isListenerActive) {
             this.isListenerActive = true;
-            window.addEventListener('mousemove', this.onMouseMove);
-            window.addEventListener('mouseup', this.onMouseUp);
+            window.addEventListener('mousemove', this.onMove);
+            window.addEventListener('mouseup', this.onMovingEnd);
             window.addEventListener('keydown', this.onKeyDown);
             window.addEventListener('visibilitychange', this.onVisibilityChange);
-        }
-    };
-
-    onMouseMove = e => {
-        this.props.onChange(this.calculateValue(e));
-    };
-
-    onMouseUp = e => {
-        this.resetMoving();
-        this.props.onChange(this.calculateValue(e));
-    };
-
-    onKeyDown = e => {
-        if (e.which === keyCodes.ESCAPE) {
-            this.resetMoving();
         }
     };
 
@@ -224,19 +209,25 @@ export default class Slider extends PureComponent {
 
         if (!this.isListenerActive) {
             this.isListenerActive = true;
-            window.addEventListener('touchmove', this.onTouchMove);
-            window.addEventListener('touchend', this.onTouchEnd);
+            window.addEventListener('touchmove', this.onMove);
+            window.addEventListener('touchend', this.onMovingEnd);
             window.addEventListener('visibilitychange', this.onVisibilityChange);
         }
     };
 
-    onTouchMove = e => {
+    onMove = e => {
         this.props.onChange(this.calculateValue(e));
     };
 
-    onTouchEnd = e => {
+    onMovingEnd = e => {
         this.resetMoving();
         this.props.onChange(this.calculateValue(e));
+    };
+
+    onKeyDown = e => {
+        if (e.which === keyCodes.ESCAPE) {
+            this.resetMoving();
+        }
     };
 
     onVisibilityChange = () => {
