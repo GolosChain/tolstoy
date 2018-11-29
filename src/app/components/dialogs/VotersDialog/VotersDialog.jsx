@@ -39,15 +39,25 @@ const ShowAll = styled.button`
 
 const EmptyBlockLikeFollow = styled.div`
     min-width: 165px;
+
+    @media (max-width: 500px) {
+        min-width: 34px;
+        max-width: 34px;
+    }
 `;
 
-const Percent = styled.div`
+const Percent = styled.p`
+    margin: 0;
+    padding: 0;
     min-width: 37px;
+    width: 37px;
+    max-width: 37px;
     font-size: 14px;
     font-weight: 600;
     line-height: 1.29;
     letter-spacing: 0.4px;
     color: #393636;
+    text-align: center;
 `;
 
 export default class VotersDialog extends PureComponent {
@@ -92,7 +102,7 @@ export default class VotersDialog extends PureComponent {
                                 <Avatar avatarUrl={user.avatar} />
                                 <Name>{user.name}</Name>
                             </UserLink>
-                            <Percent>{user.percent}%</Percent>
+                            <Percent>{Math.round(user.percent)}%</Percent>
                             {user.name !== username ? (
                                 <Follow following={user.name} collapseOnMobile />
                             ) : (
