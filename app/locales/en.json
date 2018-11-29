@@ -223,6 +223,7 @@
   },
   "data-tooltip": {
     "clear_notifications_history": "Mark all notifications as read",
+    "compact": "Compact list",
     "grid": "Grid",
     "list": "List"
   },

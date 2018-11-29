@@ -14,6 +14,6 @@ export default styled.div`
     }
 
     @media (max-width: ${CONTAINER_MOBILE_WIDTH}px) {
-        margin: ${CONTAINER_MOBILE_MARGIN}px;
+        margin: ${({ noGaps }) => (noGaps ? 0 : CONTAINER_MOBILE_MARGIN)}px;
     }
 `;

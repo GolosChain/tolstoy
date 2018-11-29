@@ -8,7 +8,12 @@ import is from 'styled-is';
 
 import { APP_NAME } from 'app/client_config';
 
-import { SINGLE_COLUMN_WIDTH } from 'src/app/constants/container';
+import {
+    SINGLE_COLUMN_WIDTH,
+    CONTAINER_BASE_MARGIN,
+    CONTAINER_MOBILE_WIDTH,
+    CONTAINER_MOBILE_MARGIN,
+} from 'src/app/constants/container';
 import CardsList from 'src/app/components/common/CardsList';
 
 const Wrapper = styled.div`
@@ -16,7 +21,12 @@ const Wrapper = styled.div`
 
     ${is('addGaps')`
         @media (max-width: ${SINGLE_COLUMN_WIDTH}px) {
-            margin: 0 20px;
+            margin: 0 ${CONTAINER_BASE_MARGIN}px;
+        }
+        
+        @media (max-width: ${CONTAINER_MOBILE_WIDTH}px) {
+            margin-left: ${CONTAINER_MOBILE_MARGIN}px;
+            margin-right: ${CONTAINER_MOBILE_MARGIN}px;
         }
     `};
 `;

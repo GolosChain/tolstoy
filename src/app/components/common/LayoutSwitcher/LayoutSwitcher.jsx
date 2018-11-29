@@ -1,33 +1,38 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, createRef, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import throttle from 'lodash/throttle';
-import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
+import { listenLazy } from 'src/app/helpers/hoc';
 import { FORCE_LINES_WIDTH } from 'src/app/components/common/CardsList/CardsList';
+import LayoutSwitcherMenu from './LayoutSwitcherMenu';
 
-const IconWrap = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 32px;
-    margin-right: 15px;
-    cursor: pointer;
+const LAYOUTS = ['list', 'compact', 'grid'];
+
+const Handle = styled.button`
+    display: block;
+    padding: 7px;
+    margin-left: 7px;
+    border: none;
+    background: none;
+    outline: none;
     color: #b7b7b9;
-    transition: color 0.15s;
+    cursor: pointer;
+    -webkit-appearance: none;
 
     &:hover {
-        color: #393636;
+        color: #2879ff;
     }
 `;
 
-const SimpleIcon = styled(Icon)`
+const IconStyled = styled(Icon)`
+    display: block;
     width: 20px;
     height: 20px;
+    transition: color 0.15s;
 `;
 
+@listenLazy('resize')
 export default class LayoutSwitcher extends PureComponent {
     static propTypes = {
         layout: PropTypes.oneOf(['list', 'grid', 'compact']).isRequired,
@@ -35,67 +40,52 @@ export default class LayoutSwitcher extends PureComponent {
     };
 
     state = {
-        isMobile: false,
+        isMobile: process.env.BROWSER ? window.innerWidth < FORCE_LINES_WIDTH : false,
+        open: false,
     };
 
-    componentDidMount() {
-        this.checkScreenSize();
-        window.addEventListener('resize', this.checkScreenSizeLazy);
-    }
+    handle = createRef();
 
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.checkScreenSizeLazy);
-        this.checkScreenSizeLazy.cancel();
-    }
+    onHandleClick = () => {
+        this.setState({
+            open: true,
+        });
+    };
 
-    checkScreenSize = () => {
+    onClose = () => {
+        this.setState({
+            open: false,
+        });
+    };
+
+    onChange = layout => {
+        this.props.changeProfileLayout(layout);
+    };
+
+    // called by @listenLazy('resize')
+    onResize = () => {
         this.setState({
             isMobile: window.innerWidth < FORCE_LINES_WIDTH,
         });
     };
 
-    checkScreenSizeLazy = throttle(this.checkScreenSize, 50);
-
-    onGridClick = () => {
-        this.props.changeProfileLayout('grid');
-    };
-
-    onListClick = () => {
-        this.props.changeProfileLayout('list');
-    };
-
     render() {
-        const { layout } = this.props;
-        const { isMobile } = this.state;
+        const { open, isMobile } = this.state;
 
-        if (isMobile) {
-            return null;
-        }
-
-        if (layout === 'list') {
-            return (
-                <IconWrap
-                    key="l-grid"
-                    role="button"
-                    aria-label={tt('data-tooltip.grid')}
-                    data-tooltip={tt('data-tooltip.grid')}
-                    onClick={this.onGridClick}
-                >
-                    <SimpleIcon name="layout_grid" />
-                </IconWrap>
-            );
-        } else {
-            return (
-                <IconWrap
-                    key="l-list"
-                    role="button"
-                    aria-label={tt('data-tooltip.list')}
-                    data-tooltip={tt('data-tooltip.list')}
-                    onClick={this.onListClick}
-                >
-                    <SimpleIcon name="layout_list" />
-                </IconWrap>
-            );
-        }
+        return (
+            <Fragment>
+                <Handle innerRef={this.handle} onClick={this.onHandleClick}>
+                    <IconStyled name={`layout_grid`} />
+                </Handle>
+                {open ? (
+                    <LayoutSwitcherMenu
+                        target={this.handle.current}
+                        layouts={isMobile ? LAYOUTS.filter(layout => layout !== 'grid') : LAYOUTS}
+                        onChange={this.onChange}
+                        onClose={this.onClose}
+                    />
+                ) : null}
+            </Fragment>
+        );
     }
 }

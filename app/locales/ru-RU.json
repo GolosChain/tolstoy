@@ -225,6 +225,7 @@
   },
   "data-tooltip": {
     "clear_notifications_history": "Отметить все уведомления прочитаными",
+    "compact": "Компактный список",
     "grid": "Сетка",
     "list": "Список"
   },

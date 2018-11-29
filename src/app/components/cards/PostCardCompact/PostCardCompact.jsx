@@ -14,7 +14,6 @@ import { VotePanelCompact } from 'src/app/components/common/VotePanel';
 import { ReplyBlock } from '../../common/ReplyBlock';
 import CompactPostCardMenu from 'src/app/components/common/CompactPostCardMenu';
 import { detransliterate, repLog10 } from 'app/utils/ParsersAndFormatters';
-import { SINGLE_COLUMN_WIDTH } from 'src/app/constants/container';
 
 const TWO_LINE_THRESHOLD = 1020;
 const MOBILE_THRESHOLD = 500;
@@ -33,13 +32,10 @@ const Root = styled.div`
     background: #fff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
 
-    @media (max-width: ${SINGLE_COLUMN_WIDTH}px) {
-        margin-bottom: 10px;
-        border-radius: 0;
-    }
-
     @media (max-width: ${MOBILE_THRESHOLD}px) {
         padding: 16px 16px 10px;
+        margin-bottom: 10px;
+        border-radius: 0;
     }
 `;
 
@@ -80,7 +76,6 @@ const LinkStyled = styled(Link)`
 const PostContent = styled.div`
     font-size: 14px;
     line-height: 1.29;
-    letter-spacing: -0.2px;
     color: #393636;
     ${breakWordStyles};
 
@@ -119,7 +114,7 @@ const Splitter = styled.div`
     margin: 0 10px;
     background: #e1e1e1;
 
-    @media (max-width: ${MOBILE_THRESHOLD}px) {
+    @media (max-width: 1100px) {
         margin: 0 5px;
     }
 `;
@@ -130,14 +125,15 @@ const DetailsBlock = styled.div`
     font-size: 14px;
     color: #959595;
     user-select: none;
+    overflow: hidden;
 
     ${is('inbody')`
         margin-top: 5px;
         font-size: 13px;
         
-        @media (max-width: 600px) {
-            margin-top: 3px;
-            font-size: 12px;
+        @media (max-width: 500px) {
+            line-height: 1.2;
+            font-size: 10px;
         }
     `};
 `;
@@ -172,12 +168,20 @@ const AuthorRating = styled.div`
     width: 20px;
     height: 20px;
     line-height: 18px;
+    margin: -10px 0;
     border: 1px solid #b7b7b9;
     border-radius: 100px;
     text-align: center;
     font-size: 12px;
     font-weight: 500;
     transition: border-color 0.15s;
+
+    @media (max-width: 500px) {
+        width: 12px;
+        height: 12px;
+        line-height: 12px;
+        font-size: 8px;
+    }
 `;
 
 const CategoryLink = styled(LinkStyled)`

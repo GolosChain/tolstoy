@@ -25,11 +25,11 @@ const ContainerStyled = styled(Container)`
 
     @media (max-width: ${CONTAINER_MOBILE_WIDTH}px) {
         padding: ${CONTAINER_MOBILE_MARGIN}px 0;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
     }
 
     @media (max-width: ${SINGLE_COLUMN_WIDTH}px) {
-        margin-left: 0 !important;
-        margin-right: 0 !important;
         flex-direction: column;
     }
 `;
