@@ -131,9 +131,11 @@ const Money = styled.div`
 `;
 
 export default class VotePanel extends VotePanelAbstract {
-    Money = Money;
+    getMoneyComponent() {
+        return Money;
+    }
 
-    _render() {
+    renderInner() {
         const { data, className, vertical, votesSummary } = this.props;
         const { showSlider, sliderAction } = this.state;
 
