@@ -1,4 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
+import { withRouter } from 'react-router';
 import styled, { css } from 'styled-components';
 import is from 'styled-is';
 import { FormattedRelative } from 'react-intl';
@@ -255,6 +256,7 @@ const DotsIcon = styled(Icon).attrs({
     }
 `;
 
+@withRouter
 @listenLazy('resize')
 export default class PostCardCompact extends PureComponent {
     state = {
@@ -339,12 +341,12 @@ export default class PostCardCompact extends PureComponent {
     }
 
     renderDetails(inFooter) {
-        const { data } = this.props;
+        const { data, params } = this.props;
 
         const category = detransliterate(data.get('category'));
         const categoryTooltip = tt('aria_label.category', { category: category });
-
         const created = data.get('created');
+        const currentFeed = params.order ? `/${params.order}` : '/trending';
 
         return (
             <DetailsBlock inbody={!inFooter}>
@@ -359,7 +361,7 @@ export default class PostCardCompact extends PureComponent {
                     <AuthorName>{data.get('author')}</AuthorName>
                     <AuthorRating>{repLog10(data.get('author_reputation'))}</AuthorRating>
                 </AuthorLink>
-                <CategoryLink to={`?tags=${category}`} aria-label={categoryTooltip}>
+                <CategoryLink to={`${currentFeed}?tags=${category}`} aria-label={categoryTooltip}>
                     <CategoryLinkIn>{tt('g.in')}</CategoryLinkIn> {category}
                 </CategoryLink>
             </DetailsBlock>

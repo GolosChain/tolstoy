@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import styled from 'styled-components';
@@ -202,6 +203,7 @@ const Root = styled(EntryWrapper)`
     `};
 `;
 
+@withRouter
 export default class PostCard extends PureComponent {
     static propTypes = {
         // external
@@ -259,7 +261,7 @@ export default class PostCard extends PureComponent {
     }
 
     renderHeader() {
-        const { data, isRepost, compact, reblogData } = this.props;
+        const { data, isRepost, compact, reblogData, params } = this.props;
 
         const category = detransliterate(data.get('category'));
         let author;
@@ -273,6 +275,9 @@ export default class PostCard extends PureComponent {
             created = data.get('created');
         }
 
+        const currentFeed = params.order ? `/${params.order}` : '/trending';
+        const categoryUri = `${currentFeed}?tags=${category}`;
+
         return (
             <Header>
                 <HeaderLine>
@@ -280,7 +285,7 @@ export default class PostCard extends PureComponent {
                     <Filler />
                     {compact ? null : (
                         <Category
-                            to={'/trending?tags=' + category}
+                            to={categoryUri}
                             category={1}
                             aria-label={tt('aria_label.category', { category: category })}
                         >
@@ -296,7 +301,7 @@ export default class PostCard extends PureComponent {
                 </HeaderLine>
                 {compact ? (
                     <HeaderLineGrid>
-                        <Category to={'/trending?tags=' + category} category={1}>
+                        <Category to={categoryUri} category={1}>
                             {category}
                         </Category>
                         <Filler />
