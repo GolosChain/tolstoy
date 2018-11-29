@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
@@ -98,6 +98,8 @@ const Wrapper = styled.div`
             border-color: #ff4e00 !important;
         }
     `};
+
+    -webkit-tap-highlight-color: transparent;
 `;
 
 export default class Slider extends PureComponent {
@@ -119,6 +121,8 @@ export default class Slider extends PureComponent {
         hideHandleValue: false,
     };
 
+    rootRef = createRef();
+
     componentWillUnmount() {
         this.removeListeners();
     }
@@ -138,7 +142,7 @@ export default class Slider extends PureComponent {
                 showCaptions={showCaptions}
             >
                 <Progress width={percent} />
-                <HandleSlot innerRef={this._onRef}>
+                <HandleSlot innerRef={this.rootRef}>
                     <HandleWrapper left={percent}>
                         <Handle>{hideHandleValue ? null : value}</Handle>
                     </HandleWrapper>
@@ -154,15 +158,13 @@ export default class Slider extends PureComponent {
         );
     }
 
-    _onRef = el => {
-        this._root = el;
-    };
-
     removeListeners() {
         if (this.isListenerActive) {
             this.isListenerActive = false;
             window.removeEventListener('mousemove', this.onMove);
             window.removeEventListener('mouseup', this.onMovingEnd);
+            window.removeEventListener('touchmove', this.onMove);
+            window.removeEventListener('touchend', this.onMovingEnd);
             window.removeEventListener('keydown', this.onKeyDown);
             window.removeEventListener('visibilitychange', this.onVisibilityChange);
         }
@@ -171,7 +173,7 @@ export default class Slider extends PureComponent {
     calculateValue(e) {
         const clientX = e.clientX || e.changedTouches[0].clientX || e.touches[0].clientX;
         const { min, max } = this.props;
-        const box = this._root.getBoundingClientRect();
+        const box = this.rootRef.current.getBoundingClientRect();
 
         const unbound = Math.round(min + ((max - min) * (clientX - box.left)) / box.width);
 
