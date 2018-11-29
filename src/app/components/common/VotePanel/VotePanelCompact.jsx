@@ -34,6 +34,11 @@ const UpVoteBlock = styled.div`
 const UpVoteIcon = styled(Icon).attrs({ name: 'upvote' })`
     width: 20px;
     height: 20px;
+
+    @media (max-width: 500px) {
+        width: 16px;
+        height: 16px;
+    }
 `;
 
 const Money = styled.div`
@@ -46,11 +51,16 @@ const Money = styled.div`
     color: #959595;
     user-select: none;
     cursor: pointer;
+
+    @media (max-width: 500px) {
+        font-size: 12px;
+    }
 `;
 
 const IconTriangle = styled(Icon).attrs({
     name: 'triangle',
 })`
+    flex-shrink: 0;
     width: 5px;
     margin-left: 6px;
     vertical-align: top;
@@ -69,11 +79,19 @@ const LikesCountBlock = styled.div`
 const ChevronIcon = styled(Icon).attrs({ name: 'chevron' })`
     width: 10px;
     margin-right: 10px;
+    
+    @media (max-width: 500px) {
+        width: 8px;
+    }
 `;
 
 const LikesCount = styled.div`
     font-size: 14px;
     font-weight: 500;
+
+    @media (max-width: 500px) {
+        font-size: 12px;
+    }
 `;
 
 export default class VotePanelCompact extends VotePanelAbstract {

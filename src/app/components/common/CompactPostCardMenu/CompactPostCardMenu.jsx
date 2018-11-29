@@ -1,15 +1,17 @@
 import React, { PureComponent, createRef } from 'react';
 import styled from 'styled-components';
+import tt from 'counterpart';
 
 import { shareList } from 'src/app/helpers/socialShare';
 import Icon from 'golos-ui/Icon';
 
 const Root = styled.div`
     position: absolute;
-    right: -8px;
+    right: 50%;
     bottom: 100%;
     padding: 5px 0;
-    margin-top: -4px;
+    margin-right: -24px;
+    margin-bottom: 5px;
     border-radius: 6px;
     background: #fff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
@@ -20,7 +22,7 @@ const Pointer = styled.div`
     position: absolute;
     right: 0;
     bottom: 0;
-    margin: -6px 10px;
+    margin: -6px 12px;
     width: 14px;
     height: 14px;
     transform: rotate(45deg);
@@ -35,7 +37,7 @@ const Content = styled.div`
 `;
 
 const ListGroup = styled.div`
-    padding: 4px 16px 0;
+    padding: 4px 15px 0;
     font-size: 13px;
     color: #aaa;
     user-select: none;
@@ -111,7 +113,7 @@ export default class CompactPostCardMenu extends PureComponent {
             <Root innerRef={this.root}>
                 <Pointer />
                 <Content>
-                    <ListGroup>Share:</ListGroup>
+                    <ListGroup>{tt('post_card_menu.share_in')}:</ListGroup>
                     <List>
                         {shareList.map(item => (
                             <Item key={item.icon} onClick={() => this.onShareClick(item.callback)}>
@@ -123,7 +125,7 @@ export default class CompactPostCardMenu extends PureComponent {
                     <Separator />
                     <Item>
                         <ItemIcon name="star" />
-                        <ItemText>Add to favorite</ItemText>
+                        <ItemText>{tt('g.add_to_favorites')}</ItemText>
                     </Item>
                 </Content>
             </Root>

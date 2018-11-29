@@ -1005,6 +1005,9 @@
     "repost": "Repost",
     "unpin_post": "Unpin"
   },
+  "post_card_menu": {
+    "share_in": "Share in"
+  },
   "post_editor": {
     "add_image": "Add image",
     "body_length_over_limit_error": "Post body too big",

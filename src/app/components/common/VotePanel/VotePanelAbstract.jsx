@@ -102,6 +102,7 @@ const SliderStyled = styled(Slider)`
 `;
 
 const PostPayoutStyled = styled(PostPayout)`
+    white-space: nowrap;
     user-select: none;
 `;
 

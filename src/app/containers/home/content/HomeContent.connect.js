@@ -52,7 +52,7 @@ export default connect(
                 isFetching,
                 category,
                 order,
-                layout,
+                layout: 'compact',
             };
         }
     ),

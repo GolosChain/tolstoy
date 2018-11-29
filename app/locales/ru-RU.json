@@ -1012,6 +1012,9 @@
     "repost": "Поделиться",
     "unpin_post": "Открепить"
   },
+  "post_card_menu": {
+    "share_in": "Поделиться в"
+  },
   "post_editor": {
     "add_image": "Добавить изображение",
     "body_length_over_limit_error": "Слишком длинное тело поста",

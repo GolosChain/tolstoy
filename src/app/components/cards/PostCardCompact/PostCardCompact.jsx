@@ -1,20 +1,30 @@
 import React, { PureComponent, Fragment } from 'react';
 import styled, { css } from 'styled-components';
+import is from 'styled-is';
 import { FormattedRelative } from 'react-intl';
 import { Link } from 'react-router';
 import tt from 'counterpart';
 
 import Icon from 'src/app/components/golos-ui/Icon';
+import { listenLazy } from 'src/app/helpers/hoc';
 import { getImageSrc } from 'src/app/helpers/images';
 import { breakWordStyles } from 'src/app/helpers/styles';
+import { smartTrim } from 'src/app/helpers/text';
 import { VotePanelCompact } from 'src/app/components/common/VotePanel';
 import { ReplyBlock } from '../../common/ReplyBlock';
 import CompactPostCardMenu from 'src/app/components/common/CompactPostCardMenu';
 import { detransliterate, repLog10 } from 'app/utils/ParsersAndFormatters';
+import { SINGLE_COLUMN_WIDTH } from 'src/app/constants/container';
 
+const TWO_LINE_THRESHOLD = 1020;
+const MOBILE_THRESHOLD = 500;
 const PREVIEW_WIDTH = 148;
 const PREVIEW_HEIGHT = 80;
+const MOBILE_PREVIEW_WIDTH = 108;
+const MOBILE_PREVIEW_HEIGHT = 60;
 const PREVIEW_SIZE = `${PREVIEW_WIDTH}x${PREVIEW_HEIGHT}`;
+
+const MOBILE_TEXT_LENGTH_LIMIT = 120;
 
 const Root = styled.div`
     padding: 20px 20px 8px;
@@ -22,17 +32,34 @@ const Root = styled.div`
     border-radius: 8px;
     background: #fff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
+
+    @media (max-width: ${SINGLE_COLUMN_WIDTH}px) {
+        margin-bottom: 10px;
+        border-radius: 0;
+    }
+
+    @media (max-width: ${MOBILE_THRESHOLD}px) {
+        padding: 16px 16px 10px;
+    }
 `;
 
-const Body = styled.div``;
+const Body = styled.div`
+    overflow: hidden;
+`;
 
 const PostTitle = styled.div`
-    margin-bottom: 9px;
+    margin: -1px 0 9px;
     font-size: 16px;
-    font-weight: bold;
+    font-weight: 500;
     line-height: 1.13;
     color: #393636;
     ${breakWordStyles};
+
+    @media (max-width: ${MOBILE_THRESHOLD}px) {
+        margin-bottom: 4px;
+        line-height: 1.14;
+        font-size: 14px;
+    }
 `;
 
 const activeStyle = css`
@@ -56,17 +83,26 @@ const PostContent = styled.div`
     letter-spacing: -0.2px;
     color: #393636;
     ${breakWordStyles};
+
+    @media (max-width: ${MOBILE_THRESHOLD}px) {
+        font-size: 12px;
+        line-height: 1.08;
+    }
 `;
 
-const BodyLink = styled(Link)`
+const BodyBlock = styled.div`
     display: flex;
 `;
 
 const PostImage = styled.img`
     width: ${PREVIEW_WIDTH}px;
     height: ${PREVIEW_HEIGHT}px;
-    margin-right: 19px;
     border-radius: 6px;
+
+    @media (max-width: ${MOBILE_THRESHOLD}px) {
+        width: ${MOBILE_PREVIEW_WIDTH}px;
+        height: ${MOBILE_PREVIEW_HEIGHT}px;
+    }
 `;
 
 const Footer = styled.div`
@@ -77,10 +113,15 @@ const Footer = styled.div`
 `;
 
 const Splitter = styled.div`
+    flex-shrink: 0;
     width: 1px;
     height: 20px;
     margin: 0 10px;
     background: #e1e1e1;
+
+    @media (max-width: ${MOBILE_THRESHOLD}px) {
+        margin: 0 5px;
+    }
 `;
 
 const DetailsBlock = styled.div`
@@ -89,17 +130,31 @@ const DetailsBlock = styled.div`
     font-size: 14px;
     color: #959595;
     user-select: none;
+
+    ${is('inbody')`
+        margin-top: 5px;
+        font-size: 13px;
+        
+        @media (max-width: 600px) {
+            margin-top: 3px;
+            font-size: 12px;
+        }
+    `};
 `;
 
 const DateLink = styled(LinkStyled)`
     padding-right: 3px;
-    padding-left: 10px;
+
+    ${is('leftpadding')`
+        padding-left: 10px;    
+    `};
 `;
 
 const AuthorLink = styled(LinkStyled)`
     padding-left: 3px;
     padding-right: 3px;
     user-select: none;
+    white-space: nowrap;
 
     &:hover * {
         border-color: #333;
@@ -108,7 +163,7 @@ const AuthorLink = styled(LinkStyled)`
 
 const AuthorName = styled.div`
     display: inline-block;
-    font-weight: bold;
+    font-weight: 500;
     margin-right: 4px;
 `;
 
@@ -125,15 +180,30 @@ const AuthorRating = styled.div`
     transition: border-color 0.15s;
 `;
 
-const BlogLinkBlock = styled.div`
-    display: flex;
-    align-items: baseline;
-    padding-left: 3px;
-`;
-
-const BlogLink = styled(LinkStyled)`
+const CategoryLink = styled(LinkStyled)`
     padding-right: 10px;
     padding-left: 4px;
+    max-width: 160px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+`;
+
+const CategoryLinkIn = styled.span`
+    color: #959595;
+`;
+
+const ImageLink = styled(Link)`
+    flex-shrink: 0;
+    margin-right: 19px;
+
+    @media (max-width: ${MOBILE_THRESHOLD}px) {
+        margin-right: 15px;
+    }
+`;
+
+const BodyLink = styled(Link)`
+    display: block;
 `;
 
 const RepostButton = styled.button`
@@ -151,6 +221,10 @@ const RepostIcon = styled(Icon).attrs({
 })`
     display: block;
     width: 17px;
+
+    @media (max-width: 500px) {
+        width: 15px;
+    }
 `;
 
 const Filler = styled.div`
@@ -165,17 +239,24 @@ const DotsIcon = styled(Icon).attrs({
     name: 'dots_horizontal',
 })`
     display: block;
-    width: 32px;
-    padding: 0 4px 0 10px;
-    margin-right: -4px;
+    width: 38px;
+    padding: 0 10px;
+    margin-right: -10px;
     color: #959595;
     user-select: none;
     ${activeStyle};
+
+    @media (max-width: 500px) {
+        width: 34px;
+    }
 `;
 
+@listenLazy('resize')
 export default class PostCardCompact extends PureComponent {
     state = {
         menu: false,
+        twoLines: process.env.BROWSER ? window.innerWidth < TWO_LINE_THRESHOLD : false,
+        mobile: process.env.BROWSER ? window.innerWidth < MOBILE_THRESHOLD : false,
     };
 
     onRepostClick = () => {
@@ -194,23 +275,43 @@ export default class PostCardCompact extends PureComponent {
         });
     };
 
+    // called by @listenLazy
+    onResize = () => {
+        this.setState({
+            twoLines: window.innerWidth < TWO_LINE_THRESHOLD,
+            mobile: window.innerWidth < MOBILE_THRESHOLD,
+        });
+    };
+
     renderBody() {
         const { sanitizedData, stats } = this.props;
+        const { twoLines, mobile } = this.state;
         const withImage = sanitizedData.image_link && !stats.gray && !stats.hide;
 
         return (
-            <BodyLink to={sanitizedData.link} onClick={this.props.onClick}>
+            <BodyBlock to={sanitizedData.link} onClick={this.props.onClick}>
                 {withImage ? (
-                    <PostImage
-                        alt={tt('aria_label.post_image')}
-                        src={getImageSrc(PREVIEW_SIZE, sanitizedData.image_link)}
-                    />
+                    <ImageLink to={sanitizedData.link} onClick={this.props.onClick}>
+                        <PostImage
+                            alt={tt('aria_label.post_image')}
+                            src={getImageSrc(PREVIEW_SIZE, sanitizedData.image_link)}
+                        />
+                    </ImageLink>
                 ) : null}
                 <Body>
-                    <PostTitle>{sanitizedData.title}</PostTitle>
-                    <PostContent dangerouslySetInnerHTML={sanitizedData.html} />
+                    <BodyLink to={sanitizedData.link} onClick={this.props.onClick}>
+                        <PostTitle>{sanitizedData.title}</PostTitle>
+                        <PostContent
+                            dangerouslySetInnerHTML={{
+                                __html: mobile
+                                    ? smartTrim(sanitizedData.desc, MOBILE_TEXT_LENGTH_LIMIT)
+                                    : sanitizedData.desc,
+                            }}
+                        />
+                    </BodyLink>
+                    {twoLines ? this.renderDetails() : null}
                 </Body>
-            </BodyLink>
+            </BodyBlock>
         );
     }
 
@@ -233,9 +334,8 @@ export default class PostCardCompact extends PureComponent {
         }
     }
 
-    renderFooter() {
-        const { permLink, data } = this.props;
-        const { menu } = this.state;
+    renderDetails(inFooter) {
+        const { data } = this.props;
 
         const category = detransliterate(data.get('category'));
         const categoryTooltip = tt('aria_label.category', { category: category });
@@ -243,30 +343,41 @@ export default class PostCardCompact extends PureComponent {
         const created = data.get('created');
 
         return (
+            <DetailsBlock inbody={!inFooter}>
+                <DateLink
+                    to={data.get('url')}
+                    data-tooltip={new Date(created).toLocaleString()}
+                    leftpadding={inFooter ? 1 : 0}
+                >
+                    <FormattedRelative value={created} />
+                </DateLink>
+                <AuthorLink to={`@${data.get('author')}`}>
+                    <AuthorName>{data.get('author')}</AuthorName>
+                    <AuthorRating>{repLog10(data.get('author_reputation'))}</AuthorRating>
+                </AuthorLink>
+                <CategoryLink to={`?tags=${category}`} aria-label={categoryTooltip}>
+                    <CategoryLinkIn>{tt('g.in')}</CategoryLinkIn> {category}
+                </CategoryLink>
+            </DetailsBlock>
+        );
+    }
+
+    renderFooter() {
+        const { permLink, data } = this.props;
+        const { menu, twoLines } = this.state;
+
+        return (
             <Footer>
                 <VotePanelCompact contentLink={permLink} splitter={Splitter} />
                 <Splitter />
                 <ReplyBlock mini count={data.get('children')} link={data.get('url')} />
                 {this.renderRepostButton()}
-                <Splitter />
-                <DetailsBlock>
-                    <DateLink
-                        to={data.get('url')}
-                        data-tooltip={new Date(created).toLocaleString()}
-                    >
-                        <FormattedRelative value={created} />
-                    </DateLink>
-                    <AuthorLink to={`@${data.get('author')}`}>
-                        <AuthorName>{data.get('author')}</AuthorName>
-                        <AuthorRating>{repLog10(data.get('author_reputation'))}</AuthorRating>
-                    </AuthorLink>
-                    <BlogLinkBlock>
-                        {tt('g.in')}
-                        <BlogLink to={`?tags=${category}`} aria-label={categoryTooltip}>
-                            {category}
-                        </BlogLink>
-                    </BlogLinkBlock>
-                </DetailsBlock>
+                {twoLines ? null : (
+                    <Fragment>
+                        <Splitter />
+                        {this.renderDetails(true)}
+                    </Fragment>
+                )}
                 <Filler />
                 <MenuWrapper>
                     {menu ? <CompactPostCardMenu post={null} onClose={this.onMenuClose} /> : null}

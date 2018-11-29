@@ -40,7 +40,7 @@ export default class CardsList extends PureComponent {
         order: PropTypes.string,
         category: PropTypes.string,
         items: PropTypes.instanceOf(List),
-        layout: PropTypes.oneOf(['list', 'grid']),
+        layout: PropTypes.oneOf(['list', 'grid', 'compact']),
         itemRender: PropTypes.func,
         allowInlineReply: PropTypes.bool,
         showPinButton: PropTypes.bool,
@@ -196,9 +196,15 @@ export default class CardsList extends PureComponent {
         return ignoreResult && ignoreResult.has(author);
     };
 
-    itemRender(props) {
-        return <PostCardCompact {...props} />;
-    }
+    itemRender = cardProps => {
+        const { layout } = this.props;
+
+        if (layout === 'compact') {
+            return <PostCardCompact {...cardProps} />;
+        } else {
+            return <PostCard {...cardProps} />;
+        }
+    };
 
     renderCards() {
         const { items, layout, disallowGrid } = this.props;

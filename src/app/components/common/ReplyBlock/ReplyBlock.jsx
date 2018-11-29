@@ -52,16 +52,25 @@ const Replies = styled(
         ${RepliesQuantity} {
             font-size: 14px;
             color: #959595;
+            
+            @media (max-width: 500px) {
+                font-size: 12px;
+            }
         }
         
         ${ReplyIcon} {
             width: 17px;
             color: #959595;
+            
+            @media (max-width: 500px) {
+                width: 15px;
+            }
         }
     `};
 `;
 
 const Splitter = styled.div`
+    flex-shrink: 0;
     width: 1px;
     height: 26px;
     background: #e1e1e1;

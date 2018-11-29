@@ -30,7 +30,7 @@ const SimpleIcon = styled(Icon)`
 
 export default class LayoutSwitcher extends PureComponent {
     static propTypes = {
-        layout: PropTypes.oneOf(['list', 'grid']).isRequired,
+        layout: PropTypes.oneOf(['list', 'grid', 'compact']).isRequired,
         changeProfileLayout: PropTypes.func.isRequired,
     };
 

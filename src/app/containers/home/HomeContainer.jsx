@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import Container, {
+import {
+    SINGLE_COLUMN_WIDTH,
     CONTAINER_FULL_WIDTH,
     CONTAINER_MOBILE_WIDTH,
     CONTAINER_MOBILE_MARGIN,
-} from 'src/app/components/common/Container';
+} from 'src/app/constants/container';
+import Container from 'src/app/components/common/Container';
 import MainNavigation from 'src/app/components/main/MainNavigation';
 import TagsBox from 'src/app/components/home/TagsBox';
-
-const SINGLE_COLUMN_WIDTH = 768;
 
 const Wrapper = styled.div`
     background-color: #f9f9f9;
@@ -28,6 +28,8 @@ const ContainerStyled = styled(Container)`
     }
 
     @media (max-width: ${SINGLE_COLUMN_WIDTH}px) {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
         flex-direction: column;
     }
 `;
@@ -45,7 +47,7 @@ const Sidebar = styled.div`
     width: 262px;
     margin-left: 30px;
 
-    @media (max-width: 768px) {
+    @media (max-width: ${SINGLE_COLUMN_WIDTH}px) {
         width: auto;
         margin-left: 0;
         order: 1;
