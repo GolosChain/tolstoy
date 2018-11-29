@@ -71,7 +71,7 @@ const LikeIconNeg = styled(LikeIcon)`
 
 const OkIcon = styled(Icon)`
     width: 16px;
-    margin-right: 8px;
+    margin-right: 13px;
     color: #a8a8a8;
     cursor: pointer;
     transition: color 0.15s;
@@ -89,7 +89,7 @@ const OkIcon = styled(Icon)`
 
 const CancelIcon = styled(Icon)`
     width: 12px;
-    margin-left: 8px;
+    margin-left: 13px;
     color: #e1e1e1;
     transition: color 0.15s;
     cursor: pointer;
@@ -236,11 +236,12 @@ export default class VotePanel extends PureComponent {
         sliderAction: null,
         showSlider: false,
         votePercent: 0,
-        isMobile: this._isMobile(),
+        isMobile: this.isMobile(),
     };
 
     componentWillUnmount() {
-        window.removeEventListener('click', this._onAwayClick);
+        window.removeEventListener('click', this.onAwayClick);
+        window.removeEventListener('touchstart', this.onAwayClick);
     }
 
     onLikesNumberClick = () => {
@@ -277,7 +278,7 @@ export default class VotePanel extends PureComponent {
                   votesSummary.dislikes > USERS_NUMBER_IN_TOOLTIP
               );
         return (
-            <Root className={className} innerRef={this._onRef} vertical={vertical}>
+            <Root className={className} innerRef={this.onRef} vertical={vertical}>
                 <LikeBlock
                     active={votesSummary.myVote === 'like' || sliderAction === 'like'}
                     vertical={vertical}
@@ -345,7 +346,7 @@ export default class VotePanel extends PureComponent {
 
         const like = sliderAction === 'like' ? this._like : this._disLike;
 
-        const box = this._root.getBoundingClientRect();
+        const box = this.root.getBoundingClientRect();
         const likeBox = like.getBoundingClientRect();
 
         const tipLeft = SLIDER_OFFSET + (likeBox.left - box.left + likeBox.width / 2);
@@ -367,16 +368,18 @@ export default class VotePanel extends PureComponent {
                     name="check"
                     red={sliderAction === 'dislike' ? 1 : 0}
                     data-tooltip={tt('g.vote')}
-                    onClick={this._onOkVoteClick}
+                    aria-label={tt('g.vote')}
+                    onClick={this.onOkVoteClick}
                 />
                 <SliderStyled
                     value={votePercent}
                     red={sliderAction === 'dislike'}
-                    onChange={this._onPercentChange}
+                    onChange={this.onPercentChange}
                 />
                 <CancelIcon
                     name="cross"
                     data-tooltip={tt('g.cancel')}
+                    aria-label={tt('g.cancel')}
                     onClick={this._onCancelVoteClick}
                 />
             </SliderBlock>
@@ -411,21 +414,22 @@ export default class VotePanel extends PureComponent {
         }
     }
 
-    _isMobile() {
+    isMobile() {
         return process.env.BROWSER ? window.innerWidth < MOBILE_WIDTH : false;
     }
 
-    _hideSlider() {
+    hideSlider() {
         this.setState({
             showSlider: false,
             sliderAction: null,
         });
 
-        window.removeEventListener('click', this._onAwayClick);
+        window.removeEventListener('click', this.onAwayClick);
+        window.removeEventListener('touchstart', this.onAwayClick);
     }
 
-    _onRef = el => {
-        this._root = el;
+    onRef = el => {
+        this.root = el;
     };
 
     onLikeRef = el => {
@@ -440,7 +444,7 @@ export default class VotePanel extends PureComponent {
         const { votesSummary } = this.props;
 
         if (this.state.showSlider) {
-            this._hideSlider();
+            this.hideSlider();
         } else if (votesSummary.myVote === 'like') {
             this.onChange(0);
         } else if (isNeedShowSlider()) {
@@ -450,7 +454,8 @@ export default class VotePanel extends PureComponent {
                 showSlider: true,
             });
 
-            window.addEventListener('click', this._onAwayClick);
+            window.addEventListener('click', this.onAwayClick);
+            window.addEventListener('touchstart', this.onAwayClick);
         } else {
             this.onChange(1);
         }
@@ -460,7 +465,7 @@ export default class VotePanel extends PureComponent {
         const { votesSummary } = this.props;
 
         if (this.state.showSlider) {
-            this._hideSlider();
+            this.hideSlider();
         } else if (votesSummary.myVote === 'dislike') {
             this.onChange(0);
         } else if (isNeedShowSlider()) {
@@ -470,7 +475,8 @@ export default class VotePanel extends PureComponent {
                 showSlider: true,
             });
 
-            window.addEventListener('click', this._onAwayClick);
+            window.addEventListener('click', this.onAwayClick);
+            window.addEventListener('touchstart', this.onAwayClick);
         } else {
             if (await this.showDislikeAlert()) {
                 this.onChange(-1);
@@ -497,19 +503,19 @@ export default class VotePanel extends PureComponent {
         });
     }
 
-    _onAwayClick = e => {
-        if (this._root && !this._root.contains(e.target)) {
-            this._hideSlider();
+    onAwayClick = e => {
+        if (this.root && !this.root.contains(e.target)) {
+            this.hideSlider();
         }
     };
 
-    _onPercentChange = percent => {
+    onPercentChange = percent => {
         this.setState({
             votePercent: percent,
         });
     };
 
-    _onOkVoteClick = async () => {
+    onOkVoteClick = async () => {
         const { sliderAction, votePercent } = this.state;
 
         if (sliderAction === 'dislike') {
@@ -522,11 +528,11 @@ export default class VotePanel extends PureComponent {
         this.onChange(multiplier * (votePercent / 100));
         savePercent(sliderAction === 'like' ? LIKE_PERCENT_KEY : DISLIKE_PERCENT_KEY, votePercent);
 
-        this._hideSlider();
+        this.hideSlider();
     };
 
     _onCancelVoteClick = () => {
-        this._hideSlider();
+        this.hideSlider();
     };
 
     _onPayoutClick = () => {
@@ -544,7 +550,7 @@ export default class VotePanel extends PureComponent {
     // Calling from @listenLazy('resize')
     onResize = () => {
         this.setState({
-            isMobile: this._isMobile(),
+            isMobile: this.isMobile(),
         });
     };
 
@@ -571,6 +577,7 @@ function usersListForTooltip(usersList) {
 }
 
 function isNeedShowSlider() {
+    return true;
     const state = getStoreState();
 
     const current = state.user.get('current');

@@ -19,18 +19,23 @@ const HandleSlot = styled.div`
     margin: 0 11px;
 `;
 
-const Handle = styled.div`
+const HandleWrapper = styled.div`
     position: absolute;
     left: ${({ left }) => left}%;
+
+    padding: 5px;
+    margin: -5px 0 0 -16px;
+`;
+
+const Handle = styled.div`
     width: 22px;
     height: 22px;
-    margin-left: -11px;
 
     line-height: 22px;
     font-size: 11px;
     font-weight: bold;
     text-align: center;
-    color: #fff;
+    color: #ffffff;
 
     border: 1px solid #2879ff;
     border-radius: 50%;
@@ -87,7 +92,7 @@ const Wrapper = styled.div`
         ${Progress} {
             background: #ff4e00;
         }
-
+ 
         ${Handle} {
             background: #ff4e00 !important;
             border-color: #ff4e00 !important;
@@ -97,10 +102,7 @@ const Wrapper = styled.div`
 
 export default class Slider extends PureComponent {
     static propTypes = {
-        value: PropTypes.oneOfType([
-            PropTypes.number,
-            PropTypes.string,
-        ]).isRequired,
+        value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
         min: PropTypes.number,
         max: PropTypes.number,
         red: PropTypes.bool,
@@ -118,7 +120,7 @@ export default class Slider extends PureComponent {
     };
 
     componentWillUnmount() {
-        this._removeListeners();
+        this.removeListeners();
     }
 
     render() {
@@ -130,13 +132,16 @@ export default class Slider extends PureComponent {
         return (
             <Wrapper
                 {...passProps}
-                onMouseDown={this._onMouseDown}
-                onClick={this._onClick}
+                onMouseDown={this.onMouseDown}
+                onTouchStart={this.onTouchStart}
+                onClick={this.onClick}
                 showCaptions={showCaptions}
             >
                 <Progress width={percent} />
                 <HandleSlot innerRef={this._onRef}>
-                    <Handle left={percent}>{hideHandleValue ? null : value}</Handle>
+                    <HandleWrapper left={percent}>
+                        <Handle>{hideHandleValue ? null : value}</Handle>
+                    </HandleWrapper>
                 </HandleSlot>
                 {showCaptions && (
                     <Captions>
@@ -153,68 +158,90 @@ export default class Slider extends PureComponent {
         this._root = el;
     };
 
-    _removeListeners() {
-        if (this._isListenerActive) {
-            this._isListenerActive = false;
-            window.removeEventListener('mousemove', this._onMouseMove);
-            window.removeEventListener('mouseup', this._onMouseUp);
-            window.removeEventListener('keydown', this._onKeyDown);
-            window.removeEventListener('visibilitychange', this._onVisibilityChange);
+    removeListeners() {
+        if (this.isListenerActive) {
+            this.isListenerActive = false;
+            window.removeEventListener('mousemove', this.onMouseMove);
+            window.removeEventListener('mouseup', this.onMouseUp);
+            window.removeEventListener('keydown', this.onKeyDown);
+            window.removeEventListener('visibilitychange', this.onVisibilityChange);
         }
     }
 
-    _calculateValue(e) {
+    calculateValue(e) {
+        const clientX = e.clientX || e.changedTouches[0].clientX || e.touches[0].clientX;
         const { min, max } = this.props;
         const box = this._root.getBoundingClientRect();
 
-        const unbound = Math.round(min + ((max - min) * (e.clientX - box.left)) / box.width);
+        const unbound = Math.round(min + ((max - min) * (clientX - box.left)) / box.width);
 
         return Math.min(max, Math.max(min, unbound));
     }
 
-    _resetMoving() {
-        this._removeListeners();
+    resetMoving() {
+        this.removeListeners();
     }
 
-    _onClick = e => {
+    onClick = e => {
         this.setState({
-            value: this._calculateValue(e),
+            value: this.calculateValue(e),
         });
     };
 
-    _onMouseDown = e => {
+    onMouseDown = e => {
         this.setState({
-            value: this._calculateValue(e),
+            value: this.calculateValue(e),
         });
 
-        if (!this._isListenerActive) {
-            this._isListenerActive = true;
-            window.addEventListener('mousemove', this._onMouseMove);
-            window.addEventListener('mouseup', this._onMouseUp);
-            window.addEventListener('keydown', this._onKeyDown);
-            window.addEventListener('visibilitychange', this._onVisibilityChange);
+        if (!this.isListenerActive) {
+            this.isListenerActive = true;
+            window.addEventListener('mousemove', this.onMouseMove);
+            window.addEventListener('mouseup', this.onMouseUp);
+            window.addEventListener('keydown', this.onKeyDown);
+            window.addEventListener('visibilitychange', this.onVisibilityChange);
         }
     };
 
-    _onMouseMove = e => {
-        this.props.onChange(this._calculateValue(e));
+    onMouseMove = e => {
+        this.props.onChange(this.calculateValue(e));
     };
 
-    _onMouseUp = e => {
-        this._resetMoving();
-
-        this.props.onChange(this._calculateValue(e));
+    onMouseUp = e => {
+        this.resetMoving();
+        this.props.onChange(this.calculateValue(e));
     };
 
-    _onKeyDown = e => {
+    onKeyDown = e => {
         if (e.which === keyCodes.ESCAPE) {
-            this._resetMoving();
+            this.resetMoving();
         }
     };
 
-    _onVisibilityChange = () => {
+    onTouchStart = e => {
+        this.setState({
+            value: this.calculateValue(e),
+        });
+
+        if (!this.isListenerActive) {
+            this.isListenerActive = true;
+            window.addEventListener('touchmove', this.onTouchMove);
+            window.addEventListener('touchend', this.onTouchEnd);
+            window.addEventListener('visibilitychange', this.onVisibilityChange);
+        }
+    };
+
+    onTouchMove = e => {
+        this.props.onChange(this.calculateValue(e));
+    };
+
+    onTouchEnd = e => {
+        this.resetMoving();
+        this.props.onChange(this.calculateValue(e));
+    };
+
+    onVisibilityChange = () => {
         if (document.hidden) {
-            this._resetMoving();
+            this.resetMoving();
         }
     };
 }
