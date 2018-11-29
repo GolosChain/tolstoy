@@ -2,11 +2,13 @@ import styled from 'styled-components';
 import is from 'styled-is';
 import Flex from 'golos-ui/Flex';
 
-export const CONTAINER_MAX_WIDTH = 1150;
-export const CONTAINER_MOBILE_WIDTH = 500;
-export const CONTAINER_BASE_MARGIN = 20;
-export const CONTAINER_FULL_WIDTH = CONTAINER_MAX_WIDTH + 2 * CONTAINER_BASE_MARGIN;
-export const CONTAINER_MOBILE_MARGIN = 16;
+import {
+    CONTAINER_MAX_WIDTH,
+    CONTAINER_MOBILE_WIDTH,
+    CONTAINER_BASE_MARGIN,
+    CONTAINER_FULL_WIDTH,
+    CONTAINER_MOBILE_MARGIN,
+} from 'src/app/constants/container';
 
 const Container = styled(Flex)`
     max-width: ${CONTAINER_MAX_WIDTH}px;
