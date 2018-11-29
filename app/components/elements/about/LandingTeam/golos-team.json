@@ -11,7 +11,7 @@
   },
   {
     "name": "Николай Штефан",
-    "role": "Team Lead, Scrum Master",
+    "role": "CTO",
     "avatar": "shtefan",
     "contacts": {
       "golos": "nickshtefan",
@@ -63,7 +63,8 @@
     "avatar": "allakuchinskaya",
     "contacts": {
       "golos": "kuchinskaya",
-      "github": "kucinskaya.alla"
+      "github": "kucinskaya.alla",
+      "dribbble": "allakuchinskaya"
     }
   },
   {
@@ -71,7 +72,8 @@
     "role": "Designer",
     "avatar": "sergey-designer",
     "contacts": {
-      "golos": "des432"
+      "golos": "des432",
+      "dribbble": "mrchnk"
     }
   },
   {
