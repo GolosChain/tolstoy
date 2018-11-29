@@ -106,6 +106,8 @@ const PostPayoutStyled = styled(PostPayout)`
     user-select: none;
 `;
 
+const Money = styled.div``;
+
 export default class VotePanelAbstract extends PureComponent {
     static propTypes = {
         data: PropTypes.instanceOf(Map),
@@ -120,7 +122,9 @@ export default class VotePanelAbstract extends PureComponent {
         isMobile: this._isMobile(),
     };
 
-    Money = styled.div``;
+    getMoneyComponent() {
+        return Money;
+    }
 
     componentDidMount() {
         window.addEventListener('resize', this.onResize);
@@ -149,10 +153,10 @@ export default class VotePanelAbstract extends PureComponent {
             return null;
         }
 
-        return this._render();
+        return this.renderInner();
     }
 
-    _render() {
+    renderInner() {
         throw new Error('Abstract method call');
     }
 
@@ -231,23 +235,22 @@ export default class VotePanelAbstract extends PureComponent {
         const { isMobile } = this.state;
         const postLink = data.get('author') + '/' + data.get('permlink');
 
+        const Money = this.getMoneyComponent();
+
         if (isMobile) {
             return (
-                <this.Money
-                    onClick={this._onPayoutClick}
-                    aria-label={tt('aria_label.expected_payout')}
-                >
+                <Money onClick={this._onPayoutClick} aria-label={tt('aria_label.expected_payout')}>
                     <PostPayoutStyled postLink={postLink} />
                     {add}
-                </this.Money>
+                </Money>
             );
         } else {
             return (
                 <Popover content={this.getPayoutInfoComponent}>
-                    <this.Money>
+                    <Money>
                         <PostPayoutStyled postLink={postLink} />
                         {add}
-                    </this.Money>
+                    </Money>
                 </Popover>
             );
         }

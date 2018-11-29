@@ -79,7 +79,7 @@ const LikesCountBlock = styled.div`
 const ChevronIcon = styled(Icon).attrs({ name: 'chevron' })`
     width: 10px;
     margin-right: 10px;
-    
+
     @media (max-width: 500px) {
         width: 8px;
     }
@@ -95,9 +95,11 @@ const LikesCount = styled.div`
 `;
 
 export default class VotePanelCompact extends VotePanelAbstract {
-    Money = Money;
+    getMoneyComponent() {
+        return Money;
+    }
 
-    _render() {
+    renderInner() {
         const { votesSummary } = this.props;
         const { sliderAction } = this.state;
 
