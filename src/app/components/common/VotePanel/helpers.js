@@ -1,6 +1,4 @@
-import { getStoreState } from 'app/clientRender';
-
-const VOTE_PERCENT_THRESHOLD = 1000000;
+export const VOTE_PERCENT_THRESHOLD = 1000000;
 export const USERS_NUMBER_IN_TOOLTIP = 8;
 
 export function makeTooltip(accounts, isMore) {
@@ -12,23 +10,6 @@ export function usersListForTooltip(usersList) {
         usersList = usersList.slice(0, USERS_NUMBER_IN_TOOLTIP);
     }
     return usersList;
-}
-
-export function isNeedShowSlider() {
-    const state = getStoreState();
-
-    const current = state.user.get('current');
-
-    if (!current) {
-        return false;
-    }
-
-    const netVesting =
-        current.get('vesting_shares') -
-        current.get('delegated_vesting_shares') +
-        current.get('received_vesting_shares');
-
-    return netVesting > VOTE_PERCENT_THRESHOLD;
 }
 
 export function getSavedPercent(key) {
