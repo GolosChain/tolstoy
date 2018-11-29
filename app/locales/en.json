@@ -63,6 +63,7 @@
     "header_logo": "Golos.io logo",
     "likers_list": "Voted with like: %(count)s",
     "notifications": "Notifications. Quantity: %(count)s",
+    "post_image": "Post image",
     "reset_tags": "Reset tags",
     "share_on_facebook": "Share on Facebook",
     "share_on_lj": "Share on LiveJournal",
@@ -222,6 +223,7 @@
   },
   "data-tooltip": {
     "clear_notifications_history": "Mark all notifications as read",
+    "compact": "Compact list",
     "grid": "Grid",
     "list": "List"
   },
@@ -1004,6 +1006,9 @@
     "repost": "Repost",
     "unpin_post": "Unpin"
   },
+  "post_card_menu": {
+    "share_in": "Share in"
+  },
   "post_editor": {
     "add_image": "Add image",
     "body_length_over_limit_error": "Post body too big",
@@ -1059,10 +1064,6 @@
     "recieve_interest_of": "Receive interest of %(interest)s",
     "share": "Share",
     "share_in_social_networks": "Share in soc. networks",
-    "share_on_facebook": "Share on Facebook",
-    "share_on_lj": "Share on LiveJournal",
-    "share_on_twitter": "Share on Twitter",
-    "share_on_vk": "Share on Vkontakte",
     "start_power_down_of": "Start power down of",
     "stop_power_down": "Stop power down",
     "this_post_is_not_available_due_to_a_copyright_claim": "This post is not available due to a copyright claim.",

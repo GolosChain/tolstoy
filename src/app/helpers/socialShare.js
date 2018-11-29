@@ -1,8 +1,33 @@
 import { serverApiRecordEvent } from 'app/utils/ServerApiClient';
 
-export const fbShare = (e, post) => {
-    e.preventDefault();
+export const shareList = [
+    {
+        label: 'LiveJournal',
+        icon: 'lj',
+        ariaLabel: 'aria_label.share_on_lj',
+        callback: ljShare,
+    },
+    {
+        label: 'VK',
+        icon: 'vk',
+        ariaLabel: 'aria_label.share_on_vk',
+        callback: vkShare,
+    },
+    {
+        label: 'Facebook',
+        icon: 'facebook',
+        ariaLabel: 'aria_label.share_on_facebook',
+        callback: fbShare,
+    },
+    {
+        label: 'Twitter',
+        icon: 'twitter',
+        ariaLabel: 'aria_label.share_on_twitter',
+        callback: twitterShare,
+    },
+];
 
+function fbShare(post) {
     window.FB.ui(
         {
             method: 'share',
@@ -14,11 +39,9 @@ export const fbShare = (e, post) => {
             }
         }
     );
-};
+}
 
-export const twitterShare = (e, post) => {
-    e.preventDefault();
-
+function twitterShare(post) {
     const winWidth = 640;
     const winHeight = 320;
     const winTop = screen.height / 2 - winWidth / 2;
@@ -41,11 +64,9 @@ export const twitterShare = (e, post) => {
         post.title,
         `top=${winTop},left=${winLeft},toolbar=0,status=0,width=${winWidth},height=${winHeight}`
     );
-};
+}
 
-export const vkShare = (e, post) => {
-    e.preventDefault();
-
+function vkShare(post) {
     const winWidth = 720;
     const winHeight = 480;
     const winTop = screen.height / 2 - winWidth / 2;
@@ -56,13 +77,11 @@ export const vkShare = (e, post) => {
         post.title,
         `top=${winTop},left=${winLeft},toolbar=0,status=0,width=${winWidth},height=${winHeight}`
     );
-};
+}
 
-export const ljShare = (e, post) => {
-    e.preventDefault();
-
+function ljShare(post) {
     const title = post.title;
     const link = `<div><a href="${location.href.replace(/#.*$/, '')}">${title}</a></div>`;
 
     window.open(`http://www.livejournal.com/update.bml?subject=${title}&event=${post.desc + link}`);
-};
+}

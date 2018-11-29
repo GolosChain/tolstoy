@@ -63,6 +63,7 @@
     "header_logo": "Логотип golos.io",
     "likers_list": "Проголосовали за: %(count)s",
     "notifications": "Уведомления. Количество: %(count)s",
+    "post_image": "Картинка поста",
     "reset_tags": "Очистить теги",
     "share_on_facebook": "Поделиться на Facebook",
     "share_on_lj": "Поделиться на LiveJournal",
@@ -224,6 +225,7 @@
   },
   "data-tooltip": {
     "clear_notifications_history": "Отметить все уведомления прочитаными",
+    "compact": "Компактный список",
     "grid": "Сетка",
     "list": "Список"
   },
@@ -1011,6 +1013,9 @@
     "repost": "Поделиться",
     "unpin_post": "Открепить"
   },
+  "post_card_menu": {
+    "share_in": "Поделиться в"
+  },
   "post_editor": {
     "add_image": "Добавить изображение",
     "body_length_over_limit_error": "Слишком длинное тело поста",
@@ -1066,10 +1071,6 @@
     "recieve_interest_of": "Получены проценты в размере %(interest)s",
     "share": "Поделиться",
     "share_in_social_networks": "Поделиться в соц. сети",
-    "share_on_facebook": "Поделитесь в Facebook",
-    "share_on_lj": "Поделиться в LiveJournal",
-    "share_on_twitter": "Поделиться в Twitter",
-    "share_on_vk": "Поделиться в ВКонтакте",
     "start_power_down_of": "Ослабление %(VESTING_TOKENS)s начато с",
     "stop_power_down": "Ослабление %(VESTING_TOKENS)s остановлено",
     "this_post_is_not_available_due_to_a_copyright_claim": "Этот пост недоступен из-за жалобы о нарушении авторских прав.",
