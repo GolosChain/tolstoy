@@ -161,8 +161,8 @@ export default class Slider extends PureComponent {
     removeListeners() {
         if (this.isListenerActive) {
             this.isListenerActive = false;
-            window.removeEventListener('mousemove', this.onMouseMove);
-            window.removeEventListener('mouseup', this.onMouseUp);
+            window.removeEventListener('mousemove', this.onMove);
+            window.removeEventListener('mouseup', this.onMovingEnd);
             window.removeEventListener('keydown', this.onKeyDown);
             window.removeEventListener('visibilitychange', this.onVisibilityChange);
         }
