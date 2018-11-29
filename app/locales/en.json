@@ -1326,7 +1326,8 @@
       "registered": "Registered on",
       "reputation": "Reputation",
       "status": {
-        "gudgeon": "gudgeon",
+        "crucian": "crucian",
+        "minnow": "minnow",
         "dolphin": "dolphin",
         "orca": "orca",
         "whale": "whale"

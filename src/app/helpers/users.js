@@ -43,14 +43,16 @@ const lazyLoadUsers = throttle(
     { leading: false }
 );
 
-export const getUserStatus = voicePower => {
-    if (voicePower < 0) {
+export const getUserStatus = gests => {
+    if (gests < 0) {
         return null;
-    } else if (voicePower < 1000) {
-        return 'gudgeon';
-    } else if (voicePower < 100000) {
+    } else if (gests < 100000) {
+        return 'crucian';
+    } else if (gests < 10000000) {
+        return 'minnow';
+    } else if (gests < 100000000) {
         return 'dolphin';
-    } else if (voicePower < 1000000) {
+    } else if (gests < 1000000000) {
         return 'orca';
     } else {
         return 'whale';
