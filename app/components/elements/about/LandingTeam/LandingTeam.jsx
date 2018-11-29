@@ -1,12 +1,37 @@
 import React, { PureComponent } from 'react';
-import Icon from 'app/components/elements/Icon';
 import tt from 'counterpart';
+import styled from 'styled-components';
 
-import { APP_ICON } from 'app/client_config';
 import golosTeam from './golos-team.json';
 import coreTeam from './core-team.json';
+import Icon from 'src/app/components/golos-ui/Icon';
 
-const CONTACTS_ORDER = ['golos', 'email', 'github', 'linkedin', 'facebook'];
+const CONTACTS_ORDER = ['golos', 'email', 'github', 'linkedin', 'facebook', 'dribbble'];
+const SOCIAL_ICON_SIZE = 32;
+
+const SocialNetworksWrapper = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    flex-wrap: wrap;
+`;
+
+const SocialNetworkWrapper = styled.span`
+    padding: 5px 10px;
+`;
+
+const SocialNetworkLink = styled.a`
+    display: flex;
+    color: #000000;
+    
+    &:hover {
+       color: #000000; 
+    }
+`;
+
+const Role = styled.p`
+    margin-bottom: 0.5rem;
+`;
 
 export default class LandingTeam extends PureComponent {
     render() {
@@ -19,13 +44,13 @@ export default class LandingTeam extends PureComponent {
                         </h2>
                     </div>
                 </div>
-                {this._renderSection('GOLOS.io', golosTeam, 'golos.io')}
-                {this._renderSection('Golos Core', coreTeam, 'core')}
+                {this.renderSection('GOLOS.io', golosTeam, 'golos.io')}
+                {this.renderSection('Golos Core', coreTeam, 'core')}
             </section>
         );
     }
 
-    _renderSection(title, team, type) {
+    renderSection(title, team, type) {
         return (
             <React.Fragment>
                 <div className="row">
@@ -59,95 +84,96 @@ export default class LandingTeam extends PureComponent {
                     )}
                 </div>
                 <div className="row Team__members text-center">
-                    {team.map(member => this._renderMember(member))}
+                    {team.map(member => renderMember(member))}
                 </div>
             </React.Fragment>
         );
     }
+}
 
-    _renderMember({ name, role, avatar, avatarUrl, contacts }) {
-        const contactsElements = [];
+function renderMember({ name, role, avatar, avatarUrl, contacts }) {
+    const contactsElements = [];
 
-        let avaUrl;
+    let avatarElement;
 
-        let avatarElement;
-
-        if (avatarUrl) {
-            avatarElement = (
-                <div className="Team__member-avatar-wrapper">
-                    <img className="Team__member-external-avatar" src={avatarUrl} />
-                </div>
-            );
-        } else {
-            avatarElement = (
-                <img
-                    className="Team__member-avatar"
-                    src={`images/team/${avatar}${
-                        process.env.BROWSER && window.devicePixelRatio > 1 ? '@2x' : ''
-                    }.jpg`}
-                />
-            );
-        }
-
-        for (let contact of CONTACTS_ORDER) {
-            if (contacts[contact]) {
-                contactsElements.push(
-                    <span key={contact} className="Team__member-contact-item">
-                        {this._renderContact(contact, contacts[contact])}
-                    </span>
-                );
-            }
-        }
-
-        return (
-            <div
-                key={name}
-                className="wow fadeIn small-12 medium-4 large-3 columns small-centered Team__member"
-                data-wow-delay="1s"
-            >
-                {avatarElement}
-                <div className="Team__member-name">{name}</div>
-                <p>{role}</p>
-                <div>{contactsElements}</div>
+    if (avatarUrl) {
+        avatarElement = (
+            <div className="Team__member-avatar-wrapper">
+                <img className="Team__member-external-avatar" src={avatarUrl} />
             </div>
+        );
+    } else {
+        avatarElement = (
+            <img
+                className="Team__member-avatar"
+                src={`images/team/${avatar}${
+                    process.env.BROWSER && window.devicePixelRatio > 1 ? '@2x' : ''
+                    }.jpg`}
+            />
         );
     }
 
-    _renderContact(type, data) {
-        switch (type) {
-            case 'golos':
-                return (
-                    <a href={`/@${data}`}>
-                        <Icon name={APP_ICON} size="2x" />
-                    </a>
-                );
-            case 'email':
-                return (
-                    <a href={`mailto:${data}`} title={`mail to ${data}`}>
-                        <Icon name="envelope" size="2x" />
-                    </a>
-                );
-            case 'github':
-                return (
-                    <a href={`https://github.com/${data}`}>
-                        <img src="images/landing/github_icon.jpg" />
-                    </a>
-                );
-            case 'linkedin':
-                return (
-                    <a href={`https://www.linkedin.com/in/${data}/`}>
-                        <img src="images/landing/linkedin_icon.jpg" />
-                    </a>
-                );
-            case 'facebook':
-                return (
-                    <a href={`https://facebook.com/${data}`}>
-                        <img
-                            className="Team__facebook-logo"
-                            src="https://cdn1.iconfinder.com/data/icons/logotypes/32/square-facebook-512.png"
-                        />
-                    </a>
-                );
+    for (let contact of CONTACTS_ORDER) {
+        if (contacts[contact]) {
+            contactsElements.push(
+                <SocialNetworkWrapper key={contact}>
+                    {renderContact(contact, contacts[contact])}
+                </SocialNetworkWrapper>
+            );
         }
+    }
+
+    return (
+        <div
+            key={name}
+            className="wow fadeIn small-12 medium-4 large-3 columns small-centered Team__member"
+            data-wow-delay="1s"
+        >
+            {avatarElement}
+            <div className="Team__member-name">{name}</div>
+            <Role>{role}</Role>
+            <SocialNetworksWrapper>{contactsElements}</SocialNetworksWrapper>
+        </div>
+    );
+}
+
+function renderContact(type, data) {
+    switch (type) {
+        case 'golos':
+            return (
+                <SocialNetworkLink href={`/@${data}`}>
+                    <Icon name="golos-red-blue" size={SOCIAL_ICON_SIZE} />
+                </SocialNetworkLink>
+            );
+        case 'email':
+            return (
+                <SocialNetworkLink href={`mailto:${data}`} title={`mail to ${data}`}>
+                    <Icon name="envelope" size={SOCIAL_ICON_SIZE} />
+                </SocialNetworkLink>
+            );
+        case 'github':
+            return (
+                <SocialNetworkLink href={`https://github.com/${data}`} target="_blank">
+                    <Icon name="github-black-circle" size={SOCIAL_ICON_SIZE} />
+                </SocialNetworkLink>
+            );
+        case 'linkedin':
+            return (
+                <SocialNetworkLink href={`https://www.linkedin.com/in/${data}/`} target="_blank">
+                    <Icon name="linkedin-circle" size={SOCIAL_ICON_SIZE} />
+                </SocialNetworkLink>
+            );
+        case 'facebook':
+            return (
+                <SocialNetworkLink href={`https://facebook.com/${data}`} target="_blank">
+                    <Icon name="facebook-circle" size={SOCIAL_ICON_SIZE} />
+                </SocialNetworkLink>
+            );
+        case 'dribbble':
+            return (
+                <SocialNetworkLink href={`https://dribbble.com/${data}`} target="_blank">
+                    <Icon name="dribbble-circle" size={SOCIAL_ICON_SIZE} />
+                </SocialNetworkLink>
+            )
     }
 }

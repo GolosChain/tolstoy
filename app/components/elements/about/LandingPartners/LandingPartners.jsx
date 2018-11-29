@@ -45,11 +45,6 @@ export default class LandingPartners extends PureComponent {
                         </a>
                     </div>
                     <div className="small-6 medium-3 columns">
-                        <a href="https://oneplace.media/g" target="blank">
-                            <img src="images/landing/l11.jpg" alt="OnePlace" />
-                        </a>
-                    </div>
-                    <div className="small-6 medium-3 columns">
                         <a href="https://golos.today/" target="blank">
                             <img src="images/landing/l16.jpg" alt="Golos Today" />
                         </a>
