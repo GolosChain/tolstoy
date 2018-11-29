@@ -51,7 +51,7 @@ export const getUserStatus = voicePower => {
     } else if (voicePower < 100000) {
         return 'dolphin';
     } else if (voicePower < 1000000) {
-        return 'killer_whale';
+        return 'orca';
     } else {
         return 'whale';
     }
