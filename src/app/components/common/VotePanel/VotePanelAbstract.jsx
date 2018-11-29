@@ -18,7 +18,6 @@ import { confirmVote } from 'src/app/helpers/votes';
 
 import {
     USERS_NUMBER_IN_TOOLTIP,
-    isNeedShowSlider,
     getSavedPercent,
     savePercent,
     makeTooltip,
@@ -122,10 +121,6 @@ export default class VotePanelAbstract extends PureComponent {
         isMobile: this._isMobile(),
     };
 
-    getMoneyComponent() {
-        return Money;
-    }
-
     componentDidMount() {
         window.addEventListener('resize', this.onResize);
     }
@@ -134,6 +129,10 @@ export default class VotePanelAbstract extends PureComponent {
         this.onResize.cancel();
         window.removeEventListener('resize', this.onResize);
         window.removeEventListener('click', this._onAwayClick);
+    }
+
+    getMoneyComponent() {
+        return Money;
     }
 
     onLikesNumberClick = () => {
@@ -282,13 +281,13 @@ export default class VotePanelAbstract extends PureComponent {
     };
 
     onLikeClick = this.loginProtection(() => {
-        const { votesSummary } = this.props;
+        const { votesSummary, isRich } = this.props;
 
         if (this.state.showSlider) {
             this._hideSlider();
         } else if (votesSummary.myVote === 'like') {
             this.onChange(0);
-        } else if (isNeedShowSlider()) {
+        } else if (isRich) {
             this.setState({
                 votePercent: getSavedPercent(LIKE_PERCENT_KEY),
                 sliderAction: 'like',
@@ -302,13 +301,13 @@ export default class VotePanelAbstract extends PureComponent {
     });
 
     onDislikeClick = this.loginProtection(async () => {
-        const { votesSummary } = this.props;
+        const { votesSummary, isRich } = this.props;
 
         if (this.state.showSlider) {
             this._hideSlider();
         } else if (votesSummary.myVote === 'dislike') {
             this.onChange(0);
-        } else if (isNeedShowSlider()) {
+        } else if (isRich) {
             this.setState({
                 votePercent: getSavedPercent(DISLIKE_PERCENT_KEY),
                 sliderAction: 'dislike',
