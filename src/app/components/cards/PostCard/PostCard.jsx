@@ -7,6 +7,7 @@ import tt from 'counterpart';
 import { Map } from 'immutable';
 
 import { detransliterate } from 'app/utils/ParsersAndFormatters';
+import { isHide } from 'app/utils/StateFunctions';
 import Icon from 'golos-ui/Icon';
 import { TagLink } from 'golos-ui/Tag';
 import { EntryWrapper, PostTitle, PostContent } from '../common';
@@ -240,10 +241,14 @@ export default class PostCard extends PureComponent {
     }
 
     render() {
-        const { className, isRepost, hideNsfw, stats } = this.props;
+        const { className, isRepost, hideNsfw, stats, data } = this.props;
 
         // user wishes to hide these posts entirely
         if (hideNsfw) {
+            return null;
+        }
+
+        if (isHide(data)) {
             return null;
         }
 

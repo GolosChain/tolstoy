@@ -7,6 +7,7 @@ import is from 'styled-is';
 import tt from 'counterpart';
 
 import { detransliterate } from 'app/utils/ParsersAndFormatters';
+import { isHide } from 'app/utils/StateFunctions';
 import { getScrollElement } from 'src/app/helpers/window';
 import CommentFormLoader from 'app/components/modules/CommentForm/loader';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
@@ -453,6 +454,10 @@ export class CommentCard extends PureComponent {
         const { showReply, collapsed, edit, highlighted, showAlert } = this.state;
 
         if (!showSpam && stats && stats.hide) {
+            return null;
+        }
+
+        if (isHide(comment)) {
             return null;
         }
 

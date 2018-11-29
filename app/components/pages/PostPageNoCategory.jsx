@@ -1,7 +1,9 @@
 import React from 'react';
-import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
+
+import LoadingIndicator from 'app/components/elements/LoadingIndicator';
+import NotFoundFragment from 'app/components/elements/NotFoundFragment';
 
 class PostWrapper extends React.Component {
     constructor() {
@@ -51,11 +53,7 @@ class PostWrapper extends React.Component {
                         <LoadingIndicator type="circle" />
                     </center>
                 ) : (
-                    <div className="NotFound float-center">
-                        <a href="/">
-                            <img src="/images/404.svg" width="640" height="480" />
-                        </a>
-                    </div>
+                    <NotFoundFragment />
                 )}
             </div>
         );
