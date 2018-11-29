@@ -11,7 +11,7 @@
   },
   {
     "name": "Николай Штефан",
-    "role": "Team Lead, Scrum Master",
+    "role": "CTO",
     "avatar": "shtefan",
     "contacts": {
       "golos": "nickshtefan",
@@ -63,7 +63,17 @@
     "avatar": "allakuchinskaya",
     "contacts": {
       "golos": "kuchinskaya",
-      "github": "kucinskaya.alla"
+      "github": "kucinskaya.alla",
+      "dribbble": "allakuchinskaya"
+    }
+  },
+  {
+    "name": "Сергей Марченко",
+    "role": "Designer",
+    "avatar": "sergey-designer",
+    "contacts": {
+      "golos": "des432",
+      "dribbble": "mrchnk"
     }
   },
   {
@@ -77,7 +87,7 @@
   },
   {
     "name": "Сергей Монастырский",
-    "role": "iOs dev",
+    "role": "iOS dev",
     "avatar": "sergeim",
     "contacts": {
       "golos": "msm72",
@@ -104,22 +114,12 @@
     }
   },
   {
-    "name": "Евгений Паршин",
-    "role": "QA Tester",
-    "avatar": "pevgenii",
+    "name": "Денис Белых",
+    "role": "Support Manager",
+    "avatar": "dankinescop",
     "contacts": {
-      "golos": "dekol",
-      "github": "BaroH4er"
-    }
-  },
-  {
-    "name": "Александр Фирсов",
-    "role": "Head of Communications",
-    "avatar": "firsov",
-    "contacts": {
-      "golos": "alex-firsov",
-      "email": "pr@golos.io",
-      "facebook": "alex.v.firsov"
+      "golos": "dan-kinescop",
+      "github": "dankinescop"
     }
   },
   {
@@ -133,13 +133,11 @@
     }
   },
   {
-    "name": "Денис Белых",
-    "role": "Support Manager",
-    "avatar": "dankinescop",
+    "name": "Степан Зинин",
+    "role": "Product manager",
+    "avatar": "stepashka",
     "contacts": {
-      "golos": "dan-kinescop",
-      "email": "support@golos.io",
-      "github": "dankinescop"
+      "github": "Azarod"
     }
   },
   {
@@ -158,14 +156,6 @@
     "avatar": "anastasiapirogova",
     "contacts": {
       "golos": "pirogova"
-    }
-  },
-  {
-    "name": "Ирина Немогаева",
-    "role": "HR",
-    "avatar": "irinanemogaeva",
-    "contacts": {
-      "github": "nemogaevairina"
     }
   }
 ]
