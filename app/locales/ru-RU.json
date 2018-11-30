@@ -1334,7 +1334,8 @@
       "registered": "На Golos с",
       "reputation": "Рейтинг",
       "status": {
-        "gudgeon": "пескарь",
+        "crucian": "карась",
+        "minnow": "гольян",
         "dolphin": "дельфин",
         "orca": "косатка",
         "whale": "кит"
