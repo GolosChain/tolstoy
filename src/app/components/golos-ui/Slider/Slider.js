@@ -77,6 +77,7 @@ const Wrapper = styled.div`
     height: ${({ showCaptions }) => (showCaptions ? 50 : 22)}px;
     user-select: none;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
 
     &:before {
         position: absolute;
@@ -99,8 +100,6 @@ const Wrapper = styled.div`
             border-color: #ff4e00 !important;
         }
     `};
-
-    -webkit-tap-highlight-color: transparent;
 `;
 
 export default class Slider extends PureComponent {
