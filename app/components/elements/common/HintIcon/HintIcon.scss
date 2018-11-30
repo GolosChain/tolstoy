@@ -4,7 +4,7 @@
 
   &__icon {
     cursor: pointer;
-    transition: color 0.15s ease;
+    transition: color 0.15s;
 
     &:hover {
       color: #0078c4;
@@ -30,7 +30,7 @@
     margin-left: -4px;
     color: #e1e1e1;
     cursor: pointer;
-    transition: color 0.15s ease;
+    transition: color 0.15s;
 
     &:hover {
       color: #393636;
