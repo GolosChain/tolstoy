@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
 import tt from 'counterpart';
 import styled from 'styled-components';
@@ -37,7 +37,7 @@ const VERT_OFFSET_DOWN = 26;
 
 const OkIcon = styled(Icon)`
     width: 16px;
-    margin-right: 8px;
+    margin-right: 13px;
     color: #a8a8a8;
     cursor: pointer;
     transition: color 0.15s;
@@ -55,7 +55,7 @@ const OkIcon = styled(Icon)`
 
 const CancelIcon = styled(Icon)`
     width: 12px;
-    margin-left: 8px;
+    margin-left: 13px;
     color: #e1e1e1;
     transition: color 0.15s;
     cursor: pointer;
@@ -118,7 +118,7 @@ export default class VotePanelAbstract extends PureComponent {
         sliderAction: null,
         showSlider: false,
         votePercent: 0,
-        isMobile: this._isMobile(),
+        isMobile: this.isMobile(),
     };
 
     componentDidMount() {
@@ -128,7 +128,8 @@ export default class VotePanelAbstract extends PureComponent {
     componentWillUnmount() {
         this.onResize.cancel();
         window.removeEventListener('resize', this.onResize);
-        window.removeEventListener('click', this._onAwayClick);
+        window.removeEventListener('click', this.onAwayClick);
+        window.removeEventListener('touchstart', this.onAwayClick);
     }
 
     getMoneyComponent() {
@@ -163,9 +164,9 @@ export default class VotePanelAbstract extends PureComponent {
         const { vertical } = this.props;
         const { sliderAction, votePercent } = this.state;
 
-        const like = sliderAction === 'like' ? this._like : this._disLike;
+        const like = sliderAction === 'like' ? this.likeRef.current : this.dislikeRef.current;
 
-        const box = this._root.getBoundingClientRect();
+        const box = this.rootRef.current.getBoundingClientRect();
         const likeBox = like.getBoundingClientRect();
 
         const tipLeft = SLIDER_OFFSET + (likeBox.left - box.left + likeBox.width / 2);
@@ -187,17 +188,17 @@ export default class VotePanelAbstract extends PureComponent {
                     name="check"
                     red={sliderAction === 'dislike' ? 1 : 0}
                     data-tooltip={tt('g.vote')}
-                    onClick={this._onOkVoteClick}
+                    onClick={this.onOkVoteClick}
                 />
                 <SliderStyled
                     value={votePercent}
                     red={sliderAction === 'dislike'}
-                    onChange={this._onPercentChange}
+                    onChange={this.onPercentChange}
                 />
                 <CancelIcon
                     name="cross"
                     data-tooltip={tt('g.cancel')}
-                    onClick={this._onCancelVoteClick}
+                    onClick={this.onCancelVoteClick}
                 />
             </SliderBlock>
         );
@@ -238,7 +239,7 @@ export default class VotePanelAbstract extends PureComponent {
 
         if (isMobile) {
             return (
-                <Money onClick={this._onPayoutClick} aria-label={tt('aria_label.expected_payout')}>
+                <Money onClick={this.onPayoutClick} aria-label={tt('aria_label.expected_payout')}>
                     <PostPayoutStyled postLink={postLink} />
                     {add}
                 </Money>
@@ -255,36 +256,30 @@ export default class VotePanelAbstract extends PureComponent {
         }
     }
 
-    _isMobile() {
+    isMobile() {
         return process.env.BROWSER ? window.innerWidth < MOBILE_WIDTH : false;
     }
 
-    _hideSlider() {
+    hideSlider() {
         this.setState({
             showSlider: false,
             sliderAction: null,
         });
 
-        window.removeEventListener('click', this._onAwayClick);
+        window.removeEventListener('click', this.onAwayClick);
+        window.removeEventListener('touchstart', this.onAwayClick);
     }
 
-    _onRef = el => {
-        this._root = el;
-    };
+    rootRef = createRef();
+    likeRef = createRef();
+    dislikeRef = createRef();
 
-    onLikeRef = el => {
-        this._like = el;
-    };
-
-    onDisLikeRef = el => {
-        this._disLike = el;
-    };
 
     onLikeClick = this.loginProtection(() => {
         const { votesSummary, isRich } = this.props;
 
         if (this.state.showSlider) {
-            this._hideSlider();
+            this.hideSlider();
         } else if (votesSummary.myVote === 'like') {
             this.onChange(0);
         } else if (isRich) {
@@ -294,7 +289,8 @@ export default class VotePanelAbstract extends PureComponent {
                 showSlider: true,
             });
 
-            window.addEventListener('click', this._onAwayClick);
+            window.addEventListener('click', this.onAwayClick);
+            window.addEventListener('touchstart', this.onAwayClick);
         } else {
             this.onChange(1);
         }
@@ -304,7 +300,7 @@ export default class VotePanelAbstract extends PureComponent {
         const { votesSummary, isRich } = this.props;
 
         if (this.state.showSlider) {
-            this._hideSlider();
+            this.hideSlider();
         } else if (votesSummary.myVote === 'dislike') {
             this.onChange(0);
         } else if (isRich) {
@@ -314,7 +310,8 @@ export default class VotePanelAbstract extends PureComponent {
                 showSlider: true,
             });
 
-            window.addEventListener('click', this._onAwayClick);
+            window.addEventListener('click', this.onAwayClick);
+            window.addEventListener('touchstart', this.onAwayClick);
         } else {
             if (await this.showDislikeAlert()) {
                 this.onChange(-1);
@@ -341,19 +338,19 @@ export default class VotePanelAbstract extends PureComponent {
         });
     }
 
-    _onAwayClick = e => {
-        if (this._root && !this._root.contains(e.target)) {
-            this._hideSlider();
+    onAwayClick = e => {
+        if (this.rootRef.current && !this.rootRef.current.contains(e.target)) {
+            this.hideSlider();
         }
     };
 
-    _onPercentChange = percent => {
+    onPercentChange = percent => {
         this.setState({
             votePercent: percent,
         });
     };
 
-    _onOkVoteClick = async () => {
+    onOkVoteClick = async () => {
         const { sliderAction, votePercent } = this.state;
 
         if (sliderAction === 'dislike') {
@@ -366,14 +363,14 @@ export default class VotePanelAbstract extends PureComponent {
         this.onChange(multiplier * (votePercent / 100));
         savePercent(sliderAction === 'like' ? LIKE_PERCENT_KEY : DISLIKE_PERCENT_KEY, votePercent);
 
-        this._hideSlider();
+        this.hideSlider();
     };
 
-    _onCancelVoteClick = () => {
-        this._hideSlider();
+    onCancelVoteClick = () => {
+        this.hideSlider();
     };
 
-    _onPayoutClick = () => {
+    onPayoutClick = () => {
         const { data } = this.props;
 
         DialogManager.showDialog({
@@ -386,7 +383,7 @@ export default class VotePanelAbstract extends PureComponent {
 
     onResize = throttle(() => {
         this.setState({
-            isMobile: this._isMobile(),
+            isMobile: this.isMobile(),
         });
     }, 100);
 

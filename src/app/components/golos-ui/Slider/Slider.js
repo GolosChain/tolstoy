@@ -1,8 +1,7 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
-import keyCodes from 'app/utils/keyCodes';
 
 const Progress = styled.div`
     position: absolute;
@@ -19,18 +18,23 @@ const HandleSlot = styled.div`
     margin: 0 11px;
 `;
 
-const Handle = styled.div`
+const HandleWrapper = styled.div`
     position: absolute;
     left: ${({ left }) => left}%;
+
+    padding: 5px;
+    margin: -5px 0 0 -16px;
+`;
+
+const Handle = styled.div`
     width: 22px;
     height: 22px;
-    margin-left: -11px;
 
     line-height: 22px;
     font-size: 11px;
     font-weight: bold;
     text-align: center;
-    color: #fff;
+    color: #ffffff;
 
     border: 1px solid #2879ff;
     border-radius: 50%;
@@ -71,6 +75,7 @@ const Wrapper = styled.div`
     height: ${({ showCaptions }) => (showCaptions ? 50 : 22)}px;
     user-select: none;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
 
     &:before {
         position: absolute;
@@ -87,7 +92,7 @@ const Wrapper = styled.div`
         ${Progress} {
             background: #ff4e00;
         }
-
+ 
         ${Handle} {
             background: #ff4e00 !important;
             border-color: #ff4e00 !important;
@@ -97,10 +102,7 @@ const Wrapper = styled.div`
 
 export default class Slider extends PureComponent {
     static propTypes = {
-        value: PropTypes.oneOfType([
-            PropTypes.number,
-            PropTypes.string,
-        ]).isRequired,
+        value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
         min: PropTypes.number,
         max: PropTypes.number,
         red: PropTypes.bool,
@@ -117,8 +119,20 @@ export default class Slider extends PureComponent {
         hideHandleValue: false,
     };
 
+    rootRef = createRef();
+    wrapperRef = createRef();
+
+    componentDidMount() {
+        this.wrapperRef.current.addEventListener('click', this.onClick);
+        this.wrapperRef.current.addEventListener('mousedown', this.onMouseDown);
+        this.wrapperRef.current.addEventListener('touchstart', this.onTouchStart);
+    }
+
     componentWillUnmount() {
-        this._removeListeners();
+        this.removeListeners();
+        this.wrapperRef.current.removeEventListener('click', this.onClick);
+        this.wrapperRef.current.removeEventListener('mousedown', this.onMouseDown);
+        this.wrapperRef.current.removeEventListener('touchstart', this.onTouchStart);
     }
 
     render() {
@@ -128,15 +142,12 @@ export default class Slider extends PureComponent {
         const percent = (100 * (value - min)) / (max - min) || 0;
 
         return (
-            <Wrapper
-                {...passProps}
-                onMouseDown={this._onMouseDown}
-                onClick={this._onClick}
-                showCaptions={showCaptions}
-            >
+            <Wrapper {...passProps} innerRef={this.wrapperRef} showCaptions={showCaptions}>
                 <Progress width={percent} />
-                <HandleSlot innerRef={this._onRef}>
-                    <Handle left={percent}>{hideHandleValue ? null : value}</Handle>
+                <HandleSlot innerRef={this.rootRef}>
+                    <HandleWrapper left={percent}>
+                        <Handle>{hideHandleValue ? null : value}</Handle>
+                    </HandleWrapper>
                 </HandleSlot>
                 {showCaptions && (
                     <Captions>
@@ -149,72 +160,84 @@ export default class Slider extends PureComponent {
         );
     }
 
-    _onRef = el => {
-        this._root = el;
-    };
-
-    _removeListeners() {
-        if (this._isListenerActive) {
-            this._isListenerActive = false;
-            window.removeEventListener('mousemove', this._onMouseMove);
-            window.removeEventListener('mouseup', this._onMouseUp);
-            window.removeEventListener('keydown', this._onKeyDown);
-            window.removeEventListener('visibilitychange', this._onVisibilityChange);
+    removeListeners() {
+        if (this.isListenerActive) {
+            this.isListenerActive = false;
+            window.removeEventListener('mousemove', this.onMove);
+            window.removeEventListener('mouseup', this.onMovingEnd);
+            window.removeEventListener('touchmove', this.onMove);
+            window.removeEventListener('touchend', this.onMovingEnd);
+            window.removeEventListener('visibilitychange', this.onVisibilityChange);
         }
     }
 
-    _calculateValue(e) {
-        const { min, max } = this.props;
-        const box = this._root.getBoundingClientRect();
+    calculateValue(e) {
+        let clientX = e.clientX;
+        if (!clientX && e.changedTouches) {
+            clientX = e.changedTouches[0].clientX;
+        }
 
-        const unbound = Math.round(min + ((max - min) * (e.clientX - box.left)) / box.width);
+        const { min, max } = this.props;
+        const box = this.rootRef.current.getBoundingClientRect();
+
+        const unbound = Math.round(min + ((max - min) * (clientX - box.left)) / box.width);
 
         return Math.min(max, Math.max(min, unbound));
     }
 
-    _resetMoving() {
-        this._removeListeners();
+    resetMoving() {
+        this.removeListeners();
     }
 
-    _onClick = e => {
+    onClick = e => {
         this.setState({
-            value: this._calculateValue(e),
+            value: this.calculateValue(e),
         });
+        e.preventDefault();
     };
 
-    _onMouseDown = e => {
+    onMouseDown = e => {
         this.setState({
-            value: this._calculateValue(e),
+            value: this.calculateValue(e),
         });
 
-        if (!this._isListenerActive) {
-            this._isListenerActive = true;
-            window.addEventListener('mousemove', this._onMouseMove);
-            window.addEventListener('mouseup', this._onMouseUp);
-            window.addEventListener('keydown', this._onKeyDown);
-            window.addEventListener('visibilitychange', this._onVisibilityChange);
+        if (!this.isListenerActive) {
+            this.isListenerActive = true;
+            window.addEventListener('mousemove', this.onMove);
+            window.addEventListener('mouseup', this.onMovingEnd);
+            window.addEventListener('visibilitychange', this.onVisibilityChange);
         }
+        e.preventDefault();
     };
 
-    _onMouseMove = e => {
-        this.props.onChange(this._calculateValue(e));
-    };
+    onTouchStart = e => {
+        this.setState({
+            value: this.calculateValue(e),
+        });
 
-    _onMouseUp = e => {
-        this._resetMoving();
-
-        this.props.onChange(this._calculateValue(e));
-    };
-
-    _onKeyDown = e => {
-        if (e.which === keyCodes.ESCAPE) {
-            this._resetMoving();
+        if (!this.isListenerActive) {
+            this.isListenerActive = true;
+            window.addEventListener('touchmove', this.onMove);
+            window.addEventListener('touchend', this.onMovingEnd);
+            window.addEventListener('visibilitychange', this.onVisibilityChange);
         }
+        e.preventDefault();
     };
 
-    _onVisibilityChange = () => {
+    onMove = e => {
+        this.props.onChange(this.calculateValue(e));
+        e.preventDefault();
+    };
+
+    onMovingEnd = e => {
+        this.resetMoving();
+        this.props.onChange(this.calculateValue(e));
+        e.preventDefault();
+    };
+
+    onVisibilityChange = () => {
         if (document.hidden) {
-            this._resetMoving();
+            this.resetMoving();
         }
     };
 }
