@@ -34,6 +34,10 @@ const Replies = styled(
     user-select: none;
     justify-content: flex-end;
 
+    @media (min-width: 890px) and (max-width: 1087px), (max-width: 639px) {
+        justify-content: center;
+    }
+
     ${is('isLink')`
         cursor: pointer;
     `};
@@ -42,26 +46,26 @@ const Replies = styled(
         height: unset;
         min-height: unset;
         padding: 0 10px;
-        
+
         &:hover {
             &, ${RepliesQuantity}, ${ReplyIcon} {
-                color: #333;    
+                color: #333;
             }
         }
-        
+
         ${RepliesQuantity} {
             font-size: 14px;
             color: #959595;
-            
+
             @media (max-width: 500px) {
                 font-size: 12px;
             }
         }
-        
+
         ${ReplyIcon} {
             width: 17px;
             color: #959595;
-            
+
             @media (max-width: 500px) {
                 width: 15px;
             }
@@ -102,7 +106,7 @@ const Root = styled.div`
         height: 56px;
         justify-content: center;
         border-top: 1px solid #e9e9e9;
-        
+
         @media (max-width: 700px) {
             height: 50px;
         }

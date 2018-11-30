@@ -51,6 +51,12 @@ const TabLinkStyled = styled(TabLinkIndex)`
         height: 4px;
         background: #333;
     }
+
+    @media (max-width: 665px) {
+        &.${({ activeClassName }) => activeClassName}:after {
+            display: none;
+        }
+    }
 `;
 TabLinkStyled.defaultProps = {
     activeClassName: 'active',
