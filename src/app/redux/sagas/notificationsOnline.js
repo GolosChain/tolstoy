@@ -4,6 +4,8 @@ import { fromJS } from 'immutable';
 import { createAddNotificationOnlineAction } from 'src/app/redux/actions/notificationsOnline';
 import { NOTIFICATION_ONLINE_ADD_NOTIFICATION } from 'src/app/redux/constants/notificationsOnline';
 
+import { checkSmallScreen } from 'src/app/helpers/window';
+
 import { hydrateNotifications } from 'src/app/redux/sagas/actions/notifications';
 
 export default function* watch() {
@@ -19,6 +21,10 @@ function* handleAddNotification(action) {
     const notifications = action.payload;
     yield hydrateNotifications(notifications);
 
+    if (checkSmallScreen()) {
+        return;
+    }
+    console.log('here');
     yield all([
         notifications.map(function*(notification) {
             yield put(createAddNotificationOnlineAction(fromJS(notification)));

@@ -21,7 +21,7 @@ export const createAddNotificationOnlineAction = notification => {
         display: 'flex',
         alignItems: 'center',
         left: 'auto',
-        background: '#FFFFFF',
+        background: '#ffffff',
         borderRadius: '6px',
         paddingTop: '0',
         paddingBottom: '0',
@@ -50,7 +50,7 @@ export const createAddNotificationOnlineAction = notification => {
             },
             key: 'chain_' + Date.now(),
             message: <NotificationOnlineContent notification={notification} />,
-            action: <Icon name="cross" size="14" style={{ color: '#E1E1E1' }} />,
+            action: <Icon name="cross" size="14" style={{ color: '#e1e1e1' }} />,
             dismissAfter: 15000,
         },
     };
