@@ -24,7 +24,7 @@ function* handleAddNotification(action) {
     if (checkSmallScreen()) {
         return;
     }
-    console.log('here');
+
     yield all([
         notifications.map(function*(notification) {
             yield put(createAddNotificationOnlineAction(fromJS(notification)));
