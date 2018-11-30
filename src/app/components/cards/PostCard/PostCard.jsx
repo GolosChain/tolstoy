@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import styled from 'styled-components';
@@ -14,6 +15,7 @@ import { EntryWrapper, PostTitle, PostContent } from '../common';
 import VotePanel from '../../common/VotePanel';
 import ReplyBlock from '../../common/ReplyBlock';
 import CardAuthor from '../CardAuthor';
+import { getImageSrc } from 'src/app/helpers/images';
 
 const PREVIEW_IMAGE_SIZE = '859x356';
 
@@ -202,6 +204,7 @@ const Root = styled(EntryWrapper)`
     `};
 `;
 
+@withRouter
 export default class PostCard extends PureComponent {
     static propTypes = {
         // external
@@ -263,7 +266,7 @@ export default class PostCard extends PureComponent {
     }
 
     renderHeader() {
-        const { data, isRepost, compact, reblogData, postLink } = this.props;
+        const { data, isRepost, compact, reblogData, params } = this.props;
 
         const category = detransliterate(data.get('category'));
         let author;
@@ -277,6 +280,9 @@ export default class PostCard extends PureComponent {
             created = data.get('created');
         }
 
+        const currentFeed = params.order ? `/${params.order}` : '/trending';
+        const categoryUri = `${currentFeed}?tags=${category}`;
+
         return (
             <Header>
                 <HeaderLine>
@@ -284,7 +290,7 @@ export default class PostCard extends PureComponent {
                     <Filler />
                     {compact ? null : (
                         <Category
-                            to={'/trending?tags=' + category}
+                            to={categoryUri}
                             category={1}
                             aria-label={tt('aria_label.category', { category: category })}
                         >
@@ -300,7 +306,7 @@ export default class PostCard extends PureComponent {
                 </HeaderLine>
                 {compact ? (
                     <HeaderLineGrid>
-                        <Category to={'/trending?tags=' + category} category={1}>
+                        <Category to={categoryUri} category={1}>
                             {category}
                         </Category>
                         <Filler />
@@ -372,25 +378,23 @@ export default class PostCard extends PureComponent {
     }
 
     renderRepostButton() {
-        const { isOwner, isRepost, myAccount, reblogData } = this.props;
+        const { allowRepost } = this.props;
 
-        if (isOwner || (isRepost && reblogData.get('repostAuthor') === myAccount)) {
-            return;
+        if (allowRepost) {
+            return (
+                <ToolbarAction>
+                    <IconWrapper
+                        role="button"
+                        aria-label={tt('post_card.repost')}
+                        data-tooltip={tt('post_card.repost')}
+                        enabled
+                        onClick={this._onRepostClick}
+                    >
+                        <Icon name="repost" width={25} />
+                    </IconWrapper>
+                </ToolbarAction>
+            );
         }
-
-        return (
-            <ToolbarAction>
-                <IconWrapper
-                    role="button"
-                    aria-label={tt('post_card.repost')}
-                    data-tooltip={tt('post_card.repost')}
-                    enabled
-                    onClick={this._onRepostClick}
-                >
-                    <Icon name="repost" width={25} />
-                </IconWrapper>
-            </ToolbarAction>
-        );
     }
 
     renderFavoriteButton() {
@@ -449,11 +453,15 @@ export default class PostCard extends PureComponent {
         const withImage = sanitizedData.image_link && !stats.gray && !stats.hide;
 
         return (
-            <BodyLink to={sanitizedData.link} compact={compact ? 1 : 0} onClick={this._onClick}>
+            <BodyLink
+                to={sanitizedData.link}
+                compact={compact ? 1 : 0}
+                onClick={this.props.onClick}
+            >
                 {withImage ? (
                     <PostImage
                         compact={compact}
-                        src={this._getImageSrc(sanitizedData.image_link)}
+                        src={getImageSrc(PREVIEW_IMAGE_SIZE, sanitizedData.image_link)}
                     />
                 ) : null}
                 <Body>
@@ -462,16 +470,6 @@ export default class PostCard extends PureComponent {
                 </Body>
             </BodyLink>
         );
-    }
-
-    _getImageSrc(url) {
-        const proxy = $STM_Config.img_proxy_prefix;
-
-        if (proxy) {
-            return `${proxy}${PREVIEW_IMAGE_SIZE}/${url}`;
-        } else {
-            return url;
-        }
     }
 
     renderFooter() {
@@ -492,10 +490,6 @@ export default class PostCard extends PureComponent {
             </Footer>
         );
     }
-
-    _onClick = e => {
-        this.props.onClick(e);
-    };
 
     _onFavoriteClick = () => {
         const { postLink, isFavorite } = this.props;
