@@ -176,7 +176,10 @@ export default class Slider extends PureComponent {
     }
 
     calculateValue(e) {
-        const clientX = e.clientX || e.changedTouches[0].clientX;
+        let clientX = e.clientX;
+        if (!clientX && e.changedTouches) {
+            clientX = e.changedTouches[0].clientX;
+        }
 
         const { min, max } = this.props;
         const box = this.rootRef.current.getBoundingClientRect();
@@ -194,6 +197,7 @@ export default class Slider extends PureComponent {
         this.setState({
             value: this.calculateValue(e),
         });
+        e.preventDefault();
     };
 
     onMouseDown = e => {
@@ -208,6 +212,7 @@ export default class Slider extends PureComponent {
             window.addEventListener('keydown', this.onKeyDown);
             window.addEventListener('visibilitychange', this.onVisibilityChange);
         }
+        e.preventDefault();
     };
 
     onTouchStart = e => {
@@ -221,15 +226,18 @@ export default class Slider extends PureComponent {
             window.addEventListener('touchend', this.onMovingEnd);
             window.addEventListener('visibilitychange', this.onVisibilityChange);
         }
+        e.preventDefault();
     };
 
     onMove = e => {
         this.props.onChange(this.calculateValue(e));
+        e.preventDefault();
     };
 
     onMovingEnd = e => {
         this.resetMoving();
         this.props.onChange(this.calculateValue(e));
+        e.preventDefault();
     };
 
     onKeyDown = e => {

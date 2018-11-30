@@ -28,7 +28,6 @@ const Wrapper = styled.div`
         grid-template-areas:
             'vpw vpm vpm vpm vpm dm'
             'rsw rsw . . rbs rbs';
-        overflow: hidden;
     }
 `;
 
