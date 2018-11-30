@@ -9,3 +9,6 @@ export const NOTIFICATION_ONLINE_GET_HISTORY_FRESH_SUCCESS =
     'notificationsOnline/GET_HISTORY_FRESH_SUCCESS';
 export const NOTIFICATION_ONLINE_GET_HISTORY_FRESH_ERROR =
     'notificationsOnline/GET_HISTORY_FRESH_ERROR';
+
+export const NOTIFICATION_ONLINE_MARK_AS_READ = 'notificationsOnline/MARK_AS_READ';
+export const NOTIFICATIONS_ONLINE_CLEAR = 'notificationsOnline/CLEAR';
