@@ -1,10 +1,10 @@
-
 .HintIcon {
   position: relative;
   display: inline-block;
 
   &__icon {
     cursor: pointer;
+    transition: color 0.15s ease;
 
     &:hover {
       color: #0078c4;
@@ -21,7 +21,7 @@
     border-radius: 20px;
     background: #fff;
     white-space: nowrap;
-    box-shadow: 0 2px 12px 0 rgba(0,0,0, 0.15);
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
     transform-origin: 28px 50%;
     animation: from-scale 0.2s forwards;
   }
@@ -30,6 +30,11 @@
     margin-left: -4px;
     color: #e1e1e1;
     cursor: pointer;
+    transition: color 0.15s ease;
+
+    &:hover {
+      color: #393636;
+    }
   }
 
   &__text {
@@ -47,5 +52,23 @@
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+@media (max-width: 576px) {
+  .HintIcon {
+    &__bubble {
+      top: -45px;
+      left: auto;
+      right: -14px;
+      display: flex;
+      flex-direction: row-reverse;
+      align-items: center;
+    }
+
+    &__text {
+      margin-right: 15px;
+      margin-left: 0;
+    }
   }
 }
