@@ -55,6 +55,10 @@ const Money = styled.div`
     @media (max-width: 500px) {
         font-size: 12px;
     }
+
+    @media (max-width: 370px) {
+        padding-left: 0;
+    }
 `;
 
 const IconTriangle = styled(Icon).attrs({

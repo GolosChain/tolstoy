@@ -118,6 +118,14 @@ const Splitter = styled.div`
     @media (max-width: 1100px) {
         margin: 0 5px;
     }
+
+    @media (max-width: 370px) {
+        margin: 0;
+    }
+
+    @media (max-width: 340px) {
+        margin: 0 -1px;
+    }
 `;
 
 const DetailsBlock = styled.div`
