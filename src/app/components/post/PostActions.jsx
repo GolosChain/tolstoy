@@ -54,6 +54,26 @@ const PostActions = ({
     fullUrl,
     coloredOnHover,
 }) => {
+    const favoriteTooltip = !showText
+        ? isFavorite
+            ? tt('g.remove_from_favorites')
+            : tt('g.add_to_favorites')
+        : undefined;
+
+    const FavoriteButton = (
+        <Action
+            className={className}
+            colored={coloredOnHover ? 1 : 0}
+            role="button"
+            data-tooltip={favoriteTooltip}
+            aria-label={favoriteTooltip}
+            onClick={toggleFavorite}
+        >
+            <ActionIcon name={isFavorite ? 'star_filled' : 'star'} />
+            {showText ? <ActionText>{tt('g.add_to_favorites')}</ActionText> : null}
+        </Action>
+    );
+
     if (isOwner) {
         const editTooltip = showText ? undefined : tt('active_panel_tooltip.edit');
         const pinTooltip = !showText
@@ -89,28 +109,12 @@ const PostActions = ({
                         <ActionText>{tt('active_panel_tooltip.pin_post')}</ActionText>
                     ) : null}
                 </Action>
+                {FavoriteButton}
             </Fragment>
         );
+    } else {
+        return FavoriteButton;
     }
-    const favoriteTooltip = !showText
-        ? isFavorite
-            ? tt('g.remove_from_favorites')
-            : tt('g.add_to_favorites')
-        : undefined;
-
-    return (
-        <Action
-            className={className}
-            colored={coloredOnHover ? 1 : 0}
-            role="button"
-            data-tooltip={favoriteTooltip}
-            aria-label={favoriteTooltip}
-            onClick={toggleFavorite}
-        >
-            <ActionIcon name={isFavorite ? 'star_filled' : 'star'} />
-            {showText ? <ActionText>{tt('g.add_to_favorites')}</ActionText> : null}
-        </Action>
-    );
 };
 
 PostActions.propTypes = {
