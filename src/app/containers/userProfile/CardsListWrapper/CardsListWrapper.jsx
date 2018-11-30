@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import is from 'styled-is';
 
 import {
     CONTAINER_BASE_MARGIN,
@@ -14,6 +15,11 @@ export default styled.div`
     }
 
     @media (max-width: ${CONTAINER_MOBILE_WIDTH}px) {
-        margin: ${({ noGaps }) => (noGaps ? 0 : CONTAINER_MOBILE_MARGIN)}px;
+        margin: ${CONTAINER_MOBILE_MARGIN}px;
+
+        ${is('noGaps')`
+            margin-left: 0;
+            margin-right: 0;
+        `};
     }
 `;

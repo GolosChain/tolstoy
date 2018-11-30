@@ -50,7 +50,7 @@ export default class FavoritesContent extends Component {
         return (
             <Fragment>
                 <Helmet title={tt('meta.title.profile.favorites', { name: pageAccountName })} />
-                <CardsListWrapper>{this._render()}</CardsListWrapper>
+                <CardsListWrapper noGaps>{this._render()}</CardsListWrapper>
             </Fragment>
         );
     }

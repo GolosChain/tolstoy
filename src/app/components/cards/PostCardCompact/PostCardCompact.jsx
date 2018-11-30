@@ -158,10 +158,18 @@ const AuthorLink = styled(LinkStyled)`
     }
 `;
 
+const RepostArrowIcon = styled(Icon).attrs({ name: 'repost_solid' })`
+    width: 9px;
+    margin: 0 2px;
+
+    @media (max-width: 500px) {
+        margin: 0;
+    }
+`;
+
 const AuthorName = styled.div`
     display: inline-block;
     font-weight: 500;
-    margin-right: 4px;
 `;
 
 const AuthorRating = styled.div`
@@ -169,7 +177,7 @@ const AuthorRating = styled.div`
     width: 20px;
     height: 20px;
     line-height: 18px;
-    margin: -10px 0;
+    margin: -10px 0 -10px 4px;
     border: 1px solid #b7b7b9;
     border-radius: 100px;
     text-align: center;
@@ -341,12 +349,18 @@ export default class PostCardCompact extends PureComponent {
     }
 
     renderDetails(inFooter) {
-        const { data, params } = this.props;
+        const { data, params, isRepost, reblogData } = this.props;
 
         const category = detransliterate(data.get('category'));
         const categoryTooltip = tt('aria_label.category', { category: category });
-        const created = data.get('created');
         const currentFeed = params.order ? `/${params.order}` : '/trending';
+        let created;
+
+        if (isRepost) {
+            created = reblogData.get('date');
+        } else {
+            created = data.get('created');
+        }
 
         return (
             <DetailsBlock inbody={!inFooter}>
@@ -357,7 +371,15 @@ export default class PostCardCompact extends PureComponent {
                 >
                     <FormattedRelative value={created} />
                 </DateLink>
-                <AuthorLink to={`@${data.get('author')}`}>
+                {isRepost ? (
+                    <Fragment>
+                        <AuthorLink to={`/@${reblogData.get('repostAuthor')}`}>
+                            <AuthorName>{reblogData.get('repostAuthor')}</AuthorName>
+                        </AuthorLink>
+                        <RepostArrowIcon />
+                    </Fragment>
+                ) : null}
+                <AuthorLink to={`/@${data.get('author')}`}>
                     <AuthorName>{data.get('author')}</AuthorName>
                     <AuthorRating>{repLog10(data.get('author_reputation'))}</AuthorRating>
                 </AuthorLink>
