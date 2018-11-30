@@ -37,7 +37,7 @@ const VERT_OFFSET_DOWN = 26;
 
 const OkIcon = styled(Icon)`
     width: 16px;
-    margin-right: 8px;
+    margin-right: 13px;
     color: #a8a8a8;
     cursor: pointer;
     transition: color 0.15s;
@@ -55,7 +55,7 @@ const OkIcon = styled(Icon)`
 
 const CancelIcon = styled(Icon)`
     width: 12px;
-    margin-left: 8px;
+    margin-left: 13px;
     color: #e1e1e1;
     transition: color 0.15s;
     cursor: pointer;
