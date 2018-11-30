@@ -170,7 +170,6 @@ export default class Slider extends PureComponent {
             window.removeEventListener('mouseup', this.onMovingEnd);
             window.removeEventListener('touchmove', this.onMove);
             window.removeEventListener('touchend', this.onMovingEnd);
-            window.removeEventListener('keydown', this.onKeyDown);
             window.removeEventListener('visibilitychange', this.onVisibilityChange);
         }
     }
@@ -209,7 +208,6 @@ export default class Slider extends PureComponent {
             this.isListenerActive = true;
             window.addEventListener('mousemove', this.onMove);
             window.addEventListener('mouseup', this.onMovingEnd);
-            window.addEventListener('keydown', this.onKeyDown);
             window.addEventListener('visibilitychange', this.onVisibilityChange);
         }
         e.preventDefault();
@@ -238,12 +236,6 @@ export default class Slider extends PureComponent {
         this.resetMoving();
         this.props.onChange(this.calculateValue(e));
         e.preventDefault();
-    };
-
-    onKeyDown = e => {
-        if (e.which === keyCodes.ESCAPE) {
-            this.resetMoving();
-        }
     };
 
     onVisibilityChange = () => {
