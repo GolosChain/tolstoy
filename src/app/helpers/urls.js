@@ -32,14 +32,14 @@ export function sanitizeUrl(url) {
         url.match(routeRegex.PostsIndex) ||
         url.match(routeRegex.UserProfile1) ||
         url.match(routeRegex.UserProfile2) ||
-        url.match(routeRegex.PostNoCategory)
+        url.match(routeRegex.PostNoCategory) ||
+        checkIsWhitelistUrl(url) ||
+        url.startsWith('/leave_page?')
     ) {
         return url;
-    } else if (checkIsWhitelistUrl(url)) {
-        return url;
-    } else {
-        return '/leave_page?' + encodeURIComponent(url);
     }
+
+    return '/leave_page?' + encodeURIComponent(url);
 }
 
 export function makeSocialLink(urlOrName, prefix) {
