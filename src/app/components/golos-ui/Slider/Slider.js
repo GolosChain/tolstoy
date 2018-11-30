@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
 
-import keyCodes from 'app/utils/keyCodes';
-
 const Progress = styled.div`
     position: absolute;
     top: 10px;

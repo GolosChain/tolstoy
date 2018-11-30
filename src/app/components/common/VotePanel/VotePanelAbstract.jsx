@@ -129,6 +129,7 @@ export default class VotePanelAbstract extends PureComponent {
         this.onResize.cancel();
         window.removeEventListener('resize', this.onResize);
         window.removeEventListener('click', this._onAwayClick);
+        window.removeEventListener('touchstart', this._onAwayClick);
     }
 
     getMoneyComponent() {
@@ -266,6 +267,7 @@ export default class VotePanelAbstract extends PureComponent {
         });
 
         window.removeEventListener('click', this._onAwayClick);
+        window.removeEventListener('touchstart', this._onAwayClick);
     }
 
     _onRef = el => {
@@ -295,6 +297,7 @@ export default class VotePanelAbstract extends PureComponent {
             });
 
             window.addEventListener('click', this._onAwayClick);
+            window.addEventListener('touchstart', this._onAwayClick);
         } else {
             this.onChange(1);
         }
@@ -315,6 +318,7 @@ export default class VotePanelAbstract extends PureComponent {
             });
 
             window.addEventListener('click', this._onAwayClick);
+            window.addEventListener('touchstart', this._onAwayClick);
         } else {
             if (await this.showDislikeAlert()) {
                 this.onChange(-1);
