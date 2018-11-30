@@ -39,6 +39,12 @@ const Wrapper = styled.div`
         );
     }
 
+    @media (max-width: 768px) {
+        &:before {
+            height: 50%;
+        }
+    }
+
     ${({ backgroundUrl }) =>
         backgroundUrl
             ? `
@@ -64,16 +70,11 @@ const ContainerStyled = styled(Container)`
     flex-direction: column;
     align-items: center;
     height: 100%;
-    padding: 22px 0;
-
-    @media (max-width: 1200px) {
-        margin-top: 23px;
-        margin-bottom: 23px;
-    }
+    padding: 20px 10px;
+    margin: 0 auto;
 
     @media (max-width: 768px) {
-        flex-direction: column;
-        margin: 19px 10px 23px;
+        padding: 100px 0 10px 0;
     }
 `;
 
@@ -82,12 +83,6 @@ const Details = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
-    @media (max-width: 768px) {
-        margin-top: 9px;
-        margin-left: 0;
-        text-align: center;
-    }
 `;
 
 const Name = styled.div`
@@ -97,10 +92,6 @@ const Name = styled.div`
     font-weight: bold;
     line-height: 1;
     letter-spacing: 0.2;
-
-    @media (max-width: 768px) {
-        font-size: 34px;
-    }
 `;
 
 const LoginContainer = styled.div`
@@ -113,15 +104,17 @@ const LoginContainer = styled.div`
 `;
 
 const Login = styled.div`
-    margin-right: 22px;
+    &:not(:last-child) {
+        margin-right: 22px;
+    }
 `;
 
 const Buttons = styled(Flex)`
+    justify-content: center;
     padding: 10px 0;
 
     @media (max-width: 768px) {
-        justify-content: center;
-        margin-top: 16px;
+        padding: 16px 0 10px 0;
     }
 `;
 
@@ -151,10 +144,14 @@ const DropzoneItem = styled(Dropzone)`
 
 const DropdownStyled = styled(Dropdown)`
     position: absolute !important;
-    top: 4px;
+    top: 24px;
 
     right: 0;
     cursor: pointer;
+
+    @media (max-width: 768px) {
+        right: 24px;
+    }
 `;
 
 const IconCoverWrapper = styled.div`
@@ -208,6 +205,7 @@ export default class UserHeader extends Component {
         const { name, profile_image, cover_image } = normalizeProfile(currentAccount.toJS());
 
         const backgroundUrl = cover_image ? proxifyImageUrl(cover_image, '0x0') : false;
+        const userStatus = getUserStatus(power);
 
         return (
             <Wrapper backgroundUrl={backgroundUrl}>
@@ -238,16 +236,14 @@ export default class UserHeader extends Component {
                         {name ? <Name>{name}</Name> : null}
                         <LoginContainer>
                             <Login>@{currentAccount.get('name')}</Login>
-                            <StatusContainer>
-                                <Icon name={getUserStatus(power)} width={15} height={15} />
-                                <UserStatus>
-                                    {tt(
-                                        `user_profile.account_summary.status.${getUserStatus(
-                                            power
-                                        )}`
-                                    )}
-                                </UserStatus>
-                            </StatusContainer>
+                            {userStatus && (
+                                <StatusContainer>
+                                    <Icon name={userStatus} width={15} height={15} />
+                                    <UserStatus>
+                                        {tt(`user_profile.account_summary.status.${userStatus}`)}
+                                    </UserStatus>
+                                </StatusContainer>
+                            )}
                         </LoginContainer>
                     </Details>
                     {isOwner && isSettingsPage && this._renderCoverDropDown()}

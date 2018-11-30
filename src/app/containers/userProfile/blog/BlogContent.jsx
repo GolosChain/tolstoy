@@ -10,6 +10,7 @@ import BlogCardsList from 'src/app/components/common/CardsList/BlogCardsList';
 import InfoBlock from 'src/app/components/common/InfoBlock';
 import EmptyBlock, { EmptySubText } from 'src/app/components/common/EmptyBlock';
 import CardsListWrapper from '../CardsListWrapper';
+import { uiSelector } from 'src/app/redux/selectors/common';
 
 const Loader = styled(LoadingIndicator)`
     margin-top: 30px;
@@ -17,12 +18,12 @@ const Loader = styled(LoadingIndicator)`
 
 class BlogContent extends Component {
     render() {
-        const { pageAccount } = this.props;
+        const { pageAccount, layout } = this.props;
 
         return (
             <Fragment>
                 <Helmet title={tt('meta.title.profile.blog', { name: pageAccount.get('name') })} />
-                <CardsListWrapper>{this._render()}</CardsListWrapper>
+                <CardsListWrapper noGaps={layout === 'compact'}>{this._render()}</CardsListWrapper>
             </Fragment>
         );
     }
@@ -84,5 +85,6 @@ export default connect((state, props) => {
     return {
         pageAccount,
         isOwner,
+        layout: uiSelector('profile', 'layout')(state),
     };
 })(BlogContent);

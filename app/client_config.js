@@ -129,7 +129,6 @@ export const LEAVE_PAGE_WHITELIST_DOMAINS = [
     'forklog.com',
     'steepshot.io',
     'goldvoice.club',
-    'oneplace.media',
     'golos.today',
     'cpeda.space',
     'linkedin.com',

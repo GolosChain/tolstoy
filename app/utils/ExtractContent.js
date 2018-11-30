@@ -5,6 +5,7 @@ import memoize from 'lodash/memoize';
 import remarkableStripper from 'app/utils/RemarkableStripper';
 import { htmlDecode } from 'app/utils/Html';
 import { getTags } from 'shared/HtmlReady';
+import { smartTrim } from 'src/app/helpers/text';
 
 const DESC_LENGTH = 600;
 const DESC_LENGTH_WITH_IMAGE = 300;
@@ -144,19 +145,5 @@ function extractDescBody(data) {
 
     const limit = data.image_link ? DESC_LENGTH_WITH_IMAGE : DESC_LENGTH;
 
-    if (desc.length > limit) {
-        desc = desc.substring(0, limit).trim();
-
-        const dotIndex = desc.lastIndexOf('. ');
-
-        // If dot near end of characters limit
-        if (dotIndex > limit - 40 && depth <= 1) {
-            desc = desc.substring(0, dotIndex + 1);
-        } else {
-            // Truncate, remove the last (likely partial) word (along with random punctuation), and add ellipses
-            desc = desc.replace(/[,!\?]?\s+[^\s]+$/, '…');
-        }
-    }
-
-    return desc;
+    return smartTrim(desc, limit, depth <= 1);
 }

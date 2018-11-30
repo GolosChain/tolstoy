@@ -9,15 +9,6 @@
     }
   },
   {
-    "name": "Мария Дьячук",
-    "role": "Project manager",
-    "avatar": "maria-d",
-    "contacts": {
-      "golos": "mariadia",
-      "github": "marijadia"
-    }
-  },
-  {
     "name": "Александр Назаров",
     "role": "Технический писатель",
     "avatar": "alexandernazarov",
@@ -68,6 +59,15 @@
     "contacts": {
       "golos": "maslenitsa",
       "github": "maslenitsa93"
+    }
+  },
+  {
+    "name": "Евгений Щепачев",
+    "role": "С++ dev",
+    "avatar": "evg-shchepachev",
+    "contacts": {
+      "golos": "eugin",
+      "github": "e-schepachev"
     }
   },
   {

@@ -4,13 +4,31 @@ import { Link } from 'react-router';
 import { List } from 'immutable';
 import tt from 'counterpart';
 import styled from 'styled-components';
+import is from 'styled-is';
 
 import { APP_NAME } from 'app/client_config';
 
+import {
+    SINGLE_COLUMN_WIDTH,
+    CONTAINER_BASE_MARGIN,
+    CONTAINER_MOBILE_WIDTH,
+    CONTAINER_MOBILE_MARGIN,
+} from 'src/app/constants/container';
 import CardsList from 'src/app/components/common/CardsList';
 
 const Wrapper = styled.div`
     background-color: #f9f9f9;
+
+    ${is('addGaps')`
+        @media (max-width: ${SINGLE_COLUMN_WIDTH}px) {
+            margin: 0 ${CONTAINER_BASE_MARGIN}px;
+        }
+        
+        @media (max-width: ${CONTAINER_MOBILE_WIDTH}px) {
+            margin-left: ${CONTAINER_MOBILE_MARGIN}px;
+            margin-right: ${CONTAINER_MOBILE_MARGIN}px;
+        }
+    `};
 `;
 
 const Callout = styled.div`
@@ -31,7 +49,7 @@ export default class HomeContent extends Component {
         isFetching: PropTypes.bool,
         category: PropTypes.string,
         order: PropTypes.string,
-        layout: PropTypes.oneOf(['list', 'grid']),
+        layout: PropTypes.oneOf(['list', 'grid', 'compact']),
         loadMore: PropTypes.func,
     };
 
@@ -101,7 +119,7 @@ export default class HomeContent extends Component {
         }
 
         return (
-            <Wrapper>
+            <Wrapper addGaps={layout !== 'compact'}>
                 <CardsList
                     pageAccountName={currentUsername}
                     items={posts}

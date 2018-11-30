@@ -9,7 +9,7 @@ import throttle from 'lodash/throttle';
 
 import Icon from 'src/app/components/golos-ui/Icon';
 
-import SharePopover from 'src/app/components/post/SharePopover';
+import ShareList from 'src/app/components/post/ShareList';
 import { PopoverStyled } from 'src/app/components/post/PopoverAdditionalStyles';
 import PostActions from 'src/app/components/post/PostActions';
 import { POST_MAX_WIDTH } from 'src/app/containers/post/PostContainer';
@@ -270,7 +270,7 @@ export class SidePanel extends Component {
                             onClose={this.closeSharePopover}
                             show={showSharePopover}
                         >
-                            <SharePopover post={post} />
+                            <ShareList post={post} />
                         </PopoverStyled>
                     </ShareWrapper>
                     <PostActions

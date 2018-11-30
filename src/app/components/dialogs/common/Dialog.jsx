@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router';
 
 import Icon from 'golos-ui/Icon';
+import { breakWordStyles } from 'src/app/helpers/styles';
 
 export const Dialog = styled.div`
     position: relative;
@@ -12,8 +13,8 @@ export const Dialog = styled.div`
     box-shadow: 0 0 19px 3px rgba(0, 0, 0, 0.2);
 
     @media (max-width: 890px) {
-        min-width: unset;
-        max-width: unset;
+        min-width: 300px;
+        max-width: 100%;
         width: 100%;
     }
 `;
@@ -57,6 +58,10 @@ export const Title = styled.div`
 export const Content = styled.div`
     position: relative;
     padding: 20px;
+
+    @media (max-width: 360px) {
+        padding: 20px 10px;
+    }
 `;
 
 export const UserItem = styled.div`
@@ -78,15 +83,27 @@ export const UserLink = styled(Link)`
     display: flex;
     min-width: 180px;
     align-items: center;
+
+    @media (max-width: 360px) {
+        min-width: unset;
+    }
 `;
 
-export const Name = styled.div`
+export const Name = styled.p`
+    padding: 0;
+    margin: 0;
     color: #393636;
     font-size: 14px;
     font-weight: 600;
     letter-spacing: 0.4px;
     line-height: 18px;
     margin-left: 9px;
+    ${breakWordStyles};
+
+    @media (max-width: 360px) {
+        width: 140px;
+        max-width: 140px;
+    }
 `;
 
 export const LoaderWrapper = styled.div`
