@@ -2,6 +2,7 @@ import React, { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
+
 import keyCodes from 'app/utils/keyCodes';
 
 const Progress = styled.div`
@@ -122,9 +123,19 @@ export default class Slider extends PureComponent {
     };
 
     rootRef = createRef();
+    wrapperRef = createRef();
+
+    componentDidMount() {
+        this.wrapperRef.current.addEventListener('click', this.onClick);
+        this.wrapperRef.current.addEventListener('mousedown', this.onMouseDown);
+        this.wrapperRef.current.addEventListener('touchstart', this.onTouchStart);
+    }
 
     componentWillUnmount() {
         this.removeListeners();
+        this.wrapperRef.current.removeEventListener('click', this.onClick);
+        this.wrapperRef.current.removeEventListener('mousedown', this.onMouseDown);
+        this.wrapperRef.current.removeEventListener('touchstart', this.onTouchStart);
     }
 
     render() {
@@ -134,13 +145,7 @@ export default class Slider extends PureComponent {
         const percent = (100 * (value - min)) / (max - min) || 0;
 
         return (
-            <Wrapper
-                {...passProps}
-                onMouseDown={this.onMouseDown}
-                onTouchStart={this.onTouchStart}
-                onClick={this.onClick}
-                showCaptions={showCaptions}
-            >
+            <Wrapper {...passProps} innerRef={this.wrapperRef} showCaptions={showCaptions}>
                 <Progress width={percent} />
                 <HandleSlot innerRef={this.rootRef}>
                     <HandleWrapper left={percent}>
@@ -171,7 +176,8 @@ export default class Slider extends PureComponent {
     }
 
     calculateValue(e) {
-        const clientX = e.clientX || e.changedTouches[0].clientX || e.touches[0].clientX;
+        const clientX = e.clientX || e.changedTouches[0].clientX;
+
         const { min, max } = this.props;
         const box = this.rootRef.current.getBoundingClientRect();
 
