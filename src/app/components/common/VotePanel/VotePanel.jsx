@@ -146,7 +146,7 @@ export default class VotePanel extends VotePanelAbstract {
         const { likeTooltip, dislikeTooltip } = this.getVotesTooltips();
 
         return (
-            <Root className={className} innerRef={this.onRef} vertical={vertical}>
+            <Root className={className} innerRef={this.rootRef} vertical={vertical}>
                 <LikeBlock
                     active={votesSummary.myVote === 'like' || sliderAction === 'like'}
                     vertical={vertical}
@@ -155,7 +155,7 @@ export default class VotePanel extends VotePanelAbstract {
                         role="button"
                         data-tooltip={tt('g.like')}
                         aria-label={tt('g.like')}
-                        innerRef={this.onLikeRef}
+                        innerRef={this.likeRef}
                         vertical={vertical}
                         onClick={this.onLikeClick}
                     >
@@ -183,7 +183,7 @@ export default class VotePanel extends VotePanelAbstract {
                         role="button"
                         data-tooltip={tt('g.dislike')}
                         aria-label={tt('g.dislike')}
-                        innerRef={this.onDisLikeRef}
+                        innerRef={this.dislikeRef}
                         vertical={vertical}
                         onClick={this.onDislikeClick}
                     >
