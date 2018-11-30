@@ -52,6 +52,31 @@ const HeaderLine = styled.div`
 
 const Category = styled(TagLink)`
     margin-right: 4px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    min-width: 0;
+    max-width: 100%;
+
+    @media (max-width: 500px) {
+        display: none;
+    }
+`;
+
+const MobileCategory = styled(TagLink)`
+    && {
+        margin: 15px 0;
+        max-width: 100%;
+        width: auto;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        min-width: 0;
+    }
+
+    @media (min-width: 501px) {
+        display: none;
+    }
 `;
 
 const Title = styled.div`
@@ -142,6 +167,7 @@ const LoaderWrapper = styled.div`
 const TogglerWrapper = styled.div`
     display: flex;
     align-items: center;
+    overflow: hidden;
 `;
 
 const EmptyCloseOpenButton = styled.div`
@@ -161,6 +187,16 @@ const SpamText = styled.div`
     margin-right: 10px;
     font-size: 15px;
     color: #8a8a8a;
+`;
+
+const MobileTagWrapper = styled.div`
+    @media (max-width: 500px) {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        max-width: calc(100% - 40px);
+        overflow: hidden;
+    }
 `;
 
 export class CommentCard extends PureComponent {
@@ -294,11 +330,19 @@ export class CommentCard extends PureComponent {
                             onClick={this.rememberScrollPosition}
                         />
                     ) : (
-                        <CardAuthor
-                            contentLink={comment.get('url')}
-                            author={comment.get('author')}
-                            created={comment.get('created')}
-                        />
+                        <MobileTagWrapper>
+                            <CardAuthor
+                                contentLink={comment.get('url')}
+                                author={comment.get('author')}
+                                created={comment.get('created')}
+                            />
+                            <MobileCategory
+                                to={'/trending?tags=' + detransliteratedCategory}
+                                category={1}
+                            >
+                                {detransliteratedCategory}
+                            </MobileCategory>
+                        </MobileTagWrapper>
                     )}
                     <TogglerWrapper>
                         <Category to={'/trending?tags=' + detransliteratedCategory} category={1}>

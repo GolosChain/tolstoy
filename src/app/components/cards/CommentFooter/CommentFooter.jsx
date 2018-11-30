@@ -51,6 +51,7 @@ const CommentReplyWrapper = styled.div`
     @media (min-width: 890px) and (max-width: 1087px), (max-width: 639px) {
         width: 100%;
         justify-content: center;
+        border-top: 2px solid #e9e9e9;
     }
 `;
 

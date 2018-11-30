@@ -6,20 +6,20 @@ import { Link } from 'react-router';
 
 export const Tag = styled.div`
     position: relative;
-    height: 28px;
-    line-height: 26px;
-    padding: 0 15px;
+    line-height: 12px;
+    padding: 6px 12px;
     border-radius: 4px;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
     text-overflow: ellipsis;
     text-align: center;
     white-space: nowrap;
-    color: #2879ff;
-    border: solid 1px #cde0ff;
+    color: #757575;
+    border: solid 1px #e1e1e1;
     background-color: #ffffff;
+    transition: border-color 0.15s ease;
 
-    :not(last-child) {
+    &:not(last-child) {
         margin-right: 10px;
     }
 
@@ -28,26 +28,24 @@ export const Tag = styled.div`
     }
 
     ${is('filtered')`
-        color: #393636;
-        background-color: #e1e1e1;
-        border-color: #e1e1e1;
+        color: ##757575;
+        background-color: #ececec;
+        border-color: #ececec;
 
         &:hover {
-            color: #393636;
+            color: ##757575;
             background-color: #ddd;
             border-color: #ddd;
         }
     `};
-    
+
     ${isOr('selected', 'category')`
-        color: #fff;
-        background-color: #2879ff;
-        border-color: #2879ff;
+        color: #2879ff;
+        border-color: #cde0ff;
 
         &:hover {
-            color: #fff;
-            background-color: #2174ff;
-            border-color: #2174ff;
+            color: #2879ff;
+            border-color: #2879ff;
         }
     `};
 `;
@@ -60,5 +58,5 @@ Tag.defaultProps = {
     category: 0,
 };
 
-export const TagLink = Tag.withComponent(({category, ...otherProps}) => <Link {...otherProps} />);
+export const TagLink = Tag.withComponent(({ category, ...otherProps }) => <Link {...otherProps} />);
 export default Tag;
