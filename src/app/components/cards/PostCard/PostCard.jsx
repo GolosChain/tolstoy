@@ -398,11 +398,7 @@ export default class PostCard extends PureComponent {
     }
 
     renderFavoriteButton() {
-        const { isOwner, isFavorite } = this.props;
-
-        if (isOwner) {
-            return;
-        }
+        const { isFavorite } = this.props;
 
         const favoriteText = isFavorite
             ? tt('post_card.remove_from_favorites')
