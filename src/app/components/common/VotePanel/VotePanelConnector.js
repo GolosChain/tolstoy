@@ -50,7 +50,7 @@ export default connect(
 
             return {
                 username,
-                isRich: true,
+                isRich,
                 data: post,
                 contentLink: `${post.get('author')}/${post.get('permlink')}`,
                 votesSummary,

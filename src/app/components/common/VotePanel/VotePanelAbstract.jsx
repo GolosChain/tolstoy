@@ -270,7 +270,7 @@ export default class VotePanelAbstract extends PureComponent {
         window.removeEventListener('touchstart', this._onAwayClick);
     }
 
-    _onRef = el => {
+    onRef = el => {
         this._root = el;
     };
 
