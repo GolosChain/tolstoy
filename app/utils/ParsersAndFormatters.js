@@ -1,6 +1,8 @@
 import tt from 'counterpart';
 import { has } from 'ramda';
 
+import { LANGUAGES } from 'app/client_config';
+
 function fractionalPartLen(value) {
     const parts = Number(value)
         .toString()
@@ -231,6 +233,19 @@ export function validateTransferQuery(location) {
             token,
             memo,
         };
+    } else {
+        return null;
+    }
+}
+
+export function validateLocaleQuery(location) {
+    const { pathname, query } = location;
+    if (
+        pathname.endsWith('/login') &&
+        has('lang', query) &&
+        Object.keys(LANGUAGES).includes(query.lang)
+    ) {
+        return query.lang;
     } else {
         return null;
     }
