@@ -542,6 +542,7 @@
     "login_to_see_memo": "login to see memo",
     "logout": "Logout",
     "market": "Market",
+    "mediafile": "mediafile",
     "memo": "Memo key",
     "messages": "Messages",
     "more": "more",
@@ -1328,8 +1329,8 @@
       "reputation": "Reputation",
       "status": {
         "crucian": "crucian",
-        "minnow": "minnow",
         "dolphin": "dolphin",
+        "minnow": "minnow",
         "orca": "orca",
         "whale": "whale"
       },
