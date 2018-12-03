@@ -1,17 +1,13 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import styled from 'styled-components';
-import is, { isNot } from 'styled-is';
+import is from 'styled-is';
 import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
 import VotePanelAbstract from './VotePanelAbstract';
 
-const Root = styled.div`
-    display: flex;
-    align-items: center;
-`;
-
 const UpVoteBlock = styled.div`
+    position: relative;
     display: flex;
     align-items: center;
     height: 24px;
@@ -103,14 +99,22 @@ export default class VotePanelCompact extends VotePanelAbstract {
         return Money;
     }
 
+    calcTipLeft() {
+        return 22;
+    }
+
+    callVerticalOffset() {
+        return -49;
+    }
+
     renderInner() {
         const { votesSummary } = this.props;
-        const { sliderAction } = this.state;
+        const { sliderAction, showSlider } = this.state;
 
         const { likeTooltip } = this.getVotesTooltips();
 
         return (
-            <Root>
+            <Fragment>
                 <UpVoteBlock
                     role="button"
                     data-tooltip={tt('g.like')}
@@ -119,6 +123,7 @@ export default class VotePanelCompact extends VotePanelAbstract {
                     onClick={this.onLikeClick}
                 >
                     <UpVoteIcon />
+                    {showSlider ? this.renderSlider() : null}
                 </UpVoteBlock>
                 {this.renderPayout(<IconTriangle />)}
                 <this.props.splitter />
@@ -132,7 +137,7 @@ export default class VotePanelCompact extends VotePanelAbstract {
                     <ChevronIcon />
                     <LikesCount>{votesSummary.likes}</LikesCount>
                 </LikesCountBlock>
-            </Root>
+            </Fragment>
         );
     }
 }

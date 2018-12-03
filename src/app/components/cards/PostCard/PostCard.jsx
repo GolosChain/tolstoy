@@ -280,7 +280,8 @@ export default class PostCard extends PureComponent {
             created = data.get('created');
         }
 
-        const currentFeed = params.order ? `/${params.order}` : '/trending';
+        const currentFeed =
+            params.order && params.category !== 'feed' ? `/${params.order}` : '/trending';
         const categoryUri = `${currentFeed}?tags=${category}`;
 
         return (
