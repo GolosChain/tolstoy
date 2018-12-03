@@ -240,11 +240,7 @@ export function validateTransferQuery(location) {
 
 export function validateLocaleQuery(location) {
     const { pathname, query } = location;
-    if (
-        pathname.endsWith('/login') &&
-        has('lang', query) &&
-        Object.keys(LANGUAGES).includes(query.lang)
-    ) {
+    if (pathname.endsWith('/login') && has('lang', query) && LANGUAGES[query.lang]) {
         return query.lang;
     } else {
         return null;

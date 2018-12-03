@@ -37,7 +37,7 @@ async function appRender(ctx) {
             account: ctx.session.a,
             config: $STM_Config,
             login_challenge,
-            locale: Object.keys(LANGUAGES).includes(locale_cookie)
+            locale: LANGUAGES[locale_cookie]
                 ? locale_cookie
                 : DEFAULT_LANGUAGE,
         };

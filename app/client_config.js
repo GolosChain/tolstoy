@@ -34,7 +34,7 @@ export const DEBT_TOKEN_SHORT = 'GBG';
 // application settings
 export const DEFAULT_LANGUAGE = 'ru'; // used on application internationalization bootstrap
 export const LOCALE_COOKIE_KEY = 'gls.locale';
-export const LOCALE_COOKIE_EXPIRES = new Date(Date.now() + 315360000000); // 315360000000 = 60 * 60 * 24 * 365 * 10 * 1000
+export const LOCALE_COOKIE_EXPIRES = new Date(Date.now() + 315360000000); // 10 years
 export const LANGUAGES = {
     ru: {
         value: 'Русский',
