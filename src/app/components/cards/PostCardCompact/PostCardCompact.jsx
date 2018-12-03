@@ -84,6 +84,11 @@ const PostContent = styled.div`
     color: #393636;
     ${breakWordStyles};
 
+    ${is('repost')`
+        padding-top: 3px;
+        margin-bottom: 7px;
+    `}
+
     @media (max-width: ${MOBILE_THRESHOLD}px) {
         font-size: 12px;
         line-height: 1.08;
@@ -320,7 +325,7 @@ export default class PostCardCompact extends PureComponent {
     };
 
     renderBody() {
-        const { sanitizedData, stats } = this.props;
+        const { sanitizedData, stats, isRepost, repostHtml } = this.props;
         const { twoLines, mobile } = this.state;
         const withImage = sanitizedData.image_link && !stats.gray && !stats.hide;
 
@@ -342,6 +347,9 @@ export default class PostCardCompact extends PureComponent {
                 ) : null}
                 <Body>
                     <BodyLink to={sanitizedData.link} onClick={this.props.onClick}>
+                        {isRepost ? (
+                            <PostContent repost dangerouslySetInnerHTML={repostHtml} />
+                        ) : null}
                         <PostTitle>{sanitizedData.title}</PostTitle>
                         <PostContent
                             dangerouslySetInnerHTML={{
