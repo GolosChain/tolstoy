@@ -7,6 +7,8 @@ import { Map } from 'immutable';
 
 import CommentFormLoader from 'app/components/modules/CommentForm/loader';
 
+import { smoothScroll } from 'src/app/helpers/window';
+
 const shadowScale = keyframes`
   0% {
     box-shadow: 0 0 10px 0 rgba(200, 225, 255, 0.06);
@@ -53,7 +55,13 @@ export default class CreateComment extends Component {
     };
 
     onSuccess = () => {
+        const { commentContainerRef } = this.props;
         this.props.updateComments();
+        if (commentContainerRef && commentContainerRef.current) {
+            const commentContainerBottom = commentContainerRef.current.getBoundingClientRect()
+                .bottom;
+            smoothScroll(commentContainerBottom + pageYOffset, 1000);
+        }
     };
 
     onCancel = () => {};
