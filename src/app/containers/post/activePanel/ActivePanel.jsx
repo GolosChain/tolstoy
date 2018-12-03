@@ -26,8 +26,13 @@ const Wrapper = styled.div`
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
         grid-template-rows: 1fr 1fr;
         grid-template-areas:
-            'vpw vpm vpm vpm vpm dm'
+            'vpw vpw vpw vpw vpw dm'
             'rsw rsw . . rbs rbs';
+    }
+
+    @media (max-width: 360px) {
+        max-width: 100%;
+        overflow: hidden;
     }
 `;
 
@@ -42,32 +47,35 @@ const Divider = styled.div`
 `;
 
 const VotePanelWrapper = styled(VotePanel)`
-    padding: 12px 22px 12px 0;
+    padding: 12px 22px 12px 18px;
 
     @media (max-width: 768px) {
         display: -webkit-box;
-        padding-left: 14px;
         grid-area: vpw;
+    }
+
+    @media (max-width: 360px) {
+        padding: 12px 10px;
     }
 `;
 
 const Repost = styled.div`
-    padding: 0 19px;
+    padding: 0 18px;
     display: flex;
     align-items: center;
 
     & > svg {
         cursor: pointer;
         padding: 4px;
-        transition: 0.2s;
+        transition: transform 0.2s ease;
 
         &:hover {
             transform: scale(1.15);
         }
     }
 
-    @media (max-width: 768px) {
-        padding-left: 13px;
+    @media (max-width: 360px) {
+        padding-left: 10px;
     }
 `;
 
@@ -101,6 +109,10 @@ const DotsMore = styled(Repost)`
     @media (max-width: 768px) {
         grid-area: dm;
         justify-self: end;
+    }
+
+    @media (max-width: 360px) {
+        padding: 0 10px;
     }
 `;
 
