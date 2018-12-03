@@ -26,10 +26,6 @@ export default function resolveRoute(path) {
         return { page: 'NotFound' };
     }
 
-    if (path === '/some_error') {
-        return { page: 'SomeError' };
-    }
-
     if (path === '/welcome') {
         return { page: 'Welcome' };
     }
