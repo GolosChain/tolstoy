@@ -19,12 +19,17 @@ export const smoothScroll = (targetY, duration) => {
 
     let start;
 
-    if (!diff) return;
+    if (!diff) {
+        return;
+    }
 
     window.requestAnimationFrame(step);
 
     function step(timestamp) {
-        if (!start) start = timestamp;
+        if (!start) {
+            start = timestamp;
+        }
+
         const time = timestamp - start;
         const percent = Math.min(time / duration, 1);
 
