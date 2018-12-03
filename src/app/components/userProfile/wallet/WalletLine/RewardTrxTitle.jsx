@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import { Map } from 'immutable';
 import PropTypes from 'prop-types';
+import { Map } from 'immutable';
 import styled from 'styled-components';
+import tt from 'counterpart';
 
 import extractContent from 'app/utils/ExtractContent';
 
@@ -62,7 +63,10 @@ export default class PostLink extends Component {
 function renderRewardTrxTitle(fullPost) {
     let title = fullPost.get('title');
     if (!title) {
-        title = extractContent(fullPost).desc;
+        title = extractContent(fullPost).desc
+    }
+    if (!title) {
+        title = tt('g.mediafile');
     }
     return title;
 }
