@@ -96,6 +96,8 @@ export default {
             cb(null, [require('@pages/MarketLoader').default]);
         } else if (route.page === 'PostNoCategory') {
             cb(null, [require('@pages/PostPageNoCategory').default]);
+        } else if (route.page === 'SomeError') {
+            cb(process.env.BROWSER ? null : Error(), [require('@pages/SomeError').default]);
         } else {
             cb(process.env.BROWSER ? null : Error(404), [require('@pages/NotFound').default]);
         }
