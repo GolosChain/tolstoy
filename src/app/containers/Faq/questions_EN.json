@@ -8,20 +8,12 @@
         "answer": "Please, make sure that you have enough funds in your account to cover a message fee and the phone number is specified correctly. If you still have a problem, please contact your phone company or try to sign up by using another phone number."
     },
     {
-        "title": "A text message was successfully sent but I cannot complete the sign-up form, what should I do?",
-        "answer": "Please, contact the Support Chat [https://t.me/golos_eng](https://t.me/golos_eng) to report a problem about it or send a direct message to @dankinescop or @chinpu"
-    },
-    {
-        "title": "I’ve completed the registration but there occurred an error. What should I do?",
-        "answer": "Please, contact the Support Chat [https://t.me/golos_eng](https://t.me/golos_eng) to report a problem about it or send a direct message to @dankinescop or @chinpu"
-    },
-    {
-        "title": "I’ve completed the registration but when I try to log in I see a message that there’s no such account name.",
-        "answer": "Please, contact the Support Chat [https://t.me/golos_eng](https://t.me/golos_eng) to report a problem about it or send a direct message to @dankinescop or @chinpu"
+        "title": "",
+        "answer": ""
     },
     {
         "title": "What should a newcomer read to easily use Golos.io platform? Is there any guide?",
-        "answer": "We advise to read the Welcome and Wiki sections."
+        "answer": "We advise to read the <a href='https://golos.io/welcome' target='_blank'>Welcome</a> and <a href='https://wiki.golos.io' target='_blank'>Wiki</a> sections."
     },
     {
         "title": "What actions can I perform with the minimum Golos Power, that I receive after registration? Can I write posts, comment, vote?",
@@ -29,7 +21,7 @@
     },
     {
         "title": "I found a lot of keys in my wallet in the permissions tab. Which ones should I save? Where can I get more info about this page?",
-        "answer": "Keys are like your passport or id in the blockchain, your password is linked not only with your posting account but also with a wallet where you store your tokens. Therefore, you should take to care for them and store in several places, preferably not only as digital ones, but also paper copies.<br/>The owner's key is the most important, it can replace all the other keys or can be used to update the password if it has been compromised. It should be used if you have no choice. Please use a posting key to post and vote and an active key to make transactions. <br/>Find more info about the keys in [Golos Wiki](https://wiki.golos.io/1-introduction/koshelek-klyuchi-viplati.html)."
+        "answer": "Keys are like your passport or id in the blockchain, your password is linked not only with your posting account but also with a wallet where you store your tokens. Therefore, you should take to care for them and store in several places, preferably not only as digital ones, but also paper copies.<br/>The owner's key is the most important, it can replace all the other keys or can be used to update the password if it has been compromised. It should be used if you have no choice. Please use a posting key to post and vote and an active key to make transactions. <br/>Find more info about the keys in <a href='https://wiki.golos.io/1-introduction/koshelek-klyuchi-viplati.html' target='_blank'>Golos Wiki</a>."
     },
     {
         "title": "I did not save or forgot my password. How can I reset it?",
@@ -37,7 +29,7 @@
     },
     {
         "title": "I forgot my username. What do I do?",
-        "answer": "If you specified your email address while signing up, please report the issue to [https://t.me/golos_eng](https://t.me/golos_eng)  in a private message  to @dankinescop or @chinpu in Telegram."
+        "answer": "If you specified your email address while signing up, please report the issue to <a href='https://t.me/golos_support' target='_blank' rel='noopener noreferrer'>https://t.me/golos_support</a>  in a private message  to <a href='https://t.me/@dankinescop' target='_blank' rel='noopener noreferrer'>@dankinescop</a> or <a href='https://t.me/@chinpu' target='_blank' rel='noopener noreferrer'>@chinpu</a> in Telegram."
     },
     {
         "title": "I’ve got “Account exceeded maximum allowed bandwidth per vesting share” error message. What does it mean?",
@@ -53,7 +45,7 @@
     },
     {
         "title": "I can’t open golos.io website. What do I do?",
-        "answer": "Please use the mirror website  [https://golos.blog](https://golos.blog/)."
+        "answer": "Please use the mirror website  <a href='https://golos.blog' target='_blank'>https://golos.blog</a>."
     },
     {
         "title": "How can I delete my account?",
