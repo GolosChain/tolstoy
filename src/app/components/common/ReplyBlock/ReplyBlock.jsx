@@ -95,6 +95,10 @@ const ReplyButton = styled(
     letter-spacing: 0.8px;
     color: #393636 !important;
     cursor: pointer;
+
+    @media (max-width: 360px) {
+        padding: 0 10px;
+    }
 `;
 
 const Root = styled.div`
