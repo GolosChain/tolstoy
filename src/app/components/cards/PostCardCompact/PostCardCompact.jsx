@@ -7,6 +7,7 @@ import { Link } from 'react-router';
 import tt from 'counterpart';
 
 import Icon from 'src/app/components/golos-ui/Icon';
+import { isHide } from 'app/utils/StateFunctions';
 import { listenLazy } from 'src/app/helpers/hoc';
 import { getImageSrc } from 'src/app/helpers/images';
 import { breakWordStyles } from 'src/app/helpers/styles';
@@ -24,6 +25,7 @@ const MOBILE_PREVIEW_WIDTH = 108;
 const MOBILE_PREVIEW_HEIGHT = 60;
 const PREVIEW_SIZE = `${PREVIEW_WIDTH}x${PREVIEW_HEIGHT}`;
 
+const TEXT_LENGTH_LIMIT = 194; // Примерно 3 строки текста
 const MOBILE_TEXT_LENGTH_LIMIT = 120;
 
 const Root = styled.div`
@@ -41,11 +43,13 @@ const Root = styled.div`
 `;
 
 const Body = styled.div`
+    margin-top: -4px;
     overflow: hidden;
 `;
 
 const PostTitle = styled.div`
-    margin: -1px 0 9px;
+    padding-top: 3px;
+    margin-bottom: 9px;
     font-size: 16px;
     font-weight: 500;
     line-height: 1.13;
@@ -101,11 +105,23 @@ const PostImage = styled.img`
     }
 `;
 
+const Filler = styled.div`
+    flex-grow: 1;
+`;
+
 const Footer = styled.div`
     display: flex;
     align-items: center;
     margin-top: 10px;
     min-height: 20px;
+
+    @media (max-width: ${MOBILE_THRESHOLD}px) {
+        justify-content: space-between;
+
+        ${Filler} {
+            display: none;
+        }
+    }
 `;
 
 const Splitter = styled.div`
@@ -131,16 +147,18 @@ const Splitter = styled.div`
 const DetailsBlock = styled.div`
     display: flex;
     align-items: center;
+    margin-left: 7px;
     font-size: 14px;
     color: #959595;
     user-select: none;
     overflow: hidden;
 
     ${is('inbody')`
-        margin-top: 5px;
+        margin: 5px -3px 0;
         font-size: 13px;
         
         @media (max-width: 500px) {
+            flex-wrap: wrap;
             line-height: 1.2;
             font-size: 10px;
         }
@@ -148,11 +166,7 @@ const DetailsBlock = styled.div`
 `;
 
 const DateLink = styled(LinkStyled)`
-    padding-right: 3px;
-
-    ${is('leftpadding')`
-        padding-left: 10px;    
-    `};
+    padding: 0 3px;
 `;
 
 const AuthorLink = styled(LinkStyled)`
@@ -185,7 +199,7 @@ const AuthorRating = styled.div`
     width: 20px;
     height: 20px;
     line-height: 18px;
-    margin: -10px 0 -10px 4px;
+    margin-left: 4px;
     border: 1px solid #b7b7b9;
     border-radius: 100px;
     text-align: center;
@@ -202,12 +216,16 @@ const AuthorRating = styled.div`
 `;
 
 const CategoryLink = styled(LinkStyled)`
+    padding-left: 3px;
     padding-right: 10px;
-    padding-left: 4px;
     max-width: 160px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    ${is('inbody')`
+        padding-right: 3px;
+    `};
 `;
 
 const CategoryLinkIn = styled.span`
@@ -246,10 +264,6 @@ const RepostIcon = styled(Icon).attrs({
     @media (max-width: 500px) {
         width: 15px;
     }
-`;
-
-const Filler = styled.div`
-    flex-grow: 1;
 `;
 
 const MenuWrapper = styled.div`
@@ -310,6 +324,12 @@ export default class PostCardCompact extends PureComponent {
         const { twoLines, mobile } = this.state;
         const withImage = sanitizedData.image_link && !stats.gray && !stats.hide;
 
+        let trimLength = mobile ? MOBILE_TEXT_LENGTH_LIMIT : TEXT_LENGTH_LIMIT;
+
+        if (withImage) {
+            trimLength = Math.floor(trimLength * 1.3);
+        }
+
         return (
             <BodyBlock to={sanitizedData.link} onClick={this.props.onClick}>
                 {withImage ? (
@@ -325,13 +345,11 @@ export default class PostCardCompact extends PureComponent {
                         <PostTitle>{sanitizedData.title}</PostTitle>
                         <PostContent
                             dangerouslySetInnerHTML={{
-                                __html: mobile
-                                    ? smartTrim(sanitizedData.desc, MOBILE_TEXT_LENGTH_LIMIT)
-                                    : sanitizedData.desc,
+                                __html: smartTrim(sanitizedData.desc, trimLength),
                             }}
                         />
                     </BodyLink>
-                    {twoLines ? this.renderDetails() : null}
+                    {twoLines ? this.renderDetails(true) : null}
                 </Body>
             </BodyBlock>
         );
@@ -356,12 +374,14 @@ export default class PostCardCompact extends PureComponent {
         }
     }
 
-    renderDetails(inFooter) {
+    renderDetails(inBody) {
         const { data, params, isRepost, reblogData } = this.props;
 
         const category = detransliterate(data.get('category'));
         const categoryTooltip = tt('aria_label.category', { category: category });
-        const currentFeed = params.order ? `/${params.order}` : '/trending';
+
+        const currentFeed =
+            params.order && params.category !== 'feed' ? `/${params.order}` : '/trending';
         let created;
 
         if (isRepost) {
@@ -371,12 +391,8 @@ export default class PostCardCompact extends PureComponent {
         }
 
         return (
-            <DetailsBlock inbody={!inFooter}>
-                <DateLink
-                    to={data.get('url')}
-                    data-tooltip={new Date(created).toLocaleString()}
-                    leftpadding={inFooter ? 1 : 0}
-                >
+            <DetailsBlock inbody={inBody ? 1 : 0}>
+                <DateLink to={data.get('url')} data-tooltip={new Date(created).toLocaleString()}>
                     <FormattedRelative value={created} />
                 </DateLink>
                 {isRepost ? (
@@ -391,7 +407,11 @@ export default class PostCardCompact extends PureComponent {
                     <AuthorName>{data.get('author')}</AuthorName>
                     <AuthorRating>{repLog10(data.get('author_reputation'))}</AuthorRating>
                 </AuthorLink>
-                <CategoryLink to={`${currentFeed}?tags=${category}`} aria-label={categoryTooltip}>
+                <CategoryLink
+                    inbody={inBody ? 1 : 0}
+                    to={`${currentFeed}?tags=${category}`}
+                    aria-label={categoryTooltip}
+                >
                     <CategoryLinkIn>{tt('g.in')}</CategoryLinkIn> {category}
                 </CategoryLink>
             </DetailsBlock>
@@ -399,7 +419,7 @@ export default class PostCardCompact extends PureComponent {
     }
 
     renderFooter() {
-        const { permLink, data } = this.props;
+        const { permLink, sanitizedData, data, isFavorite } = this.props;
         const { menu, twoLines } = this.state;
 
         return (
@@ -411,12 +431,18 @@ export default class PostCardCompact extends PureComponent {
                 {twoLines ? null : (
                     <Fragment>
                         <Splitter />
-                        {this.renderDetails(true)}
+                        {this.renderDetails()}
                     </Fragment>
                 )}
                 <Filler />
                 <MenuWrapper>
-                    {menu ? <CompactPostCardMenu post={null} onClose={this.onMenuClose} /> : null}
+                    {menu ? (
+                        <CompactPostCardMenu
+                            post={sanitizedData}
+                            isFavorite={isFavorite}
+                            onClose={this.onMenuClose}
+                        />
+                    ) : null}
                     <DotsIcon onClick={this.onMenuHandlerClick} />
                 </MenuWrapper>
             </Footer>
@@ -424,6 +450,12 @@ export default class PostCardCompact extends PureComponent {
     }
 
     render() {
+        const { hideNsfw, data } = this.props;
+
+        if (hideNsfw || isHide(data)) {
+            return null;
+        }
+
         return (
             <Root>
                 {this.renderBody()}

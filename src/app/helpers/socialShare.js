@@ -1,3 +1,4 @@
+import { APP_URL } from 'app/client_config';
 import { serverApiRecordEvent } from 'app/utils/ServerApiClient';
 
 export const shareList = [
@@ -31,7 +32,7 @@ function fbShare(post) {
     window.FB.ui(
         {
             method: 'share',
-            href: location.href.replace(/#.*$/, ''),
+            href: APP_URL + post.link,
         },
         response => {
             if (response && !response.error_message) {
@@ -46,11 +47,12 @@ function twitterShare(post) {
     const winHeight = 320;
     const winTop = screen.height / 2 - winWidth / 2;
     const winLeft = screen.width / 2 - winHeight / 2;
+    const url = APP_URL + post.link;
 
     const hashtags = post.tags.map(({ tag }) => tag);
 
     const linkParams = {
-        url: location.href.replace(/#.*$/, ''),
+        url,
         text: post.title,
         hashtags: hashtags.join(','),
     };
@@ -72,16 +74,20 @@ function vkShare(post) {
     const winTop = screen.height / 2 - winWidth / 2;
     const winLeft = screen.width / 2 - winHeight / 2;
 
+    const url = APP_URL + post.link;
+
     window.open(
-        'https://vk.com/share.php?url=' + location.href.replace(/#.*$/, ''),
+        'https://vk.com/share.php?url=' + url,
         post.title,
         `top=${winTop},left=${winLeft},toolbar=0,status=0,width=${winWidth},height=${winHeight}`
     );
 }
 
 function ljShare(post) {
+    const url = APP_URL + post.link;
+
     const title = post.title;
-    const link = `<div><a href="${location.href.replace(/#.*$/, '')}">${title}</a></div>`;
+    const link = `<div><a href="${url}">${title}</a></div>`;
 
     window.open(`http://www.livejournal.com/update.bml?subject=${title}&event=${post.desc + link}`);
 }

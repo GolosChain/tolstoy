@@ -16,6 +16,7 @@ const Root = styled.div`
     background: #fff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
     animation: from-up 0.2s;
+    z-index: 1000;
 `;
 
 const Pointer = styled.div`
@@ -109,7 +110,20 @@ export default class CompactPostCardMenu extends PureComponent {
         this.props.onClose();
     }
 
+    onFavoriteClick = () => {
+        const { post, isFavorite } = this.props;
+
+        this.props.toggleFavorite(`${post.author}/${post.permlink}`, !isFavorite);
+        this.props.onClose();
+    };
+
     render() {
+        const { isFavorite } = this.props;
+
+        const favoriteText = isFavorite
+            ? tt('post_card.remove_from_favorites')
+            : tt('post_card.add_to_favorites');
+
         return (
             <Root innerRef={this.root}>
                 <Pointer />
@@ -124,9 +138,9 @@ export default class CompactPostCardMenu extends PureComponent {
                         ))}
                     </List>
                     <Separator />
-                    <Item>
+                    <Item onClick={this.onFavoriteClick}>
                         <ItemIcon name="star" />
-                        <ItemText>{tt('g.add_to_favorites')}</ItemText>
+                        <ItemText>{favoriteText}</ItemText>
                     </Item>
                 </Content>
             </Root>

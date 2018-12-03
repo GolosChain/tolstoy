@@ -4,7 +4,11 @@ import is, { isNot } from 'styled-is';
 import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
-import VotePanelAbstract from './VotePanelAbstract';
+import VotePanelAbstract, { SLIDER_OFFSET } from './VotePanelAbstract';
+
+const OFFSET = -36;
+const VERT_OFFSET_UP = -44;
+const VERT_OFFSET_DOWN = 26;
 
 const LikeWrapper = styled.i`
     margin-left: -8px;
@@ -133,6 +137,32 @@ const Money = styled.div`
 export default class VotePanel extends VotePanelAbstract {
     getMoneyComponent() {
         return Money;
+    }
+
+    calcTipLeft() {
+        const { sliderAction } = this.state;
+
+        const like = sliderAction === 'like' ? this.likeRef.current : this.dislikeRef.current;
+
+        const box = this.rootRef.current.getBoundingClientRect();
+        const likeBox = like.getBoundingClientRect();
+
+        return SLIDER_OFFSET + (likeBox.left - box.left + likeBox.width / 2);
+    }
+
+    callVerticalOffset() {
+        const { vertical } = this.props;
+        const { sliderAction } = this.state;
+
+        if (vertical) {
+            if (sliderAction === 'like') {
+                return VERT_OFFSET_UP;
+            } else {
+                return VERT_OFFSET_DOWN;
+            }
+        }
+
+        return OFFSET;
     }
 
     renderInner() {
