@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import styled from 'styled-components';
-import is from 'styled-is';
 import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
@@ -18,16 +17,12 @@ const UpVoteBlock = styled.div`
     transition: color 0.15s;
     cursor: pointer;
 
-    ${is('active')`
-        color: #2879ff;
-    `};
-
     &:hover {
         color: #2879ff;
     }
 `;
 
-const UpVoteIcon = styled(Icon).attrs({ name: 'upvote' })`
+const UpVoteIcon = styled(Icon)`
     width: 20px;
     height: 20px;
 
@@ -119,10 +114,15 @@ export default class VotePanelCompact extends VotePanelAbstract {
                     role="button"
                     data-tooltip={tt('g.like')}
                     aria-label={tt('g.like')}
-                    active={votesSummary.myVote === 'like' || sliderAction === 'like' ? 1 : 0}
                     onClick={this.onLikeClick}
                 >
-                    <UpVoteIcon />
+                    <UpVoteIcon
+                        name={
+                            votesSummary.myVote === 'like' || sliderAction === 'like'
+                                ? 'upvote_filled'
+                                : 'upvote'
+                        }
+                    />
                     {showSlider ? this.renderSlider() : null}
                 </UpVoteBlock>
                 {this.renderPayout(<IconTriangle />)}
