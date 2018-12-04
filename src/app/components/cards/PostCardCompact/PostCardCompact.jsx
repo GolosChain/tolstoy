@@ -7,7 +7,7 @@ import { Link } from 'react-router';
 import tt from 'counterpart';
 
 import Icon from 'src/app/components/golos-ui/Icon';
-import { isHide, hideByTags } from 'app/utils/StateFunctions';
+import { isHide, isContainTags } from 'app/utils/StateFunctions';
 import { listenLazy } from 'src/app/helpers/hoc';
 import { getImageSrc } from 'src/app/helpers/images';
 import { breakWordStyles } from 'src/app/helpers/styles';
@@ -16,7 +16,7 @@ import { VotePanelCompact } from 'src/app/components/common/VotePanel';
 import { ReplyBlock } from '../../common/ReplyBlock';
 import CompactPostCardMenu from 'src/app/components/common/CompactPostCardMenu';
 import { detransliterate, repLog10 } from 'app/utils/ParsersAndFormatters';
-import { HIDDEN_TAGS } from 'src/app/constants/tags';
+import { HIDE_BY_TAGS } from 'src/app/constants/tags';
 
 const TWO_LINE_THRESHOLD = 1020;
 const MOBILE_THRESHOLD = 500;
@@ -461,7 +461,7 @@ export default class PostCardCompact extends PureComponent {
     render() {
         const { hideNsfw, data, isOwner } = this.props;
 
-        if (hideNsfw || isHide(data) || hideByTags(data, HIDDEN_TAGS, isOwner)) {
+        if (hideNsfw || isHide(data) || (isContainTags(data, HIDE_BY_TAGS) && !isOwner)) {
             return null;
         }
 

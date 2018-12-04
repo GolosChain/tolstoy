@@ -1,1 +1,1 @@
-export const HIDDEN_TAGS = ['test', 'ru--test'];
+export const HIDE_BY_TAGS = ['test', 'ru--test'];
