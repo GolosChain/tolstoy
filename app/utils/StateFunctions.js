@@ -5,6 +5,7 @@ import { Long } from 'bytebuffer';
 import { VEST_TICKER, LIQUID_TICKER } from 'app/client_config';
 import { Map, Seq, fromJS } from 'immutable';
 import { has } from 'ramda';
+import _ from 'lodash';
 import { getStoreState } from 'app/clientRender';
 
 const DEFAULT_DATE = '1970-01-01T00:00:00';
@@ -227,6 +228,16 @@ export function isContainTags(post, tags) {
         if (category && category === tag) {
             return true;
         }
+    }
+
+    try {
+        const postTags = JSON.parse(post.get('json_metadata')).tags || [];
+
+        if (_.intersection(postTags, tags).length) {
+            return true;
+        }
+    } catch (error) {
+        return false;
     }
 
     return false;
