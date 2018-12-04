@@ -218,8 +218,8 @@ function supportLink() {
     switch (locale) {
         case 'en':
         case 'uk':
-            return 'https://t.me/golos_eng';
+            return 'https://tlg.name/golos_eng';
         case 'ru':
-            return 'https://t.me/golos_support';
+            return 'https://tlg.name/golos_support';
     }
 }
