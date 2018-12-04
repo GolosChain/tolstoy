@@ -5,8 +5,11 @@ import tt from 'counterpart';
 import Icon from 'golos-ui/Icon';
 import VotePanelAbstract from './VotePanelAbstract';
 
-const UpVoteBlock = styled.div`
+const UpVoteContainer = styled.div`
     position: relative;
+`;
+
+const UpVoteBlock = styled.div`
     display: flex;
     align-items: center;
     height: 24px;
@@ -110,21 +113,23 @@ export default class VotePanelCompact extends VotePanelAbstract {
 
         return (
             <Fragment>
-                <UpVoteBlock
-                    role="button"
-                    data-tooltip={tt('g.like')}
-                    aria-label={tt('g.like')}
-                    onClick={this.onLikeClick}
-                >
-                    <UpVoteIcon
-                        name={
-                            votesSummary.myVote === 'like' || sliderAction === 'like'
-                                ? 'upvote_filled'
-                                : 'upvote'
-                        }
-                    />
+                <UpVoteContainer innerRef={this.rootRef}>
+                    <UpVoteBlock
+                        role="button"
+                        data-tooltip={tt('g.like')}
+                        aria-label={tt('g.like')}
+                        onClick={this.onLikeClick}
+                    >
+                        <UpVoteIcon
+                            name={
+                                votesSummary.myVote === 'like' || sliderAction === 'like'
+                                    ? 'upvote_filled'
+                                    : 'upvote'
+                            }
+                        />
+                    </UpVoteBlock>
                     {showSlider ? this.renderSlider() : null}
-                </UpVoteBlock>
+                </UpVoteContainer>
                 {this.renderPayout(<IconTriangle />)}
                 <this.props.splitter />
                 <LikesCountBlock
