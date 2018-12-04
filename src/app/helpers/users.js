@@ -2,8 +2,8 @@ import throttle from 'lodash/throttle';
 import { api } from 'golos-js';
 import { getStoreState, dispatch } from 'app/clientRender';
 
-const CRUCIAN = 1000000;
-const MINNOW = 10000000;
+const MINNOW = 1000000;
+const CRUCIAN = 10000000;
 const DOLPHIN = 100000000;
 const ORCA = 1000000000;
 
@@ -51,10 +51,10 @@ const lazyLoadUsers = throttle(
 export const getUserStatus = gests => {
     if (gests < 0) {
         return null;
-    } else if (gests < CRUCIAN) {
-        return 'crucian';
     } else if (gests < MINNOW) {
         return 'minnow';
+    } else if (gests < CRUCIAN) {
+        return 'crucian';
     } else if (gests < DOLPHIN) {
         return 'dolphin';
     } else if (gests < ORCA) {
