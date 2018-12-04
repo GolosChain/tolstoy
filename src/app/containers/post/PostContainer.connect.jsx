@@ -27,8 +27,9 @@ export default connect(
                 isFavorite: post.isFavorite,
                 isOwner: username === author.account,
                 stats: post.stats,
-                isHidden: isHide(post),
-                isHiddenDueToTags: isContainTags(post, HIDE_BY_TAGS),
+                isHidden:
+                    isHide(post) ||
+                    (username !== author.account && isContainTags(post, HIDE_BY_TAGS)),
             };
         }
     ),
