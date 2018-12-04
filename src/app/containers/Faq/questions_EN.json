@@ -8,8 +8,8 @@
         "answer": "Please, make sure that you have enough funds in your account to cover a message fee and the phone number is specified correctly. If you still have a problem, please contact your phone company or try to sign up by using another phone number."
     },
     {
-        "title": "",
-        "answer": ""
+      "title": "I'm having problems with registration:<ul><li>смс отправлено, но форму регистрации невозможно заполнить;</li><li>форма регистрации заполнена, но при завершении регистрации появляется ошибка;</li><li>регистрация завершена, но при входе в аккаунт выдается сообщение «Имя пользователя не существует».</li></ul>Что делать?",
+      "answer": "Напишите нам:<ul><li>в <a href='https://t.me/golos_support' target='_blank' rel='noopener noreferrer'>чат техподдержки</a> в Телеграм, или в личку <a href='https://t.me/@dankinescop' target='_blank' rel='noopener noreferrer'>@dankinescop</a>, <a href='https://t.me/@chinpu' target='_blank' rel='noopener noreferrer'>@chinpu</a>;</li><li>или на почту <a href='mailto:support@golos.io' target='_blank' rel='noopener noreferrer'>support@golos.io</a>.</li></ul>"
     },
     {
         "title": "What should a newcomer read to easily use Golos.io platform? Is there any guide?",
