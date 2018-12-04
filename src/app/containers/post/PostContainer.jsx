@@ -99,15 +99,15 @@ export class PostContainer extends Component {
     };
 
     render() {
-        const { postLoaded, newVisitor, isOwner, isHidden } = this.props;
+        const { postLoaded, newVisitor, isOwner, isHidden, isHiddenByTags } = this.props;
         const { showAlert } = this.state;
 
         if (!postLoaded) {
             return <Loader type="circle" center size={40} />;
         }
 
-        if (isHidden) {
-            return <NotFoundFragment />
+        if (isHidden || (isHiddenByTags && !isOwner)) {
+            return <NotFoundFragment />;
         }
 
         if (showAlert) {
