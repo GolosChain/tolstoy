@@ -174,6 +174,7 @@ export default class DialogManager extends React.PureComponent {
     }
 
     render() {
+        return new Error('some error');
         if (!this._dialogs.length) {
             return <div className="DialogManager DialogManager_hidden" ref={this._onRef} />;
         }
