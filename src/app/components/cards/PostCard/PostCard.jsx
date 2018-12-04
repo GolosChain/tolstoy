@@ -8,7 +8,7 @@ import tt from 'counterpart';
 import { Map } from 'immutable';
 
 import { detransliterate } from 'app/utils/ParsersAndFormatters';
-import { isHide } from 'app/utils/StateFunctions';
+import { isHide, hideByTags } from 'app/utils/StateFunctions';
 import Icon from 'golos-ui/Icon';
 import { TagLink } from 'golos-ui/Tag';
 import { EntryWrapper, PostTitle, PostContent } from '../common';
@@ -16,6 +16,7 @@ import VotePanel from '../../common/VotePanel';
 import ReplyBlock from '../../common/ReplyBlock';
 import CardAuthor from '../CardAuthor';
 import { getImageSrc } from 'src/app/helpers/images';
+import { HIDDEN_TAGS } from 'src/app/constants/tags';
 
 const PREVIEW_IMAGE_SIZE = '859x356';
 
@@ -244,7 +245,7 @@ export default class PostCard extends PureComponent {
     }
 
     render() {
-        const { className, isRepost, hideNsfw, stats, data } = this.props;
+        const { className, isRepost, hideNsfw, stats, data, isOwner } = this.props;
 
         // user wishes to hide these posts entirely
         if (hideNsfw) {
@@ -252,6 +253,10 @@ export default class PostCard extends PureComponent {
         }
 
         if (isHide(data)) {
+            return null;
+        }
+
+        if (hideByTags(data, HIDDEN_TAGS, isOwner)) {
             return null;
         }
 

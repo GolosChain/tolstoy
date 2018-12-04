@@ -216,6 +216,27 @@ export function isHide(post) {
     }
 }
 
+export const hideByTags = (post, tags, isOwner) => {
+    if (!post) {
+        return false;
+    }
+    if (post instanceof Map) {
+        for (const tag of tags) {
+            if (post.get('category') && post.get('category') === tag && !isOwner) {
+                return true;
+            }
+        }
+        return false;
+    } else {
+        for (const tag of tags) {
+            if (post.category && post.category === tag && !isOwner) {
+                return true;
+            }
+        }
+        return false;
+    }
+};
+
 function filterTags(tags) {
     return tags.filter(tag => typeof tag === 'string');
 }

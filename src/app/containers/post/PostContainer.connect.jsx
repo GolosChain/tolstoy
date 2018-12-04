@@ -7,7 +7,8 @@ import { USER_FOLLOW_DATA_LOAD } from 'src/app/redux/constants/followers';
 import { PostContainer } from 'src/app/containers/post/PostContainer';
 import { togglePin } from 'src/app/redux/actions/pinnedPosts';
 import { toggleFavorite } from 'src/app/redux/actions/favorites';
-import { isHide } from 'app/utils/StateFunctions';
+import { isHide, hideByTags } from 'app/utils/StateFunctions';
+import { HIDDEN_TAGS } from 'src/app/constants/tags';
 
 export default connect(
     createSelector(
@@ -26,7 +27,8 @@ export default connect(
                 isFavorite: post.isFavorite,
                 isOwner: username === author.account,
                 stats: post.stats,
-                isHidden: isHide(post)
+                isHidden:
+                    isHide(post) || hideByTags(post, HIDDEN_TAGS, username === author.account),
             };
         }
     ),
