@@ -126,13 +126,13 @@ const ReloadButton = styled.div`
     line-height: 1.5;
     color: #ffffff;
     text-transform: uppercase;
+    
+    &:hover {
+        background: #0e69ff;
+    }
 
     & ${Icon} {
         margin-right: 8px;
-    }
-
-    &:hover {
-        background: #0e69ff;
     }
 
     @media (max-width: ${VERTICAL_VIEW_BREAK_POINT}px) {
