@@ -1,5 +1,5 @@
 import React, { Component, createRef } from 'react';
-import { Link } from 'react-router';
+import { browserHistory } from 'react-router';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
@@ -15,6 +15,7 @@ import PostActions from 'src/app/components/post/PostActions';
 import { POST_MAX_WIDTH } from 'src/app/containers/post/PostContainer';
 import VotePanel from 'src/app/components/common/VotePanel';
 import Repost from 'src/app/components/post/repost';
+import {logClickEvent} from 'src/app/helpers/gaLogs';
 
 const HEADER_HEIGHT = 60;
 const DESKTOP_FOOTER_HEIGHT = 324;
@@ -71,7 +72,7 @@ const BackIcon = styled(Icon)`
     color: #393636;
 `;
 
-const BackLink = styled(Link)`
+const BackButton = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -83,6 +84,7 @@ const BackLink = styled(Link)`
     border-radius: 50%;
     background-color: rgba(255, 255, 255, 0.7);
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    cursor: pointer;
 
     &:hover {
         background-color: #ffffff;
@@ -140,7 +142,6 @@ export class SidePanel extends Component {
         fixedOn: 'center',
         showSideBlockByWidth: true,
         showSideBlockByHeight: true,
-        backURL: this.props.backURL,
     };
 
     sideBlockRef = createRef();
@@ -225,6 +226,8 @@ export class SidePanel extends Component {
 
     onBackClick = () => {
         this.props.onBackClick();
+        browserHistory.goBack();
+        logClickEvent('Button', 'click', 'Back to previous page');
     };
 
     render() {
@@ -235,7 +238,6 @@ export class SidePanel extends Component {
             fixedOn,
             showSideBlockByWidth,
             showSideBlockByHeight,
-            backURL,
         } = this.state;
 
         const shareTooltip = showSharePopover
@@ -282,17 +284,14 @@ export class SidePanel extends Component {
                         togglePin={togglePin}
                     />
                 </PanelWrapper>
-                {backURL ? (
-                    <BackLink
-                        to={backURL}
+                    <BackButton
                         role="button"
                         data-tooltip={tt('g.turn_back')}
                         aria-label={tt('g.turn_back')}
                         onClick={this.onBackClick}
                     >
                         <BackIcon name="arrow_left" />
-                    </BackLink>
-                ) : null}
+                    </BackButton>
             </Wrapper>
         );
     }

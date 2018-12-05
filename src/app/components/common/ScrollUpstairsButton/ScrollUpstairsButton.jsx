@@ -4,6 +4,7 @@ import tt from 'counterpart';
 
 import ScrollToTop from 'react-scroll-up';
 import Icon from 'src/app/components/golos-ui/Icon';
+import { logClickEvent } from 'src/app/helpers/gaLogs';
 
 const TopIcon = styled(Icon)`
     flex-shrink: 0;
@@ -53,13 +54,8 @@ const Wrapper = styled.div`
 `;
 
 export default class ScrollUpstairsButton extends Component {
-    logClickEvent = () => {
-        window.ga('send', {
-            hitType: 'event',
-            eventCategory: 'Button',
-            eventAction: 'click',
-            eventLabel: 'Scroll Upstairs'
-        });
+    logEvent = () => {
+        logClickEvent('Button', 'click', 'Scroll upstairs');
     };
 
     render() {
