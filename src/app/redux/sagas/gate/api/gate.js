@@ -1,9 +1,9 @@
 import { fork, take, call, put, cancel, select, actionChannel } from 'redux-saga/effects';
 import { eventChannel, buffers } from 'redux-saga';
 import golos from 'golos-js';
-import { Client as WebSocket } from 'rpc-websockets';
 import { normalize as normalizr } from 'normalizr';
 
+import { connect } from 'src/app/helpers/gate';
 import { makeFakeAuthTransaction } from './utils';
 import { addNotificationOnline } from 'src/app/redux/actions/notificationsOnline';
 import { showNotification } from 'src/app/redux/actions/ui';
@@ -34,6 +34,7 @@ function* flow() {
         yield take(`user/SET_USER`);
 
         yield put({ type: GATE_CONNECT });
+
         const socket = yield call(connect, gateServiceUrl);
         yield put({ type: GATE_CONNECT_SUCCESS });
 
@@ -44,14 +45,6 @@ function* flow() {
 
         yield cancel(task);
     }
-}
-
-// TODO: reconnect
-function connect(gateServiceUrl) {
-    const socket = new WebSocket(gateServiceUrl);
-    return new Promise(resolve => {
-        socket.on('open', () => resolve(socket));
-    });
 }
 
 function* handleIO(socket, writeChannel) {

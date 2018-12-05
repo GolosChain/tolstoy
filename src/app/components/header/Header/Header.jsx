@@ -357,7 +357,6 @@ function calcXY(angle) {
 export default class Header extends PureComponent {
     static propTypes = {
         getNotificationsOnlineHistoryFreshCount: PropTypes.func.isRequired,
-        getNotificationsOnlineHistory: PropTypes.func.isRequired,
         onChangeLocale: PropTypes.func,
     };
 
@@ -374,7 +373,7 @@ export default class Header extends PureComponent {
 
     accountRef = createRef();
     dotsRef = createRef();
-    noticationsRef = createRef();
+    notificationsRef = createRef();
 
     componentDidMount() {
         window.addEventListener('resize', this.onResizeLazy);
@@ -431,9 +430,28 @@ export default class Header extends PureComponent {
         });
     };
 
-    onNotificationsMenuToggle = () => {
+    onNotificationsMenuToggle = e => {
+        const { freshCount } = this.props;
+        const { isNotificationsOpen } = this.state;
+
+        if (isNotificationsOpen) {
+            e.preventDefault();
+
+            this.setState({
+                isNotificationsOpen: false,
+            });
+        } else if (freshCount > 0) {
+            e.preventDefault();
+
+            this.setState({
+                isNotificationsOpen: true,
+            });
+        }
+    };
+
+    onNotificationsMenuClose = () => {
         this.setState({
-            isNotificationsOpen: !this.state.isNotificationsOpen,
+            isNotificationsOpen: false,
         });
     };
 
@@ -494,20 +512,24 @@ export default class Header extends PureComponent {
     }
 
     renderNotificationsBlock() {
-        const { freshCount } = this.props;
+        const { freshCount, currentUsername } = this.props;
         const { isPadScreen, isNotificationsOpen } = this.state;
 
         return (
-            <Notifications
+            <Link
                 role="button"
+                to={`/@${currentUsername}/activity`}
                 aria-label={tt('aria_label.notifications', { count: freshCount })}
-                mobile={isPadScreen ? 1 : 0}
-                innerRef={this.noticationsRef}
-                active={isNotificationsOpen}
                 onClick={this.onNotificationsMenuToggle}
             >
-                <IconBadge name="bell" size={20} count={freshCount} />
-            </Notifications>
+                <Notifications
+                    mobile={isPadScreen ? 1 : 0}
+                    active={isNotificationsOpen ? 1 : 0}
+                    innerRef={this.notificationsRef}
+                >
+                    <IconBadge name="bell" size={20} count={freshCount} />
+                </Notifications>
+            </Link>
         );
     }
 
@@ -558,7 +580,7 @@ export default class Header extends PureComponent {
     }
 
     render() {
-        const { currentUsername, getNotificationsOnlineHistory, onChangeLocale } = this.props;
+        const { currentUsername, onChangeLocale } = this.props;
         const { isMenuOpen, isNotificationsOpen, waitAuth, isPadScreen, isMobile } = this.state;
 
         return (
@@ -582,7 +604,7 @@ export default class Header extends PureComponent {
                         ) : (
                             <Fragment>
                                 <LocaleSelectBlock>
-                                    <LocaleSelect onChangeLocale={onChangeLocale}/>
+                                    <LocaleSelect onChangeLocale={onChangeLocale} />
                                 </LocaleSelectBlock>
                                 <Buttons hidden={waitAuth}>
                                     <SignUp href={REGISTRATION_URL}>
@@ -598,13 +620,12 @@ export default class Header extends PureComponent {
                     {isNotificationsOpen ? (
                         <Popover
                             notificationMobile={isMobile}
-                            target={this.noticationsRef.current}
-                            onClose={this.onNotificationsMenuToggle}
+                            target={this.notificationsRef.current}
+                            onClose={this.onNotificationsMenuClose}
                         >
                             <NotificationsMenu
                                 params={{ accountName: currentUsername }}
-                                getNotificationsOnlineHistory={getNotificationsOnlineHistory}
-                                onClose={this.onNotificationsMenuToggle}
+                                onClose={this.onNotificationsMenuClose}
                                 isMobile={isMobile}
                             />
                         </Popover>

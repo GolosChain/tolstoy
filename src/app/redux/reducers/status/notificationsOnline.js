@@ -1,6 +1,6 @@
 import { fromJS } from 'immutable';
 import { NOTIFICATION_ONLINE_ADD_NOTIFICATION } from 'src/app/redux/constants/notificationsOnline';
-import { values, flatten } from 'ramda';
+import { values, flatten, last } from 'ramda';
 
 import {
     NOTIFICATION_ONLINE_GET_HISTORY,
@@ -17,9 +17,10 @@ const initialState = fromJS({
     freshCount: 0, // count on new notifications
     isFetching: false,
     error: null,
+    canLoadMore: true,
 });
 
-export default function(state = initialState, { type, payload, error }) {
+export default function(state = initialState, { type, payload, error, meta }) {
     switch (type) {
         case NOTIFICATION_ONLINE_ADD_NOTIFICATION:
             const count = flatten(values(payload)).length;
@@ -29,6 +30,12 @@ export default function(state = initialState, { type, payload, error }) {
             return state.set('isFetching', true).set('error', null);
 
         case NOTIFICATION_ONLINE_GET_HISTORY_SUCCESS:
+            return state
+                .set('freshCount', payload.fresh)
+                .set('lastLoadedId', payload.result.length ? last(payload.result) : null)
+                .set('canLoadMore', payload.data.length === meta.limit)
+                .set('isFetching', false)
+                .set('error', null);
 
         case NOTIFICATION_ONLINE_GET_HISTORY_FRESH_SUCCESS:
             return state
