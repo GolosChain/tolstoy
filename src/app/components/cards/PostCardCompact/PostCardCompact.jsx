@@ -15,6 +15,7 @@ import { VotePanelCompact } from 'src/app/components/common/VotePanel';
 import { ReplyBlock } from '../../common/ReplyBlock';
 import CompactPostCardMenu from 'src/app/components/common/CompactPostCardMenu';
 import { detransliterate, repLog10 } from 'app/utils/ParsersAndFormatters';
+import { isContainTags } from 'app/utils/StateFunctions';
 
 const TWO_LINE_THRESHOLD = 1020;
 const MOBILE_THRESHOLD = 500;
@@ -324,11 +325,15 @@ export default class PostCardCompact extends PureComponent {
     };
 
     renderBody() {
-        const { sanitizedData, stats, isRepost, repostHtml } = this.props;
+        const { sanitizedData, stats, isRepost, repostHtml, data, warnNsfw } = this.props;
         const { twoLines, mobile } = this.state;
         const withImage = sanitizedData.image_link && !stats.gray && !stats.hide;
 
         let trimLength = mobile ? MOBILE_TEXT_LENGTH_LIMIT : TEXT_LENGTH_LIMIT;
+        const imageLink =
+            warnNsfw && isContainTags(data, ['nsfw'])
+                ? '/images/nsfw/nsfw.svg'
+                : getImageSrc(PREVIEW_SIZE, sanitizedData.image_link);
 
         if (withImage) {
             trimLength = Math.floor(trimLength * 1.3);
@@ -338,10 +343,7 @@ export default class PostCardCompact extends PureComponent {
             <BodyBlock to={sanitizedData.link} onClick={this.props.onClick}>
                 {withImage ? (
                     <ImageLink to={sanitizedData.link} onClick={this.props.onClick}>
-                        <PostImage
-                            alt={tt('aria_label.post_image')}
-                            src={getImageSrc(PREVIEW_SIZE, sanitizedData.image_link)}
-                        />
+                        <PostImage alt={tt('aria_label.post_image')} src={imageLink} />
                     </ImageLink>
                 ) : null}
                 <Body>
