@@ -93,19 +93,31 @@ export default class Questions extends PureComponent {
                                         </LinkStyled>
                                     </div>
                                     <div className="columns">
-                                        <NormalLink href="https://tlg.name/golos_support">
+                                        <NormalLink
+                                            href="https://tlg.name/golos_support"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
                                             <Icon name="new/telegram" size="2x" />
                                             {tt('welcome_page.link.telegram')}
                                         </NormalLink>
                                     </div>
                                     <div className="columns">
-                                        <NormalLink href={WIKI_URL}>
+                                        <NormalLink
+                                            href={WIKI_URL}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
                                             <Icon name="new/wikipedia" size="2x" />
                                             {tt('welcome_page.link.wikipedia')}
                                         </NormalLink>
                                     </div>
                                     <div className="columns">
-                                        <NormalLink href="mailto:support@golos.io">
+                                        <NormalLink
+                                            href="mailto:support@golos.io"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
                                             <Icon name="new/envelope" size="2x" />
                                             {tt('welcome_page.link.envelope')}
                                         </NormalLink>
