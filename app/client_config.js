@@ -1,29 +1,18 @@
 // sometimes it's impossible to use html tags to style coin name, hence usage of _UPPERCASE modifier
 export const APP_NAME = 'Голос';
+export const APP_NAME_LATIN = 'Golos';
 export const TITLE_SUFFIX = 'Golos.io';
 // sometimes APP_NAME is written in non-latin characters, but they are needed for technical purposes
 // ie. "Голос" > "Golos"
-export const APP_NAME_LATIN = 'Golos';
-export const APP_NAME_UPPERCASE = 'GOLOS';
 export const APP_NAME_UP = 'GOLOS.io';
 export const APP_ICON = 'golos';
 // FIXME figure out best way to do this on both client and server from env
 // vars. client should read $STM_Config, server should read config package.
 export const APP_DOMAIN = 'golos.io';
+export const APP_URL = 'https://golos.io';
 export const LIQUID_TOKEN = 'Голос';
-// sometimes it's impossible to use html tags to style coin name, hence usage of _UPPERCASE modifier
-export const LIQUID_TOKEN_UPPERCASE = 'ГОЛОС';
-export const VESTING_TOKEN = 'Сила Голоса';
-export const VESTING_TOKEN_SHORT = 'СГ';
 
-export const VESTING_TOKEN2 = 'Силу Голоса';
-export const VESTING_TOKEN3 = 'Силах Голоса';
-export const VESTING_TOKENS = 'Силы Голоса';
-
-export const DEBT_TOKEN = 'Золотой';
-export const DEBT_TOKENS = 'Золотые';
 export const CURRENCY_SIGN = '₽≈';
-export const TOKEN_WORTH = '~1 мг золота';
 
 // these are dealing with asset types, not displaying to client, rather sending data over websocket
 export const LIQUID_TICKER = 'GOLOS';
@@ -32,20 +21,27 @@ export const DEBT_TICKER = 'GBG';
 export const DEBT_TOKEN_SHORT = 'GBG';
 
 // application settings
-export const DEFAULT_LANGUAGE = 'ru'; // used on application internationalization bootstrap
+export const DEFAULT_LANGUAGE = 'ru';
 export const LOCALE_COOKIE_KEY = 'gls.locale';
+export const LOCALE_COOKIE_EXPIRES = new Date(Date.now() + 315360000000); // 10 years
 export const LANGUAGES = {
-    ru: 'Русский',
-    en: 'English',
+    ru: {
+        value: 'Русский',
+        shortValue: 'RU',
+    },
+    en: {
+        value: 'English',
+        shortValue: 'EN',
+    },
     /* in react-intl they use 'uk' instead of 'ua' */
-    uk: 'Українська',
+    uk: {
+        value: 'Українська',
+        shortValue: 'UA',
+    },
 };
 // First element always is USD, it needs to be correct fetch yahoo exchange rates from server side
 export const CURRENCIES = ['USD', 'RUB', 'EUR', DEBT_TOKEN_SHORT, LIQUID_TICKER];
 export const DEFAULT_CURRENCY = CURRENCIES[0];
-export const CURRENCY_COOKIE_KEY = 'gls.currency';
-export const FRACTION_DIGITS = 2; // default amount of decimal digits
-export const FRACTION_DIGITS_MARKET = 3; // accurate amount of deciaml digits (example: used in market)
 
 // meta info
 export const TWITTER_HANDLE = '@goloschain';

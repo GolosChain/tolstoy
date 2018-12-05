@@ -1,1 +1,1 @@
-export { default } from './CompactPostCardMenu';
+export { default } from './CompactPostCardMenu.connect';

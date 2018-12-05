@@ -107,7 +107,7 @@ export class PostContainer extends Component {
         }
 
         if (isHidden) {
-            return <NotFoundFragment />
+            return <NotFoundFragment />;
         }
 
         if (showAlert) {

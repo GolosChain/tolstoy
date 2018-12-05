@@ -17,6 +17,8 @@ const Root = styled.div`
 
 const Header = styled.h3`
     margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: 500;
     text-transform: uppercase;
 `;
 

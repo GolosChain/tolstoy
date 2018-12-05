@@ -29,11 +29,7 @@ const MOBILE_WIDTH = 890;
 const LIKE_PERCENT_KEY = 'golos.like-percent';
 const DISLIKE_PERCENT_KEY = 'golos.dislike-percent';
 
-const SLIDER_OFFSET = 8;
-
-const OFFSET = -42;
-const VERT_OFFSET_UP = -44;
-const VERT_OFFSET_DOWN = 26;
+export const SLIDER_OFFSET = 8;
 
 const OkIcon = styled(Icon)`
     width: 16px;
@@ -160,26 +156,19 @@ export default class VotePanelAbstract extends PureComponent {
         throw new Error('Abstract method call');
     }
 
+    calcTipLeft() {
+        return 0;
+    }
+
+    callVerticalOffset() {
+        return 0;
+    }
+
     renderSlider() {
-        const { vertical } = this.props;
         const { sliderAction, votePercent } = this.state;
 
-        const like = sliderAction === 'like' ? this.likeRef.current : this.dislikeRef.current;
-
-        const box = this.rootRef.current.getBoundingClientRect();
-        const likeBox = like.getBoundingClientRect();
-
-        const tipLeft = SLIDER_OFFSET + (likeBox.left - box.left + likeBox.width / 2);
-
-        let verticalOffset = OFFSET;
-
-        if (vertical) {
-            if (sliderAction === 'like') {
-                verticalOffset = VERT_OFFSET_UP;
-            } else {
-                verticalOffset = VERT_OFFSET_DOWN;
-            }
-        }
+        const tipLeft = this.calcTipLeft();
+        const verticalOffset = this.callVerticalOffset();
 
         return (
             <SliderBlock style={{ top: verticalOffset }}>
@@ -273,7 +262,6 @@ export default class VotePanelAbstract extends PureComponent {
     rootRef = createRef();
     likeRef = createRef();
     dislikeRef = createRef();
-
 
     onLikeClick = this.loginProtection(() => {
         const { votesSummary, isRich } = this.props;

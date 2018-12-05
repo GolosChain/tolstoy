@@ -42,6 +42,11 @@ const Replies = styled(
         cursor: pointer;
     `};
 
+    ${is('compact')`
+        flex-grow: 0;
+        padding: 0 10px;
+    `};
+
     ${is('mini')`
         height: unset;
         min-height: unset;
@@ -95,6 +100,15 @@ const ReplyButton = styled(
     letter-spacing: 0.8px;
     color: #393636 !important;
     cursor: pointer;
+
+    ${is('compact')`
+        flex-grow: 0;
+        padding: 0 10px;
+    `};
+
+    @media (max-width: 360px) {
+        padding: 0 10px;
+    }
 `;
 
 const Root = styled.div`
@@ -147,6 +161,7 @@ export class ReplyBlock extends Component {
                     data-tooltip={tt('reply.comments_count')}
                     aria-label={tt('aria_label.comments', { count })}
                     isLink={isLink || mini}
+                    compact={compact ? 1 : 0}
                     mini={mini ? 1 : 0}
                 >
                     <ReplyIcon name="reply" />
@@ -160,6 +175,7 @@ export class ReplyBlock extends Component {
                                 <ReplyButton
                                     to={`${link}#createComment`}
                                     onClick={this.toggleCommentInputFocus}
+                                    compact={compact ? 1 : 0}
                                 >
                                     {text}
                                 </ReplyButton>
@@ -169,7 +185,11 @@ export class ReplyBlock extends Component {
                             notOwner && (
                                 <Fragment>
                                     <Splitter />
-                                    <ReplyButton role="button" onClick={onReplyClick}>
+                                    <ReplyButton
+                                        role="button"
+                                        onClick={onReplyClick}
+                                        compact={compact ? 1 : 0}
+                                    >
                                         {text}
                                     </ReplyButton>
                                 </Fragment>

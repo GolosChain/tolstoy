@@ -1,14 +1,12 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import styled from 'styled-components';
-import is, { isNot } from 'styled-is';
 import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
 import VotePanelAbstract from './VotePanelAbstract';
 
-const Root = styled.div`
-    display: flex;
-    align-items: center;
+const UpVoteContainer = styled.div`
+    position: relative;
 `;
 
 const UpVoteBlock = styled.div`
@@ -22,16 +20,12 @@ const UpVoteBlock = styled.div`
     transition: color 0.15s;
     cursor: pointer;
 
-    ${is('active')`
-        color: #2879ff;
-    `};
-
     &:hover {
         color: #2879ff;
     }
 `;
 
-const UpVoteIcon = styled(Icon).attrs({ name: 'upvote' })`
+const UpVoteIcon = styled(Icon)`
     width: 20px;
     height: 20px;
 
@@ -103,23 +97,39 @@ export default class VotePanelCompact extends VotePanelAbstract {
         return Money;
     }
 
+    calcTipLeft() {
+        return 22;
+    }
+
+    callVerticalOffset() {
+        return -49;
+    }
+
     renderInner() {
         const { votesSummary } = this.props;
-        const { sliderAction } = this.state;
+        const { sliderAction, showSlider } = this.state;
 
         const { likeTooltip } = this.getVotesTooltips();
 
         return (
-            <Root>
-                <UpVoteBlock
-                    role="button"
-                    data-tooltip={tt('g.like')}
-                    aria-label={tt('g.like')}
-                    active={votesSummary.myVote === 'like' || sliderAction === 'like' ? 1 : 0}
-                    onClick={this.onLikeClick}
-                >
-                    <UpVoteIcon />
-                </UpVoteBlock>
+            <Fragment>
+                <UpVoteContainer innerRef={this.rootRef}>
+                    <UpVoteBlock
+                        role="button"
+                        data-tooltip={tt('g.like')}
+                        aria-label={tt('g.like')}
+                        onClick={this.onLikeClick}
+                    >
+                        <UpVoteIcon
+                            name={
+                                votesSummary.myVote === 'like' || sliderAction === 'like'
+                                    ? 'upvote_filled'
+                                    : 'upvote'
+                            }
+                        />
+                    </UpVoteBlock>
+                    {showSlider ? this.renderSlider() : null}
+                </UpVoteContainer>
                 {this.renderPayout(<IconTriangle />)}
                 <this.props.splitter />
                 <LikesCountBlock
@@ -132,7 +142,7 @@ export default class VotePanelCompact extends VotePanelAbstract {
                     <ChevronIcon />
                     <LikesCount>{votesSummary.likes}</LikesCount>
                 </LikesCountBlock>
-            </Root>
+            </Fragment>
         );
     }
 }

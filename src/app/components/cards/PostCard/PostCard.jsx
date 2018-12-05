@@ -8,7 +8,6 @@ import tt from 'counterpart';
 import { Map } from 'immutable';
 
 import { detransliterate } from 'app/utils/ParsersAndFormatters';
-import { isHide } from 'app/utils/StateFunctions';
 import Icon from 'golos-ui/Icon';
 import { TagLink } from 'golos-ui/Tag';
 import { EntryWrapper, PostTitle, PostContent } from '../common';
@@ -244,14 +243,10 @@ export default class PostCard extends PureComponent {
     }
 
     render() {
-        const { className, isRepost, hideNsfw, stats, data } = this.props;
+        const { className, isRepost, hideNsfw, stats, isHidden } = this.props;
 
         // user wishes to hide these posts entirely
-        if (hideNsfw) {
-            return null;
-        }
-
-        if (isHide(data)) {
+        if (hideNsfw || isHidden) {
             return null;
         }
 
@@ -280,7 +275,8 @@ export default class PostCard extends PureComponent {
             created = data.get('created');
         }
 
-        const currentFeed = params.order ? `/${params.order}` : '/trending';
+        const currentFeed =
+            params.order && params.category !== 'feed' ? `/${params.order}` : '/trending';
         const categoryUri = `${currentFeed}?tags=${category}`;
 
         return (
