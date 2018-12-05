@@ -221,7 +221,7 @@ export const postCardSelector = createDeepEqualSelector(
             reblogData,
             allowRepost:
                 !isOwner && (!isRepost || reblogData.get('repostAuthor') !== currentUsername),
-            isHidden: isHide(data) || (isContainTags(data, HIDE_BY_TAGS) && !isOwner),
+            isHidden: isHide(data) || (!isOwner && isContainTags(data, HIDE_BY_TAGS)),
         };
     }
 );
