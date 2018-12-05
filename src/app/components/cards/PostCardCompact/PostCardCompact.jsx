@@ -7,7 +7,6 @@ import { Link } from 'react-router';
 import tt from 'counterpart';
 
 import Icon from 'src/app/components/golos-ui/Icon';
-import { isHide } from 'app/utils/StateFunctions';
 import { listenLazy } from 'src/app/helpers/hoc';
 import { getImageSrc } from 'src/app/helpers/images';
 import { breakWordStyles } from 'src/app/helpers/styles';
@@ -161,7 +160,7 @@ const DetailsBlock = styled.div`
     ${is('inbody')`
         margin: 5px -3px 0;
         font-size: 13px;
-        
+
         @media (max-width: 500px) {
             flex-wrap: wrap;
             line-height: 1.2;
@@ -458,9 +457,9 @@ export default class PostCardCompact extends PureComponent {
     }
 
     render() {
-        const { hideNsfw, data } = this.props;
+        const { hideNsfw, isHidden } = this.props;
 
-        if (hideNsfw || isHide(data)) {
+        if (hideNsfw || isHidden) {
             return null;
         }
 
