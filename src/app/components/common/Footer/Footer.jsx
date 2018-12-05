@@ -203,7 +203,7 @@ export default class Footer extends PureComponent {
                                     </MenuItem>
                                     <MenuItem
                                         aria-label={tt('aria_label.telegram_link')}
-                                        href="https://t.me/golos_support"
+                                        href="https://tlg.name/golos_support"
                                         type="icon"
                                     >
                                         <Icon name="telegram" width={22} height={20} />

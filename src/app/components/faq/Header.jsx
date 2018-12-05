@@ -146,23 +146,13 @@ export default class Header extends PureComponent {
                 <HeaderContainer>
                     <MainBlock>
                         <Title>{tt('faq_jsq.page_title')}</Title>
-                        <Description>
-                            {tt('faq_jsq.page_description')}
-                        </Description>
+                        <Description>{tt('faq_jsq.page_description')}</Description>
                         <ButtonsBlock>
-                            <BlueButton
-                                href="https://t.me/golos_support"
-                                target="_blank"
-                            >
+                            <BlueButton href="https://tlg.name/golos_support" target="_blank">
                                 <Icon name="telegram" size="16px" fill="#fff" />
-                                <ButtonLabel>
-                                    {tt('faq_jsq.telegram')}
-                                </ButtonLabel>
+                                <ButtonLabel>{tt('faq_jsq.telegram')}</ButtonLabel>
                             </BlueButton>
-                            <WhiteButton
-                                href="mailto:support@golos.io"
-                                target="_blank"
-                            >
+                            <WhiteButton href="mailto:support@golos.io" target="_blank">
                                 <Icon name="envelope" size="16px" />
                                 <ButtonLabel>{tt('faq_jsq.email')}</ButtonLabel>
                             </WhiteButton>

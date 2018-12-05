@@ -82,45 +82,31 @@ export default class Questions extends PureComponent {
                 <Row className="row align-middle">
                     <div className="columns">
                         <Header>{tt('welcome_page.questions_header')}</Header>
-                        <SubHeader>
-                            {tt('welcome_page.questions_subheader')}
-                        </SubHeader>
+                        <SubHeader>{tt('welcome_page.questions_subheader')}</SubHeader>
                         <div className="row">
                             <div className="columns small-12 medium-12 large-2">
                                 <div className="row small-up-2 medium-up-2 large-up-1">
                                     <div className="columns">
                                         <LinkStyled to="/faq">
-                                            <Icon
-                                                name="new/monitor"
-                                                size="2x"
-                                            />
+                                            <Icon name="new/monitor" size="2x" />
                                             {tt('welcome_page.link.monitor')}
                                         </LinkStyled>
                                     </div>
                                     <div className="columns">
-                                        <NormalLink href="https://t.me/golos_support">
-                                            <Icon
-                                                name="new/telegram"
-                                                size="2x"
-                                            />
+                                        <NormalLink href="https://tlg.name/golos_support">
+                                            <Icon name="new/telegram" size="2x" />
                                             {tt('welcome_page.link.telegram')}
                                         </NormalLink>
                                     </div>
                                     <div className="columns">
                                         <NormalLink href={WIKI_URL}>
-                                            <Icon
-                                                name="new/wikipedia"
-                                                size="2x"
-                                            />
+                                            <Icon name="new/wikipedia" size="2x" />
                                             {tt('welcome_page.link.wikipedia')}
                                         </NormalLink>
                                     </div>
                                     <div className="columns">
                                         <NormalLink href="mailto:support@golos.io">
-                                            <Icon
-                                                name="new/envelope"
-                                                size="2x"
-                                            />
+                                            <Icon name="new/envelope" size="2x" />
                                             {tt('welcome_page.link.envelope')}
                                         </NormalLink>
                                     </div>
@@ -129,29 +115,20 @@ export default class Questions extends PureComponent {
                             {questionsLoading ? (
                                 <div className="columns align-self-middle">
                                     <center>
-                                        <LoadingIndicator
-                                            type="circle"
-                                            size={90}
-                                        />
+                                        <LoadingIndicator type="circle" size={90} />
                                     </center>
                                 </div>
                             ) : (
-                                    <div className="columns">
-                                        <div className="row small-up-1 large-up-2">
-                                            {questionsCards.map(post => (
-                                                <div
-                                                    className="columns"
-                                                    key={post.id}
-                                                >
-                                                    <CardPost
-                                                        className={CardPost_W}
-                                                        post={post}
-                                                    />
-                                                </div>
-                                            ))}
-                                        </div>
+                                <div className="columns">
+                                    <div className="row small-up-1 large-up-2">
+                                        {questionsCards.map(post => (
+                                            <div className="columns" key={post.id}>
+                                                <CardPost className={CardPost_W} post={post} />
+                                            </div>
+                                        ))}
                                     </div>
-                                )}
+                                </div>
+                            )}
                         </div>
                     </div>
                 </Row>

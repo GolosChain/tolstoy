@@ -151,7 +151,7 @@
 
 **Альтернативные каналы общения пользователей Голоса**
     •   [Официальный чат](https://chat.golos.io/home)
-    •   [Канал Telegram(https://t.me/golos_io)
+    •   [Канал Telegram(https://tlg.name/golos_io)
     •   [Голосовой чат на Discord](https://discordapp.com/login)
     •   [Голос во Вконтакте](https://vk.com/goloschain)
     •   [Голос в ФБ](https://www.facebook.com/www.golos.io)
