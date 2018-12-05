@@ -4,8 +4,7 @@ import { parsePayoutAmount, repLog10 } from 'app/utils/ParsersAndFormatters';
 import { Long } from 'bytebuffer';
 import { VEST_TICKER, LIQUID_TICKER } from 'app/client_config';
 import { Map, Seq, fromJS } from 'immutable';
-import { has } from 'ramda';
-import _ from 'lodash';
+import { has, intersection } from 'ramda';
 import { getStoreState } from 'app/clientRender';
 
 const DEFAULT_DATE = '1970-01-01T00:00:00';
@@ -218,22 +217,16 @@ export function isHide(post) {
 }
 
 export function isContainTags(post, tags) {
-    const category = post instanceof Map ? post.get('category') : post.category;
+    const jsonMetadata = post instanceof Map ? post.get('json_metadata') : post.json_metadata;
 
     if (!post) {
         return false;
     }
 
-    for (const tag of tags) {
-        if (category && category === tag) {
-            return true;
-        }
-    }
-
     try {
-        const postTags = JSON.parse(post.get('json_metadata')).tags || [];
+        const postTags = JSON.parse(jsonMetadata).tags || [];
 
-        if (_.intersection(postTags, tags).length) {
+        if (postTags && intersection(postTags, tags).length) {
             return true;
         }
     } catch (error) {
