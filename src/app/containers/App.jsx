@@ -4,9 +4,11 @@ import { ThemeProvider, injectGlobal } from 'styled-components';
 import { Helmet } from 'react-helmet';
 import tt from 'counterpart';
 import { key_utils } from 'golos-js/lib/auth/ecc';
+import cookie from 'react-cookie';
 
-import { AMPLITUDE_SESSION } from 'app/client_config';
+import { LOCALE_COOKIE_KEY, LOCALE_COOKIE_EXPIRES, AMPLITUDE_SESSION } from 'app/client_config';
 import { init as initAnchorHelper } from 'app/utils/anchorHelper';
+import { validateLocaleQuery } from 'app/utils/ParsersAndFormatters';
 
 import defaultTheme from 'src/app/themes';
 import Header from 'src/app/components/header/Header';
@@ -65,6 +67,14 @@ export class App extends Component {
 
         if (process.env.BROWSER) {
             initAnchorHelper();
+
+            const locale = validateLocaleQuery(this.props.location);
+            if (locale) {
+                this.onChangeLocale(locale);
+               
+                const uri = window.location.toString();
+                window.history.replaceState({}, document.title, uri.substring(0, uri.indexOf('?')));
+            }
         }
     }
 
@@ -88,6 +98,14 @@ export class App extends Component {
             this.state !== nextState
         );
     }
+
+    onChangeLocale = locale => {
+        cookie.save(LOCALE_COOKIE_KEY, locale, {
+            path: '/',
+            expires: LOCALE_COOKIE_EXPIRES,
+        });
+        this.props.changeLocale(locale);
+    };
 
     checkLogin = event => {
         if (event.key === 'autopost2') {
@@ -153,7 +171,7 @@ export class App extends Component {
             <ThemeProvider theme={defaultTheme}>
                 <div className="App" onMouseMove={this.onEntropyEvent}>
                     <Helmet title="Golos.io" />
-                    <Header />
+                    <Header onChangeLocale={this.onChangeLocale} />
                     <div className="App__content">
                         {this.renderCallout()}
                         {children}

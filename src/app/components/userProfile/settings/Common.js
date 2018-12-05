@@ -6,10 +6,7 @@ import { Map } from 'immutable';
 import { Form, Field } from 'react-final-form';
 import tt from 'counterpart';
 
-import {
-    CURRENCIES,
-    LANGUAGES,
-} from 'app/client_config';
+import { CURRENCIES, LANGUAGES } from 'app/client_config';
 
 import SplashLoader from 'golos-ui/SplashLoader';
 import { CardContent } from 'golos-ui/Card';
@@ -30,13 +27,12 @@ const LabelRow = styled(StyledLabelRow)`
 
 const emptyMap = new Map();
 export default class Common extends PureComponent {
-
     static propTypes = {
         options: PropTypes.object,
         isFetching: PropTypes.bool,
         isChanging: PropTypes.bool,
         onSubmitGate: PropTypes.func,
-    }
+    };
 
     render() {
         const { options, isChanging, onSubmitGate } = this.props;
@@ -46,7 +42,14 @@ export default class Common extends PureComponent {
 
         return (
             <Form onSubmit={onSubmitGate} initialValues={data}>
-                {({ handleSubmit, submitError, form, submitting, pristine, hasValidationErrors }) => (
+                {({
+                    handleSubmit,
+                    submitError,
+                    form,
+                    submitting,
+                    pristine,
+                    hasValidationErrors,
+                }) => (
                     <form onSubmit={handleSubmit}>
                         {submitting && <SplashLoader />}
 
@@ -61,7 +64,7 @@ export default class Common extends PureComponent {
                                         >
                                             {Object.keys(LANGUAGES).map(key => (
                                                 <option key={key} value={key}>
-                                                    {LANGUAGES[key]}
+                                                    {LANGUAGES[key].value}
                                                 </option>
                                             ))}
                                         </Select>
@@ -179,7 +182,11 @@ export default class Common extends PureComponent {
                             <DialogButton onClick={form.reset} disabled={submitting || pristine}>
                                 {tt('settings_jsx.reset')}
                             </DialogButton>
-                            <DialogButton type="submit" primary disabled={submitting || pristine || hasValidationErrors}>
+                            <DialogButton
+                                type="submit"
+                                primary
+                                disabled={submitting || pristine || hasValidationErrors}
+                            >
                                 {tt('settings_jsx.update')}
                             </DialogButton>
                         </DialogFooter>

@@ -215,6 +215,11 @@ function* usernamePasswordLoginInner(
 
     yield loadCurrentUserFollowing();
 
+    const hasLocale = yield select(state => state.user.get('locale'));
+    if (hasLocale) {
+        yield put(user.actions.changeLocale(null));
+    }
+
     if (afterLoginRedirectToWelcome) {
         browserHistory.push('/welcome');
     }
