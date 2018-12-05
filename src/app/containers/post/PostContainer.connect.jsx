@@ -26,7 +26,7 @@ export default connect(
                 isFavorite: post.isFavorite,
                 isOwner: username === author.account,
                 stats: post.stats,
-                isHidden: isHide(post)
+                isHidden: isHide(post),
             };
         }
     ),

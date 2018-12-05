@@ -101,7 +101,6 @@ export class PostContainer extends Component {
     render() {
         const { postLoaded, newVisitor, isOwner, isHidden } = this.props;
         const { showAlert } = this.state;
-
         if (!postLoaded) {
             return <Loader type="circle" center size={40} />;
         }
