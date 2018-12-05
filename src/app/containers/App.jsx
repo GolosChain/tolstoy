@@ -20,6 +20,7 @@ import DialogManager from 'app/components/elements/common/DialogManager';
 import PageViewsCounter from '@elements/PageViewsCounter';
 import ScrollUpstairsButton from 'src/app/components/common/ScrollUpstairsButton';
 import CheckLoginOwner from 'src/app/components/common/CheckLoginOwner';
+import ContentErrorBoundary from 'src/app/containers/ContentErrorBoundary';
 
 injectGlobal`
     html {
@@ -172,18 +173,20 @@ export class App extends Component {
                 <div className="App" onMouseMove={this.onEntropyEvent}>
                     <Helmet title="Golos.io" />
                     <Header onChangeLocale={this.onChangeLocale} />
-                    <div className="App__content">
-                        {this.renderCallout()}
-                        {children}
-                        {location.pathname.startsWith('/submit') ? null : <Footer />}
-                        <ScrollUpstairsButton />
-                        <MobileAppButton />
-                    </div>
-                    <DialogManager />
-                    <CheckLoginOwner />
-                    <Notifications />
-                    {process.env.BROWSER ? <TooltipManager /> : null}
-                    <PageViewsCounter hidden />
+                    <ContentErrorBoundary>
+                        <div className="App__content">
+                            {this.renderCallout()}
+                            {children}
+                            {location.pathname.startsWith('/submit') ? null : <Footer />}
+                            <ScrollUpstairsButton />
+                            <MobileAppButton />
+                        </div>
+                        <DialogManager />
+                        <CheckLoginOwner />
+                        <Notifications />
+                        {process.env.BROWSER ? <TooltipManager /> : null}
+                        <PageViewsCounter hidden />
+                    </ContentErrorBoundary>
                 </div>
             </ThemeProvider>
         );

@@ -73,7 +73,7 @@ const Button = styled.a`
     font-weight: bold;
 `;
 
-const BlueButton = Button.extend`
+const BlueButton = styled(Button)`
     color: #ffffff;
     line-height: 18px;
     text-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
