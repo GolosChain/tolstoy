@@ -13,6 +13,10 @@ const Wrapper = styled.div`
     background-color: #ffffff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
 
+    & ul {
+        margin-bottom: 0;
+    }
+
     @media (max-width: 1200px) {
         padding: 14px 34px 14px 16px;
     }
@@ -47,7 +51,7 @@ const Switcher = styled(CloseOpenButton)`
     position: absolute;
     top: 18px;
     right: 12px;
-    
+
     @media (max-width: 1200px) {
         top: 5px;
         right: 6px;
@@ -66,17 +70,7 @@ export default class Question extends PureComponent {
         super(props);
         this.state = {
             showAnswer: false,
-            answer: {
-                __html: Question.addLinkToUrls(props.question.answer),
-            },
         };
-    }
-
-    static addLinkToUrls(str) {
-        return str.replace(
-            /\[([^\]]*)\]\((https?:[^ )]+)\)/g,
-            '<a href="$2" target="_blank">$1</a>'
-        );
     }
 
     changeAnswerState = () => {
@@ -87,15 +81,18 @@ export default class Question extends PureComponent {
 
     render() {
         const { question } = this.props;
-        const { showAnswer, answer } = this.state;
+        const { showAnswer } = this.state;
 
         return (
             <Wrapper>
-                <Switcher collapsed={!showAnswer} toggle={this.changeAnswerState}/>
-                <Title onClick={this.changeAnswerState}>{question.title}</Title>
+                <Switcher collapsed={!showAnswer} toggle={this.changeAnswerState} />
+                <Title
+                    onClick={this.changeAnswerState}
+                    dangerouslySetInnerHTML={{ __html: question.title }}
+                />
                 <Answer
                     showAnswer={showAnswer}
-                    dangerouslySetInnerHTML={answer}
+                    dangerouslySetInnerHTML={{ __html: question.answer }}
                 />
             </Wrapper>
         );

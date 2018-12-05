@@ -78,5 +78,13 @@
     "width": "28",
     "height": "19",
     "showOnMobile": true
+  },
+  {
+    "inscription": "Чат разработчиков",
+    "thumbnail": "dev",
+    "link": "https://t.me/golos_developers",
+    "width": "28",
+    "height": "19",
+    "showOnMobile": true
   }
 ]

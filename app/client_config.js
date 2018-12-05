@@ -23,11 +23,21 @@ export const DEBT_TOKEN_SHORT = 'GBG';
 // application settings
 export const DEFAULT_LANGUAGE = 'ru';
 export const LOCALE_COOKIE_KEY = 'gls.locale';
+export const LOCALE_COOKIE_EXPIRES = new Date(Date.now() + 315360000000); // 10 years
 export const LANGUAGES = {
-    ru: 'Русский',
-    en: 'English',
+    ru: {
+        value: 'Русский',
+        shortValue: 'RU',
+    },
+    en: {
+        value: 'English',
+        shortValue: 'EN',
+    },
     /* in react-intl they use 'uk' instead of 'ua' */
-    uk: 'Українська',
+    uk: {
+        value: 'Українська',
+        shortValue: 'UA',
+    },
 };
 // First element always is USD, it needs to be correct fetch yahoo exchange rates from server side
 export const CURRENCIES = ['USD', 'RUB', 'EUR', DEBT_TOKEN_SHORT, LIQUID_TICKER];

@@ -21,5 +21,6 @@ export default connect(
     {
         loginUser: () => user.actions.autoLogin({}),
         logoutUser: user.actions.logout,
+        changeLocale: user.actions.changeLocale,
     }
 )(App);
