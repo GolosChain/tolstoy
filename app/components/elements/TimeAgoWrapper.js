@@ -2,21 +2,21 @@ import React, { Component } from 'react';
 import { FormattedRelative } from 'react-intl';
 import styled from 'styled-components';
 
+import { fixDate } from 'src/app/helpers/time';
+
 const Wrapper = styled.span`
     white-space: nowrap;
 `;
 
 export default class TimeAgoWrapper extends Component {
     render() {
-        let { date, className } = this.props;
+        const { date, className } = this.props;
 
-        if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/.test(date)) {
-            date += 'Z';
-        }
+        const fixedDate = new Date(fixDate(date));
 
         return (
-            <Wrapper className={className} data-tooltip={new Date(date).toLocaleString()}>
-                <FormattedRelative {...this.props} value={date} />
+            <Wrapper className={className} data-tooltip={fixedDate.toLocaleString()}>
+                <FormattedRelative {...this.props} value={fixedDate} />
             </Wrapper>
         );
     }
