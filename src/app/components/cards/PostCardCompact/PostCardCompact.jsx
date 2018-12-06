@@ -2,11 +2,11 @@ import React, { PureComponent, Fragment } from 'react';
 import { withRouter } from 'react-router';
 import styled, { css } from 'styled-components';
 import is from 'styled-is';
-import { FormattedRelative } from 'react-intl';
 import { Link } from 'react-router';
 import tt from 'counterpart';
 
 import Icon from 'src/app/components/golos-ui/Icon';
+import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
 import { listenLazy } from 'src/app/helpers/hoc';
 import { getImageSrc } from 'src/app/helpers/images';
 import { breakWordStyles } from 'src/app/helpers/styles';
@@ -401,8 +401,8 @@ export default class PostCardCompact extends PureComponent {
 
         return (
             <DetailsBlock inbody={inBody ? 1 : 0}>
-                <DateLink to={data.get('url')} data-tooltip={new Date(created).toLocaleString()}>
-                    <FormattedRelative value={created} />
+                <DateLink to={data.get('url')}>
+                    <TimeAgoWrapper date={created} />
                 </DateLink>
                 {isRepost ? (
                     <Fragment>
