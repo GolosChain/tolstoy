@@ -268,7 +268,7 @@ export default class AccountNameInput extends PureComponent {
                     this._showIndex = loadIndex;
 
                     const newState = {
-                        open: focus,
+                        open: focus && !isEmpty(names),
                         list: names,
                         index: 0,
                     };
@@ -438,10 +438,6 @@ export default class AccountNameInput extends PureComponent {
 
     renderAutocomplete() {
         const { list, index, popoverPos, maxShowCount } = this.state;
-
-        if (isEmpty(list)) {
-            return null;
-        }
 
         const showCount = Math.min(MAX_VARIANTS, list.length, maxShowCount);
 
