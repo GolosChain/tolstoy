@@ -71,14 +71,14 @@ const Tag = styled.span`
     color: #2879ff;
 `;
 
-class NoPostPlaceholder extends Component {
+export default class NoPostPlaceholder extends Component {
     render() {
         const { order, tagsStr } = this.props;
 
         return (
             <Wrapper>
                 <Header>
-                    {tt('g.no_topics_by_order_found', { order: `${tt('g.' + order)}` })}
+                    {tt('g.no_topics_by_order_found', { order: tt(['g', order]) })}
                     <Tag>{`#${tagsStr}`}</Tag>
                 </Header>
                 <RemoveTagsButton to={window.location.pathname}>
@@ -89,5 +89,3 @@ class NoPostPlaceholder extends Component {
         );
     }
 }
-
-export default NoPostPlaceholder;
