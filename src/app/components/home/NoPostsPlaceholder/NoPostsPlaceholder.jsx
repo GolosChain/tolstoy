@@ -20,17 +20,17 @@ const Wrapper = styled.div`
 `;
 
 const Header = styled.h2`
-    font-size: 18px;
-    font-weight: 500;
-    color: #333;
-    line-height: normal;
     margin: 0;
     padding: 0 0 30px 0;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: normal;
     text-align: center;
+    color: #333;
 
     @media (max-width: 576px) {
-        font-size: 16px;
         padding: 0 0 20px 0;
+        font-size: 16px;
     }
 `;
 
