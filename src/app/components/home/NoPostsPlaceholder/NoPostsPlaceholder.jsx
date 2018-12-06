@@ -21,7 +21,7 @@ const Wrapper = styled.div`
 
 const Header = styled.h2`
     margin: 0;
-    padding: 0 0 30px 0;
+    padding-bottom: 30px;
     font-size: 18px;
     font-weight: 500;
     line-height: normal;
@@ -29,7 +29,7 @@ const Header = styled.h2`
     color: #333;
 
     @media (max-width: 576px) {
-        padding: 0 0 20px 0;
+        padding-bottom: 20px;
         font-size: 16px;
     }
 `;

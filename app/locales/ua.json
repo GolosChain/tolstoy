@@ -512,7 +512,7 @@
     },
     "no": "Ні",
     "no_tags_selected": "теги не обрані",
-    "no_topics_by_order_found": "В разделі %(order)s поки що нема постів c тегом ",
+    "no_topics_by_order_found": "В разделі %(order)s поки що нема постів з тегом ",
     "not_valid_email": "Недійсна адреса",
     "nothing_yet": "Поки нічого немає",
     "ok": "ОК",
