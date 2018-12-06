@@ -10,7 +10,7 @@ import { logOutboundLinkClickEvent } from 'src/app/helpers/gaLogs';
 const LinkTo = ({ children, link, ariaLabel, onClick, className }) => (
     <Link
         to={link}
-        target={link.match(/^\/.*/) ? null : '_blank'}
+        target={link.startsWith('/') ? null : '_blank'}
         aria-label={ariaLabel}
         onClick={onClick}
         className={className}
@@ -82,7 +82,7 @@ export default class ChannelsCard extends Component {
 
     logEvent = () => {
         const { link } = this.props.channel;
-        if (/https:/.test(link)) {
+        if (link.startsWith('https:')) {
             logOutboundLinkClickEvent(link);
         }
     };

@@ -1,8 +1,9 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import CloseOpenButton from '../cards/CloseOpenButton/CloseOpenButton';
+import { logOutboundLinkClickEvent } from 'src/app/helpers/gaLogs';
 
 const Wrapper = styled.div`
     position: relative;
@@ -47,7 +48,7 @@ const Switcher = styled(CloseOpenButton)`
     position: absolute;
     top: 18px;
     right: 12px;
-    
+
     @media (max-width: 1200px) {
         top: 5px;
         right: 6px;
@@ -72,6 +73,24 @@ export default class Question extends PureComponent {
         };
     }
 
+    answerRef = createRef();
+
+    componentDidMount() {
+        this.addEventListenerToLink();
+    }
+
+    addEventListenerToLink() {
+        const links = this.answerRef.current.getElementsByTagName('a');
+        if (links.length) {
+            for (let i = 0; i < links.length; i++) {
+                const link = links[i].href;
+                if (link.startsWith('https://tlg.name')) {
+                    links[i].addEventListener('click', () => logEvent(link));
+                }
+            }
+        }
+    }
+
     static addLinkToUrls(str) {
         return str.replace(
             /\[([^\]]*)\]\((https?:[^ )]+)\)/g,
@@ -91,13 +110,18 @@ export default class Question extends PureComponent {
 
         return (
             <Wrapper>
-                <Switcher collapsed={!showAnswer} toggle={this.changeAnswerState}/>
+                <Switcher collapsed={!showAnswer} toggle={this.changeAnswerState} />
                 <Title onClick={this.changeAnswerState}>{question.title}</Title>
                 <Answer
+                    innerRef={this.answerRef}
                     showAnswer={showAnswer}
                     dangerouslySetInnerHTML={answer}
                 />
             </Wrapper>
         );
     }
+}
+
+function logEvent(link) {
+    logOutboundLinkClickEvent(link);
 }

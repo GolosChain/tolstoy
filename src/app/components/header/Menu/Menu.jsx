@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
+import {logOutboundLinkClickEvent} from 'src/app/helpers/gaLogs';
 
 const Ul = styled.ul`
     padding: 5px 0 6px;
@@ -46,6 +47,13 @@ export default class Menu extends PureComponent {
         onClose: PropTypes.func.isRequired,
         accountName: PropTypes.string.isRequired,
         onLogoutClick: PropTypes.func.isRequired,
+    };
+
+    onItemClick = link => {
+        if (link.startsWith('//')) {
+            logOutboundLinkClickEvent(`https:${link}`);
+        }
+        this.props.onClose();
     };
 
     render() {
@@ -99,10 +107,10 @@ export default class Menu extends PureComponent {
         return (
             <Ul>
                 {items.map(({ link = '', target, icon, text, onClick, width, height }, i) => (
-                    <Li key={i} onClick={this._onItemClick}>
+                    <Li key={i} aria-label={text} onClick={() => this.onItemClick(link)}>
                         <LinkStyled
                             to={link}
-                            target={link.startsWith('//') ? 'blank' : null}
+                            target={link.startsWith('//') ? '_blank' : null}
                             onClick={onClick}
                         >
                             <IconWrapper>
@@ -115,8 +123,4 @@ export default class Menu extends PureComponent {
             </Ul>
         );
     }
-
-    _onItemClick = () => {
-        this.props.onClose();
-    };
 }

@@ -744,7 +744,7 @@
     "unavailable": "User is blocked"
   },
   "link_to": {
-    "telegram": "//t.me/golos_eng"
+    "telegram": "//tlg.name/golos_eng"
   },
   "loginform_jsx": {
     "active_key_error": "Active key can’t be used for sign in. Use posting key or password.",

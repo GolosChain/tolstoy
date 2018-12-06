@@ -4,6 +4,7 @@ import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
 import Container from '../common/Container';
+import { logOutboundLinkClickEvent } from 'src/app/helpers/gaLogs';
 
 const Wrapper = styled.div`
     background-color: #f9f9f9;
@@ -140,29 +141,28 @@ const Image = styled.div`
 `;
 
 export default class Header extends PureComponent {
+    logEvent = link => {
+        logOutboundLinkClickEvent(link);
+    };
+
     render() {
         return (
             <Wrapper>
                 <HeaderContainer>
                     <MainBlock>
                         <Title>{tt('faq_jsq.page_title')}</Title>
-                        <Description>
-                            {tt('faq_jsq.page_description')}
-                        </Description>
+                        <Description>{tt('faq_jsq.page_description')}</Description>
                         <ButtonsBlock>
                             <BlueButton
-                                href="https://t.me/golos_support"
+                                href={`https:${tt('link_to.telegram')}`}
                                 target="_blank"
+                                rel="noopener norefferer"
+                                onClick={() => this.logEvent(`https:${tt('link_to.telegram')}`)}
                             >
-                                <Icon name="telegram" size="16px" fill="#fff" />
-                                <ButtonLabel>
-                                    {tt('faq_jsq.telegram')}
-                                </ButtonLabel>
+                                <Icon name="telegram" size="16px" fill="#ffffff" />
+                                <ButtonLabel>{tt('faq_jsq.telegram')}</ButtonLabel>
                             </BlueButton>
-                            <WhiteButton
-                                href="mailto:support@golos.io"
-                                target="_blank"
-                            >
+                            <WhiteButton href="mailto:support@golos.io" target="_blank">
                                 <Icon name="envelope" size="16px" />
                                 <ButtonLabel>{tt('faq_jsq.email')}</ButtonLabel>
                             </WhiteButton>

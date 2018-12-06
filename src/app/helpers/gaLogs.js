@@ -16,3 +16,12 @@ export function logOutboundLinkClickEvent(eventLabel) {
         transport: 'beacon',
     });
 }
+
+export function logSuccessOperationEvent(eventAction, eventLabel) {
+    window.ga('send', {
+        hitType: 'event',
+        eventCategory: 'Operation',
+        eventAction,
+        eventLabel,
+    });
+}

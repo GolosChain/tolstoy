@@ -1,9 +1,16 @@
 import React, { PureComponent } from 'react';
+import tt from 'counterpart';
+
 import { REGISTRATION_URL } from 'app/client_config';
+import { logOutboundLinkClickEvent } from 'src/app/helpers/gaLogs';
 
 class Start extends PureComponent {
     state = {
         simple: true,
+    };
+
+    logEvent = link => {
+        logOutboundLinkClickEvent(link);
     };
 
     render() {
@@ -70,7 +77,7 @@ class Start extends PureComponent {
                                     </h3>
                                 </div>
                                 <div className="column large-12 medium-12 small-12">
-                                    {this._renderAnswer()}
+                                    {this.renderAnswer()}
                                 </div>
                                 <div className="landing-start-block-center column large-12 medium-12 small-12">
                                     <a href={REGISTRATION_URL} className="button">
@@ -175,7 +182,8 @@ class Start extends PureComponent {
                                     </div>
                                     <div className="column large-10 medium-10 small-10">
                                         <h3 className="">
-                                            Регистрация<br />
+                                            Регистрация
+                                            <br />
                                             бесплатна
                                         </h3>
                                     </div>
@@ -215,7 +223,17 @@ class Start extends PureComponent {
                                     <a href="https://wiki.golos.io/">Википедия</a>, со всей
                                     информацией про блог-платформу Golos.io. Кроме того, мы
                                     оперативно ответим на любой технический вопрос в нашей группе в{' '}
-                                    <a href="https://t.me/golos_support">Телеграме</a>.
+                                    <a
+                                        href={`https:${tt('link_to.telegram')}`}
+                                        target="_blank"
+                                        rel="noopener norefferer"
+                                        onClick={() =>
+                                            this.logEvent(`https:${tt('link_to.telegram')}`)
+                                        }
+                                    >
+                                        Телеграме
+                                    </a>
+                                    .
                                 </p>
                             </div>
                         </div>
@@ -225,7 +243,7 @@ class Start extends PureComponent {
         );
     }
 
-    _renderAnswer() {
+    renderAnswer() {
         const { simple } = this.state;
 
         if (simple) {

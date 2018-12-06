@@ -9,15 +9,15 @@
     },
     {
         "title": "Я успешно отправил СМС, но форму регистрации невозможно заполнить.",
-        "answer": "Сообщите о проблеме в канал [https://t.me/golos_support](https://t.me/golos_support) или в личку @dankinescop или @chinpu в Телеграме."
+        "answer": "Сообщите о проблеме в канал [https://tlg.name/golos_support](https://tlg.name/golos_support) или в личку @dankinescop или @chinpu в Телеграме."
     },
     {
         "title": "Я заполнил форму, но при завершении регистрации появляется ошибка. Что делать?",
-        "answer": "Сообщите о проблеме в канал [https://t.me/golos_support](https://t.me/golos_support) или в личку @dankinescop или @chinpu в Телеграме."
+        "answer": "Сообщите о проблеме в канал [https://tlg.name/golos_support](https://tlg.name/golos_support) или в личку @dankinescop или @chinpu в Телеграме."
     },
     {
         "title": "Я зарегистрировался, но при входе в аккаунт выдается сообщение «Имя пользователя не существует». Что делать?",
-        "answer": "Сообщите о проблеме в канал [https://t.me/golos_support](https://t.me/golos_support) или в личку @dankinescop или @chinpu в Телеграме."
+        "answer": "Сообщите о проблеме в канал [https://tlg.name/golos_support](https://tlg.name/golos_support) или в личку @dankinescop или @chinpu в Телеграме."
     },
     {
         "title": "Что нужно прочитать новичку, чтобы совершать самые простые действия без ошибок? Есть гайд по Голосу?",
@@ -37,7 +37,7 @@
     },
     {
         "title": "Я забыл свой логин. Что делать?",
-        "answer": "Если вы указывали при регистрации адрес электронной почты, сообщите о проблеме в канал [https://t.me/golos_support](https://t.me/golos_support) или в личку @dankinescop или @chinpu в Телеграме и укажите адрес почты."
+        "answer": "Если вы указывали при регистрации адрес электронной почты, сообщите о проблеме в канал [https://tlg.name/golos_support](https://tlg.name/golos_support) или в личку @dankinescop или @chinpu в Телеграме и укажите адрес почты."
     },
     {
         "title": "Появилась надпись «Недостаточно пропускной способности аккаунта. Пополните Силу Голоса либо дождитесь восстановления». Что это значит?",
