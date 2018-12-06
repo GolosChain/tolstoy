@@ -249,7 +249,6 @@ describe('StateBuilder', function() {
                 rey: {
                     name: 'rey',
                     reputation: '801751331759',
-                    tags_usage: [],
                     blog: ['lyke/new-hope', 'rey/the-force-awakens'],
                 },
             },
@@ -290,7 +289,6 @@ describe('StateBuilder', function() {
                 rey: {
                     name: 'rey',
                     reputation: '801751331759',
-                    tags_usage: [],
                     blog: ['lyke/new-hope', 'rey/the-force-awakens'],
                 },
             },
@@ -333,7 +331,6 @@ describe('StateBuilder', function() {
                 rey: {
                     name: 'rey',
                     reputation: '801751331759',
-                    tags_usage: [],
                     feed: ['kylo-ren/one-way-or-another', 'lyke/new-hope'],
                 },
             },
@@ -384,7 +381,6 @@ describe('StateBuilder', function() {
                 rey: {
                     name: 'rey',
                     reputation: '801751331759',
-                    tags_usage: [],
                     comments: [
                         'rey/re-lyke-new-hope',
                         'rey/re-rey-the-force-awakens',
@@ -439,7 +435,6 @@ describe('StateBuilder', function() {
                 rey: {
                     name: 'rey',
                     reputation: '801751331759',
-                    tags_usage: [],
                     recent_replies: [
                         'chewbacca/re-rey-re-lyke-new-hope',
                         'yoda/re-rey-re-rey-the-force-awakens',
@@ -469,7 +464,6 @@ describe('StateBuilder', function() {
                 rey: {
                     name: 'rey',
                     reputation: '801751331759',
-                    tags_usage: [],
                     transfer_history: [accountHistory[1], accountHistory[2], accountHistory[3]],
                     other_history: [accountHistory[0]],
                 },

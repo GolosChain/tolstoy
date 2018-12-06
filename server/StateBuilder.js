@@ -100,8 +100,6 @@ async function getStateForProfile(state, route, { api }) {
         return;
     }
 
-    account.tags_usage = await api.getTagsUsedByAuthorAsync(username);
-
     state.global.accounts[username] = account;
 
     switch (route.params.category) {
