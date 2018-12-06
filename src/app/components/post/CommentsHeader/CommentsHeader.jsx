@@ -95,7 +95,7 @@ export default class CommentsHeader extends Component {
     };
 
     changeSortCategory = category => {
-        logClickEvent('Link', 'click', `Sort by ${category}`);
+        logClickEvent('Link', `Sort by ${category}`);
         this.setState({ sortCategory: tt(`post_jsx.${category}`) });
     };
 

@@ -15,7 +15,7 @@ import PostActions from 'src/app/components/post/PostActions';
 import { POST_MAX_WIDTH } from 'src/app/containers/post/PostContainer';
 import VotePanel from 'src/app/components/common/VotePanel';
 import Repost from 'src/app/components/post/repost';
-import {logClickEvent} from 'src/app/helpers/gaLogs';
+import { logClickEvent } from 'src/app/helpers/gaLogs';
 
 const HEADER_HEIGHT = 60;
 const DESKTOP_FOOTER_HEIGHT = 324;
@@ -227,7 +227,7 @@ export class SidePanel extends Component {
     onBackClick = () => {
         this.props.onBackClick();
         browserHistory.goBack();
-        logClickEvent('Button', 'click', 'Back to previous page');
+        logClickEvent('Button', 'Back to previous page');
     };
 
     render() {
@@ -284,14 +284,14 @@ export class SidePanel extends Component {
                         togglePin={togglePin}
                     />
                 </PanelWrapper>
-                    <BackButton
-                        role="button"
-                        data-tooltip={tt('g.turn_back')}
-                        aria-label={tt('g.turn_back')}
-                        onClick={this.onBackClick}
-                    >
-                        <BackIcon name="arrow_left" />
-                    </BackButton>
+                <BackButton
+                    role="button"
+                    data-tooltip={tt('g.turn_back')}
+                    aria-label={tt('g.turn_back')}
+                    onClick={this.onBackClick}
+                >
+                    <BackIcon name="arrow_left" />
+                </BackButton>
             </Wrapper>
         );
     }

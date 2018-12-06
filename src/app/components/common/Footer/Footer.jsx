@@ -9,6 +9,7 @@ import { APP_NAME_UP, TERMS_OF_SERVICE_URL } from 'app/client_config';
 import CurrencyValue from 'src/app/components/common/CurrencyValue';
 import Container from 'src/app/components/common/Container';
 import Icon from 'golos-ui/Icon';
+import { logOutboundLinkClickEvent } from 'src/app/helpers/gaLogs';
 
 const Wrapper = styled.div`
     border-top: 1px solid #e1e1e1;
@@ -83,10 +84,11 @@ const MenuIconList = styled.div`
 `;
 
 const MenuItem = styled.a`
-    color: #959595;
+    display: flex;
     font-size: 16px;
     letter-spacing: -0.26px;
     line-height: 16px;
+    color: #959595;
 
     &:not(last-child) {
         margin-bottom: 20px;
@@ -94,6 +96,10 @@ const MenuItem = styled.a`
 
     &:hover {
         color: #606060;
+    }
+    
+    &:focus {
+        color: #333333;
     }
 
     ${by('type', {
@@ -145,6 +151,10 @@ export default class Footer extends PureComponent {
         currentSupply: PropTypes.string,
     };
 
+    logEvent = link => {
+        logOutboundLinkClickEvent(link);
+    };
+
     render() {
         const { currentSupply } = this.props;
 
@@ -191,6 +201,11 @@ export default class Footer extends PureComponent {
                                         aria-label={tt('aria_label.facebook_link')}
                                         href="https://www.facebook.com/www.golos.io"
                                         type="icon"
+                                        target="_blank"
+                                        rel="noopener norefferer"
+                                        onClick={() =>
+                                            this.logEvent('https://www.facebook.com/www.golos.io')
+                                        }
                                     >
                                         <Icon name="facebook" width={13} height={24} />
                                     </MenuItem>
@@ -198,13 +213,21 @@ export default class Footer extends PureComponent {
                                         aria-label={tt('aria_label.vk_link')}
                                         href="https://vk.com/goloschain"
                                         type="icon"
+                                        target="_blank"
+                                        rel="noopener norefferer"
+                                        onClick={() => this.logEvent('https://vk.com/goloschain')}
                                     >
                                         <Icon name="vk" width={28} height={18} />
                                     </MenuItem>
                                     <MenuItem
                                         aria-label={tt('aria_label.telegram_link')}
-                                        href="https://t.me/golos_support"
+                                        href="https://tlg.name/golos_support"
                                         type="icon"
+                                        target="_blank"
+                                        rel="noopener norefferer"
+                                        onClick={() =>
+                                            this.logEvent('https://tlg.name/golos_support')
+                                        }
                                     >
                                         <Icon name="telegram" width={22} height={20} />
                                     </MenuItem>
@@ -214,6 +237,13 @@ export default class Footer extends PureComponent {
                                         aria-label={tt('aria_label.bitcoin_link')}
                                         href="https://bitcointalk.org/index.php?topic=1624364.0"
                                         type="icon"
+                                        target="_blank"
+                                        rel="noopener norefferer"
+                                        onClick={() =>
+                                            this.logEvent(
+                                                'https://bitcointalk.org/index.php?topic=1624364.0'
+                                            )
+                                        }
                                     >
                                         <Icon name="bitcointalk" size={26} />
                                     </MenuItem>
@@ -232,6 +262,13 @@ export default class Footer extends PureComponent {
                                     aria-label={tt('aria_label.android_link')}
                                     href="https://play.google.com/store/apps/details?id=io.golos.golos"
                                     type="icon"
+                                    target="_blank"
+                                    rel="noopener norefferer"
+                                    onClick={() =>
+                                        this.logEvent(
+                                            'https://play.google.com/store/apps/details?id=io.golos.golos'
+                                        )
+                                    }
                                 >
                                     <Icon name="android" width={26} height={30} />
                                 </MenuItem>

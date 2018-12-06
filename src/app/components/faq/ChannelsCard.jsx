@@ -5,14 +5,19 @@ import tt from 'counterpart';
 import styled from 'styled-components';
 
 import Icon from 'golos-ui/Icon';
+import { logOutboundLinkClickEvent } from 'src/app/helpers/gaLogs';
 
-const LinkTo = ({ children, link, ariaLabel, className }) => {
-    return (
-        <Link to={link} target="_blank" aria-label={ariaLabel} className={className}>
-            {children}
-        </Link>
-    );
-};
+const LinkTo = ({ children, link, ariaLabel, onClick, className }) => (
+    <Link
+        to={link}
+        target={link.match(/^\/.*/) ? null : '_blank'}
+        aria-label={ariaLabel}
+        onClick={onClick}
+        className={className}
+    >
+        {children}
+    </Link>
+);
 
 const Card = styled(LinkTo)`
     display: flex;
@@ -23,14 +28,14 @@ const Card = styled(LinkTo)`
     padding: 0 20px;
     border-radius: 8.53px;
     background-color: #ffffff;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .06);
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
     color: #ffc80a;
     margin: 10px;
     cursor: pointer;
     transition: 0.2s;
-    
+
     &:hover {
-        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .3);
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
         color: #ffc80a;
     }
 
@@ -69,25 +74,29 @@ export default class ChannelsCard extends Component {
             inscription: PropTypes.string.isRequired,
             thumbnail: PropTypes.string.isRequired,
             link: PropTypes.string.isRequired,
-            width: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-                .isRequired,
-            height: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-                .isRequired,
+            width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+            height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
             showOnMobile: PropTypes.bool.isRequired,
         }).isRequired,
     };
+
+    logEvent = () => {
+        const { link } = this.props.channel;
+        if (/https:/.test(link)) {
+            logOutboundLinkClickEvent(link);
+        }
+    };
+
     render() {
-        const {
-            inscription,
-            thumbnail,
-            width,
-            height,
-            link,
-            showOnMobile,
-        } = this.props.channel;
+        const { inscription, thumbnail, width, height, link, showOnMobile } = this.props.channel;
 
         return (
-            <Card link={link} showOnMobile={showOnMobile} ariaLabel={tt('aria_label.channel_card')}>
+            <Card
+                link={link}
+                showOnMobile={showOnMobile}
+                ariaLabel={tt('aria_label.channel_card')}
+                onClick={this.logEvent}
+            >
                 <CustomIcon name={thumbnail} width={width} height={height} />
                 <Text>{inscription}</Text>
             </Card>

@@ -55,7 +55,7 @@ const Wrapper = styled.div`
 
 export default class ScrollUpstairsButton extends Component {
     logEvent = () => {
-        logClickEvent('Button', 'click', 'Scroll upstairs');
+        logClickEvent('Button', 'Scroll upstairs');
     };
 
     render() {
@@ -65,7 +65,7 @@ export default class ScrollUpstairsButton extends Component {
                     role="button"
                     aria-label="tt('g.upstairs')"
                     data-tooltip={tt('g.upstairs')}
-                    onClick={this.logClickEvent}
+                    onClick={this.logEvent}
                 >
                     <TopIcon name="arrow_left" />
                 </Wrapper>

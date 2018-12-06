@@ -1,8 +1,18 @@
-export function logClickEvent(eventCategory, eventAction, eventLabel) {
+export function logClickEvent(eventCategory, eventLabel) {
     window.ga('send', {
         hitType: 'event',
         eventCategory,
-        eventAction,
+        eventAction: 'click',
         eventLabel,
+    });
+}
+
+export function logOutboundLinkClickEvent(eventLabel) {
+    window.ga('send', {
+        hitType: 'event',
+        eventCategory: 'Outbound Link',
+        eventAction: 'click',
+        eventLabel,
+        transport: 'beacon',
     });
 }
