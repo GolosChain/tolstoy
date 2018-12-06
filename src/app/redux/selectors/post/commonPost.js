@@ -208,6 +208,7 @@ export const postCardSelector = createDeepEqualSelector(
                 data.getIn(['stats', 'isNsfw']) &&
                 settings.getIn(['basic', 'nsfw']) === 'hide' &&
                 !isOwner,
+            warnNsfw: !isOwner && settings.getIn(['basic', 'nsfw']) === 'warn',
             data,
             postLink: data.get('author') + '/' + data.get('permlink'),
             sanitizedData: sanitizeCardPostData(data),
