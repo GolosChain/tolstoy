@@ -27,8 +27,9 @@ async function appRender(ctx) {
             login_challenge = secureRandom.randomBuffer(16).toString('hex');
             ctx.session.login_challenge = login_challenge;
         }
+        
+        const locale_cookie = ctx.cookies.get(LOCALE_COOKIE_KEY);
 
-        // TODO: @beautyfree - locale from settings service
         const offchain = {
             csrf: ctx.csrf,
             flash: ctx.flash,
@@ -36,10 +37,9 @@ async function appRender(ctx) {
             account: ctx.session.a,
             config: $STM_Config,
             login_challenge,
-            locale:
-                Object.keys(LANGUAGES).indexOf(ctx.cookies.get(LOCALE_COOKIE_KEY)) !== -1
-                    ? ctx.cookies.get(LOCALE_COOKIE_KEY)
-                    : DEFAULT_LANGUAGE, // TODO: set only DEFAULT_LANGUAGE after delete old profile
+            locale: LANGUAGES[locale_cookie]
+                ? locale_cookie
+                : DEFAULT_LANGUAGE,
         };
 
         let settings = null;

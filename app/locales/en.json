@@ -386,6 +386,14 @@
     "to_continue_please_click_on_the_link_in_the_email_weve_sent_you": "To continue please click on the link in the email we've sent you",
     "user_not_found": "user not found"
   },
+  "error_page": {
+    "link_to_main": "Go to main",
+    "link_to_support": "Contact us support",
+    "oops": "Oops!",
+    "reload": "Reload",
+    "text": "Something went wrong. We've already received a notification about the problem and we are working to resolve it.",
+    "try_reload_text": "Try to reload the page."
+  },
   "faq_jsq": {
     "email": "email",
     "footer_message": "We will never ask for your private keys or money. If someone appears to be a member of the Golos.io team and asks for such information, please inform us",
@@ -744,7 +752,7 @@
     "unavailable": "User is blocked"
   },
   "link_to": {
-    "telegram": "//t.me/golos_eng"
+    "telegram": "//tlg.name/golos_eng"
   },
   "loginform_jsx": {
     "active_key_error": "Active key can’t be used for sign in. Use posting key or password.",

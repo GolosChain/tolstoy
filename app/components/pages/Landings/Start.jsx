@@ -175,7 +175,8 @@ class Start extends PureComponent {
                                     </div>
                                     <div className="column large-10 medium-10 small-10">
                                         <h3 className="">
-                                            Регистрация<br />
+                                            Регистрация
+                                            <br />
                                             бесплатна
                                         </h3>
                                     </div>
@@ -215,7 +216,7 @@ class Start extends PureComponent {
                                     <a href="https://wiki.golos.io/">Википедия</a>, со всей
                                     информацией про блог-платформу Golos.io. Кроме того, мы
                                     оперативно ответим на любой технический вопрос в нашей группе в{' '}
-                                    <a href="https://t.me/golos_support">Телеграме</a>.
+                                    <a href="https://tlg.name/golos_support">Телеграме</a>.
                                 </p>
                             </div>
                         </div>

@@ -16,6 +16,7 @@ import Userpic from 'app/components/elements/Userpic';
 import Menu from '../Menu';
 import NotificationsMenu from '../NotificationsMenu';
 import Popover from 'src/app/components/header/Popover/Popover';
+import LocaleSelect from '../LocaleSelect';
 
 const MIN_PAD_WIDTH = 768;
 const MIN_MOBILE_WIDTH = 576;
@@ -115,6 +116,11 @@ const SearchIcon = styled(Icon)`
     width: 18px;
     height: 18px;
     color: #393636;
+`;
+
+const LocaleSelectBlock = styled.div`
+    display: flex;
+    align-items: center;
 `;
 
 const Buttons = styled.div`
@@ -351,7 +357,7 @@ function calcXY(angle) {
 export default class Header extends PureComponent {
     static propTypes = {
         getNotificationsOnlineHistoryFreshCount: PropTypes.func.isRequired,
-        getNotificationsOnlineHistory: PropTypes.func.isRequired,
+        onChangeLocale: PropTypes.func,
     };
 
     state = {
@@ -367,7 +373,7 @@ export default class Header extends PureComponent {
 
     accountRef = createRef();
     dotsRef = createRef();
-    noticationsRef = createRef();
+    notificationsRef = createRef();
 
     componentDidMount() {
         window.addEventListener('resize', this.onResizeLazy);
@@ -424,9 +430,28 @@ export default class Header extends PureComponent {
         });
     };
 
-    onNotificationsMenuToggle = () => {
+    onNotificationsMenuToggle = e => {
+        const { freshCount } = this.props;
+        const { isNotificationsOpen } = this.state;
+
+        if (isNotificationsOpen) {
+            e.preventDefault();
+
+            this.setState({
+                isNotificationsOpen: false,
+            });
+        } else if (freshCount > 0) {
+            e.preventDefault();
+
+            this.setState({
+                isNotificationsOpen: true,
+            });
+        }
+    };
+
+    onNotificationsMenuClose = () => {
         this.setState({
-            isNotificationsOpen: !this.state.isNotificationsOpen,
+            isNotificationsOpen: false,
         });
     };
 
@@ -487,20 +512,24 @@ export default class Header extends PureComponent {
     }
 
     renderNotificationsBlock() {
-        const { freshCount } = this.props;
+        const { freshCount, currentUsername } = this.props;
         const { isPadScreen, isNotificationsOpen } = this.state;
 
         return (
-            <Notifications
+            <Link
                 role="button"
+                to={`/@${currentUsername}/activity`}
                 aria-label={tt('aria_label.notifications', { count: freshCount })}
-                mobile={isPadScreen ? 1 : 0}
-                innerRef={this.noticationsRef}
-                active={isNotificationsOpen}
                 onClick={this.onNotificationsMenuToggle}
             >
-                <IconBadge name="bell" size={20} count={freshCount} />
-            </Notifications>
+                <Notifications
+                    mobile={isPadScreen ? 1 : 0}
+                    active={isNotificationsOpen ? 1 : 0}
+                    innerRef={this.notificationsRef}
+                >
+                    <IconBadge name="bell" size={20} count={freshCount} />
+                </Notifications>
+            </Link>
         );
     }
 
@@ -551,7 +580,7 @@ export default class Header extends PureComponent {
     }
 
     render() {
-        const { currentUsername, getNotificationsOnlineHistory } = this.props;
+        const { currentUsername, onChangeLocale } = this.props;
         const { isMenuOpen, isNotificationsOpen, waitAuth, isPadScreen, isMobile } = this.state;
 
         return (
@@ -573,26 +602,30 @@ export default class Header extends PureComponent {
                         {currentUsername ? (
                             this.renderAuthorizedPart()
                         ) : (
-                            <Buttons hidden={waitAuth}>
-                                <SignUp href={REGISTRATION_URL}>
-                                    <Button>{tt('g.sign_up')}</Button>
-                                </SignUp>
-                                <SignIn to="/login" onClick={this.onLoginClick}>
-                                    <Button light>{tt('g.login')}</Button>
-                                </SignIn>
-                            </Buttons>
+                            <Fragment>
+                                <LocaleSelectBlock>
+                                    <LocaleSelect onChangeLocale={onChangeLocale} />
+                                </LocaleSelectBlock>
+                                <Buttons hidden={waitAuth}>
+                                    <SignUp href={REGISTRATION_URL}>
+                                        <Button>{tt('g.sign_up')}</Button>
+                                    </SignUp>
+                                    <SignIn to="/login" onClick={this.onLoginClick}>
+                                        <Button light>{tt('g.login')}</Button>
+                                    </SignIn>
+                                </Buttons>
+                            </Fragment>
                         )}
                     </Container>
                     {isNotificationsOpen ? (
                         <Popover
                             notificationMobile={isMobile}
-                            target={this.noticationsRef.current}
-                            onClose={this.onNotificationsMenuToggle}
+                            target={this.notificationsRef.current}
+                            onClose={this.onNotificationsMenuClose}
                         >
                             <NotificationsMenu
                                 params={{ accountName: currentUsername }}
-                                getNotificationsOnlineHistory={getNotificationsOnlineHistory}
-                                onClose={this.onNotificationsMenuToggle}
+                                onClose={this.onNotificationsMenuClose}
                                 isMobile={isMobile}
                             />
                         </Popover>

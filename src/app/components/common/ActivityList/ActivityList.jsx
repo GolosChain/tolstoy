@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { List, Map } from 'immutable';
 import { FormattedDate } from 'react-intl';
 
-import ActivityItem from './ActivityItem';
+import ActivityItem from './ActivityItem.connect';
 
 const DateWrapper = styled.div`
     display: flex;
@@ -36,6 +36,7 @@ export default class ActivityList extends Component {
         accounts: PropTypes.instanceOf(Map),
         isCompact: PropTypes.bool,
         emptyListPlaceholder: PropTypes.string,
+        checkVisibility: PropTypes.bool,
     };
 
     renderDate(notification) {
@@ -60,7 +61,14 @@ export default class ActivityList extends Component {
     }
 
     render() {
-        const { isFetching, isCompact, notifications, accounts, emptyListPlaceholder } = this.props;
+        const {
+            isFetching,
+            isCompact,
+            notifications,
+            accounts,
+            emptyListPlaceholder,
+            checkVisibility,
+        } = this.props;
 
         return (
             <Fragment>
@@ -71,6 +79,7 @@ export default class ActivityList extends Component {
                             notification={notification}
                             accounts={accounts}
                             isCompact={isCompact}
+                            checkVisibility={checkVisibility}
                         />
                     </Fragment>
                 ))}

@@ -8,7 +8,6 @@ import tt from 'counterpart';
 import { Map } from 'immutable';
 
 import { detransliterate } from 'app/utils/ParsersAndFormatters';
-import { isHide } from 'app/utils/StateFunctions';
 import Icon from 'golos-ui/Icon';
 import { TagLink } from 'golos-ui/Tag';
 import { EntryWrapper, PostTitle, PostContent } from '../common';
@@ -16,6 +15,7 @@ import VotePanel from '../../common/VotePanel';
 import ReplyBlock from '../../common/ReplyBlock';
 import CardAuthor from '../CardAuthor';
 import { getImageSrc } from 'src/app/helpers/images';
+import { isContainTags } from 'app/utils/StateFunctions';
 
 const PREVIEW_IMAGE_SIZE = '859x356';
 
@@ -244,14 +244,10 @@ export default class PostCard extends PureComponent {
     }
 
     render() {
-        const { className, isRepost, hideNsfw, stats, data } = this.props;
+        const { className, isRepost, hideNsfw, stats, isHidden } = this.props;
 
         // user wishes to hide these posts entirely
-        if (hideNsfw) {
-            return null;
-        }
-
-        if (isHide(data)) {
+        if (hideNsfw || isHidden) {
             return null;
         }
 
@@ -446,8 +442,12 @@ export default class PostCard extends PureComponent {
     }
 
     renderBody() {
-        const { compact, sanitizedData, stats } = this.props;
+        const { compact, sanitizedData, stats, data, warnNsfw } = this.props;
         const withImage = sanitizedData.image_link && !stats.gray && !stats.hide;
+        const imageLink =
+            warnNsfw && isContainTags(data, ['nsfw'])
+                ? '/images/nsfw/nsfw.svg'
+                : getImageSrc(PREVIEW_IMAGE_SIZE, sanitizedData.image_link);
 
         return (
             <BodyLink
@@ -455,12 +455,7 @@ export default class PostCard extends PureComponent {
                 compact={compact ? 1 : 0}
                 onClick={this.props.onClick}
             >
-                {withImage ? (
-                    <PostImage
-                        compact={compact}
-                        src={getImageSrc(PREVIEW_IMAGE_SIZE, sanitizedData.image_link)}
-                    />
-                ) : null}
+                {withImage ? <PostImage compact={compact} src={imageLink} /> : null}
                 <Body>
                     <PostTitle>{sanitizedData.title}</PostTitle>
                     <PostContent dangerouslySetInnerHTML={sanitizedData.html} />

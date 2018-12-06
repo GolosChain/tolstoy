@@ -3,7 +3,6 @@ import {
     NOTIFICATION_GET_HISTORY,
     NOTIFICATION_GET_HISTORY_SUCCESS,
     NOTIFICATION_GET_HISTORY_ERROR,
-    NOTIFICATION_GET_HISTORY_FRESH_SUCCESS,
 } from 'src/app/redux/constants/notifications';
 
 const initialState = fromJS({
@@ -25,12 +24,6 @@ export default function(state = initialState, { type, payload, error }) {
 
         case NOTIFICATION_GET_HISTORY_ERROR:
             return state.set('isFetching', false).set('error', error);
-
-        case NOTIFICATION_GET_HISTORY_FRESH_SUCCESS:
-            return state
-                .set('freshCount', payload.fresh)
-                .set('isFetching', false)
-                .set('error', null);
 
         default:
             return state;

@@ -13,7 +13,8 @@ import { extractPinnedPosts, getPinnedPosts } from 'src/app/redux/selectors/acco
 import { detransliterate, parsePayoutAmount } from 'app/utils/ParsersAndFormatters';
 import normalizeProfile from 'app/utils/NormalizeProfile';
 import { extractContentMemoized, extractRepost } from 'app/utils/ExtractContent';
-import { hasReblog, extractReblogData } from 'app/utils/StateFunctions';
+import { hasReblog, extractReblogData, isHide, isContainTags } from 'app/utils/StateFunctions';
+import { HIDE_BY_TAGS } from 'src/app/constants/tags';
 
 const emptyMap = Map();
 const emptyList = List();
@@ -207,6 +208,7 @@ export const postCardSelector = createDeepEqualSelector(
                 data.getIn(['stats', 'isNsfw']) &&
                 settings.getIn(['basic', 'nsfw']) === 'hide' &&
                 !isOwner,
+            warnNsfw: !isOwner && settings.getIn(['basic', 'nsfw']) === 'warn',
             data,
             postLink: data.get('author') + '/' + data.get('permlink'),
             sanitizedData: sanitizeCardPostData(data),
@@ -220,6 +222,7 @@ export const postCardSelector = createDeepEqualSelector(
             reblogData,
             allowRepost:
                 !isOwner && (!isRepost || reblogData.get('repostAuthor') !== currentUsername),
+            isHidden: isHide(data) || (!isOwner && isContainTags(data, HIDE_BY_TAGS)),
         };
     }
 );
