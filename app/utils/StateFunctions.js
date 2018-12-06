@@ -290,16 +290,6 @@ export function buildAccountNameAutocomplete(transferHistory, following) {
             return acc;
         }, Set())
         .merge(following)
-        .sort((a, b) => {
-            if (a < b) {
-                return -1;
-            }
-            if (a > b) {
-                return 1;
-            }
-            if (a === b) {
-                return 0;
-            }
-        })
+        .sort()
         .toArray();
 }

@@ -16,10 +16,10 @@ export default connect(
             transferHistory: user.get('transfer_history'),
         })
     ),
-    dispatch => ({
-        fetchTransferHistory: () =>
-            dispatch({
-                type: 'FETCH_CURRENT_USER_TRANSFERS',
-            }),
-    })
+    {
+        fetchTransferHistory: () => ({
+            type: 'FETCH_CURRENT_USER_TRANSFERS',
+            payload: {},
+        }),
+    }
 )(AccountNameInput);

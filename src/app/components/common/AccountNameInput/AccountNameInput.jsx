@@ -434,7 +434,7 @@ export default class AccountNameInput extends PureComponent {
     };
 
     loadAccounts = memoize(word => api.lookupAccountsAsync(word, MAX_VARIANTS + 1));
-    filterAccounts = memoize((word, list) => list.filter(item => item.indexOf(word) === 0));
+    filterAccounts = memoize((word, list) => list.filter(item => item.startsWith(word)));
 
     renderAutocomplete() {
         const { list, index, popoverPos, maxShowCount } = this.state;
@@ -464,13 +464,9 @@ export default class AccountNameInput extends PureComponent {
 
     render() {
         const { block, value } = this.props;
-        const { open, list, focus, valid, popoverPos } = this.state;
+        const { open, focus, valid, popoverPos } = this.state;
 
         let isError = value && !focus && !valid;
-
-        if (!isError && list && !list.includes(value)) {
-            isError = true;
-        }
 
         return (
             <Wrapper block={block ? 1 : 0} innerRef={this.onRef}>
