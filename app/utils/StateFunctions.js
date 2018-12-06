@@ -3,7 +3,7 @@ import constants from 'app/redux/constants';
 import { parsePayoutAmount, repLog10 } from 'app/utils/ParsersAndFormatters';
 import { Long } from 'bytebuffer';
 import { VEST_TICKER, LIQUID_TICKER } from 'app/client_config';
-import { Map, Seq, fromJS } from 'immutable';
+import { Map, Seq, Set, fromJS } from 'immutable';
 import { has } from 'ramda';
 import { getStoreState } from 'app/clientRender';
 
@@ -278,4 +278,28 @@ export function getVesting(account, props) {
         gests: availableVesting,
         golos: vestsToGolos(availableVesting.toFixed(6) + ' GESTS', props),
     };
+}
+
+export function buildAccountNameAutocomplete(transferHistory, following) {
+    return transferHistory
+        .reduce((acc, cur) => {
+            if (cur.getIn([1, 'op', 0]) === 'transfer') {
+                const username = cur.getIn([1, 'op', 1, 'to']);
+                return acc.add(username);
+            }
+            return acc;
+        }, Set())
+        .merge(following)
+        .sort((a, b) => {
+            if (a < b) {
+                return -1;
+            }
+            if (a > b) {
+                return 1;
+            }
+            if (a === b) {
+                return 0;
+            }
+        })
+        .toArray();
 }

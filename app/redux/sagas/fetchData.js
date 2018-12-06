@@ -23,6 +23,7 @@ export function* fetchDataWatches() {
     yield fork(watchGetContent);
     yield fork(watchFetchVestingDelegations);
     yield fork(watchFetchRewards);
+    yield fork(watchFetchCurrentUserTransfers);
 }
 
 function* watchGetContent() {
@@ -43,6 +44,10 @@ function* watchFetchState() {
 
 function* watchFetchRewards() {
     yield takeLatest('FETCH_REWARDS', fetchRewards);
+}
+
+function* watchFetchCurrentUserTransfers() {
+    yield takeLatest('FETCH_CURRENT_USER_TRANSFERS', fetchCurrentUserTransfers);
 }
 
 let is_initial_state = true;
@@ -235,6 +240,11 @@ export function* fetchTransfers(account, from, limit) {
     } catch (error) {
         console.log(error);
     }
+}
+
+export function* fetchCurrentUserTransfers() {
+    const user = yield select(state => state.user.getIn(['current', 'username']));
+    yield fork(fetchTransfers, user, FETCH_MOST_RECENT, DEFAULT_ACCOUNT_HISTORY_LIMIT);
 }
 
 export function* fetchRewards({ payload }) {
