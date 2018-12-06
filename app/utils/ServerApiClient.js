@@ -19,7 +19,7 @@ export function serverApiLogin(account, signatures) {
 export function serverApiLogout() {
     if (!process.env.BROWSER || window.$STM_ServerBusy) return;
     const request = Object.assign({}, request_base, { body: JSON.stringify({ csrf: $STM_csrf }) });
-    return fetch('/api/v1/logout_account', request);
+    return fetch('/api/v1/logout_account', request).then(response => response);
 }
 
 let last_call;

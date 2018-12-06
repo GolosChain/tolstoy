@@ -268,11 +268,10 @@ function* logout() {
         localStorage.removeItem('guid');
     }
 
-    serverApiLogout().then(response => {
-        if (response.ok) {
-            logSuccessOperationEvent('completed', 'Sign out success');
-        }
-    });
+    const response = yield serverApiLogout();
+    if (response.ok) {
+        logSuccessOperationEvent('Sign out success');
+    }
 }
 
 function* loginError() {

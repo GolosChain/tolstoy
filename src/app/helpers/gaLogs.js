@@ -17,11 +17,20 @@ export function logOutboundLinkClickEvent(eventLabel) {
     });
 }
 
-export function logSuccessOperationEvent(eventAction, eventLabel) {
+export function logSuccessOperationEvent(eventLabel) {
     window.ga('send', {
         hitType: 'event',
         eventCategory: 'Operation',
-        eventAction,
+        eventAction: 'completed',
+        eventLabel,
+    });
+}
+
+export function logOpenDialogEvent(eventLabel) {
+    window.ga('send', {
+        hitType: 'event',
+        eventCategory: 'Dialog',
+        eventAction: 'opened',
         eventLabel,
     });
 }
