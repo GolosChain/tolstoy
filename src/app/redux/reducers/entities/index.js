@@ -1,4 +1,5 @@
-import { combineEntitiesReducers } from 'redux-entities-immutable';
+import { combineEntitiesReducers } from 'src/app/helpers/reduxEntities';
+
 import notifications from './notifications';
 import notificationsOnline from './notificationsOnline';
 
