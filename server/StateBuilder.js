@@ -100,10 +100,9 @@ async function getStateForProfile(state, route, { api }) {
         return;
     }
 
-    state.global.accounts[username] = account;
+    account.tags_usage = await api.getTagsUsedByAuthorAsync(username);
 
-    state.global.accounts[username].tags_usage = await api.getTagsUsedByAuthorAsync(username);
-    state.global.accounts[username].guest_bloggers = await api.getBlogAuthorsAsync(username);
+    state.global.accounts[username] = account;
 
     switch (route.params.category) {
         case 'recent-replies':

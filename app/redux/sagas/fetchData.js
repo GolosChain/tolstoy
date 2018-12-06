@@ -102,7 +102,6 @@ function* fetchState(action) {
 
             if (account) {
                 account.tags_usage = yield call([api, api.getTagsUsedByAuthorAsync], uname);
-                account.guest_bloggers = yield call([api, api.getBlogAuthorsAsync], uname);
 
                 switch (parts[1]) {
                     case 'transfers':
