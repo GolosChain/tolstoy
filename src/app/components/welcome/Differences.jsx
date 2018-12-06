@@ -61,7 +61,6 @@ const Button = styled.a`
 `;
 
 export default class Differences extends PureComponent {
-    
     render() {
         const { differences } = this.props;
 
@@ -71,7 +70,7 @@ export default class Differences extends PureComponent {
                     <div className="columns">
                         <MainHeader>{tt('welcome_page.differences_title')}</MainHeader>
                         <div className="row small-up-1 medium-up-2 large-up-3">
-                            {this._renderItems(differences)}
+                            {this.renderItems(differences)}
                         </div>
                     </div>
                 </Row>
@@ -79,7 +78,7 @@ export default class Differences extends PureComponent {
         );
     }
 
-    _renderItems(items) {
+    renderItems(items) {
         return items.map(({ header, description, pic, url }, i) => (
             <div key={i} className="columns">
                 <Block className="align-top align-justify flex-dir-column flex-container">
@@ -94,6 +93,8 @@ export default class Differences extends PureComponent {
                         <Button
                             className="button small violet hollow"
                             href={url}
+                            target="_blank"
+                            rel="noopener noreferrer"
                         >
                             {tt('welcome_page.differences_button')}
                         </Button>

@@ -115,7 +115,7 @@ export const LEAVE_PAGE_WHITELIST_DOMAINS = [
     'golostools.com',
     'github.com',
     'play.google.com',
-    't.me',
+    'tlg.name',
     'facebook.com',
     'vk.com',
     'instagram.com',

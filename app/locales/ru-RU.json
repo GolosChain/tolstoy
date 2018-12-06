@@ -759,7 +759,7 @@
     "unavailable": "Пользователь заблокирован"
   },
   "link_to": {
-    "telegram": "//t.me/golos_support"
+    "telegram": "//tlg.name/golos_support"
   },
   "loginform_jsx": {
     "active_key_error": "Ключ для денежных операций нельзя использовать для входа на сайт. Используйте постинг ключ или пароль.",
