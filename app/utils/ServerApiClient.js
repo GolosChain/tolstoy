@@ -13,7 +13,7 @@ export function serverApiLogin(account, signatures) {
     const request = Object.assign({}, request_base, {
         body: JSON.stringify({ account, signatures, csrf: $STM_csrf }),
     });
-    return fetch('/api/v1/login_account', request).then(r => r.json());
+    return fetch('/api/v1/login_account', request).then(response => response);
 }
 
 export function serverApiLogout() {

@@ -270,7 +270,7 @@ function* logout() {
 
     const response = yield serverApiLogout();
     if (response.ok) {
-        logSuccessOperationEvent('Sign out success');
+        logSuccessOperationEvent('Sign out, success');
     }
 }
 
@@ -384,11 +384,16 @@ function* doServerLogin(loginInfo) {
         signatures['posting'] = Signature.signBufferSha256(bufSha, postingPrivate).toHex();
     }
 
-    const result = yield serverApiLogin(loginInfo.username, signatures);
+    const response = yield serverApiLogin(loginInfo.username, signatures);
 
-    if (result.guid) {
-        localStorage.setItem('guid', result.guid);
+    if (loginInfo.isLogin && response.ok) {
+        logSuccessOperationEvent('Sign in, success');
     }
+    response.json().then(result => {
+        if (result.guid) {
+            localStorage.setItem('guid', result.guid);
+        }
+    });
 }
 
 function extractPrivateKeys(loginInfo) {
