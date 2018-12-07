@@ -29,7 +29,7 @@ const CollapsingCardStyled = styled(CollapsingCard)`
 const CardContent = styled.div`
     display: flex;
     flex-direction: column;
-    margin: 17px 20px;
+    margin: 0 20px 17px 20px;
 `;
 
 const CardContentCounters = styled(CardContent)`
@@ -101,6 +101,16 @@ const Title = styled.div`
     line-height: 1;
 `;
 
+const LocationIcon = styled(Icon)`
+    flex-shrink: 0;
+    margin: 0 6px;
+`;
+
+const UserCardCityWrapper = styled.div`
+    display: flex;
+    align-items: center;
+`;
+
 const UserCardCity = styled.div`
     color: #393636;
     font-family: ${({ theme }) => theme.fontFamily};
@@ -115,10 +125,13 @@ const UserCardSite = styled.a`
     font-family: 'Open Sans', sans-serif;
     font-size: 14px;
     letter-spacing: 0.25px;
-    line-height: 1;
-    margin-bottom: 12px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     text-decoration: underline;
+    text-transform: initial;
 `;
+
 const UserCardBio = styled.div`
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
@@ -127,9 +140,13 @@ const UserCardBio = styled.div`
     color: #7d7d7d;
 `;
 
-const SocialBlock = CardTitle.extend`
+const SocialBlock = styled(CardTitle)`
     justify-content: space-around;
     padding: 0 8px;
+`;
+
+const UserInfoTitle = styled(CardTitle)`
+    border-bottom: 0;
 `;
 
 const SocialLink = styled.a`
@@ -266,20 +283,19 @@ export default class UserCardAbout extends PureComponent {
                     </Row>
                 </CardContentCounters>
 
-                {(website || about || location) && (
-                    <CardTitle justify="space-between">
-                        {tt('user_profile.account_summary.about')}
-                        {location && <UserCardCity>{location}</UserCardCity>}
-                    </CardTitle>
-                )}
-                {(website || about) && (
-                    <CardContent>
+                {(website || location) && (
+                    <UserInfoTitle justify="space-between">
                         {website && (
                             <UserCardSite href={sanitizeUrl(website)}>{websiteLabel}</UserCardSite>
                         )}
-                        {about && <UserCardBio>{about}</UserCardBio>}
-                    </CardContent>
+                        <UserCardCityWrapper>
+                            <LocationIcon name="location" width="14" height="18" />
+                            {location && <UserCardCity>{location}</UserCardCity>}
+                            <IconTriangle />
+                        </UserCardCityWrapper>
+                    </UserInfoTitle>
                 )}
+                {about && <CardContent>{about && <UserCardBio>{about}</UserCardBio>}</CardContent>}
 
                 {social &&
                     Boolean(Object.keys(social).length) && (
