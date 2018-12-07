@@ -4,7 +4,7 @@ import tt from 'counterpart';
 
 import ScrollToTop from 'react-scroll-up';
 import Icon from 'src/app/components/golos-ui/Icon';
-import { logClickEvent } from 'src/app/helpers/gaLogs';
+import { logClickAnalytics } from 'src/app/helpers/gaLogs';
 
 const TopIcon = styled(Icon)`
     flex-shrink: 0;
@@ -54,8 +54,8 @@ const Wrapper = styled.div`
 `;
 
 export default class ScrollUpstairsButton extends Component {
-    logEvent = () => {
-        logClickEvent('Button', 'Scroll upstairs');
+    logEventAnalytics = () => {
+        logClickAnalytics('Button', 'Scroll upstairs');
     };
 
     render() {
@@ -65,7 +65,7 @@ export default class ScrollUpstairsButton extends Component {
                     role="button"
                     aria-label="tt('g.upstairs')"
                     data-tooltip={tt('g.upstairs')}
-                    onClick={this.logEvent}
+                    onClick={this.logEventAnalytics}
                 >
                     <TopIcon name="arrow_left" />
                 </Wrapper>

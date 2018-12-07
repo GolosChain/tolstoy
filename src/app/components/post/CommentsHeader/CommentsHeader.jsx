@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import tt from 'counterpart';
 
 import Popover from 'golos-ui/Popover/index';
-import { logClickEvent } from 'src/app/helpers/gaLogs';
+import { logClickAnalytics } from 'src/app/helpers/gaLogs';
 import SortLine from 'src/app/components/post/CommentsHeader/SortLine';
 
 const sortCategories = ['popularity', 'voices', 'first_new', 'first_old'];
@@ -95,7 +95,7 @@ export default class CommentsHeader extends Component {
     };
 
     changeSortCategory = category => {
-        logClickEvent('Link', `Sort by ${category}`);
+        logClickAnalytics('Link', `Sort by ${category}`);
         this.setState({ sortCategory: tt(`post_jsx.${category}`) });
     };
 

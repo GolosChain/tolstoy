@@ -15,7 +15,7 @@ import PostActions from 'src/app/components/post/PostActions';
 import { POST_MAX_WIDTH } from 'src/app/containers/post/PostContainer';
 import VotePanel from 'src/app/components/common/VotePanel';
 import Repost from 'src/app/components/post/repost';
-import { logClickEvent } from 'src/app/helpers/gaLogs';
+import { logClickAnalytics } from 'src/app/helpers/gaLogs';
 
 const HEADER_HEIGHT = 60;
 const DESKTOP_FOOTER_HEIGHT = 324;
@@ -227,7 +227,7 @@ export class SidePanel extends Component {
     onBackClick = () => {
         this.props.onBackClick();
         browserHistory.goBack();
-        logClickEvent('Button', 'Back to previous page');
+        logClickAnalytics('Button', 'Back to previous page');
     };
 
     render() {

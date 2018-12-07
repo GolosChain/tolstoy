@@ -14,7 +14,7 @@ import { loadFollows } from 'app/redux/sagas/follow';
 import uploadImageWatch from '../UserSaga_UploadImage';
 import { tryRestoreAuth, resetSavedAuth } from 'src/app/helpers/localStorage';
 import { saveCurrentUserAuth } from 'src/app/redux/sagas/login';
-import { logSuccessOperationEvent } from 'src/app/helpers/gaLogs';
+import { logSuccessOperationAnalytics } from 'src/app/helpers/gaLogs';
 
 const COMPROMISED_ERROR =
     'Hello. Your account may have been compromised. We are working on restoring an access to your account. Please send an email to t@cyber.fund.';
@@ -275,7 +275,7 @@ function* logout() {
 
     const response = yield serverApiLogout();
     if (response.ok) {
-        logSuccessOperationEvent('Sign out, success');
+        logSuccessOperationAnalytics('Sign out, success');
     }
 }
 
@@ -392,7 +392,7 @@ function* doServerLogin(loginInfo) {
     const response = yield serverApiLogin(loginInfo.username, signatures);
 
     if (loginInfo.isLogin && response.ok) {
-        logSuccessOperationEvent('Sign in, success');
+        logSuccessOperationAnalytics('Sign in, success');
     }
     response.json().then(result => {
         if (result.guid) {

@@ -2,15 +2,15 @@ import React, { PureComponent } from 'react';
 import tt from 'counterpart';
 
 import { REGISTRATION_URL } from 'app/client_config';
-import { logOutboundLinkClickEvent } from 'src/app/helpers/gaLogs';
+import { logOutboundLinkClickAnalytics } from 'src/app/helpers/gaLogs';
 
 class Start extends PureComponent {
     state = {
         simple: true,
     };
 
-    logEvent = link => {
-        logOutboundLinkClickEvent(link);
+    logEventAnalytics = () => {
+        logOutboundLinkClickAnalytics(`https:${tt('link_to.telegram')}`);
     };
 
     render() {
@@ -62,7 +62,7 @@ class Start extends PureComponent {
                                         <a
                                             className={simple ? '' : 'active'}
                                             href="#"
-                                            onClick={e => this._toggleAnswer(e, true)}
+                                            onClick={e => this.toggleAnswer(e, true)}
                                         >
                                             Простой ответ
                                         </a>
@@ -70,7 +70,7 @@ class Start extends PureComponent {
                                         <a
                                             className={simple ? 'active' : ''}
                                             href="#"
-                                            onClick={e => this._toggleAnswer(e, false)}
+                                            onClick={e => this.toggleAnswer(e, false)}
                                         >
                                             Сложный ответ
                                         </a>
@@ -227,9 +227,7 @@ class Start extends PureComponent {
                                         href={`https:${tt('link_to.telegram')}`}
                                         target="_blank"
                                         rel="noopener norefferer"
-                                        onClick={() =>
-                                            this.logEvent(`https:${tt('link_to.telegram')}`)
-                                        }
+                                        onClick={this.logEventAnalytics}
                                     >
                                         Телеграме
                                     </a>
@@ -270,7 +268,7 @@ class Start extends PureComponent {
         }
     }
 
-    _toggleAnswer = (e, simple) => {
+    toggleAnswer = (e, simple) => {
         e.preventDefault();
         this.setState({ simple });
     };

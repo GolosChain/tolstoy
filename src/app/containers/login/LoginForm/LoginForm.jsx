@@ -8,7 +8,7 @@ import { translateError } from 'app/utils/ParsersAndFormatters';
 import Button from 'golos-ui/Button';
 import Icon from 'golos-ui/Icon';
 import { Checkbox } from 'golos-ui/Form';
-import {logOpenDialogEvent} from 'src/app/helpers/gaLogs';
+import { logOpenDialogAnalytics } from 'src/app/helpers/gaLogs';
 
 const WIF_LENGTH = 52;
 const OWNER_KEY_OPERATIONS = [
@@ -181,13 +181,13 @@ export class LoginForm extends Component {
     };
 
     componentDidMount() {
-        this.logEvent();
+        this.logEventAnalytics();
     }
 
-    logEvent() {
+    logEventAnalytics() {
         const { isConfirm } = this.props;
         if (!isConfirm) {
-            logOpenDialogEvent('Sign in dialog')
+            logOpenDialogAnalytics('Sign in dialog');
         }
     }
 

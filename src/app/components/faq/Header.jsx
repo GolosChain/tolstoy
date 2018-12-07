@@ -4,7 +4,7 @@ import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
 import Container from '../common/Container';
-import { logOutboundLinkClickEvent } from 'src/app/helpers/gaLogs';
+import { logOutboundLinkClickAnalytics } from 'src/app/helpers/gaLogs';
 
 const Wrapper = styled.div`
     background-color: #f9f9f9;
@@ -141,8 +141,8 @@ const Image = styled.div`
 `;
 
 export default class Header extends PureComponent {
-    logEvent = link => {
-        logOutboundLinkClickEvent(link);
+    logEventAnalytics = () => {
+        logOutboundLinkClickAnalytics(`https:${tt('link_to.telegram')}`);
     };
 
     render() {
@@ -157,7 +157,7 @@ export default class Header extends PureComponent {
                                 href={`https:${tt('link_to.telegram')}`}
                                 target="_blank"
                                 rel="noopener norefferer"
-                                onClick={() => this.logEvent(`https:${tt('link_to.telegram')}`)}
+                                onClick={this.logEventAnalytics}
                             >
                                 <Icon name="telegram" size="16px" fill="#ffffff" />
                                 <ButtonLabel>{tt('faq_jsq.telegram')}</ButtonLabel>

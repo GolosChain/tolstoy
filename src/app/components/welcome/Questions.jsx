@@ -7,7 +7,7 @@ import Icon from 'app/components/elements/Icon';
 import CardPost from 'src/app/components/welcome/cardPost';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import { WIKI_URL } from 'app/client_config';
-import { logOutboundLinkClickEvent } from 'src/app/helpers/gaLogs';
+import { logOutboundLinkClickAnalytics } from 'src/app/helpers/gaLogs';
 
 const Root = styled.section`
     padding: 20px 0;
@@ -75,13 +75,12 @@ const NormalLink = styled.a`
 const LinkStyled = NormalLink.withComponent(Link);
 
 export default class Questions extends PureComponent {
-    logEvent = link => {
-        logOutboundLinkClickEvent(link);
+    logEventAnalytics = () => {
+        logOutboundLinkClickAnalytics(`https:${tt('link_to.telegram')}`);
     };
 
     render() {
         const { questionsLoading, questionsCards } = this.props;
-
         return (
             <Root>
                 <Row className="row align-middle">
@@ -102,9 +101,7 @@ export default class Questions extends PureComponent {
                                             href={`https:${tt('link_to.telegram')}`}
                                             target="_blank"
                                             rel="noopener norefferer"
-                                            onClick={() =>
-                                                this.logEvent(`https:${tt('link_to.telegram')}`)
-                                            }
+                                            onClick={this.logEventAnalytics}
                                         >
                                             <Icon name="new/telegram" size="2x" />
                                             {tt('welcome_page.link.telegram')}

@@ -337,8 +337,8 @@ class ReplyEditor extends React.Component {
         }
     };
 
-    logEvent = link => {
-        logOutboundLinkClickEvent(link);
+    logEventAnalytics = () => {
+        logOutboundLinkClickAnalytics(`https:${tt('link_to.telegram')}`);
     };
 
     render() {
@@ -456,7 +456,7 @@ class ReplyEditor extends React.Component {
                                     href={tlgLink}
                                     target="_blank"
                                     rel="noopener norefferer"
-                                    onClick={() => this.logEvent(tlgLink)}
+                                    onClick={this.logEventAnalytics}
                                 >
                                     {tlgLink}
                                 </a>
@@ -806,7 +806,7 @@ function stateFromMarkdown(markdown) {
 }
 
 import { connect } from 'react-redux';
-import { logOutboundLinkClickEvent } from 'src/app/helpers/gaLogs';
+import { logOutboundLinkClickAnalytics } from 'src/app/helpers/gaLogs';
 
 export default formId =>
     connect(

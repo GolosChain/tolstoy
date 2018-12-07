@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import CloseOpenButton from '../cards/CloseOpenButton/CloseOpenButton';
-import { logOutboundLinkClickEvent } from 'src/app/helpers/gaLogs';
+import { logOutboundLinkClickAnalytics } from 'src/app/helpers/gaLogs';
 
 const Wrapper = styled.div`
     position: relative;
@@ -86,12 +86,12 @@ export default class Question extends PureComponent {
             for (let i = 0; i < links.length; i++) {
                 const link = links[i].href;
                 if (link.startsWith('https://tlg.name')) {
-                    links[i].addEventListener('click', () => logEvent(link));
+                    links[i].addEventListener('click', () => logOutboundLinkClickAnalytics(link));
                 }
             }
         }
     }
-        
+
     changeAnswerState = () => {
         this.setState({
             showAnswer: !this.state.showAnswer,
@@ -117,8 +117,4 @@ export default class Question extends PureComponent {
             </Wrapper>
         );
     }
-}
-
-function logEvent(link) {
-    logOutboundLinkClickEvent(link);
 }

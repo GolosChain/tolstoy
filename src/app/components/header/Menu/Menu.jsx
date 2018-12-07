@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
-import {logOutboundLinkClickEvent} from 'src/app/helpers/gaLogs';
+import { logOutboundLinkClickAnalytics } from 'src/app/helpers/gaLogs';
 
 const Ul = styled.ul`
     padding: 5px 0 6px;
@@ -51,7 +51,7 @@ export default class Menu extends PureComponent {
 
     onItemClick = link => {
         if (link.startsWith('//')) {
-            logOutboundLinkClickEvent(`https:${link}`);
+            logOutboundLinkClickAnalytics(`https:${link}`);
         }
         this.props.onClose();
     };

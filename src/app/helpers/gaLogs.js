@@ -1,4 +1,4 @@
-export function logClickEvent(eventCategory, eventLabel) {
+export function logClickAnalytics(eventCategory, eventLabel) {
     window.ga('send', {
         hitType: 'event',
         eventCategory,
@@ -7,7 +7,7 @@ export function logClickEvent(eventCategory, eventLabel) {
     });
 }
 
-export function logOutboundLinkClickEvent(eventLabel) {
+export function logOutboundLinkClickAnalytics(eventLabel) {
     window.ga('send', {
         hitType: 'event',
         eventCategory: 'Outbound Link',
@@ -17,7 +17,7 @@ export function logOutboundLinkClickEvent(eventLabel) {
     });
 }
 
-export function logSuccessOperationEvent(eventLabel) {
+export function logSuccessOperationAnalytics(eventLabel) {
     window.ga('send', {
         hitType: 'event',
         eventCategory: 'Operation',
@@ -26,7 +26,7 @@ export function logSuccessOperationEvent(eventLabel) {
     });
 }
 
-export function logOpenDialogEvent(eventLabel) {
+export function logOpenDialogAnalytics(eventLabel) {
     window.ga('send', {
         hitType: 'event',
         eventCategory: 'Dialog',

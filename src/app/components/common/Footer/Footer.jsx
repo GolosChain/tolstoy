@@ -9,7 +9,7 @@ import { APP_NAME_UP, TERMS_OF_SERVICE_URL } from 'app/client_config';
 import CurrencyValue from 'src/app/components/common/CurrencyValue';
 import Container from 'src/app/components/common/Container';
 import Icon from 'golos-ui/Icon';
-import { logOutboundLinkClickEvent } from 'src/app/helpers/gaLogs';
+import { logOutboundLinkClickAnalytics } from 'src/app/helpers/gaLogs';
 
 const Wrapper = styled.div`
     border-top: 1px solid #e1e1e1;
@@ -97,7 +97,7 @@ const MenuItem = styled.a`
     &:hover {
         color: #606060;
     }
-    
+
     &:focus {
         color: #333333;
     }
@@ -151,10 +151,6 @@ export default class Footer extends PureComponent {
         currentSupply: PropTypes.string,
     };
 
-    logEvent = link => {
-        logOutboundLinkClickEvent(link);
-    };
-
     render() {
         const { currentSupply } = this.props;
 
@@ -204,7 +200,9 @@ export default class Footer extends PureComponent {
                                         target="_blank"
                                         rel="noopener norefferer"
                                         onClick={() =>
-                                            this.logEvent('https://www.facebook.com/www.golos.io')
+                                            logOutboundLinkClickAnalytics(
+                                                'https://www.facebook.com/www.golos.io'
+                                            )
                                         }
                                     >
                                         <Icon name="facebook" width={13} height={24} />
@@ -215,7 +213,11 @@ export default class Footer extends PureComponent {
                                         type="icon"
                                         target="_blank"
                                         rel="noopener norefferer"
-                                        onClick={() => this.logEvent('https://vk.com/goloschain')}
+                                        onClick={() =>
+                                            logOutboundLinkClickAnalytics(
+                                                'https://vk.com/goloschain'
+                                            )
+                                        }
                                     >
                                         <Icon name="vk" width={28} height={18} />
                                     </MenuItem>
@@ -226,7 +228,9 @@ export default class Footer extends PureComponent {
                                         target="_blank"
                                         rel="noopener norefferer"
                                         onClick={() =>
-                                            this.logEvent('https://tlg.name/golos_support')
+                                            logOutboundLinkClickAnalytics(
+                                                'https://tlg.name/golos_support'
+                                            )
                                         }
                                     >
                                         <Icon name="telegram" width={22} height={20} />
@@ -240,7 +244,7 @@ export default class Footer extends PureComponent {
                                         target="_blank"
                                         rel="noopener norefferer"
                                         onClick={() =>
-                                            this.logEvent(
+                                            logOutboundLinkClickAnalytics(
                                                 'https://bitcointalk.org/index.php?topic=1624364.0'
                                             )
                                         }
@@ -265,7 +269,7 @@ export default class Footer extends PureComponent {
                                     target="_blank"
                                     rel="noopener norefferer"
                                     onClick={() =>
-                                        this.logEvent(
+                                        logOutboundLinkClickAnalytics(
                                             'https://play.google.com/store/apps/details?id=io.golos.golos'
                                         )
                                     }

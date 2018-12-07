@@ -5,7 +5,7 @@ import tt from 'counterpart';
 import styled from 'styled-components';
 
 import Icon from 'golos-ui/Icon';
-import { logOutboundLinkClickEvent } from 'src/app/helpers/gaLogs';
+import { logOutboundLinkClickAnalytics } from 'src/app/helpers/gaLogs';
 
 const LinkTo = ({ children, link, ariaLabel, onClick, className }) => (
     <Link
@@ -80,10 +80,10 @@ export default class ChannelsCard extends Component {
         }).isRequired,
     };
 
-    logEvent = () => {
+    logEventAnalytics = () => {
         const { link } = this.props.channel;
         if (link.startsWith('https:')) {
-            logOutboundLinkClickEvent(link);
+            logOutboundLinkClickAnalytics(link);
         }
     };
 
@@ -95,7 +95,7 @@ export default class ChannelsCard extends Component {
                 link={link}
                 showOnMobile={showOnMobile}
                 ariaLabel={tt('aria_label.channel_card')}
-                onClick={this.logEvent}
+                onClick={this.logEventAnalytics}
             >
                 <CustomIcon name={thumbnail} width={width} height={height} />
                 <Text>{inscription}</Text>
