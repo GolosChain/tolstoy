@@ -264,21 +264,15 @@ export default class VotePanelAbstract extends PureComponent {
     dislikeRef = createRef();
 
     onLikeClick = this.loginProtection(() => {
-        const { votesSummary, isRich } = this.props;
+        const { votesSummary, isRich, defaultVotePower } = this.props;
+        console.log(defaultVotePower);
 
         if (this.state.showSlider) {
             this.hideSlider();
         } else if (votesSummary.myVote === 'like') {
             this.onChange(0);
         } else if (isRich) {
-            this.setState({
-                votePercent: getSavedPercent(LIKE_PERCENT_KEY),
-                sliderAction: 'like',
-                showSlider: true,
-            });
-
-            window.addEventListener('click', this.onAwayClick);
-            window.addEventListener('touchstart', this.onAwayClick);
+            this.onChange(defaultVotePower);
         } else {
             this.onChange(1);
         }

@@ -9,6 +9,7 @@ import cookie from 'react-cookie';
 import { LOCALE_COOKIE_KEY, LOCALE_COOKIE_EXPIRES, AMPLITUDE_SESSION } from 'app/client_config';
 import { init as initAnchorHelper } from 'app/utils/anchorHelper';
 import { validateLocaleQuery } from 'app/utils/ParsersAndFormatters';
+import { checkMobileDevice } from 'src/app/helpers/browser';
 
 import defaultTheme from 'src/app/themes';
 import Header from 'src/app/components/header/Header';
@@ -72,7 +73,7 @@ export class App extends Component {
             const locale = validateLocaleQuery(this.props.location);
             if (locale) {
                 this.onChangeLocale(locale);
-               
+
                 const uri = window.location.toString();
                 window.history.replaceState({}, document.title, uri.substring(0, uri.indexOf('?')));
             }
@@ -191,12 +192,6 @@ export class App extends Component {
             </ThemeProvider>
         );
     }
-}
-
-function checkMobileDevice() {
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(
-        window.navigator.userAgent
-    );
 }
 
 function sendNewVisitToAmplitudeCom() {

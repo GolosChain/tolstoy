@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Map } from 'immutable';
+import { Map, fromJS } from 'immutable';
 
 import { Form, Field } from 'react-final-form';
 import tt from 'counterpart';
@@ -20,6 +20,7 @@ import {
     Checkbox,
     FormError,
 } from 'golos-ui/Form';
+import Slider from 'golos-ui/Slider';
 
 const LabelRow = styled(StyledLabelRow)`
     margin-left: 14px;
@@ -39,7 +40,6 @@ export default class Common extends PureComponent {
         const data = {
             basic: options.getIn(['basic'], emptyMap).toJS(),
         };
-
         return (
             <Form onSubmit={onSubmitGate} initialValues={data}>
                 {({
@@ -116,15 +116,17 @@ export default class Common extends PureComponent {
                                     </FormGroup>
                                 )}
                             </Field>
-                            {/* <Field name="basic.award">
+                            <Field name="basic.award">
                                 {({ input, meta }) => (
                                     <FormGroup>
-                                        <Label dark>Награда по умолчанию за пост</Label>
-                                        <Slider {...input} showCaptions />
+                                        <Label dark bold>
+                                            {tt('settings_jsx.default_award')}
+                                        </Label>
+                                        <Slider {...input} showCaptions hideHandleValue />
                                         <FormError meta={meta} />
                                     </FormGroup>
                                 )}
-                            </Field> */}
+                            </Field>
                             <Field name="basic.selfVote">
                                 {({ input, meta }) => (
                                     <FormGroup align="center" column={false}>

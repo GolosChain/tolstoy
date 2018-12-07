@@ -2,6 +2,9 @@ import React, { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
+import tt from 'counterpart';
+
+import { checkMobileDevice } from 'src/app/helpers/browser';
 
 const Progress = styled.div`
     position: absolute;
@@ -92,7 +95,7 @@ const Wrapper = styled.div`
         ${Progress} {
             background: #ff4e00;
         }
- 
+
         ${Handle} {
             background: #ff4e00 !important;
             border-color: #ff4e00 !important;
@@ -139,6 +142,7 @@ export default class Slider extends PureComponent {
         const { min, max, hideHandleValue, showCaptions, ...passProps } = this.props;
         const value = Number(this.props.value);
 
+        const isMobile = checkMobileDevice();
         const percent = (100 * (value - min)) / (max - min) || 0;
 
         return (
@@ -146,7 +150,15 @@ export default class Slider extends PureComponent {
                 <Progress width={percent} />
                 <HandleSlot innerRef={this.rootRef}>
                     <HandleWrapper left={percent}>
-                        <Handle>{hideHandleValue ? null : value}</Handle>
+                        <Handle
+                            data-tooltip={
+                                hideHandleValue && !isMobile
+                                    ? tt('settings_jsx.default_award_tip', { value: value })
+                                    : null
+                            }
+                        >
+                            {hideHandleValue && !isMobile ? null : value}
+                        </Handle>
                     </HandleWrapper>
                 </HandleSlot>
                 {showCaptions && (

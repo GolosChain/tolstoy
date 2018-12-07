@@ -21,7 +21,9 @@ tt.registerTranslations('uk', require('app/locales/ua.json'));
 }))
 export default class Translator extends Component {
     render() {
-        const localeWithoutRegionCode = this.props.locale.toLowerCase().split(/[_-]+/)[0];
+        const localeWithoutRegionCode = this.props.locale
+            ? this.props.locale.toLowerCase().split(/[_-]+/)[0]
+            : 'ru'; // fix for firefox private mode
 
         tt.setLocale(localeWithoutRegionCode);
         tt.setFallbackLocale('en');

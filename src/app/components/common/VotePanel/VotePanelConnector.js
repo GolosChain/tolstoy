@@ -9,14 +9,17 @@ import { openVotersDialog } from 'src/app/redux/actions/dialogs';
 import { loginIfNeed } from 'src/app/redux/actions/login';
 import { VOTE_PERCENT_THRESHOLD } from './helpers';
 
+const defaultVotePowerSelector = state => state.data.settings.getIn(['basic', 'award']);
+
 export default connect(
     createSelector(
         [
             currentUserSelector,
             currentUsernameSelector,
             (state, props) => postSelector(state, props.contentLink),
+            defaultVotePowerSelector,
         ],
-        (user, username, post) => {
+        (user, username, post, defaultVotePower) => {
             if (!post) {
                 return;
             }
@@ -34,6 +37,7 @@ export default connect(
             }
 
             let myVote = null;
+            const votePower = defaultVotePower ? defaultVotePower : 100;
 
             for (let vote of votes) {
                 if (vote.get('voter') === username) {
@@ -55,6 +59,7 @@ export default connect(
                 contentLink: `${post.get('author')}/${post.get('permlink')}`,
                 votesSummary,
                 myVote,
+                defaultVotePower: Number((votePower / 100).toFixed(2)),
             };
         }
     ),
