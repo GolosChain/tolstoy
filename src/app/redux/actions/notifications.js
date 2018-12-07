@@ -3,9 +3,6 @@ import {
     NOTIFICATION_GET_HISTORY,
     NOTIFICATION_GET_HISTORY_SUCCESS,
     NOTIFICATION_GET_HISTORY_ERROR,
-    NOTIFICATION_GET_HISTORY_FRESH,
-    NOTIFICATION_GET_HISTORY_FRESH_SUCCESS,
-    NOTIFICATION_GET_HISTORY_FRESH_ERROR,
     NOTIFICATION_MARK_ALL_AS_VIEWED,
     NOTIFICATION_MARK_ALL_AS_VIEWED_SUCCESS,
     NOTIFICATION_MARK_ALL_AS_VIEWED_ERROR,
@@ -31,22 +28,6 @@ export function getNotificationsHistory({ fromId = null, limit = 10, types = 'al
             },
         },
         meta: { fromId, limit, types },
-    };
-}
-
-export function getNotificationsHistoryFreshCount({ user = null } = {}) {
-    return {
-        type: GATE_SEND_MESSAGE,
-        payload: {
-            method: 'getNotifyHistoryFresh',
-            types: [
-                NOTIFICATION_GET_HISTORY_FRESH,
-                NOTIFICATION_GET_HISTORY_FRESH_SUCCESS,
-                NOTIFICATION_GET_HISTORY_FRESH_ERROR,
-            ],
-            data: { user },
-        },
-        meta: { user },
     };
 }
 

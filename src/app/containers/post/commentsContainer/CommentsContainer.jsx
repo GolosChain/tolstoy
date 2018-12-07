@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import styled from 'styled-components';
 
 import CommentsHeader from 'src/app/components/post/CommentsHeader/CommentsHeader';
@@ -14,6 +14,8 @@ const Wrapper = styled.div`
 `;
 
 export class CommentsContainer extends Component {
+    commentContainerRef = createRef();
+
     componentDidMount() {
         this.updateComments();
     }
@@ -26,12 +28,13 @@ export class CommentsContainer extends Component {
     render() {
         const { commentsCount, data, commentInputFocused } = this.props;
         return (
-            <Wrapper>
+            <Wrapper innerRef={this.commentContainerRef}>
                 <CommentsHeader commentsCount={commentsCount} />
                 <CreateComment
                     data={data}
                     updateComments={this.updateComments}
                     commentInputFocused={commentInputFocused}
+                    commentContainerRef={this.commentContainerRef}
                 />
                 <CommentsList updateComments={this.updateComments} />
             </Wrapper>

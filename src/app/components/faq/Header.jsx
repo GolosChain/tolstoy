@@ -74,7 +74,7 @@ const Button = styled.a`
     font-weight: bold;
 `;
 
-const BlueButton = Button.extend`
+const TlgButton = styled(Button)`
     color: #ffffff;
     line-height: 18px;
     text-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
@@ -96,7 +96,7 @@ const BlueButton = Button.extend`
     }
 `;
 
-const WhiteButton = Button.extend`
+const SupportButton = styled(Button)`
     margin-left: 15px;
     background-color: #ffffff;
     border: 1px solid rgba(149, 149, 149, 0.3);
@@ -153,7 +153,7 @@ export default class Header extends PureComponent {
                         <Title>{tt('faq_jsq.page_title')}</Title>
                         <Description>{tt('faq_jsq.page_description')}</Description>
                         <ButtonsBlock>
-                            <BlueButton
+                            <TlgButton
                                 href={`https:${tt('link_to.telegram')}`}
                                 target="_blank"
                                 rel="noopener norefferer"
@@ -161,11 +161,11 @@ export default class Header extends PureComponent {
                             >
                                 <Icon name="telegram" size="16px" fill="#ffffff" />
                                 <ButtonLabel>{tt('faq_jsq.telegram')}</ButtonLabel>
-                            </BlueButton>
-                            <WhiteButton href="mailto:support@golos.io" target="_blank">
+                            </TlgButton>
+                            <SupportButton href="mailto:support@golos.io" target="_blank">
                                 <Icon name="envelope" size="16px" />
                                 <ButtonLabel>{tt('faq_jsq.email')}</ButtonLabel>
-                            </WhiteButton>
+                            </SupportButton>
                         </ButtonsBlock>
                     </MainBlock>
                     <Image />

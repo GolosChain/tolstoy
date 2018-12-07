@@ -111,13 +111,21 @@ export default class Questions extends PureComponent {
                                         </NormalLink>
                                     </div>
                                     <div className="columns">
-                                        <NormalLink href={WIKI_URL}>
+                                        <NormalLink
+                                            href={WIKI_URL}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
                                             <Icon name="new/wikipedia" size="2x" />
                                             {tt('welcome_page.link.wikipedia')}
                                         </NormalLink>
                                     </div>
                                     <div className="columns">
-                                        <NormalLink href="mailto:support@golos.io">
+                                        <NormalLink
+                                            href="mailto:support@golos.io"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
                                             <Icon name="new/envelope" size="2x" />
                                             {tt('welcome_page.link.envelope')}
                                         </NormalLink>

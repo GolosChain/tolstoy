@@ -12,6 +12,8 @@ import {
     NOTIFICATION_ONLINE_GET_HISTORY_FRESH,
     NOTIFICATION_ONLINE_GET_HISTORY_FRESH_SUCCESS,
     NOTIFICATION_ONLINE_GET_HISTORY_FRESH_ERROR,
+    NOTIFICATION_ONLINE_MARK_AS_READ,
+    NOTIFICATIONS_ONLINE_CLEAR,
 } from 'src/app/redux/constants/notificationsOnline';
 import Schemas from 'src/app/redux/sagas/gate/api/schemas';
 import { hydrateNotifications } from 'src/app/redux/sagas/actions/notifications';
@@ -61,13 +63,27 @@ export const addNotificationOnline = payload => ({
     payload,
 });
 
+export function markNotificationAsRead(id) {
+    return {
+        type: NOTIFICATION_ONLINE_MARK_AS_READ,
+        payload: { id },
+    };
+}
+
 export function getNotificationsOnlineHistory({
-    freshOnly = false,
-    markAsViewed = true,
+    markAsViewed = false,
     fromId = null,
     limit = 10,
     types = 'all',
 }) {
+    const params = {
+        fromId,
+        limit,
+        types,
+        markAsViewed,
+        freshOnly: true,
+    };
+
     return {
         type: GATE_SEND_MESSAGE,
         payload: {
@@ -77,14 +93,21 @@ export function getNotificationsOnlineHistory({
                 NOTIFICATION_ONLINE_GET_HISTORY_SUCCESS,
                 NOTIFICATION_ONLINE_GET_HISTORY_ERROR,
             ],
-            data: { freshOnly, markAsViewed, fromId, limit, types },
+            data: params,
             normalize: {
                 transform: payload => payload.data,
                 saga: hydrateNotifications,
                 schema: Schemas.NOTIFICATION_ONLINE_ARRAY,
             },
         },
-        meta: { freshOnly, markAsViewed, fromId, limit, types },
+        meta: params,
+    };
+}
+
+export function clearOnlineNotifications() {
+    return {
+        type: NOTIFICATIONS_ONLINE_CLEAR,
+        payload: {},
     };
 }
 
