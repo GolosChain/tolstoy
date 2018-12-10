@@ -29,6 +29,7 @@ export default connect(
                 stats: post.stats,
                 isHidden:
                     isHide(post) ||
+                    post.isEmpty ||
                     (username !== author.account && isContainTags(post, HIDE_BY_TAGS)),
             };
         }

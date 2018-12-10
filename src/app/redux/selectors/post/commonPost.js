@@ -90,6 +90,7 @@ export const currentPostSelector = createDeepEqualSelector(
             promotedAmount: parsePayoutAmount(post.get('promoted')),
             comments: post.get('comments'),
             stats: post.get('stats').toJS(),
+            isEmpty: post.get('mode') === 'not_set',
         };
     }
 );
