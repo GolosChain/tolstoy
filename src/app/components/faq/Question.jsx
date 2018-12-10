@@ -67,42 +67,12 @@ export default class Question extends PureComponent {
         }).isRequired,
     };
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            showAnswer: false,
-        };
-    }
+    state = {
+        showAnswer: false,
+    };
 
+    root = createRef();
     answerRef = createRef();
-
-    componentDidMount() {
-        this.linksEventListener('add');
-    }
-
-    componentWillUnmount() {
-        this.linksEventListener('remove');
-    }
-
-    linksEventListener(action) {
-        const links = this.answerRef.current.getElementsByTagName('a');
-        if (links.length) {
-            for (let i = 0; i < links.length; i++) {
-                const link = links[i].href;
-                if (link.startsWith('https://tlg.name')) {
-                    if (action === 'add') {
-                        links[i].addEventListener('click', () =>
-                            logOutboundLinkClickAnalytics(link)
-                        );
-                    } else {
-                        links[i].removeEventListener('click', () =>
-                            logOutboundLinkClickAnalytics(link)
-                        );
-                    }
-                }
-            }
-        }
-    }
 
     changeAnswerState = () => {
         this.setState({
@@ -110,12 +80,26 @@ export default class Question extends PureComponent {
         });
     };
 
+    onClick = e => {
+        const link = e.target.closest('a');
+
+        if (!link || !link.href) {
+            return;
+        }
+
+        const url = link.href;
+
+        if (url.startsWith('https://tlg.name') && this.root.current.contains(link)) {
+            logOutboundLinkClickAnalytics(link.href);
+        }
+    };
+
     render() {
         const { question } = this.props;
         const { showAnswer } = this.state;
 
         return (
-            <Wrapper>
+            <Wrapper innerRef={this.root} onClick={this.onClick}>
                 <Switcher collapsed={!showAnswer} toggle={this.changeAnswerState} />
                 <Title
                     onClick={this.changeAnswerState}
