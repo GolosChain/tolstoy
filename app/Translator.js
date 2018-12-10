@@ -23,7 +23,9 @@ export default class Translator extends Component {
     render() {
         const { locale, children } = this.props;
         const localeWithoutRegionCode =
-            locale && typeof locale === 'string' ? locale.toLowerCase().split(/[_-]+/)[0] : 'ru'; // fix for firefox private mode
+            locale && typeof locale === 'string'
+                ? locale.toLowerCase().split(/[_-]+/)[0]
+                : DEFAULT_LANGUAGE; // fix for firefox private mode
 
         tt.setLocale(localeWithoutRegionCode);
         tt.setFallbackLocale('en');
