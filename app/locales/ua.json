@@ -1069,7 +1069,7 @@
     "choose_currency": "Виберіть валюту",
     "choose_language": "Виберіть мову інтерфейсу",
     "cover_image_url": "Додайте URL Вашої обкладинки або завантажте її",
-    "default_voting_power": "Налаштування потужності голосування",
+    "default_voting_power": "Налаштування сили голосування",
     "default_voting_power_tip": "Потужність голосування %(value)s%%",
     "invalid_url": "Неприпустима URL-адреса",
     "keys": {
