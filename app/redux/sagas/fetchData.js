@@ -52,6 +52,12 @@ function* watchFetchCurrentUserTransfers() {
 
 let is_initial_state = true;
 function* fetchState(action) {
+    const backClickTs = yield select(state => state.ui.common.get('backClickTs'));
+
+    if (backClickTs && Date.now() < backClickTs + 1000) {
+        return;
+    }
+
     const { pathname } = action.payload;
 
     let url = pathname;
