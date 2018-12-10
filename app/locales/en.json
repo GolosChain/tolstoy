@@ -1177,6 +1177,8 @@
     "choose_currency": "Choose currency",
     "choose_language": "Choose language",
     "cover_image_url": "Cover image url",
+    "default_voting_power": "Setting the voting power",
+    "default_voting_power_tip": "Voting power %(value)s%%",
     "invalid_url": "Invalid URL",
     "keys": {
       "info": "It's important to keep your password key. Golos.io does not store your passwords. Be sure to securely store your key.",

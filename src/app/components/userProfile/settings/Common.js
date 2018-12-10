@@ -20,6 +20,7 @@ import {
     Checkbox,
     FormError,
 } from 'golos-ui/Form';
+import Slider from 'golos-ui/Slider';
 
 const LabelRow = styled(StyledLabelRow)`
     margin-left: 14px;
@@ -30,16 +31,14 @@ export default class Common extends PureComponent {
     static propTypes = {
         options: PropTypes.object,
         isFetching: PropTypes.bool,
-        isChanging: PropTypes.bool,
         onSubmitGate: PropTypes.func,
     };
 
     render() {
-        const { options, isChanging, onSubmitGate } = this.props;
+        const { options, onSubmitGate } = this.props;
         const data = {
             basic: options.getIn(['basic'], emptyMap).toJS(),
         };
-
         return (
             <Form onSubmit={onSubmitGate} initialValues={data}>
                 {({
@@ -116,15 +115,17 @@ export default class Common extends PureComponent {
                                     </FormGroup>
                                 )}
                             </Field>
-                            {/* <Field name="basic.award">
+                            <Field name="basic.award">
                                 {({ input, meta }) => (
                                     <FormGroup>
-                                        <Label dark>Награда по умолчанию за пост</Label>
-                                        <Slider {...input} showCaptions />
+                                        <Label dark bold>
+                                            {tt('settings_jsx.default_voting_power')}
+                                        </Label>
+                                        <Slider {...input} showCaptions hideHandleValue />
                                         <FormError meta={meta} />
                                     </FormGroup>
                                 )}
-                            </Field> */}
+                            </Field>
                             <Field name="basic.selfVote">
                                 {({ input, meta }) => (
                                     <FormGroup align="center" column={false}>
