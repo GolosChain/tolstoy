@@ -150,6 +150,7 @@ export class SidePanel extends Component {
         showSideBlockByWidth: true,
         showSideBlockByHeight: true,
         showPanel: true,
+        backURL: this.props.backURL,
     };
 
     sideBlockRef = createRef();
@@ -259,21 +260,14 @@ export class SidePanel extends Component {
     };
 
     render() {
-        const {
-            post,
-            isPinned,
-            togglePin,
-            isOwner,
-            toggleFavorite,
-            contentLink,
-            backURL,
-        } = this.props;
+        const { post, isPinned, togglePin, isOwner, toggleFavorite, contentLink } = this.props;
         const {
             showSharePopover,
             fixedOn,
             showSideBlockByWidth,
             showSideBlockByHeight,
             showPanel,
+            backURL,
         } = this.state;
 
         const shareTooltip = showSharePopover
