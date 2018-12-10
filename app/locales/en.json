@@ -581,7 +581,7 @@
     },
     "no": "No",
     "no_tags_selected": "No tags selected",
-    "no_topics_by_order_found": "No topics by %(order)s found!",
+    "no_topics_by_order_found": "No topics by %(order)s found with the tag ",
     "not_valid_email": "Not valid email",
     "nothing_yet": "Nothing yet",
     "ok": "Ok",

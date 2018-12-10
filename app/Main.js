@@ -2,11 +2,12 @@ import '@babel/register';
 import '@babel/polyfill';
 import 'whatwg-fetch';
 import './assets/stylesheets/app.scss';
+import * as golos from 'golos-js';
+import Iso from 'iso';
 import plugins from 'app/utils/JsPlugins';
 import { serverApiRecordEvent } from 'app/utils/ServerApiClient';
-import Iso from 'iso';
 import clientRender from 'app/clientRender';
-import * as golos from 'golos-js';
+import { addChunkLoadingErrorHandler } from 'src/app/helpers/browser';
 
 // window.onerror = error => {
 //     if (window.$STM_csrf) serverApiRecordEvent('client_error', error);
@@ -29,24 +30,24 @@ function runApp(initialState) {
 
     try {
         clientRender(initialState);
-    } catch (error) {
-        console.error(error);
-        serverApiRecordEvent('client_error', error);
+    } catch (err) {
+        console.error(err);
+        serverApiRecordEvent('client_error', err);
     }
 
-    if (process.env.BROWSER) {
-        setTimeout(async () => {
-            try {
-                if (navigator.serviceWorker) {
-                    const registrations = await navigator.serviceWorker.getRegistrations();
+    addChunkLoadingErrorHandler();
 
-                    await Promise.all(registrations.map(reg => reg.unregister()));
-                }
-            } catch (err) {
-                console.warn(err);
+    setTimeout(async () => {
+        try {
+            if (navigator.serviceWorker) {
+                const registrations = await navigator.serviceWorker.getRegistrations();
+
+                await Promise.all(registrations.map(reg => reg.unregister()));
             }
-        }, 3000);
-    }
+        } catch (err) {
+            console.warn(err);
+        }
+    }, 3000);
 }
 
 if (!window.Intl) {
