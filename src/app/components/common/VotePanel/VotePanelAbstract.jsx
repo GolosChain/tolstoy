@@ -265,7 +265,6 @@ export default class VotePanelAbstract extends PureComponent {
 
     onLikeClick = this.loginProtection(() => {
         const { votesSummary, isRich, defaultVotePower } = this.props;
-        console.log(defaultVotePower);
 
         if (this.state.showSlider) {
             this.hideSlider();
