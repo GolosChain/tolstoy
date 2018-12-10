@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import tt from 'counterpart';
 
-import Popover from 'golos-ui/Popover';
+import Popover from 'golos-ui/Popover/index';
+import { logClickAnalytics } from 'src/app/helpers/gaLogs';
+import SortLine from 'src/app/components/post/CommentsHeader/SortLine';
+
+const sortCategories = ['popularity', 'voices', 'first_new', 'first_old'];
 
 const CommentsHeaderWrapper = styled.div`
     display: flex;
@@ -65,26 +68,9 @@ const SortWrapper = styled.div`
     flex-direction: column;
 `;
 
-const SortLine = styled(Link)`
-    display: block;
-    padding: 11px 16px;
-    color: #333333;
-
-    &:hover {
-        background-color: #f0f0f0;
-    }
-
-    &:active,
-    &:hover,
-    &:focus {
-        color: #333333;
-    }
-`;
-
 export default class CommentsHeader extends Component {
     static propTypes = {
         commentsCount: PropTypes.number.isRequired,
-        pathname: PropTypes.string.isRequired,
     };
 
     state = {
@@ -109,12 +95,13 @@ export default class CommentsHeader extends Component {
     };
 
     changeSortCategory = category => {
+        logClickAnalytics('Link', `Sort by ${category}`);
         this.setState({ sortCategory: tt(`post_jsx.${category}`) });
     };
 
     render() {
         const { showPopover, sortCategory } = this.state;
-        const { commentsCount, pathname } = this.props;
+        const { commentsCount } = this.props;
 
         return (
             <CommentsHeaderWrapper>
@@ -128,30 +115,13 @@ export default class CommentsHeader extends Component {
                         {showPopover ? (
                             <CustomPopover show onClose={this.closePopover} withArrow={false}>
                                 <SortWrapper onClick={this.closePopover}>
-                                    <SortLine
-                                        to={`${pathname}?sort=trending#comments`}
-                                        onClick={() => this.changeSortCategory('popularity')}
-                                    >
-                                        {tt('post_jsx.popularity')}
-                                    </SortLine>
-                                    <SortLine
-                                        to={`${pathname}?sort=votes#comments`}
-                                        onClick={() => this.changeSortCategory('voices')}
-                                    >
-                                        {tt('post_jsx.voices')}
-                                    </SortLine>
-                                    <SortLine
-                                        to={`${pathname}?sort=new#comments`}
-                                        onClick={() => this.changeSortCategory('first_new')}
-                                    >
-                                        {tt('post_jsx.first_new')}
-                                    </SortLine>
-                                    <SortLine
-                                        to={`${pathname}?sort=old#comments`}
-                                        onClick={() => this.changeSortCategory('first_old')}
-                                    >
-                                        {tt('post_jsx.first_old')}
-                                    </SortLine>
+                                    {sortCategories.map(sortCategory => (
+                                        <SortLine
+                                            key={sortCategory}
+                                            changeSortCategory={this.changeSortCategory}
+                                            sortCategory={sortCategory}
+                                        />
+                                    ))}
                                 </SortWrapper>
                             </CustomPopover>
                         ) : null}

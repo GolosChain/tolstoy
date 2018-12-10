@@ -15,6 +15,7 @@ import PostActions from 'src/app/components/post/PostActions';
 import { POST_MAX_WIDTH } from 'src/app/containers/post/PostContainer';
 import VotePanel from 'src/app/components/common/VotePanel';
 import Repost from 'src/app/components/post/repost';
+import { logClickAnalytics } from 'src/app/helpers/gaLogs';
 
 const HEADER_HEIGHT = 60;
 const DESKTOP_FOOTER_HEIGHT = 324;
@@ -90,6 +91,7 @@ const BackLink = styled(Link)`
     border-radius: 50%;
     background-color: rgba(255, 255, 255, 0.7);
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    cursor: pointer;
 
     &:hover {
         background-color: #ffffff;
@@ -147,8 +149,8 @@ export class SidePanel extends Component {
         fixedOn: 'center',
         showSideBlockByWidth: true,
         showSideBlockByHeight: true,
-        backURL: this.props.backURL,
         showPanel: true,
+        backURL: this.props.backURL,
     };
 
     sideBlockRef = createRef();
@@ -254,18 +256,18 @@ export class SidePanel extends Component {
 
     onBackClick = () => {
         this.props.onBackClick();
+        logClickAnalytics('Button', 'Back to previous page');
     };
 
     render() {
         const { post, isPinned, togglePin, isOwner, toggleFavorite, contentLink } = this.props;
-
         const {
             showSharePopover,
             fixedOn,
             showSideBlockByWidth,
             showSideBlockByHeight,
-            backURL,
             showPanel,
+            backURL,
         } = this.state;
 
         const shareTooltip = showSharePopover
@@ -312,7 +314,7 @@ export class SidePanel extends Component {
                         togglePin={togglePin}
                     />
                 </PanelWrapper>
-                {backURL ? (
+                {backURL !== window.location.pathname && (
                     <BackLink
                         to={backURL}
                         role="button"
@@ -322,7 +324,7 @@ export class SidePanel extends Component {
                     >
                         <BackIcon name="arrow_left" />
                     </BackLink>
-                ) : null}
+                )}
             </Wrapper>
         );
     }
