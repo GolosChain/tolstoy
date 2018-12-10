@@ -35,7 +35,7 @@ function* getContentCaller(action) {
 }
 
 function* watchLocationChange() {
-    yield takeLatest('@@router/LOCATION_CHANGE', fetchState);
+    yield takeLatest('@@router/LOCATION_CHANGE', onChangeLocation);
 }
 
 function* watchFetchState() {
@@ -50,14 +50,28 @@ function* watchFetchCurrentUserTransfers() {
     yield takeLatest('FETCH_CURRENT_USER_TRANSFERS', fetchCurrentUserTransfers);
 }
 
-let is_initial_state = true;
-function* fetchState(action) {
-    const backClickTs = yield select(state => state.ui.common.get('backClickTs'));
+function* onChangeLocation(action) {
+    const backClickInfo = yield select(state => state.ui.common);
+    const cur = yield select(state => state.app.getIn(['location', 'current']));
+    const backClickTs = backClickInfo.get('backClickTs');
 
-    if (backClickTs && Date.now() < backClickTs + 1000) {
+    /**
+     * Если изменение локации было связано с нажатием кнопки "назад" и текущий урл
+     * соответствует урлу кнопки "назад", то не инициализируем загрузку данных.
+     */
+    if (
+        backClickTs &&
+        Date.now() < backClickTs + 5000 &&
+        backClickInfo.get('backUrl') === cur.get('pathname') + cur.get('search') + cur.get('hash')
+    ) {
         return;
     }
 
+    yield call(fetchState, action);
+}
+
+let is_initial_state = true;
+function* fetchState(action) {
     const { pathname } = action.payload;
 
     let url = pathname;
