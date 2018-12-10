@@ -1,5 +1,5 @@
 import React, { Component, createRef } from 'react';
-import { browserHistory } from 'react-router';
+import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
@@ -72,7 +72,7 @@ const BackIcon = styled(Icon)`
     color: #393636;
 `;
 
-const BackButton = styled.div`
+const BackLink = styled(Link)`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -226,13 +226,19 @@ export class SidePanel extends Component {
 
     onBackClick = () => {
         this.props.onBackClick();
-        browserHistory.goBack();
         logClickAnalytics('Button', 'Back to previous page');
     };
 
     render() {
-        const { post, isPinned, togglePin, isOwner, toggleFavorite, contentLink } = this.props;
-
+        const {
+            post,
+            isPinned,
+            togglePin,
+            isOwner,
+            toggleFavorite,
+            contentLink,
+            backURL,
+        } = this.props;
         const {
             showSharePopover,
             fixedOn,
@@ -284,14 +290,17 @@ export class SidePanel extends Component {
                         togglePin={togglePin}
                     />
                 </PanelWrapper>
-                <BackButton
-                    role="button"
-                    data-tooltip={tt('g.turn_back')}
-                    aria-label={tt('g.turn_back')}
-                    onClick={this.onBackClick}
-                >
-                    <BackIcon name="arrow_left" />
-                </BackButton>
+                {backURL !== window.location.pathname && (
+                    <BackLink
+                        to={backURL}
+                        role="button"
+                        data-tooltip={tt('g.turn_back')}
+                        aria-label={tt('g.turn_back')}
+                        onClick={this.onBackClick}
+                    >
+                        <BackIcon name="arrow_left" />
+                    </BackLink>
+                )}
             </Wrapper>
         );
     }

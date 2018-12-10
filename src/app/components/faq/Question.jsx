@@ -77,16 +77,28 @@ export default class Question extends PureComponent {
     answerRef = createRef();
 
     componentDidMount() {
-        this.addEventListenerToLink();
+        this.linksEventListener('add');
     }
 
-    addEventListenerToLink() {
+    componentWillUnmount() {
+        this.linksEventListener('remove');
+    }
+
+    linksEventListener(action) {
         const links = this.answerRef.current.getElementsByTagName('a');
         if (links.length) {
             for (let i = 0; i < links.length; i++) {
                 const link = links[i].href;
                 if (link.startsWith('https://tlg.name')) {
-                    links[i].addEventListener('click', () => logOutboundLinkClickAnalytics(link));
+                    if (action === 'add') {
+                        links[i].addEventListener('click', () =>
+                            logOutboundLinkClickAnalytics(link)
+                        );
+                    } else {
+                        links[i].removeEventListener('click', () =>
+                            logOutboundLinkClickAnalytics(link)
+                        );
+                    }
                 }
             }
         }
