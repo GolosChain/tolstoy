@@ -271,7 +271,7 @@ export default class VotePanelAbstract extends PureComponent {
         } else if (votesSummary.myVote === 'like') {
             this.onChange(0);
         } else if (isRich) {
-            if (defaultVotePower && !isNaN(+defaultVotePower)) {
+            if (defaultVotePower && !isNaN(Number(defaultVotePower))) {
                 const votePower = Number((defaultVotePower / 100).toFixed(2));
                 this.onChange(votePower);
             } else {

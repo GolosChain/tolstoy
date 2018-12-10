@@ -31,7 +31,6 @@ export default class Common extends PureComponent {
     static propTypes = {
         options: PropTypes.object,
         isFetching: PropTypes.bool,
-        // isChanging: PropTypes.bool,
         onSubmitGate: PropTypes.func,
     };
 

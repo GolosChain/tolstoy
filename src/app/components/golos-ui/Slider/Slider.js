@@ -150,17 +150,15 @@ export default class Slider extends PureComponent {
                 <Progress width={percent} />
                 <HandleSlot innerRef={this.rootRef}>
                     <HandleWrapper left={percent}>
-                        <Handle
-                            data-tooltip={
-                                hideHandleValue && !isMobile
-                                    ? tt('settings_jsx.default_voting_power_tip', {
-                                          value,
-                                      })
-                                    : null
-                            }
-                        >
-                            {hideHandleValue && !isMobile ? null : value}
-                        </Handle>
+                        {hideHandleValue && !isMobile ? (
+                            <Handle
+                                data-tooltip={tt('settings_jsx.default_voting_power_tip', {
+                                    value,
+                                })}
+                            />
+                        ) : (
+                            <Handle>{value}</Handle>
+                        )}
                     </HandleWrapper>
                 </HandleSlot>
                 {showCaptions && (
