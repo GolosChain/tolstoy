@@ -583,7 +583,7 @@
     },
     "no": "Нет",
     "no_tags_selected": "теги не выбраны",
-    "no_topics_by_order_found": "В разделе %(order)s пока нет постов!",
+    "no_topics_by_order_found": "В разделе %(order)s пока нет постов c тегом ",
     "not_valid_email": "Недействительный адрес",
     "nothing_yet": "Пока ничего нет",
     "nsfw": "18+",

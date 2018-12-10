@@ -5,10 +5,12 @@ import is from 'styled-is';
 import { api, utils } from 'golos-js';
 import memoize from 'lodash/memoize';
 import throttle from 'lodash/throttle';
+import { isEmpty } from 'ramda';
 
 import SimpleInput from 'golos-ui/SimpleInput';
 import keyCodes from 'app/utils/keyCodes';
 import { getScrollElement } from 'src/app/helpers/window';
+import { buildAccountNameAutocomplete } from 'app/utils/StateFunctions';
 
 const MIN_SYMBOLS = 2;
 const MAX_VARIANTS = 5;
@@ -122,6 +124,7 @@ export default class AccountNameInput extends PureComponent {
         valid: Boolean(this.props.value) && !utils.validateAccountName(this.props.value),
         index: null,
         list: null,
+        autocompleteList: null,
         popoverPos: null,
         maxShowCount: MAX_VARIANTS,
     };
@@ -131,8 +134,17 @@ export default class AccountNameInput extends PureComponent {
     repositionInterval = null;
 
     componentDidMount() {
+        const { following, transferHistory } = this.props;
         this._mount = document.getElementById('content');
         this.repositionInterval = setInterval(this.reposition, 100);
+
+        if (transferHistory) {
+            this.setState({
+                autocompleteList: buildAccountNameAutocomplete(transferHistory, following),
+            });
+        } else {
+            this.props.fetchTransferHistory();
+        }
     }
 
     componentWillUnmount() {
@@ -152,6 +164,14 @@ export default class AccountNameInput extends PureComponent {
         if (this.props.value !== props.value) {
             this.setState({
                 valid: !utils.validateAccountName(props.value),
+            });
+        }
+        if (this.props.transferHistory !== props.transferHistory) {
+            this.setState({
+                autocompleteList: buildAccountNameAutocomplete(
+                    props.transferHistory,
+                    this.props.following
+                ),
             });
         }
     }
@@ -236,7 +256,11 @@ export default class AccountNameInput extends PureComponent {
             const loadIndex = ++this._loadIndex;
 
             try {
-                const names = await this.loadAccounts(value);
+                // load from blockchain
+                // const names = await this.loadAccounts(value);
+
+                //load from transfer history and following list
+                const names = this.filterAccounts(value, this.state.autocompleteList);
 
                 if (!this._showIndex || this._showIndex < loadIndex) {
                     const { focus } = this.state;
@@ -244,7 +268,7 @@ export default class AccountNameInput extends PureComponent {
                     this._showIndex = loadIndex;
 
                     const newState = {
-                        open: focus,
+                        open: focus && !isEmpty(names),
                         list: names,
                         index: 0,
                     };
@@ -410,6 +434,7 @@ export default class AccountNameInput extends PureComponent {
     };
 
     loadAccounts = memoize(word => api.lookupAccountsAsync(word, MAX_VARIANTS + 1));
+    filterAccounts = memoize((word, list) => list.filter(item => item.startsWith(word)));
 
     renderAutocomplete() {
         const { list, index, popoverPos, maxShowCount } = this.state;
@@ -435,13 +460,9 @@ export default class AccountNameInput extends PureComponent {
 
     render() {
         const { block, value } = this.props;
-        const { open, list, focus, valid, popoverPos } = this.state;
+        const { open, focus, valid, popoverPos } = this.state;
 
         let isError = value && !focus && !valid;
-
-        if (!isError && list && !list.includes(value)) {
-            isError = true;
-        }
 
         return (
             <Wrapper block={block ? 1 : 0} innerRef={this.onRef}>
