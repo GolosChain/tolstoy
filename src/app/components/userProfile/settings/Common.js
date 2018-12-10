@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Map, fromJS } from 'immutable';
+import { Map } from 'immutable';
 
 import { Form, Field } from 'react-final-form';
 import tt from 'counterpart';
@@ -31,12 +31,12 @@ export default class Common extends PureComponent {
     static propTypes = {
         options: PropTypes.object,
         isFetching: PropTypes.bool,
-        isChanging: PropTypes.bool,
+        // isChanging: PropTypes.bool,
         onSubmitGate: PropTypes.func,
     };
 
     render() {
-        const { options, isChanging, onSubmitGate } = this.props;
+        const { options, onSubmitGate } = this.props;
         const data = {
             basic: options.getIn(['basic'], emptyMap).toJS(),
         };
@@ -120,7 +120,7 @@ export default class Common extends PureComponent {
                                 {({ input, meta }) => (
                                     <FormGroup>
                                         <Label dark bold>
-                                            {tt('settings_jsx.default_award')}
+                                            {tt('settings_jsx.default_voting_power')}
                                         </Label>
                                         <Slider {...input} showCaptions hideHandleValue />
                                         <FormError meta={meta} />

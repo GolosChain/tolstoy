@@ -37,7 +37,6 @@ export default connect(
             }
 
             let myVote = null;
-            const votePower = defaultVotePower ? defaultVotePower : 100;
 
             for (let vote of votes) {
                 if (vote.get('voter') === username) {
@@ -59,7 +58,7 @@ export default connect(
                 contentLink: `${post.get('author')}/${post.get('permlink')}`,
                 votesSummary,
                 myVote,
-                defaultVotePower: Number((votePower / 100).toFixed(2)),
+                defaultVotePower,
             };
         }
     ),

@@ -8,7 +8,6 @@ import { PrivateKey } from 'golos-js/lib/auth/ecc';
 
 import user from 'app/redux/User';
 import transaction from 'app/redux/Transaction';
-import g from 'app/redux/GlobalReducer';
 
 import { FORM_ERROR } from 'final-form';
 import { pick } from 'ramda';

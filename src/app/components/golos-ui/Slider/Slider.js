@@ -153,7 +153,9 @@ export default class Slider extends PureComponent {
                         <Handle
                             data-tooltip={
                                 hideHandleValue && !isMobile
-                                    ? tt('settings_jsx.default_award_tip', { value: value })
+                                    ? tt('settings_jsx.default_voting_power_tip', {
+                                          value,
+                                      })
                                     : null
                             }
                         >
