@@ -14,6 +14,7 @@ import { validateTransferQuery } from 'app/utils/ParsersAndFormatters';
 import WalletTabs from 'src/app/components/userProfile/wallet/WalletTabs';
 import WalletLine from 'src/app/components/userProfile/wallet/WalletLine';
 import PowerDownLine from 'src/app/components/wallet/PowerDownLine';
+import { visuallyHidden } from 'src/app/helpers/styles';
 
 const DEFAULT_ROWS_LIMIT = 25;
 const LOAD_LIMIT = 500;
@@ -91,6 +92,10 @@ const Stub = styled.div`
     color: #777;
 `;
 
+const Header = styled.h1`
+    ${visuallyHidden};
+`;
+
 export default class WalletContent extends Component {
     state = {
         mainTab: this.props.walletTabsState.get('mainTab'),
@@ -127,10 +132,15 @@ export default class WalletContent extends Component {
 
         return (
             <Card auto>
-                <Helmet title={tt('meta.title.profile.wallet', { name: pageAccountName })} />
+                <Helmet
+                    title={tt('meta.title.profile.wallet', {
+                        name: pageAccountName,
+                    })}
+                />
                 {isOwner && pageAccountName ? (
                     <PowerDownLine accountName={pageAccountName} />
                 ) : null}
+                <Header>{tt('g.wallet')}</Header>
                 <WalletTabs
                     mainTab={mainTab}
                     currency={currency}
