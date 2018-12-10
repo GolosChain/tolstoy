@@ -98,6 +98,7 @@ export const FormGroupRow = styled(Flex)`
         flex: 1;
     }
 `;
+
 FormGroupRow.defaultProps = {
     align: 'center',
 };

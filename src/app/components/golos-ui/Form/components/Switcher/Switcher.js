@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import is from 'styled-is';
+import { visuallyHidden } from 'src/app/helpers/styles';
 
 const Wrapper = styled.div`
     display: inline-block;
@@ -36,9 +37,14 @@ const Toggler = styled.div`
     `};
 `;
 
+const HiddenCheckbox = styled.input`
+    ${visuallyHidden};
+`;
+
 const Switcher = ({ value, onChange }) => (
     <Wrapper checked={value} onClick={() => onChange(!value)}>
         <Toggler checked={value} />
+        <HiddenCheckbox type="checkbox" defaultChecked={Boolean(value)} />
     </Wrapper>
 );
 export default Switcher;
