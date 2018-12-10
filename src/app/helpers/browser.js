@@ -17,6 +17,7 @@ export function checkMobileDevice() {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(
         window.navigator.userAgent
     );
+}
 
 export function addChunkLoadingErrorHandler() {
     window.addEventListener('unhandledrejection', err => {
