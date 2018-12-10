@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
@@ -57,10 +57,14 @@ const SpamText = styled.div`
     margin-right: 10px;
 `;
 
+const PostContentWrapper = styled.div``;
+
 export class PostContainer extends Component {
     state = {
         showAlert: this.isNeedShowAlert(this.props),
     };
+
+    postContentRef = createRef();
 
     componentDidMount() {
         this.props.loadUserFollowData(this.props.author);
@@ -125,10 +129,19 @@ export class PostContainer extends Component {
         return (
             <Wrapper>
                 <ContentWrapper>
-                    <PostContent togglePin={this.togglePin} toggleFavorite={this.toggleFavorite} />
+                    <PostContentWrapper innerRef={this.postContentRef}>
+                        <PostContent
+                            togglePin={this.togglePin}
+                            toggleFavorite={this.toggleFavorite}
+                        />
+                    </PostContentWrapper>
                     <ActivePanel togglePin={this.togglePin} toggleFavorite={this.toggleFavorite} />
                     {!isOwner ? <AboutPanel /> : null}
-                    <SidePanel togglePin={this.togglePin} toggleFavorite={this.toggleFavorite} />
+                    <SidePanel
+                        togglePin={this.togglePin}
+                        toggleFavorite={this.toggleFavorite}
+                        postContentRef={this.postContentRef}
+                    />
                     <CommentsContainer />
                     {newVisitor && <RegistrationPanel />}
                 </ContentWrapper>

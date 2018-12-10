@@ -47,7 +47,7 @@
     "bytes": "^2.5.0",
     "classnames": "^2.2.5",
     "co-body": "^5.1.1",
-    "codemirror-md": "^0.1.0",
+    "codemirror-md": "^0.1.1",
     "config": "^1.26.2",
     "counterpart": "^0.17.9",
     "css-loader": "^1.0.1",
