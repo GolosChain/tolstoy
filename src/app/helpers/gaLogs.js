@@ -1,7 +1,7 @@
 const isProd = process.env.NODE_ENV === 'production';
 
 export function logClickAnalytics(eventCategory, eventLabel) {
-    if (isProd) {
+    if (isProd && window.ga) {
         window.ga('send', {
             hitType: 'event',
             eventCategory,
@@ -12,7 +12,7 @@ export function logClickAnalytics(eventCategory, eventLabel) {
 }
 
 export function logOutboundLinkClickAnalytics(eventLabel) {
-    if (isProd) {
+    if (isProd && window.ga) {
         window.ga('send', {
             hitType: 'event',
             eventCategory: 'Outbound Link',
@@ -24,7 +24,7 @@ export function logOutboundLinkClickAnalytics(eventLabel) {
 }
 
 export function logSuccessOperationAnalytics(eventLabel) {
-    if (isProd) {
+    if (isProd && window.ga) {
         window.ga('send', {
             hitType: 'event',
             eventCategory: 'Operation',
@@ -35,7 +35,7 @@ export function logSuccessOperationAnalytics(eventLabel) {
 }
 
 export function logOpenDialogAnalytics(eventLabel) {
-    if (isProd) {
+    if (isProd && window.ga) {
         window.ga('send', {
             hitType: 'event',
             eventCategory: 'Dialog',
