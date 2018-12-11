@@ -37,17 +37,17 @@ export default class UserNavigation extends PureComponent {
 
         const tabLinks = [];
 
-        tabLinks.push({ value: tt('g.blog'), to: `/@${accountName}` });
-        tabLinks.push({ value: tt('g.comments'), to: `/@${accountName}/comments` });
+        tabLinks.push(
+            { value: tt('g.blog'), to: `/@${accountName}` },
+            { value: tt('g.comments'), to: `/@${accountName}/comments` },
+            { value: tt('g.replies'), to: `/@${accountName}/recent-replies` }
+        );
 
         if (isOwner) {
             tabLinks.push({ value: tt('g.favorites'), to: `/@${accountName}/favorites` });
         }
 
-        tabLinks.push(
-            { value: tt('g.replies'), to: `/@${accountName}/recent-replies` },
-            { value: tt('g.wallet'), to: `/@${accountName}/transfers` }
-        );
+        tabLinks.push({ value: tt('g.wallet'), to: `/@${accountName}/transfers` });
 
         if (isOwner) {
             tabLinks.push({ value: tt('g.activity'), to: `/@${accountName}/activity` });
