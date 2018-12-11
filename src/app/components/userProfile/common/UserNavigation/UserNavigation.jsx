@@ -4,9 +4,6 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 import { Link } from 'react-router';
 
-import { TabLink, TabLinkIndex } from 'golos-ui/Tab';
-import Icon from 'golos-ui/Icon';
-
 import LayoutSwitcher from 'src/app/components/common/LayoutSwitcher';
 import Navigation from 'src/app/components/common/Navigation';
 
@@ -50,10 +47,12 @@ export default class UserNavigation extends PureComponent {
         );
 
         if (isOwner) {
-            tabLinks.push({ value: tt('g.activity'), to: `/@${accountName}/activity` });
+            tabLinks.push(
+                { value: tt('g.activity'), to: `/@${accountName}/activity` },
+                { value: tt('g.settings'), to: `/@${accountName}/settings` }
+                // { value: tt('g.messages'), to: `/@${accountName}/messages` },
+            );
         }
-
-        //tabLinks.push({ value: tt('g.messages'), to: `/@${accountName}/messages` });
 
         return (
             <Navigation
@@ -66,23 +65,8 @@ export default class UserNavigation extends PureComponent {
     }
 
     renderRightIcons() {
-        const { accountName, isOwner, showLayout } = this.props;
+        const { showLayout } = this.props;
 
-        return (
-            <Fragment>
-                {showLayout ? <LayoutSwitcher /> : null}
-                {isOwner ? (
-                    <IconLink
-                        key="settings"
-                        to={`/@${accountName}/settings`}
-                        role="button"
-                        aria-label={tt('g.settings')}
-                        data-tooltip={tt('g.settings')}
-                    >
-                        <Icon name="settings" size="24" />
-                    </IconLink>
-                ) : null}
-            </Fragment>
-        );
+        return <Fragment>{showLayout ? <LayoutSwitcher /> : null}</Fragment>;
     }
 }
