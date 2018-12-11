@@ -138,15 +138,11 @@ export default class ActivityContent extends PureComponent {
     };
 
     render() {
-        const { isFetching, currentTabId, pageAccountName, title } = this.props;
+        const { isFetching, currentTabId, pageAccountName } = this.props;
 
         return (
             <Fragment>
-                <Helmet
-                    title={tt('meta.title.profile.activity', {
-                        name: pageAccountName,
-                    })}
-                />
+                <Helmet title={tt('meta.title.profile.activity', { name: pageAccountName })} />
                 <Header>{tt('g.activity')}</Header>
                 <Card auto innerRef={this.setRootRef}>
                     <Tabs activeTab={{ id: currentTabId }} onChange={this.handleChangeTab}>

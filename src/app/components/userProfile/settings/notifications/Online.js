@@ -11,36 +11,52 @@ import { pick } from 'ramda';
 import SplashLoader from 'golos-ui/SplashLoader';
 import { CardContent, CardDivider } from 'golos-ui/Card';
 import { DialogFooter, DialogButton } from 'golos-ui/Dialog';
-import {
-    FormGroup,
-    FormGroupRow as StyledFormGroupRow,
-    Label as StyledLabel,
-    LabelRow as StyledLabelRow,
-    Switcher,
-} from 'golos-ui/Form';
+import { FormGroup, Switcher } from 'golos-ui/Form';
 import Icon from 'golos-ui/Icon';
 
-const Label = styled(StyledLabel)`
-    margin-bottom: 20px;
+const GroupTitle = styled.div`
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #393636;
 `;
 
-const FormGroupRow = styled(StyledFormGroupRow)`
-    height: 20px;
+const FormRow = styled.label`
+    display: flex;
+    align-items: center;
+    padding: 4px 0;
+    margin: 4px 0;
+    text-transform: none;
+    cursor: pointer;
+
+    &:first-child {
+        margin-top: -4px;
+    }
+
+    &:last-child {
+        margin-bottom: -4px;
+    }
 `;
 
-const LabelRow = styled(StyledLabelRow)`
-    flex: 1;
-    justify-content: flex-start;
+const OptionText = styled.div`
+    flex-grow: 1;
+    font-size: 14px;
+    color: #393636;
 `;
 
-const LabelIcon = styled(StyledLabelRow)`
+const OptionIconWrapper = styled.div`
+    display: flex;
+    justify-content: center;
     flex-basis: 19px;
-    color: #d7d7d7;
     margin-right: 20px;
+    color: #d7d7d7;
 
     ${is('active')`
-        color: #2879FF;
+        color: #2879ff;
     `};
+`;
+
+const OptionIcon = styled(Icon)`
+    display: block;
 `;
 
 export default class Online extends PureComponent {
@@ -144,13 +160,13 @@ export default class Online extends PureComponent {
         return switchers.map(({ name, label, icon }, key) => (
             <Field name={name} key={key}>
                 {({ input }) => (
-                    <FormGroupRow>
-                        <LabelIcon active={input.value}>
-                            <Icon {...icon} />
-                        </LabelIcon>
-                        <LabelRow dark>{label}</LabelRow>
+                    <FormRow>
+                        <OptionIconWrapper active={input.value}>
+                            <OptionIcon {...icon} />
+                        </OptionIconWrapper>
+                        <OptionText dark>{label}</OptionText>
                         <Switcher {...input} />
-                    </FormGroupRow>
+                    </FormRow>
                 )}
             </Field>
         ));
@@ -205,18 +221,18 @@ export default class Online extends PureComponent {
                             <Field name="switchAll">
                                 {({ input }) => (
                                     <FormGroup>
-                                        <Label dark>
+                                        <GroupTitle dark>
                                             {tt('settings_jsx.notifications.allOnlineLabel')}
-                                        </Label>
-                                        <FormGroupRow>
-                                            <LabelIcon active={input.value}>
-                                                <Icon name="bell" width="19" height="20" />
-                                            </LabelIcon>
-                                            <LabelRow dark>
+                                        </GroupTitle>
+                                        <FormRow>
+                                            <OptionIconWrapper active={input.value}>
+                                                <OptionIcon name="bell" width="19" height="20" />
+                                            </OptionIconWrapper>
+                                            <OptionText dark>
                                                 {tt('settings_jsx.notifications.allOnline')}
-                                            </LabelRow>
+                                            </OptionText>
                                             <Switcher {...input} />
-                                        </FormGroupRow>
+                                        </FormRow>
                                     </FormGroup>
                                 )}
                             </Field>

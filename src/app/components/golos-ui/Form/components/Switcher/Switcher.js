@@ -14,7 +14,7 @@ const Wrapper = styled.div`
     cursor: pointer;
 
     ${is('checked')`
-        background-color: #93BBFE;
+        background-color: #93bbfe;
     `};
 `;
 
@@ -42,9 +42,13 @@ const HiddenCheckbox = styled.input`
 `;
 
 const Switcher = ({ value, onChange }) => (
-    <Wrapper checked={value} onClick={() => onChange(!value)}>
+    <Wrapper checked={value}>
         <Toggler checked={value} />
-        <HiddenCheckbox type="checkbox" defaultChecked={Boolean(value)} />
+        <HiddenCheckbox
+            type="checkbox"
+            checked={Boolean(value)}
+            onChange={e => onChange(e.target.checked)}
+        />
     </Wrapper>
 );
 export default Switcher;
