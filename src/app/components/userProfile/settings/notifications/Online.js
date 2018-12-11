@@ -26,6 +26,7 @@ const FormRow = styled.label`
     padding: 4px 0;
     margin: 4px 0;
     text-transform: none;
+    user-select: none;
     cursor: pointer;
 
     &:first-child {
