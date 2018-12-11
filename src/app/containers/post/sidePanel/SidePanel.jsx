@@ -255,7 +255,7 @@ export class SidePanel extends Component {
     };
 
     onBackClick = () => {
-        this.props.onBackClick();
+        this.props.onBackClick(this.state.backURL);
         logClickAnalytics('Button', 'Back to previous page');
     };
 
