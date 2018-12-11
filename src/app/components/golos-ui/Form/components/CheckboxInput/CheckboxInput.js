@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { visuallyHidden } from 'src/app/helpers/styles';
 import Icon from 'golos-ui/Icon';
 
 const Wrapper = styled.label`
@@ -30,10 +31,7 @@ const Title = styled.div`
 `;
 
 const HiddenInput = styled.input`
-    position: absolute;
-    width: 0;
-    height: 0;
-    visibility: hidden;
+    ${visuallyHidden};
 `;
 
 const CheckboxInput = ({ value, title, inline, onChange }) => (
