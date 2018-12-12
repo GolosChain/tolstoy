@@ -41,7 +41,6 @@ const CommentReplyBlock = styled(ReplyBlock)`
     margin: 0;
 
     @media (min-width: 890px) and (max-width: 1087px), (max-width: 639px) {
-        flex-grow: 1;
         justify-content: center;
     }
 `;
@@ -107,8 +106,12 @@ const DonateButton = styled.div`
     height: 100%;
     min-height: 50px;
     padding: 0 10px;
-    margin-left: 8px;
+
     cursor: pointer;
+
+    @media (min-width: 890px) and (max-width: 1087px), (max-width: 639px) {
+        margin-left: 0;
+    }
 `;
 
 export default class CommentFooter extends Component {
