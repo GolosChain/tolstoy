@@ -118,9 +118,10 @@ const SearchIcon = styled(Icon)`
     color: #393636;
 `;
 
-const LocaleSelectBlock = styled.div`
+const LocaleSelectWrapper = styled.div`
     display: flex;
     align-items: center;
+    flex-shrink: 0;
 `;
 
 const Buttons = styled.div`
@@ -603,9 +604,9 @@ export default class Header extends PureComponent {
                             this.renderAuthorizedPart()
                         ) : (
                             <Fragment>
-                                <LocaleSelectBlock>
+                                <LocaleSelectWrapper>
                                     <LocaleSelect onChangeLocale={onChangeLocale} />
-                                </LocaleSelectBlock>
+                                </LocaleSelectWrapper>
                                 <Buttons hidden={waitAuth}>
                                     <SignUp href={REGISTRATION_URL}>
                                         <Button>{tt('g.sign_up')}</Button>
