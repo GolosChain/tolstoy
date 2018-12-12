@@ -259,6 +259,31 @@ export class SidePanel extends Component {
         logClickAnalytics('Button', 'Back to previous page');
     };
 
+    renderBack = () => {
+        const { backURL } = this.state;
+
+        // Если backUrl это ссылка на пост то не показываем кнопку "назад".
+        if (/^\/[^\/]+\/@/.test(backURL)) {
+            return;
+        }
+
+        const currentUrl = location.pathname + location.search + location.hash;
+
+        if (backURL && currentUrl && backURL !== currentUrl) {
+            return (
+                <BackLink
+                    to={backURL}
+                    role="button"
+                    data-tooltip={tt('g.turn_back')}
+                    aria-label={tt('g.turn_back')}
+                    onClick={this.onBackClick}
+                >
+                    <BackIcon name="arrow_left" />
+                </BackLink>
+            );
+        }
+    };
+
     render() {
         const { post, isPinned, togglePin, isOwner, toggleFavorite, contentLink } = this.props;
         const {
@@ -267,7 +292,6 @@ export class SidePanel extends Component {
             showSideBlockByWidth,
             showSideBlockByHeight,
             showPanel,
-            backURL,
         } = this.state;
 
         const shareTooltip = showSharePopover
@@ -314,17 +338,7 @@ export class SidePanel extends Component {
                         togglePin={togglePin}
                     />
                 </PanelWrapper>
-                {backURL !== window.location.pathname && (
-                    <BackLink
-                        to={backURL}
-                        role="button"
-                        data-tooltip={tt('g.turn_back')}
-                        aria-label={tt('g.turn_back')}
-                        onClick={this.onBackClick}
-                    >
-                        <BackIcon name="arrow_left" />
-                    </BackLink>
-                )}
+                {process.env.BROWSER ? this.renderBack() : null}
             </Wrapper>
         );
     }
