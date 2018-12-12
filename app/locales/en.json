@@ -1114,6 +1114,16 @@
     "thanks_for_submitting_request_for_account_recovery_3": "Please be prepared to verify your identity.",
     "unable_to_recover_account_not_change_ownership_recently": "We are unable to recover this account, it has not changed ownership recently."
   },
+  "registration_banner_jsx": {
+    "new_to_golos": "New to Golos?",
+    "everything_is_simple": "Everything is simple:",
+    "write_a_post": "Write a post on Golos.io",
+    "community_votes": "Community votes",
+    "you_get_rewards": "You get rewards",
+    "create_an_account": "Create an account",
+    "to_learn_more": "To learn morn",
+    "faq": "FAQ"
+  },
   "reply": {
     "comments_count": "Comments count"
   },
