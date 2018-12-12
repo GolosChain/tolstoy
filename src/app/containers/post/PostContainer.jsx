@@ -142,8 +142,8 @@ export class PostContainer extends Component {
                         toggleFavorite={this.toggleFavorite}
                         postContentRef={this.postContentRef}
                     />
-                    <CommentsContainer />
                     {!user && <RegistrationPanel />}
+                    <CommentsContainer user={user} />
                 </ContentWrapper>
             </Wrapper>
         );

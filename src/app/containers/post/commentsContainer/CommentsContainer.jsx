@@ -26,16 +26,18 @@ export class CommentsContainer extends Component {
     };
 
     render() {
-        const { commentsCount, data, commentInputFocused } = this.props;
+        const { commentsCount, data, commentInputFocused, user } = this.props;
         return (
             <Wrapper innerRef={this.commentContainerRef}>
                 <CommentsHeader commentsCount={commentsCount} />
-                <CreateComment
-                    data={data}
-                    updateComments={this.updateComments}
-                    commentInputFocused={commentInputFocused}
-                    commentContainerRef={this.commentContainerRef}
-                />
+                {user && (
+                    <CreateComment
+                        data={data}
+                        updateComments={this.updateComments}
+                        commentInputFocused={commentInputFocused}
+                        commentContainerRef={this.commentContainerRef}
+                    />
+                )}
                 <CommentsList updateComments={this.updateComments} />
             </Wrapper>
         );
