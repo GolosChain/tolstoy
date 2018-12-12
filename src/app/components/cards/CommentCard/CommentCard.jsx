@@ -493,6 +493,7 @@ export class CommentCard extends PureComponent {
             stats,
             showSpam,
             anchorId,
+            openDonateDialog,
         } = this.props;
 
         const { showReply, collapsed, edit, highlighted, showAlert } = this.state;
@@ -539,6 +540,7 @@ export class CommentCard extends PureComponent {
                             replyRef={this.replyRef}
                             commentRef={this.commentRef}
                             onReplyClick={this.onReplyClick}
+                            openDonateDialog={openDonateDialog}
                         />
                     </Fragment>
                 )}
