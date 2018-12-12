@@ -9,6 +9,7 @@ import {
     parseJSON,
     currentUsernameSelector,
 } from '../common';
+import { locationTagsSelector } from 'src/app/redux/selectors/app/location';
 import { extractPinnedPosts, getPinnedPosts } from 'src/app/redux/selectors/account/pinnedPosts';
 import { detransliterate, parsePayoutAmount } from 'app/utils/ParsersAndFormatters';
 import normalizeProfile from 'app/utils/NormalizeProfile';
@@ -175,6 +176,7 @@ export const sanitizeRepostData = memoize(data => {
 export const postCardSelector = createDeepEqualSelector(
     [
         currentUsernameSelector,
+        locationTagsSelector,
         dataSelector(['favorites', 'set']),
         dataSelector('settings'),
         (state, props) => globalSelector(['content', props.permLink])(state),
@@ -183,7 +185,7 @@ export const postCardSelector = createDeepEqualSelector(
             getPinnedPosts(state, props.pageAccountName).includes(props.permLink),
         (_, props) => props,
     ],
-    (currentUsername, favoritesSet, settings, data, isPinned, props) => {
+    (currentUsername, { tagsSelect }, favoritesSet, settings, data, isPinned, props) => {
         let repostHtml = null;
         let isRepost = false;
         let reblogData = null;
@@ -223,7 +225,9 @@ export const postCardSelector = createDeepEqualSelector(
             reblogData,
             allowRepost:
                 !isOwner && (!isRepost || reblogData.get('repostAuthor') !== currentUsername),
-            isHidden: isHide(data) || (!isOwner && isContainTags(data, HIDE_BY_TAGS)),
+            isHidden:
+                isHide(data) ||
+                (!isOwner && isContainTags(data, HIDE_BY_TAGS) && !tagsSelect.length),
         };
     }
 );
