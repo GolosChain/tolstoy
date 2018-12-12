@@ -1,6 +1,6 @@
 import assert from 'assert';
 import { Long } from 'bytebuffer';
-import { Map, Seq, Set, fromJS } from 'immutable';
+import { Map, List, Seq, Set, fromJS } from 'immutable';
 import { has, intersection } from 'ramda';
 
 import constants from 'app/redux/constants';
@@ -318,18 +318,18 @@ export function buildAccountNameAutocomplete(transferHistory, following) {
 }
 
 export function sortFollowers(followers) {
-    return Set()
+    return List()
         .withMutations(users => {
-            followers.forEach(follower => {
+            for (const follower of followers) {
                 const profile = normalizeProfile(follower.toJS());
-                users.add(
+                users.push(
                     fromJS({
                         name: follower.get('name'),
                         profileName: profile.name || follower.get('name'),
                         profileImage: profile.profile_image,
                     })
                 );
-            });
+            }
         })
         .sort((a, b) => a.get('profileName').localeCompare(b.get('profileName')));
 }
