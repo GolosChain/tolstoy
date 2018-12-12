@@ -103,7 +103,7 @@ export class PostContainer extends Component {
     };
 
     render() {
-        const { postLoaded, newVisitor, isOwner, isHidden } = this.props;
+        const { postLoaded, user, isOwner, isHidden } = this.props;
         const { showAlert } = this.state;
         if (!postLoaded) {
             return <Loader type="circle" center size={40} />;
@@ -142,8 +142,8 @@ export class PostContainer extends Component {
                         toggleFavorite={this.toggleFavorite}
                         postContentRef={this.postContentRef}
                     />
-                    <CommentsContainer />
-                    {newVisitor && <RegistrationPanel />}
+                    {!user && <RegistrationPanel />}
+                    <CommentsContainer user={user} />
                 </ContentWrapper>
             </Wrapper>
         );
