@@ -142,7 +142,7 @@ export class AboutPanel extends Component {
 
     openDonateDialog = () => {
         const { openDonateDialog, account, url } = this.props;
-
+        console.log(account, url);
         openDonateDialog(account, url);
     };
 
@@ -154,7 +154,9 @@ export class AboutPanel extends Component {
                     <Userpic account={account} size={50} ariaLabel={tt('aria_label.avatar')} />
                     <AuthorInfo>
                         <AuthorName>{name}</AuthorName>
-                        <Account to={`/@${account}`} aria-label={tt('aria_label.username')}>@{account}</Account>
+                        <Account to={`/@${account}`} aria-label={tt('aria_label.username')}>
+                            @{account}
+                        </Account>
                     </AuthorInfo>
                     <Divider />
                 </Avatar>

@@ -1,12 +1,14 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Map } from 'immutable';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
 
-import VotePanel from '../../common/VotePanel';
-import ReplyBlock from '../../common/ReplyBlock';
+import Icon from 'src/app/components/golos-ui/Icon';
+
+import VotePanel from 'src/app/components/common/VotePanel';
+import ReplyBlock from 'src/app/components/common/ReplyBlock';
 
 const Wrapper = styled.div`
     position: relative;
@@ -44,7 +46,7 @@ const CommentReplyBlock = styled(ReplyBlock)`
     }
 `;
 
-const CommentReplyWrapper = styled.div`
+const CommentRightButtons = styled.div`
     display: flex;
     align-items: center;
 
@@ -61,6 +63,10 @@ const Splitter = styled.div`
     height: 26px;
     margin: 0 6px;
     background: #e1e1e1;
+`;
+
+const DonateSplitter = styled(Splitter)`
+    margin: 0;
 `;
 
 const FooterConfirm = styled.div`
@@ -95,6 +101,16 @@ const ButtonConfirm = styled.div`
     }
 `;
 
+const DonateButton = styled.div`
+    display: flex;
+    align-items: center;
+    height: 100%;
+    min-height: 50px;
+    padding: 0 10px;
+    margin-left: 8px;
+    cursor: pointer;
+`;
+
 export default class CommentFooter extends Component {
     static propTypes = {
         commentRef: PropTypes.object,
@@ -102,10 +118,11 @@ export default class CommentFooter extends Component {
         comment: PropTypes.instanceOf(Map),
         edit: PropTypes.bool.isRequired,
         isOwner: PropTypes.bool.isRequired,
-        onReplyClick: PropTypes.func.isRequired,
         onVote: PropTypes.func.isRequired,
         replyRef: PropTypes.object.isRequired,
         showReply: PropTypes.bool.isRequired,
+        onReplyClick: PropTypes.func.isRequired,
+        openDonateDialog: PropTypes.func.isRequired,
         username: PropTypes.string,
     };
 
@@ -127,6 +144,11 @@ export default class CommentFooter extends Component {
     onSaveEditClick = () => {
         const { commentRef } = this.props;
         commentRef.current.post();
+    };
+
+    onDonateClick = () => {
+        const { comment, openDonateDialog } = this.props;
+        openDonateDialog(comment.get('author'), comment.get('url'));
     };
 
     render() {
@@ -161,7 +183,20 @@ export default class CommentFooter extends Component {
                 <CommentVotePanel
                     contentLink={`${comment.get('author')}/${comment.get('permlink')}`}
                 />
-                <CommentReplyWrapper>
+                <CommentRightButtons>
+                    {!isOwner && (
+                        <Fragment>
+                            <DonateButton
+                                role="button"
+                                data-tooltip={tt('g.donate')}
+                                aria-label={tt('g.donate')}
+                                onClick={this.onDonateClick}
+                            >
+                                <Icon size="20" name="coins_plus" />
+                            </DonateButton>
+                            <DonateSplitter />
+                        </Fragment>
+                    )}
                     <CommentReplyBlock
                         count={comment.get('children')}
                         link={contentLink}
@@ -169,7 +204,7 @@ export default class CommentFooter extends Component {
                         notOwner={!isOwner}
                         onReplyClick={onReplyClick}
                     />
-                </CommentReplyWrapper>
+                </CommentRightButtons>
             </Wrapper>
         );
     }

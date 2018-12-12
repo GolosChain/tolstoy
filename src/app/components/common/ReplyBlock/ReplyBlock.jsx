@@ -27,7 +27,7 @@ const Replies = styled(
 )`
     height: 100%;
     min-height: 50px;
-    padding: 0 11px 0 18px;
+    padding: 0 10px;
     display: flex;
     align-items: center;
     flex-grow: 1;
