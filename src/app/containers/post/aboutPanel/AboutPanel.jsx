@@ -142,7 +142,6 @@ export class AboutPanel extends Component {
 
     openDonateDialog = () => {
         const { openDonateDialog, account, url } = this.props;
-        console.log(account, url);
         openDonateDialog(account, url);
     };
 
