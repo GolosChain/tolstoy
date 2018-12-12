@@ -25,14 +25,15 @@ const Replies = styled(
     ({ to, isLink, ...otherProps }) =>
         isLink ? <Link to={to} {...otherProps} /> : <div {...otherProps} />
 )`
-    height: 100%;
-    min-height: 50px;
-    padding: 0 10px;
     display: flex;
     align-items: center;
     flex-grow: 1;
-    user-select: none;
     justify-content: flex-end;
+    height: 100%;
+    min-height: 50px;
+    padding: 0 10px;
+    user-select: none;
+    cursor: pointer;
 
     @media (min-width: 890px) and (max-width: 1087px), (max-width: 639px) {
         justify-content: center;
