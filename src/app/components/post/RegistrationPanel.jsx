@@ -10,7 +10,7 @@ const Wrapper = styled.div`
     display: flex;
     justify-content: space-between;
 
-    margin-top: 20px;
+    margin: 20px 0;
 
     object-fit: contain;
     border-radius: 8px;
@@ -24,7 +24,7 @@ const Wrapper = styled.div`
 
 const Information = styled.div`
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     flex-direction: column;
 
     padding: 20px;
@@ -46,29 +46,31 @@ const Rocket = styled.div`
     }
 `;
 
-const Title = styled.div`
-    font-family: Helvetica, sans-serif;
+const Title = styled.h3`
+    margin: 0;
+
+    font-family: 'Helvetica', sans-serif;
     font-size: 16px;
+    line-height: 1;
     font-weight: bold;
     text-align: center;
 `;
 
-const Description = styled.div`
-    margin-top: 10px;
+const Description = styled.p`
+    padding: 10px 0;
+    margin: 0;
 
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
     font-weight: 500;
     line-height: 1.5;
     letter-spacing: -0.3px;
-    text-align: center;
+    text-align: left;
     color: #959595;
 `;
 
 const RegButtonLink = styled.a`
     display: block;
-
-    margin-top: 10px;
 `;
 
 const RegistrationButton = styled(Button)`
@@ -114,7 +116,7 @@ export default class RegistrationPanel extends Component {
                 <Rocket>
                     <Divider />
                     <RocketHolder>
-                        <RocketImg src="/images/post/registration-rocket.svg"/>
+                        <RocketImg src="/images/post/registration-rocket.svg" />
                     </RocketHolder>
                 </Rocket>
             </Wrapper>
