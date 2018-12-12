@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
+import { REGISTRATION_URL } from 'app/client_config';
 
 const Wrapper = styled.div`
     display: flex;
@@ -187,7 +188,7 @@ export default class RegistartionBanner extends Component {
                         {tt('registration_banner_jsx.you_get_rewards')}
                     </Explanation>
                 </ExplanationList>
-                <RegButton href="https://reg.golos.io">
+                <RegButton href={REGISTRATION_URL}>
                     {tt('registration_banner_jsx.create_an_account')}
                 </RegButton>
                 <InfoWrapper>
