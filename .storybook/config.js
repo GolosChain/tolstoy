@@ -1,5 +1,5 @@
-import { configure, addDecorator } from "@storybook/react";
-import { injectGlobal } from "styled-components";
+import { configure, addDecorator } from '@storybook/react';
+import { injectGlobal } from 'styled-components';
 import { withThemes } from 'storybook-styled-components';
 import { Center, Router } from './decorators';
 
@@ -10,9 +10,8 @@ injectGlobal`
 `;
 
 const req = require.context('../stories', true, /\.stories\.jsx?$/);
-const reqApp = require.context("../app", true, /\.stories\.jsx?$/);
-const reqSrc = require.context("../src", true, /\.stories\.jsx?$/);
-
+const reqApp = require.context('../app', true, /\.stories\.jsx?$/);
+const reqSrc = require.context('../src', true, /\.stories\.jsx?$/);
 
 function loadStories() {
     for (let fileName of req.keys()) {
@@ -29,7 +28,7 @@ function loadStories() {
 }
 
 addDecorator(withThemes(themes));
-addDecorator(Router)
+addDecorator(Router);
 addDecorator(Center);
 
 configure(loadStories, module);

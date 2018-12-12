@@ -1014,6 +1014,16 @@
     "thanks_for_submitting_request_for_account_recovery_3": "Будь ласка, будьте готові підтвердити свою особистість.",
     "unable_to_recover_account_not_change_ownership_recently": "Ми не можемо відновити цей акаунт, вона не змінила власника останнім часом."
   },
+  "registration_banner_jsx": {
+    "new_to_golos": "Новачок на Голосі?",
+    "everything_is_simple": "Все просто:",
+    "write_a_post": "Пишіть пост на Golos.io",
+    "community_votes": "Співтовариство голосує",
+    "you_get_rewards": "Ви отримуєте винагороди",
+    "create_an_account": "Створити аккаунт",
+    "to_learn_more": "Дізнатися більше",
+    "faq": "Часті питання"
+  },
   "reply": {
     "comments_count": "Кількість коментарів"
   },
