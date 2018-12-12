@@ -3,10 +3,7 @@ import { connect } from 'react-redux';
 import normalizeProfile from 'app/utils/NormalizeProfile';
 
 import user from 'app/redux/User';
-import {
-    getNotificationsOnlineHistoryFreshCount,
-    getNotificationsOnlineHistory,
-} from 'src/app/redux/actions/notificationsOnline';
+import { getNotificationsOnlineHistoryFreshCount } from 'src/app/redux/actions/notificationsOnline';
 import { statusSelector } from 'src/app/redux/selectors/common';
 
 import Header from './Header';
@@ -44,6 +41,5 @@ export default connect(
         onLogin: () => user.actions.showLogin(),
         onLogout: () => user.actions.logout(),
         getNotificationsOnlineHistoryFreshCount,
-        getNotificationsOnlineHistory,
     }
 )(Header);

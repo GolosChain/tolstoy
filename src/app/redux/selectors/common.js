@@ -93,3 +93,19 @@ export const newVisitorSelector = createSelector(
         !offchain.get('account') &&
         offchain.get('new_visit')
 );
+
+export const getLocale = createSelector(
+    [
+        userSelector('current'),
+        userSelector('locale'),
+        offchainSelector('locale'),
+        dataSelector('settings'),
+    ],
+    (currentUser, changedLocale, offchainLocale, settings) => {
+        return currentUser
+            ? settings.getIn(['basic', 'lang'])
+            : changedLocale
+                ? changedLocale
+                : offchainLocale;
+    }
+);

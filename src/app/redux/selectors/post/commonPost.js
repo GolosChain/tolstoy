@@ -90,6 +90,7 @@ export const currentPostSelector = createDeepEqualSelector(
             promotedAmount: parsePayoutAmount(post.get('promoted')),
             comments: post.get('comments'),
             stats: post.get('stats').toJS(),
+            isEmpty: post.get('mode') === 'not_set',
         };
     }
 );
@@ -208,6 +209,7 @@ export const postCardSelector = createDeepEqualSelector(
                 data.getIn(['stats', 'isNsfw']) &&
                 settings.getIn(['basic', 'nsfw']) === 'hide' &&
                 !isOwner,
+            warnNsfw: !isOwner && settings.getIn(['basic', 'nsfw']) === 'warn',
             data,
             postLink: data.get('author') + '/' + data.get('permlink'),
             sanitizedData: sanitizeCardPostData(data),

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import { currentUsernameSelector, newVisitorSelector } from 'src/app/redux/selectors/common';
+import { currentUsernameSelector, currentUserSelector } from 'src/app/redux/selectors/common';
 import { currentPostSelector, authorSelector } from 'src/app/redux/selectors/post/commonPost';
 import { USER_FOLLOW_DATA_LOAD } from 'src/app/redux/constants/followers';
 import { PostContainer } from 'src/app/containers/post/PostContainer';
@@ -12,14 +12,13 @@ import { HIDE_BY_TAGS } from 'src/app/constants/tags';
 
 export default connect(
     createSelector(
-        [currentPostSelector, authorSelector, currentUsernameSelector, newVisitorSelector],
-        (post, author, username, newVisitor) => {
+        [currentPostSelector, authorSelector, currentUsernameSelector, currentUserSelector],
+        (post, author, username, user) => {
             if (!post) {
                 return {};
             }
 
             return {
-                newVisitor: newVisitor,
                 author: author.account,
                 postLoaded: Boolean(post),
                 isPinned: author.pinnedPostsUrls.includes(author.account + '/' + post.permLink),
@@ -29,7 +28,9 @@ export default connect(
                 stats: post.stats,
                 isHidden:
                     isHide(post) ||
+                    post.isEmpty ||
                     (username !== author.account && isContainTags(post, HIDE_BY_TAGS)),
+                user,
             };
         }
     ),

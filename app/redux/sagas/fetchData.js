@@ -23,6 +23,7 @@ export function* fetchDataWatches() {
     yield fork(watchGetContent);
     yield fork(watchFetchVestingDelegations);
     yield fork(watchFetchRewards);
+    yield fork(watchFetchCurrentUserTransfers);
 }
 
 function* watchGetContent() {
@@ -34,7 +35,7 @@ function* getContentCaller(action) {
 }
 
 function* watchLocationChange() {
-    yield takeLatest('@@router/LOCATION_CHANGE', fetchState);
+    yield takeLatest('@@router/LOCATION_CHANGE', onChangeLocation);
 }
 
 function* watchFetchState() {
@@ -43,6 +44,30 @@ function* watchFetchState() {
 
 function* watchFetchRewards() {
     yield takeLatest('FETCH_REWARDS', fetchRewards);
+}
+
+function* watchFetchCurrentUserTransfers() {
+    yield takeLatest('FETCH_CURRENT_USER_TRANSFERS', fetchCurrentUserTransfers);
+}
+
+function* onChangeLocation(action) {
+    const backClickInfo = yield select(state => state.ui.common);
+    const cur = yield select(state => state.app.getIn(['location', 'current']));
+    const backClickTs = backClickInfo.get('backClickTs');
+
+    /**
+     * Если изменение локации было связано с нажатием кнопки "назад" и текущий урл
+     * соответствует урлу кнопки "назад", то не инициализируем загрузку данных.
+     */
+    if (
+        backClickTs &&
+        Date.now() < backClickTs + 5000 &&
+        backClickInfo.get('backUrl') === cur.get('pathname') + cur.get('search') + cur.get('hash')
+    ) {
+        return;
+    }
+
+    yield call(fetchState, action);
 }
 
 let is_initial_state = true;
@@ -101,9 +126,6 @@ function* fetchState(action) {
             state.accounts[uname] = account;
 
             if (account) {
-                account.tags_usage = yield call([api, api.getTagsUsedByAuthorAsync], uname);
-                account.guest_bloggers = yield call([api, api.getBlogAuthorsAsync], uname);
-
                 switch (parts[1]) {
                     case 'transfers':
                         // Загрузка данных происходит выше (безусловно, до ignoreFetch выхода).
@@ -235,6 +257,11 @@ export function* fetchTransfers(account, from, limit) {
     } catch (error) {
         console.log(error);
     }
+}
+
+export function* fetchCurrentUserTransfers() {
+    const user = yield select(state => state.user.getIn(['current', 'username']));
+    yield fork(fetchTransfers, user, FETCH_MOST_RECENT, DEFAULT_ACCOUNT_HISTORY_LIMIT);
 }
 
 export function* fetchRewards({ payload }) {

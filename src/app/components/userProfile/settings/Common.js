@@ -6,53 +6,49 @@ import { Map } from 'immutable';
 import { Form, Field } from 'react-final-form';
 import tt from 'counterpart';
 
-import {
-    CURRENCIES,
-    LANGUAGES,
-} from 'app/client_config';
+import { CURRENCIES, LANGUAGES } from 'app/client_config';
 
 import SplashLoader from 'golos-ui/SplashLoader';
 import { CardContent } from 'golos-ui/Card';
 import { DialogFooter, DialogButton } from 'golos-ui/Dialog';
-import {
-    FormGroup,
-    Label,
-    LabelRow as StyledLabelRow,
-    Select,
-    RadioGroup,
-    Checkbox,
-    FormError,
-} from 'golos-ui/Form';
+import { FormGroup, Label, Select, RadioGroup, CheckboxInput, FormError } from 'golos-ui/Form';
+import Slider from 'golos-ui/Slider';
 
-const LabelRow = styled(StyledLabelRow)`
-    margin-left: 14px;
+const CheckboxTitle = styled.div`
+    margin-left: 10px;
+    color: #959595;
 `;
 
 const emptyMap = new Map();
-export default class Common extends PureComponent {
 
+export default class Common extends PureComponent {
     static propTypes = {
         options: PropTypes.object,
         isFetching: PropTypes.bool,
-        isChanging: PropTypes.bool,
         onSubmitGate: PropTypes.func,
-    }
+    };
 
     render() {
-        const { options, isChanging, onSubmitGate } = this.props;
+        const { options, onSubmitGate } = this.props;
         const data = {
             basic: options.getIn(['basic'], emptyMap).toJS(),
         };
-
         return (
             <Form onSubmit={onSubmitGate} initialValues={data}>
-                {({ handleSubmit, submitError, form, submitting, pristine, hasValidationErrors }) => (
+                {({
+                    handleSubmit,
+                    submitError,
+                    form,
+                    submitting,
+                    pristine,
+                    hasValidationErrors,
+                }) => (
                     <form onSubmit={handleSubmit}>
                         {submitting && <SplashLoader />}
 
                         <CardContent column>
                             <Field name="basic.lang">
-                                {({ input, meta }) => (
+                                {({ input }) => (
                                     <FormGroup>
                                         <Label>{tt('settings_jsx.choose_language')}</Label>
                                         <Select
@@ -61,7 +57,7 @@ export default class Common extends PureComponent {
                                         >
                                             {Object.keys(LANGUAGES).map(key => (
                                                 <option key={key} value={key}>
-                                                    {LANGUAGES[key]}
+                                                    {LANGUAGES[key].value}
                                                 </option>
                                             ))}
                                         </Select>
@@ -69,7 +65,7 @@ export default class Common extends PureComponent {
                                 )}
                             </Field>
                             <Field name="basic.currency">
-                                {({ input, meta }) => (
+                                {({ input }) => (
                                     <FormGroup>
                                         <Label>{tt('settings_jsx.choose_currency')}</Label>
                                         <Select
@@ -113,20 +109,28 @@ export default class Common extends PureComponent {
                                     </FormGroup>
                                 )}
                             </Field>
-                            {/* <Field name="basic.award">
+                            <Field name="basic.award">
                                 {({ input, meta }) => (
                                     <FormGroup>
-                                        <Label dark>Награда по умолчанию за пост</Label>
-                                        <Slider {...input} showCaptions />
+                                        <Label dark bold>
+                                            {tt('settings_jsx.default_voting_power')}
+                                        </Label>
+                                        <Slider {...input} showCaptions hideHandleValue />
                                         <FormError meta={meta} />
                                     </FormGroup>
                                 )}
-                            </Field> */}
+                            </Field>
                             <Field name="basic.selfVote">
                                 {({ input, meta }) => (
-                                    <FormGroup align="center" column={false}>
-                                        <Checkbox {...input} />
-                                        <LabelRow>{tt('settings_jsx.self_vote_default')}</LabelRow>
+                                    <FormGroup>
+                                        <CheckboxInput
+                                            {...input}
+                                            title={
+                                                <CheckboxTitle>
+                                                    {tt('settings_jsx.self_vote_default')}
+                                                </CheckboxTitle>
+                                            }
+                                        />
                                         <FormError meta={meta} />
                                     </FormGroup>
                                 )}
@@ -171,15 +175,17 @@ export default class Common extends PureComponent {
                                     </FormGroup>
                                 )}
                             </Field>
-                            {/* <pre>{JSON.stringify(values, 0, 2)}</pre> */}
-
                             {submitError && <div>{submitError}</div>}
                         </CardContent>
                         <DialogFooter>
                             <DialogButton onClick={form.reset} disabled={submitting || pristine}>
                                 {tt('settings_jsx.reset')}
                             </DialogButton>
-                            <DialogButton type="submit" primary disabled={submitting || pristine || hasValidationErrors}>
+                            <DialogButton
+                                type="submit"
+                                primary
+                                disabled={submitting || pristine || hasValidationErrors}
+                            >
                                 {tt('settings_jsx.update')}
                             </DialogButton>
                         </DialogFooter>

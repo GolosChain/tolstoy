@@ -1,8 +1,9 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import CloseOpenButton from '../cards/CloseOpenButton/CloseOpenButton';
+import { logOutboundLinkClickAnalytics } from 'src/app/helpers/gaLogs';
 
 const Wrapper = styled.div`
     position: relative;
@@ -12,6 +13,10 @@ const Wrapper = styled.div`
     border-radius: 6px;
     background-color: #ffffff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
+
+    & ul {
+        margin-bottom: 0;
+    }
 
     @media (max-width: 1200px) {
         padding: 14px 34px 14px 16px;
@@ -47,7 +52,7 @@ const Switcher = styled(CloseOpenButton)`
     position: absolute;
     top: 18px;
     right: 12px;
-    
+
     @media (max-width: 1200px) {
         top: 5px;
         right: 6px;
@@ -62,22 +67,12 @@ export default class Question extends PureComponent {
         }).isRequired,
     };
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            showAnswer: false,
-            answer: {
-                __html: Question.addLinkToUrls(props.question.answer),
-            },
-        };
-    }
+    state = {
+        showAnswer: false,
+    };
 
-    static addLinkToUrls(str) {
-        return str.replace(
-            /\[([^\]]*)\]\((https?:[^ )]+)\)/g,
-            '<a href="$2" target="_blank">$1</a>'
-        );
-    }
+    root = createRef();
+    answerRef = createRef();
 
     changeAnswerState = () => {
         this.setState({
@@ -85,17 +80,35 @@ export default class Question extends PureComponent {
         });
     };
 
+    onClick = e => {
+        const link = e.target.closest('a');
+
+        if (!link || !link.href) {
+            return;
+        }
+
+        const url = link.href;
+
+        if (url.startsWith('https://tlg.name') && this.root.current.contains(link)) {
+            logOutboundLinkClickAnalytics(link.href);
+        }
+    };
+
     render() {
         const { question } = this.props;
-        const { showAnswer, answer } = this.state;
+        const { showAnswer } = this.state;
 
         return (
-            <Wrapper>
-                <Switcher collapsed={!showAnswer} toggle={this.changeAnswerState}/>
-                <Title onClick={this.changeAnswerState}>{question.title}</Title>
+            <Wrapper innerRef={this.root} onClick={this.onClick}>
+                <Switcher collapsed={!showAnswer} toggle={this.changeAnswerState} />
+                <Title
+                    onClick={this.changeAnswerState}
+                    dangerouslySetInnerHTML={{ __html: question.title }}
+                />
                 <Answer
+                    innerRef={this.answerRef}
                     showAnswer={showAnswer}
-                    dangerouslySetInnerHTML={answer}
+                    dangerouslySetInnerHTML={{ __html: question.answer }}
                 />
             </Wrapper>
         );

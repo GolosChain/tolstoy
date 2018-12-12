@@ -10,7 +10,7 @@
   {
     "inscription": "канал техподдержки",
     "thumbnail": "support_ru",
-    "link": "https://t.me/golos_support",
+    "link": "https://tlg.name/golos_support",
     "width": "30",
     "height": "33",
     "showOnMobile": true
@@ -42,7 +42,7 @@
   {
     "inscription": "Официальное зеркало",
     "thumbnail": "mirror",
-    "link": "https://www.golos.blog",
+    "link": "https://golos.blog",
     "width": "30",
     "height": "30",
     "showOnMobile": false
@@ -50,7 +50,7 @@
   {
     "inscription": "ENG support channel",
     "thumbnail": "support_eng",
-    "link": "https://t.me/golos_eng",
+    "link": "https://tlg.name/golos_eng",
     "width": "30",
     "height": "31",
     "showOnMobile": true
@@ -58,7 +58,7 @@
   {
     "inscription": "Лучшее на Golos.io",
     "thumbnail": "like",
-    "link": "https://t.me/golos_best",
+    "link": "https://tlg.name/golos_best",
     "width": "28",
     "height": "28",
     "showOnMobile": false
@@ -75,6 +75,14 @@
     "inscription": "контакты для СМИ",
     "thumbnail": "mail",
     "link": "mailto:pr@golos.io",
+    "width": "28",
+    "height": "19",
+    "showOnMobile": true
+  },
+  {
+    "inscription": "Чат разработчиков",
+    "thumbnail": "dev",
+    "link": "https://tlg.name/golos_developers",
     "width": "28",
     "height": "19",
     "showOnMobile": true

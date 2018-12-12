@@ -34,7 +34,7 @@
   {
     "inscription": "Official mirror website",
     "thumbnail": "mirror",
-    "link": "https://www.golos.blog",
+    "link": "https://golos.blog",
     "width": "30",
     "height": "30",
     "showOnMobile": false
@@ -42,7 +42,7 @@
   {
     "inscription": "ENG support channel",
     "thumbnail": "support_eng",
-    "link": "https://t.me/golos_eng",
+    "link": "https://tlg.name/golos_eng",
     "width": "30",
     "height": "31",
     "showOnMobile": true
@@ -50,7 +50,7 @@
   {
     "inscription": "Best of Golos.io",
     "thumbnail": "like",
-    "link": "https://t.me/golos_best",
+    "link": "https://tlg.name/golos_best",
     "width": "28",
     "height": "28",
     "showOnMobile": false

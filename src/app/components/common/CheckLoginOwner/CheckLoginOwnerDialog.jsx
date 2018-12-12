@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 
 import Button from 'golos-ui/Button';
-import CheckBox from 'golos-ui/Form/components/Checkbox';
+import { CheckboxInput } from 'golos-ui/Form';
 import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
 
 const Root = styled.div`
@@ -78,7 +78,7 @@ export default class CheckLoginOwnerDialog extends React.Component {
                     .
                 </Section>
                 <Section>
-                    <CheckBox
+                    <CheckboxInput
                         value={understand}
                         title={tt('postfull_jsx.i_understand_dont_show_again')}
                         onChange={this.onUnderstandChange}

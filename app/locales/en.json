@@ -386,6 +386,14 @@
     "to_continue_please_click_on_the_link_in_the_email_weve_sent_you": "To continue please click on the link in the email we've sent you",
     "user_not_found": "user not found"
   },
+  "error_page": {
+    "link_to_main": "Go to main",
+    "link_to_support": "Contact us support",
+    "oops": "Oops!",
+    "reload": "Reload",
+    "text": "Something went wrong. We've already received a notification about the problem and we are working to resolve it.",
+    "try_reload_text": "Try to reload the page."
+  },
   "faq_jsq": {
     "email": "email",
     "footer_message": "We will never ask for your private keys or money. If someone appears to be a member of the Golos.io team and asks for such information, please inform us",
@@ -573,7 +581,7 @@
     },
     "no": "No",
     "no_tags_selected": "No tags selected",
-    "no_topics_by_order_found": "No topics by %(order)s found!",
+    "no_topics_by_order_found": "No topics by %(order)s found with the tag ",
     "not_valid_email": "Not valid email",
     "nothing_yet": "Nothing yet",
     "ok": "Ok",
@@ -744,7 +752,7 @@
     "unavailable": "User is blocked"
   },
   "link_to": {
-    "telegram": "//t.me/golos_eng"
+    "telegram": "//tlg.name/golos_eng"
   },
   "loginform_jsx": {
     "active_key_error": "Active key can’t be used for sign in. Use posting key or password.",
@@ -1106,6 +1114,16 @@
     "thanks_for_submitting_request_for_account_recovery_3": "Please be prepared to verify your identity.",
     "unable_to_recover_account_not_change_ownership_recently": "We are unable to recover this account, it has not changed ownership recently."
   },
+  "registration_banner_jsx": {
+    "new_to_golos": "New to Golos?",
+    "everything_is_simple": "Everything is simple:",
+    "write_a_post": "Write a post on Golos.io",
+    "community_votes": "Community votes",
+    "you_get_rewards": "You get rewards",
+    "create_an_account": "Create an account",
+    "to_learn_more": "To learn morn",
+    "faq": "FAQ"
+  },
   "reply": {
     "comments_count": "Comments count"
   },
@@ -1169,6 +1187,8 @@
     "choose_currency": "Choose currency",
     "choose_language": "Choose language",
     "cover_image_url": "Cover image url",
+    "default_voting_power": "Setting the voting power",
+    "default_voting_power_tip": "Voting power %(value)s%%",
     "invalid_url": "Invalid URL",
     "keys": {
       "info": "It's important to keep your password key. Golos.io does not store your passwords. Be sure to securely store your key.",

@@ -2,11 +2,11 @@ import React, { PureComponent, Fragment } from 'react';
 import { withRouter } from 'react-router';
 import styled, { css } from 'styled-components';
 import is from 'styled-is';
-import { FormattedRelative } from 'react-intl';
 import { Link } from 'react-router';
 import tt from 'counterpart';
 
 import Icon from 'src/app/components/golos-ui/Icon';
+import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
 import { listenLazy } from 'src/app/helpers/hoc';
 import { getImageSrc } from 'src/app/helpers/images';
 import { breakWordStyles } from 'src/app/helpers/styles';
@@ -15,6 +15,7 @@ import { VotePanelCompact } from 'src/app/components/common/VotePanel';
 import { ReplyBlock } from '../../common/ReplyBlock';
 import CompactPostCardMenu from 'src/app/components/common/CompactPostCardMenu';
 import { detransliterate, repLog10 } from 'app/utils/ParsersAndFormatters';
+import { isContainTags } from 'app/utils/StateFunctions';
 
 const TWO_LINE_THRESHOLD = 1020;
 const MOBILE_THRESHOLD = 500;
@@ -324,11 +325,15 @@ export default class PostCardCompact extends PureComponent {
     };
 
     renderBody() {
-        const { sanitizedData, stats, isRepost, repostHtml } = this.props;
+        const { sanitizedData, stats, isRepost, repostHtml, data, warnNsfw } = this.props;
         const { twoLines, mobile } = this.state;
         const withImage = sanitizedData.image_link && !stats.gray && !stats.hide;
 
         let trimLength = mobile ? MOBILE_TEXT_LENGTH_LIMIT : TEXT_LENGTH_LIMIT;
+        const imageLink =
+            warnNsfw && isContainTags(data, ['nsfw'])
+                ? '/images/nsfw/nsfw.svg'
+                : getImageSrc(PREVIEW_SIZE, sanitizedData.image_link);
 
         if (withImage) {
             trimLength = Math.floor(trimLength * 1.3);
@@ -338,10 +343,7 @@ export default class PostCardCompact extends PureComponent {
             <BodyBlock to={sanitizedData.link} onClick={this.props.onClick}>
                 {withImage ? (
                     <ImageLink to={sanitizedData.link} onClick={this.props.onClick}>
-                        <PostImage
-                            alt={tt('aria_label.post_image')}
-                            src={getImageSrc(PREVIEW_SIZE, sanitizedData.image_link)}
-                        />
+                        <PostImage alt={tt('aria_label.post_image')} src={imageLink} />
                     </ImageLink>
                 ) : null}
                 <Body>
@@ -399,8 +401,8 @@ export default class PostCardCompact extends PureComponent {
 
         return (
             <DetailsBlock inbody={inBody ? 1 : 0}>
-                <DateLink to={data.get('url')} data-tooltip={new Date(created).toLocaleString()}>
-                    <FormattedRelative value={created} />
+                <DateLink to={data.get('url')}>
+                    <TimeAgoWrapper date={created} />
                 </DateLink>
                 {isRepost ? (
                     <Fragment>

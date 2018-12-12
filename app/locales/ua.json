@@ -327,6 +327,14 @@
     "to_continue_please_click_on_the_link_in_the_email_weve_sent_you": "Для продовження, натисніть на посилання в листі, яке ми Вам надіслали",
     "user_not_found": "користувач не знайдений"
   },
+  "error_page": {
+    "link_to_main": "Перейти на головну",
+    "link_to_support": "Написати в техпідтримку",
+    "oops": "Упсс!",
+    "reload": "оновити",
+    "text": "Щось пішло не так. Ми вже отримали повідомлення про проблему і працюємо над її усуненням.",
+    "try_reload_text": "Спробуйте оновити сторінку."
+  },
   "faq_jsq": {
     "email": "пошта",
     "footer_message": "Ми ніколи не попросимо ваші приватні ключі або гроші. Якщо хтось представляється членами команди Golos.io і просить таку інформацію, напишіть нам на пошту",
@@ -504,7 +512,7 @@
     },
     "no": "Ні",
     "no_tags_selected": "теги не обрані",
-    "no_topics_by_order_found": "В разделі %(order)s поки що нема постів!",
+    "no_topics_by_order_found": "В разделі %(order)s поки що нема постів з тегом ",
     "not_valid_email": "Недійсна адреса",
     "nothing_yet": "Поки нічого немає",
     "ok": "ОК",
@@ -1006,6 +1014,16 @@
     "thanks_for_submitting_request_for_account_recovery_3": "Будь ласка, будьте готові підтвердити свою особистість.",
     "unable_to_recover_account_not_change_ownership_recently": "Ми не можемо відновити цей акаунт, вона не змінила власника останнім часом."
   },
+  "registration_banner_jsx": {
+    "new_to_golos": "Новачок на Голосі?",
+    "everything_is_simple": "Все просто:",
+    "write_a_post": "Пишіть пост на Golos.io",
+    "community_votes": "Співтовариство голосує",
+    "you_get_rewards": "Ви отримуєте винагороди",
+    "create_an_account": "Створити аккаунт",
+    "to_learn_more": "Дізнатися більше",
+    "faq": "Часті питання"
+  },
   "reply": {
     "comments_count": "Кількість коментарів"
   },
@@ -1061,6 +1079,8 @@
     "choose_currency": "Виберіть валюту",
     "choose_language": "Виберіть мову інтерфейсу",
     "cover_image_url": "Додайте URL Вашої обкладинки або завантажте її",
+    "default_voting_power": "Налаштування сили голосування",
+    "default_voting_power_tip": "Сила голосування %(value)s%%",
     "invalid_url": "Неприпустима URL-адреса",
     "keys": {
       "info": "Важливо зберегти свій ключ-пароль. Golos.io не зберігає ваші паролі. Переконайтеся, що надійно зберегли ваші ключі.",

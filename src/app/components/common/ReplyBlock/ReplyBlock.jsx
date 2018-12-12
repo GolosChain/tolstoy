@@ -25,14 +25,15 @@ const Replies = styled(
     ({ to, isLink, ...otherProps }) =>
         isLink ? <Link to={to} {...otherProps} /> : <div {...otherProps} />
 )`
-    height: 100%;
-    min-height: 50px;
-    padding: 0 11px 0 18px;
     display: flex;
     align-items: center;
     flex-grow: 1;
-    user-select: none;
     justify-content: flex-end;
+    height: 100%;
+    min-height: 50px;
+    padding: 0 10px;
+    user-select: none;
+    cursor: pointer;
 
     @media (min-width: 890px) and (max-width: 1087px), (max-width: 639px) {
         justify-content: center;
@@ -40,6 +41,11 @@ const Replies = styled(
 
     ${is('isLink')`
         cursor: pointer;
+    `};
+
+    ${is('compact')`
+        flex-grow: 0;
+        padding: 0 10px;
     `};
 
     ${is('mini')`
@@ -81,7 +87,8 @@ const Splitter = styled.div`
 `;
 
 const ReplyButton = styled(
-    ({ to, ...otherProps }) => (to ? <Link to={to} {...otherProps} /> : <div {...otherProps} />)
+    ({ hash, ...otherProps }) =>
+        hash ? <a href={hash} {...otherProps} /> : <div {...otherProps} />
 )`
     height: 100%;
     min-height: 50px;
@@ -95,6 +102,11 @@ const ReplyButton = styled(
     letter-spacing: 0.8px;
     color: #393636 !important;
     cursor: pointer;
+
+    ${is('compact')`
+        flex-grow: 0;
+        padding: 0 10px;
+    `};
 
     @media (max-width: 360px) {
         padding: 0 10px;
@@ -151,35 +163,31 @@ export class ReplyBlock extends Component {
                     data-tooltip={tt('reply.comments_count')}
                     aria-label={tt('aria_label.comments', { count })}
                     isLink={isLink || mini}
+                    compact={compact ? 1 : 0}
                     mini={mini ? 1 : 0}
                 >
                     <ReplyIcon name="reply" />
                     <RepliesQuantity>{count}</RepliesQuantity>
                 </Replies>
-                {mini ? null : (
+                {mini ? null : !onReplyClick ? (
                     <Fragment>
-                        {!onReplyClick && (
-                            <Fragment>
-                                <Splitter />
-                                <ReplyButton
-                                    to={`${link}#createComment`}
-                                    onClick={this.toggleCommentInputFocus}
-                                >
-                                    {text}
-                                </ReplyButton>
-                            </Fragment>
-                        )}
-                        {Boolean(onReplyClick) &&
-                            notOwner && (
-                                <Fragment>
-                                    <Splitter />
-                                    <ReplyButton role="button" onClick={onReplyClick}>
-                                        {text}
-                                    </ReplyButton>
-                                </Fragment>
-                            )}
+                        <Splitter />
+                        <ReplyButton
+                            hash="#createComment"
+                            compact={compact ? 1 : 0}
+                            onClick={this.toggleCommentInputFocus}
+                        >
+                            {text}
+                        </ReplyButton>
                     </Fragment>
-                )}
+                ) : notOwner ? (
+                    <Fragment>
+                        <Splitter />
+                        <ReplyButton role="button" compact={compact ? 1 : 0} onClick={onReplyClick}>
+                            {text}
+                        </ReplyButton>
+                    </Fragment>
+                ) : null}
             </Root>
         );
     }

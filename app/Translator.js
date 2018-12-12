@@ -8,21 +8,24 @@ import en from 'react-intl/locale-data/en';
 import ru from 'react-intl/locale-data/ru';
 import uk from 'react-intl/locale-data/uk';
 
+import { getLocale } from 'src/app/redux/selectors/common';
+
 addLocaleData([...en, ...ru, ...uk]);
 
 tt.registerTranslations('en', require('app/locales/en.json'));
 tt.registerTranslations('ru', require('app/locales/ru-RU.json'));
 tt.registerTranslations('uk', require('app/locales/ua.json'));
 
-@connect((state) => ({
-    //locale: state.user.get('locale')
-    locale: state.data.settings.getIn(['basic', 'lang'], DEFAULT_LANGUAGE)
+@connect(state => ({
+    locale: getLocale(state),
 }))
 export default class Translator extends Component {
     render() {
-        const localeWithoutRegionCode = this.props.locale
-            .toLowerCase()
-            .split(/[_-]+/)[0];
+        const { locale, children } = this.props;
+        const localeWithoutRegionCode =
+            locale && typeof locale === 'string'
+                ? locale.toLowerCase().split(/[_-]+/)[0]
+                : DEFAULT_LANGUAGE; // fix for firefox private mode
 
         tt.setLocale(localeWithoutRegionCode);
         tt.setFallbackLocale('en');
@@ -33,7 +36,7 @@ export default class Translator extends Component {
                 locale={localeWithoutRegionCode}
                 defaultLocale={DEFAULT_LANGUAGE}
             >
-                {this.props.children}
+                {children}
             </IntlProvider>
         );
     }

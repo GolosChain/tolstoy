@@ -1,31 +1,33 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
-
 import { Link } from 'react-router';
 import styled from 'styled-components';
 import is from 'styled-is';
+import throttle from 'lodash/throttle';
 import { List, Map } from 'immutable';
 import tt from 'counterpart';
 
-import { NOTIFICATIONS_FILTER_TYPES } from 'src/app/redux/constants/common';
-
+import globalBus from 'src/app/helpers/globalBus';
 import { DialogFooter, DialogButton } from 'golos-ui/Dialog';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import ActivityList from 'src/app/components/common/ActivityList';
 
-const NOTIFICATIONS_PER_PAGE = 5;
+const NOTIFICATIONS_PER_PAGE = 20;
+const LOAD_MORE_VERTICAL_GAP = 300;
 
 const Wrapper = styled.div`
     width: 370px;
 
     ${is('mobile')`
         width: auto;
-        
         box-shadow: inset 0 0 18px 4px rgba(0, 0, 0, 0.05);
     `};
 `;
 
-const WrapperActivity = styled.div``;
+const WrapperActivity = styled.div`
+    max-height: 70vh;
+    overflow-y: auto;
+`;
 
 const WrapperLoader = styled.div`
     display: flex;
@@ -41,25 +43,27 @@ const StyledDialogFooter = styled(DialogFooter)`
 
 const ButtonShowAll = DialogButton.withComponent(Link);
 
-const ButtonMarkAsViewedNotifications = styled(DialogButton)``;
-
 export default class NotificationsMenu extends PureComponent {
     static propTypes = {
         params: PropTypes.shape({
             accountName: PropTypes.string,
         }),
-        isFetching: PropTypes.bool,
-        notifications: PropTypes.instanceOf(List),
         accounts: PropTypes.instanceOf(Map),
 
+        // connect
+        notifications: PropTypes.instanceOf(List),
+        authorizedUsername: PropTypes.string,
+        isFetching: PropTypes.bool,
         onClose: PropTypes.func.isRequired,
-        getNotificationsOnlineHistory: PropTypes.func.isRequired,
+        getNotificationsOnlineHistory: PropTypes.func,
+        markAllNotificationsAsViewed: PropTypes.func,
     };
+
+    root = createRef();
+    listWrapper = createRef();
 
     componentDidMount() {
         this.props.getNotificationsOnlineHistory({
-            freshOnly: true,
-            types: NOTIFICATIONS_FILTER_TYPES['all'],
             fromId: null,
             limit: NOTIFICATIONS_PER_PAGE,
         });
@@ -68,23 +72,51 @@ export default class NotificationsMenu extends PureComponent {
     }
 
     componentWillUnmount() {
+        this.onScrollLazy.cancel();
         window.removeEventListener('click', this.checkClickLink);
+        this.props.clearOnlineNotifications();
     }
 
     checkClickLink = e => {
         const a = e.target.closest('a');
 
-        if (a) {
+        if (this.root.current.contains(a)) {
             this.props.onClose();
         }
     };
 
     markNotificationsAsViewed = () => {
-        const { authorizedUsername, markAllNotificationsAsViewed } = this.props;
-        markAllNotificationsAsViewed({
-            user: authorizedUsername,
+        this.props.markAllNotificationsAsViewed({
+            user: this.props.authorizedUsername,
         });
     };
+
+    checkLoadMore() {
+        const { canLoadMore, isFetching, lastLoadedId } = this.props;
+
+        if (!canLoadMore || isFetching || !lastLoadedId) {
+            return;
+        }
+
+        const list = this.listWrapper.current;
+
+        // Если до конца скролла осталось меньше чем LOAD_MORE_VERTICAL_GAP
+        if (list.scrollHeight - list.clientHeight - list.scrollTop < LOAD_MORE_VERTICAL_GAP) {
+            const { lastLoadedId } = this.props;
+
+            this.props.getNotificationsOnlineHistory({
+                fromId: lastLoadedId,
+                limit: NOTIFICATIONS_PER_PAGE,
+            });
+        }
+    }
+
+    onScroll = () => {
+        this.checkLoadMore();
+        globalBus.emit('notifications:checkVisibility');
+    };
+
+    onScrollLazy = throttle(this.onScroll, 200, { leading: false });
 
     render() {
         const {
@@ -92,6 +124,7 @@ export default class NotificationsMenu extends PureComponent {
             notifications,
             accounts,
             isMobile,
+            canLoadMore,
             params: { accountName },
         } = this.props;
 
@@ -100,24 +133,30 @@ export default class NotificationsMenu extends PureComponent {
         )}</div>`;
 
         return (
-            <Wrapper mobile={isMobile}>
-                <WrapperActivity>
-                    {isFetching ? (
-                        <WrapperLoader>
-                            <LoadingIndicator type="circle" />
-                        </WrapperLoader>
-                    ) : (
+            <Wrapper mobile={isMobile} innerRef={this.root}>
+                <WrapperActivity
+                    innerRef={this.listWrapper}
+                    onScroll={this.onScrollLazy}
+                    className="js-scroll-container"
+                >
+                    {notifications.size ? (
                         <ActivityList
                             isFetching={isFetching}
                             notifications={notifications}
                             accounts={accounts}
-                            isCompact={true}
+                            isCompact
+                            checkVisibility
                             emptyListPlaceholder={tt('g.empty')}
                         />
-                    )}
+                    ) : null}
+                    {isFetching || canLoadMore ? (
+                        <WrapperLoader>
+                            <LoadingIndicator type="circle" />
+                        </WrapperLoader>
+                    ) : null}
                 </WrapperActivity>
                 <StyledDialogFooter>
-                    <ButtonMarkAsViewedNotifications
+                    <DialogButton
                         data-tooltip={clearTooltip}
                         data-tooltip-html
                         aria-label={tt('data-tooltip.clear_notifications_history')}
@@ -125,7 +164,7 @@ export default class NotificationsMenu extends PureComponent {
                         onClick={this.markNotificationsAsViewed}
                     >
                         {tt('dialog.clear')}
-                    </ButtonMarkAsViewedNotifications>
+                    </DialogButton>
                     <ButtonShowAll
                         to={`/@${accountName}/activity`}
                         aria-label={tt('dialog.show_all')}

@@ -1,19 +1,10 @@
 import { fromJS } from 'immutable';
 import createModule from 'redux-modules';
-import cookie from 'react-cookie';
-
-import { DEFAULT_LANGUAGE, LOCALE_COOKIE_KEY } from 'app/client_config';
 
 const defaultState = fromJS({
     current: null,
-    locale: DEFAULT_LANGUAGE,
+    locale: null,
 });
-
-// TODO: beautyfree - delete after new profile
-if (process.env.BROWSER) {
-    const locale = cookie.load(LOCALE_COOKIE_KEY);
-    if (locale) defaultState.locale = locale;
-}
 
 export default createModule({
     name: 'user',
@@ -55,7 +46,7 @@ export default createModule({
             reducer: (state, { payload }) => state.set('currency', payload),
         },
         {
-            action: 'CHANGE_LANGUAGE',
+            action: 'CHANGE_LOCALE',
             reducer: (state, { payload }) => state.set('locale', payload),
         },
         {

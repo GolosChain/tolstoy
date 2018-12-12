@@ -55,3 +55,11 @@ export function setSettingsOptions({ profile = 'web', successCallback, ...values
         }
     };
 }
+
+export function setSettingsLocale(locale) {
+    return setSettingsOptions({
+        basic: {
+            lang: locale,
+        },
+    });
+}
