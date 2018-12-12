@@ -1,66 +1,13 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Map } from 'immutable';
 import { Helmet } from 'react-helmet';
-
-import { PrivateKey } from 'golos-js/lib/auth/ecc';
-
-import user from 'app/redux/User';
-import transaction from 'app/redux/Transaction';
-
 import { FORM_ERROR } from 'final-form';
 import { pick } from 'ramda';
 import tt from 'counterpart';
 
-import { settingsContentSelector } from 'src/app/redux/selectors/userProfile/settings';
-import { getSettingsOptions, setSettingsOptions } from 'src/app/redux/actions/settings';
-import { showNotification } from 'src/app/redux/actions/ui';
-
 import { SettingsShow } from 'src/app/components/userProfile';
-import { authProtection } from 'src/app/helpers/hoc';
 
-@authProtection()
-@connect(
-    settingsContentSelector,
-    // mapDispatchToProps
-    dispatch => ({
-        updateAccount: ({ successCallback, errorCallback, ...operation }) => {
-            dispatch(
-                transaction.actions.broadcastOperation({
-                    type: 'account_metadata',
-                    operation,
-                    successCallback: () => {
-                        dispatch(user.actions.getAccount());
-                        successCallback();
-                    },
-                    errorCallback,
-                })
-            );
-        },
-        changePassword: ({ accountName, password, newWif, successCallback, errorCallback }) => {
-            const ph = role => PrivateKey.fromSeed(`${accountName}${role}${newWif}`).toWif();
-            dispatch(
-                transaction.actions.updateAuthorities({
-                    accountName,
-                    auths: [
-                        { authType: 'owner', oldAuth: password, newAuth: ph('owner', newWif) },
-                        { authType: 'active', oldAuth: password, newAuth: ph('active', newWif) },
-                        { authType: 'posting', oldAuth: password, newAuth: ph('posting', newWif) },
-                        { authType: 'memo', oldAuth: password, newAuth: ph('memo', newWif) },
-                    ],
-                    onSuccess: successCallback,
-                    onError: errorCallback,
-                })
-            );
-        },
-        notify: (message, dismiss = 3000) => {
-            dispatch(showNotification(message, 'settings', dismiss));
-        },
-        getSettingsOptions: () => dispatch(getSettingsOptions()),
-        setSettingsOptions: values => dispatch(setSettingsOptions(values)),
-    })
-)
 export default class SettingsContent extends PureComponent {
     static propTypes = {
         account: PropTypes.object,

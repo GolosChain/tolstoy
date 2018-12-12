@@ -72,29 +72,33 @@ export default class RadioGroup extends PureComponent {
     };
 
     render() {
-        const { value, options, disabled, name, onChange, light } = this.props;
+        const { value, options, disabled, name, light, onChange } = this.props;
 
         return (
             <Wrapper>
-                {options.map(item => (
-                    <Item key={item.id}>
-                        <Label>
-                            <Input
-                                type="radio"
-                                name={name}
-                                disabled={disabled}
-                                checked={item.id === value}
-                                onChange={() => onChange(item.id)}
-                            />
-                            <IconStyled
-                                value={item.id === value}
-                                disabled={disabled}
-                                name={item.id === value ? 'radio-on' : 'radio-off'}
-                            />
-                            <LabelText light={light}>{item.title}</LabelText>
-                        </Label>
-                    </Item>
-                ))}
+                {options.map(item => {
+                    const selected = item.id === value;
+
+                    return (
+                        <Item key={item.id}>
+                            <Label>
+                                <Input
+                                    type="radio"
+                                    name={name}
+                                    disabled={disabled}
+                                    checked={selected}
+                                    onChange={() => onChange(item.id)}
+                                />
+                                <IconStyled
+                                    value={selected}
+                                    disabled={disabled}
+                                    name={selected ? 'radio-on' : 'radio-off'}
+                                />
+                                <LabelText light={light}>{item.title}</LabelText>
+                            </Label>
+                        </Item>
+                    );
+                })}
             </Wrapper>
         );
     }

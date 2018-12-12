@@ -48,7 +48,7 @@
 
 Контейнеры - это компоненты верхнего уровня, задачи которых получить данные и экшены через ```props```, и описать основные методы, которые понадобятся в presentational components.
 
-Пример: [containers/userProfile/settings/SettingsContent](app/containers/userProfile/settings/SettingsContent.jsx)
+Пример: [containers/userProfile/settings/SettingsContent](app/containers/userProfile/settings/SettingsContent/SettingsContent.jsx)
 
 ## Presentational components
 
