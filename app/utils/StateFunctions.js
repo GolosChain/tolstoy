@@ -1,10 +1,12 @@
 import assert from 'assert';
-import constants from 'app/redux/constants';
-import { parsePayoutAmount, repLog10 } from 'app/utils/ParsersAndFormatters';
 import { Long } from 'bytebuffer';
-import { VEST_TICKER, LIQUID_TICKER } from 'app/client_config';
 import { Map, Seq, Set, fromJS } from 'immutable';
 import { has, intersection } from 'ramda';
+
+import constants from 'app/redux/constants';
+import { parsePayoutAmount, repLog10 } from 'app/utils/ParsersAndFormatters';
+import { VEST_TICKER, LIQUID_TICKER } from 'app/client_config';
+import normalizeProfile from 'app/utils/NormalizeProfile';
 
 import { getStoreState } from 'app/clientRender';
 
@@ -313,4 +315,21 @@ export function buildAccountNameAutocomplete(transferHistory, following) {
         .merge(following)
         .sort()
         .toArray();
+}
+
+export function sortFollowers(followers) {
+    return Set()
+        .withMutations(users => {
+            followers.forEach(follower => {
+                const profile = normalizeProfile(follower.toJS());
+                users.add(
+                    fromJS({
+                        name: follower.get('name'),
+                        profileName: profile.name || follower.get('name'),
+                        profileImage: profile.profile_image,
+                    })
+                );
+            });
+        })
+        .sort((a, b) => a.get('profileName').localeCompare(b.get('profileName')));
 }

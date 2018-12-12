@@ -1,5 +1,6 @@
 import { Set } from 'immutable';
 import { createDeepEqualSelector, globalSelector, dataSelector, statusSelector } from './../common';
+import { sortFollowers } from 'app/utils/StateFunctions';
 
 const emptySet = Set();
 
@@ -36,7 +37,7 @@ export const followersDialogSelector = createDeepEqualSelector(
         const users = followers.users.map(name => accounts.get(name)).filter(user => user);
         return {
             loading: followers.loading,
-            users,
+            users: sortFollowers(users),
             followCount,
         };
     }

@@ -4,8 +4,6 @@ import { Set } from 'immutable';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import normalizeProfile from 'app/utils/NormalizeProfile';
-
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import Avatar from 'src/app/components/common/Avatar';
 import Follow from 'src/app/components/common/Follow';
@@ -103,23 +101,19 @@ export default class FollowersDialog extends PureComponent {
         this.lastUserName = startUserName;
     };
 
-    renderUser = user => {
-        const profile = normalizeProfile(user.toJS());
-
-        return (
-            <UserItem key={user.get('name')}>
-                <UserLink
-                    to={`/@${user.get('name')}`}
-                    title={user.get('name')}
-                    onClick={this.props.onClose}
-                >
-                    <Avatar avatarUrl={profile.profile_image} />
-                    <Name>{profile.name || user.get('name')}</Name>
-                </UserLink>
-                <Follow following={user.get('name')} collapseOnMobile />
-            </UserItem>
-        );
-    };
+    renderUser = user => (
+        <UserItem key={user.get('name')}>
+            <UserLink
+                to={`/@${user.get('name')}`}
+                title={user.get('name')}
+                onClick={this.props.onClose}
+            >
+                <Avatar avatarUrl={user.get('profileImage')} />
+                <Name>{user.get('profileName')}</Name>
+            </UserLink>
+            <Follow following={user.get('name')} collapseOnMobile />
+        </UserItem>
+    );
 
     render() {
         const { loading, followCount, users, type } = this.props;
