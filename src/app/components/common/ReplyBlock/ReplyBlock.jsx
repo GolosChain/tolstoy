@@ -86,7 +86,8 @@ const Splitter = styled.div`
 `;
 
 const ReplyButton = styled(
-    ({ to, ...otherProps }) => (to ? <Link to={to} {...otherProps} /> : <div {...otherProps} />)
+    ({ hash, ...otherProps }) =>
+        hash ? <a href={hash} {...otherProps} /> : <div {...otherProps} />
 )`
     height: 100%;
     min-height: 50px;
@@ -167,35 +168,25 @@ export class ReplyBlock extends Component {
                     <ReplyIcon name="reply" />
                     <RepliesQuantity>{count}</RepliesQuantity>
                 </Replies>
-                {mini ? null : (
+                {mini ? null : !onReplyClick ? (
                     <Fragment>
-                        {!onReplyClick && (
-                            <Fragment>
-                                <Splitter />
-                                <ReplyButton
-                                    to={`${link}#createComment`}
-                                    onClick={this.toggleCommentInputFocus}
-                                    compact={compact ? 1 : 0}
-                                >
-                                    {text}
-                                </ReplyButton>
-                            </Fragment>
-                        )}
-                        {Boolean(onReplyClick) &&
-                            notOwner && (
-                                <Fragment>
-                                    <Splitter />
-                                    <ReplyButton
-                                        role="button"
-                                        onClick={onReplyClick}
-                                        compact={compact ? 1 : 0}
-                                    >
-                                        {text}
-                                    </ReplyButton>
-                                </Fragment>
-                            )}
+                        <Splitter />
+                        <ReplyButton
+                            hash="#createComment"
+                            compact={compact ? 1 : 0}
+                            onClick={this.toggleCommentInputFocus}
+                        >
+                            {text}
+                        </ReplyButton>
                     </Fragment>
-                )}
+                ) : notOwner ? (
+                    <Fragment>
+                        <Splitter />
+                        <ReplyButton role="button" compact={compact ? 1 : 0} onClick={onReplyClick}>
+                            {text}
+                        </ReplyButton>
+                    </Fragment>
+                ) : null}
             </Root>
         );
     }
