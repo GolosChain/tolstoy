@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import is from 'styled-is';
 import tt from 'counterpart';
 
 import { MINNOW, CRUCIAN, DOLPHIN, ORCA } from 'src/app/helpers/users';
@@ -24,8 +25,11 @@ const Wrapper = styled.div`
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    border-top: 1px solid #e9e9e9;
-    border-bottom: 1px solid #e9e9e9;
+    width: 100%;
+
+    ${is('popover')`
+        padding: 20px 0;
+    `};
 `;
 
 const Statuses = styled.div`
@@ -77,13 +81,13 @@ const ColoredIcon = styled(Icon)`
 
 export default class UserStatus extends Component {
     render() {
-        const { userStatus } = this.props;
+        const { userStatus, popover } = this.props;
         const statusPosition = this.getStatusPosition(userStatuses, userStatus);
         const coloredStatuses = this.getColoredStatuses(userStatuses, statusPosition);
         const toNext = this.getPercentToNextStatus(userStatuses, statusesByPower, statusPosition);
 
         return coloredStatuses ? (
-            <Wrapper>
+            <Wrapper popover={Boolean(popover)}>
                 <Statuses>
                     {coloredStatuses.map(status => (
                         <ColoredIcon

@@ -11,6 +11,7 @@ import Userpic from 'app/components/elements/Userpic';
 import Mute from 'src/app/components/common/Mute/index';
 import Follow from 'src/app/components/common/Follow';
 import { ClosePopoverButton } from 'src/app/components/post/PopoverAdditionalStyles';
+import UserStatus from 'src/app/components/userProfile/common/UserStatus';
 
 const Block = styled.div`
     width: 100%;
@@ -169,19 +170,25 @@ export class PopoverBody extends Component {
 
         return (
             <Wrapper className={className}>
-                <ClosePopoverButton onClick={this.closePopover} aria-label={tt('aria_label.close_button')}>
+                <ClosePopoverButton
+                    onClick={this.closePopover}
+                    aria-label={tt('aria_label.close_button')}
+                >
                     <Icon name="cross" width={16} height={16} />
                 </ClosePopoverButton>
                 <Block>
                     <AuthorTitle>
                         <AuthorInfoBlock to={linkToAccount}>
                             <AuthorName>{name}</AuthorName>
-                            <AuthorAccount aria-label={tt('aria_label.username')}>@{account}</AuthorAccount>
+                            <AuthorAccount aria-label={tt('aria_label.username')}>
+                                @{account}
+                            </AuthorAccount>
                         </AuthorInfoBlock>
                         <AvatarLink to={linkToAccount} aria-label={tt('aria_label.avatar')}>
                             <Userpic size={50} account={account} />
                         </AvatarLink>
                     </AuthorTitle>
+                    <UserStatus currentAccount={account} popover />
                     <About>{about}</About>
                     <Followers>
                         {tt('user_profile.follower_count', { count: followerCount })}

@@ -228,7 +228,9 @@ export default class UserCardAbout extends PureComponent {
                 saveStateKey="info"
             >
                 <CardContentCounters>
-                    <UserStatus currentAccount={currentAccount} />
+                    <Row>
+                        <UserStatus currentAccount={currentAccount} />
+                    </Row>
                     <Row>
                         <ColumnClick
                             role="button"

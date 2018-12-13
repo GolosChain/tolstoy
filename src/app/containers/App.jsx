@@ -184,7 +184,7 @@ export class App extends Component {
                         </div>
                         <DialogManager />
                         <CheckLoginOwner />
-                        <Notifications />
+                        {/* <Notifications /> */}
                         {process.env.BROWSER ? <TooltipManager /> : null}
                         <PageViewsCounter hidden />
                     </ContentErrorBoundary>
