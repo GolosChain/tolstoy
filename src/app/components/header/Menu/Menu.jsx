@@ -45,9 +45,92 @@ const IconStyled = styled(Icon)`
 export default class Menu extends PureComponent {
     static propTypes = {
         onClose: PropTypes.func.isRequired,
-        accountName: PropTypes.string.isRequired,
         onLogoutClick: PropTypes.func.isRequired,
+        accountName: PropTypes.string,
     };
+
+    loggedInItems = [
+        {
+            link: `/@${this.props.accountName}/transfers`,
+            icon: 'wallet2',
+            text: tt('g.wallet'),
+            width: 18,
+            height: 18,
+        },
+        {
+            link: '/market',
+            icon: 'transfer',
+            text: tt('g.market'),
+            width: 20,
+            height: 16,
+        },
+        {
+            link: '/~witnesses',
+            icon: 'delegates',
+            text: tt('navigation.delegates'),
+            width: 22,
+            height: 16,
+        },
+        {
+            link: tt('link_to.telegram'),
+            icon: 'technical-support',
+            text: tt('navigation.technical_support'),
+            width: 25,
+            height: 26,
+        },
+        {
+            link: `/@${this.props.accountName}/settings`,
+            icon: 'settings',
+            text: tt('g.settings'),
+            width: 22,
+            height: 22,
+        },
+        {
+            icon: 'logout',
+            text: tt('g.logout'),
+            onClick: this.props.onLogoutClick,
+            width: 18,
+            height: 19,
+        },
+    ];
+
+    loggedOutItems = [
+        {
+            link: '/welcome',
+            icon: 'hand',
+            text: tt('navigation.welcome'),
+            width: 20,
+            height: 25,
+        },
+        {
+            link: '/faq',
+            icon: 'round-question',
+            text: tt('g.questions_answers'),
+            width: 20,
+            height: 20,
+        },
+        {
+            link: '/market',
+            icon: 'transfer',
+            text: tt('g.market'),
+            width: 20,
+            height: 16,
+        },
+        {
+            link: '/~witnesses',
+            icon: 'delegates',
+            text: tt('navigation.delegates'),
+            width: 22,
+            height: 16,
+        },
+        {
+            link: tt('link_to.telegram'),
+            icon: 'technical-support',
+            text: tt('navigation.technical_support'),
+            width: 25,
+            height: 26,
+        },
+    ];
 
     onItemClick = link => {
         if (link.startsWith('//')) {
@@ -57,56 +140,12 @@ export default class Menu extends PureComponent {
     };
 
     render() {
-        const { accountName, onLogoutClick } = this.props;
-
-        const items = [
-            {
-                link: `/@${accountName}/transfers`,
-                icon: 'wallet2',
-                text: tt('g.wallet'),
-                width: 18,
-                height: 18,
-            },
-            {
-                link: '/market',
-                icon: 'transfer',
-                text: tt('g.market'),
-                width: 20,
-                height: 16,
-            },
-            {
-                link: '/~witnesses',
-                icon: 'delegates',
-                text: tt('navigation.delegates'),
-                width: 22,
-                height: 16,
-            },
-            {
-                link: tt('link_to.telegram'),
-                icon: 'technical-support',
-                text: tt('navigation.technical_support'),
-                width: 25,
-                height: 26,
-            },
-            {
-                link: `/@${accountName}/settings`,
-                icon: 'settings',
-                text: tt('g.settings'),
-                width: 22,
-                height: 22,
-            },
-            {
-                icon: 'logout',
-                text: tt('g.logout'),
-                onClick: onLogoutClick,
-                width: 18,
-                height: 19,
-            },
-        ];
+        const { accountName } = this.props;
+        const menuItems = accountName ? this.loggedInItems : this.loggedOutItems;
 
         return (
             <Ul>
-                {items.map(({ link = '', target, icon, text, onClick, width, height }, i) => (
+                {menuItems.map(({ link = '', target, icon, text, onClick, width, height }, i) => (
                     <Li key={i} aria-label={text} onClick={() => this.onItemClick(link)}>
                         <LinkStyled
                             to={link}

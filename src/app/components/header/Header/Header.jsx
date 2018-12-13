@@ -45,7 +45,7 @@ const Fixed = styled.div`
 `;
 
 const ContainerWrapper = styled(Container)`
-    @media (max-width: 350px) {
+    @media (max-width: 385px) {
         margin-right: 0;
         overflow: hidden;
     }
@@ -137,6 +137,10 @@ const Buttons = styled.div`
     ${is('hidden')`
         opacity: 0;
     `};
+
+    ${is('mobile')`
+        order: 2;
+    `};
 `;
 
 const SignUp = styled.a`
@@ -146,7 +150,7 @@ const SignUp = styled.a`
         order: 2;
     }
 
-    @media (max-width: 350px) {
+    @media (max-width: 385px) {
         margin-right: -15px;
     }
 `;
@@ -165,7 +169,7 @@ const SignInMobile = styled(Link)`
         color: #2879ff;
     }
 
-    @media (max-width: 350px) {
+    @media (max-width: 385px) {
         padding: 9px 10px;
     }
 `;
@@ -304,13 +308,13 @@ const Messages = styled(Link)`
 
 const Dots = styled(Icon)`
     display: block;
-    width: 20px;
-    height: 20px;
     color: #393636;
     user-select: none;
 `;
 
 const DotsWrapper = styled.div`
+    display: flex;
+    align-items: center;
     padding: 10px;
     cursor: pointer;
 
@@ -324,8 +328,14 @@ const DotsWrapper = styled.div`
         }
     `};
 
-    ${is('mobile')`
+    ${is('pad')`
         padding: 10px 20px;
+    `};
+
+    ${is('mobile')`
+        order: 1;
+        padding: 10px;
+        margin-right: 4px;
     `};
 `;
 
@@ -497,16 +507,6 @@ export default class Header extends PureComponent {
                 {/*{this.renderMessagesBlock()} uncomment when messenger done*/}
                 {isPadScreen ? null : this.renderFullAccountBlock()}
                 {isPadScreen ? this.renderMobileAccountBlock() : null}
-                <DotsWrapper
-                    role="button"
-                    aria-label={tt('aria_label.additional menu')}
-                    innerRef={this.dotsRef}
-                    active={isMenuOpen}
-                    mobile={isPadScreen ? 1 : 0}
-                    onClick={this.onMenuToggle}
-                >
-                    <Dots name="dots" />
-                </DotsWrapper>
             </AuthorizedBlock>
         );
     }
@@ -632,7 +632,7 @@ export default class Header extends PureComponent {
                                 <LocaleSelectWrapper>
                                     <LocaleSelect onChangeLocale={onChangeLocale} />
                                 </LocaleSelectWrapper>
-                                <Buttons hidden={waitAuth}>
+                                <Buttons hidden={waitAuth} mobile={isMobile ? 1 : 0}>
                                     <SignUp href={REGISTRATION_URL}>
                                         <Button>{tt('g.sign_up')}</Button>
                                     </SignUp>
@@ -652,6 +652,17 @@ export default class Header extends PureComponent {
                                 </Buttons>
                             </Fragment>
                         )}
+                        <DotsWrapper
+                            role="button"
+                            aria-label={tt('aria_label.additional menu')}
+                            innerRef={this.dotsRef}
+                            active={isMenuOpen}
+                            pad={isPadScreen ? 1 : 0}
+                            mobile={isMobile ? 1 : 0}
+                            onClick={this.onMenuToggle}
+                        >
+                            <Dots name="dots" width="4" height="20" />
+                        </DotsWrapper>
                     </ContainerWrapper>
                     {isNotificationsOpen ? (
                         <Popover
