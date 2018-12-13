@@ -415,7 +415,6 @@
     "total_paid": "Всего выплачено"
   },
   "g": {
-    "questions_answers": "Вопросы-ответы",
     "24_hour": "24 часа",
     "30_day": "30 дней",
     "APP_NAME": "Голос",
@@ -622,6 +621,7 @@
     "promote": "Продвинуть",
     "promoted": "Промо",
     "publish": "Опубликовать",
+    "questions_answers": "Вопросы-ответы",
     "re": "RE",
     "re2": "Re",
     "re_enter_generate_password": "Введите сгенерированный пароль",
@@ -1123,14 +1123,14 @@
     "unable_to_recover_account_not_change_ownership_recently": "Мы не можем восстановить эту учетную запись, она не изменила владельца в последнее время."
   },
   "registration_banner_jsx": {
-    "new_to_golos": "Новичок на Голосе?",
-    "everything_is_simple": "Всё просто:",
-    "write_a_post": "Пишите пост на Golos.io",
     "community_votes": "Сообщество голосует",
-    "you_get_rewards": "Вы получаете награды",
     "create_an_account": "Создать аккаунт",
+    "everything_is_simple": "Всё просто:",
+    "faq": "Частые вопросы",
+    "new_to_golos": "Новичок на Голосе?",
     "to_learn_more": "Узнать больше",
-    "faq": "Частые вопросы"
+    "write_a_post": "Пишите пост на Golos.io",
+    "you_get_rewards": "Вы получаете награды"
   },
   "reply": {
     "comments_count": "Количество комментариев"

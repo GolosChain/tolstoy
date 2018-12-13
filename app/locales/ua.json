@@ -354,7 +354,6 @@
     "total_paid": "Всього виплачено"
   },
   "g": {
-    "questions_answers": "Питання-відповіді",
     "24_hour": "24 години",
     "30_day": "30 днів",
     "APP_NAME": "Голос",
@@ -547,6 +546,7 @@
     "promote": "Просунути",
     "promoted": "Промо",
     "publish": "",
+    "questions_answers": "Питання-відповіді",
     "re": "RE",
     "re2": "Re",
     "re_enter_generate_password": "Повторно введіть пароль",
@@ -1016,14 +1016,14 @@
     "unable_to_recover_account_not_change_ownership_recently": "Ми не можемо відновити цей акаунт, вона не змінила власника останнім часом."
   },
   "registration_banner_jsx": {
-    "new_to_golos": "Новачок на Голосі?",
-    "everything_is_simple": "Все просто:",
-    "write_a_post": "Пишіть пост на Golos.io",
     "community_votes": "Співтовариство голосує",
-    "you_get_rewards": "Ви отримуєте винагороди",
     "create_an_account": "Створити аккаунт",
+    "everything_is_simple": "Все просто:",
+    "faq": "Часті питання",
+    "new_to_golos": "Новачок на Голосі?",
     "to_learn_more": "Дізнатися більше",
-    "faq": "Часті питання"
+    "write_a_post": "Пишіть пост на Golos.io",
+    "you_get_rewards": "Ви отримуєте винагороди"
   },
   "reply": {
     "comments_count": "Кількість коментарів"
