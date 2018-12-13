@@ -181,6 +181,14 @@ const SpamBlock = styled.div`
     display: flex;
     align-items: center;
     margin-right: 40px;
+
+    @media (max-width: 576px) {
+        flex-wrap: wrap;
+
+        & ${Button} {
+            margin-top: 5px;
+        }
+    }
 `;
 
 const SpamText = styled.div`
