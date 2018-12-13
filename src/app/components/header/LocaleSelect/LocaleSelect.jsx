@@ -7,9 +7,20 @@ import { LANGUAGES } from 'app/client_config';
 const StyledSelect = styled(Select)`
     font-weight: 500;
     border: none;
+    cursor: pointer;
 
     &:focus {
         border: none;
+    }
+
+    @media (max-width: 576px) {
+        padding: 9px 14px;
+        background-image: none;
+    }
+
+    @media (max-width: 350px) {
+        margin-right: 4px;
+        padding: 9px 10px;
     }
 `;
 
