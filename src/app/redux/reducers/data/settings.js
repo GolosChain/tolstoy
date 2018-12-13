@@ -1,5 +1,5 @@
 import { fromJS } from 'immutable';
-import { pick } from 'ramda';
+import { pick, mergeDeepRight } from 'ramda';
 import {
     SETTING_GET_OPTIONS_SUCCESS,
     SETTING_SET_OPTIONS,
@@ -9,9 +9,9 @@ import {
 import { USER_LOGOUT } from 'src/app/redux/constants/auth';
 import { DEFAULT_LANGUAGE, DEFAULT_CURRENCY } from 'app/client_config';
 
-const initialState = fromJS({
+const defaults = {
     basic: {
-        rounding: 0,
+        rounding: 2,
         selfVote: false,
         nsfw: 'warn',
         lang: DEFAULT_LANGUAGE,
@@ -19,7 +19,9 @@ const initialState = fromJS({
         award: 0,
         selectedTags: {},
     },
-});
+};
+
+const initialState = fromJS(defaults);
 
 const setSettingsOptionsFromMeta = (state, meta) => {
     return state.withMutations(state => {
@@ -35,13 +37,11 @@ const setSettingsOptionsFromMeta = (state, meta) => {
 export default function(state = initialState, { type, payload, error, meta }) {
     switch (type) {
         case SETTING_GET_OPTIONS_SUCCESS:
-            return fromJS(payload);
+            return fromJS(mergeDeepRight(defaults, payload));
 
         case SETTING_SET_OPTIONS:
             return setSettingsOptionsFromMeta(state, meta);
 
-        case SETTING_SET_OPTIONS_SUCCESS:
-            return setSettingsOptionsFromMeta(state, meta);
         case SETTING_SET_OPTIONS_SUCCESS:
             return setSettingsOptionsFromMeta(state, meta);
 
@@ -54,8 +54,7 @@ export default function(state = initialState, { type, payload, error, meta }) {
                 ['basic', 'lang'],
                 state.getIn(['basic', 'lang'], DEFAULT_LANGUAGE)
             );
-
-        default:
-            return state;
     }
+
+    return state;
 }

@@ -144,31 +144,32 @@ export default class Common extends PureComponent {
                                         <RadioGroup
                                             options={[
                                                 {
-                                                    id: '0',
+                                                    id: 0,
                                                     title: tt(
                                                         'settings_jsx.rounding_numbers.integer'
                                                     ),
                                                 },
                                                 {
-                                                    id: '1',
+                                                    id: 1,
                                                     title: tt(
                                                         'settings_jsx.rounding_numbers.one_decimal'
                                                     ),
                                                 },
                                                 {
-                                                    id: '2',
+                                                    id: 2,
                                                     title: tt(
                                                         'settings_jsx.rounding_numbers.two_decimal'
                                                     ),
                                                 },
                                                 {
-                                                    id: '3',
+                                                    id: 3,
                                                     title: tt(
                                                         'settings_jsx.rounding_numbers.three_decimal'
                                                     ),
                                                 },
                                             ]}
                                             {...input}
+                                            value={Number(input.value)}
                                             light
                                         />
                                         <FormError meta={meta} />

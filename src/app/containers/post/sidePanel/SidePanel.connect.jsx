@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
-import { Map, List } from 'immutable';
 
 import { currentUsernameSelector, appSelector } from 'src/app/redux/selectors/common';
 import { SidePanel } from 'src/app/containers/post/sidePanel/SidePanel';

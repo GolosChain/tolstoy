@@ -1,3 +1,5 @@
+import { Map } from 'immutable';
+import o2j from 'shared/clash/object2json';
 import {
     createDeepEqualSelector,
     pageAccountSelector,
@@ -6,10 +8,6 @@ import {
     dataSelector,
     globalSelector,
 } from './../common';
-import { Map } from 'immutable';
-import o2j from 'shared/clash/object2json';
-
-// Settings selectors
 
 const emptyMap = Map();
 
@@ -30,7 +28,7 @@ export const settingsContentSelector = createDeepEqualSelector(
         //fix https://github.com/GolosChain/tolstoy/issues/450
         if (
             typeof metaData === 'string' &&
-            metaData.localeCompare("{created_at: 'GENESIS'}") == 0
+            metaData.localeCompare("{created_at: 'GENESIS'}") === 0
         ) {
             metaData = {};
             metaData.created_at = 'GENESIS';
