@@ -8,15 +8,16 @@ import {
 } from 'src/app/redux/selectors/common';
 import { hydratedNotificationsSelector } from 'src/app/redux/selectors/notifications';
 import { markAllNotificationsAsViewed } from 'src/app/redux/actions/notifications';
+import {
+    getNotificationsOnlineHistory,
+    clearOnlineNotifications,
+} from 'src/app/redux/actions/notificationsOnline';
 import NotificationsMenu from './NotificationsMenu';
 
 const filteredNotificationsSelector = createDeepEqualSelector(
     [entitiesArraySelector('notificationsOnline')],
     notifications =>
-        notifications
-            .sortBy(a => a.get('createdAt'))
-            .reverse()
-            .take(5)
+        notifications.sortBy(a => new Date(a.get('createdAt')).getTime(), (a, b) => b - a)
 );
 
 export default connect(
@@ -29,8 +30,10 @@ export default connect(
         (notifications, notificationsStatus, authorizedUsername) => ({
             notifications,
             isFetching: notificationsStatus.get('isFetching'),
+            canLoadMore: notificationsStatus.get('canLoadMore'),
+            lastLoadedId: notificationsStatus.get('lastLoadedId'),
             authorizedUsername,
         })
     ),
-    { markAllNotificationsAsViewed }
+    { getNotificationsOnlineHistory, markAllNotificationsAsViewed, clearOnlineNotifications }
 )(NotificationsMenu);

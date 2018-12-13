@@ -15,6 +15,7 @@ import PostActions from 'src/app/components/post/PostActions';
 import { POST_MAX_WIDTH } from 'src/app/containers/post/PostContainer';
 import VotePanel from 'src/app/components/common/VotePanel';
 import Repost from 'src/app/components/post/repost';
+import { logClickAnalytics } from 'src/app/helpers/gaLogs';
 
 const HEADER_HEIGHT = 60;
 const DESKTOP_FOOTER_HEIGHT = 324;
@@ -29,12 +30,19 @@ const PanelWrapper = styled.div`
     border-radius: 32px;
     background-color: #ffffff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-    opacity: 1;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s, visibility 0.15s;
 
     & > * {
         padding: 10px;
         flex-shrink: 0;
     }
+
+    ${is('isVisible')`
+        visibility: visible;
+        opacity: 1;
+    `};
 `;
 
 const Wrapper = styled.div`
@@ -83,6 +91,7 @@ const BackLink = styled(Link)`
     border-radius: 50%;
     background-color: rgba(255, 255, 255, 0.7);
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    cursor: pointer;
 
     &:hover {
         background-color: #ffffff;
@@ -140,10 +149,12 @@ export class SidePanel extends Component {
         fixedOn: 'center',
         showSideBlockByWidth: true,
         showSideBlockByHeight: true,
+        showPanel: true,
         backURL: this.props.backURL,
     };
 
     sideBlockRef = createRef();
+    panelRef = createRef();
 
     componentDidMount() {
         this.scrollScreenLazy();
@@ -158,6 +169,24 @@ export class SidePanel extends Component {
         this.scrollScreenLazy.cancel();
         this.resizeScreenLazy.cancel();
     }
+
+    checkPanelPosition = () => {
+        const { postContentRef } = this.props;
+        const { showPanel } = this.state;
+
+        if (!postContentRef || !postContentRef.current) {
+            return;
+        }
+
+        const postBottom = postContentRef.current.getBoundingClientRect().bottom;
+        const panelBottom = this.panelRef.current.getBoundingClientRect().bottom;
+
+        if (postBottom < panelBottom && showPanel) {
+            this.setState({ showPanel: false });
+        } else if (postBottom >= panelBottom && !showPanel) {
+            this.setState({ showPanel: true });
+        }
+    };
 
     scrollScreen = () => {
         const panelRect = this.sideBlockRef.current.getBoundingClientRect();
@@ -181,6 +210,8 @@ export class SidePanel extends Component {
                 fixedOn: newFixedOn,
             });
         }
+
+        this.checkPanelPosition();
     };
 
     scrollScreenLazy = throttle(this.scrollScreen, 20);
@@ -224,18 +255,43 @@ export class SidePanel extends Component {
     };
 
     onBackClick = () => {
-        this.props.onBackClick();
+        this.props.onBackClick(this.state.backURL);
+        logClickAnalytics('Button', 'Back to previous page');
+    };
+
+    renderBack = () => {
+        const { backURL } = this.state;
+
+        // Если backUrl это ссылка на пост то не показываем кнопку "назад".
+        if (/^\/[^\/]+\/@/.test(backURL)) {
+            return;
+        }
+
+        const currentUrl = location.pathname + location.search + location.hash;
+
+        if (backURL && currentUrl && backURL !== currentUrl) {
+            return (
+                <BackLink
+                    to={backURL}
+                    role="button"
+                    data-tooltip={tt('g.turn_back')}
+                    aria-label={tt('g.turn_back')}
+                    onClick={this.onBackClick}
+                >
+                    <BackIcon name="arrow_left" />
+                </BackLink>
+            );
+        }
     };
 
     render() {
         const { post, isPinned, togglePin, isOwner, toggleFavorite, contentLink } = this.props;
-
         const {
             showSharePopover,
             fixedOn,
             showSideBlockByWidth,
             showSideBlockByHeight,
-            backURL,
+            showPanel,
         } = this.state;
 
         const shareTooltip = showSharePopover
@@ -248,7 +304,7 @@ export class SidePanel extends Component {
                 fixedOn={fixedOn}
                 showSideBlock={showSideBlockByWidth && showSideBlockByHeight}
             >
-                <PanelWrapper>
+                <PanelWrapper innerRef={this.panelRef} isVisible={showPanel}>
                     <WrapperVotePanel contentLink={contentLink} vertical />
                     <Repost contentLink={contentLink} />
                     <ShareWrapper
@@ -282,17 +338,7 @@ export class SidePanel extends Component {
                         togglePin={togglePin}
                     />
                 </PanelWrapper>
-                {backURL ? (
-                    <BackLink
-                        to={backURL}
-                        role="button"
-                        data-tooltip={tt('g.turn_back')}
-                        aria-label={tt('g.turn_back')}
-                        onClick={this.onBackClick}
-                    >
-                        <BackIcon name="arrow_left" />
-                    </BackLink>
-                ) : null}
+                {process.env.BROWSER ? this.renderBack() : null}
             </Wrapper>
         );
     }

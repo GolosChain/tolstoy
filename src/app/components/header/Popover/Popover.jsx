@@ -53,12 +53,16 @@ export default class Popover extends PureComponent {
     root = createRef();
 
     componentDidMount() {
-        window.addEventListener('mousedown', this.onAwayClick);
-        window.addEventListener('click', this.onAwayClick);
-        window.addEventListener('resize', this.onResizeLazy);
+        // Отсрочка на timeout для того чтобы не словить click который и открыл это меню.
+        this.deferInitTimeout = setTimeout(() => {
+            window.addEventListener('mousedown', this.onAwayClick);
+            window.addEventListener('click', this.onAwayClick);
+            window.addEventListener('resize', this.onResizeLazy);
+        });
     }
 
     componentWillUnmount() {
+        clearTimeout(this.deferInitTimeout);
         window.removeEventListener('mousedown', this.onAwayClick);
         window.removeEventListener('click', this.onAwayClick);
         window.removeEventListener('resize', this.onResizeLazy);
@@ -110,7 +114,7 @@ export default class Popover extends PureComponent {
 
         const box = target.getBoundingClientRect();
         return document.body.clientWidth - Math.round(box.left + box.width / 2) - POPOVER_OFFSET;
-    };
+    }
 
     onResize = () => {
         const { menuMobile, notificationMobile } = this.props;

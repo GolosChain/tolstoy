@@ -57,7 +57,7 @@ export const REGISTRATION_URL = 'https://reg.golos.io/';
 export const SUPPORT_EMAIL = 'support@' + APP_DOMAIN;
 export const SUPPORT_EMAIL_2 = 'pr@golos.io';
 // ignore special tags, dev-tags, partners tags
-export const IGNORE_TAGS = ['test', 'bm-open', 'bm-ceh23', 'bm-tasks', 'bm-taskceh1'];
+export const IGNORE_TAGS = ['bm-open', 'bm-ceh23', 'bm-tasks', 'bm-taskceh1'];
 export const PUBLIC_API = {
     created: 'getDiscussionsByCreatedAsync',
     recent: 'getDiscussionsByCreatedAsync',
@@ -97,7 +97,6 @@ export const SMS_SERVICES = {
 
 export const ANDROID_APP_NAME = 'Golos.io';
 export const ANDROID_PACKAGE = 'io.golos.golos';
-//export const ANDROID_APP_URL = `https://play.google.com/store/apps/details?id=${ANDROID_PACKAGE}`
 export const ANDROID_URL_SCHEME = 'golosioapp';
 export const ANDROID_DEEP_LINK_DOMAIN = 'golos.io';
 export const TERMS_OF_SERVICE_URL = 'https://golos.io/legal/terms_of_service.pdf';
@@ -115,7 +114,7 @@ export const LEAVE_PAGE_WHITELIST_DOMAINS = [
     'golostools.com',
     'github.com',
     'play.google.com',
-    't.me',
+    'tlg.name',
     'facebook.com',
     'vk.com',
     'instagram.com',

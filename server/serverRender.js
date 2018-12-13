@@ -46,7 +46,6 @@ export default async function serverRender({ uri, offchain, ErrorPage, settings,
 
         const { location } = renderProps;
         initialState = await getState(api, location, { offchain, settings, rates });
-
         // protect for invalid account
         if (
             Object.getOwnPropertyNames(initialState.global.accounts).length === 0 &&
@@ -94,7 +93,6 @@ export default async function serverRender({ uri, offchain, ErrorPage, settings,
         }
 
         initialState.offchain.server_location = uri;
-
         serverStore = createStore(rootReducer, initialState);
         serverStore.dispatch({ type: '@@router/LOCATION_CHANGE', payload: { pathname: uri } });
     } catch (e) {

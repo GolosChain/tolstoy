@@ -21,7 +21,11 @@ tt.registerTranslations('uk', require('app/locales/ua.json'));
 }))
 export default class Translator extends Component {
     render() {
-        const localeWithoutRegionCode = this.props.locale.toLowerCase().split(/[_-]+/)[0];
+        const { locale, children } = this.props;
+        const localeWithoutRegionCode =
+            locale && typeof locale === 'string'
+                ? locale.toLowerCase().split(/[_-]+/)[0]
+                : DEFAULT_LANGUAGE; // fix for firefox private mode
 
         tt.setLocale(localeWithoutRegionCode);
         tt.setFallbackLocale('en');
@@ -32,7 +36,7 @@ export default class Translator extends Component {
                 locale={localeWithoutRegionCode}
                 defaultLocale={DEFAULT_LANGUAGE}
             >
-                {this.props.children}
+                {children}
             </IntlProvider>
         );
     }

@@ -102,6 +102,8 @@ export default class MarkdownEditor extends PureComponent {
             window.cm = this.cm;
         }
 
+        this.isIos = /ios/i.test(navigator.userAgent);
+
         this._previewTimeout = setTimeout(() => {
             this.processText();
         }, 500);
@@ -173,7 +175,31 @@ export default class MarkdownEditor extends PureComponent {
         }
     };
 
-    onChange = () => {
+    onChange = (instance, change) => {
+        /**
+         * Это костыль который чинит проблему залипания caps-lock на ios
+         * Баг репорты:
+         * - https://github.com/ProseMirror/prosemirror/issues/25
+         * - https://github.com/codemirror/CodeMirror/issues/3403
+         */
+        if (this.isIos) {
+            try {
+                if (change.text.length === 1) {
+                    const text = change.text[0];
+
+                    if (text.length === 1) {
+                        // Если была введена заглавная буква
+                        if (text !== text.toLowerCase() && document.activeElement) {
+                            const focused = document.activeElement;
+
+                            focused.blur();
+                            focused.focus();
+                        }
+                    }
+                }
+            } catch (err) {}
+        }
+
         this.props.onChangeNotify();
         this.processTextLazy();
     };

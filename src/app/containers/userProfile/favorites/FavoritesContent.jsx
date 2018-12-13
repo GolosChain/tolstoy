@@ -11,9 +11,14 @@ import InfoBlock from 'src/app/components/common/InfoBlock';
 import { favoritesLoadNextPageAction } from 'src/app/redux/actions/favorites';
 import EmptyBlock, { EmptySubText } from 'src/app/components/common/EmptyBlock';
 import CardsListWrapper from '../CardsListWrapper';
+import { visuallyHidden } from 'src/app/helpers/styles';
 
 const Loader = styled(LoadingIndicator)`
     margin-top: 30px;
+`;
+
+const Header = styled.h1`
+    ${visuallyHidden};
 `;
 
 @authProtection()
@@ -49,7 +54,12 @@ export default class FavoritesContent extends Component {
 
         return (
             <Fragment>
-                <Helmet title={tt('meta.title.profile.favorites', { name: pageAccountName })} />
+                <Helmet
+                    title={tt('meta.title.profile.favorites', {
+                        name: pageAccountName,
+                    })}
+                />
+                <Header>{tt('g.favorites')}</Header>
                 <CardsListWrapper noGaps>{this._render()}</CardsListWrapper>
             </Fragment>
         );

@@ -15,6 +15,7 @@ import {
     CONTAINER_MOBILE_MARGIN,
 } from 'src/app/constants/container';
 import CardsList from 'src/app/components/common/CardsList';
+import NoPostsPlaceholder from 'src/app/components/home/NoPostsPlaceholder';
 
 const Wrapper = styled.div`
     background-color: #f9f9f9;
@@ -23,7 +24,7 @@ const Wrapper = styled.div`
         @media (max-width: ${SINGLE_COLUMN_WIDTH}px) {
             margin: 0 ${CONTAINER_BASE_MARGIN}px;
         }
-        
+
         @media (max-width: ${CONTAINER_MOBILE_WIDTH}px) {
             margin-left: ${CONTAINER_MOBILE_MARGIN}px;
             margin-right: ${CONTAINER_MOBILE_MARGIN}px;
@@ -58,16 +59,10 @@ export default class HomeContent extends Component {
     };
 
     renderCallout() {
-        const { category, order, currentUsername, routeParams } = this.props;
+        const { category, order, currentUsername, routeParams, tagsStr } = this.props;
 
         if (category !== 'feed') {
-            return (
-                <div>
-                    {tt('g.no_topics_by_order_found', {
-                        order: tt('g.' + order) + (category ? ` #` + category : ''),
-                    })}
-                </div>
-            );
+            return <NoPostsPlaceholder order={order} tagsStr={tagsStr} />;
         }
 
         const accountName = routeParams.order.slice(1);

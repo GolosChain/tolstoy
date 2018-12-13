@@ -53,6 +53,7 @@ export default connect(
                 category,
                 order,
                 layout,
+                tagsStr,
             };
         }
     ),

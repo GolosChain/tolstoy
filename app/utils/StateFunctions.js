@@ -1,10 +1,13 @@
 import assert from 'assert';
+import { Long } from 'bytebuffer';
+import { Map, List, Seq, Set, fromJS } from 'immutable';
+import { has, intersection } from 'ramda';
+
 import constants from 'app/redux/constants';
 import { parsePayoutAmount, repLog10 } from 'app/utils/ParsersAndFormatters';
-import { Long } from 'bytebuffer';
 import { VEST_TICKER, LIQUID_TICKER } from 'app/client_config';
-import { Map, Seq, fromJS } from 'immutable';
-import { has, intersection } from 'ramda';
+import normalizeProfile from 'app/utils/NormalizeProfile';
+
 import { getStoreState } from 'app/clientRender';
 
 const DEFAULT_DATE = '1970-01-01T00:00:00';
@@ -298,4 +301,35 @@ export function getVesting(account, props) {
         gests: availableVesting,
         golos: vestsToGolos(availableVesting.toFixed(6) + ' GESTS', props),
     };
+}
+
+export function buildAccountNameAutocomplete(transferHistory, following) {
+    return transferHistory
+        .reduce((acc, cur) => {
+            if (cur.getIn([1, 'op', 0]) === 'transfer') {
+                const username = cur.getIn([1, 'op', 1, 'to']);
+                return acc.add(username);
+            }
+            return acc;
+        }, Set())
+        .merge(following)
+        .sort()
+        .toArray();
+}
+
+export function sortFollowers(followers) {
+    return List()
+        .withMutations(users => {
+            for (const follower of followers) {
+                const profile = normalizeProfile(follower.toJS());
+                users.push(
+                    fromJS({
+                        name: follower.get('name'),
+                        profileName: profile.name || follower.get('name'),
+                        profileImage: profile.profile_image,
+                    })
+                );
+            }
+        })
+        .sort((a, b) => a.get('profileName').localeCompare(b.get('profileName')));
 }

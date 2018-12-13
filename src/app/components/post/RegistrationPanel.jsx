@@ -2,15 +2,13 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import Button from 'golos-ui/Button';
-
 import { REGISTRATION_URL } from 'app/client_config';
 
 const Wrapper = styled.div`
     display: flex;
     justify-content: space-between;
 
-    margin-top: 20px;
+    margin-top: 30px;
 
     object-fit: contain;
     border-radius: 8px;
@@ -19,18 +17,21 @@ const Wrapper = styled.div`
 
     @media (max-width: 768px) {
         flex-direction: column;
+        margin-top: 20px;
     }
 `;
 
 const Information = styled.div`
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     flex-direction: column;
 
     padding: 20px;
 
     @media (max-width: 768px) {
+        align-items: center;
         order: 2;
+        padding: 20px 12px;
     }
 `;
 
@@ -46,33 +47,57 @@ const Rocket = styled.div`
     }
 `;
 
-const Title = styled.div`
-    font-family: Helvetica, sans-serif;
+const Title = styled.h3`
+    margin: 0;
+
+    font-family: 'Helvetica', sans-serif;
     font-size: 16px;
+    line-height: 1;
     font-weight: bold;
     text-align: center;
 `;
 
-const Description = styled.div`
-    margin-top: 10px;
+const Description = styled.p`
+    padding: 10px 0;
+    margin: 0;
 
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
     font-weight: 500;
     line-height: 1.5;
     letter-spacing: -0.3px;
-    text-align: center;
+    text-align: left;
     color: #959595;
+
+    @media (max-width: 768px) {
+        text-align: center;
+    }
 `;
 
-const RegButtonLink = styled.a`
-    display: block;
-
-    margin-top: 10px;
-`;
-
-const RegistrationButton = styled(Button)`
+const RegLink = styled.a`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 192px;
+    min-height: 34px;
+    padding: 5px 22px;
+    border-radius: 100px;
+    background-color: #2879ff;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 1;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
     text-transform: uppercase;
+    user-select: none;
+    transition: background-color 0.15s;
+
+    &:hover,
+    &:focus {
+        color: #fff;
+        background-color: #0e69ff;
+    }
 `;
 
 const Divider = styled.div`
@@ -107,14 +132,12 @@ export default class RegistrationPanel extends Component {
                 <Information>
                     <Title>{tt('g.sign_up_to_vote_for_post_or_write_comments')}</Title>
                     <Description>{tt('g.authors_receive_rewards_for_upvotes')}</Description>
-                    <RegButtonLink href={REGISTRATION_URL}>
-                        <RegistrationButton>{tt('g.sign_up_action')}</RegistrationButton>
-                    </RegButtonLink>
+                    <RegLink href={REGISTRATION_URL}>{tt('g.sign_up_action')}</RegLink>
                 </Information>
                 <Rocket>
                     <Divider />
                     <RocketHolder>
-                        <RocketImg src="/images/post/registration-rocket.svg"/>
+                        <RocketImg src="/images/post/registration-rocket.svg" />
                     </RocketHolder>
                 </Rocket>
             </Wrapper>

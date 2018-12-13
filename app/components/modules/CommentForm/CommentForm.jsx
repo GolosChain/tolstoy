@@ -75,11 +75,11 @@ class CommentForm extends Component {
             uploadingCount: 0,
         };
 
-        this._saveDraftLazy = throttle(this._saveDraft, 300, {
+        this.saveDraftLazy = throttle(this.saveDraft, 300, {
             leading: false,
         });
-        this._checkBodyLazy = throttle(this._checkBody, 300, { leading: true });
-        this._postSafe = this._safeWrapper(this._post);
+        this.checkBodyLazy = throttle(this.checkBody, 300, { leading: true });
+        this.postSafe = this.safeWrapper(this.post);
 
         let isLoaded = false;
 
@@ -209,7 +209,7 @@ class CommentForm extends Component {
                                     ref={this.footerRef}
                                     editMode={editMode}
                                     postDisabled={!allowPost}
-                                    onPostClick={this._postSafe}
+                                    onPostClick={this.postSafe}
                                     onCancelClick={this.onCancelClick}
                                 />
                             </div>
@@ -260,7 +260,7 @@ class CommentForm extends Component {
     };
 
     post() {
-        this._postSafe();
+        this.postSafe();
     }
 
     cancel() {
@@ -271,11 +271,11 @@ class CommentForm extends Component {
         if (this.props.onChange) {
             this.props.onChange(this.editorRef.current.getValue());
         }
-        this._saveDraftLazy();
-        this._checkBodyLazy();
+        this.saveDraftLazy();
+        this.checkBodyLazy();
     };
 
-    _saveDraft = () => {
+    saveDraft = () => {
         const { editMode, params } = this.props;
 
         const body = this.editorRef.current.getValue();
@@ -299,7 +299,7 @@ class CommentForm extends Component {
         }
     };
 
-    _safeWrapper(callback) {
+    safeWrapper(callback) {
         return (...args) => {
             try {
                 return callback(...args);
@@ -310,7 +310,7 @@ class CommentForm extends Component {
         };
     }
 
-    _post = () => {
+    post = () => {
         let error;
 
         const body = this.editorRef.current.getValue();
@@ -460,7 +460,7 @@ class CommentForm extends Component {
         );
     };
 
-    _checkBody() {
+    checkBody() {
         const editor = this.editorRef.current;
 
         if (editor) {
@@ -474,7 +474,7 @@ class CommentForm extends Component {
 
     _onPreviewChange = enable => {
         if (enable) {
-            this._saveDraft();
+            this.saveDraft();
 
             this.setState({
                 isPreview: true,

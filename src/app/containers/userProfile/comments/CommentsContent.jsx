@@ -10,9 +10,14 @@ import InfoBlock from 'src/app/components/common/InfoBlock';
 import EmptyBlock, { EmptySubText } from 'src/app/components/common/EmptyBlock';
 import CommentCard from 'src/app/components/cards/CommentCard';
 import CardsListWrapper from '../CardsListWrapper';
+import { visuallyHidden } from 'src/app/helpers/styles';
 
 const Loader = styled(LoadingIndicator)`
     margin-top: 30px;
+`;
+
+const Header = styled.h1`
+    ${visuallyHidden};
 `;
 
 class CommentsContent extends Component {
@@ -22,8 +27,11 @@ class CommentsContent extends Component {
         return (
             <Fragment>
                 <Helmet
-                    title={tt('meta.title.profile.comments', { name: pageAccount.get('name') })}
+                    title={tt('meta.title.profile.comments', {
+                        name: pageAccount.get('name'),
+                    })}
                 />
+                <Header>{tt('g.comments')}</Header>
                 <CardsListWrapper>{this._render()}</CardsListWrapper>
             </Fragment>
         );

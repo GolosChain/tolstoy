@@ -32,7 +32,7 @@ const Container = styled.div`
     }
 `;
 
-const Wrapper = styled.div`
+const Wrapper = styled.nav`
     display: flex;
     flex: 1 0;
     margin: 0 -3px;

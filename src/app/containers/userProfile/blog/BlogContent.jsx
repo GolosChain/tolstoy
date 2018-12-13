@@ -11,9 +11,14 @@ import InfoBlock from 'src/app/components/common/InfoBlock';
 import EmptyBlock, { EmptySubText } from 'src/app/components/common/EmptyBlock';
 import CardsListWrapper from '../CardsListWrapper';
 import { uiSelector } from 'src/app/redux/selectors/common';
+import { visuallyHidden } from 'src/app/helpers/styles';
 
 const Loader = styled(LoadingIndicator)`
     margin-top: 30px;
+`;
+
+const Header = styled.h1`
+    ${visuallyHidden};
 `;
 
 class BlogContent extends Component {
@@ -22,7 +27,12 @@ class BlogContent extends Component {
 
         return (
             <Fragment>
-                <Helmet title={tt('meta.title.profile.blog', { name: pageAccount.get('name') })} />
+                <Helmet
+                    title={tt('meta.title.profile.blog', {
+                        name: pageAccount.get('name'),
+                    })}
+                />
+                <Header>{tt('g.blog')}</Header>
                 <CardsListWrapper noGaps={layout === 'compact'}>{this._render()}</CardsListWrapper>
             </Fragment>
         );

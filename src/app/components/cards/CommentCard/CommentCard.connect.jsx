@@ -11,6 +11,7 @@ import {
 } from 'src/app/redux/selectors/common';
 import { onVote } from 'src/app/redux/actions/vote';
 import { showNotification } from 'src/app/redux/actions/ui';
+import { openTransferDialog } from 'src/app/redux/actions/dialogs';
 
 export default connect(
     createSelector(
@@ -60,6 +61,11 @@ export default connect(
     {
         onVote,
         onNotify: showNotification,
+        openDonateDialog: (toAccount, url) =>
+            openTransferDialog(toAccount, {
+                type: 'donate',
+                donatePostUrl: url,
+            }),
     },
     null,
     { withRef: true }
