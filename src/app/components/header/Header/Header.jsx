@@ -495,6 +495,7 @@ export default class Header extends PureComponent {
                 )}
                 {this.renderNotificationsBlock()}
                 {/*{this.renderMessagesBlock()} uncomment when messenger done*/}
+                {this.renderLocaleBlock()}
                 {isPadScreen ? null : this.renderFullAccountBlock()}
                 {isPadScreen ? this.renderMobileAccountBlock() : null}
                 <DotsWrapper
@@ -604,8 +605,16 @@ export default class Header extends PureComponent {
         );
     }
 
+    renderLocaleBlock() {
+        return (
+            <LocaleSelectWrapper>
+                <LocaleSelect onChangeLocale={this.props.onChangeLocale} />
+            </LocaleSelectWrapper>
+        );
+    }
+
     render() {
-        const { currentUsername, onChangeLocale } = this.props;
+        const { currentUsername } = this.props;
         const { isMenuOpen, isNotificationsOpen, waitAuth, isPadScreen, isMobile } = this.state;
 
         return (
@@ -629,9 +638,7 @@ export default class Header extends PureComponent {
                             this.renderAuthorizedPart()
                         ) : (
                             <Fragment>
-                                <LocaleSelectWrapper>
-                                    <LocaleSelect onChangeLocale={onChangeLocale} />
-                                </LocaleSelectWrapper>
+                                {this.renderLocaleBlock()}
                                 <Buttons hidden={waitAuth}>
                                     <SignUp href={REGISTRATION_URL}>
                                         <Button>{tt('g.sign_up')}</Button>
