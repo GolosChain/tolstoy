@@ -611,7 +611,7 @@ export default class Header extends PureComponent {
                 <Fixed mobile={isPadScreen ? 1 : 0}>
                     <ContainerWrapper>
                         <LogoLink to="/" aria-label={tt('aria_label.header_logo')}>
-                            <LogoIcon name="logo-santa" size="38" />
+                            <LogoIcon name="logo-santa" size={isMobile ? 32 : 38} />
                             {isPadScreen ? null : <LogoText>GOLOS</LogoText>}
                         </LogoLink>
                         <SearchBlock
