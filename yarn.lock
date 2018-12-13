@@ -5314,9 +5314,9 @@ globule@^1.0.0:
     lodash "~4.17.10"
     minimatch "~3.0.2"
 
-golos-js@0.7.5:
-  version "0.7.5"
-  resolved "https://registry.yarnpkg.com/golos-js/-/golos-js-0.7.5.tgz#89ac41f03a071a6562f31f087371c82920d2595c"
+golos-js@0.7.6:
+  version "0.7.6"
+  resolved "https://registry.yarnpkg.com/golos-js/-/golos-js-0.7.6.tgz#357742cf5e1add33d35965209cde38d2efe8fdbf"
   dependencies:
     bigi "^1.4.2"
     bluebird "^3.4.6"
