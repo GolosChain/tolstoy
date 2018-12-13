@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router';
 import tt from 'counterpart';
@@ -79,12 +79,17 @@ export default class NoPostPlaceholder extends Component {
             <Wrapper>
                 <Header>
                     {tt('g.no_topics_by_order_found', { order: tt(['g', order]) })}
-                    <Tag>{`#${tagsStr}`}</Tag>
+                    {tagsStr && (
+                        <Fragment>
+                            {tt('g.with_the_tag')}
+                            <Tag>{`#${tagsStr}`}</Tag>
+                        </Fragment>
+                    )}
                 </Header>
                 <RemoveTagsButton to={window.location.pathname}>
                     {tt('aria_label.reset_tags')}
                 </RemoveTagsButton>
-                <Image src="/images/post/no_content.svg" />
+                <Image src="/images/post/no_content.svg" alt="" />
             </Wrapper>
         );
     }

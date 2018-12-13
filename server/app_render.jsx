@@ -27,7 +27,7 @@ async function appRender(ctx) {
             login_challenge = secureRandom.randomBuffer(16).toString('hex');
             ctx.session.login_challenge = login_challenge;
         }
-        
+
         const locale_cookie = ctx.cookies.get(LOCALE_COOKIE_KEY);
 
         const offchain = {
@@ -37,9 +37,7 @@ async function appRender(ctx) {
             account: ctx.session.a,
             config: $STM_Config,
             login_challenge,
-            locale: LANGUAGES[locale_cookie]
-                ? locale_cookie
-                : DEFAULT_LANGUAGE,
+            locale: LANGUAGES[locale_cookie] ? locale_cookie : DEFAULT_LANGUAGE,
         };
 
         let settings = null;

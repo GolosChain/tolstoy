@@ -30,7 +30,7 @@ const formControlStyles = css`
     }
 `;
 
-const labelStyles = css`
+export const labelStyles = css`
     position: relative;
     display: flex;
     align-items: center;

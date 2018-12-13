@@ -50,10 +50,7 @@ export default class SortLine extends Component {
         const urlWithSortParam = `${window.location.pathname}?sort=${this.urlSortParam()}#comments`;
 
         return (
-            <Wrapper
-                to={urlWithSortParam}
-                onClick={this.linkClick}
-            >
+            <Wrapper to={urlWithSortParam} onClick={this.linkClick}>
                 {tt(`post_jsx.${sortCategory}`)}
             </Wrapper>
         );
