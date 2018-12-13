@@ -45,9 +45,8 @@ const Fixed = styled.div`
 `;
 
 const ContainerWrapper = styled(Container)`
-    @media (max-width: 385px) {
+    @media (max-width: 350px) {
         margin-right: 0;
-        overflow: hidden;
     }
 `;
 
@@ -63,6 +62,10 @@ const LogoLink = styled(Link)`
 
     @media (max-width: 1230px) {
         margin-left: 0;
+    }
+
+    @media (max-width: 350px) {
+        padding: 10px 0;
     }
 `;
 
@@ -137,42 +140,17 @@ const Buttons = styled.div`
     ${is('hidden')`
         opacity: 0;
     `};
-
-    ${is('mobile')`
-        order: 2;
-    `};
 `;
 
 const SignUp = styled.a`
     margin-right: 12px;
 
-    @media (max-width: ${MIN_MOBILE_WIDTH}px) {
-        order: 2;
-    }
-
-    @media (max-width: 385px) {
-        margin-right: -15px;
+    @media (max-width: 350px) {
+        margin-right: 4px;
     }
 `;
 
 const SignIn = SignUp.withComponent(Link);
-
-const SignInMobile = styled(Link)`
-    display: flex;
-    order: 1;
-    margin-right: 4px;
-    padding: 9px 14px;
-    color: #393636;
-    transition: none;
-
-    &:hover {
-        color: #2879ff;
-    }
-
-    @media (max-width: 385px) {
-        padding: 9px 10px;
-    }
-`;
 
 const AuthorizedBlock = styled.div`
     display: flex;
@@ -333,9 +311,7 @@ const DotsWrapper = styled.div`
     `};
 
     ${is('mobile')`
-        order: 1;
-        padding: 10px;
-        margin-right: 4px;
+        padding: 10px 16px;
     `};
 `;
 
@@ -632,19 +608,11 @@ export default class Header extends PureComponent {
                                 <LocaleSelectWrapper>
                                     <LocaleSelect onChangeLocale={onChangeLocale} />
                                 </LocaleSelectWrapper>
-                                <Buttons hidden={waitAuth} mobile={isMobile ? 1 : 0}>
+                                <Buttons hidden={waitAuth}>
                                     <SignUp href={REGISTRATION_URL}>
                                         <Button>{tt('g.sign_up')}</Button>
                                     </SignUp>
-                                    {isMobile ? (
-                                        <SignInMobile
-                                            to="/login"
-                                            aria-label={tt('g.login')}
-                                            onClick={this.onLoginClick}
-                                        >
-                                            <Icon name="login-normal" width="17" height="18" />
-                                        </SignInMobile>
-                                    ) : (
+                                    {isMobile ? null : (
                                         <SignIn to="/login" onClick={this.onLoginClick}>
                                             <Button light>{tt('g.login')}</Button>
                                         </SignIn>
@@ -686,6 +654,7 @@ export default class Header extends PureComponent {
                             <Menu
                                 onClose={this.onMenuToggle}
                                 accountName={currentUsername}
+                                onLoginClick={this.onLoginClick}
                                 onLogoutClick={this.onLogoutClick}
                             />
                         </Popover>

@@ -45,6 +45,7 @@ const IconStyled = styled(Icon)`
 export default class Menu extends PureComponent {
     static propTypes = {
         onClose: PropTypes.func.isRequired,
+        onLoginClick: PropTypes.func.isRequired,
         onLogoutClick: PropTypes.func.isRequired,
         accountName: PropTypes.string,
     };
@@ -129,6 +130,13 @@ export default class Menu extends PureComponent {
             text: tt('navigation.technical_support'),
             width: 25,
             height: 26,
+        },
+        {
+            icon: 'login-normal',
+            text: tt('g.login'),
+            onClick: this.props.onLoginClick,
+            width: 18,
+            height: 19,
         },
     ];
 
