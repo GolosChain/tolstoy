@@ -44,6 +44,13 @@ const Fixed = styled.div`
     `};
 `;
 
+const ContainerWrapper = styled(Container)`
+    @media (max-width: 350px) {
+        margin-right: 0;
+        overflow: hidden;
+    }
+`;
+
 const Filler = styled.div`
     height: 60px;
 `;
@@ -55,11 +62,7 @@ const LogoLink = styled(Link)`
     margin-left: -10px;
 
     @media (max-width: 1230px) {
-        margin-left: 10px;
-    }
-
-    @media (max-width: 350px) {
-        margin-left: 3px;
+        margin-left: 0;
     }
 `;
 
@@ -84,15 +87,15 @@ const SearchBlock = styled(Link)`
     flex-grow: 1;
     margin: 0 20px 0 8px;
 
-    ${is('mobile')`
+    ${is('pad')`
         padding: 10px 20px;
         margin-right: 0;
     `};
 
-    @media (max-width: 350px) {
+    ${is('mobile')`
         margin: 0 4px 0 0;
         padding: 8px;
-    }
+    `};
 `;
 
 const SearchInput = styled.input`
@@ -139,12 +142,33 @@ const Buttons = styled.div`
 const SignUp = styled.a`
     margin-right: 12px;
 
+    @media (max-width: ${MIN_MOBILE_WIDTH}px) {
+        order: 2;
+    }
+
     @media (max-width: 350px) {
-        margin-right: 6px;
+        margin-right: -15px;
     }
 `;
 
 const SignIn = SignUp.withComponent(Link);
+
+const SignInMobile = styled(Link)`
+    display: flex;
+    order: 1;
+    margin-right: 4px;
+    padding: 9px 14px;
+    color: #393636;
+    transition: none;
+
+    &:hover {
+        color: #2879ff;
+    }
+
+    @media (max-width: 350px) {
+        padding: 9px 10px;
+    }
+`;
 
 const AuthorizedBlock = styled.div`
     display: flex;
@@ -587,14 +611,15 @@ export default class Header extends PureComponent {
         return (
             <Root>
                 <Fixed mobile={isPadScreen ? 1 : 0}>
-                    <Container>
+                    <ContainerWrapper>
                         <LogoLink to="/" aria-label={tt('aria_label.header_logo')}>
                             <LogoIcon name="logo" />
                             {isPadScreen ? null : <LogoText>GOLOS</LogoText>}
                         </LogoLink>
                         <SearchBlock
                             href="/static/search.html"
-                            mobile={isPadScreen ? 1 : 0}
+                            pad={isPadScreen ? 1 : 0}
+                            mobile={isMobile ? 1 : 0}
                             aria-label={tt('g.search')}
                         >
                             {isPadScreen ? <FlexFiller /> : <SearchInput />}
@@ -611,13 +636,23 @@ export default class Header extends PureComponent {
                                     <SignUp href={REGISTRATION_URL}>
                                         <Button>{tt('g.sign_up')}</Button>
                                     </SignUp>
-                                    <SignIn to="/login" onClick={this.onLoginClick}>
-                                        <Button light>{tt('g.login')}</Button>
-                                    </SignIn>
+                                    {isMobile ? (
+                                        <SignInMobile
+                                            to="/login"
+                                            aria-label={tt('g.login')}
+                                            onClick={this.onLoginClick}
+                                        >
+                                            <Icon name="login-normal" width="17" height="18" />
+                                        </SignInMobile>
+                                    ) : (
+                                        <SignIn to="/login" onClick={this.onLoginClick}>
+                                            <Button light>{tt('g.login')}</Button>
+                                        </SignIn>
+                                    )}
                                 </Buttons>
                             </Fragment>
                         )}
-                    </Container>
+                    </ContainerWrapper>
                     {isNotificationsOpen ? (
                         <Popover
                             notificationMobile={isMobile}
