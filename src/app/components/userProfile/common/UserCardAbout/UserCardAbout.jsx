@@ -13,6 +13,7 @@ import { makeSocialLink, sanitizeUrl } from 'src/app/helpers/urls';
 import Icon from 'golos-ui/Icon';
 import { CardTitle } from 'golos-ui/Card';
 import CollapsingCard from 'golos-ui/CollapsingCard';
+import UserStatus from '../UserStatus';
 
 import DialogManager from 'app/components/elements/common/DialogManager';
 import FollowersDialog from 'src/app/components/dialogs/FollowersDialog';
@@ -200,7 +201,7 @@ export default class UserCardAbout extends PureComponent {
     };
 
     render() {
-        const { account, followerCount, followingCount } = this.props;
+        const { account, followerCount, followingCount, currentAccount } = this.props;
         const { location, gender, about, website, social } = normalizeProfile(account.toJS());
 
         // set account join date
@@ -227,6 +228,7 @@ export default class UserCardAbout extends PureComponent {
                 saveStateKey="info"
             >
                 <CardContentCounters>
+                    <UserStatus currentAccount={currentAccount} />
                     <Row>
                         <ColumnClick
                             role="button"

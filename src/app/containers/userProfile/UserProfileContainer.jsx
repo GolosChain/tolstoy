@@ -240,6 +240,7 @@ class UserProfileContainer extends Component {
                                         account={currentAccount}
                                         followerCount={followerCount}
                                         followingCount={followingCount}
+                                        currentAccount={currentAccount}
                                     />
                                 )}
                                 {this.props.sidebarRight}
