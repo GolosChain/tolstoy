@@ -67,8 +67,6 @@ const LogoLink = styled(Link)`
 `;
 
 const LogoIcon = styled(Icon)`
-    width: 28px;
-    height: 28px;
     flex-shrink: 0;
     color: #2879ff;
 `;
@@ -613,7 +611,7 @@ export default class Header extends PureComponent {
                 <Fixed mobile={isPadScreen ? 1 : 0}>
                     <ContainerWrapper>
                         <LogoLink to="/" aria-label={tt('aria_label.header_logo')}>
-                            <LogoIcon name="logo" />
+                            <LogoIcon name="logo-santa" size="38" />
                             {isPadScreen ? null : <LogoText>GOLOS</LogoText>}
                         </LogoLink>
                         <SearchBlock
