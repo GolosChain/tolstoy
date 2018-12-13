@@ -652,8 +652,9 @@ export default class Header extends PureComponent {
                             onClose={this.onMenuToggle}
                         >
                             <Menu
-                                onClose={this.onMenuToggle}
+                                isMobile={isMobile}
                                 accountName={currentUsername}
+                                onClose={this.onMenuToggle}
                                 onLoginClick={this.onLoginClick}
                                 onLogoutClick={this.onLogoutClick}
                             />

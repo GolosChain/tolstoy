@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -44,10 +44,11 @@ const IconStyled = styled(Icon)`
 
 export default class Menu extends PureComponent {
     static propTypes = {
+        isMobile: PropTypes.bool.isRequired,
+        accountName: PropTypes.string,
         onClose: PropTypes.func.isRequired,
         onLoginClick: PropTypes.func.isRequired,
         onLogoutClick: PropTypes.func.isRequired,
-        accountName: PropTypes.string,
     };
 
     loggedInItems = [
@@ -134,6 +135,7 @@ export default class Menu extends PureComponent {
         {
             icon: 'login-normal',
             text: tt('g.login'),
+            hideOnDesktop: true,
             onClick: this.props.onLoginClick,
             width: 18,
             height: 19,
@@ -148,25 +150,47 @@ export default class Menu extends PureComponent {
     };
 
     render() {
-        const { accountName } = this.props;
+        const { accountName, isMobile } = this.props;
         const menuItems = accountName ? this.loggedInItems : this.loggedOutItems;
 
         return (
             <Ul>
-                {menuItems.map(({ link = '', target, icon, text, onClick, width, height }, i) => (
-                    <Li key={i} aria-label={text} onClick={() => this.onItemClick(link)}>
-                        <LinkStyled
-                            to={link}
-                            target={link.startsWith('//') ? '_blank' : null}
-                            onClick={onClick}
-                        >
-                            <IconWrapper>
-                                <IconStyled name={icon} width={width} height={height} />
-                            </IconWrapper>
-                            {text}
-                        </LinkStyled>
-                    </Li>
-                ))}
+                {menuItems.map(
+                    (
+                        {
+                            link = '',
+                            target,
+                            icon,
+                            text,
+                            hideOnDesktop = false,
+                            onClick,
+                            width,
+                            height,
+                        },
+                        i
+                    ) => (
+                        <Fragment>
+                            {!isMobile && hideOnDesktop ? null : (
+                                <Li
+                                    key={i}
+                                    aria-label={text}
+                                    onClick={() => this.onItemClick(link)}
+                                >
+                                    <LinkStyled
+                                        to={link}
+                                        target={link.startsWith('//') ? '_blank' : null}
+                                        onClick={onClick}
+                                    >
+                                        <IconWrapper>
+                                            <IconStyled name={icon} width={width} height={height} />
+                                        </IconWrapper>
+                                        {text}
+                                    </LinkStyled>
+                                </Li>
+                            )}
+                        </Fragment>
+                    )
+                )}
             </Ul>
         );
     }
