@@ -210,7 +210,6 @@ export default class PostCard extends PureComponent {
         // external
         permLink: PropTypes.string.isRequired,
         compact: PropTypes.bool,
-        pageAccountName: PropTypes.string,
         showPinButton: PropTypes.bool,
         onClick: PropTypes.func,
 

@@ -93,7 +93,6 @@ export default async function serverRender({ uri, offchain, ErrorPage, settings,
         }
 
         initialState.offchain.server_location = uri;
-
         serverStore = createStore(rootReducer, initialState);
         serverStore.dispatch({ type: '@@router/LOCATION_CHANGE', payload: { pathname: uri } });
     } catch (e) {

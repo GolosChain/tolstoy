@@ -581,7 +581,7 @@
     },
     "no": "No",
     "no_tags_selected": "No tags selected",
-    "no_topics_by_order_found": "No topics by %(order)s found with the tag ",
+    "no_topics_by_order_found": "No topics by %(order)s found ",
     "not_valid_email": "Not valid email",
     "nothing_yet": "Nothing yet",
     "ok": "Ok",
@@ -713,6 +713,7 @@
     "voting_capacity": "Golos Power",
     "wallet": "Wallet",
     "warning": "warning",
+    "with_the_tag": "with the tag ",
     "write_your_story": "Write your story",
     "yes": "Yes",
     "you_are_viewing_a_single_comments_thread_from": "You are viewing a single comment's thread from",
@@ -1113,6 +1114,16 @@
     "thanks_for_submitting_request_for_account_recovery_2": "We will respond to you as quickly as possible, however, please expect there may be some delay in response due to high volume of emails.",
     "thanks_for_submitting_request_for_account_recovery_3": "Please be prepared to verify your identity.",
     "unable_to_recover_account_not_change_ownership_recently": "We are unable to recover this account, it has not changed ownership recently."
+  },
+  "registration_banner_jsx": {
+    "new_to_golos": "New to Golos?",
+    "everything_is_simple": "Everything is simple:",
+    "write_a_post": "Write a post on Golos.io",
+    "community_votes": "Community votes",
+    "you_get_rewards": "You get rewards",
+    "create_an_account": "Create an account",
+    "to_learn_more": "To learn morn",
+    "faq": "FAQ"
   },
   "reply": {
     "comments_count": "Comments count"

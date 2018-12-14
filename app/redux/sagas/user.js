@@ -14,6 +14,7 @@ import { loadFollows } from 'app/redux/sagas/follow';
 import uploadImageWatch from '../UserSaga_UploadImage';
 import { tryRestoreAuth, resetSavedAuth } from 'src/app/helpers/localStorage';
 import { saveCurrentUserAuth } from 'src/app/redux/sagas/login';
+import { logSuccessOperationAnalytics } from 'src/app/helpers/gaLogs';
 
 const COMPROMISED_ERROR =
     'Hello. Your account may have been compromised. We are working on restoring an access to your account. Please send an email to t@cyber.fund.';
@@ -267,13 +268,15 @@ function* setLoginError(text) {
 
 function* logout() {
     yield put(user.actions.saveLoginConfirm(false));
-
     if (process.env.BROWSER) {
         resetSavedAuth();
         localStorage.removeItem('guid');
     }
 
-    serverApiLogout();
+    const response = yield serverApiLogout();
+    if (response.ok) {
+        logSuccessOperationAnalytics('Sign out, success');
+    }
 }
 
 function* loginError() {
@@ -386,11 +389,16 @@ function* doServerLogin(loginInfo) {
         signatures['posting'] = Signature.signBufferSha256(bufSha, postingPrivate).toHex();
     }
 
-    const result = yield serverApiLogin(loginInfo.username, signatures);
+    const response = yield serverApiLogin(loginInfo.username, signatures);
 
-    if (result.guid) {
-        localStorage.setItem('guid', result.guid);
+    if (loginInfo.isLogin && response.ok) {
+        logSuccessOperationAnalytics('Sign in, success');
     }
+    response.json().then(result => {
+        if (result.guid) {
+            localStorage.setItem('guid', result.guid);
+        }
+    });
 }
 
 function extractPrivateKeys(loginInfo) {

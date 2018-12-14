@@ -181,6 +181,14 @@ const SpamBlock = styled.div`
     display: flex;
     align-items: center;
     margin-right: 40px;
+
+    @media (max-width: 576px) {
+        flex-wrap: wrap;
+
+        & ${Button} {
+            margin-top: 5px;
+        }
+    }
 `;
 
 const SpamText = styled.div`
@@ -493,6 +501,7 @@ export class CommentCard extends PureComponent {
             stats,
             showSpam,
             anchorId,
+            openDonateDialog,
         } = this.props;
 
         const { showReply, collapsed, edit, highlighted, showAlert } = this.state;
@@ -539,6 +548,7 @@ export class CommentCard extends PureComponent {
                             replyRef={this.replyRef}
                             commentRef={this.commentRef}
                             onReplyClick={this.onReplyClick}
+                            openDonateDialog={openDonateDialog}
                         />
                     </Fragment>
                 )}

@@ -126,7 +126,7 @@ const ReloadButton = styled.div`
     line-height: 1.5;
     color: #ffffff;
     text-transform: uppercase;
-    
+
     &:hover {
         background: #0e69ff;
     }
@@ -184,9 +184,7 @@ export default class ContentErrorBoundary extends Component {
                     <Content>
                         <Info>
                             <InfoTitle>{tt('error_page.oops')}</InfoTitle>
-                            <InfoText>
-                                {tt('error_page.text')}
-                            </InfoText>
+                            <InfoText>{tt('error_page.text')}</InfoText>
                             <TryReloadText>{tt('error_page.try_reload_text')}</TryReloadText>
                             <ReloadButton onClick={this.reloadPage}>
                                 <Icon name="reload" size={14} />

@@ -12,17 +12,18 @@ export default connect(
         [currentPostSelector, authorSelector, currentUsernameSelector, appSelector('location')],
         (post, author, username, location) => {
             const prev = location.get('previous');
+
             let backURL = null;
             if (prev) {
-                backURL = prev.get('pathname') + prev.get('search') + prev.get('hash');
+                backURL = prev.get('pathname') + prev.get('search', '') + prev.get('hash', '');
             }
 
             return {
                 post,
                 username,
-                backURL,
                 contentLink: `${author.account}/${post.permLink}`,
                 isOwner: username === author.account,
+                backURL,
                 isPinned: author.pinnedPostsUrls.includes(author.account + '/' + post.permLink),
             };
         }

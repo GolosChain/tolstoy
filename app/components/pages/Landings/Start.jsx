@@ -1,9 +1,16 @@
 import React, { PureComponent } from 'react';
+import tt from 'counterpart';
+
 import { REGISTRATION_URL } from 'app/client_config';
+import { logOutboundLinkClickAnalytics } from 'src/app/helpers/gaLogs';
 
 class Start extends PureComponent {
     state = {
         simple: true,
+    };
+
+    logEventAnalytics = () => {
+        logOutboundLinkClickAnalytics(`https:${tt('link_to.telegram')}`);
     };
 
     render() {
@@ -55,7 +62,7 @@ class Start extends PureComponent {
                                         <a
                                             className={simple ? '' : 'active'}
                                             href="#"
-                                            onClick={e => this._toggleAnswer(e, true)}
+                                            onClick={e => this.toggleAnswer(e, true)}
                                         >
                                             Простой ответ
                                         </a>
@@ -63,14 +70,14 @@ class Start extends PureComponent {
                                         <a
                                             className={simple ? 'active' : ''}
                                             href="#"
-                                            onClick={e => this._toggleAnswer(e, false)}
+                                            onClick={e => this.toggleAnswer(e, false)}
                                         >
                                             Сложный ответ
                                         </a>
                                     </h3>
                                 </div>
                                 <div className="column large-12 medium-12 small-12">
-                                    {this._renderAnswer()}
+                                    {this.renderAnswer()}
                                 </div>
                                 <div className="landing-start-block-center column large-12 medium-12 small-12">
                                     <a href={REGISTRATION_URL} className="button">
@@ -216,7 +223,15 @@ class Start extends PureComponent {
                                     <a href="https://wiki.golos.io/">Википедия</a>, со всей
                                     информацией про блог-платформу Golos.io. Кроме того, мы
                                     оперативно ответим на любой технический вопрос в нашей группе в{' '}
-                                    <a href="https://tlg.name/golos_support">Телеграме</a>.
+                                    <a
+                                        href={`https:${tt('link_to.telegram')}`}
+                                        target="_blank"
+                                        rel="noopener norefferer"
+                                        onClick={this.logEventAnalytics}
+                                    >
+                                        Телеграме
+                                    </a>
+                                    .
                                 </p>
                             </div>
                         </div>
@@ -226,7 +241,7 @@ class Start extends PureComponent {
         );
     }
 
-    _renderAnswer() {
+    renderAnswer() {
         const { simple } = this.state;
 
         if (simple) {
@@ -253,7 +268,7 @@ class Start extends PureComponent {
         }
     }
 
-    _toggleAnswer = (e, simple) => {
+    toggleAnswer = (e, simple) => {
         e.preventDefault();
         this.setState({ simple });
     };

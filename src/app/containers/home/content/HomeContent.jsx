@@ -99,24 +99,22 @@ export default class HomeContent extends Component {
     }
 
     render() {
-        const {
-            isFetching,
-            posts,
-            currentUsername,
-            order,
-            category,
-            layout,
-            loadMore,
-        } = this.props;
+        const { isFetching, posts, order, category, layout, loadMore, routeParams } = this.props;
 
         if (!isFetching && posts && !posts.size) {
             return <Callout>{this.renderCallout()}</Callout>;
         }
 
+        let pageAccountName = null;
+
+        if (routeParams.category === 'feed') {
+            pageAccountName = routeParams.order.replace('@', '');
+        }
+
         return (
             <Wrapper addGaps={layout !== 'compact'}>
                 <CardsList
-                    pageAccountName={currentUsername}
+                    pageAccountName={pageAccountName}
                     items={posts}
                     order={order}
                     category={category}

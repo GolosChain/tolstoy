@@ -583,7 +583,7 @@
     },
     "no": "Нет",
     "no_tags_selected": "теги не выбраны",
-    "no_topics_by_order_found": "В разделе %(order)s пока нет постов c тегом ",
+    "no_topics_by_order_found": "В разделе %(order)s пока нет постов ",
     "not_valid_email": "Недействительный адрес",
     "nothing_yet": "Пока ничего нет",
     "nsfw": "18+",
@@ -720,6 +720,7 @@
     "voting_capacity": "Мощность Голоса",
     "wallet": "Кошелек",
     "warning": "внимание",
+    "with_the_tag": "c тегом ",
     "write_your_story": "Написать свою историю",
     "yes": "Да",
     "you_are_viewing_a_single_comments_thread_from": "Вы читаете одну нить комментариев от",
@@ -1120,6 +1121,16 @@
     "thanks_for_submitting_request_for_account_recovery_2": "Мы ответим Вам как можно быстрее, однако, пожалуйста, ожидайте что может быть некоторая задержка из-за большого объема писем.",
     "thanks_for_submitting_request_for_account_recovery_3": "Пожалуйста, будьте готовы подтвердить свою личность.",
     "unable_to_recover_account_not_change_ownership_recently": "Мы не можем восстановить эту учетную запись, она не изменила владельца в последнее время."
+  },
+  "registration_banner_jsx": {
+    "new_to_golos": "Новичок на Голосе?",
+    "everything_is_simple": "Всё просто:",
+    "write_a_post": "Пишите пост на Golos.io",
+    "community_votes": "Сообщество голосует",
+    "you_get_rewards": "Вы получаете награды",
+    "create_an_account": "Создать аккаунт",
+    "to_learn_more": "Узнать больше",
+    "faq": "Частые вопросы"
   },
   "reply": {
     "comments_count": "Количество комментариев"

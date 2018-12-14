@@ -10,9 +10,14 @@ import BlogCardsList from 'src/app/components/common/CardsList/BlogCardsList';
 import EmptyBlock, { EmptySubText } from 'src/app/components/common/EmptyBlock';
 import CommentCard from 'src/app/components/cards/CommentCard';
 import CardsListWrapper from '../CardsListWrapper';
+import { visuallyHidden } from 'src/app/helpers/styles';
 
 const Loader = styled(LoadingIndicator)`
     margin-top: 30px;
+`;
+
+const Header = styled.h1`
+    ${visuallyHidden};
 `;
 
 class RepliesContent extends Component {
@@ -24,6 +29,7 @@ class RepliesContent extends Component {
                 <Helmet
                     title={tt('meta.title.profile.replies', { name: pageAccount.get('name') })}
                 />
+                <Header>{tt('g.replies')}</Header>
                 <CardsListWrapper>{this._render()}</CardsListWrapper>
             </Fragment>
         );

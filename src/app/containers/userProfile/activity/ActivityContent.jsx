@@ -14,6 +14,7 @@ import { TabContainer, Tabs } from 'golos-ui/Tabs';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import ActivityList from 'src/app/components/common/ActivityList';
 import Flex from 'golos-ui/Flex';
+import { visuallyHidden } from 'src/app/helpers/styles';
 
 const WrapperLoader = styled.div`
     display: flex;
@@ -23,6 +24,10 @@ const WrapperLoader = styled.div`
 `;
 
 const CardContent = styled(Flex)``;
+
+const Header = styled.h1`
+    ${visuallyHidden};
+`;
 
 export default class ActivityContent extends PureComponent {
     static propTypes = {
@@ -138,6 +143,7 @@ export default class ActivityContent extends PureComponent {
         return (
             <Fragment>
                 <Helmet title={tt('meta.title.profile.activity', { name: pageAccountName })} />
+                <Header>{tt('g.activity')}</Header>
                 <Card auto innerRef={this.setRootRef}>
                     <Tabs activeTab={{ id: currentTabId }} onChange={this.handleChangeTab}>
                         <CardContent column auto>

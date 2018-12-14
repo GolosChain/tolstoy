@@ -337,6 +337,10 @@ class ReplyEditor extends React.Component {
         }
     };
 
+    logEventAnalytics = () => {
+        logOutboundLinkClickAnalytics(`https:${tt('link_to.telegram')}`);
+    };
+
     render() {
         const originalPost = {
             category: this.props.category,
@@ -425,6 +429,7 @@ class ReplyEditor extends React.Component {
         const vframe_class = isStory ? 'vframe' : '';
         const vframe_section_class = isStory ? 'vframe__section' : '';
         const vframe_section_shrink_class = isStory ? 'vframe__section--shrink' : '';
+        const tlgLink = `https:${tt('link_to.telegram')}`;
 
         return (
             <div className="ReplyEditor row">
@@ -447,8 +452,13 @@ class ReplyEditor extends React.Component {
                             </p>
                             <p>
                                 {tt('reply_editor.support_by_telegram')} —{' '}
-                                <a href="https://tlg.name/golos_support">
-                                    https://tlg.name/golos_support
+                                <a
+                                    href={tlgLink}
+                                    target="_blank"
+                                    rel="noopener norefferer"
+                                    onClick={this.logEventAnalytics}
+                                >
+                                    {tlgLink}
                                 </a>
                                 .
                             </p>
@@ -796,6 +806,7 @@ function stateFromMarkdown(markdown) {
 }
 
 import { connect } from 'react-redux';
+import { logOutboundLinkClickAnalytics } from 'src/app/helpers/gaLogs';
 
 export default formId =>
     connect(
