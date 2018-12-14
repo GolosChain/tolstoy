@@ -12,7 +12,7 @@ export default connect(
         [
             authorSelector,
             currentUsernameSelector,
-            (state, props) => globalSelector(['accounts', props.currentAccoun])(state),
+            (state, props) => globalSelector(['accounts', props.author])(state),
         ],
         (author, currentUsername, user) => {
             if (!user) {

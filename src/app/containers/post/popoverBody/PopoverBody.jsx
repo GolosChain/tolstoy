@@ -96,7 +96,7 @@ const AvatarLink = styled(Link)`
         align-items: center;
         transform: translate(30%, 40%);
         position: absolute;
-        content: '234';
+        content: '${props => props.rating}';
         bottom: 0;
         right: 0;
         width: 24px;
@@ -183,8 +183,10 @@ export class PopoverBody extends Component {
             pinnedPosts,
             className,
             showFollowBlock,
+            reputation,
         } = this.props;
 
+        console.log(reputation);
         const linkToAccount = `/@${account}`;
 
         return (
@@ -203,7 +205,11 @@ export class PopoverBody extends Component {
                                 @{account}
                             </AuthorAccount>
                         </AuthorInfoBlock>
-                        <AvatarLink to={linkToAccount} aria-label={tt('aria_label.avatar')}>
+                        <AvatarLink
+                            to={linkToAccount}
+                            aria-label={tt('aria_label.avatar')}
+                            rating={reputation}
+                        >
                             <Userpic size={50} account={account} />
                         </AvatarLink>
                     </AuthorTitle>

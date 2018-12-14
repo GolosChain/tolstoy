@@ -274,7 +274,7 @@ export class PostHeader extends Component {
                 <Category
                     to={'/trending?tags=' + category.tag}
                     category={1}
-                    aria-label={tt('aria_label.category', {category: category.tag})}
+                    aria-label={tt('aria_label.category', { category: category.tag })}
                 >
                     {category.tag}
                 </Category>

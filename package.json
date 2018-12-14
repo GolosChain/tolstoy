@@ -58,7 +58,7 @@
     "final-form-calculate": "^1.2.1",
     "foundation-sites": "^6.4.3",
     "git-rev-sync": "^1.12.0",
-    "golos-js": "0.7.5",
+    "golos-js": "0.7.6",
     "history": "^2.0.0-rc2",
     "immutable": "^3.8.2",
     "intl": "^1.2.5",
