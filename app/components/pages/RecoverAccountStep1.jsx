@@ -1,254 +1,353 @@
 import React from 'react';
-import PropTypes from 'prop-types'
+import tt from 'counterpart';
+import { api } from 'golos-js';
+import { PrivateKey } from 'golos-js/lib/auth/ecc';
+
+import { APP_NAME, APP_DOMAIN, SUPPORT_EMAIL } from 'app/client_config';
 import SvgImage from 'app/components/elements/SvgImage';
 import PasswordInput from 'app/components/elements/PasswordInput';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import constants from 'app/redux/constants';
-import {PrivateKey} from 'golos-js/lib/auth/ecc';
-import tt from 'counterpart';
-import { APP_NAME, APP_DOMAIN, SUPPORT_EMAIL } from 'app/client_config';
-import {api} from 'golos-js';
+import { fixDate } from 'src/app/helpers/time';
 
-const email_regex = /^([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])*\x22)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])*\x22))*\x40([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])*\x5d)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])*\x5d))*$/;
+export function passwordToOwnerPubKey(account_name, password) {
+    let privateKey;
 
-function passwordToOwnerPubKey(account_name, password) {
-    let pub_key;
     try {
-        pub_key = PrivateKey.fromWif(password);
-    } catch(e) {
-        pub_key = PrivateKey.fromSeed(account_name + 'owner' + password);
+        privateKey = PrivateKey.fromWif(password);
+    } catch (err) {
+        privateKey = PrivateKey.fromSeed(account_name + 'owner' + password);
     }
-    return pub_key.toPublicKey().toString();
+
+    return privateKey.toPublicKey().toString();
 }
 
 class RecoverAccountStep1 extends React.Component {
-
-    static propTypes = {
+    state = {
+        name: '',
+        name_error: '',
+        email: '',
+        email_error: '',
+        error: '',
+        progress_status: '',
+        password: { value: '', valid: false },
+        show_social_login: '',
+        email_submitted: false,
     };
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            name: '',
-            name_error: '',
-            email: '',
-            email_error: '',
-            error: '',
-            progress_status: '',
-            password: {value: '', valid: false},
-            show_social_login: '',
-            email_submitted: false
-        };
-        this.onNameChange = this.onNameChange.bind(this);
-        this.onEmailChange = this.onEmailChange.bind(this);
-        this.onPasswordsChange = this.onPasswordsChange.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
-        this.onSubmitEmail = this.onSubmitEmail.bind(this);
-    }
-
-    onNameChange(e) {
+    onNameChange = e => {
         const name = e.target.value.trim().toLowerCase();
         this.validateAccountName(name);
-        this.setState({name, error: ''});
-    }
+        this.setState({ name, error: '' });
+    };
 
-    onEmailChange(e) {
+    onEmailChange = e => {
         const email = e.target.value.trim().toLowerCase();
         let email_error = '';
-        if (!email_regex.test(email.toLowerCase())) email_error = tt('recoveraccountstep1_jsx.not_valid');
-        this.setState({email, email_error});
-    }
 
-    validateAccountName(name) {
-        if (!name) return;
-        api.getAccountsAsync([name]).then(res => {
-            this.setState({name_error: !res || res.length === 0 ? tt('recoveraccountstep1_jsx.account_name_is_not_found') : ''});
-            if(res.length) {
-                const [account] = res
-                // if your last owner key update is prior to July 14th then the old key will not be able to recover
-                const ownerUpdate = /Z$/.test(account.last_owner_update) ? account.last_owner_update : account.last_owner_update + 'Z'
-                const ownerUpdateTime = new Date(ownerUpdate).getTime()
-                const THIRTY_DAYS_AGO = new Date(Date.now() - (30 * 24 * 60 * 60 * 1000)).getTime()
-                if(ownerUpdateTime < Math.max(THIRTY_DAYS_AGO, constants.JULY_14_HACK))
-                    this.setState({name_error: tt('recoveraccountstep1_jsx.unable_to_recover_account_not_change_ownership_recently')})
-            }
-        })
-    }
+        if (!/^[^@]+@[^.]+\.[^@]+$/.test(email)) {
+            email_error = tt('recoveraccountstep1_jsx.not_valid');
+        }
 
-    validateAccountOwner(name) {
-        const oldOwner = passwordToOwnerPubKey(name, this.state.password.value);
-        return api.getOwnerHistoryAsync(name).then(history => {
-            const res = history.filter(a => {
-                const owner = a.previous_owner_authority.key_auths[0][0];
-                return owner === oldOwner;
+        this.setState({ email, email_error });
+    };
+
+    async validateAccountName(name) {
+        if (!name) {
+            return;
+        }
+
+        const res = await api.getAccountsAsync([name]);
+
+        if (!res || res.length === 0) {
+            this.setState({
+                name_error: tt('recoveraccountstep1_jsx.account_name_is_not_found'),
             });
-            return res.length > 0;
+            return;
+        }
+
+        this.setState({
+            name_error: '',
         });
+
+        const [account] = res;
+
+        const ownerUpdate = fixDate(account.last_owner_update);
+
+        const ownerUpdateTime = new Date(ownerUpdate).getTime();
+        const monthAgo = Date.now() - 30 * 24 * 60 * 60 * 1000;
+
+        if (ownerUpdateTime < Math.max(monthAgo, constants.JULY_14_HACK)) {
+            this.setState({
+                name_error: tt('recoveraccountstep1_jsx.unable_to_recover_account'),
+            });
+        }
     }
 
-    getAccountIdentityProviders(name, owner_key) {
-        return fetch('/api/v1/account_identity_providers', {
+    async validateAccountOwner(name) {
+        const oldOwner = passwordToOwnerPubKey(name, this.state.password.value);
+
+        const history = await api.getOwnerHistoryAsync(name);
+
+        return history.some(a => a.previous_owner_authority.key_auths[0][0] === oldOwner);
+    }
+
+    async getAccountIdentityProviders(name, owner_key) {
+        const r = await fetch('/api/v1/account_identity_providers', {
             method: 'post',
             mode: 'no-cors',
             credentials: 'same-origin',
             headers: {
                 Accept: 'application/json',
-                'Content-type': 'application/json'
+                'Content-type': 'application/json',
             },
-            body: JSON.stringify({csrf: $STM_csrf, name, owner_key})
-        }).then(r => r.json()).then(res => {
-            console.log('-- validateOffchainAccount -->', res);
-            return res.error ? 'email' : res.provider;
+            body: JSON.stringify({ csrf: $STM_csrf, name, owner_key }),
         });
+
+        const res = await r.json();
+
+        return res.error ? 'email' : res.provider;
     }
 
-    onPasswordsChange({oldPassword, valid}) {
-        this.setState({password: {value: oldPassword, valid}, error: ''});
-    }
+    onPasswordsChange = ({ oldPassword, valid }) => {
+        this.setState({
+            password: {
+                value: oldPassword,
+                valid,
+            },
+            error: '',
+        });
+    };
 
-    onSubmit(e) {
+    onSubmit = async e => {
         e.preventDefault();
         const owner_key = passwordToOwnerPubKey(this.state.name, this.state.password.value);
-        this.validateAccountOwner(this.state.name).then(result => {
-            if (result) {
-                this.getAccountIdentityProviders(this.state.name, owner_key).then(provider => {
-                    this.setState({show_social_login: provider});
-                });
-            }
-            else this.setState({error: tt('recoveraccountstep1_jsx.password_not_used_in_last_days')});
-        });
-    }
+        const result = await this.validateAccountOwner(this.state.name);
 
-    onSubmitEmail(e) {
+        if (result) {
+            const provider = await this.getAccountIdentityProviders(this.state.name, owner_key);
+
+            this.setState({ show_social_login: provider });
+        } else {
+            this.setState({
+                error: tt('recoveraccountstep1_jsx.password_not_used_in_last_days'),
+            });
+        }
+    };
+
+    onSubmitEmail = async e => {
         e.preventDefault();
-        const {name, password} = this.state;
+
+        const { name, password } = this.state;
         const owner_key = passwordToOwnerPubKey(name, password.value);
-        fetch('/api/v1/initiate_account_recovery_with_email', {
-            method: 'post',
-            mode: 'no-cors',
-            credentials: 'same-origin',
-            headers: {
-                Accept: 'application/json',
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify({
-                csrf: $STM_csrf,
-                contact_email: this.state.email,
-                account_name: name,
-                owner_key
-            })
-        }).then(r => r.json()).then(res => {
+
+        try {
+            const r = await fetch('/api/v1/initiate_account_recovery_with_email', {
+                method: 'post',
+                mode: 'no-cors',
+                credentials: 'same-origin',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify({
+                    csrf: $STM_csrf,
+                    contact_email: this.state.email,
+                    account_name: name,
+                    owner_key,
+                }),
+            });
+
+            const res = await r.json();
+
             if (res.error) {
-                this.setState({email_error: res.error || 'Unknown'});
-            } else {
-                if (res.status === 'ok') {
-                    this.setState({email_submitted: true});
-                }
-                if (res.status === 'duplicate') {
-                    this.setState({email_error: tt('recoveraccountstep1_jsx.request_already_submitted_contact_support', {SUPPORT_EMAIL})});
-                }
+                this.setState({ email_error: res.error || 'Unknown' });
+                return;
             }
-        }).catch(error => {
-            console.error('request_account_recovery server error (2)', error);
-            this.setState({email_error: (error.message ? error.message : error)});
-        });
+
+            switch (res.status) {
+                case 'ok':
+                    this.setState({ email_submitted: true });
+                    break;
+                case 'duplicate':
+                    this.setState({
+                        email_error: tt(
+                            'recoveraccountstep1_jsx.request_already_submitted_contact_support',
+                            { SUPPORT_EMAIL }
+                        ),
+                    });
+                    break;
+            }
+        } catch (err) {
+            console.error('request_account_recovery server error (2)', err);
+            this.setState({
+                email_error: err.message ? err.message : err,
+            });
+        }
+    };
+
+    renderEmailPart() {
+        const { email, email_error, email_submitted } = this.state;
+
+        return (
+            <div className="row">
+                <div className="column large-4">
+                    {email_submitted ? (
+                        <div>
+                            <p>
+                                {tt('recoveraccountstep1_jsx.report_line_1', {
+                                    APP_NAME,
+                                })}
+                            </p>
+                            <p>{tt('recoveraccountstep1_jsx.report_line_2')}</p>
+                            <p>{tt('recoveraccountstep1_jsx.report_line_3')}</p>
+                        </div>
+                    ) : (
+                        <form onSubmit={this.onSubmitEmail} noValidate>
+                            <p>{tt('recoveraccountstep1_jsx.enter_email_toverify_identity')}</p>
+                            <div className={`column large-4 shrink ${email_error ? 'error' : ''}`}>
+                                <label>
+                                    {tt('g.email')}
+                                    <input
+                                        type="text"
+                                        name="email"
+                                        autoComplete="off"
+                                        onChange={this.onEmailChange}
+                                        value={email}
+                                    />
+                                </label>
+                                <p className="error">{email_error}</p>
+                                <input
+                                    type="submit"
+                                    disabled={email_error || !email}
+                                    className="button hollow"
+                                    value={tt('recoveraccountstep1_jsx.continue_with_email')}
+                                />
+                            </div>
+                        </form>
+                    )}
+                </div>
+            </div>
+        );
     }
 
-    render() {
-        const {name, name_error, email, email_error, error, progress_status, password, show_social_login, email_submitted} = this.state;
-        const owner_key = passwordToOwnerPubKey(name, password.value);
-        const valid = name && !name_error && password.valid;
-        const submit_btn_class = 'button action' + (!valid ? ' disabled' : '');
-        const show_account_and_passwords = !email_submitted && !show_social_login;
-        return (
-            <div className="RestoreAccount SignUp">
-                {show_account_and_passwords && <div className="row">
-                    <div className="column large-4">
-                        <h2>{tt('navigation.stolen_account_recovery')}</h2>
-                        <p>
-                            {tt('recoveraccountstep1_jsx.recover_account_intro', {APP_NAME, APP_URL: APP_DOMAIN})}
-                        </p>
-                        <form onSubmit={this.onSubmit} noValidate>
-                            <div className={name_error ? 'error' : ''}>
-                                <label>
-                                    {tt('g.account_name')}
-                                    <input type="text" name="name" autoComplete="off" onChange={this.onNameChange} value={name} />
-                                </label>
-                                <p className="error">{name_error}</p>
-                            </div>
-                            <PasswordInput passwordLabel={tt('g.recent_password')} onChange={this.onPasswordsChange} />
-                            <br />
-                            <div className="error">{error}</div>
-                            {progress_status ? <span><LoadingIndicator type="circle" inline /> {progress_status}</span>
-                        : <input disabled={!valid} type="submit" className={submit_btn_class} value= {tt('voting_jsx.begin_recovery')} />}
-                        </form>
-                    </div>
-                </div>}
+    renderOtherPart() {
+        const { name, password, show_social_login } = this.state;
 
-                {show_social_login && show_social_login !== 'email' &&
-                <form action="/initiate_account_recovery" method="post">
-                    <input type="hidden" name="csrf" value={$STM_csrf} />
-                    <input type="hidden" name="account_name" value={name} />
-                    <input type="hidden" name="owner_key" value={owner_key} />
+        const ownerKey = passwordToOwnerPubKey(name, password.value);
+
+        return (
+            <form action="/initiate_account_recovery" method="post">
+                <input type="hidden" name="csrf" value={$STM_csrf} />
+                <input type="hidden" name="account_name" value={name} />
+                <input type="hidden" name="owner_key" value={ownerKey} />
+                <div className="row">&nbsp;</div>
+                {(show_social_login === 'both' || show_social_login === 'facebook') && (
                     <div className="row">
-                        <div className="column large-4">
-                            {show_social_login === 'both' ? <p>{tt('recoveraccountstep1_jsx.login_with_facebook_or_reddit_media_to_verify_identity')}.</p>
-                        : <p>{tt('recoveraccountstep1_jsx.login_with_social_media_to_verify_identity', {
-                            provider: show_social_login.charAt(0).toUpperCase() + show_social_login.slice(1)
-                        })}.</p>}
-                        </div>
-                    </div>
-                    <div className="row">
-                        &nbsp;
-                    </div>
-                    {(show_social_login === 'both' || show_social_login === 'facebook') && <div className="row">
                         <div className="column large-4 shrink">
                             <SvgImage name="facebook" width="64px" height="64px" />
                         </div>
                         <div className="column large-8">
-                            <input type="submit" name="provider" value="facebook" className="button SignUp--fb-button" />
+                            <input
+                                type="submit"
+                                name="provider"
+                                value="facebook"
+                                className="button SignUp--fb-button"
+                            />
                         </div>
-                    </div>}
-                    <div className="row">
-                        &nbsp;
                     </div>
-                    {(show_social_login === 'both' || show_social_login === 'reddit') && <div className="row">
+                )}
+                <div className="row">&nbsp;</div>
+                {(show_social_login === 'both' || show_social_login === 'reddit') && (
+                    <div className="row">
                         <div className="column large-4 shrink">
                             <SvgImage name="reddit" width="64px" height="64px" />
                         </div>
                         <div className="column large-8">
-                            <input type="submit" name="provider" value="reddit" className="button SignUp--reddit-button" />
+                            <input
+                                type="submit"
+                                name="provider"
+                                value="reddit"
+                                className="button SignUp--reddit-button"
+                            />
                         </div>
-                    </div>}
-                    <div className="row">
-                        <div className="column">&nbsp;</div>
                     </div>
-                </form>
-                }
-                {show_social_login && show_social_login === 'email' &&
+                )}
+                <div className="row">
+                    <div className="column">&nbsp;</div>
+                </div>
+            </form>
+        );
+    }
+
+    render() {
+        const {
+            name,
+            name_error,
+            error,
+            progress_status,
+            password,
+            show_social_login,
+            email_submitted,
+        } = this.state;
+
+        const valid = name && !name_error && password.valid;
+        const show_account_and_passwords = !email_submitted && !show_social_login;
+
+        return (
+            <div style={{ margin: '30px 0 50px' }}>
+                {show_account_and_passwords && (
                     <div className="row">
                         <div className="column large-4">
-                            {
-                                email_submitted
-                                ?   <div>
-                                        <p>{tt('recoveraccountstep1_jsx.thanks_for_submitting_request_for_account_recovery_1', {APP_NAME})}</p>
-                                        <p>{tt('recoveraccountstep1_jsx.thanks_for_submitting_request_for_account_recovery_2')}</p>
-                                        <p>{tt('recoveraccountstep1_jsx.thanks_for_submitting_request_for_account_recovery_3')}</p>
-                                    </div>
-                                : <form onSubmit={this.onSubmitEmail} noValidate>
-                                <p>{tt('recoveraccountstep1_jsx.enter_email_toverify_identity')}</p>
-                                <div className={email_error ? 'column large-4 shrink error' : 'column large-4 shrink'}>
-                                    <label>{tt('g.email')}
-                                        <input type="text" name="email" autoComplete="off" onChange={this.onEmailChange} value={email} />
+                            <h2>{tt('navigation.stolen_account_recovery')}</h2>
+                            <p>
+                                {tt('recoveraccountstep1_jsx.recover_account_intro', {
+                                    APP_NAME,
+                                    APP_URL: APP_DOMAIN,
+                                })}
+                            </p>
+                            <form onSubmit={this.onSubmit} noValidate>
+                                <div className={name_error ? 'error' : ''}>
+                                    <label>
+                                        {tt('g.account_name')}
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            autoComplete="off"
+                                            onChange={this.onNameChange}
+                                            value={name}
+                                        />
                                     </label>
-                                    <p className="error">{email_error}</p>
-                                    <input type="submit" disabled={email_error || !email} className="button hollow" value={tt('recoveraccountstep1_jsx.continue_with_email')} />
+                                    <p className="error">{name_error}</p>
                                 </div>
+                                <PasswordInput
+                                    passwordLabel={tt('g.recent_password')}
+                                    onChange={this.onPasswordsChange}
+                                />
+                                <br />
+                                <div className="error">{error}</div>
+                                {progress_status ? (
+                                    <span>
+                                        <LoadingIndicator type="circle" inline /> {progress_status}
+                                    </span>
+                                ) : (
+                                    <input
+                                        disabled={!valid}
+                                        type="submit"
+                                        className={'button action' + (!valid ? ' disabled' : '')}
+                                        value={tt('voting_jsx.begin_recovery')}
+                                    />
+                                )}
                             </form>
-                            }
                         </div>
                     </div>
-                }
+                )}
+
+                {!show_social_login
+                    ? null
+                    : show_social_login === 'email'
+                        ? this.renderEmailPart()
+                        : this.renderOtherPart()}
             </div>
         );
     }
@@ -256,5 +355,5 @@ class RecoverAccountStep1 extends React.Component {
 
 export default {
     path: 'recover_account_step_1',
-    component: RecoverAccountStep1
+    component: RecoverAccountStep1,
 };

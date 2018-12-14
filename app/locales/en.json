@@ -806,10 +806,10 @@
     "recovering_account": "Recovering account",
     "request_already_submitted_contact_support": "Your request has been already submitted and we are working on it. Please contact %(SUPPORT_EMAIL)s for the status of your request.",
     "sending_recovery_request": "Sending recovery request",
-    "thanks_for_submitting_request_for_account_recovery_1": "Thanks for submitting your request for Account Recovery using %(APP_NAME)s's blockchain-based multi factor authentication.",
-    "thanks_for_submitting_request_for_account_recovery_2": "We will respond to you as quickly as possible, however, please expect there may be some delay in response due to high volume of emails.",
-    "thanks_for_submitting_request_for_account_recovery_3": "Please be prepared to verify your identity.",
-    "unable_to_recover_account_not_change_ownership_recently": "We are unable to recover this account, it has not changed ownership recently."
+    "report_line_1": "Thanks for submitting your request for Account Recovery using %(APP_NAME)s's blockchain-based multi factor authentication.",
+    "report_line_2": "We will respond to you as quickly as possible, however, please expect there may be some delay in response due to high volume of emails.",
+    "report_line_3": "Please be prepared to verify your identity.",
+    "unable_to_recover_account": "We are unable to recover this account, it has not changed ownership recently."
   },
   "registration_banner_jsx": {
     "community_votes": "Community votes",
