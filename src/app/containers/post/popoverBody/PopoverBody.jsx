@@ -94,7 +94,6 @@ const AvatarLink = styled(Link)`
         display: flex;
         justify-content: center;
         align-items: center;
-        transform: translate(30%, 40%);
         position: absolute;
         content: '${props => props.rating}';
         bottom: 0;
@@ -106,6 +105,7 @@ const AvatarLink = styled(Link)`
         font-size: 10px;
         font-weight: bold;
         color: #2879ff;
+        transform: translate(30%, 40%);
     }
 `;
 
@@ -186,7 +186,6 @@ export class PopoverBody extends Component {
             reputation,
         } = this.props;
 
-        console.log(reputation);
         const linkToAccount = `/@${account}`;
 
         return (
