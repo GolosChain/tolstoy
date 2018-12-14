@@ -87,7 +87,26 @@ const Followers = styled.div``;
 
 const AvatarLink = styled(Link)`
     display: flex;
+    position: relative;
     border-radius: 50%;
+
+    &::after {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transform: translate(30%, 40%);
+        position: absolute;
+        content: '234';
+        bottom: 0;
+        right: 0;
+        width: 24px;
+        height: 24px;
+        border-radius: 100px;
+        background-color: #fff;
+        font-size: 10px;
+        font-weight: bold;
+        color: #2879ff;
+    }
 `;
 
 const PinnedPost = styled.div`
