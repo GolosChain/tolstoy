@@ -17,7 +17,7 @@ const userStatuses = [
     { name: 'crucian', width: 16, height: 12, color: grey },
     { name: 'dolphin', width: 15, height: 15, color: grey },
     { name: 'orca', width: 14.3, height: 15.3, color: grey },
-    { name: 'whale', width: 16, height: 16, color: grey },
+    { name: 'whale', width: 21, height: 13, color: grey },
 ];
 
 const Wrapper = styled.div`
