@@ -10,8 +10,16 @@ import { CURRENCIES, LANGUAGES } from 'app/client_config';
 
 import SplashLoader from 'golos-ui/SplashLoader';
 import { CardContent } from 'golos-ui/Card';
-import { DialogFooter, DialogButton } from 'golos-ui/Dialog';
-import { FormGroup, Label, Select, RadioGroup, CheckboxInput, FormError } from 'golos-ui/Form';
+import {
+    FormGroup,
+    Label,
+    Select,
+    RadioGroup,
+    CheckboxInput,
+    FormError,
+    FormFooter,
+    FormFooterButton,
+} from 'golos-ui/Form';
 import Slider from 'golos-ui/Slider';
 
 const CheckboxTitle = styled.div`
@@ -199,18 +207,21 @@ export default class Common extends PureComponent {
                             </Field>
                             {submitError && <div>{submitError}</div>}
                         </CardContent>
-                        <DialogFooter>
-                            <DialogButton onClick={form.reset} disabled={submitting || pristine}>
+                        <FormFooter>
+                            <FormFooterButton
+                                onClick={form.reset}
+                                disabled={submitting || pristine}
+                            >
                                 {tt('settings_jsx.reset')}
-                            </DialogButton>
-                            <DialogButton
+                            </FormFooterButton>
+                            <FormFooterButton
                                 type="submit"
                                 primary
                                 disabled={submitting || pristine || hasValidationErrors}
                             >
                                 {tt('settings_jsx.update')}
-                            </DialogButton>
-                        </DialogFooter>
+                            </FormFooterButton>
+                        </FormFooter>
                     </form>
                 )}
             </Form>

@@ -8,7 +8,7 @@ import { List, Map } from 'immutable';
 import tt from 'counterpart';
 
 import globalBus from 'src/app/helpers/globalBus';
-import { DialogFooter, DialogButton } from 'golos-ui/Dialog';
+import { FormFooter, FormFooterButton } from 'golos-ui/Form';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import ActivityList from 'src/app/components/common/ActivityList';
 
@@ -37,11 +37,11 @@ const WrapperLoader = styled.div`
     min-width: 80px;
 `;
 
-const StyledDialogFooter = styled(DialogFooter)`
+const StyledDialogFooter = styled(FormFooter)`
     margin: 0;
 `;
 
-const ButtonShowAll = DialogButton.withComponent(Link);
+const ButtonShowAll = FormFooterButton.withComponent(Link);
 
 export default class NotificationsMenu extends PureComponent {
     static propTypes = {
@@ -156,7 +156,7 @@ export default class NotificationsMenu extends PureComponent {
                     ) : null}
                 </WrapperActivity>
                 <StyledDialogFooter>
-                    <DialogButton
+                    <FormFooterButton
                         data-tooltip={clearTooltip}
                         data-tooltip-html
                         aria-label={tt('notifications_menu.clear_notifications_history')}
@@ -164,7 +164,7 @@ export default class NotificationsMenu extends PureComponent {
                         onClick={this.markNotificationsAsViewed}
                     >
                         {tt('dialog.clear')}
-                    </DialogButton>
+                    </FormFooterButton>
                     <ButtonShowAll
                         to={`/@${accountName}/activity`}
                         aria-label={tt('dialog.show_all')}

@@ -477,6 +477,7 @@
     "tags_and_topics": "Tags",
     "tags_filter": "Filter",
     "team": "Team Golos.io",
+<<<<<<< HEAD
     "the_rules_of_APP_NAME": {
       "fifth": "Use only randomly-generated passwords.",
       "fourth": "If you can remember the password, it's not secure.",
@@ -486,6 +487,8 @@
       "sixth": "Do not tell anyone your password.",
       "third": "We cannot recover your password."
     },
+    "this_is_wrong_password": "This is the wrong password",
+    "this_will_update_usernames_authtype_key": "This will update %(username)s %(authType)s key",
     "to": " to ",
     "topics": "Topics",
     "transaction_history": "Transaction History",
@@ -706,6 +709,15 @@
     "clear_notifications_history": "Mark all notifications as read"
   },
   "on_golos_from": "On Golos from",
+  "password_rules": {
+    "p1": "Do not lose your password.",
+    "p2": "Do not lose your password",
+    "p3": "We cannot recover your password.",
+    "p4": "If you can remember the password, it's not secure.",
+    "p5": "Use only randomly-generated passwords.",
+    "p6": "Do not tell anyone your password.",
+    "p7": "Always back up your password."
+  },
   "payout_info": {
     "author": "Author's payout",
     "author_hint": "Reward for the post",

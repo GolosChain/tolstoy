@@ -10,8 +10,7 @@ import { pick } from 'ramda';
 
 import SplashLoader from 'golos-ui/SplashLoader';
 import { CardContent, CardDivider } from 'golos-ui/Card';
-import { DialogFooter, DialogButton } from 'golos-ui/Dialog';
-import { FormGroup, Switcher } from 'golos-ui/Form';
+import { FormGroup, Switcher, FormFooter, FormFooterButton } from 'golos-ui/Form';
 import Icon from 'golos-ui/Icon';
 
 const GroupTitle = styled.div`
@@ -245,14 +244,17 @@ export default class Online extends PureComponent {
 
                             {submitError && <div>{submitError}</div>}
                         </CardContent>
-                        <DialogFooter>
-                            <DialogButton onClick={form.reset} disabled={submitting || pristine}>
+                        <FormFooter>
+                            <FormFooterButton
+                                onClick={form.reset}
+                                disabled={submitting || pristine}
+                            >
                                 {tt('settings_jsx.reset')}
-                            </DialogButton>
-                            <DialogButton type="submit" primary disabled={submitting}>
+                            </FormFooterButton>
+                            <FormFooterButton type="submit" primary disabled={submitting}>
                                 {tt('settings_jsx.update')}
-                            </DialogButton>
-                        </DialogFooter>
+                            </FormFooterButton>
+                        </FormFooter>
                     </form>
                 )}
             </Form>
