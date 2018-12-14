@@ -135,6 +135,44 @@ export const authorSelector = createDeepEqualSelector(
     }
 );
 
+export const popoverUserInfoSelector = createSelector(
+    [
+        globalSelector('accounts'),
+        globalSelector('follow_count'),
+        (state, { permLink }) => postSelector(state, permLink),
+        globalSelector('content'),
+    ],
+    (accounts, followCount, post, content) => {
+        let authorAccountName = '';
+        if (post) {
+            authorAccountName = post.get('author');
+        }
+        const authorData = accounts.get(authorAccountName) || emptyMap;
+        const jsonData = normalizeProfile({
+            json_metadata: authorData.get('json_metadata'),
+            name: authorAccountName,
+        });
+
+        const pinnedPostsUrls = extractPinnedPosts(authorData.get('json_metadata'));
+
+        return {
+            name: jsonData.name || authorAccountName,
+            account: authorAccountName,
+            about: jsonData.about,
+            followerCount:
+                (followCount && followCount.getIn([authorAccountName, 'follower_count'])) || 0,
+            pinnedPostsUrls,
+            pinnedPosts: pinnedPostsUrls
+                .map(url => content.get(url))
+                .filter(post => post)
+                .map(post => ({
+                    title: post.get('title'),
+                    url: post.get('url'),
+                })),
+        };
+    }
+);
+
 export const commentsSelector = createDeepEqualSelector(
     [currentPostSelector, state => state.data.comments, state => state.status.comments],
     (post, comments, status) => {

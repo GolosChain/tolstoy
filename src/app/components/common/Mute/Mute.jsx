@@ -58,22 +58,22 @@ export default class Mute extends Component {
     render() {
         const { isMute, className } = this.props;
         return isMute ? (
-            <UnmuteButton light onClick={this._unmute} className={className}>
+            <UnmuteButton light onClick={this.unmute} className={className}>
                 {tt('g.unmute')}
             </UnmuteButton>
         ) : (
-            <MuteButton onClick={this._mute} className={className}>
+            <MuteButton onClick={this.mute} className={className}>
                 {tt('g.mute')}
             </MuteButton>
         );
     }
 
-    _mute = e => {
+    mute = e => {
         this.updateFollow('ignore');
         this.props.onClick(e);
     };
 
-    _unmute = e => {
+    unmute = e => {
         this.updateFollow(null);
         this.props.onClick(e);
     };

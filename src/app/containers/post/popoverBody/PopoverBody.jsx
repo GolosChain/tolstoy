@@ -8,7 +8,7 @@ import Icon from 'golos-ui/Icon';
 
 import { breakWordStyles } from 'src/app/helpers/styles';
 import Userpic from 'app/components/elements/Userpic';
-import Mute from 'src/app/components/common/Mute/index';
+import Mute from 'src/app/components/common/Mute';
 import Follow from 'src/app/components/common/Follow';
 import { ClosePopoverButton } from 'src/app/components/post/PopoverAdditionalStyles';
 
@@ -124,7 +124,7 @@ const PostTitle = styled(Link)`
     }
 `;
 
-const FollowButton = styled(Follow)`
+const FollowButton = styled.div`
     min-width: 150px;
     min-height: 30px;
 `;
@@ -161,22 +161,27 @@ export class PopoverBody extends Component {
             about,
             followerCount,
             pinnedPosts,
-            className,
             showFollowBlock,
+            className,
         } = this.props;
 
         const linkToAccount = `/@${account}`;
 
         return (
             <Wrapper className={className}>
-                <ClosePopoverButton onClick={this.closePopover} aria-label={tt('aria_label.close_button')}>
+                <ClosePopoverButton
+                    onClick={this.closePopover}
+                    aria-label={tt('aria_label.close_button')}
+                >
                     <Icon name="cross" width={16} height={16} />
                 </ClosePopoverButton>
                 <Block>
                     <AuthorTitle>
                         <AuthorInfoBlock to={linkToAccount}>
                             <AuthorName>{name}</AuthorName>
-                            <AuthorAccount aria-label={tt('aria_label.username')}>@{account}</AuthorAccount>
+                            <AuthorAccount aria-label={tt('aria_label.username')}>
+                                @{account}
+                            </AuthorAccount>
                         </AuthorInfoBlock>
                         <AvatarLink to={linkToAccount} aria-label={tt('aria_label.avatar')}>
                             <Userpic size={50} account={account} />

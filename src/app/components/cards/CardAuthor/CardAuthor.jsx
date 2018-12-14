@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -8,7 +8,13 @@ import Icon from 'golos-ui/Icon';
 import Userpic from 'app/components/elements/Userpic';
 import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
 
+import { PopoverStyled } from 'src/app/components/post/PopoverAdditionalStyles';
+import PopoverBody from 'src/app/containers/post/popoverBody';
+
+const USER_PIC_SIZE = 37;
+
 const Wrapper = styled.div`
+    position: relative;
     display: flex;
     align-items: center;
 
@@ -20,6 +26,7 @@ const Avatar = styled.span`
     display: flex;
     margin-right: 10px;
     border-radius: 50%;
+    cursor: pointer;
 `;
 
 const AvatarLink = Avatar.withComponent(Link);
@@ -77,43 +84,90 @@ const RepostIcon = styled(Icon)`
     color: #2879ff;
 `;
 
-const CardAuthor = ({ contentLink, author, isRepost, created, className, noLinks }) => {
-    let AvatarComp = AvatarLink;
-    let AuthorNameComp = AuthorNameLink;
+const AvatarBox = styled.div`
+    position: absolute;
+    top: 42px;
+    width: ${USER_PIC_SIZE}px;
+`;
 
-    if (noLinks) {
-        AvatarComp = Avatar;
-        AuthorNameComp = AuthorName;
-    }
+export default class CardAuthor extends Component {
+    static propTypes = {
+        author: PropTypes.string.isRequired,
+    };
 
-    return (
-        <Wrapper className={className}>
-            <AvatarComp to={`/@${author}`} aria-label={tt('aria_label.avatar')}>
-                <Userpic account={author} size={37} />
-                {isRepost ? (
-                    <RepostIconWrapper>
-                        <RepostIcon name="repost" width={14} height={12} />
-                    </RepostIconWrapper>
+    static defaultProps = {
+        contentLink: null,
+    };
+
+    closePopoverTs = 0;
+
+    state = {
+        showPopover: false,
+    };
+
+    openPopover = e => {
+        e.preventDefault();
+
+        if (Date.now() > this.closePopoverTs + 200) {
+            this.setState({
+                showPopover: true,
+            });
+        }
+    };
+
+    closePopover = () => {
+        this.closePopoverTs = Date.now();
+
+        this.setState({
+            showPopover: false,
+        });
+    };
+
+    render() {
+        const { contentLink, author, permLink, isRepost, created, noLinks, className } = this.props;
+        const { showPopover } = this.state;
+
+        let AvatarComp = AvatarLink;
+        let AuthorNameComp = AuthorNameLink;
+
+        if (noLinks) {
+            AvatarComp = Avatar;
+            AuthorNameComp = AuthorName;
+        }
+
+        return (
+            <Wrapper className={className}>
+                <AvatarComp
+                    to={`/@${author}`}
+                    aria-label={tt('aria_label.avatar')}
+                    onClick={this.openPopover}
+                >
+                    <Userpic account={author} size={USER_PIC_SIZE} />
+                    {isRepost ? (
+                        <RepostIconWrapper>
+                            <RepostIcon name="repost" width={14} height={12} />
+                        </RepostIconWrapper>
+                    ) : null}
+                </AvatarComp>
+                <PostDesc>
+                    <AuthorLine>
+                        <AuthorNameComp to={`/@${author}`}>{author}</AuthorNameComp>
+                    </AuthorLine>
+                    <PostDate to={contentLink}>
+                        <TimeAgoWrapper date={created} />
+                    </PostDate>
+                </PostDesc>
+                {showPopover ? (
+                    <AvatarBox>
+                        <PopoverStyled onClose={this.closePopover} show>
+                            <PopoverBody
+                                close={this.closePopover}
+                                permLink={`${author}/${permLink}`}
+                            />
+                        </PopoverStyled>
+                    </AvatarBox>
                 ) : null}
-            </AvatarComp>
-            <PostDesc>
-                <AuthorLine>
-                    <AuthorNameComp to={`/@${author}`}>{author}</AuthorNameComp>
-                </AuthorLine>
-                <PostDate to={contentLink}>
-                    <TimeAgoWrapper date={created} />
-                </PostDate>
-            </PostDesc>
-        </Wrapper>
-    );
-};
-
-CardAuthor.propTypes = {
-    author: PropTypes.string.isRequired,
-};
-
-CardAuthor.defaultProps = {
-    contentLink: null,
-};
-
-export default CardAuthor;
+            </Wrapper>
+        );
+    }
+}

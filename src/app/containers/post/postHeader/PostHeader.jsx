@@ -7,10 +7,10 @@ import PropTypes from 'prop-types';
 import Icon from 'golos-ui/Icon';
 import Button from 'golos-ui/Button';
 import { TagLink } from 'golos-ui/Tag';
-
 import Userpic from 'app/components/elements/Userpic';
+
 import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
-import PopoverBody from 'src/app/containers/post/popoverBody/index';
+import PopoverBody from 'src/app/containers/post/popoverBody';
 import {
     PopoverBackgroundShade,
     PopoverStyled,
@@ -232,8 +232,8 @@ export class PostHeader extends Component {
             isPromoted,
             className,
         } = this.props;
-
         const { showPopover } = this.state;
+        const contentLink = postUrl.replace(/\/[^\/]+\/@([^\/]+\/[^\/]+)/, '$1');
 
         return (
             <Wrapper innerRef={forwardRef} className={className}>
@@ -274,7 +274,7 @@ export class PostHeader extends Component {
                 <Category
                     to={'/trending?tags=' + category.tag}
                     category={1}
-                    aria-label={tt('aria_label.category', {category: category.tag})}
+                    aria-label={tt('aria_label.category', { category: category.tag })}
                 >
                     {category.tag}
                 </Category>
@@ -291,7 +291,7 @@ export class PostHeader extends Component {
                 {showPopover ? (
                     <AvatarBox>
                         <PopoverStyled onClose={this.closePopover} show>
-                            <PopoverBody close={this.closePopover} author={author} />
+                            <PopoverBody close={this.closePopover} permLink={contentLink} />
                         </PopoverStyled>
                     </AvatarBox>
                 ) : null}
