@@ -119,7 +119,15 @@ export default class SettingsContent extends PureComponent {
     };
 
     render() {
-        const { profile, account, options, privateKeys, isFetching, isChanging } = this.props;
+        const {
+            profile,
+            account,
+            options,
+            privateKeys,
+            isFetching,
+            isChanging,
+            isRich,
+        } = this.props;
 
         return (
             <Fragment>
@@ -129,6 +137,7 @@ export default class SettingsContent extends PureComponent {
                     account={account}
                     privateKeys={privateKeys}
                     options={options}
+                    isRich={isRich}
                     isFetching={isFetching}
                     isChanging={isChanging}
                     onSubmitBlockchain={this.onSubmitBlockchain}

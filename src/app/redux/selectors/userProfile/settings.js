@@ -9,6 +9,7 @@ import {
     globalSelector,
 } from './../common';
 
+const VOTE_PERCENT_THRESHOLD = 1000000;
 const emptyMap = Map();
 
 export const settingsContentSelector = createDeepEqualSelector(
@@ -21,6 +22,17 @@ export const settingsContentSelector = createDeepEqualSelector(
     ],
     (pageAccount, currentUser, settingsStatus, settingsData, wifShown) => {
         const tempAccount = pageAccount.toJS();
+
+        let isRich = false;
+
+        if (currentUser) {
+            const netVesting =
+                currentUser.get('vesting_shares') -
+                currentUser.get('delegated_vesting_shares') +
+                currentUser.get('received_vesting_shares');
+
+            isRich = netVesting > VOTE_PERCENT_THRESHOLD;
+        }
 
         let metaData = tempAccount ? o2j.ifStringParseJSON(tempAccount.json_metadata) : {};
         if (typeof metaData === 'string') metaData = o2j.ifStringParseJSON(metaData); // issue #1237
@@ -40,7 +52,7 @@ export const settingsContentSelector = createDeepEqualSelector(
             account: pageAccount,
             metaData,
             profile,
-
+            isRich,
             wifShown,
             privateKeys: currentUser.getIn(['private_keys'], emptyMap),
             options: settingsData,

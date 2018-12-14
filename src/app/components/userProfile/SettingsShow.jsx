@@ -37,6 +37,7 @@ export default class SettingsShow extends PureComponent {
             options,
             isFetching,
             isChanging,
+            isRich,
 
             onSubmitBlockchain,
             onSubmitGate,
@@ -50,6 +51,7 @@ export default class SettingsShow extends PureComponent {
                     <TabContainer id="commonTab" title={tt('settings_jsx.tabs.common')}>
                         <Common
                             options={options}
+                            isRich={isRich}
                             isFetching={isFetching}
                             isChanging={isChanging}
                             onSubmitGate={onSubmitGate}

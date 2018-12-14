@@ -10,6 +10,8 @@ import { loginIfNeed } from 'src/app/redux/actions/login';
 import { VOTE_PERCENT_THRESHOLD } from './helpers';
 
 const defaultVotePowerSelector = state => state.data.settings.getIn(['basic', 'award']);
+const defaultVotePowerUsageSelector = state =>
+    state.data.settings.getIn(['basic', 'awardByDefault']);
 
 export default connect(
     createSelector(
@@ -18,8 +20,9 @@ export default connect(
             currentUsernameSelector,
             (state, props) => postSelector(state, props.contentLink),
             defaultVotePowerSelector,
+            defaultVotePowerUsageSelector,
         ],
-        (user, username, post, defaultVotePower) => {
+        (user, username, post, defaultVotePower, defaultVotePowerUsage) => {
             if (!post) {
                 return;
             }
@@ -58,7 +61,8 @@ export default connect(
                 contentLink: `${post.get('author')}/${post.get('permlink')}`,
                 votesSummary,
                 myVote,
-                defaultVotePower,
+                defaultVotePower:
+                    defaultVotePowerUsage && defaultVotePower && isRich ? defaultVotePower : null,
             };
         }
     ),

@@ -1080,7 +1080,6 @@
     "choose_currency": "Виберіть валюту",
     "choose_language": "Виберіть мову інтерфейсу",
     "cover_image_url": "Додайте URL Вашої обкладинки або завантажте її",
-    "default_voting_power": "Налаштування сили голосування",
     "default_voting_power_tip": "Сила голосування %(value)s%%",
     "invalid_url": "Неприпустима URL-адреса",
     "keys": {
@@ -1144,6 +1143,8 @@
       "notifications": "Повідомлення"
     },
     "update": "Оновити",
+    "voting": "Налаштування голосування",
+    "voting_power_by_default": "Використовувати налаштування сили голосування",
     "website_url_is_too_long": "URL-адреса веб-сайту занадто довга"
   },
   "start_mobile_app": {

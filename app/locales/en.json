@@ -1188,7 +1188,6 @@
     "choose_currency": "Choose currency",
     "choose_language": "Choose language",
     "cover_image_url": "Cover image url",
-    "default_voting_power": "Setting the voting power",
     "default_voting_power_tip": "Voting power %(value)s%%",
     "invalid_url": "Invalid URL",
     "keys": {
@@ -1254,6 +1253,8 @@
       "notifications": "Notifications"
     },
     "update": "Update",
+    "voting": "Voting settings",
+    "voting_power_by_default": "Using voting power settings",
     "website_url_is_too_long": "Website URL is too long"
   },
   "start_mobile_app": {
