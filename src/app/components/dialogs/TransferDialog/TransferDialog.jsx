@@ -120,7 +120,7 @@ export default class TransferDialog extends PureComponent {
 
         let target = '';
 
-        if (props.toAccountName && props.toAccountName !== props.myUser.get('username')) {
+        if (props.toAccountName && props.toAccountName !== props.currentUser.get('username')) {
             target = props.toAccountName;
         }
 
@@ -164,7 +164,7 @@ export default class TransferDialog extends PureComponent {
     }
 
     render() {
-        const { myAccount, type, toAccountName } = this.props;
+        const { currentAccount, type, toAccountName } = this.props;
         const {
             target,
             initialTarget,
@@ -195,7 +195,7 @@ export default class TransferDialog extends PureComponent {
             currencyKey = 'sbd_balance';
         }
 
-        const balance = parseFloat(myAccount.get(currencyKey));
+        const balance = parseFloat(currentAccount.get(currencyKey));
 
         let { value, error } = parseAmount(amount, balance, !amountInFocus);
         if (isBadActor(target)) {
@@ -339,7 +339,7 @@ export default class TransferDialog extends PureComponent {
     };
 
     onOkClick = () => {
-        const { myUser, type, donatePostUrl } = this.props;
+        const { currentUser, type, donatePostUrl } = this.props;
         const { target, amount, currency, note, loader, disabled } = this.state;
 
         if (loader || disabled) {
@@ -362,7 +362,7 @@ export default class TransferDialog extends PureComponent {
         }
 
         const operation = {
-            from: myUser.get('username'),
+            from: currentUser.get('username'),
             to: target,
             amount: parseFloat(amount.replace(/\s+/, '')).toFixed(3) + ' ' + currency,
             memo,

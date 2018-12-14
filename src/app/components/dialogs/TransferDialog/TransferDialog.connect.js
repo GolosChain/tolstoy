@@ -8,12 +8,14 @@ import TransferDialog from './TransferDialog';
 
 export default connect(
     state => {
-        const myUser = state.user.getIn(['current']);
-        const myAccount = myUser ? state.global.getIn(['accounts', myUser.get('username')]) : null;
+        const currentUser = state.user.getIn(['current']);
+        const currentAccount = currentUser
+            ? state.global.getIn(['accounts', currentUser.get('username')])
+            : null;
 
         return {
-            myUser,
-            myAccount,
+            currentUser,
+            currentAccount,
         };
     },
     {
