@@ -129,7 +129,7 @@ export default class NotificationsMenu extends PureComponent {
         } = this.props;
 
         const clearTooltip = `<div style="text-align: center">${tt(
-            'data-tooltip.clear_notifications_history'
+            'notifications_menu.clear_notifications_history'
         )}</div>`;
 
         return (
@@ -159,7 +159,7 @@ export default class NotificationsMenu extends PureComponent {
                     <DialogButton
                         data-tooltip={clearTooltip}
                         data-tooltip-html
-                        aria-label={tt('data-tooltip.clear_notifications_history')}
+                        aria-label={tt('notifications_menu.clear_notifications_history')}
                         cancel={1}
                         onClick={this.markNotificationsAsViewed}
                     >

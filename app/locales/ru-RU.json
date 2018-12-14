@@ -1,11 +1,6 @@
 {
   "about_jsx": {
-    "about_app": "О %(APP_NAME)s",
-    "about_app_details": "%(APP_NAME)s - это социальная медиа платформа в которой каждый зарабатывает за создание и курирование контента. Он использует надежную систему цифровых очков под названием Голос, который поддерживает реальную ценность для цифровых наград через выявление рыночной цены и ликвидности.",
-    "join_our_slack": "Присоединяйтесь к нашему Slack",
-    "learn_more_at_app_url": "Узнать больше в %(APP_URL)s",
-    "mobileBannerAlt": "Доступно в Google Play",
-    "resources": "Ресурсы"
+    "mobile_banner_alt": "Доступно в Google Play"
   },
   "about_page": {
     "decription_1": "Платформа начала работу в октябре 2016 года.",
@@ -126,14 +121,6 @@
   "comment_editor": {
     "cancel_comment": "Текст комментария будет утрачен. Вы уверены?"
   },
-  "comment_jsx": {
-    "collapse_or_expand": "Свернуть/Развернуть",
-    "reveal_comment": "Показать комментарий"
-  },
-  "confirmtransactionform_jsx": {
-    "confirm": "Подтвердить",
-    "ok": "ОК"
-  },
   "content": {
     "tip": {
       "blog": {
@@ -153,91 +140,9 @@
       }
     }
   },
-  "converttosteem_jsx": {
-    "DEBT_TOKEN_will_be_unavailable": "Конвертация золотых будет происходить в течении 3.5 дней с момента запуска. Отменить её нельзя. После запуска конвертации, конвертируемые монеты станут недоступны.",
-    "confirm_title": "Подтвердите Конвертацию",
-    "convert_to_LIQUID_TOKEN": "Перевести в %(LIQUID_TOKEN)s",
-    "this_is_a_price_feed_conversion": "Неделя отсрочки, путем автоматической конвертации, необходима, в целях предотвращения злоупотребления спекуляцией, по средней ценовой котировке.",
-    "your_existing_DEBT_TOKEN_are_liquid_and_transferable": "Токены %(DEBT_TOKEN)s ликвидны и их можно передавать между аккаунтами. Перед запуском конвертации, проверьте опции %(link)s %(DEBT_TOKEN)s, на внутренней бирже. Также, токен %(DEBT_TOKEN)s, доступен к выводу (и торговле) на внешних биржах."
-  },
   "createaccount_jsx": {
-    "APP_NAME_can_only_register_one_account_per_verified_user": "Пожалуйста, имейте ввиду, что %(APP_NAME)s можно регистрировать только один аккаунт для каждого подтвержденного пользователя",
-    "APP_NAME_wants_you_to_know": "* Стоимость отправки и получения текстовых сообщений соответствует вашему текущему тарифному плану Вашего мобильного оператора.",
-    "account_name_already_used": "Отличный выбор! Но это имя уже занято. Попробуйте ввести другое.",
-    "account_name_hint": "Хорошо подумайте над тем, как будет называться ваш аккаунт. После регистрации изменить имя пользователя нельзя.",
-    "after_verification": "После получения смс о подтверждения вашего номера обновите страницу регистрации",
-    "before_creating_account": " прежде чем вы сможете создать другой аккаунт.",
-    "check_code": "Пожалуйста, проверьте правильность кода и номера, на который вы его отправили. Если все верно, но поля регистрации по прежнему недоступны для заполнения, напишите нам в техподдержку на",
-    "confirmation_code": "Код подтверждения",
-    "couldnt_create_account_server_returned_error": "Не получилось создать аккаунт. Сервер вернул эту ошибку",
-    "country_code": "Код страны",
-    "create_account": "Создать Аккаунт",
-    "ctyptography_test_failed": "Криптографический тест не пройден",
-    "didnt_receive_the_verification_code": "Не получили код подтверждения? ",
-    "didnt_recieve_email": "Не получили письмо?",
-    "dont_close": "Не закрывайте форму регистрации до ее завершения.",
-    "email_verification_helps_with_preventing_spam": "Проверка электронной почты помогает предотвратить спам и позволяет %(APP_NAME)s помогать с восстановлением учетной записи в случае, если ваша учетная запись когда-либо была скомпрометирована.",
-    "enter_account_name": "Введите имя пользователя",
-    "enter_email": "Введите ваш e-mail",
-    "examples": "Введите номер без указания кода страны, например: 9001234567 | 9261234567",
     "final_confirm": "Удостоверьтесь, что вы надежно сохранили сгенерированный пароль, и ознакомьтесь с Условиями использования сайта:",
-    "form_requires_javascript_to_be_enabled": "Эта форма требует активированный javascript в браузере",
-    "get_code": "Получить код",
-    "in_order_to_prevent_abuse_APP_NAME_can_only_register_one_account_per_user": "Чтобы предотвратить злоупотребление %(APP_NAME)s может зарегистрировать только один аккаунт для каждого подтвержденного пользователя.",
-    "land_lines_cannot_receive_sms_messages": "* Городские телефоны не могут отправлять и принимать текстовые сообщения",
-    "message_and_data_rates_may_apply": "",
-    "mobile_description": {
-      "fourth": "Мы должны быть уверены, что вы действительно являетесь реальным человеком, а не роботом. Данные меры работают на благо всего сообщества.",
-      "one": "GOLOS.io заинтересован в регистрациях настоящих людей, а не роботов. Именно поэтому мы просим вас отправить SMS на указанный номер. Данная мера работает на благо всех пользователей GOLOS.io.",
-      "third": "Прием текстового смс сообщения от пользователя - хороший способ подтверждения мотивации пользователя к регистрации на нашем ресурсе, к тому же это экономически более выгодно для экосистемы всей медиаблокчейн платфромы %(APP_NAME)s."
-    },
-    "next_3_blocks": {
-      "if_you_need_a_new_account": "если Вам нужен новый аккаунт",
-      "to_your_existing_account_or": " в Ваш существующий аккаунт или",
-      "you_can_either": "Вы можете или"
-    },
-    "our_records_indicate_you_already_have_account": "Наши записи показывают, что у Вас уже есть %(APP_NAME)s аккаунт",
-    "phone_number": "Номер телефона",
-    "phone_number_has_been_verified": "Спасибо, ваш номер телефона подтверждён. Пожалуйста, продолжите регистрацию.",
-    "phone_verification_helps_with_preventing_spam": "Проверка номера телефона помогает предотвратить спам и позволяет  $(APP_NAME)s помогать с восстановлением учетной записи в случае, если ваша учетная запись когда-либо была скомпрометирована. Ваш номер телефона не будет использоваться более нигде. Номер мобильного телефона не будет использоваться для рассылки сообщений рекламного характера! В базе данных номер телефона хранится в виде sha256 хэша",
-    "please_provide_your_email_address_to_continue": "Чтобы продолжить, укажите свой адрес электронной почты",
-    "please_provide_your_phone_number_to_continue": "Чтобы продолжить, укажите свой номер телефона",
-    "re_send": "Повторная отправка",
-    "request_error": "Имя аккаунта не может быть проверенно сейчас из-за сбоя сервера. Пожалуйста, попробуйте позже",
-    "send_us_email": "отправьте нам email",
-    "sent_sms": "Я отправил СМС",
-    "sent_sms_description": "Дождитесь подтверждения вашего номера телефона (процесс может занять несколько минут), после чего поля регистрации станут активны для заполнения.",
-    "sms_how_much": "Сколько это будет стоить?",
-    "sms_how_much_answer": "Стоимость отправки SMS соответствует стоимости исходящего SMS по тарифу вашего оператора связи.",
-    "take_your_secret_key": "Получите ваш сгенерированный пароль",
-    "thank_you_for_providing_your_email_address": "Благодарим вас за предоставленный адрес электронной почты",
-    "thank_you_for_providing_your_phone_number": "Спасибо за предоставленный номер телефона.",
-    "this_phone_number_has_already_been_used": "Указанный Вами номер уже зарегистрирован на платформе",
-    "to_continue_please_click_on_the_link_in_the_email": "Чтобы продолжить, нажмите на ссылку в письме, которую мы вам отправили.",
-    "to_continue_please_enter_the_sms_code_weve_sent_you": "Чтобы продолжить, пожалуйста укажите СМС код который мы вам отправили.",
-    "to_continue_please_send_sms_code": "Чтобы продолжить, пожалуйста отправьте СМС сообщение со своего мобильного телефона с кодом %(code)s на номер %(phone_number)s. Текст сообщения должен состоять  только из 4-цифр кода.",
-    "we_will_be_unable_to_create_account_with_this_browser": "У нас не получится создать %(APP_NAME)s аккаунт используя этот браузер",
-    "why_send_sms": "Подробнее об отправке смс сообщения",
-    "will_be_send_to_phone_number": "Номер: +",
-    "without_country_code": "Без кода страны",
-    "you_can_change_your_number": "* Вы можете изменить номер телефона. ",
-    "you_need_to": "Вам нужно "
-  },
-  "data-tooltip": {
-    "clear_notifications_history": "Отметить все уведомления прочитаными",
-    "compact": "Компактный список",
-    "grid": "Сетка",
-    "list": "Список"
-  },
-  "delegate_vesting_shares_info_jsx": {
-    "confirm_cancel_delegation": "Вы действительно хотите отозвать делегированную %(VESTING_TOKEN2)s у пользователя %(delegatee)s",
-    "confirm_title": "Отмена делегирования %(VESTING_TOKENS)s",
-    "from": "От кого",
-    "to": "Кому"
-  },
-  "delegatevestingshares_jsx": {
-    "button_title": "Делегировать",
-    "form_title": "Делегировать %(VESTING_TOKEN2)s"
+    "take_your_secret_key": "Получите ваш сгенерированный пароль"
   },
   "dialog": {
     "alert": "Предупреждение",
@@ -368,26 +273,6 @@
     "strikethrough": "Подчеркнутый текст",
     "unordered_list": "Список"
   },
-  "enter_confirm_email_jsx": {
-    "email_address": "Адрес электронной почты",
-    "email_address_cannot_be_changed_at_this_moment_sorry_for_inconvenience": "Адрес электронной почты на данный момент не может быть изменен, извините за неудобства",
-    "email_confirmation": "Подтверждение электронной почты",
-    "failed_captcha_verification_please_try_again": "Ошибка проверки капчи, попробуйте еще раз",
-    "next_3_strings": {
-      "by_verifying_you_agree_with": "Подтверждая ваш аккаунт вы соглашаетесь с",
-      "by_verifying_you_agree_with_privacy_policy": "Политикой Конфиденциальности",
-      "by_verifying_you_agree_with_privacy_policy_of_website_APP_DOMAIN": "сайта %(APP_DOMAIN)s"
-    },
-    "not_valid_email_address": "Указан некорректный адрес электронной почты",
-    "please_prove_an_email_address": "Пожалуйста укажите адрес электронной почты",
-    "please_provide_your_email_address_to_continue_the_registration_process": "Пожалуйста, укажите адрес Вашей электронной почты для продолжения процесса регистрации",
-    "re_send_email": "Повторная отправка электронной почты",
-    "thank_you_for_providing_your_email_address": "Благодарим Вас за предоставление вашей электронной почты",
-    "this_email_has_already_been_taken": "Этот адрес электронной почты уже занят",
-    "this_information_allows_steemit_to_assist_with_account_recovery_in_case_your_account_is_ever_compormised": "Эта информация позволяет Голосу помочь Вам восстановить аккаунт, если он когда-нибудь будет украден",
-    "to_continue_please_click_on_the_link_in_the_email_weve_sent_you": "Для продолжения, перейдите по ссылке в письме, которое мы Вам прислали",
-    "user_not_found": "пользователь не найден"
-  },
   "error_page": {
     "link_to_main": "Перейти на главную",
     "link_to_support": "Написать в поддержку",
@@ -421,14 +306,12 @@
     "APP_NAME_account": "%(APP_NAME)s аккаунт",
     "APP_NAME_support": "%(APP_NAME)s поддержка",
     "about_project": "О проекте",
-    "account_creation_succes": "Ваш аккаунт был успешно создан!",
     "account_name": "Имя аккаунта",
+    "account_name_chars_restrictions": "Имя аккаунта должно должно состоять только из букв, цифр или дефисов.",
     "account_name_should_be_longer": "Имя аккаунта должно быть длиннее.",
     "account_name_should_be_shorter": "Имя аккаунта должно быть короче.",
-    "account_name_should_have_only_letters_digits_or_dashes": "Имя аккаунта должно должно состоять только из букв, цифр или дефисов.",
     "account_name_should_start_with_a_letter": "Имя аккаунта должно начинаться с буквы.",
     "account_not_found": "Аккаунт не найден",
-    "account_recovery_succes": "Ваш аккаунт был успешно восстановлен!",
     "account_updated": "Аккаунт обновлен",
     "active": "Активный ключ",
     "activity": "Активность",
@@ -447,7 +330,6 @@
     "authors_posts": "посты автора",
     "authors_receive_rewards_for_upvotes": "Авторы получают вознаграждение, когда пользователи голосуют за их посты. Голосующие читатели также получают вознаграждение за свои голоса.",
     "auto": "автоматически",
-    "auto_login_question_mark": "Заходить автоматически?",
     "back": "Назад",
     "back_to_top": "Наверх",
     "backup_password_by_storing_it": "Обязательно сохраните пароль в текстовом файле или сделайте копию в менеджере паролей.",
@@ -457,62 +339,34 @@
     "blog": "Блог",
     "browse": "Посмотреть",
     "buy": "Купить",
-    "buy_VESTING_TOKEN": "Купить %(VESTING_TOKEN2)s",
     "buy_or_sell": "Купить или Продать",
     "by": "",
-    "by_verifying_you_agree": "Подтверждая Ваш аккаунт Вы соглашаетесь с условиями проекта %(APP_NAME)s",
-    "by_verifying_you_agree_terms_and_conditions": "Условия и Соглашения",
     "cancel": "Отмена",
     "cancel_subscription": "отменить подписку",
-    "cannot_increase_reward_of_post_within_the_last_minute_before_payout": "Голосование возможно только в первые 24 часа с момента публикации",
     "change_password": "Сменить пароль",
     "clear": "Очистить",
     "click_to_generate_password": "Нажмите, чтобы сгенерировать пароль",
     "close": "Закрыть",
     "collapse": "Свернуть",
     "comments": "Комментарии",
-    "confirm_follow": "Вы уверены, что хотите подписаться на этого пользователя?",
-    "confirm_ignore": "Вы действительно хотите заблокировать этого пользователя?",
     "confirm_password": "Подтвердить пароль",
-    "confirm_unfollow": "Вы действительно хотите отменить подписку на этого пользователя?",
     "confirm_unfollow_user": "Вы действительно хотите отменить подписку",
-    "connection_lost_reconnecting": "Связь потеряна, переподключаемся",
     "continue": "продолжить",
     "convert": "Конвертировать",
     "create_post": "Добавить пост",
     "created": "Сначала новые",
-    "cryptography_test_failed": "Криптографический тест провален",
-    "curation_rewards": "Кураторские награды",
     "current_password": "Текущий пароль",
     "date": "Дата",
-    "date_months": {
-      "0": "января",
-      "1": "февраля",
-      "2": "марта",
-      "3": "апреля",
-      "4": "мая",
-      "5": "июня",
-      "6": "июля",
-      "7": "августа",
-      "8": "сентября",
-      "9": "октября",
-      "10": "ноября",
-      "11": "декабря"
-    },
-    "delegated_vesting": "%(VESTING_TOKEN)s делегированная с этого аккаунта",
     "delete": "Удалить",
     "dislike": "Голосовать против",
     "dismiss": "Скрыть",
     "do_you_need_to": "Вам нужно",
-    "documentation": "Документация",
     "donate": "Отблагодарить",
     "edit": "Редактировать",
     "edit_comment": "Редактировать комментарий",
     "email": "Электронная почта",
-    "email_recovery_hint": "Используется для сброса пароля в случае если аккаунт был украден",
     "empty": "Тут пока пусто",
     "empty_list": "Список пуст",
-    "enter_username": "Введи свое имя пользователя",
     "error": "Ошибка",
     "exclude": "Исключить",
     "expand": "Развернуть",
@@ -522,8 +376,6 @@
     "filter": "Фильтр",
     "flag": "Голосовать против",
     "follow": "Подписаться",
-    "for": " для ",
-    "from": " от ",
     "gender": {
       "female": "Женский",
       "male": "Мужской"
@@ -534,22 +386,16 @@
     "hide": "Скрыть",
     "hide_private_key": "Скрыть приватный ключ",
     "hot": "Актуальное",
-    "however_you_can_use_it_to": "Тем не менее его можно использовать, чтобы",
     "i_saved_password": "Я надежно сохранил сгенерированный пароль",
     "in": "в",
-    "in_reply_to": "в ответ на",
     "incorrect_password": "Неправильный пароль",
-    "insufficient_balance": "Недостаточный баланс",
-    "invalid_amount": "Недостаточно средств",
-    "invited_users": "Приглашенные пользователи",
+    "increase_post_reward_time_limit": "Голосование возможно только в первые 24 часа с момента публикации",
     "invites": "Приглашения",
-    "joined": "Присоединился",
-    "keep_me_logged_in": "Оставить меня залогиненным",
+    "ip_access_limit": "Только один аккаунт разрешен с одного IP адреса каждые десять минут",
     "like": "Голосовать за",
     "list_posts": "Список",
     "loading": "Загрузка",
     "login": "Войти",
-    "login_to_see_memo": "Авторизуйтесь, чтобы увидеть примечание",
     "logout": "Выйти",
     "market": "Биржа",
     "mediafile": "медиафайл",
@@ -557,54 +403,25 @@
     "messages": "Сообщения",
     "more": "больше",
     "mute": "Заблокировать",
-    "need_password_or_key": "Вам нужен приватный (не публичный) ключ ...",
     "new": "Новое",
     "new_password": "Новый пароль",
     "newer": "Новее",
     "next": "Следующий",
-    "next_3_blocks": {
-      "and": "и",
-      "are_well_tested_and_known_to_work_with": "хорошо тестированы и работают с %(APP_URL)s.",
-      "the_latest_versions_of": "Последние версии"
-    },
-    "next_3_strings_together": {
-      "show_less": "Показать меньше",
-      "show_more": "Показать больше",
-      "value_posts": "постов с более низким вознаграждением"
-    },
-    "next_7_strings_sinngle_block": {
-      "and_vote_for_it": "и проголосовать за него",
-      "authors_get_paid_when_people_like_you_upvote_their_post": "Авторы получают вознаграждение, когда пользователи голосуют за их посты",
-      "free_steem": "БЕСПЛАТНЫЕ %(LIQUID_TOKEN)sa",
-      "if_you_enjoyed_what_you_read_earn_amount": "Голосующие читатели также получают вознаграждение за свой голос.",
-      "sign_up_now_to_receive": "Зарегистрируйтесь сейчас, чтобы получить ",
-      "when_you": "зарегистрируйтесь",
-      "when_you_link_text": "Регистрация"
-    },
     "no": "Нет",
-    "no_tags_selected": "теги не выбраны",
     "no_topics_by_order_found": "В разделе %(order)s пока нет постов ",
-    "not_valid_email": "Недействительный адрес",
-    "nothing_yet": "Пока ничего нет",
     "nsfw": "18+",
     "ok": "ОК",
     "old": "Сначала старые",
     "older": "Старее",
-    "only_one_APP_NAME_account_allowed_per_ip_address_every_10_minutes": "Только один %(APP_NAME)s аккаунт разрешен с одного IP адреса каждые десять минут",
     "or": "или",
     "order_placed": "Заказ размещен",
     "owner": "Ключ владельца",
     "password": "Пароль",
-    "password_is_bound_to_your_accounts_owner_key": "Этот пароль привязан к главному ключу аккаунта и не может быть использован для входа на сайт",
     "password_must_be_characters_or_more": "Пароль должен содержать %(amount)s символ(а) или больше",
     "password_or_owner": "Пароль или ключ владельца",
-    "password_or_posting": "Пароль или постинг ключ",
-    "password_update_succes": "Пароль для %(accountName)s был успешно обновлен",
     "passwords_do_not_match": "Пароли не совпадают",
     "payouts": "Выплаты",
     "permissions": "Разрешения",
-    "personal_info_will_be_private": "Ваша персональная информация будет оставаться",
-    "personal_info_will_be_private_link": "приватной",
     "phone": "телефон",
     "please": "Пожалуйста",
     "please_email_questions_to": "Пожалуйста, шлите Ваши вопросы на электронную почту",
@@ -613,7 +430,6 @@
     "posting": "Постинг ключ",
     "posts": "Посты",
     "power_up": "Увеличить %(VESTING_TOKEN2)s",
-    "powered_up_100": "100%% к Силе Голоса",
     "preview": "Предварительный просмотр",
     "previous": "Предыдущий",
     "price": "Цена",
@@ -625,11 +441,9 @@
     "re2": "Re",
     "re_enter_generate_password": "Введите сгенерированный пароль",
     "receive": "Получено",
-    "received_vesting": "%(VESTING_TOKEN)s делегированная на этот аккаунт",
     "recent_password": "Недавний пароль",
     "recover_password": "Восстановить аккаунт",
     "recover_your_account": "восстановить ваш аккаунт",
-    "remember_voting_and_posting_key": "Запомнить голос и постинг ключ",
     "remove": "Удалить",
     "remove_from_favorites": "Убрать из избранного",
     "remove_vote": "Убрать голос",
@@ -641,9 +455,7 @@
     "reputation": "Репутация",
     "request": "запрос",
     "required": "Обязательно",
-    "requires_auth_key": "Эта операция требует Вашего %(authType)s ключа (или используйте главный пароль)",
     "reset_usernames_password": "Сбросить пароль пользователя %(username)s",
-    "resteem_this_post": "Поделиться этим постом",
     "rewards": "Награды",
     "save": "Сохранить",
     "saved": "Сохранено",
@@ -655,9 +467,8 @@
     "settings": "Настройки",
     "share_this_post": "Поделиться этим постом",
     "show": "Показать",
-    "show_less_low_value_posts": "Показать постов с более низким вознаграждением",
     "show_more": "Показать еще",
-    "show_more_low_value_posts": "Показать постов с более низким вознаграждением",
+    "show_more_2": "Показать больше",
     "show_more_topics": "Показать больше топиков",
     "show_private_key": "Показать приватный ключ",
     "show_rules": "Показать правила хранения пароля",
@@ -668,13 +479,11 @@
     "since": "начиная с",
     "submit": "Отправить",
     "submit_a_story": "Добавить пост",
-    "subscribe_to_get_sms_confirm": "Подпишитесь, чтобы получить SMS когда подтверждение будет доступно",
     "subscriptions": "подписки",
     "tag": "Тэг",
     "tags_and_topics": "Тэги и топики",
     "tags_filter": "Фильтр",
     "team": "Команда Golos.io",
-    "terms_and_conditions": "Условия и Соглашения",
     "the_rules_of_APP_NAME": {
       "fifth": "Используйте только сгенерированные случайным образом пароли.",
       "fourth": "Если Вы можете запомнить свой пароль, значит он не безопасен.",
@@ -687,7 +496,6 @@
     "this_is_wrong_password": "Это неправильный пароль",
     "this_will_update_usernames_authtype_key": "Это обновит %(username)s %(authType)s ключ",
     "to": " к ",
-    "to_obtaion_a_more_secure_set_of_keys": "Например, для получения более безопасного набора ключей",
     "topics": "Топики",
     "transaction_history": "История транзакций",
     "transfer": "Передать ",
@@ -695,7 +503,6 @@
     "trending_topics": "Популярное",
     "turn_back": "Вернуться назад",
     "type": "Тип",
-    "unable_to_log_you_in": "У нас не получится залогинить Вас в этом браузере",
     "uncollapse": "Развернуть",
     "understand_that_APP_NAME_cannot_recover_password": "Я понимаю, что %(APP_NAME)s не может восстановить потерянные пароли",
     "unfollow": "Отписаться",
@@ -703,7 +510,6 @@
     "unmute": "Разблокировать",
     "update": "Обновить",
     "update_password": "Обновить пароль",
-    "update_your_password": "обновить Ваш пароль",
     "upload": "Загрузить",
     "upstairs": "Вверх",
     "upvote": "Голосовать за",
@@ -723,91 +529,43 @@
     "with_the_tag": "c тегом ",
     "write_your_story": "Написать свою историю",
     "yes": "Да",
-    "you_are_viewing_a_single_comments_thread_from": "Вы читаете одну нить комментариев от",
     "you_need_private_password_or_key_not_a_public_key": "Вам нужен приватный (не публичный) ключ ..."
   },
   "generated_password_input": {
     "i_have_read_and_agree_to_the": "Я прочитал и согласен с",
     "terms_of_service": "Условиями использования"
   },
-  "header": {
-    "account_price": "Стоимость аккаунта"
-  },
   "header_jsx": {
-    "author_rewards_by": "Автор награжден",
-    "change_account_password": "Изменить пароль аккаунта",
-    "comments_by": "Комментарии",
-    "create_a_post": "Создать пост",
-    "create_account": "Создать Аккаунт",
-    "curation_rewards_by": "Награда за курирование",
-    "home": "Лента",
-    "new_posts": "Новые посты",
-    "new_topic_posts": "Новый %(topic)s пост",
-    "people_followed_by": "Подписчики",
-    "people_following": "Подписчики",
-    "privacy_policy": "Политика Конфиденциальности",
-    "replies_to": "Ответы на",
-    "sort_order_posts": "%(sort_order)s посты",
-    "sort_order_topic_posts": "%(sort_order)s %(topic)s посты",
-    "stolen_account_recovery": "Возврат украденного аккаунта",
-    "terms_of_service": "Условия использования"
+    "home": "Лента"
   },
   "illegal_content": {
     "due_to_illegal_content": "из-за нарушений",
-    "hidden": "скрыт",
     "terms_of_service": "Условий использования",
     "terms_of_service_section": "",
     "unavailable": "Пользователь заблокирован"
+  },
+  "layout_switcher": {
+    "tooltip": {
+      "compact": "Компактный список",
+      "grid": "Сетка",
+      "list": "Список"
+    }
   },
   "link_to": {
     "telegram": "//tlg.name/golos_support"
   },
   "loginform_jsx": {
     "active_key_error": "Ключ для денежных операций нельзя использовать для входа на сайт. Используйте постинг ключ или пароль.",
-    "active_or_owner": "активный или владельца",
-    "amazing_community": "удивительное сообщество",
-    "are_well_tested_and_known_to_work_with": "хорошо протестированы и работают с %(APP_DOMAIN)s.",
     "authorize_for": "Авторизуйтесь, чтобы завершить действие",
-    "consent": "Согласие с условиями",
-    "cryptography_test_failed": "Криптографический тест провален",
-    "due_to_server_maintenance": "Из-за технического обслуживания сервера мы работаем в режиме чтения. Извините за неудобства.",
     "enter_your_username": "Введи свое имя пользователя",
-    "free_money": "ЛЕГКИЕ ДЕНЬГИ!",
-    "however_you_can_use_it_to": "Тем не менее его можно использовать чтобы ",
-    "join_our": "Присоединяйтесь к нашему",
     "keep_me_logged_in": "Оставить меня залогиненным",
-    "login_to_comment": "Пожалуйста, авторизуйтесь для выполнения следующих действий",
-    "login_to_post": "Авторизуйтесь, чтобы написать пост",
-    "login_to_vote": "Авторизуйтесь, чтобы проголосовать",
-    "login_to_your_steem_account": "Войти в свой Голос аккаунт",
-    "password_info": "Этот пароль или закрытый ключ был введен неправильно. Вероятно, есть ошибка почерка или ввода данных.",
     "password_or_active": "Пароль или активный ключ",
     "password_or_posting": "Пароль или постинг ключ",
-    "password_or_wif": "Пароль или WIF",
-    "password_update_succes": "Пароль для %(accountName)s был успешно обновлен",
     "password_warning": "Введен мастер пароль. Для обеспечения большей безопасности вы можете войти с помощью приватного постинг ключа.\n\nПродолжить авторизацию паролем?",
-    "posting": "Постинг",
-    "save_password_on_page": "Сохранить для этой страницы",
-    "sign_up_now_to_receive": "Зарегистрируйтесь сейчас, чтобы получить ",
-    "the_latest_versions_of": "Последние версии ",
-    "this_operation_requires_your_key_or_master_password": "Эта операция требует ввода Вашего ключа владельца или ввода Вашего активного ключа",
-    "this_password_is_bound_to_your_account_active_key": "Этот пароль привязан к главному ключу аккаунта и не может быть использован для входа на этот сайт.",
-    "this_password_is_bound_to_your_account_owner_key": "Этот пароль привязан к главному ключу аккаунта и не может быть использован для входа на этот сайт.",
-    "to_comment_and_reward_others": " комментировать и вознаграждать других.",
-    "to_obtain_a_more_secure_set_of_keys": "для получения более безопасного набора ключей.",
-    "unable_to_log_you_in": "У нас не получится залогинить Вас в этом браузере.",
-    "update_your_password": "обновить Ваш пароль",
-    "you_account_has_been_successfully_created": "Ваш аккаунт был успешно создан!",
-    "you_account_has_been_successfully_recovered": "Ваш аккаунт был успешно восстановлен!",
-    "you_may_use_this_active_key_on_other_more": "Вы можете использовать этот активный ключ на других более безопасных страниц, таких как страницы: Кошелек или Биржа.",
-    "you_need_a_private_password_or_key": "Вам нужен приватный (не публичный) ключ ..."
+    "save_password_on_page": "Сохранить для этой страницы"
   },
   "main_menu": {
-    "active": "Обсуждаемое",
     "hot": "Актуальное",
-    "payout_time": "время выплаты",
-    "popular": "популярное",
-    "responses": "ответы",
     "trending": "Популярное"
   },
   "markdownviewer_jsx": {
@@ -828,17 +586,12 @@
     "open_orders": "Открытые сделки",
     "order_cancel_confirm": "Отменить заказ %(order_id)s от %(user)s?",
     "order_cancelled": "Заказ %(order_id)s отменен.",
-    "price_warning_above": "Эта цена намного выше текущей рыночной цены %(marketPrice)s, Вы уверены?",
-    "price_warning_below": "Эта цена намного выше текущей рыночной цены %(marketPrice)s, Вы уверены?",
     "sell_amount_for_atleast": "Продать %(amount_to_sell)s за %(min_to_receive)s по цене (%(effectivePrice)s)",
     "sell_orders": "Заказы на продажу",
     "spread": "Разница",
     "total": "Итого",
     "total_DEBT_TOKEN_SHORT_CURRENCY_SIGN": "Сумма %(DEBT_TOKEN_SHORT)s",
     "trade_history": "История сделок"
-  },
-  "messages_jsx": {
-    "start_conversation": "Написать сообщение"
   },
   "messenger": {
     "placeholder": {
@@ -864,44 +617,21 @@
       }
     }
   },
-  "mobilevalidation_js": {
-    "attempts_10": "На указанный ранее номер был выслан код. Изменить номер можно через 10 секунд",
-    "attempts_300": "На один номер мы можем зарегистрировать только одну учетную запись. Ввести новый номер можно через пять минут.",
-    "be_longer": "должен быть длиннее",
-    "have_only_digits": "должен состоять только из цифр",
-    "not_be_empty": "не может быть пустым",
-    "select_another_number": "Указать другой номер",
-    "waiting_from_you": "Отправьте код %(code)s на номер %(phone)s для подтверждения вашего номера телефона.",
-    "waiting_from_you_line_1": "отправьте SMS с кодом %(code)s на номер %(phone)s",
-    "waiting_from_you_line_2": "Golos.io заинтересован в регистрации настоящих людей, а не роботов. Именно поэтому мы просим отправить нам SMS на указанный номер. Это система двойной проверки.",
-    "you_can_change_your_number": "Если вы ошиблись во время ввода своего номера телефона, вы можете ввести его заново."
-  },
   "navigation": {
-    "APP_NAME_api_docs": "%(APP_NAME)s API-документация",
-    "APP_NAME_app_center": "Центр приложений %(APP_NAME)s",
-    "APP_NAME_chat": "%(APP_NAME)s чат",
-    "APP_NAME_whitepaper": "Бумага о %(APP_NAME)s",
     "about": "О проекте",
     "buy_LIQUID_TOKEN": "Купить %(LIQUID_TOKEN)s",
-    "change_account_password": "Изменить пароль аккаунта",
-    "currency_market": "Внутренний рынок",
     "delegates": "Делегаты",
     "explore": "Исследовать",
     "faq": "Частые вопросы",
     "feedback": "Обратная связь",
     "market": "Купить или Продать",
-    "payouts_by_tag": "Выплаты по тэгам",
     "privacy_policy": "Политика Конфиденциальности",
-    "sale_agreement": "Договор купли-продажи",
     "sell_LIQUID_TOKEN": "Продать %(LIQUID_TOKEN)s",
     "sign_up": "СОЗДАТЬ АККАУНТ",
     "stolen_account_recovery": "Возврат украденного аккаунта",
     "technical_support": "Техподдержка",
-    "telegram_support": "%(APP_NAME_UP)s Техподдержка",
     "terms_of_service": "Условия использования",
-    "vote_for_witnesses": "Проголосовать за делегатов",
     "welcome": "Добро пожаловать",
-    "wiki": "Вики",
     "witnesses": "Голосовать за делегатов"
   },
   "notifications": {
@@ -982,6 +712,9 @@
       }
     }
   },
+  "notifications_menu": {
+    "clear_notifications_history": "Отметить все уведомления прочитаными"
+  },
   "on_golos_from": "На Golos с",
   "payout_info": {
     "author": "Авторские выплаты",
@@ -994,18 +727,6 @@
     "potential_payout": "Потенциальная выплата"
   },
   "plurals": {
-    "author_rewards_last_24_hours": "Авторские вознаграждения за последние 24 часа",
-    "balance": "Баланс",
-    "daily_average_author_rewards": "Среднесуточные авторские вознаграждения",
-    "estimate_account_value": "Оценка стоимости аккаунта",
-    "history": "История",
-    "next_power_down_is_scheduled_to_happen_at": "Следующее понижение %(VESTING_TOKENS)s запланировано на",
-    "reply_count": {
-      "one": "1 ответ",
-      "other": "%(count)s ответов",
-      "zero": "0 ответов"
-    },
-    "transfers_are_temporary_disabled": "Переводы временно отключены",
     "view_count": {
       "one": "1 просмотр",
       "other": "%(count)s просмотров",
@@ -1066,42 +787,14 @@
     "voices": "Голосам"
   },
   "postfull_jsx": {
-    "account_name_is_not_available": "Имя аккаунта недоступно",
-    "author_reward_of_VESTING_TOKEN_for": "Авторские вознаграждения %(payout)s и %(reward)s %(VESTING_TOKENS)s за",
-    "curation_reward_of_VESTING_TOKEN_for": "Кураторские вознаграждения %(reward)s %(VESTING_TOKENS)s за",
     "deadline_for_recovery_is": "Крайний срок для восстановления",
     "i_understand_dont_show_again": "Понимаю, больше не показывать",
     "if_you_did_not_make_this_change": "Если Вы не делали этих изменений, пожалуйста",
-    "in_week_convert_DEBT_TOKEN_to_LIQUID_TOKEN": "В 3-5 дней перевести %(amount)s %(DEBT_TOKEN)s в %(LIQUID_TOKEN)s",
-    "insufficent_balance": "Недостаточный баланс",
     "owhership_changed_on": "Изменение владельца произошло",
-    "recent_password": "Недавний пароль",
-    "recieve_amount_VESTING_TOKEN_from": "Получено %(amount)s %(VESTING_TOKENS)s от",
-    "recieve_amount_from": "Получено %(amount)s от",
-    "recieve_interest_of": "Получены проценты в размере %(interest)s",
     "share": "Поделиться",
     "share_in_social_networks": "Поделиться в соц. сети",
-    "start_power_down_of": "Ослабление %(VESTING_TOKENS)s начато с",
     "stop_power_down": "Ослабление %(VESTING_TOKENS)s остановлено",
-    "this_post_is_not_available_due_to_a_copyright_claim": "Этот пост недоступен из-за жалобы о нарушении авторских прав.",
-    "this_post_is_not_available_due_to_breach_of_legislation": "Этот пост недоступен из-за жалобы о нарушении законодательства РФ.",
-    "transfer_amount_VESTING_TOKEN_from_to": "Передать %(amount)s %(VESTING_TOKENS)s от %(from)s к",
-    "transfer_amount_VESTING_TOKEN_to": "Перевод %(amount)s %(VESTING_TOKENS)s в",
-    "transfer_amount_from": "Перевод %(amount)s со счёта",
-    "transfer_amount_to": "Перевод %(amount)s на счёт",
-    "transfer_amount_to_VESTING_TOKEN": "Перевести %(amount)s %(VESTING_TOKEN2)s",
     "your_password_permissions_were_reduced": "Ваши разрешения пароля были снижены"
-  },
-  "postsummary_jsx": {
-    "adjust_your": "откорректируйте свои",
-    "create_an_account": "зарегистрироваться",
-    "display_preferences": "настройки отображения",
-    "resteemed": "Репост",
-    "resteemed_by": "Репостнуто",
-    "reveal_it": "посмотреть пост",
-    "this_post_is": "Этот пост",
-    "to_save_your_preferences": "сохранить ваши настройки",
-    "you_can": "Вы можете"
   },
   "recoveraccountstep1_jsx": {
     "account_name_is_not_found": "Имя аккаунта не найдено",
@@ -1123,14 +816,14 @@
     "unable_to_recover_account_not_change_ownership_recently": "Мы не можем восстановить эту учетную запись, она не изменила владельца в последнее время."
   },
   "registration_banner_jsx": {
-    "new_to_golos": "Новичок на Голосе?",
-    "everything_is_simple": "Всё просто:",
-    "write_a_post": "Пишите пост на Golos.io",
     "community_votes": "Сообщество голосует",
-    "you_get_rewards": "Вы получаете награды",
     "create_an_account": "Создать аккаунт",
+    "everything_is_simple": "Всё просто:",
+    "faq": "Частые вопросы",
+    "new_to_golos": "Новичок на Голосе?",
     "to_learn_more": "Узнать больше",
-    "faq": "Частые вопросы"
+    "write_a_post": "Пишите пост на Golos.io",
+    "you_get_rewards": "Вы получаете награды"
   },
   "reply": {
     "comments_count": "Количество комментариев"
@@ -1164,15 +857,8 @@
     "selecting_them": "выбрав",
     "shorten_title": "Сократите заголовок",
     "support_by_telegram": "Кроме того, для оперативной технической помощи мы ввели службу поддержки пользователей Голоса в Телеграме",
-    "unable_to_contact_the_server": "Не удалось связаться с сервером",
     "update_post": "Обновить пост",
-    "uploading": "Загрузка",
-    "use_limited_amount_of_tags": "У вас %(tagsLength)s тэгов, включая %(includingCategory)s. Пожалуйста, используйте не более 5 в посте и категории."
-  },
-  "savingswithdrawhistory_jsx": {
-    "cancel_this_withdraw_request": "Отменить запрос вывода средств?",
-    "pending_savings_withdrawals": "Выплаты из сейфа",
-    "withdraw": "Вывод"
+    "uploading": "Загрузка"
   },
   "settings_jsx": {
     "about_is_too_long": "Информация о Вашем блоге слишком длинная",
@@ -1269,39 +955,17 @@
     "open_in_app": "Открыть в приложении"
   },
   "submit_a_story": {
-    "all_accounts_refunded": "Все потери по восстанавливаемым аккаунтам были полностью компенсированы",
-    "editor": "Редактор",
-    "get_sp_when_sign_up": "Получи %(signupBonus)s %(VESTING_TOKEN)s подписавшись сегодня.",
-    "get_sp_when_sign_up1": "Получи ",
-    "get_sp_when_sign_up2": " %(VESTING_TOKENS)s зарегистрировавшись сегодня.",
-    "learn_more": "Узнать больше",
-    "markdown_is_supported": "Поддерживается Markdown стилизация",
     "markdown_not_supported": "Markdown здесь не поддерживается",
-    "title": "Заголовок",
-    "update_post": "Обновить пост",
-    "welcome_to_the_blockchain": "Golos.io — блог-платформа следующего поколения",
-    "you_hasnt_started_bloggin_yet": "Похоже, что Вы еще не завели блог!",
-    "your_voice_is_worth_something": "Зарегистрируйтесь, чтобы публиковать свои истории и комментарии и получать за это вознаграждения!"
-  },
-  "suggestpassword_jsx": {
-    "APP_NAME_cannot_recover_passwords_keep_this_page_in_a_secure_location": "%(APP_NAME)s не может восстановить пароли. Сохраните эту страницу в безопасном месте, например, в огнестойком сейфе или в депозитарной ячейке.",
-    "APP_NAME_password_backup": "%(APP_NAME)s резервное копирование пароля",
-    "APP_NAME_password_backup_required": "%(APP_NAME)s резервное копирование пароля (обязательно!)",
-    "after_printing_write_down_your_user_name": "После печати запишите ваше имя пользователя"
+    "welcome_to_the_blockchain": "Golos.io — блог-платформа следующего поколения"
   },
   "tags": {
     "popularTags": "Популярные теги",
     "selectedTags": "теги, которые вы выбрали",
     "show_more_tags": "Показать больше"
   },
-  "tags_page": {
-    "payouts": "Выплаты",
-    "replies": "Ответы"
-  },
   "token_names": {
     "DEBT_TOKEN": "Золотой",
     "DEBT_TOKEN2": "Золото",
-    "DEBT_TOKENS": "Золотые",
     "LIQUID_TOKEN": "Голос",
     "LIQUID_TOKEN_PLURALIZE": {
       "one": "Голос",
@@ -1319,29 +983,6 @@
       "other": "Силы Голоса",
       "zero": "Силы Голоса"
     }
-  },
-  "transfer_jsx": {
-    "advanced": "Расширенные опции",
-    "amount_is_in_form": "Сумма должна быть в формате 99999.999",
-    "balance": "Баланс",
-    "balance_subject_to_3_day_withdraw_waiting_period": "Вывод баланса из сейфа на обычный счет, занимает 3 дня.",
-    "basic": "Основные",
-    "convert_to_VESTING_TOKEN": "Перевести в %(VESTING_TOKEN2)s",
-    "form_title": "Передать пользователю",
-    "insufficient_funds": "Недостаточно средств",
-    "memo": "Заметка",
-    "memo_placeholder": "Вы можете оставить комментарий к переводу",
-    "move_funds_to_another_account": "Отправить средства на другой счет.",
-    "power_up": "Увеличить Силу Голоса",
-    "private": "Эта заметка является приватной",
-    "private_key_in_memo": "Не пишите в этом поле свои приватные ключи!",
-    "protect_funds_by_requiring_a_3_day_withdraw_waiting_period": "Защитите средства от вывода 3-х дневным периодом ожидания.",
-    "public": "Эта заметка является публичной",
-    "send_to_account": "Отправить аккаунту",
-    "submit": "Передать",
-    "this_memo_is": "Это примечание",
-    "use_only_3_digits_of_precison": "Используйте только 3 цифры точности",
-    "withdraw_funds_after_the_required_3_day_waiting_period": "Снять средства после необходимого 3-х дневного периода ожидания."
   },
   "user_profile": {
     "account_summary": {
@@ -1401,49 +1042,12 @@
       "other": "%(count)s постов",
       "zero": "0 постов"
     },
-    "recent_replies_to_users_posts": "Недавние ответы к постам пользователя %(name)s",
     "select_image": "Выбрать изображение",
-    "this_is_users_reputations_score_it_is_based_on_history_of_votes": "Это количество очков репутации пользователя %(name)s.\n\nКоличество очков подсчитывается на основе истории полученных голосов и используется, чтобы скрыть некачественное содержимое.",
     "unknown_account": "Неизвестный аккаунт",
     "user_hasnt_followed_anything_yet": "Похоже, что %(name)s еще ни на кого не подписан! Если, %(name)s недавно подписался на новых пользователей, их персонализированный канал будет заполняться сразу после появления нового контента.",
-    "user_hasnt_had_any_replies_yet": "%(name)s еще не получил ответов",
-    "user_hasnt_made_any_posts_yet": "Похоже, что %(name)s еще не написал постов!",
-    "user_hasnt_started_bloggin_yet": "Похоже, что %(name)s еще не завёл блог!",
-    "users_author_rewards": "Авторские награды %(name)s",
     "users_blog": "блог %(name)s",
-    "users_curation_rewards": "Кураторские вознаграждения %(name)s",
-    "users_permissions": "Разрешения %(name)s",
     "users_posts": "посты %(name)s",
     "users_wallet": "кошелек %(name)s"
-  },
-  "user_profile_permissions": {
-    "APP_NAME_is_a_social_media_platform_where_everyone_gets_paid": "%(APP_NAME)s - это социальная медиа платформа в которой каждый зарабатывает за создание и курирование контента. Он использует надежную систему цифровых очков под названием %(LIQUID_TOKEN)s, который поддерживает реальную ценность для цифровых наград через выявление рыночной цены и ликвидности.",
-    "APP_NAME_is_a_social_media_platform_where_everyone_gets_paid_for_creating_and_curating_content": "%(APP_NAME)s - это социальная медиа платформа в которой все получают деньги за создание и курирование контента",
-    "about_APP_NAME": "О %(APP_NAME)s",
-    "active_or_owner": "активный или владельца",
-    "advanced": "Продвинутый",
-    "asset": "Актив",
-    "author_rewards_last_week": "Оценочные авторские вознаграждения за прошлую неделю",
-    "basic": "Базовый",
-    "cancel_power_down": "Отменить понижение %(VESTING_TOKENS)s",
-    "canceled": "Отменено",
-    "confirm": "Подтвердить",
-    "convert_to_VESTING_TOKEN": "Перевести в %(VESTING_TOKEN2)s",
-    "deposit": "Купить",
-    "home": "Лента",
-    "join_our_slack": "Присоединяйтесь к нашему Slack",
-    "learn_more_at_LANDING_PAGE_URL": "Узнать больше в %(LANDING_PAGE_URL)s",
-    "owner": "Владелец",
-    "posting": "Постинг",
-    "power_down": "Уменьшить %(VESTING_TOKEN2)s",
-    "power_up": "Увеличить %(VESTING_TOKEN2)s",
-    "resources": "Ресурсы",
-    "sign": "Войти",
-    "this_memo_is_private": "Эта заметка является приватной",
-    "this_memo_is_public": "Эта заметка является публичной",
-    "transfer": "Передать",
-    "transfer_to_account": "Передать пользователю",
-    "trending_24_hour": "популярное (24 часа)"
   },
   "user_saga_js": {
     "image_upload": {
@@ -1511,51 +1115,20 @@
     "the_owner_key_is_required_to_change_other_keys": "Ключ владельца - это главный ключ ко всему аккаунту. Он необходим для изменения других ключей.",
     "the_private_key_or_password_should_be_kept_offline": "Приватный ключ или пароль должен храниться в оффлайне насколько это возможно."
   },
-  "votesandcomments_jsx": {
-    "click_to_respond": "Нажмите, чтобы ответить",
-    "no_responses_yet_click_to_respond": "Ответов пока нет. Нажмите, чтобы ответить.",
-    "response_count": {
-      "one": "1 ответ",
-      "other": "%(count)s ответов",
-      "zero": "0 ответов"
-    },
-    "vote_count": {
-      "one": "1 голос",
-      "other": "%(count)s голосов",
-      "zero": "0 голосов"
-    }
-  },
   "voting_jsx": {
-    "APP_NAME_app_center": "Центр приложений %(APP_NAME)s",
-    "authors": "Авторы",
     "begin_recovery": "Начать восстановление",
-    "boost_payments": "Платеж за продвижение",
     "changing_to_a_downvote": "Измение на \"голос против\"",
     "changing_to_an_upvote": "Измение на \"голос за\"",
     "confirm_flag": "Подтвердить голос против",
     "curators": "Кураторы",
-    "disagreement_on_rewards": "Несогласие на награды",
     "downvote": "Голосовать против",
-    "flagging_post_can_remove_rewards_the_flag_should_be_used_for_the_following": "Голос против может снять вознаграждения и сделать пост менее видимым. Голосование против должно основываться на",
-    "fraud_or_plagiarism": "Мошенничество или плагиат",
-    "hate_speech_or_internet_trolling": "Разжигание ненависти или Интернет троллинг",
-    "intentional_miss_categorized_content_or_spam": "Преднамеренная неправильная категоризация контента или спам",
     "past_payouts": "Прошлые выплаты",
-    "paste_a_youtube_or_vimeo_and_press_enter": "Вставьте YouTube или Vimeo ссылку и нажмите Enter",
-    "payouts_declined": "Выплаты отключены",
-    "pending_payout": "Ожидаемая выплата",
-    "please_remove_following_html_elements": "Пожалуйста, удалите эти HTML элементы из Вашего поста: ",
     "post_as": "Запостить как",
     "potential_payout": "Потенциальная выплата",
     "raw_html": "HTML код",
     "removing_your_vote": "Удаление голоса",
     "search": "Поиск",
-    "stop_seeing_content_from_this_user": "Перестать видеть контент от этого пользователя",
-    "there_was_an_error_uploading_your_image": "Произошла ошибка во время загрузки изображения",
-    "this_password_is_bound_to_your_accounts_private_key": "Этот пароль привязан к активному ключу Вашего аккаунта и не может быть использован для входа на эту страницу. Вы можете использовать его для входа на другие более защищенные страницы как Кошелек или Биржа.",
-    "trending_30_day": "популярное (30 дней)",
-    "we_will_reset_curation_rewards_for_this_post": " сбросит Ваши кураторские вознаграждения за этот пост",
-    "your_existing_DEBT_TOKEN_are_liquid_and_transferable": "Ваши существующие %(DEBT_TOKEN)s ликвидны и перемещаемы. Возможно, Вы хотите торговать %(DEBT_TOKEN)s напрямую на этом сайте в разделе %(link)s или перевести на внешний рынок."
+    "we_will_reset_curation_rewards_for_this_post": " сбросит Ваши кураторские вознаграждения за этот пост"
   },
   "wallet": {
     "cancel": "Отменить",
@@ -1612,15 +1185,11 @@
     "props": "Параметры",
     "proxy_update_error": "Ваш прокси не был обновлен",
     "reg_fee": "Комиссия за регистрацию",
-    "set_witness_proxy": "Вы также можете выбрать прокси, который будет вместо Вас голосовать за делегатов. Это сбросит Ваш текущий выбор делегата.",
     "top_witnesses": "Топ делегатов",
     "version": "Версия",
     "witness": "Делегаты",
     "witness_deactive": "Делегат приостановил подпись блоков",
-    "witness_proxy_clear": "Очистить прокси",
-    "witness_proxy_current": "Ваш текущий прокси",
     "witness_proxy_set": "Установить прокси",
-    "witness_set": "Вы установили прокси для голосования. Если Вы хотите голосовать вручную, пожалуйста, очистите ваш прокси.",
     "witness_thread": "пост делегата",
     "you_can_vote_for_maximum_of_witnesses": "Вы можете голосовать максимум за 30 делегатов",
     "you_have_votes_remaining": "У Вас осталось ",
