@@ -9,7 +9,6 @@ import { USER_GENDER } from 'app/client_config';
 
 import SplashLoader from 'golos-ui/SplashLoader';
 import { CardContent } from 'golos-ui/Card';
-import { DialogFooter, DialogButton } from 'golos-ui/Dialog';
 import {
     FormGroup,
     FormGroupRow,
@@ -19,6 +18,8 @@ import {
     Select,
     Textarea,
     FormError,
+    FormFooter,
+    FormFooterButton,
 } from 'golos-ui/Form';
 import Icon from 'golos-ui/Icon';
 
@@ -231,18 +232,18 @@ const Account = ({ profile, account, onSubmitBlockchain }) => {
 
                         {submitError && <div>{submitError}</div>}
                     </CardContent>
-                    <DialogFooter>
-                        <DialogButton onClick={form.reset} disabled={submitting || pristine}>
+                    <FormFooter>
+                        <FormFooterButton onClick={form.reset} disabled={submitting || pristine}>
                             {tt('settings_jsx.reset')}
-                        </DialogButton>
-                        <DialogButton
+                        </FormFooterButton>
+                        <FormFooterButton
                             type="submit"
                             primary
                             disabled={submitting || pristine || hasValidationErrors}
                         >
                             {tt('settings_jsx.update')}
-                        </DialogButton>
-                    </DialogFooter>
+                        </FormFooterButton>
+                    </FormFooter>
                 </form>
             )}
         </Form>
