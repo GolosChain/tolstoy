@@ -1,8 +1,9 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import tt from 'counterpart';
 import styled from 'styled-components';
+import is from 'styled-is';
 
 import TagInput from 'app/components/elements/postEditor/TagInput';
 import TagsEditLine from 'app/components/elements/postEditor/TagsEditLine';
@@ -11,6 +12,12 @@ import Button from 'app/components/elements/common/Button';
 import Hint from 'app/components/elements/common/Hint';
 import { NSFW_TAG } from 'app/utils/tags';
 import './PostFooter.scss';
+
+const Wrapper = styled.div`
+    ${is('isEdit')`
+        margin-bottom: 50px;
+    `};
+`;
 
 export default class PostFooter extends PureComponent {
     static propTypes = {
@@ -30,6 +37,8 @@ export default class PostFooter extends PureComponent {
         singleLine: true,
     };
 
+    root = createRef();
+
     componentDidMount() {
         this._checkSingleLine();
 
@@ -48,13 +57,7 @@ export default class PostFooter extends PureComponent {
         const { temporaryErrorText, singleLine } = this.state;
 
         return (
-            <div
-                className={cn('PostFooter', {
-                    PostFooter_edit: editMode,
-                    'PostFooter_fix-height': singleLine,
-                })}
-                ref="root"
-            >
+            <Wrapper innerRef={this.root} isEdit={editMode}>
                 <div className="PostFooter__line">
                     <div className="PostFooter__tags">
                         <TagInput tags={tags} onChange={onTagsChange} />
@@ -122,7 +125,7 @@ export default class PostFooter extends PureComponent {
                         onChange={onTagsChange}
                     />
                 )}
-            </div>
+            </Wrapper>
         );
     }
 
@@ -141,7 +144,7 @@ export default class PostFooter extends PureComponent {
     }
 
     _checkSingleLine() {
-        const singleLine = this.refs.root.clientWidth > 950;
+        const singleLine = this.root.current.clientWidth > 950;
 
         if (this.state.singleLine !== singleLine) {
             this.setState({ singleLine });

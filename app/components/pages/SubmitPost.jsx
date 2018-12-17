@@ -1,13 +1,10 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
 import PostFormLoader from 'app/components/modules/PostForm/loader';
-import ReplyEditor from 'app/components/elements/ReplyEditor';
 
 class SubmitPost extends React.PureComponent {
     constructor(props) {
         super(props);
-
-        this.SubmitReplyEditor = ReplyEditor('submitStory');
     }
 
     componentWillMount() {
@@ -19,20 +16,7 @@ class SubmitPost extends React.PureComponent {
     }
 
     render() {
-        const { query } = this.props.location;
-
-        if (window.IS_MOBILE) {
-            return (
-                <div className="SubmitPost">
-                    <this.SubmitReplyEditor
-                        type={query.type || 'submit_story'}
-                        successCallback={this._onSuccess}
-                    />
-                </div>
-            );
-        } else {
-            return <PostFormLoader onSuccess={this._onSuccess} />;
-        }
+        return <PostFormLoader onSuccess={this._onSuccess} />;
     }
 
     _onSuccess = () => {

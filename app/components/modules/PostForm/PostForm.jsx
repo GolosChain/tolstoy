@@ -87,6 +87,11 @@ const Content = styled.div`
     max-width: 700px;
     padding: 0 8px;
     margin: 0 auto;
+
+    @media (max-width: 700px) {
+        overflow-x: hidden;
+        max-width: 100%;
+    }
 `;
 
 const Footer = styled.div`
@@ -127,6 +132,12 @@ const SpinnerInner = styled(Icon)`
     padding: 40px 60px;
     border-radius: 18px;
     background: rgba(0, 0, 0, 0.1);
+`;
+
+const EditorSwitcherWrapper = styled.div`
+    @media (max-width: 576px) {
+        display: none;
+    }
 `;
 
 export default class PostForm extends React.Component {
@@ -290,20 +301,19 @@ export default class PostForm extends React.Component {
                             isVisible={isPreviewButtonVisible}
                             onPreviewChange={this._onPreviewChange}
                         />
-                        <EditorSwitcher
-                            items={[
-                                {
-                                    id: EDITORS_TYPES.MARKDOWN,
-                                    text: tt('post_editor.new_editor'),
-                                },
-                                {
-                                    id: EDITORS_TYPES.HTML,
-                                    text: tt('post_editor.html_editor'),
-                                },
-                            ]}
-                            activeId={editorId}
-                            onChange={this._onEditorChange}
-                        />
+                        <EditorSwitcherWrapper>
+                            <EditorSwitcher
+                                items={[
+                                    {
+                                        id: EDITORS_TYPES.MARKDOWN,
+                                        text: tt('post_editor.new_editor'),
+                                    },
+                                    { id: EDITORS_TYPES.HTML, text: tt('post_editor.html_editor') },
+                                ]}
+                                activeId={editorId}
+                                onChange={this._onEditorChange}
+                            />
+                        </EditorSwitcherWrapper>
                         {isPreview ? (
                             <Preview>
                                 <PreviewHeader>
