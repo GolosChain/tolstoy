@@ -272,12 +272,8 @@
     "total_paid": "Всього виплачено"
   },
   "g": {
-    "24_hour": "24 години",
-    "30_day": "30 днів",
     "APP_NAME": "Голос",
-    "APP_NAME_account": "%(APP_NAME)s аккаунт",
     "APP_NAME_support": "%(APP_NAME)s підтримка",
-    "about_project": "Про проект",
     "account_name": "Ім'я акаунта",
     "account_name_chars_restrictions": "Ім'я акаунта повинно складатися тільки з букв, цифр та тире.",
     "account_name_should_be_longer": "Ім'я акаунту повинно бути довшим.",

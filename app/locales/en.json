@@ -299,12 +299,8 @@
     "total_paid": "Total paid"
   },
   "g": {
-    "24_hour": "24 hour",
-    "30_day": "30 day",
     "APP_NAME": "Golos",
-    "APP_NAME_account": "%(APP_NAME)s account",
     "APP_NAME_support": "%(APP_NAME)s Support",
-    "about_project": "About",
     "account_name": "Account Name",
     "account_name_chars_restrictions": "Account name should have only letters, digits, or dashes.",
     "account_name_should_be_longer": "Account name should be longer.",
@@ -407,6 +403,7 @@
     "next": "Next",
     "no": "No",
     "no_topics_by_order_found": "No topics by %(order)s found ",
+    "note_contains_keys_error": "It seems that the memo includes password or private key. In this case your account can be taken by someone else. Please, edit the memo in order to make a transaction.",
     "ok": "Ok",
     "old": "Old First",
     "older": "Older",

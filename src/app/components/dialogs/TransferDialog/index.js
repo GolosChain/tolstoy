@@ -1,1 +1,1 @@
-export { default } from './TransferDialog';
+export { default } from './TransferDialog.connect';
