@@ -1,6 +1,4 @@
-
 .PostFooter {
-
   &_fix-height {
     height: 80px;
   }
@@ -35,6 +33,7 @@
   &__buttons {
     display: flex;
     flex-shrink: 0;
+    order: 4;
   }
 
   &__button {
@@ -47,7 +46,6 @@
     }
 
     &_hint-disabled {
-
     }
   }
 

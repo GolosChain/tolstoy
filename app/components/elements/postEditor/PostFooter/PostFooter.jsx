@@ -14,9 +14,44 @@ import { NSFW_TAG } from 'app/utils/tags';
 import './PostFooter.scss';
 
 const Wrapper = styled.div`
+    display: flex;
+    align-items: center;
+    height: 80px;
+
     ${is('isEdit')`
         margin-bottom: 50px;
     `};
+`;
+
+const Tags = styled.div`
+    flex-grow: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+`;
+
+const Buttons = styled.div`
+    display: flex;
+    flex-shrink: 0;
+
+    @media (max-width: 576px) {
+        order: -1;
+    }
+`;
+
+const StyledButton = styled(Button)`
+    position: relative;
+    flex-shrink: 0;
+    margin-right: 15px !important;
+
+    &:last-child {
+        margin-right: 0;
+    }
+`;
+
+const DisabledHint = styled(Hint)`
+    opacity: 0;
+    transition: opacity 0.25s;
 `;
 
 export default class PostFooter extends PureComponent {
@@ -58,64 +93,49 @@ export default class PostFooter extends PureComponent {
 
         return (
             <Wrapper innerRef={this.root} isEdit={editMode}>
-                <div className="PostFooter__line">
-                    <div className="PostFooter__tags">
-                        <TagInput tags={tags} onChange={onTagsChange} />
-                        {singleLine ? (
-                            <TagsEditLine
-                                tags={tags}
-                                inline
-                                editMode={editMode}
-                                className="PostFooter__inline-tags-line"
-                                hidePopular={editMode}
-                                onChange={this.props.onTagsChange}
-                            />
-                        ) : null}
-                    </div>
-                    <PostOptions
-                        nsfw={this.props.tags.includes(NSFW_TAG)}
-                        onNsfwClick={this._onNsfwClick}
-                        payoutType={this.props.payoutType}
-                        editMode={editMode}
-                        onPayoutChange={this.props.onPayoutTypeChange}
-                    />
-                    <div className="PostFooter__buttons">
-                        <div className="PostFooter__button">
-                            {editMode ? (
-                                <Button onClick={this.props.onCancelClick}>{tt('g.cancel')}</Button>
-                            ) : (
-                                <Button onClick={this.props.onResetClick}>{tt('g.clear')}</Button>
-                            )}
-                        </div>
-                        <div
-                            className={cn('PostFooter__button', {
-                                'PostFooter__button_hint-disabled': postDisabled,
-                            })}
-                        >
-                            {postDisabled && disabledHint ? (
-                                <Hint
-                                    key="1"
-                                    warning
-                                    align="right"
-                                    className="PostFooter__disabled-hint"
-                                >
-                                    {disabledHint}
-                                </Hint>
-                            ) : temporaryErrorText ? (
-                                <Hint key="2" error align="right">
-                                    {temporaryErrorText}
-                                </Hint>
-                            ) : null}
-                            <Button
-                                primary
-                                disabled={postDisabled}
-                                onClick={this.props.onPostClick}
-                            >
-                                {editMode ? tt('post_editor.update') : tt('g.post')}
-                            </Button>
-                        </div>
-                    </div>
-                </div>
+                <Tags>
+                    <TagInput tags={tags} onChange={onTagsChange} />
+                    {singleLine ? (
+                        <TagsEditLine
+                            tags={tags}
+                            inline
+                            editMode={editMode}
+                            className="PostFooter__inline-tags-line"
+                            hidePopular={editMode}
+                            onChange={this.props.onTagsChange}
+                        />
+                    ) : null}
+                </Tags>
+                <PostOptions
+                    nsfw={this.props.tags.includes(NSFW_TAG)}
+                    onNsfwClick={this._onNsfwClick}
+                    payoutType={this.props.payoutType}
+                    editMode={editMode}
+                    onPayoutChange={this.props.onPayoutTypeChange}
+                />
+                <Buttons>
+                    {editMode ? (
+                        <StyledButton onClick={this.props.onCancelClick}>
+                            {tt('g.cancel')}
+                        </StyledButton>
+                    ) : (
+                        <StyledButton onClick={this.props.onResetClick}>
+                            {tt('g.clear')}
+                        </StyledButton>
+                    )}
+                    {postDisabled && disabledHint ? (
+                        <Hint key="1" warning align="right" className="PostFooter__disabled-hint">
+                            {disabledHint}
+                        </Hint>
+                    ) : temporaryErrorText ? (
+                        <Hint key="2" error align="right">
+                            {temporaryErrorText}
+                        </Hint>
+                    ) : null}
+                    <StyledButton primary disabled={postDisabled} onClick={this.props.onPostClick}>
+                        {editMode ? tt('post_editor.update') : tt('g.post')}
+                    </StyledButton>
+                </Buttons>
                 {singleLine ? null : (
                     <TagsEditLine
                         className="PostFooter__tags-line"
