@@ -193,6 +193,7 @@ export default class VotePanel extends VotePanelAbstract {
                     </LikeWrapper>
                     <LikeCount
                         data-tooltip={likeTooltip}
+                        data-tooltip-down
                         data-tooltip-html
                         role="button"
                         aria-label={tt('aria_label.likers_list', { count: votesSummary.likes })}
@@ -221,6 +222,7 @@ export default class VotePanel extends VotePanelAbstract {
                     </LikeWrapper>
                     <LikeCount
                         data-tooltip={dislikeTooltip}
+                        data-tooltip-down
                         data-tooltip-html
                         role="button"
                         aria-label={tt('aria_label.dislikers_list', {
