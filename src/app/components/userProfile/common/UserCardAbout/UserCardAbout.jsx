@@ -40,7 +40,6 @@ const CardContentCounters = styled(CardContent)`
 const Row = styled.div`
     position: relative;
     display: flex;
-    height: 70px;
 
     &:not(:last-of-type) {
         &:after {
@@ -53,6 +52,10 @@ const Row = styled.div`
             background: #e1e1e1;
         }
     }
+`;
+
+const SizedRow = styled(Row)`
+    height: 70px;
 `;
 
 const Column = styled.div`
@@ -215,8 +218,6 @@ export default class UserCardAbout extends PureComponent {
             ? website.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')
             : null;
 
-        const reputation = repLog10(account.get('reputation'));
-
         const localizedGender = {
             male: tt('g.gender.male'),
             female: tt('g.gender.female'),
@@ -229,9 +230,12 @@ export default class UserCardAbout extends PureComponent {
             >
                 <CardContentCounters>
                     <Row>
-                        <UserStatus currentAccount={currentAccount} />
+                        <UserStatus
+                            currentAccount={currentAccount}
+                            reputation={account.get('reputation')}
+                        />
                     </Row>
-                    <Row>
+                    <SizedRow>
                         <ColumnClick
                             role="button"
                             aria-label={tt('aria_label.followers')}
@@ -252,9 +256,9 @@ export default class UserCardAbout extends PureComponent {
                             </Bold>
                             <Title>{tt('user_profile.account_summary.following')}</Title>
                         </ColumnClick>
-                    </Row>
+                    </SizedRow>
 
-                    <Row>
+                    <SizedRow>
                         <Column>
                             <Bold>{account.get('post_count')}</Bold>
                             <Title>
@@ -264,12 +268,16 @@ export default class UserCardAbout extends PureComponent {
                             </Title>
                         </Column>
                         <Column>
-                            <Bold>{reputation}</Bold>
-                            <Title>{tt('user_profile.account_summary.reputation')}</Title>
+                            <Bold>{account.get('comment_count')}</Bold>
+                            <Title>
+                                {tt('user_profile.account_summary.comment_count', {
+                                    count: account.get('comment_count'),
+                                })}
+                            </Title>
                         </Column>
-                    </Row>
+                    </SizedRow>
 
-                    <Row>
+                    <SizedRow>
                         {localizedGender[gender] && (
                             <Column>
                                 <Title>
@@ -284,7 +292,7 @@ export default class UserCardAbout extends PureComponent {
                                 <FormattedDate value={accountJoin} year="numeric" month="numeric" />
                             </Title>
                         </Column>
-                    </Row>
+                    </SizedRow>
                 </CardContentCounters>
 
                 {(website || location) && (
@@ -301,47 +309,43 @@ export default class UserCardAbout extends PureComponent {
                 )}
                 {about && <CardContent>{about && <UserCardBio>{about}</UserCardBio>}</CardContent>}
 
-                {social &&
-                    Boolean(Object.keys(social).length) && (
-                        <SocialBlock justify="space-between">
-                            {social.facebook && (
-                                <SocialLink
-                                    href={makeSocialLink(social.facebook, 'https://facebook.com/')}
-                                    fb={1}
-                                    target="_blank"
-                                >
-                                    <IconStyled name="facebook" width="13" height="24" />
-                                </SocialLink>
-                            )}
-                            {social.vkontakte && (
-                                <SocialLink
-                                    href={makeSocialLink(social.vkontakte, 'https://vk.com/')}
-                                    target="_blank"
-                                >
-                                    <IconStyled name="vk" width="28" height="18" />
-                                </SocialLink>
-                            )}
-                            {social.instagram && (
-                                <SocialLink
-                                    href={makeSocialLink(
-                                        social.instagram,
-                                        'https://instagram.com/'
-                                    )}
-                                    target="_blank"
-                                >
-                                    <IconStyled name="instagram" size="23" />
-                                </SocialLink>
-                            )}
-                            {social.twitter && (
-                                <SocialLink
-                                    href={makeSocialLink(social.twitter, 'https://twitter.com/')}
-                                    target="_blank"
-                                >
-                                    <IconStyled name="twitter" width="26" height="22" />
-                                </SocialLink>
-                            )}
-                        </SocialBlock>
-                    )}
+                {social && Boolean(Object.keys(social).length) && (
+                    <SocialBlock justify="space-between">
+                        {social.facebook && (
+                            <SocialLink
+                                href={makeSocialLink(social.facebook, 'https://facebook.com/')}
+                                fb={1}
+                                target="_blank"
+                            >
+                                <IconStyled name="facebook" width="13" height="24" />
+                            </SocialLink>
+                        )}
+                        {social.vkontakte && (
+                            <SocialLink
+                                href={makeSocialLink(social.vkontakte, 'https://vk.com/')}
+                                target="_blank"
+                            >
+                                <IconStyled name="vk" width="28" height="18" />
+                            </SocialLink>
+                        )}
+                        {social.instagram && (
+                            <SocialLink
+                                href={makeSocialLink(social.instagram, 'https://instagram.com/')}
+                                target="_blank"
+                            >
+                                <IconStyled name="instagram" size="23" />
+                            </SocialLink>
+                        )}
+                        {social.twitter && (
+                            <SocialLink
+                                href={makeSocialLink(social.twitter, 'https://twitter.com/')}
+                                target="_blank"
+                            >
+                                <IconStyled name="twitter" width="26" height="22" />
+                            </SocialLink>
+                        )}
+                    </SocialBlock>
+                )}
             </CollapsingCardStyled>
         );
     }
