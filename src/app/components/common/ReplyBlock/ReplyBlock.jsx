@@ -87,8 +87,7 @@ const Splitter = styled.div`
 `;
 
 const ReplyButton = styled(
-    ({ hash, ...otherProps }) =>
-        hash ? <a href={hash} {...otherProps} /> : <div {...otherProps} />
+    ({ to, ...otherProps }) => (to ? <Link to={to} {...otherProps} /> : <div {...otherProps} />)
 )`
     height: 100%;
     min-height: 50px;
@@ -173,7 +172,7 @@ export class ReplyBlock extends Component {
                     <Fragment>
                         <Splitter />
                         <ReplyButton
-                            hash="#createComment"
+                            to={`${link}#createComment`}
                             compact={compact ? 1 : 0}
                             onClick={this.toggleCommentInputFocus}
                         >
