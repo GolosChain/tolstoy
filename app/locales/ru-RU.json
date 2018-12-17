@@ -1195,7 +1195,6 @@
     "choose_currency": "Выберите валюту",
     "choose_language": "Выберите язык интерфейса",
     "cover_image_url": "Вставьте ссылку на обложку или загрузите ее",
-    "default_voting_power": "Настройка мощности голосования",
     "default_voting_power_tip": "Мощность голосования %(value)s%%",
     "invalid_url": "Недопустимый URL-адрес",
     "keys": {
@@ -1261,6 +1260,8 @@
       "notifications": "Уведомления"
     },
     "update": "Обновить",
+    "voting": "Настройки голосования",
+    "voting_power_by_default": "Использовать настройки мощности голосования",
     "website_url_is_too_long": "URL-адрес веб-сайта слишком длинный"
   },
   "start_mobile_app": {
