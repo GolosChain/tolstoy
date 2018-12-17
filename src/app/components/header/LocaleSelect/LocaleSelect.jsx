@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import { Select } from 'golos-ui/Form';
@@ -24,8 +24,17 @@ const StyledSelect = styled(Select)`
     }
 `;
 
-const LocaleSelect = ({ locale, onChangeLocale }) => (
-    <StyledSelect defaultValue={locale} onChange={e => onChangeLocale(e.target.value)}>
+const LocaleSelect = ({ currentUser, locale, onChangeLocale, setSettingsLocale }) => (
+    <StyledSelect
+        defaultValue={locale}
+        onChange={e => {
+            const { value } = e.target;
+            if (currentUser) {
+                setSettingsLocale(value);
+            }
+            onChangeLocale(value);
+        }}
+    >
         {Object.keys(LANGUAGES).map(key => (
             <option key={key} value={key}>
                 {LANGUAGES[key].shortValue}
