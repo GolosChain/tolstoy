@@ -71,7 +71,10 @@ const ProgressLine = styled.div`
         width: 5px;
         border-radius: 100px;
         background-color: #2879ff;
-        transform: translate(-100%, -50%);
+        transform: ${props => {
+            const { statusLength, percent } = props.toNext;
+            return `translate(-${props.progress * statusLength + percent * statusLength}%, -50%)`;
+        }};
     }
 `;
 
