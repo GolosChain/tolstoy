@@ -133,3 +133,11 @@ export const LEAVE_PAGE_WHITELIST_DOMAINS = [
 export const DONATION_FOR = 'Donation for';
 
 export const AMPLITUDE_SESSION = 'amplitudeSession';
+
+export const AUCTION_REWARD_DESTINATION = {
+    default: 'to_curators',
+    destination: {
+        to_reward_fund: 0,
+        to_curators: 1,
+    },
+};

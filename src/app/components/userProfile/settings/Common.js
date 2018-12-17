@@ -6,7 +6,7 @@ import { Map } from 'immutable';
 import { Form, Field } from 'react-final-form';
 import tt from 'counterpart';
 
-import { CURRENCIES, LANGUAGES } from 'app/client_config';
+import { CURRENCIES, LANGUAGES, AUCTION_REWARD_DESTINATION } from 'app/client_config';
 
 import SplashLoader from 'golos-ui/SplashLoader';
 import { CardContent } from 'golos-ui/Card';
@@ -132,6 +132,29 @@ export default class Common extends PureComponent {
                                             }
                                         />
                                         <FormError meta={meta} />
+                                    </FormGroup>
+                                )}
+                            </Field>
+                            <Field name="basic.auctionRewardDestination">
+                                {({ input }) => (
+                                    <FormGroup>
+                                        <Label dark bold>
+                                            {tt('settings_jsx.auction_reward_destination.label')}
+                                        </Label>
+                                        <Select
+                                            {...input}
+                                            onChange={e => input.onChange(e.target.value)}
+                                        >
+                                            {Object.keys(
+                                                AUCTION_REWARD_DESTINATION.destination
+                                            ).map(key => (
+                                                <option key={key} value={key}>
+                                                    {tt(
+                                                        `settings_jsx.auction_reward_destination.items.${key}`
+                                                    )}
+                                                </option>
+                                            ))}
+                                        </Select>
                                     </FormGroup>
                                 )}
                             </Field>

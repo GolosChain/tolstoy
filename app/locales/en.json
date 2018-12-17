@@ -1254,7 +1254,14 @@
       "notifications": "Notifications"
     },
     "update": "Update",
-    "website_url_is_too_long": "Website URL is too long"
+    "website_url_is_too_long": "Website URL is too long",
+    "auction_reward_destination": {
+      "label": "Penalty window settings",
+      "items": {
+        "to_reward_fund": "Back to the general award stream",
+        "to_curators": "Distribute between the curators"
+      }
+    }
   },
   "start_mobile_app": {
     "close_forever": "Close forever",

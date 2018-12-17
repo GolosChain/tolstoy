@@ -11,7 +11,7 @@ import { showNotification } from 'src/app/redux/actions/ui';
 import g from 'app/redux/GlobalReducer';
 import user from 'app/redux/User';
 import tr from 'app/redux/Transaction';
-import { DEBT_TICKER } from 'app/client_config';
+import { DEBT_TICKER, AUCTION_REWARD_DESTINATION } from 'app/client_config';
 import { serverApiRecordEvent } from 'app/utils/ServerApiClient';
 import constants from './../constants';
 import DialogManager from 'app/components/elements/common/DialogManager';
@@ -452,6 +452,10 @@ function* preBroadcast_comment({ operation, username }) {
 
     const comment_op = [['comment', op]];
 
+    const auctionRewardDestination = yield select(state =>
+        state.data.settings.getIn(['basic', 'auctionRewardDestination'])
+    );
+
     // comment_options must come directly after comment
     if (comment_options) {
         const {
@@ -460,6 +464,22 @@ function* preBroadcast_comment({ operation, username }) {
             allow_votes = true,
             allow_curation_rewards = true,
         } = comment_options;
+
+        const extensions = [];
+
+        // beneficiaries
+        // extensions.push(
+        //     [0, { beneficiaries: [{ account: 'golosio', weight: 1000 }] }]
+        // )
+
+        if (auctionRewardDestination !== AUCTION_REWARD_DESTINATION.default) {
+            extensions.push([
+                1,
+                {
+                    destination: AUCTION_REWARD_DESTINATION.destination[auctionRewardDestination],
+                },
+            ]);
+        }
 
         comment_op.push([
             'comment_options',
@@ -470,7 +490,7 @@ function* preBroadcast_comment({ operation, username }) {
                 percent_steem_dollars,
                 allow_votes,
                 allow_curation_rewards,
-                extensions: [], // [0, { beneficiaries: [{ account: 'golosio', weight: 1000 }] }]
+                extensions,
             },
         ]);
     }

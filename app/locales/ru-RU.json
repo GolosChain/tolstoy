@@ -1261,7 +1261,14 @@
       "notifications": "Уведомления"
     },
     "update": "Обновить",
-    "website_url_is_too_long": "URL-адрес веб-сайта слишком длинный"
+    "website_url_is_too_long": "URL-адрес веб-сайта слишком длинный",
+    "auction_reward_destination": {
+      "label": "Настройки штрафного окна публикации",
+      "items": {
+        "to_reward_fund": "Обратно в общий поток наград",
+        "to_curators": "Распределить между кураторами"
+      }
+    }
   },
   "start_mobile_app": {
     "close_forever": "Закрыть навсегда",
