@@ -86,9 +86,7 @@ export default class NoPostPlaceholder extends Component {
                         </Fragment>
                     )}
                 </Header>
-                <RemoveTagsButton to={window.location.pathname}>
-                    {tt('aria_label.reset_tags')}
-                </RemoveTagsButton>
+                <RemoveTagsButton to={`/${order}`}>{tt('aria_label.reset_tags')}</RemoveTagsButton>
                 <Image src="/images/post/no_content.svg" alt="" />
             </Wrapper>
         );

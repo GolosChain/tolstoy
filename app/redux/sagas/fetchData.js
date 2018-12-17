@@ -1,12 +1,13 @@
 import { call, put, select, fork, cancelled, takeLatest, takeEvery } from 'redux-saga/effects';
 import { api } from 'golos-js';
+import { intersection } from 'ramda';
 
 import { loadFollows, fetchFollowCount } from 'app/redux/sagas/follow';
 import { getContent } from 'app/redux/sagas/shared';
 import GlobalReducer from './../GlobalReducer';
 import constants from './../constants';
 import { reverseTags } from 'app/utils/tags';
-import { IGNORE_TAGS, PUBLIC_API, ACCOUNT_OPERATIONS } from 'app/client_config';
+import { IGNORE_TEST_TAGS, IGNORE_TAGS, PUBLIC_API, ACCOUNT_OPERATIONS } from 'app/client_config';
 import { processBlog } from 'shared/state';
 import { RATES_GET_ACTUAL } from 'src/app/redux/constants/rates';
 import { locationTagsSelector } from 'src/app/redux/selectors/app/location';
@@ -339,6 +340,8 @@ function* fetchData(action) {
     const { tagsSelect, tagsFilter } = yield select(state => locationTagsSelector(state));
 
     const arrSelectedTags = [];
+    args[0].filter_tags = [...IGNORE_TAGS, ...IGNORE_TEST_TAGS];
+
     if (tagsSelect && tagsSelect.length) {
         args[0].select_tags = reverseTags(tagsSelect);
 
@@ -350,7 +353,9 @@ function* fetchData(action) {
 
         arrSelectedTags.push(tagsFilter.sort().join(','));
     } else {
-        args[0].filter_tags = IGNORE_TAGS;
+        if (intersection(tagsSelect, IGNORE_TEST_TAGS).length) {
+            args[0].filter_tags = IGNORE_TAGS;
+        }
     }
 
     if (arrSelectedTags.length) {
