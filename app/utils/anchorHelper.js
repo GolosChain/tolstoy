@@ -6,13 +6,21 @@ export function init() {
     });
 
     window.addEventListener('click', e => {
-        if (!e.defaultPrevented && e.target.closest('a[href]')) {
+        /*
+         * Не проверяется на e.defaultPrevented потому что Link из react-router,
+         * всегда превентит клики.
+         */
+        if (e.target.closest('a[href]')) {
             setTimeout(() => {
-                tryMoveToAnchor();
+                hardTryMoveToAnchor();
             }, 10);
         }
     });
 
+    hardTryMoveToAnchor();
+}
+
+function hardTryMoveToAnchor() {
     let testsCount = 0;
     const interval = setInterval(() => {
         tryMoveToAnchor();

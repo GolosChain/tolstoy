@@ -33,7 +33,7 @@ const Button = styled.button`
     height: 50px;
     padding: 0 14px;
     border-radius: 0;
-    
+
     font-size: 15px;
     font-weight: 500;
     margin: 0 !important;
@@ -51,7 +51,7 @@ const Button = styled.button`
         color: #3a3a3a;
     }
 
-    &[disabled] {
+    &:disabled {
         color: #999;
         background: none;
         cursor: not-allowed;
@@ -64,7 +64,7 @@ const Button = styled.button`
             color: #60a0ff;
         }
         
-        &[disabled] {
+        &:disabled {
             color: #8fc3ff;
         }
     `};
@@ -80,7 +80,7 @@ const Button = styled.button`
             background: #ffe3dd;
         }
         
-        &[disabled] {
+        &:disabled {
             color: #ffe3dd;
             background: none;
         }
@@ -90,7 +90,7 @@ const Button = styled.button`
 export default function DialogButton(props) {
     return (
         <ButtonWrapper className={props.className}>
-            <Button type="button" {...props} className={null}>
+            <Button type="button" {...props} className={null} text={null}>
                 {props.text}
             </Button>
         </ButtonWrapper>

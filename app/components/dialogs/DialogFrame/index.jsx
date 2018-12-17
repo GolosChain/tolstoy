@@ -4,7 +4,7 @@ import cn from 'classnames';
 
 import Icon from 'golos-ui/Icon';
 import DialogButton from 'src/app/components/common/DialogButton';
-import Userpic from 'app/components/elements/Userpic';
+import Userpic from 'src/app/components/common/Userpic';
 
 export default class DialogFrame extends PureComponent {
     static propTypes = {

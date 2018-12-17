@@ -12,7 +12,7 @@ import Icon from 'golos-ui/Icon';
 import IconBadge from 'golos-ui/IconBadge';
 import Button from 'golos-ui/Button';
 import Container from 'src/app/components/common/Container';
-import Userpic from 'app/components/elements/Userpic';
+import Userpic from 'src/app/components/common/Userpic';
 import Menu from '../Menu';
 import NotificationsMenu from '../NotificationsMenu';
 import Popover from 'src/app/components/header/Popover/Popover';
@@ -47,7 +47,6 @@ const Fixed = styled.div`
 const ContainerWrapper = styled(Container)`
     @media (max-width: 350px) {
         margin-right: 0;
-        overflow: hidden;
     }
 `;
 
@@ -64,13 +63,24 @@ const LogoLink = styled(Link)`
     @media (max-width: 1230px) {
         margin-left: 0;
     }
+
+    @media (max-width: 350px) {
+        padding: 10px 0;
+    }
 `;
 
-const LogoIcon = styled(Icon)`
-    width: 28px;
-    height: 28px;
+const LogoIcon = styled.div`
     flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    background: url('/images/header/logo-santa.svg') center no-repeat;
+    background-size: contain;
     color: #2879ff;
+
+    ${is('mobile')`
+        width: 32px;
+        height: 32px;
+    `};
 `;
 
 const LogoText = styled.div`
@@ -142,33 +152,12 @@ const Buttons = styled.div`
 const SignUp = styled.a`
     margin-right: 12px;
 
-    @media (max-width: ${MIN_MOBILE_WIDTH}px) {
-        order: 2;
-    }
-
     @media (max-width: 350px) {
-        margin-right: -15px;
+        margin-right: 4px;
     }
 `;
 
 const SignIn = SignUp.withComponent(Link);
-
-const SignInMobile = styled(Link)`
-    display: flex;
-    order: 1;
-    margin-right: 4px;
-    padding: 9px 14px;
-    color: #393636;
-    transition: none;
-
-    &:hover {
-        color: #2879ff;
-    }
-
-    @media (max-width: 350px) {
-        padding: 9px 10px;
-    }
-`;
 
 const AuthorizedBlock = styled.div`
     display: flex;
@@ -304,13 +293,13 @@ const Messages = styled(Link)`
 
 const Dots = styled(Icon)`
     display: block;
-    width: 20px;
-    height: 20px;
     color: #393636;
     user-select: none;
 `;
 
 const DotsWrapper = styled.div`
+    display: flex;
+    align-items: center;
     padding: 10px;
     cursor: pointer;
 
@@ -324,8 +313,12 @@ const DotsWrapper = styled.div`
         }
     `};
 
-    ${is('mobile')`
+    ${is('pad')`
         padding: 10px 20px;
+    `};
+
+    ${is('mobile')`
+        padding: 10px 16px;
     `};
 `;
 
@@ -495,18 +488,9 @@ export default class Header extends PureComponent {
                 )}
                 {this.renderNotificationsBlock()}
                 {/*{this.renderMessagesBlock()} uncomment when messenger done*/}
+                {this.renderLocaleBlock()}
                 {isPadScreen ? null : this.renderFullAccountBlock()}
                 {isPadScreen ? this.renderMobileAccountBlock() : null}
-                <DotsWrapper
-                    role="button"
-                    aria-label={tt('aria_label.additional menu')}
-                    innerRef={this.dotsRef}
-                    active={isMenuOpen}
-                    mobile={isPadScreen ? 1 : 0}
-                    onClick={this.onMenuToggle}
-                >
-                    <Dots name="dots" />
-                </DotsWrapper>
             </AuthorizedBlock>
         );
     }
@@ -604,8 +588,16 @@ export default class Header extends PureComponent {
         );
     }
 
+    renderLocaleBlock() {
+        return (
+            <LocaleSelectWrapper>
+                <LocaleSelect onChangeLocale={this.props.onChangeLocale} />
+            </LocaleSelectWrapper>
+        );
+    }
+
     render() {
-        const { currentUsername, onChangeLocale } = this.props;
+        const { currentUsername } = this.props;
         const { isMenuOpen, isNotificationsOpen, waitAuth, isPadScreen, isMobile } = this.state;
 
         return (
@@ -613,7 +605,7 @@ export default class Header extends PureComponent {
                 <Fixed mobile={isPadScreen ? 1 : 0}>
                     <ContainerWrapper>
                         <LogoLink to="/" aria-label={tt('aria_label.header_logo')}>
-                            <LogoIcon name="logo" />
+                            <LogoIcon mobile={isMobile ? 1 : 0} />
                             {isPadScreen ? null : <LogoText>GOLOS</LogoText>}
                         </LogoLink>
                         <SearchBlock
@@ -629,22 +621,12 @@ export default class Header extends PureComponent {
                             this.renderAuthorizedPart()
                         ) : (
                             <Fragment>
-                                <LocaleSelectWrapper>
-                                    <LocaleSelect onChangeLocale={onChangeLocale} />
-                                </LocaleSelectWrapper>
+                                {this.renderLocaleBlock()}
                                 <Buttons hidden={waitAuth}>
                                     <SignUp href={REGISTRATION_URL}>
                                         <Button>{tt('g.sign_up')}</Button>
                                     </SignUp>
-                                    {isMobile ? (
-                                        <SignInMobile
-                                            to="/login"
-                                            aria-label={tt('g.login')}
-                                            onClick={this.onLoginClick}
-                                        >
-                                            <Icon name="login-normal" width="17" height="18" />
-                                        </SignInMobile>
-                                    ) : (
+                                    {isMobile ? null : (
                                         <SignIn to="/login" onClick={this.onLoginClick}>
                                             <Button light>{tt('g.login')}</Button>
                                         </SignIn>
@@ -652,6 +634,17 @@ export default class Header extends PureComponent {
                                 </Buttons>
                             </Fragment>
                         )}
+                        <DotsWrapper
+                            role="button"
+                            aria-label={tt('aria_label.additional menu')}
+                            innerRef={this.dotsRef}
+                            active={isMenuOpen}
+                            pad={isPadScreen ? 1 : 0}
+                            mobile={isMobile ? 1 : 0}
+                            onClick={this.onMenuToggle}
+                        >
+                            <Dots name="dots" width="4" height="20" />
+                        </DotsWrapper>
                     </ContainerWrapper>
                     {isNotificationsOpen ? (
                         <Popover
@@ -673,8 +666,10 @@ export default class Header extends PureComponent {
                             onClose={this.onMenuToggle}
                         >
                             <Menu
-                                onClose={this.onMenuToggle}
+                                isMobile={isMobile}
                                 accountName={currentUsername}
+                                onClose={this.onMenuToggle}
+                                onLoginClick={this.onLoginClick}
                                 onLogoutClick={this.onLogoutClick}
                             />
                         </Popover>

@@ -8,7 +8,7 @@ import Icon from 'golos-ui/Icon';
 import Button from 'golos-ui/Button';
 import { TagLink } from 'golos-ui/Tag';
 
-import Userpic from 'app/components/elements/Userpic';
+import Userpic from 'src/app/components/common/Userpic';
 import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
 import PopoverBody from 'src/app/containers/post/popoverBody/index';
 import {
@@ -274,7 +274,7 @@ export class PostHeader extends Component {
                 <Category
                     to={'/trending?tags=' + category.tag}
                     category={1}
-                    aria-label={tt('aria_label.category', {category: category.tag})}
+                    aria-label={tt('aria_label.category', { category: category.tag })}
                 >
                     {category.tag}
                 </Category>

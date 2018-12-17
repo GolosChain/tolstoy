@@ -5,10 +5,10 @@ import tt from 'counterpart';
 import Slider from 'react-slick';
 import styled from 'styled-components';
 
-import Userpic from 'app/components/elements/Userpic';
-
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+
+import { UserPicBlock } from '../common/Userpic/Userpic';
 
 const Root = styled.div`
     .welcome-slider {
@@ -91,6 +91,11 @@ const QuoteDescription = styled.div`
     color: #fff;
 `;
 
+const UserAvatar = styled(UserPicBlock)`
+    width: 40px;
+    height: 40px;
+`;
+
 export default class WelcomeSlider extends Component {
     static propTypes = {
         slides: PropTypes.array,
@@ -130,9 +135,7 @@ export default class WelcomeSlider extends Component {
                             <QuoteName>
                                 {slide.name}, {slide.position}
                             </QuoteName>
-                            <QuoteDescription>
-                                {slide.description}
-                            </QuoteDescription>
+                            <QuoteDescription>{slide.description}</QuoteDescription>
                         </SliderSlide>
                     ))}
                 </Slider>
@@ -142,12 +145,13 @@ export default class WelcomeSlider extends Component {
 
     renderPagingItem = i => {
         const { slides } = this.props;
+
         return (
-            <Userpic
-                ariaLabel={tt('aria_label.avatar')}
-                imageUrl={`${$STM_Config.img_proxy_prefix}0x0/${slides[i].avatar}`}
-                width={40}
-                height={40}
+            <UserAvatar
+                aria-label={tt('aria_label.avatar')}
+                style={{
+                    backgroundImage: `${$STM_Config.img_proxy_prefix}0x0/${slides[i].avatar}`,
+                }}
             />
         );
     };

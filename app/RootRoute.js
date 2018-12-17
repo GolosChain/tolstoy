@@ -79,8 +79,6 @@ export default {
             cb(null, [require('@pages/TagsIndex').default]);
         } else if (route.page === 'Tos') {
             cb(null, [require('@pages/Tos').default]);
-        } else if (route.page === 'ChangePassword') {
-            cb(null, [require('@pages/ChangePasswordPage').default]);
         } else if (route.page === 'RecoverAccountStep1') {
             cb(null, [require('@pages/RecoverAccountStep1').default]);
         } else if (route.page === 'RecoverAccountStep2') {

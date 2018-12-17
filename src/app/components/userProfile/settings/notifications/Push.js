@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
 
@@ -7,7 +6,7 @@ import { Form, Field } from 'react-final-form';
 import tt from 'counterpart';
 
 import { CardContent, CardDivider } from 'golos-ui/Card';
-import { DialogFooter, DialogButton } from 'golos-ui/Dialog';
+import { FormFooter, FormFooterButton } from 'golos-ui/Form';
 import {
     FormGroup,
     FormGroupRow as StyledFormGroupRow,
@@ -42,7 +41,7 @@ const LabelIcon = styled(StyledLabelRow)`
 `;
 
 const Online = ({ isChanging, onSubmitGate }) => {
-    // TODO: 
+    // TODO:
     const data = {};
 
     return (
@@ -58,9 +57,7 @@ const Online = ({ isChanging, onSubmitGate }) => {
                                         <LabelIcon active={input.value}>
                                             <Icon name="bell" width="19" height="20" />
                                         </LabelIcon>
-                                        <LabelRow dark>
-                                            Включить/выключить пуш уведомления
-                                        </LabelRow>
+                                        <LabelRow dark>Включить/выключить пуш уведомления</LabelRow>
                                         <Switcher {...input} />
                                     </FormGroupRow>
                                 )}
@@ -72,7 +69,9 @@ const Online = ({ isChanging, onSubmitGate }) => {
                         <Field name="b">
                             {({ input }) => (
                                 <FormGroupRow>
-                                    <LabelRow dark>Количество полученных лайков и комментариев за сутки</LabelRow>
+                                    <LabelRow dark>
+                                        Количество полученных лайков и комментариев за сутки
+                                    </LabelRow>
                                     <Switcher {...input} />
                                 </FormGroupRow>
                             )}
@@ -88,7 +87,9 @@ const Online = ({ isChanging, onSubmitGate }) => {
                         <Field name="c">
                             {({ input }) => (
                                 <FormGroupRow>
-                                    <LabelRow dark>Количество поставленных лайков за сутки</LabelRow>
+                                    <LabelRow dark>
+                                        Количество поставленных лайков за сутки
+                                    </LabelRow>
                                     <Switcher {...input} />
                                 </FormGroupRow>
                             )}
@@ -96,7 +97,9 @@ const Online = ({ isChanging, onSubmitGate }) => {
                         <Field name="c">
                             {({ input }) => (
                                 <FormGroupRow>
-                                    <LabelRow dark>Количество поставленных лайков за сутки</LabelRow>
+                                    <LabelRow dark>
+                                        Количество поставленных лайков за сутки
+                                    </LabelRow>
                                     <Switcher {...input} />
                                 </FormGroupRow>
                             )}
@@ -104,7 +107,9 @@ const Online = ({ isChanging, onSubmitGate }) => {
                         <Field name="c">
                             {({ input }) => (
                                 <FormGroupRow>
-                                    <LabelRow dark>Уведомление о публикации автора, на которого вы подписаны</LabelRow>
+                                    <LabelRow dark>
+                                        Уведомление о публикации автора, на которого вы подписаны
+                                    </LabelRow>
                                     <Switcher {...input} />
                                 </FormGroupRow>
                             )}
@@ -112,14 +117,14 @@ const Online = ({ isChanging, onSubmitGate }) => {
 
                         {submitError && <div>{submitError}</div>}
                     </CardContent>
-                    <DialogFooter>
-                        <DialogButton onClick={form.reset} disabled={submitting || pristine}>
+                    <FormFooter>
+                        <FormFooterButton onClick={form.reset} disabled={submitting || pristine}>
                             {tt('settings_jsx.reset')}
-                        </DialogButton>
-                        <DialogButton type="submit" primary disabled={submitting}>
+                        </FormFooterButton>
+                        <FormFooterButton type="submit" primary disabled={submitting}>
                             {tt('settings_jsx.update')}
-                        </DialogButton>
-                    </DialogFooter>
+                        </FormFooterButton>
+                    </FormFooter>
                 </form>
             )}
         </Form>
