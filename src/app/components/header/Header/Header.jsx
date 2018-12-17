@@ -47,7 +47,6 @@ const Fixed = styled.div`
 const ContainerWrapper = styled(Container)`
     @media (max-width: 350px) {
         margin-right: 0;
-        overflow: hidden;
     }
 `;
 
@@ -63,6 +62,10 @@ const LogoLink = styled(Link)`
 
     @media (max-width: 1230px) {
         margin-left: 0;
+    }
+
+    @media (max-width: 350px) {
+        padding: 10px 0;
     }
 `;
 
@@ -149,33 +152,12 @@ const Buttons = styled.div`
 const SignUp = styled.a`
     margin-right: 12px;
 
-    @media (max-width: ${MIN_MOBILE_WIDTH}px) {
-        order: 2;
-    }
-
     @media (max-width: 350px) {
-        margin-right: -15px;
+        margin-right: 4px;
     }
 `;
 
 const SignIn = SignUp.withComponent(Link);
-
-const SignInMobile = styled(Link)`
-    display: flex;
-    order: 1;
-    margin-right: 4px;
-    padding: 9px 14px;
-    color: #393636;
-    transition: none;
-
-    &:hover {
-        color: #2879ff;
-    }
-
-    @media (max-width: 350px) {
-        padding: 9px 10px;
-    }
-`;
 
 const AuthorizedBlock = styled.div`
     display: flex;
@@ -311,13 +293,13 @@ const Messages = styled(Link)`
 
 const Dots = styled(Icon)`
     display: block;
-    width: 20px;
-    height: 20px;
     color: #393636;
     user-select: none;
 `;
 
 const DotsWrapper = styled.div`
+    display: flex;
+    align-items: center;
     padding: 10px;
     cursor: pointer;
 
@@ -331,8 +313,12 @@ const DotsWrapper = styled.div`
         }
     `};
 
-    ${is('mobile')`
+    ${is('pad')`
         padding: 10px 20px;
+    `};
+
+    ${is('mobile')`
+        padding: 10px 16px;
     `};
 `;
 
@@ -505,16 +491,6 @@ export default class Header extends PureComponent {
                 {this.renderLocaleBlock()}
                 {isPadScreen ? null : this.renderFullAccountBlock()}
                 {isPadScreen ? this.renderMobileAccountBlock() : null}
-                <DotsWrapper
-                    role="button"
-                    aria-label={tt('aria_label.additional menu')}
-                    innerRef={this.dotsRef}
-                    active={isMenuOpen}
-                    mobile={isPadScreen ? 1 : 0}
-                    onClick={this.onMenuToggle}
-                >
-                    <Dots name="dots" />
-                </DotsWrapper>
             </AuthorizedBlock>
         );
     }
@@ -650,15 +626,7 @@ export default class Header extends PureComponent {
                                     <SignUp href={REGISTRATION_URL}>
                                         <Button>{tt('g.sign_up')}</Button>
                                     </SignUp>
-                                    {isMobile ? (
-                                        <SignInMobile
-                                            to="/login"
-                                            aria-label={tt('g.login')}
-                                            onClick={this.onLoginClick}
-                                        >
-                                            <Icon name="login-normal" width="17" height="18" />
-                                        </SignInMobile>
-                                    ) : (
+                                    {isMobile ? null : (
                                         <SignIn to="/login" onClick={this.onLoginClick}>
                                             <Button light>{tt('g.login')}</Button>
                                         </SignIn>
@@ -666,6 +634,17 @@ export default class Header extends PureComponent {
                                 </Buttons>
                             </Fragment>
                         )}
+                        <DotsWrapper
+                            role="button"
+                            aria-label={tt('aria_label.additional menu')}
+                            innerRef={this.dotsRef}
+                            active={isMenuOpen}
+                            pad={isPadScreen ? 1 : 0}
+                            mobile={isMobile ? 1 : 0}
+                            onClick={this.onMenuToggle}
+                        >
+                            <Dots name="dots" width="4" height="20" />
+                        </DotsWrapper>
                     </ContainerWrapper>
                     {isNotificationsOpen ? (
                         <Popover
@@ -687,8 +666,10 @@ export default class Header extends PureComponent {
                             onClose={this.onMenuToggle}
                         >
                             <Menu
-                                onClose={this.onMenuToggle}
+                                isMobile={isMobile}
                                 accountName={currentUsername}
+                                onClose={this.onMenuToggle}
+                                onLoginClick={this.onLoginClick}
                                 onLogoutClick={this.onLogoutClick}
                             />
                         </Popover>

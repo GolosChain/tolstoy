@@ -616,6 +616,7 @@
     "promote": "Promote",
     "promoted": "promoted",
     "publish": "Publish",
+    "questions_answers": "Questions-answers",
     "re": "RE",
     "re2": "Re",
     "re_enter_generate_password": "Re-enter Generated Password",
@@ -1116,14 +1117,14 @@
     "unable_to_recover_account_not_change_ownership_recently": "We are unable to recover this account, it has not changed ownership recently."
   },
   "registration_banner_jsx": {
-    "new_to_golos": "New to Golos?",
-    "everything_is_simple": "Everything is simple:",
-    "write_a_post": "Write a post on Golos.io",
     "community_votes": "Community votes",
-    "you_get_rewards": "You get rewards",
     "create_an_account": "Create an account",
+    "everything_is_simple": "Everything is simple:",
+    "faq": "FAQ",
+    "new_to_golos": "New to Golos?",
     "to_learn_more": "To learn morn",
-    "faq": "FAQ"
+    "write_a_post": "Write a post on Golos.io",
+    "you_get_rewards": "You get rewards"
   },
   "reply": {
     "comments_count": "Comments count"
