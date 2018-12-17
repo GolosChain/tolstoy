@@ -139,7 +139,6 @@ const EditorSwitcherWrapper = styled.div`
         display: none;
     }
 `;
-
 export default class PostForm extends React.Component {
     static propTypes = {
         editMode: PropTypes.bool,
@@ -193,7 +192,7 @@ export default class PostForm extends React.Component {
             this._fillFromMetadata();
         }
 
-        this.previewButton = React.createRef();
+        this.previewButton = createRef();
     }
 
     componentDidMount() {
@@ -275,7 +274,7 @@ export default class PostForm extends React.Component {
     }
 
     render() {
-        const { editMode } = this.props;
+        const { editMode, mobileButtonsWrapperRef } = this.props;
 
         const {
             editorId,
@@ -349,6 +348,10 @@ export default class PostForm extends React.Component {
                             onPostClick={this._postSafe}
                             onResetClick={this._onResetClick}
                             onCancelClick={this._onCancelClick}
+                            mobileButtonsWrapperRef={mobileButtonsWrapperRef}
+                            isPreview={isPreview}
+                            isVisible={isPreviewButtonVisible}
+                            onPreviewChange={this._onPreviewChange}
                         />
                     </FooterContent>
                 </Footer>

@@ -1,6 +1,6 @@
 import React, { PureComponent, createRef } from 'react';
+import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 import tt from 'counterpart';
 import styled from 'styled-components';
 import is from 'styled-is';
@@ -10,13 +10,22 @@ import TagsEditLine from 'app/components/elements/postEditor/TagsEditLine';
 import PostOptions from 'app/components/elements/postEditor/PostOptions/PostOptions';
 import Button from 'app/components/elements/common/Button';
 import Hint from 'app/components/elements/common/Hint';
+import Icon from 'golos-ui/Icon';
+import PreviewButton from 'app/components/elements/postEditor/PreviewButton';
 import { NSFW_TAG } from 'app/utils/tags';
-import './PostFooter.scss';
 
 const Wrapper = styled.div`
     display: flex;
     align-items: center;
     height: 80px;
+
+    @media (max-width: 576px) {
+        flex-direction: column;
+        justify-content: center;
+        height: auto;
+        width: 100%;
+        max-width: 100%;
+    }
 
     ${is('isEdit')`
         margin-bottom: 50px;
@@ -30,19 +39,29 @@ const Tags = styled.div`
     align-items: center;
 `;
 
-const Buttons = styled.div`
-    display: flex;
-    flex-shrink: 0;
-
+const ButtonsWrapper = styled.div`
     @media (max-width: 576px) {
-        order: -1;
+        display: none;
     }
 `;
 
-const StyledButton = styled(Button)`
+const Buttons = styled.div`
+    display: flex;
+    flex-shrink: 0;
+`;
+
+const MobileButtons = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+`;
+
+const ConfirmButtonWrapper = styled.div`
     position: relative;
     flex-shrink: 0;
-    margin-right: 15px !important;
+    margin-left: 15px !important;
 
     &:last-child {
         margin-right: 0;
@@ -52,6 +71,32 @@ const StyledButton = styled(Button)`
 const DisabledHint = styled(Hint)`
     opacity: 0;
     transition: opacity 0.25s;
+
+    ${is('isVisible')`
+        opacity: 1;
+    `};
+`;
+
+const SendButton = styled.button`
+    color: #2879ff;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    user-select: none;
+    cursor: pointer;
+
+    &:disabled {
+        color: #92aede;
+    }
+`;
+
+const ClearButton = styled.button`
+    color: #333;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    user-select: none;
+    cursor: pointer;
 `;
 
 export default class PostFooter extends PureComponent {
@@ -67,10 +112,7 @@ export default class PostFooter extends PureComponent {
         onCancelClick: PropTypes.func.isRequired,
     };
 
-    state = {
-        temporaryErrorText: null,
-        singleLine: true,
-    };
+    state = { temporaryErrorText: null, singleLine: true, showHint: false };
 
     root = createRef();
 
@@ -88,8 +130,18 @@ export default class PostFooter extends PureComponent {
     }
 
     render() {
-        const { editMode, tags, postDisabled, disabledHint, onTagsChange } = this.props;
-        const { temporaryErrorText, singleLine } = this.state;
+        const {
+            editMode,
+            tags,
+            postDisabled,
+            disabledHint,
+            onTagsChange,
+            mobileButtonsWrapperRef,
+            isPreview,
+            isVisible,
+            onPreviewChange,
+        } = this.props;
+        const { temporaryErrorText, singleLine, showHint } = this.state;
 
         return (
             <Wrapper innerRef={this.root} isEdit={editMode}>
@@ -113,29 +165,61 @@ export default class PostFooter extends PureComponent {
                     editMode={editMode}
                     onPayoutChange={this.props.onPayoutTypeChange}
                 />
-                <Buttons>
-                    {editMode ? (
-                        <StyledButton onClick={this.props.onCancelClick}>
-                            {tt('g.cancel')}
-                        </StyledButton>
-                    ) : (
-                        <StyledButton onClick={this.props.onResetClick}>
-                            {tt('g.clear')}
-                        </StyledButton>
+                {mobileButtonsWrapperRef &&
+                    mobileButtonsWrapperRef.current &&
+                    createPortal(
+                        <MobileButtons>
+                            <ClearButton
+                                onClick={this.props.onCancelClick}
+                                aria-label={editMode ? tt('g.cancel') : tt('g.clear')}
+                            >
+                                <Icon name="cross_thin" size={17} />
+                            </ClearButton>
+                            <PreviewButton
+                                isPreview={isPreview}
+                                isVisible={isVisible}
+                                onPreviewChange={onPreviewChange}
+                                isStatic
+                            />
+                            <SendButton
+                                disabled={postDisabled}
+                                onClick={this.props.onPostClick}
+                                aria-label={editMode ? tt('post_editor.update') : tt('g.post')}
+                            >
+                                <Icon name="send" width={32} height={22} />
+                            </SendButton>
+                        </MobileButtons>,
+                        mobileButtonsWrapperRef.current
                     )}
-                    {postDisabled && disabledHint ? (
-                        <Hint key="1" warning align="right" className="PostFooter__disabled-hint">
-                            {disabledHint}
-                        </Hint>
-                    ) : temporaryErrorText ? (
-                        <Hint key="2" error align="right">
-                            {temporaryErrorText}
-                        </Hint>
-                    ) : null}
-                    <StyledButton primary disabled={postDisabled} onClick={this.props.onPostClick}>
-                        {editMode ? tt('post_editor.update') : tt('g.post')}
-                    </StyledButton>
-                </Buttons>
+                <ButtonsWrapper>
+                    <Buttons>
+                        {editMode ? (
+                            <Button onClick={this.props.onCancelClick}>{tt('g.cancel')}</Button>
+                        ) : (
+                            <Button onClick={this.props.onResetClick}>{tt('g.clear')}</Button>
+                        )}
+                        <ConfirmButtonWrapper>
+                            {postDisabled && disabledHint ? (
+                                <DisabledHint key="1" warning align="right" isVisible={showHint}>
+                                    {disabledHint}
+                                </DisabledHint>
+                            ) : temporaryErrorText ? (
+                                <DisabledHint key="2" error align="right">
+                                    {temporaryErrorText}
+                                </DisabledHint>
+                            ) : null}
+                            <Button
+                                primary
+                                disabled={postDisabled}
+                                onClick={this.props.onPostClick}
+                                onMouseOver={this.showHint}
+                                onMouseOut={this.hideHint}
+                            >
+                                {editMode ? tt('post_editor.update') : tt('g.post')}
+                            </Button>
+                        </ConfirmButtonWrapper>
+                    </Buttons>
+                </ButtonsWrapper>
                 {singleLine ? null : (
                     <TagsEditLine
                         className="PostFooter__tags-line"
@@ -149,17 +233,27 @@ export default class PostFooter extends PureComponent {
         );
     }
 
+    showHint = (isDisabled = this.props.postDisabled) => {
+        const { showHint } = this.state;
+        if (isDisabled && !showHint) {
+            this.setState({ showHint: true });
+        }
+    };
+
+    hideHint = (isDisabled = this.props.postDisabled) => {
+        const { showHint } = this.state;
+        if (isDisabled && showHint) {
+            this.setState({ showHint: false });
+        }
+    };
+
     showPostError(errorText) {
         clearTimeout(this._temporaryErrorTimeout);
 
-        this.setState({
-            temporaryErrorText: errorText,
-        });
+        this.setState({ temporaryErrorText: errorText });
 
         this._temporaryErrorTimeout = setTimeout(() => {
-            this.setState({
-                temporaryErrorText: null,
-            });
+            this.setState({ temporaryErrorText: null });
         }, 5000);
     }
 
