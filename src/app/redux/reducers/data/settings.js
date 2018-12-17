@@ -19,7 +19,7 @@ const defaults = {
         awardByDefault: false,
         award: 100,
         selectedTags: {},
-        auctionRewardDestination: AUCTION_REWARD_DESTINATION.default,
+        auctionRewardDestination: AUCTION_REWARD_DESTINATION.DEFAULT,
     },
 };
 

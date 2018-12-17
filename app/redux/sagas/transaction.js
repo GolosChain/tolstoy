@@ -472,11 +472,11 @@ function* preBroadcast_comment({ operation, username }) {
         //     [0, { beneficiaries: [{ account: 'golosio', weight: 1000 }] }]
         // )
 
-        if (auctionRewardDestination !== AUCTION_REWARD_DESTINATION.default) {
+        if (auctionRewardDestination !== AUCTION_REWARD_DESTINATION.DEFAULT) {
             extensions.push([
                 1,
                 {
-                    destination: AUCTION_REWARD_DESTINATION.destination[auctionRewardDestination],
+                    destination: AUCTION_REWARD_DESTINATION.DESTINATION[auctionRewardDestination],
                 },
             ]);
         }

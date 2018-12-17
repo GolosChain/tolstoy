@@ -175,7 +175,7 @@ export default class Common extends PureComponent {
                                             onChange={e => input.onChange(e.target.value)}
                                         >
                                             {Object.keys(
-                                                AUCTION_REWARD_DESTINATION.destination
+                                                AUCTION_REWARD_DESTINATION.DESTINATION
                                             ).map(key => (
                                                 <option key={key} value={key}>
                                                     {tt(
