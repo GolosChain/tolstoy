@@ -1,40 +1,54 @@
-@import "../../../extends";
+@import '../../../extends';
 
 .Tooltip {
   position: absolute;
   max-width: 300px;
-  width: fit-content;
-  padding: 15px 26px;
   margin-top: -10px;
-  border-radius: 8px;
-  background: #fff;
-  box-shadow: 0 2px 12px 0 rgba(0,0,0, 0.15);
   user-select: none;
   pointer-events: none;
   z-index: 1000;
-  color: #333;
-  transform: translate(-50%, -100%);
+
+  transform: translate(0, -100%);
   animation: fade-in 0.2s;
 
-  &_left {
+  &_bottom {
+    margin-top: 10px;
+    transform: translate(0, 0);
+  }
+
+  &__inner {
+    padding: 15px 26px;
+    border-radius: 8px;
+    color: #333;
+    background: #fff;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
+
+    transform: translate(-50%, 0);
+  }
+
+  &_left &__inner {
     margin-left: -20px;
-    transform: translate(0, -100%);
+    transform: translate(0, 0);
   }
 
-  &_right {
+  &_right &__inner {
     margin-left: 20px;
-    transform: translate(-100%, -100%);
+    transform: translate(-100%, 0);
   }
 
-  &::after {
+  &__inner::after {
     @include dialog-tip();
   }
 
-  &_left::after {
+  &_bottom &__inner::after {
+    @include dialog-tip($up: true);
+  }
+
+  &_left &__inner::after {
     left: 20px;
   }
 
-  &_right::after {
+  &_right &__inner::after {
     left: unset !important;
     right: 15px !important;
   }

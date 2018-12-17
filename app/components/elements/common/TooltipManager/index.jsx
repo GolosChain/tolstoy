@@ -2,11 +2,13 @@ import React from 'react';
 import cn from 'classnames';
 import debounce from 'lodash/debounce';
 
-const RAISE_TIME = 350;
+const RAISE_TIME = 400;
 let key = 0;
 
 export default class TooltipManager extends React.PureComponent {
-    state = {};
+    state = {
+        tooltip: null,
+    };
 
     componentDidMount() {
         document.addEventListener('mousemove', this._onMouseMove, true);
@@ -36,9 +38,15 @@ export default class TooltipManager extends React.PureComponent {
                         key={tooltip.key}
                         className={cn('Tooltip', tooltip.addClass)}
                         style={tooltip.style}
-                        dangerouslySetInnerHTML={tooltip.isHtml ? { __html: tooltip.text } : null}
                     >
-                        {tooltip.isHtml ? null : tooltip.text}
+                        <div
+                            className="Tooltip__inner"
+                            dangerouslySetInnerHTML={
+                                tooltip.isHtml ? { __html: tooltip.text } : null
+                            }
+                        >
+                            {tooltip.isHtml ? null : tooltip.text}
+                        </div>
                     </div>
                 ) : null}
             </div>
@@ -89,20 +97,36 @@ export default class TooltipManager extends React.PureComponent {
 
         this._elementBound = bound;
 
+        const isDownDirection = element.dataset.tooltipDown != null;
+        let y;
+
+        if (isDownDirection) {
+            y = bound.bottom;
+        } else {
+            y = bound.top;
+        }
+
+        const addClasses = [];
+
+        if (isDownDirection) {
+            addClasses.push('Tooltip_bottom');
+        }
+
+        if (bound.left < 100) {
+            addClasses.push('Tooltip_left');
+        } else if (bound.right > window.innerWidth - 100) {
+            addClasses.push('Tooltip_right');
+        }
+
         this.setState({
             tooltip: {
                 key: ++key,
                 text: this._hoverText,
                 isHint,
                 isHtml: element.dataset.tooltipHtml != null,
-                addClass:
-                    bound.left < 100
-                        ? 'Tooltip_left'
-                        : bound.right > window.innerWidth - 100
-                            ? 'Tooltip_right'
-                            : null,
+                addClass: addClasses.join(' '),
                 style: {
-                    top: Math.round(bound.top + window.scrollY),
+                    top: Math.round(y + window.scrollY),
                     left: Math.round(bound.left + bound.width / 2),
                 },
             },
