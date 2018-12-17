@@ -404,9 +404,7 @@ class ReplyEditor extends React.Component {
             errorCallback,
         };
         const postLabel = username ? (
-            <span title={tt('g.post_as') + ' “' + username + '”'} className={className}>
-                {tt('g.post')}
-            </span>
+            <span title={tt('g.post_as') + ' “' + username + '”'}>{tt('g.post')}</span>
         ) : (
             tt('g.post')
         );

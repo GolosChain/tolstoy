@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { Fragment, createRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import throttle from 'lodash/throttle';
 import Turndown from 'turndown';
-import cn from 'classnames';
 import tt from 'counterpart';
+
 import HtmlReady, { getTags } from 'shared/HtmlReady';
 import DialogManager from 'app/components/elements/common/DialogManager';
 import Icon from 'app/components/elements/Icon';
@@ -25,7 +25,6 @@ import {
 } from 'app/utils/tags';
 import { DRAFT_KEY, EDIT_KEY } from 'app/utils/postForm';
 import { breakWordStyles } from 'src/app/helpers/styles';
-import './PostForm.scss';
 
 const EDITORS_TYPES = {
     MARKDOWN: 1,
@@ -66,6 +65,68 @@ const PreviewHeader = styled.h1`
     font-weight: 700;
     font-size: 200%;
     ${breakWordStyles};
+`;
+
+const Wrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+`;
+
+const WorkArea = styled.div`
+    flex-grow: 1;
+    flex-shrink: 0;
+    width: 100%;
+    min-height: 400px;
+    height: calc(100% - 80px);
+    padding-top: 10px;
+    overflow-y: auto;
+`;
+
+const Content = styled.div`
+    max-width: 700px;
+    padding: 0 8px;
+    margin: 0 auto;
+`;
+
+const Footer = styled.div`
+    width: 100%;
+    flex-shrink: 0;
+    z-index: 1;
+    user-select: none;
+    background: #fff;
+    box-shadow: 0 -2px 12px 0 rgba(0, 0, 0, 0.07);
+`;
+
+const FooterContent = styled.div`
+    width: 100%;
+    max-width: 75rem;
+    padding: 0 8px;
+    margin: 0 auto;
+`;
+
+const Spinner = styled.div`
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 100%;
+    color: #999;
+    pointer-events: none;
+    opacity: 0;
+    animation: fade-in 1s forwards;
+    animation-delay: 0.3s;
+`;
+
+const SpinnerInner = styled(Icon)`
+    width: unset;
+    height: unset;
+    padding: 40px 60px;
+    border-radius: 18px;
+    background: rgba(0, 0, 0, 0.1);
 `;
 
 export default class PostForm extends React.Component {
@@ -220,14 +281,9 @@ export default class PostForm extends React.Component {
         const disallowPostCode = this._checkDisallowPost();
 
         return (
-            <div
-                className={cn('PostForm', {
-                    PostForm_page: !editMode,
-                    PostForm_edit: editMode,
-                })}
-            >
-                <div className="PostForm__work-area" ref="workArea">
-                    <div className="PostForm__content">
+            <Wrapper>
+                <WorkArea innerRef="workArea">
+                    <Content>
                         <PreviewButton
                             ref={this.previewButton}
                             isPreview={isPreview}
@@ -248,18 +304,6 @@ export default class PostForm extends React.Component {
                             activeId={editorId}
                             onChange={this._onEditorChange}
                         />
-                        {isPreview ? null : (
-                            <PostTitle
-                                initialValue={title}
-                                placeholder={tt('post_editor.title_placeholder')}
-                                validate={this._validateTitle}
-                                onTab={this._onTitleTab}
-                                onChange={this._onTitleChange}
-                            />
-                        )}
-                        <div style={{ display: isPreview ? 'none' : 'block' }}>
-                            {this._renderEditorPanel()}
-                        </div>
                         {isPreview ? (
                             <Preview>
                                 <PreviewHeader>
@@ -267,11 +311,22 @@ export default class PostForm extends React.Component {
                                 </PreviewHeader>
                                 <MarkdownViewer text={text} large />
                             </Preview>
-                        ) : null}
-                    </div>
-                </div>
-                <div className="PostForm__footer">
-                    <div className="PostForm__footer-content">
+                        ) : (
+                            <Fragment>
+                                <PostTitle
+                                    initialValue={title}
+                                    placeholder={tt('post_editor.title_placeholder')}
+                                    validate={this._validateTitle}
+                                    onTab={this._onTitleTab}
+                                    onChange={this._onTitleChange}
+                                />
+                                {this._renderEditorPanel()}
+                            </Fragment>
+                        )}
+                    </Content>
+                </WorkArea>
+                <Footer>
+                    <FooterContent>
                         <PostFooter
                             ref="footer"
                             editMode={editMode}
@@ -285,14 +340,14 @@ export default class PostForm extends React.Component {
                             onResetClick={this._onResetClick}
                             onCancelClick={this._onCancelClick}
                         />
-                    </div>
-                </div>
+                    </FooterContent>
+                </Footer>
                 {uploadingCount > 0 || isPosting ? (
-                    <div className="PostForm__spinner">
-                        <Icon name="clock" size="4x" className="PostForm__spinner-inner" />
-                    </div>
+                    <Spinner>
+                        <SpinnerInner name="clock" size="4x" />
+                    </Spinner>
                 ) : null}
-            </div>
+            </Wrapper>
         );
     }
 

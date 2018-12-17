@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import tt from 'counterpart';
+import styled from 'styled-components';
+
 import TagInput from 'app/components/elements/postEditor/TagInput';
 import TagsEditLine from 'app/components/elements/postEditor/TagsEditLine';
 import PostOptions from 'app/components/elements/postEditor/PostOptions/PostOptions';
@@ -42,13 +44,7 @@ export default class PostFooter extends PureComponent {
     }
 
     render() {
-        const {
-            editMode,
-            tags,
-            postDisabled,
-            disabledHint,
-            onTagsChange,
-        } = this.props;
+        const { editMode, tags, postDisabled, disabledHint, onTagsChange } = this.props;
         const { temporaryErrorText, singleLine } = this.state;
 
         return (
@@ -83,13 +79,9 @@ export default class PostFooter extends PureComponent {
                     <div className="PostFooter__buttons">
                         <div className="PostFooter__button">
                             {editMode ? (
-                                <Button onClick={this.props.onCancelClick}>
-                                    {tt('g.cancel')}
-                                </Button>
+                                <Button onClick={this.props.onCancelClick}>{tt('g.cancel')}</Button>
                             ) : (
-                                <Button onClick={this.props.onResetClick}>
-                                    {tt('g.clear')}
-                                </Button>
+                                <Button onClick={this.props.onResetClick}>{tt('g.clear')}</Button>
                             )}
                         </div>
                         <div
@@ -116,9 +108,7 @@ export default class PostFooter extends PureComponent {
                                 disabled={postDisabled}
                                 onClick={this.props.onPostClick}
                             >
-                                {editMode
-                                    ? tt('post_editor.update')
-                                    : tt('g.post')}
+                                {editMode ? tt('post_editor.update') : tt('g.post')}
                             </Button>
                         </div>
                     </div>

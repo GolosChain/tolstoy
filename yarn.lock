@@ -3122,9 +3122,10 @@ code-point-at@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
 
-codemirror-md@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/codemirror-md/-/codemirror-md-0.1.0.tgz#94dc9a384ae1f6af555ffe28f0dea0188532a38c"
+codemirror-md@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/codemirror-md/-/codemirror-md-0.1.1.tgz#684241eef55c04e34ed8e2b4729d10305f451eb2"
+  integrity sha512-NRPjIJp+NYX2cULwBxmNw5bQL5oHlDrSi5MQC0aL54NzBzYouTGcWbQs4g/amM6lLVY/aL70LtDjzbiYS/qClA==
   dependencies:
     codemirror "^5.40.2"
     marked "^0.5.1"
