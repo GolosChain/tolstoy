@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -47,21 +47,26 @@ const AuthorName = styled.span`
     text-decoration: none;
 `;
 
-const AuthorNameLink = AuthorName.withComponent(Link);
+const AuthorNameLink = styled(AuthorName.withComponent(Link))`
+    cursor: pointer;
+`;
 
-const PostDate = styled(Link)`
+const PostDate = styled.span`
     display: block;
     font-size: 13px;
     letter-spacing: 0.4px;
     line-height: 1.5;
     white-space: nowrap;
     color: #959595;
-    cursor: pointer;
 
     &:hover,
     &:focus {
         color: #8b8989;
     }
+`;
+
+const PostDateLink = styled(PostDate.withComponent(Link))`
+    cursor: pointer;
 `;
 
 const RepostIconWrapper = styled.div`
@@ -86,7 +91,7 @@ const RepostIcon = styled(Icon)`
 
 const AvatarBox = styled.div`
     position: absolute;
-    top: 42px;
+    top: 52px;
     width: ${USER_PIC_SIZE}px;
 `;
 
@@ -106,8 +111,10 @@ export default class CardAuthor extends Component {
     };
 
     openPopover = e => {
+        if (!this.props.noLinks) {
+            return;
+        }
         e.preventDefault();
-
         if (Date.now() > this.closePopoverTs + 200) {
             this.setState({
                 showPopover: true,
@@ -129,35 +136,17 @@ export default class CardAuthor extends Component {
 
         let AvatarComp = AvatarLink;
         let AuthorNameComp = AuthorNameLink;
+        let PostDateComp = PostDateLink;
 
         if (noLinks) {
             AvatarComp = Avatar;
             AuthorNameComp = AuthorName;
+            PostDateComp = PostDate;
         }
 
         return (
-            <Wrapper className={className}>
-                <AvatarComp
-                    to={`/@${author}`}
-                    aria-label={tt('aria_label.avatar')}
-                    onClick={this.openPopover}
-                >
-                    <Userpic account={author} size={USER_PIC_SIZE} />
-                    {isRepost ? (
-                        <RepostIconWrapper>
-                            <RepostIcon name="repost" width={14} height={12} />
-                        </RepostIconWrapper>
-                    ) : null}
-                </AvatarComp>
-                <PostDesc>
-                    <AuthorLine>
-                        <AuthorNameComp to={`/@${author}`}>{author}</AuthorNameComp>
-                    </AuthorLine>
-                    <PostDate to={contentLink}>
-                        <TimeAgoWrapper date={created} />
-                    </PostDate>
-                </PostDesc>
-                {showPopover ? (
+            <Fragment>
+                {showPopover && (
                     <AvatarBox>
                         <PopoverStyled onClose={this.closePopover} show>
                             <PopoverBody
@@ -166,8 +155,30 @@ export default class CardAuthor extends Component {
                             />
                         </PopoverStyled>
                     </AvatarBox>
-                ) : null}
-            </Wrapper>
+                )}
+                <Wrapper className={className}>
+                    <AvatarComp
+                        to={`/@${author}`}
+                        aria-label={tt('aria_label.avatar')}
+                        onClick={this.openPopover}
+                    >
+                        <Userpic account={author} size={USER_PIC_SIZE} />
+                        {isRepost ? (
+                            <RepostIconWrapper>
+                                <RepostIcon name="repost" width={14} height={12} />
+                            </RepostIconWrapper>
+                        ) : null}
+                    </AvatarComp>
+                    <PostDesc>
+                        <AuthorLine>
+                            <AuthorNameComp to={`/@${author}`}>{author}</AuthorNameComp>
+                        </AuthorLine>
+                        <PostDateComp to={contentLink}>
+                            <TimeAgoWrapper date={created} />
+                        </PostDateComp>
+                    </PostDesc>
+                </Wrapper>
+            </Fragment>
         );
     }
 }

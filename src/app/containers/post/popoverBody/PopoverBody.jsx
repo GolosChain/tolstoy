@@ -8,9 +8,10 @@ import Icon from 'golos-ui/Icon';
 
 import { breakWordStyles } from 'src/app/helpers/styles';
 import Userpic from 'app/components/elements/Userpic';
+
+import { ClosePopoverButton } from 'src/app/components/post/PopoverAdditionalStyles';
 import Mute from 'src/app/components/common/Mute';
 import Follow from 'src/app/components/common/Follow';
-import { ClosePopoverButton } from 'src/app/components/post/PopoverAdditionalStyles';
 
 const Block = styled.div`
     width: 100%;
@@ -124,7 +125,7 @@ const PostTitle = styled(Link)`
     }
 `;
 
-const FollowButton = styled.div`
+const FollowButton = styled(props => <Follow {...props} />)`
     min-width: 150px;
     min-height: 30px;
 `;
@@ -141,6 +142,7 @@ export class PopoverBody extends Component {
     };
 
     componentDidMount() {
+        this.fetchFollowData();
         if (this.props.pinnedPostsUrls) {
             this.props.getPostContent(this.props.pinnedPostsUrls);
         }
@@ -154,17 +156,23 @@ export class PopoverBody extends Component {
         }
     };
 
+    fetchFollowData() {
+        const { account, followersCount, loadUserFollowData } = this.props;
+        if (!followersCount) {
+            loadUserFollowData(account);
+        }
+    }
+
     render() {
         const {
             account,
             name,
             about,
-            followerCount,
+            followersCount,
             pinnedPosts,
             showFollowBlock,
             className,
         } = this.props;
-
         const linkToAccount = `/@${account}`;
 
         return (
@@ -189,7 +197,7 @@ export class PopoverBody extends Component {
                     </AuthorTitle>
                     <About>{about}</About>
                     <Followers>
-                        {tt('user_profile.follower_count', { count: followerCount })}
+                        {tt('user_profile.follower_count', { count: followersCount })}
                     </Followers>
                 </Block>
                 {pinnedPosts.length > 0 && (

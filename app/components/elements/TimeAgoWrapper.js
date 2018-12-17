@@ -13,9 +13,10 @@ export default class TimeAgoWrapper extends Component {
         const { date, className } = this.props;
 
         const fixedDate = new Date(fixDate(date));
+        const dateString = fixedDate.toLocaleString();
 
         return (
-            <Wrapper className={className} data-tooltip={fixedDate.toLocaleString()}>
+            <Wrapper aria-label={dateString} data-tooltip={dateString} className={className}>
                 <FormattedRelative {...this.props} value={fixedDate} />
             </Wrapper>
         );

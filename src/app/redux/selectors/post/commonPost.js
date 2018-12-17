@@ -147,6 +147,7 @@ export const popoverUserInfoSelector = createSelector(
         if (post) {
             authorAccountName = post.get('author');
         }
+
         const authorData = accounts.get(authorAccountName) || emptyMap;
         const jsonData = normalizeProfile({
             json_metadata: authorData.get('json_metadata'),

@@ -46,7 +46,8 @@ const Avatar = styled.div`
     align-items: center;
 `;
 
-const InfoBlock = styled.div`
+const InfoBlock = styled(Link)`
+    display: block;
     margin: 0 10px;
     letter-spacing: 0.4px;
     line-height: 18px;
@@ -101,7 +102,7 @@ const FollowRound = styled(Button)`
     align-self: center;
 `;
 
-const UserInfoWrapper = styled(Link)`
+const UserInfoWrapper = styled.div`
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -237,12 +238,12 @@ export class PostHeader extends Component {
 
         return (
             <Wrapper innerRef={forwardRef} className={className}>
-                <UserInfoWrapper to={`/@${author}`} onClick={this.onUserInfoClick}>
-                    <Avatar aria-label={tt('aria_label.avatar')}>
+                <UserInfoWrapper>
+                    <Avatar aria-label={tt('aria_label.avatar')} onClick={this.onUserInfoClick}>
                         <PopoverBackgroundShade show={showPopover} />
                         <UserpicStyled account={author} size={50} />
                     </Avatar>
-                    <InfoBlock>
+                    <InfoBlock to={`/@${author}`}>
                         <AuthorName aria-label={tt('aria_label.username')}>{author}</AuthorName>
                         <TimeAgoWrapper date={created} />
                     </InfoBlock>
