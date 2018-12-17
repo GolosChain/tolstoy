@@ -862,7 +862,14 @@
     "update": "Оновити",
     "voting": "Налаштування голосування",
     "voting_power_by_default": "Використовувати налаштування сили голосування",
-    "website_url_is_too_long": "URL-адреса веб-сайту занадто довга"
+    "website_url_is_too_long": "URL-адреса веб-сайту занадто довга",
+    "auction_reward_destination": {
+      "label": "Налаштування штрафного вікна публікації",
+      "items": {
+        "to_reward_fund": "Назад в загальний потік винагород",
+        "to_curators": "Розподілити між кураторами"
+      }
+    }
   },
   "start_mobile_app": {
     "close_forever": "Закрити назавжди",
