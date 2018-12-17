@@ -7,7 +7,7 @@ import extractContent from 'app/utils/ExtractContent';
 import { detransliterate } from 'app/utils/ParsersAndFormatters';
 import Icon from 'golos-ui/Icon/index';
 
-import Userpic from 'app/components/elements/Userpic';
+import Userpic from 'src/app/components/common/Userpic';
 import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
 import VotePanel from 'src/app/components/common/VotePanel';
 import Repost from 'src/app/components/post/repost';
@@ -80,7 +80,7 @@ const HeaderProfile = styled(Link)`
     display: flex;
     align-items: center;
     grid-area: author;
-    justify-self: start
+    justify-self: start;
 `;
 
 const HeaderInfo = styled.div`

@@ -7,7 +7,7 @@ import { Link } from 'react-router';
 import Icon from 'golos-ui/Icon';
 
 import { breakWordStyles } from 'src/app/helpers/styles';
-import Userpic from 'app/components/elements/Userpic';
+import Userpic from 'src/app/components/common/Userpic';
 import Mute from 'src/app/components/common/Mute/index';
 import Follow from 'src/app/components/common/Follow';
 import { ClosePopoverButton } from 'src/app/components/post/PopoverAdditionalStyles';
@@ -191,8 +191,8 @@ export class PopoverBody extends Component {
         return (
             <Wrapper className={className}>
                 <ClosePopoverButton
-                    onClick={this.closePopover}
                     aria-label={tt('aria_label.close_button')}
+                    onClick={this.closePopover}
                 >
                     <Icon name="cross" width={16} height={16} />
                 </ClosePopoverButton>

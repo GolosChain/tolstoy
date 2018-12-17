@@ -12,7 +12,7 @@ import Icon from 'golos-ui/Icon';
 import IconBadge from 'golos-ui/IconBadge';
 import Button from 'golos-ui/Button';
 import Container from 'src/app/components/common/Container';
-import Userpic from 'app/components/elements/Userpic';
+import Userpic from 'src/app/components/common/Userpic';
 import Menu from '../Menu';
 import NotificationsMenu from '../NotificationsMenu';
 import Popover from 'src/app/components/header/Popover/Popover';
