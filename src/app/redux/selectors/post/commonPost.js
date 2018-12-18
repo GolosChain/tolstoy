@@ -245,19 +245,19 @@ export const postCardSelector = createDeepEqualSelector(
             isHidden:
                 isHide(data) ||
                 (!isOwner && isContainTags(data, HIDE_BY_TAGS) && !tagsSelect.length),
-            postInTape: checkPostInTape(location),
+            postInFeed: checkPostInFeed(location),
         };
     }
 );
 
-const checkPostInTape = location => {
+const checkPostInFeed = location => {
     const currentPathname = location.getIn(['current', 'pathname']);
-    const postInTape =
+    const postInFeed =
         currentPathname === '/' ||
         currentPathname === '/promoted' ||
         currentPathname === '/trending' ||
         currentPathname === '/hot' ||
         currentPathname === '/created' ||
-        Boolean(currentPathname.match(/\/@[^/]+\/feed/));
-    return postInTape;
+        /\/@[^/]+\/feed/.test(currentPathname);
+    return postInFeed;
 };

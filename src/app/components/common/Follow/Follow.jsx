@@ -17,14 +17,16 @@ const collapseStyles = `
     height: 34px;
     min-width: 0;
     border-radius: 50%;
+    
+    span {
+        display: none;
+    }
+    
     & > svg {
         min-width: 12px;
         min-height: 12px;
         margin: 0;
     };
-    span {
-        display: none;
-    }
 `;
 
 const Wrapper = styled(Button)`
@@ -35,6 +37,7 @@ const Wrapper = styled(Button)`
     font-size: 12px;
     font-weight: bold;
     line-height: 23px;
+
     span {
         margin-top: 1px;
     }

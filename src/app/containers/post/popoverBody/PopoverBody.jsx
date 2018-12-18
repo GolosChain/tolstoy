@@ -169,11 +169,7 @@ export class PopoverBody extends Component {
     }
 
     closePopover = () => {
-        if (this.props.onClose) {
-            this.props.onClose();
-        } else {
-            this.props.close();
-        }
+        this.props.close();
     };
 
     fetchFollowData() {

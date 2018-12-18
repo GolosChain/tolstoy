@@ -27,7 +27,7 @@ const Header = styled.div`
 const HeaderRepost = styled(Header)`
     padding: 0 0 10px;
 
-    ${is('tape')`
+    ${is('postInFeed')`
         position: relative;
     `}
 `;
@@ -263,7 +263,7 @@ export default class PostCard extends PureComponent {
     }
 
     renderHeader() {
-        const { data, isRepost, compact, reblogData, params, postInTape } = this.props;
+        const { data, isRepost, compact, reblogData, params, postInFeed } = this.props;
 
         const category = detransliterate(data.get('category'));
         let author;
@@ -285,7 +285,7 @@ export default class PostCard extends PureComponent {
             <Header>
                 <HeaderLine>
                     <CardAuthor
-                        infoPopover={postInTape}
+                        infoPopover={postInFeed}
                         contentLink={data.get('url')}
                         permLink={data.get('permlink')}
                         author={author}
@@ -422,7 +422,7 @@ export default class PostCard extends PureComponent {
     }
 
     renderRepostPart() {
-        const { repostHtml, data, postLink, postInTape } = this.props;
+        const { repostHtml, data, postLink, postInFeed } = this.props;
 
         return (
             <RepostBlock>
@@ -431,10 +431,10 @@ export default class PostCard extends PureComponent {
                         <PostContent dangerouslySetInnerHTML={repostHtml} />
                     </RepostBody>
                 ) : null}
-                <HeaderRepost tape={postInTape}>
+                <HeaderRepost postInFeed={postInFeed}>
                     <HeaderLine>
                         <CardAuthor
-                            infoPopover={postInTape}
+                            infoPopover={postInFeed}
                             popoverOffsetTop={42}
                             contentLink={postLink}
                             author={data.get('author')}

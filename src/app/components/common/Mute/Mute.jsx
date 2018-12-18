@@ -58,11 +58,11 @@ export class Mute extends Component {
     render() {
         const { isMute, className } = this.props;
         return isMute ? (
-            <UnmuteButton light onClick={this.unmute} className={className}>
+            <UnmuteButton light className={className} onClick={this.unmute}>
                 {tt('g.unmute')}
             </UnmuteButton>
         ) : (
-            <MuteButton onClick={this.mute} className={className}>
+            <MuteButton className={className} onClick={this.mute}>
                 {tt('g.mute')}
             </MuteButton>
         );
