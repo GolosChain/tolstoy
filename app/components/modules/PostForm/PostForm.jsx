@@ -104,6 +104,10 @@ const Footer = styled.div`
     background: #fff;
     box-shadow: 0 -2px 12px 0 rgba(0, 0, 0, 0.07);
 
+    @media (max-width: 576px) {
+        margin-top: 16px;
+    }
+
     ${is('isEdit')`
         box-shadow: none;
     `};

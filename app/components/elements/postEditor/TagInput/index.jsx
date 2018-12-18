@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
@@ -65,16 +65,13 @@ export default class TagInput extends PureComponent {
         tags: PropTypes.array.isRequired,
         onChange: PropTypes.func.isRequired,
     };
+    state = {
+        value: '',
+        inputError: null,
+        temporaryHintText: null,
+    };
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            value: '',
-            inputError: null,
-            temporaryHintText: null,
-        };
-    }
+    inputRef = createRef();
 
     componentWillUnmount() {
         if (this._hintTimeout) {
@@ -88,7 +85,7 @@ export default class TagInput extends PureComponent {
                 <Input
                     value={this.state.value}
                     type="text"
-                    ref="input"
+                    innerRef={this.inputRef}
                     maxLength="20"
                     placeholder={tt('post_editor.tags_input_placeholder')}
                     onFocus={this._onFocus}
@@ -214,10 +211,10 @@ export default class TagInput extends PureComponent {
 
     _onPlusClick = () => {
         if (!this.state.inputError) {
-            this._addTag(this.refs.input.value);
+            this._addTag(this.inputRef.current.value);
         }
 
-        this.refs.input.focus();
+        this.inputRef.current.focus();
     };
 
     _checkTag(tag) {

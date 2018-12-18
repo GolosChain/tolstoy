@@ -10,11 +10,6 @@
 
   & .CodeMirror-scroll {
     min-height: 350px;
-
-    @media (max-width: 576px) {
-      max-width: 100% !important;
-      width: 100%;
-    }
   }
 
   &_comment {

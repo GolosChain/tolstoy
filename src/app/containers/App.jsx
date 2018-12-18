@@ -179,7 +179,9 @@ export class App extends Component {
                             {this.renderCallout()}
                             {children}
                             {location.pathname.startsWith('/submit') ? null : <Footer />}
-                            <ScrollUpstairsButton />
+                            {location.pathname.startsWith('/submit') ? null : (
+                                <ScrollUpstairsButton />
+                            )}
                             <MobileAppButton />
                         </div>
                         <DialogManager />
