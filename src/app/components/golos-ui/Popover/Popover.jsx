@@ -87,7 +87,7 @@ export default class Popover extends Component {
     static propTypes = {
         show: PropTypes.bool.isRequired,
         withArrow: PropTypes.bool,
-        onClose: PropTypes.func,
+        closePopover: PropTypes.func,
         screenMargin: PropTypes.number,
         position: PropTypes.oneOf(['left', 'right', 'top', 'bottom']),
     };
@@ -95,7 +95,7 @@ export default class Popover extends Component {
     static defaultProps = {
         screenMargin: 20,
         position: 'bottom',
-        onClose: () => {},
+        closePopover: () => {},
         withArrow: true,
     };
 
@@ -117,7 +117,7 @@ export default class Popover extends Component {
 
     checkClick = e => {
         if (this.props.show && !this.container.contains(e.target)) {
-            this.props.onClose();
+            this.props.closePopover();
         }
     };
 

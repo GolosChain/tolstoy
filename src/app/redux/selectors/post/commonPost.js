@@ -2,6 +2,12 @@ import { Map, List } from 'immutable';
 import memoize from 'lodash/memoize';
 import { createSelector } from 'reselect';
 
+import { detransliterate, parsePayoutAmount } from 'app/utils/ParsersAndFormatters';
+import normalizeProfile from 'app/utils/NormalizeProfile';
+import { extractContentMemoized, extractRepost } from 'app/utils/ExtractContent';
+import { hasReblog, extractReblogData, isHide, isContainTags } from 'app/utils/StateFunctions';
+import resolveRoute from 'app/ResolveRoute';
+
 import {
     createDeepEqualSelector,
     dataSelector,
@@ -11,12 +17,8 @@ import {
 } from '../common';
 import { locationTagsSelector } from 'src/app/redux/selectors/app/location';
 import { extractPinnedPosts, getPinnedPosts } from 'src/app/redux/selectors/account/pinnedPosts';
-import { detransliterate, parsePayoutAmount } from 'app/utils/ParsersAndFormatters';
-import normalizeProfile from 'app/utils/NormalizeProfile';
-import { extractContentMemoized, extractRepost } from 'app/utils/ExtractContent';
-import { hasReblog, extractReblogData, isHide, isContainTags } from 'app/utils/StateFunctions';
-import { HIDE_BY_TAGS } from 'src/app/constants/tags';
 import { appSelector } from 'src/app/redux/selectors/common';
+import { HIDE_BY_TAGS } from 'src/app/constants/tags';
 
 const emptyMap = Map();
 const emptyList = List();
@@ -251,13 +253,7 @@ export const postCardSelector = createDeepEqualSelector(
 );
 
 const checkPostInFeed = location => {
-    const currentPathname = location.getIn(['current', 'pathname']);
-    const postInFeed =
-        currentPathname === '/' ||
-        currentPathname === '/promoted' ||
-        currentPathname === '/trending' ||
-        currentPathname === '/hot' ||
-        currentPathname === '/created' ||
-        /\/@[^/]+\/feed/.test(currentPathname);
-    return postInFeed;
+    const route = resolveRoute(location.getIn(['current', 'pathname']));
+    const postCategory = route.params.category;
+    return /feed|created|hot|trending|promoted/.test(postCategory);
 };

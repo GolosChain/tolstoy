@@ -47,7 +47,7 @@ const Avatar = styled.div`
     align-items: center;
 `;
 
-const InfoBlock = styled(Link)`
+const InfoBlock = styled.div`
     display: block;
     margin: 0 10px;
     letter-spacing: 0.4px;
@@ -103,7 +103,7 @@ const FollowRound = styled(Button)`
     align-self: center;
 `;
 
-const UserInfoWrapper = styled.div`
+const UserInfoWrapper = styled(Link)`
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -232,12 +232,12 @@ export class PostHeader extends Component {
 
         return (
             <Wrapper innerRef={forwardRef} className={className}>
-                <UserInfoWrapper>
+                <UserInfoWrapper to={`/@${author}`}>
                     <Avatar aria-label={tt('aria_label.avatar')} onClick={this.onUserInfoClick}>
                         <PopoverBackgroundShade show={showPopover} />
                         <UserpicStyled account={author} size={50} />
                     </Avatar>
-                    <InfoBlock to={`/@${author}`}>
+                    <InfoBlock>
                         <AuthorName aria-label={tt('aria_label.username')}>{author}</AuthorName>
                         <TimeAgoWrapper date={created} />
                     </InfoBlock>
@@ -285,8 +285,8 @@ export class PostHeader extends Component {
                 </PostActionsWrapper>
                 {showPopover && (
                     <AvatarBox popoverOffsetTop={50} userPicSize={50}>
-                        <PopoverStyled onClose={this.closePopover} show>
-                            <PopoverBody accountName={author} close={this.closePopover} />
+                        <PopoverStyled closePopover={this.closePopover} show>
+                            <PopoverBody accountName={author} closePopover={this.closePopover} />
                         </PopoverStyled>
                     </AvatarBox>
                 )}

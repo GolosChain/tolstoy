@@ -265,7 +265,7 @@ export class ActivePanel extends Component {
                         />
                         <PopoverStyled
                             position="top"
-                            onClose={this.closeSharePopover}
+                            closePopover={this.closeSharePopover}
                             show={showSharePopover}
                         >
                             <ShareList horizontal={true} post={post} />
@@ -288,7 +288,7 @@ export class ActivePanel extends Component {
                     />
                     <PopoverStyled
                         position="top"
-                        onClose={this.closeDotsPopover}
+                        closePopover={this.closeDotsPopover}
                         show={showDotsPopover}
                     >
                         <Actions>

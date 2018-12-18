@@ -158,7 +158,7 @@ const MuteButton = styled(Mute)`
 
 export class PopoverBody extends Component {
     static propTypes = {
-        close: PropTypes.func,
+        closePopover: PropTypes.func,
     };
 
     componentDidMount() {
@@ -167,10 +167,6 @@ export class PopoverBody extends Component {
             this.props.getPostContent(this.props.pinnedPostsUrls);
         }
     }
-
-    closePopover = () => {
-        this.props.close();
-    };
 
     fetchFollowData() {
         const { account, followersCount, loadUserFollowData } = this.props;
@@ -188,6 +184,7 @@ export class PopoverBody extends Component {
             pinnedPosts,
             showFollowBlock,
             reputation,
+            closePopover,
             className,
         } = this.props;
         const linkToAccount = `/@${account}`;
@@ -196,7 +193,7 @@ export class PopoverBody extends Component {
             <Wrapper className={className}>
                 <ClosePopoverButton
                     aria-label={tt('aria_label.close_button')}
-                    onClick={this.closePopover}
+                    onClick={closePopover}
                 >
                     <Icon name="cross" width={16} height={16} />
                 </ClosePopoverButton>

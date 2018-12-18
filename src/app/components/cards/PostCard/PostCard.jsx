@@ -287,7 +287,6 @@ export default class PostCard extends PureComponent {
                     <CardAuthor
                         infoPopover={postInFeed}
                         contentLink={data.get('url')}
-                        permLink={data.get('permlink')}
                         author={author}
                         created={created}
                     />
@@ -438,7 +437,6 @@ export default class PostCard extends PureComponent {
                             popoverOffsetTop={42}
                             contentLink={postLink}
                             author={data.get('author')}
-                            permLink={data.get('permlink')}
                             created={data.get('created')}
                             isRepost
                         />

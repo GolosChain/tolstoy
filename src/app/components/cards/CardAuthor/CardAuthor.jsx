@@ -138,8 +138,8 @@ export default class CardAuthor extends Component {
                 <PopoverBackgroundShade show={showPopover} />
                 {showPopover && (
                     <AvatarBox popoverOffsetTop={popoverOffsetTop} userPicSize={USER_PIC_SIZE}>
-                        <PopoverStyled onClose={this.closePopover} show>
-                            <PopoverBody accountName={author} close={this.closePopover} />
+                        <PopoverStyled closePopover={this.closePopover} show>
+                            <PopoverBody accountName={author} closePopover={this.closePopover} />
                         </PopoverStyled>
                     </AvatarBox>
                 )}
@@ -154,7 +154,7 @@ export default class CardAuthor extends Component {
             isRepost,
             created,
             noLinks,
-            infoPopover,
+            noDateLink,
             className,
         } = this.props;
 
@@ -162,17 +162,18 @@ export default class CardAuthor extends Component {
         let AuthorNameComp = AuthorNameLink;
         let PostDateComp = PostDateLink;
 
-        if (noLinks || infoPopover) {
-            AvatarComp = Avatar;
-        }
         if (noLinks) {
+            AvatarComp = Avatar;
             AuthorNameComp = AuthorName;
+        }
+
+        if (noDateLink || noLinks) {
             PostDateComp = PostDate;
         }
 
         return (
             <Fragment>
-                {infoPopover && this.renderPopover()}
+                {this.renderPopover()}
                 <Wrapper className={className}>
                     <AvatarComp
                         to={`/@${author}`}

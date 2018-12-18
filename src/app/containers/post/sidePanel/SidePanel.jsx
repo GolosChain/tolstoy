@@ -323,7 +323,7 @@ export class SidePanel extends Component {
                         </IconWrapper>
                         <PopoverStyled
                             position="right"
-                            onClose={this.closeSharePopover}
+                            closePopover={this.closeSharePopover}
                             show={showSharePopover}
                         >
                             <ShareList post={post} />

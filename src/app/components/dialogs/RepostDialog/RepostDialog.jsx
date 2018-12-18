@@ -204,9 +204,9 @@ export default class RepostDialog extends Component {
                 </InputWrapper>
                 <PostPreview>
                     <CardAuthorStyled
+                        noLinks
                         author={sanitizedPost.author}
                         created={sanitizedPost.created}
-                        noLinks
                     />
                     <PostTitle>{sanitizedPost.title}</PostTitle>
                     <PostContent dangerouslySetInnerHTML={sanitizedPost.html} />
