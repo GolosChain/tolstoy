@@ -19,7 +19,7 @@ export default connect(
             pinnedPosts: author.pinnedPosts,
             pinnedPostsUrls: author.pinnedPostsUrls,
             showFollowBlock: author.account !== currentUsername,
-            reputation: repLog10(account.accountReputation),
+            reputation: repLog10(author.accountReputation),
         })
     ),
     {
