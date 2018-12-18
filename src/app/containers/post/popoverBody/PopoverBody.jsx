@@ -145,6 +145,7 @@ const PostTitle = styled(Link)`
     }
 `;
 
+//Follow has undefined value at first time component mounting
 const FollowButton = styled(props => <Follow {...props} />)`
     min-width: 150px;
     min-height: 30px;
