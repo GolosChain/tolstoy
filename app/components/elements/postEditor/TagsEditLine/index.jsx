@@ -1,11 +1,69 @@
-import React from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
-import Icon from 'app/components/elements/Icon';
-import { getFavoriteTags } from 'app/utils/tags';
-import './index.scss';
+import styled from 'styled-components';
+import is from 'styled-is';
+import tt from 'counterpart';
 
-export default class TagsEditLine extends React.PureComponent {
+import Icon from 'app/components/elements/Icon';
+import Tag from 'golos-ui/Tag';
+import { getFavoriteTags } from 'app/utils/tags';
+
+const Wrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding: 12px 0;
+    margin-left: 20px;
+    overflow: hidden;
+
+    @media (max-width: 576px) {
+        padding: 12px 16px;
+        margin: 0;
+        border-bottom: 1px solid #e9e9e9;
+    }
+
+    ${is('isEditMode')`
+        margin: 0;
+    `};
+`;
+
+const TagsLine = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+`;
+
+const StyledTag = styled(Tag)`
+    margin-bottom: 8px;
+    cursor: pointer;
+`;
+
+const StyledIcon = styled(Icon)`
+    display: inline-block;
+    vertical-align: top;
+    margin: -1px -2px 0 8px;
+    color: #e2e2e2;
+    transition: color 0.12s ease-in;
+`;
+
+const RecommendedTagsLabel = styled.h5`
+    display: block;
+    margin: 0;
+    padding: 12px 0;
+    font-size: 15px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    color: #959595;
+
+    @media (min-width: 577px) {
+        display: none;
+    }
+`;
+
+export default class TagsEditLine extends PureComponent {
     static propTypes = {
         tags: PropTypes.arrayOf(PropTypes.string).isRequired,
         inline: PropTypes.bool,
@@ -19,85 +77,34 @@ export default class TagsEditLine extends React.PureComponent {
     };
 
     componentDidMount() {
-        window.addEventListener('mouseup', this._onGlobalMouseUp);
-
         this.setState({
             favoriteTags: getFavoriteTags(),
         });
     }
 
-    componentWillUnmount() {
-        this._unmount = true;
-
-        window.removeEventListener('mouseup', this._onGlobalMouseUp);
-        window.removeEventListener('mousemove', this._onGlobalMouseMove);
-
-        this._toggleDraggingMode(false);
-    }
-
     render() {
-        const { tags, className, hidePopular, inline } = this.props;
+        const { hidePopular, editMode } = this.props;
 
         return (
-            <div
-                className={cn(
-                    'TagsEditLine',
-                    {
-                        TagsEditLine_inline: inline,
-                        TagsEditLine_drag: this._isDragging,
-                    },
-                    className
-                )}
-            >
-                <div className="TagsEditLine__wrapper">
-                    {this._renderTagList()}
-                    {hidePopular ? null : this._renderPopularList()}
-                </div>
-            </div>
+            <Wrapper isEditMode={editMode}>
+                {this._renderTagList()}
+                {hidePopular ? null : this._renderPopularList()}
+            </Wrapper>
         );
     }
 
     _renderTagList() {
         const { tags } = this.props;
 
-        return (
-            <div className="TagsEditLine__tag-list">
-                {tags.map((tag, i) => this._renderTag(tag, i))}
-            </div>
-        );
+        return <TagsLine>{tags.map((tag, i) => this._renderTag(tag, i))}</TagsLine>;
     }
 
     _renderTag(tag, i) {
-        const { editMode } = this.props;
-        const allowMove = i !== 0 || !editMode;
-
         return (
-            <span
-                key={tag}
-                className={cn('TagsEditLine__tag', {
-                    TagsEditLine__tag_draggable: allowMove,
-                    TagsEditLine__tag_drag:
-                        allowMove && this._draggingTag === tag,
-                })}
-                data-tag={tag}
-                ref={this._draggingTag === tag ? 'drag-item' : null}
-                onMouseDown={allowMove ? this._onMouseDown : null}
-                onMouseMove={
-                    this._isDragging && this._draggingTag !== tag
-                        ? this._onTagMouseMove
-                        : null
-                }
-            >
+            <StyledTag key={tag} selected data-tag={tag} onClick={() => this._removeTag(tag)}>
                 {tag}
-                {allowMove ? (
-                    <i
-                        className="TagsEditLine__tag-icon"
-                        onClick={() => this._removeTag(tag)}
-                    >
-                        <Icon name="editor/cross" size="0_75x" />
-                    </i>
-                ) : null}
-            </span>
+                <StyledIcon name="editor/cross" size="0_75x" />
+            </StyledTag>
         );
     }
 
@@ -112,108 +119,19 @@ export default class TagsEditLine extends React.PureComponent {
         }
 
         return (
-            <div className="TagsEditLine__tag-list TagsEditLine__tag-list_popular">
-                {favorites.map(tag => (
-                    <span
-                        key={tag}
-                        className="TagsEditLine__tag TagsEditLine__tag_favorite"
-                        onClick={() => this._onAddPopularTag(tag)}
-                    >
-                        <span className="TagsEditLine__shrink">{tag}</span>
-                        <i className="TagsEditLine__tag-icon">
-                            <Icon name="editor/plus" size="0_75x" />
-                        </i>
-                    </span>
-                ))}
-            </div>
+            <Fragment>
+                <RecommendedTagsLabel>{tt('post_editor.recommended_tags')}</RecommendedTagsLabel>
+                <TagsLine>
+                    {favorites.map(tag => (
+                        <StyledTag key={tag} onClick={() => this._onAddPopularTag(tag)}>
+                            {tag}
+                            <StyledIcon name="editor/plus" size="0_75x" />
+                        </StyledTag>
+                    ))}
+                </TagsLine>
+            </Fragment>
         );
     }
-
-    _onMouseDown = e => {
-        e.preventDefault();
-
-        this._toggleDraggingMode(false);
-
-        this._mouseDownPosition = {
-            x: e.clientX,
-            y: e.clientY,
-            tag: e.currentTarget.getAttribute('data-tag'),
-        };
-
-        window.addEventListener('mousemove', this._onGlobalMouseMove);
-    };
-
-    _onGlobalMouseUp = () => {
-        this._toggleDraggingMode(false);
-    };
-
-    _onGlobalMouseMove = e => {
-        if (this._isDragging) {
-            return;
-        }
-
-        const pos = this._mouseDownPosition;
-
-        if (Math.abs(pos.x - e.clientX) + Math.abs(pos.y - e.clientY) > 5) {
-            this._mouseDownPosition = null;
-            this._toggleDraggingMode(true);
-            this._draggingTag = pos.tag;
-
-            window.removeEventListener('mousemove', this._onGlobalMouseMove);
-
-            this.forceUpdate();
-        }
-    };
-
-    _toggleDraggingMode(enable) {
-        window.removeEventListener('mousemove', this._onGlobalMouseMove);
-
-        if (this._isDragging === enable) {
-            return;
-        }
-
-        if (enable) {
-        } else {
-            window.removeEventListener('mousemove', this._onGlobalMouseMove);
-            this._draggingTag = null;
-        }
-
-        this._isDragging = enable;
-
-        if (!this._unmount) {
-            this.forceUpdate();
-        }
-    }
-
-    _onTagMouseMove = e => {
-        if (!this._isDragging) {
-            return;
-        }
-
-        const target = e.currentTarget;
-
-        const tag = target.dataset['tag'];
-
-        const box = target.getBoundingClientRect();
-        const draggingBox = this.refs['drag-item'].getBoundingClientRect();
-
-        const modifier = box.x > draggingBox.x ? 0.2 : 0.8;
-        let positionShift = e.clientX > box.x + box.width * modifier ? 1 : 0;
-
-        const newTags = this.props.tags.filter(
-            tag => tag !== this._draggingTag
-        );
-
-        const tagIndex = newTags.indexOf(tag);
-
-        if (this.props.editMode && tagIndex === 0) {
-            positionShift = 1;
-        }
-
-        newTags.splice(tagIndex + positionShift, 0, this._draggingTag);
-
-        this.props.onChange(newTags);
-    };
 
     _removeTag = tag => {
         const { tags } = this.props;

@@ -1,6 +1,7 @@
 import React, { Fragment, createRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import is from 'styled-is';
 import throttle from 'lodash/throttle';
 import Turndown from 'turndown';
 import tt from 'counterpart';
@@ -77,6 +78,7 @@ const WorkArea = styled.div`
     flex-grow: 1;
     flex-shrink: 0;
     width: 100%;
+    max-width: 100%;
     min-height: 400px;
     height: calc(100% - 80px);
     padding-top: 10px;
@@ -101,6 +103,10 @@ const Footer = styled.div`
     user-select: none;
     background: #fff;
     box-shadow: 0 -2px 12px 0 rgba(0, 0, 0, 0.07);
+
+    ${is('isEdit')`
+        box-shadow: none;
+    `};
 `;
 
 const FooterContent = styled.div`
@@ -108,6 +114,12 @@ const FooterContent = styled.div`
     max-width: 75rem;
     padding: 0 8px;
     margin: 0 auto;
+
+    @media (max-width: 576px) {
+        max-width: 100%;
+        padding: 0;
+        overflow: hidden;
+    }
 `;
 
 const Spinner = styled.div`
@@ -142,7 +154,6 @@ const EditorSwitcherWrapper = styled.div`
 export default class PostForm extends React.Component {
     static propTypes = {
         editMode: PropTypes.bool,
-        author: PropTypes.string.isRequired,
         onCancel: PropTypes.func,
         onSuccess: PropTypes.func,
 
@@ -334,7 +345,7 @@ export default class PostForm extends React.Component {
                         )}
                     </Content>
                 </WorkArea>
-                <Footer>
+                <Footer isEdit={editMode}>
                     <FooterContent>
                         <PostFooter
                             ref="footer"

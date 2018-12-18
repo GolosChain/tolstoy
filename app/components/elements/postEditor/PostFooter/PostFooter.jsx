@@ -1,4 +1,4 @@
-import React, { PureComponent, createRef } from 'react';
+import React, { PureComponent, createRef, Fragment } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import tt from 'counterpart';
@@ -17,7 +17,7 @@ import { NSFW_TAG } from 'app/utils/tags';
 const Wrapper = styled.div`
     display: flex;
     align-items: center;
-    height: 80px;
+    min-height: 80px;
 
     @media (max-width: 576px) {
         flex-direction: column;
@@ -26,17 +26,24 @@ const Wrapper = styled.div`
         width: 100%;
         max-width: 100%;
     }
-
-    ${is('isEdit')`
-        margin-bottom: 50px;
-    `};
 `;
 
 const Tags = styled.div`
-    flex-grow: 1;
-    height: 100%;
     display: flex;
+    flex-grow: 1;
     align-items: center;
+    height: 100%;
+
+    @media (max-width: 576px) {
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    ${is('isOtherLine')`
+        flex-direction: column;
+    `};
 `;
 
 const ButtonsWrapper = styled.div`
@@ -144,92 +151,98 @@ export default class PostFooter extends PureComponent {
         const { temporaryErrorText, singleLine, showHint } = this.state;
 
         return (
-            <Wrapper innerRef={this.root} isEdit={editMode}>
-                <Tags>
-                    <TagInput tags={tags} onChange={onTagsChange} />
-                    {singleLine ? (
-                        <TagsEditLine
-                            tags={tags}
-                            inline
-                            editMode={editMode}
-                            className="PostFooter__inline-tags-line"
-                            hidePopular={editMode}
-                            onChange={this.props.onTagsChange}
-                        />
-                    ) : null}
-                </Tags>
-                <PostOptions
-                    nsfw={this.props.tags.includes(NSFW_TAG)}
-                    onNsfwClick={this._onNsfwClick}
-                    payoutType={this.props.payoutType}
-                    editMode={editMode}
-                    onPayoutChange={this.props.onPayoutTypeChange}
-                />
-                {mobileButtonsWrapperRef &&
-                    mobileButtonsWrapperRef.current &&
-                    createPortal(
-                        <MobileButtons>
-                            <ClearButton
-                                onClick={this.props.onCancelClick}
-                                aria-label={editMode ? tt('g.cancel') : tt('g.clear')}
-                            >
-                                <Icon name="cross_thin" size={17} />
-                            </ClearButton>
-                            <PreviewButton
-                                isPreview={isPreview}
-                                isVisible={isVisible}
-                                onPreviewChange={onPreviewChange}
-                                isStatic
+            <Fragment>
+                <Wrapper innerRef={this.root} isEdit={editMode}>
+                    <Tags isOtherLine={editMode}>
+                        <TagInput tags={tags} onChange={onTagsChange} />
+                        {editMode ? null : (
+                            <TagsEditLine
+                                tags={tags}
+                                inline
+                                editMode={editMode}
+                                hidePopular={editMode}
+                                onChange={this.props.onTagsChange}
                             />
-                            <SendButton
-                                disabled={postDisabled}
-                                onClick={this.props.onPostClick}
-                                aria-label={editMode ? tt('post_editor.update') : tt('g.post')}
-                            >
-                                <Icon name="send" width={32} height={22} />
-                            </SendButton>
-                        </MobileButtons>,
-                        mobileButtonsWrapperRef.current
-                    )}
-                <ButtonsWrapper>
-                    <Buttons>
-                        {editMode ? (
-                            <Button onClick={this.props.onCancelClick}>{tt('g.cancel')}</Button>
-                        ) : (
-                            <Button onClick={this.props.onResetClick}>{tt('g.clear')}</Button>
                         )}
-                        <ConfirmButtonWrapper>
-                            {postDisabled && disabledHint ? (
-                                <DisabledHint key="1" warning align="right" isVisible={showHint}>
-                                    {disabledHint}
-                                </DisabledHint>
-                            ) : temporaryErrorText ? (
-                                <DisabledHint key="2" error align="right">
-                                    {temporaryErrorText}
-                                </DisabledHint>
-                            ) : null}
-                            <Button
-                                primary
-                                disabled={postDisabled}
-                                onClick={this.props.onPostClick}
-                                onMouseOver={this.showHint}
-                                onMouseOut={this.hideHint}
-                            >
-                                {editMode ? tt('post_editor.update') : tt('g.post')}
-                            </Button>
-                        </ConfirmButtonWrapper>
-                    </Buttons>
-                </ButtonsWrapper>
-                {singleLine ? null : (
-                    <TagsEditLine
-                        className="PostFooter__tags-line"
+                    </Tags>
+                    <PostOptions
+                        nsfw={this.props.tags.includes(NSFW_TAG)}
+                        onNsfwClick={this._onNsfwClick}
+                        payoutType={this.props.payoutType}
                         editMode={editMode}
-                        tags={tags}
-                        hidePopular={editMode}
-                        onChange={onTagsChange}
+                        onPayoutChange={this.props.onPayoutTypeChange}
                     />
-                )}
-            </Wrapper>
+                    {mobileButtonsWrapperRef &&
+                        mobileButtonsWrapperRef.current &&
+                        createPortal(
+                            <MobileButtons>
+                                <ClearButton
+                                    onClick={this.props.onCancelClick}
+                                    aria-label={editMode ? tt('g.cancel') : tt('g.clear')}
+                                >
+                                    <Icon name="cross_thin" size={17} />
+                                </ClearButton>
+                                <PreviewButton
+                                    isPreview={isPreview}
+                                    isVisible={isVisible}
+                                    onPreviewChange={onPreviewChange}
+                                    isStatic
+                                />
+                                <SendButton
+                                    disabled={postDisabled}
+                                    onClick={this.props.onPostClick}
+                                    aria-label={editMode ? tt('post_editor.update') : tt('g.post')}
+                                >
+                                    <Icon name="send" width={32} height={22} />
+                                </SendButton>
+                            </MobileButtons>,
+                            mobileButtonsWrapperRef.current
+                        )}
+                    <ButtonsWrapper>
+                        <Buttons>
+                            {editMode ? (
+                                <Button onClick={this.props.onCancelClick}>{tt('g.cancel')}</Button>
+                            ) : (
+                                <Button onClick={this.props.onResetClick}>{tt('g.clear')}</Button>
+                            )}
+                            <ConfirmButtonWrapper>
+                                {postDisabled && disabledHint ? (
+                                    <DisabledHint
+                                        key="1"
+                                        warning
+                                        align="right"
+                                        isVisible={showHint}
+                                    >
+                                        {disabledHint}
+                                    </DisabledHint>
+                                ) : temporaryErrorText ? (
+                                    <DisabledHint key="2" error align="right">
+                                        {temporaryErrorText}
+                                    </DisabledHint>
+                                ) : null}
+                                <Button
+                                    primary
+                                    disabled={postDisabled}
+                                    onClick={this.props.onPostClick}
+                                    onMouseOver={this.showHint}
+                                    onMouseOut={this.hideHint}
+                                >
+                                    {editMode ? tt('post_editor.update') : tt('g.post')}
+                                </Button>
+                            </ConfirmButtonWrapper>
+                        </Buttons>
+                    </ButtonsWrapper>
+                </Wrapper>
+                {editMode ? (
+                    <TagsEditLine
+                        tags={tags}
+                        inline
+                        editMode={editMode}
+                        hidePopular={editMode}
+                        onChange={this.props.onTagsChange}
+                    />
+                ) : null}
+            </Fragment>
         );
     }
 

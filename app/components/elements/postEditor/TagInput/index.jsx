@@ -1,17 +1,68 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
+import styled from 'styled-components';
 import tt from 'counterpart';
+
 import Icon from 'app/components/elements/Icon';
 import Hint from 'app/components/elements/common/Hint';
 import { validateTag } from 'app/utils/tags';
 import KEYS from 'app/utils/keyCodes';
-import './index.scss';
 
-export default class TagInput extends React.PureComponent {
+const Wrapper = styled.div`
+    position: relative;
+    display: block;
+
+    @media (max-width: 576px) {
+        width: 100%;
+    }
+`;
+
+const Input = styled.input`
+    width: 240px;
+    height: 40px;
+    padding: 0 20px 1px 18px;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.18);
+    background-color: #fff;
+    transition: none;
+
+    &:focus {
+        border: none;
+    }
+
+    &::placeholder {
+        font-size: 15px;
+    }
+
+    @media (max-width: 576px) {
+        width: 100%;
+        padding: 0 20px 1px;
+        border-bottom: 1px solid #e9e9e9;
+        border-radius: 0;
+        box-shadow: none;
+
+        &:focus {
+            border-bottom: 1px solid #e9e9e9;
+            box-shadow: none;
+        }
+    }
+`;
+
+const StyledIcon = styled(Icon)`
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    right: 20px;
+    height: 40px;
+    line-height: 38px;
+    cursor: pointer;
+`;
+
+export default class TagInput extends PureComponent {
     static propTypes = {
         tags: PropTypes.array.isRequired,
-        className: PropTypes.string,
         onChange: PropTypes.func.isRequired,
     };
 
@@ -32,31 +83,26 @@ export default class TagInput extends React.PureComponent {
     }
 
     render() {
-        const { className } = this.props;
-
         return (
-            <div className={cn('TagInput', className)}>
-                <input
-                    className="TagInput__input"
+            <Wrapper>
+                <Input
                     value={this.state.value}
                     type="text"
                     ref="input"
-                    maxLength="25"
+                    maxLength="20"
                     placeholder={tt('post_editor.tags_input_placeholder')}
                     onFocus={this._onFocus}
                     onBlur={this._onBlur}
                     onChange={this._onInputChange}
                     onKeyDown={this._onInputKeyDown}
                 />
-                <i
-                    className="TagInput__input-plus"
+                <StyledIcon
+                    name="editor/plus"
                     data-tooltip={tt('g.add')}
                     onClick={this._onPlusClick}
-                >
-                    <Icon name="editor/plus" />
-                </i>
+                />
                 {this._renderErrorBlock()}
-            </div>
+            </Wrapper>
         );
     }
 
