@@ -12,6 +12,7 @@ import Userpic from 'app/components/elements/Userpic';
 import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
 import PopoverBody from 'src/app/containers/post/popoverBody';
 import {
+    AvatarBox,
     PopoverBackgroundShade,
     PopoverStyled,
 } from 'src/app/components/post/PopoverAdditionalStyles';
@@ -133,12 +134,6 @@ const PostActionsStyled = styled(PostActions)`
     margin: 0 3px;
 `;
 
-const AvatarBox = styled.div`
-    position: absolute;
-    top: 50px;
-    width: 50px;
-`;
-
 const PromotedMark = styled.div`
     position: relative;
     display: flex;
@@ -234,7 +229,6 @@ export class PostHeader extends Component {
             className,
         } = this.props;
         const { showPopover } = this.state;
-        const contentLink = postUrl.replace(/\/[^\/]+\/@([^\/]+\/[^\/]+)/, '$1');
 
         return (
             <Wrapper innerRef={forwardRef} className={className}>
@@ -289,13 +283,13 @@ export class PostHeader extends Component {
                         togglePin={togglePin}
                     />
                 </PostActionsWrapper>
-                {showPopover ? (
-                    <AvatarBox>
+                {showPopover && (
+                    <AvatarBox popoverOffsetTop={50} userPicSize={50}>
                         <PopoverStyled onClose={this.closePopover} show>
-                            <PopoverBody close={this.closePopover} permLink={contentLink} />
+                            <PopoverBody accountName={author} close={this.closePopover} />
                         </PopoverStyled>
                     </AvatarBox>
-                ) : null}
+                )}
             </Wrapper>
         );
     }

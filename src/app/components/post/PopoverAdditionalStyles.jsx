@@ -59,3 +59,9 @@ export const ClosePopoverButton = styled.div`
         display: flex;
     }
 `;
+
+export const AvatarBox = styled.div`
+    position: absolute;
+    top: ${({ popoverOffsetTop }) => popoverOffsetTop}px;
+    width: ${({ userPicSize }) => userPicSize}px;
+`;

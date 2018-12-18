@@ -8,7 +8,11 @@ import Icon from 'golos-ui/Icon';
 import Userpic from 'app/components/elements/Userpic';
 import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
 
-import { PopoverStyled } from 'src/app/components/post/PopoverAdditionalStyles';
+import {
+    AvatarBox,
+    PopoverBackgroundShade,
+    PopoverStyled,
+} from 'src/app/components/post/PopoverAdditionalStyles';
 import PopoverBody from 'src/app/containers/post/popoverBody';
 
 const USER_PIC_SIZE = 37;
@@ -89,12 +93,6 @@ const RepostIcon = styled(Icon)`
     color: #2879ff;
 `;
 
-const AvatarBox = styled.div`
-    position: absolute;
-    top: 52px;
-    width: ${USER_PIC_SIZE}px;
-`;
-
 export default class CardAuthor extends Component {
     static propTypes = {
         author: PropTypes.string.isRequired,
@@ -102,6 +100,7 @@ export default class CardAuthor extends Component {
 
     static defaultProps = {
         contentLink: null,
+        popoverOffsetTop: 52,
     };
 
     closePopoverTs = 0;
@@ -111,7 +110,7 @@ export default class CardAuthor extends Component {
     };
 
     openPopover = e => {
-        if (!this.props.noLinks) {
+        if (!this.props.infoPopover) {
             return;
         }
         e.preventDefault();
@@ -130,32 +129,50 @@ export default class CardAuthor extends Component {
         });
     };
 
-    render() {
-        const { contentLink, author, permLink, isRepost, created, noLinks, className } = this.props;
+    renderPopover() {
+        const { author, popoverOffsetTop } = this.props;
         const { showPopover } = this.state;
+
+        return (
+            <Fragment>
+                <PopoverBackgroundShade show={showPopover} />
+                {showPopover && (
+                    <AvatarBox popoverOffsetTop={popoverOffsetTop} userPicSize={USER_PIC_SIZE}>
+                        <PopoverStyled onClose={this.closePopover} show>
+                            <PopoverBody accountName={author} close={this.closePopover} />
+                        </PopoverStyled>
+                    </AvatarBox>
+                )}
+            </Fragment>
+        );
+    }
+
+    render() {
+        const {
+            contentLink,
+            author,
+            isRepost,
+            created,
+            noLinks,
+            infoPopover,
+            className,
+        } = this.props;
 
         let AvatarComp = AvatarLink;
         let AuthorNameComp = AuthorNameLink;
         let PostDateComp = PostDateLink;
 
-        if (noLinks) {
+        if (noLinks || infoPopover) {
             AvatarComp = Avatar;
+        }
+        if (noLinks) {
             AuthorNameComp = AuthorName;
             PostDateComp = PostDate;
         }
 
         return (
             <Fragment>
-                {showPopover && (
-                    <AvatarBox>
-                        <PopoverStyled onClose={this.closePopover} show>
-                            <PopoverBody
-                                close={this.closePopover}
-                                permLink={`${author}/${permLink}`}
-                            />
-                        </PopoverStyled>
-                    </AvatarBox>
-                )}
+                {infoPopover && this.renderPopover()}
                 <Wrapper className={className}>
                     <AvatarComp
                         to={`/@${author}`}

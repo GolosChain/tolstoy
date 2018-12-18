@@ -84,22 +84,18 @@ export class Follow extends Component {
     render() {
         const { collapseOnMobile, collapse, isFollow, className } = this.props;
 
-        if (isFollow) {
-            return (
-                <Wrapper
-                    light
-                    collapseOnMobile={collapseOnMobile}
-                    collapse={collapse}
-                    onClick={this.unfollow}
-                    className={className}
-                >
-                    <IconStyled width="14" height="10" name="tick" />
-                    <span>{tt('g.subscriptions')}</span>
-                </Wrapper>
-            );
-        }
-
-        return (
+        return isFollow ? (
+            <Wrapper
+                light
+                collapseOnMobile={collapseOnMobile}
+                collapse={collapse}
+                onClick={this.unfollow}
+                className={className}
+            >
+                <IconStyled width="14" height="10" name="tick" />
+                <span>{tt('g.subscriptions')}</span>
+            </Wrapper>
+        ) : (
             <Wrapper
                 collapseOnMobile={collapseOnMobile}
                 collapse={collapse}

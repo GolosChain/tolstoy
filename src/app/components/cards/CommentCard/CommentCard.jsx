@@ -292,6 +292,7 @@ export class CommentCard extends PureComponent {
                 <HeaderLine alertmode={showAlert}>
                     <CardAuthor
                         noLinks
+                        infoPopover
                         permLink={comment.get('permlink')}
                         contentLink={comment.get('url')}
                         author={comment.get('author')}
