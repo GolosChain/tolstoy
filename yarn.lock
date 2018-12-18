@@ -5318,6 +5318,7 @@ globule@^1.0.0:
 golos-js@0.7.6:
   version "0.7.6"
   resolved "https://registry.yarnpkg.com/golos-js/-/golos-js-0.7.6.tgz#357742cf5e1add33d35965209cde38d2efe8fdbf"
+  integrity sha512-MmLK1au8LoombdnUTmgX5HkCq5/giIuuD/g/BH272OfhQ3Of1MV0G92o9k1+9wC2QZqIR9VxRToN1E+LN/7H/g==
   dependencies:
     bigi "^1.4.2"
     bluebird "^3.4.6"

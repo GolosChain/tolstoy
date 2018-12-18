@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
@@ -10,9 +9,6 @@ import Icon from 'golos-ui/Icon';
 
 import { APP_DOMAIN, DONATION_FOR } from 'app/client_config';
 import { isBadActor } from 'app/utils/ChainValidation';
-import transaction from 'app/redux/Transaction';
-import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';
-import { showNotification } from 'src/app/redux/actions/ui';
 import { parseAmount } from 'src/app/helpers/currency';
 import { saveValue, getValue } from 'src/app/helpers/localStorageUtils';
 import { processError } from 'src/app/helpers/dialogs';
@@ -107,7 +103,7 @@ const ErrorLine = styled.div`
     animation: fade-in 0.15s;
 `;
 
-class TransferDialog extends PureComponent {
+export default class TransferDialog extends PureComponent {
     static propTypes = {
         type: PropTypes.oneOf(['donate', 'query']),
         toAccountName: PropTypes.string.isRequired,
@@ -124,7 +120,7 @@ class TransferDialog extends PureComponent {
 
         let target = '';
 
-        if (props.toAccountName && props.toAccountName !== props.myUser.get('username')) {
+        if (props.toAccountName && props.toAccountName !== props.currentUser.get('username')) {
             target = props.toAccountName;
         }
 
@@ -168,7 +164,7 @@ class TransferDialog extends PureComponent {
     }
 
     render() {
-        const { myAccount, type, toAccountName } = this.props;
+        const { currentAccount, type, toAccountName } = this.props;
         const {
             target,
             initialTarget,
@@ -199,7 +195,7 @@ class TransferDialog extends PureComponent {
             currencyKey = 'sbd_balance';
         }
 
-        const balance = parseFloat(myAccount.get(currencyKey));
+        const balance = parseFloat(currentAccount.get(currencyKey));
 
         let { value, error } = parseAmount(amount, balance, !amountInFocus);
         if (isBadActor(target)) {
@@ -343,11 +339,18 @@ class TransferDialog extends PureComponent {
     };
 
     onOkClick = () => {
-        const { myUser, type, donatePostUrl } = this.props;
+        const { currentUser, type, donatePostUrl } = this.props;
         const { target, amount, currency, note, loader, disabled } = this.state;
 
         if (loader || disabled) {
             return;
+        }
+
+        if (note) {
+            if (/\b5[\w\d]{50}\b/.test(note) || /\b[PK5][\w\d]{51}\b/.test(note)) {
+                DialogManager.alert(tt('g.note_contains_keys_error'));
+                return;
+            }
         }
 
         let memo = note;
@@ -359,7 +362,7 @@ class TransferDialog extends PureComponent {
         }
 
         const operation = {
-            from: myUser.get('username'),
+            from: currentUser.get('username'),
             to: target,
             amount: parseFloat(amount.replace(/\s+/, '')).toFixed(3) + ' ' + currency,
             memo,
@@ -388,37 +391,3 @@ class TransferDialog extends PureComponent {
         });
     };
 }
-
-export default connect(
-    state => {
-        const myUser = state.user.getIn(['current']);
-        const myAccount = myUser ? state.global.getIn(['accounts', myUser.get('username')]) : null;
-
-        return {
-            myUser,
-            myAccount,
-        };
-    },
-    {
-        transfer: (operation, callback) => dispatch =>
-            dispatch(
-                transaction.actions.broadcastOperation({
-                    type: 'transfer',
-                    operation,
-                    successCallback() {
-                        callback(null);
-
-                        if (location.pathname.endsWith('/transfers')) {
-                            dispatch(fetchCurrentStateAction());
-                        }
-                    },
-                    errorCallback(err) {
-                        callback(err);
-                    },
-                })
-            ),
-        showNotification,
-    },
-    null,
-    { withRef: true }
-)(TransferDialog);

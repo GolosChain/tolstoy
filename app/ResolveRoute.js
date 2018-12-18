@@ -66,10 +66,6 @@ export default function resolveRoute(path) {
         return { page: 'Tos' };
     }
 
-    if (path === '/change_password') {
-        return { page: 'ChangePassword' };
-    }
-
     if (path === '/recover_account_step_1') {
         return { page: 'RecoverAccountStep1' };
     }

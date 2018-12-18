@@ -6,12 +6,20 @@ import { Map } from 'immutable';
 import { Form, Field } from 'react-final-form';
 import tt from 'counterpart';
 
-import { CURRENCIES, LANGUAGES } from 'app/client_config';
+import { CURRENCIES, LANGUAGES, AUCTION_REWARD_DESTINATION } from 'app/client_config';
 
 import SplashLoader from 'golos-ui/SplashLoader';
 import { CardContent } from 'golos-ui/Card';
-import { DialogFooter, DialogButton } from 'golos-ui/Dialog';
-import { FormGroup, Label, Select, RadioGroup, CheckboxInput, FormError } from 'golos-ui/Form';
+import {
+    FormGroup,
+    Label,
+    Select,
+    RadioGroup,
+    CheckboxInput,
+    FormError,
+    FormFooter,
+    FormFooterButton,
+} from 'golos-ui/Form';
 import Slider from 'golos-ui/Slider';
 
 const CheckboxTitle = styled.div`
@@ -29,7 +37,7 @@ export default class Common extends PureComponent {
     };
 
     render() {
-        const { options, onSubmitGate } = this.props;
+        const { options, onSubmitGate, isRich } = this.props;
         const data = {
             basic: options.getIn(['basic'], emptyMap).toJS(),
         };
@@ -109,17 +117,38 @@ export default class Common extends PureComponent {
                                     </FormGroup>
                                 )}
                             </Field>
-                            <Field name="basic.award">
-                                {({ input, meta }) => (
-                                    <FormGroup>
-                                        <Label dark bold>
-                                            {tt('settings_jsx.default_voting_power')}
-                                        </Label>
-                                        <Slider {...input} showCaptions hideHandleValue />
-                                        <FormError meta={meta} />
-                                    </FormGroup>
+                            {isRich && (
+                                <Field name="basic.awardByDefault">
+                                    {({ input, meta }) => (
+                                        <FormGroup>
+                                            <Label dark bold>
+                                                {tt('settings_jsx.voting')}
+                                            </Label>
+                                            <CheckboxInput
+                                                {...input}
+                                                title={
+                                                    <CheckboxTitle>
+                                                        {tt('settings_jsx.voting_power_by_default')}
+                                                    </CheckboxTitle>
+                                                }
+                                            />
+                                            <FormError meta={meta} />
+                                        </FormGroup>
+                                    )}
+                                </Field>
+                            )}
+                            {isRich &&
+                                form.getFieldState('basic.awardByDefault') &&
+                                form.getFieldState('basic.awardByDefault').value && (
+                                    <Field name="basic.award">
+                                        {({ input, meta }) => (
+                                            <FormGroup>
+                                                <Slider {...input} showCaptions hideHandleValue />
+                                                <FormError meta={meta} />
+                                            </FormGroup>
+                                        )}
+                                    </Field>
                                 )}
-                            </Field>
                             <Field name="basic.selfVote">
                                 {({ input, meta }) => (
                                     <FormGroup>
@@ -132,6 +161,29 @@ export default class Common extends PureComponent {
                                             }
                                         />
                                         <FormError meta={meta} />
+                                    </FormGroup>
+                                )}
+                            </Field>
+                            <Field name="basic.auctionRewardDestination">
+                                {({ input }) => (
+                                    <FormGroup>
+                                        <Label dark bold>
+                                            {tt('settings_jsx.auction_reward_destination.label')}
+                                        </Label>
+                                        <Select
+                                            {...input}
+                                            onChange={e => input.onChange(e.target.value)}
+                                        >
+                                            {Object.keys(
+                                                AUCTION_REWARD_DESTINATION.DESTINATION
+                                            ).map(key => (
+                                                <option key={key} value={key}>
+                                                    {tt(
+                                                        `settings_jsx.auction_reward_destination.items.${key}`
+                                                    )}
+                                                </option>
+                                            ))}
+                                        </Select>
                                     </FormGroup>
                                 )}
                             </Field>
@@ -178,18 +230,21 @@ export default class Common extends PureComponent {
                             </Field>
                             {submitError && <div>{submitError}</div>}
                         </CardContent>
-                        <DialogFooter>
-                            <DialogButton onClick={form.reset} disabled={submitting || pristine}>
+                        <FormFooter>
+                            <FormFooterButton
+                                onClick={form.reset}
+                                disabled={submitting || pristine}
+                            >
                                 {tt('settings_jsx.reset')}
-                            </DialogButton>
-                            <DialogButton
+                            </FormFooterButton>
+                            <FormFooterButton
                                 type="submit"
                                 primary
                                 disabled={submitting || pristine || hasValidationErrors}
                             >
                                 {tt('settings_jsx.update')}
-                            </DialogButton>
-                        </DialogFooter>
+                            </FormFooterButton>
+                        </FormFooter>
                     </form>
                 )}
             </Form>

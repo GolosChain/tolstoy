@@ -1,11 +1,10 @@
 import React from 'react';
-
 import tt from 'counterpart';
 
 import { TabContainer, Tabs } from 'golos-ui/Tabs';
 
 import Current from './keys/Current';
-import New from './keys/New';
+import ResetKey from './keys/ResetKey';
 
 const Keys = ({ account, privateKeys, onSubmitChangePassword }) => {
     return (
@@ -14,7 +13,7 @@ const Keys = ({ account, privateKeys, onSubmitChangePassword }) => {
                 <Current account={account} privateKeys={privateKeys} />
             </TabContainer>
             <TabContainer id="newKeyTab" title={tt('settings_jsx.keys.tabs.new')}>
-                <New account={account} onSubmitChangePassword={onSubmitChangePassword} />
+                <ResetKey account={account} onSubmitChangePassword={onSubmitChangePassword} />
             </TabContainer>
         </Tabs>
     );

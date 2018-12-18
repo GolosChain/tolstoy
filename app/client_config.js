@@ -57,6 +57,7 @@ export const REGISTRATION_URL = 'https://reg.golos.io/';
 export const SUPPORT_EMAIL = 'support@' + APP_DOMAIN;
 export const SUPPORT_EMAIL_2 = 'pr@golos.io';
 // ignore special tags, dev-tags, partners tags
+export const IGNORE_TEST_TAGS = ['test'];
 export const IGNORE_TAGS = ['bm-open', 'bm-ceh23', 'bm-tasks', 'bm-taskceh1'];
 export const PUBLIC_API = {
     created: 'getDiscussionsByCreatedAsync',
@@ -132,3 +133,11 @@ export const LEAVE_PAGE_WHITELIST_DOMAINS = [
 export const DONATION_FOR = 'Donation for';
 
 export const AMPLITUDE_SESSION = 'amplitudeSession';
+
+export const AUCTION_REWARD_DESTINATION = {
+    DEFAULT: 'to_curators',
+    DESTINATION: {
+        to_reward_fund: 0,
+        to_curators: 1,
+    },
+};

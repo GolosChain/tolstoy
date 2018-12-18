@@ -7,7 +7,7 @@ import { connect } from 'src/app/helpers/gate';
 import { makeFakeAuthTransaction } from './utils';
 import { addNotificationOnline } from 'src/app/redux/actions/notificationsOnline';
 import { showNotification } from 'src/app/redux/actions/ui';
-import { getSettingsOptions, setSettingsLocale } from 'src/app/redux/actions/settings';
+import { getSettingsOptions } from 'src/app/redux/actions/settings';
 
 import {
     GATE_SEND_MESSAGE,
@@ -125,8 +125,6 @@ function* subscribe(socket) {
     const postingPrivateKey = current.getIn(['private_keys', 'posting_private']);
     const userName = current.get('username');
 
-    const locale = yield select(state => state.user.get('locale'));
-
     return eventChannel(emit => {
         socket.on('sign', ({ secret }) => {
             const transaction = makeFakeAuthTransaction(userName, secret);
@@ -141,10 +139,6 @@ function* subscribe(socket) {
                 })
                 .then(() => {
                     emit({ type: GATE_AUTHORIZED });
-
-                    if (locale) {
-                        emit(setSettingsLocale(locale));
-                    }
 
                     // load settings after authorization
                     emit(getSettingsOptions());

@@ -1,7 +1,9 @@
+import { intersection } from 'ramda';
+
 import { processBlog } from 'shared/state';
 import resolveRoute from 'app/ResolveRoute';
 import { reverseTags, prepareTrendingTags } from 'app/utils/tags';
-import { IGNORE_TAGS, PUBLIC_API } from 'app/client_config';
+import { IGNORE_TEST_TAGS, IGNORE_TAGS, PUBLIC_API } from 'app/client_config';
 import { COUNT_OF_TAGS } from 'src/app/redux/constants/common';
 
 const DEFAULT_VOTE_LIMIT = 10000;
@@ -215,6 +217,8 @@ async function getStateForApi(state, { params }, { routeParts, api, query }) {
         discussionsType = routeParts[0];
     }
 
+    args.filter_tags = [...IGNORE_TAGS, ...IGNORE_TEST_TAGS];
+
     if (typeof tagsStr === 'string' && tagsStr.length) {
         const tags = tagsStr.split('|');
         const tagsSelect = tags[0] ? tags[0].split(',').sort() : [];
@@ -229,7 +233,9 @@ async function getStateForApi(state, { params }, { routeParts, api, query }) {
         if (tagsFilter && tagsFilter.length) {
             args.filter_tags = filterTags = reverseTags(tagsFilter);
         } else {
-            args.filter_tags = IGNORE_TAGS;
+            if (intersection(tagsSelect, IGNORE_TEST_TAGS).length) {
+                args.filter_tags = IGNORE_TAGS;
+            }
         }
 
         const selectedSelectTags = selectTags

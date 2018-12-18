@@ -35,7 +35,7 @@ export default class AndroidMarket extends PureComponent {
                     '&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'
                 }
             >
-                <img alt={tt('about_jsx.mobileBannerAlt')} src={imgsrc} />
+                <img alt={tt('about_jsx.mobile_banner_alt')} src={imgsrc} />
             </a>
         );
     }
