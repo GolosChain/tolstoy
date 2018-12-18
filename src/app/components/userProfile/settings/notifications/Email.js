@@ -1,5 +1,4 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import styled from 'styled-components';
 import is from 'styled-is';
 
@@ -7,7 +6,6 @@ import { Form, Field } from 'react-final-form';
 import tt from 'counterpart';
 
 import { CardContent, CardDivider } from 'golos-ui/Card';
-import { DialogFooter, DialogButton } from 'golos-ui/Dialog';
 import {
     FormGroup,
     FormGroupRow as StyledFormGroupRow,
@@ -16,6 +14,8 @@ import {
     Switcher,
     Select,
     Error,
+    FormFooter,
+    FormFooterButton,
 } from 'golos-ui/Form';
 import Icon from 'golos-ui/Icon';
 
@@ -43,7 +43,7 @@ const LabelIcon = styled(StyledLabelRow)`
 `;
 
 const Email = ({ isChanging, onSubmitGate }) => {
-    // TODO: 
+    // TODO:
     const data = {};
 
     return (
@@ -149,9 +149,7 @@ const Email = ({ isChanging, onSubmitGate }) => {
                                     <LabelIcon active={input.value}>
                                         <Icon name="at" width="17" height="17" />
                                     </LabelIcon>
-                                    <LabelRow dark>
-                                        Упоминание в посте или комментарии
-                                    </LabelRow>
+                                    <LabelRow dark>Упоминание в посте или комментарии</LabelRow>
                                     <Switcher {...input} />
                                 </FormGroupRow>
                             )}
@@ -216,9 +214,7 @@ const Email = ({ isChanging, onSubmitGate }) => {
                         <Field name="c">
                             {({ input }) => (
                                 <FormGroupRow>
-                                    <LabelRow dark>
-                                        Награда за пост
-                                    </LabelRow>
+                                    <LabelRow dark>Награда за пост</LabelRow>
                                     <Switcher {...input} />
                                 </FormGroupRow>
                             )}
@@ -236,14 +232,14 @@ const Email = ({ isChanging, onSubmitGate }) => {
 
                         {submitError && <div>{submitError}</div>}
                     </CardContent>
-                    <DialogFooter>
-                        <DialogButton onClick={form.reset} disabled={submitting || pristine}>
+                    <FormFooter>
+                        <FormFooterButton onClick={form.reset} disabled={submitting || pristine}>
                             {tt('settings_jsx.reset')}
-                        </DialogButton>
-                        <DialogButton type="submit" primary disabled={submitting}>
+                        </FormFooterButton>
+                        <FormFooterButton type="submit" primary disabled={submitting}>
                             {tt('settings_jsx.update')}
-                        </DialogButton>
-                    </DialogFooter>
+                        </FormFooterButton>
+                    </FormFooter>
                 </form>
             )}
         </Form>

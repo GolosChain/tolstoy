@@ -7,8 +7,8 @@ import PropTypes from 'prop-types';
 import Icon from 'golos-ui/Icon';
 import Button from 'golos-ui/Button';
 import { TagLink } from 'golos-ui/Tag';
-import Userpic from 'app/components/elements/Userpic';
 
+import Userpic from 'src/app/components/common/Userpic';
 import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
 import PopoverBody from 'src/app/containers/post/popoverBody';
 import {

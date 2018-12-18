@@ -1,11 +1,6 @@
 {
   "about_jsx": {
-    "about_app": "About %(APP_NAME)s",
-    "about_app_details": "%(APP_NAME)s is a social media platform where everyone gets paid for creating and curating content. It leverages a robust digital points system, called Steem, that supports real value for digital rewards through market price discovery and liquidity.",
-    "join_our_slack": "Join our Slack",
-    "learn_more_at_app_url": "Learn more at %(APP_DOMAIN)s",
-    "mobileBannerAlt": "Get it on Google Play",
-    "resources": "Resources"
+    "mobile_banner_alt": "Get it on Google Play"
   },
   "about_page": {
     "decription_1": "The platform was launched in October 2016.",
@@ -125,14 +120,6 @@
   "comment_editor": {
     "cancel_comment": "Comment text will be erased. Are you sure?"
   },
-  "comment_jsx": {
-    "collapse_or_expand": "Collapse/Expand",
-    "reveal_comment": "Reveal comment"
-  },
-  "confirmtransactionform_jsx": {
-    "confirm": "Confirm",
-    "ok": "Ok"
-  },
   "content": {
     "tip": {
       "blog": {
@@ -152,90 +139,9 @@
       }
     }
   },
-  "converttosteem_jsx": {
-    "DEBT_TOKEN_will_be_unavailable": "This action will take place 3.5 days from now and can not be canceled. These %(DEBT_TOKEN)s will immediately become unavailable",
-    "confirm_title": "Confirm Convert",
-    "convert_to_LIQUID_TOKEN": "Convert to %(LIQUID_TOKEN)s",
-    "this_is_a_price_feed_conversion": "This is a price feed conversion. The 3.5 day delay is necessary to prevent abuse from gaming the price feed average",
-    "your_existing_DEBT_TOKEN_are_liquid_and_transferable": "Your existing %(DEBT_TOKEN)s are liquid and transferable. Instead you may wish to trade %(DEBT_TOKEN)s directly in this site under %(link)s or transfer to an external market."
-  },
   "createaccount_jsx": {
-    "APP_NAME_can_only_register_one_account_per_verified_user": "Please note that %(APP_NAME)s can only register one account per verified user.",
-    "APP_NAME_wants_you_to_know": "* Your mobile provider's standard rates for sending and receiving text messages still apply.",
-    "account_name_already_used": "This account name already used.",
-    "account_name_hint": "Account name can't be changed after registration.",
-    "before_creating_account": " before you can create another account.",
-    "check_code": "Please, check the code and sent number. If all is ok but registration doesn't continue write to us on",
-    "confirmation_code": "Confirmation code",
-    "couldnt_create_account_server_returned_error": "Couldn't create account. Server returned the following error",
-    "country_code": "Country Code",
-    "create_account": "Create Account",
-    "ctyptography_test_failed": "Ctyptography test failed",
-    "didnt_receive_the_verification_code": "Didn't receive the verification code? ",
-    "didnt_recieve_email": "Didn't recieve email?",
-    "email_verification_helps_with_preventing_spam": "Email verification helps with preventing spam and allows %(APP_NAME)s to assist with Account Recovery in case your account is ever compromised.",
-    "enter_account_name": "Enter your account name",
-    "enter_email": "Enter e-mail",
-    "examples": "Enter number without country code, for example: 541-754-3010 | 89-636-48018",
     "final_confirm": "Accept our Terms of Use:",
-    "form_requires_javascript_to_be_enabled": "This form requires javascript to be enabled in your browser",
-    "get_code": "Get confirmation code",
-    "in_order_to_prevent_abuse_APP_NAME_can_only_register_one_account_per_user": "In order to prevent abuse %(APP_NAME)s can only register one account per verified user.",
-    "land_lines_cannot_receive_sms_messages": "* Land lines cannot send or receive SMS messages",
-    "message_and_data_rates_may_apply": "* Message and data rates may apply",
-    "mobile_description": {
-      "fourth": "We are interested in real users (not bots) to register on our platform, hence, we kindly ask you to send out an sms to the stated number. It is no more than a human verification process. And works for the best of the whole community. Thank you!",
-      "one": "Right now, the registration on media-blockchain %(APP_NAME)s costs money for the system. In order for the community to grow quicker, we take those costs on board and pay out 5 %(APP_NAME)s tokens to each new member.",
-      "third": "Accepting a paid sms from a user, is a good method to check out his motivation to register on the %(APP_NAME)s platform, also it is by far, more economically efficient for the whole system."
-    },
-    "next_3_blocks": {
-      "if_you_need_a_new_account": "if you need a new account",
-      "to_your_existing_account_or": " to your existing account or",
-      "you_can_either": "You can either"
-    },
-    "our_records_indicate_you_already_have_account": "Our records indicate that you already have %(APP_NAME)s account",
-    "phone_number": "Phone number",
-    "phone_number_has_been_verified": "Phone number has been verified, please continue the registration.",
-    "phone_verification_helps_with_preventing_spam": "Phone verification helps with preventing spam and allows $(APP_NAME)s to assist with Account Recovery in case your account is ever compromised. Your phone number will not be used for any other purpose other than phone verification and account recovery.",
-    "please_provide_your_email_address_to_continue": "Please provide your email address to continue the registration process",
-    "please_provide_your_phone_number_to_continue": "Please provide your phone number to continue the registration process",
-    "re_send": "Re-send",
-    "request_error": "Account name can't be verified right now due to server failure. Please try again later.",
-    "send_us_email": "send us email",
-    "sent_sms": "I sent sms",
-    "sent_sms_descriptio": "Дождитесь подтверждения вашего номера телефона (процесс может занять несколько минут), после чего поля регистрации станут активны для заполнения.",
-    "sent_sms_description": "Wait until your phone number will be confirmed (it may take several minutes).",
-    "sms_how_much": "How much does sms cost?",
-    "sms_how_much_answer": "SMS will cost the default price in your network.",
-    "take_your_secret_key": "Receive your generated password",
-    "thank_you_for_providing_your_email_address": "Thank you for providing your email address",
-    "thank_you_for_providing_your_phone_number": "Thank you for providing your phone number.",
-    "this_phone_number_has_already_been_used": "This phone number has already been used",
-    "to_continue_please_click_on_the_link_in_the_email": "To continue please click on the link in the email we've sent you.",
-    "to_continue_please_enter_the_sms_code_weve_sent_you": "To continue please enter the SMS code we've sent you.",
-    "to_continue_please_send_sms_code": "To continue please send SMS message from your mobile phone with code %(code)s to %(phone_number)s. The text message should consist of only 4-digit code.",
-    "we_will_be_unable_to_create_account_with_this_browser": "We will be unable to create your %(APP_NAME)s account with this browser",
-    "why_send_sms": "Why send SMS?",
-    "will_be_send_to_phone_number": "Number: +",
-    "without_country_code": "Without country code",
-    "you_can_change_your_number": "You can change your number at any time if we didn't receive your sms with verification code. ",
-    "you_need_to": "You need to "
-  },
-  "data-tooltip": {
-    "clear_notifications_history": "Mark all notifications as read",
-    "compact": "Compact list",
-    "grid": "Grid",
-    "list": "List"
-  },
-  "delegate_vesting_shares_info_jsx": {
-    "confirm_cancel_delegation": "Are you sure you want to cancel %(VESTING_TOKEN2)s delegation",
-    "confirm_title": "Cancel %(VESTING_TOKENS)s delegation",
-    "from": "From",
-    "to": "To"
-  },
-  "delegatevestingshares_jsx": {
-    "button_title": "Delegate",
-    "form_title": "Delegate %(VESTING_TOKEN2)s"
+    "take_your_secret_key": "Receive your generated password"
   },
   "dialog": {
     "alert": "Alert",
@@ -366,26 +272,6 @@
     "strikethrough": "Toggle strikethrough style",
     "unordered_list": "Make list"
   },
-  "enter_confirm_email_jsx": {
-    "email_address": "Email Address",
-    "email_address_cannot_be_changed_at_this_moment_sorry_for_inconvenience": "Email address cannot be changed at this moment, sorry for the inconvenience",
-    "email_confirmation": "Email Confirmation",
-    "failed_captcha_verification_please_try_again": "Failed captcha verification, please try again",
-    "next_3_strings": {
-      "by_verifying_you_agree_with": "By verifying your account you agree to the",
-      "by_verifying_you_agree_with_privacy_policy": "Privacy Policy",
-      "by_verifying_you_agree_with_privacy_policy_of_website_APP_DOMAIN": "of %(APP_DOMAIN)s"
-    },
-    "not_valid_email_address": "Not valid email address",
-    "please_prove_an_email_address": "Please provide an email address",
-    "please_provide_your_email_address_to_continue_the_registration_process": "Please provide your email address to continue the registration process",
-    "re_send_email": "Re-send email",
-    "thank_you_for_providing_your_email_address": "Thank you for providing your email address",
-    "this_email_has_already_been_taken": "This email has already been taken",
-    "this_information_allows_steemit_to_assist_with_account_recovery_in_case_your_account_is_ever_compormised": "This information allows Steemit to assist with Account Recovery in case your account is ever compromised",
-    "to_continue_please_click_on_the_link_in_the_email_weve_sent_you": "To continue please click on the link in the email we've sent you",
-    "user_not_found": "user not found"
-  },
   "error_page": {
     "link_to_main": "Go to main",
     "link_to_support": "Contact us support",
@@ -413,20 +299,14 @@
     "total_paid": "Total paid"
   },
   "g": {
-    "24_hour": "24 hour",
-    "30_day": "30 day",
     "APP_NAME": "Golos",
-    "APP_NAME_account": "%(APP_NAME)s account",
     "APP_NAME_support": "%(APP_NAME)s Support",
-    "about_project": "About",
-    "account_creation_succes": "Your account has been successfully created!",
     "account_name": "Account Name",
+    "account_name_chars_restrictions": "Account name should have only letters, digits, or dashes.",
     "account_name_should_be_longer": "Account name should be longer.",
     "account_name_should_be_shorter": "Account name should be shorter.",
-    "account_name_should_have_only_letters_digits_or_dashes": "Account name should have only letters, digits, or dashes.",
     "account_name_should_start_with_a_letter": "Account name should start with a letter.",
     "account_not_found": "Account not found",
-    "account_recovery_succes": "Your account has been successfully recovered!",
     "account_updated": "Account Updated",
     "active": "Active key",
     "activity": "Activity",
@@ -436,7 +316,6 @@
     "all_langs": "All languages",
     "amount": "Amount",
     "and": "and",
-    "announcement_text": "Golos.io: Грантовая программа поддержки молодых авторов и уникального контента",
     "are_you_sure": "Are you sure?",
     "ask": "Ask",
     "auth_to_show": "Authorize to show",
@@ -445,7 +324,6 @@
     "authors_posts": "author's posts",
     "authors_receive_rewards_for_upvotes": "",
     "auto": "auto",
-    "auto_login_question_mark": "Auto login?",
     "back": "Back",
     "back_to_top": "Back to top",
     "backup_password_by_storing_it": "Back it up by storing in your password manager or a text file",
@@ -455,62 +333,34 @@
     "blog": "Blog",
     "browse": "Browse",
     "buy": "Buy",
-    "buy_VESTING_TOKEN": "Buy %(VESTING_TOKEN)s",
     "buy_or_sell": "Buy or Sell",
     "by": "by",
-    "by_verifying_you_agree": "By verifying your account you agree to the %(APP_NAME)s",
-    "by_verifying_you_agree_terms_and_conditions": "terms and conditions",
     "cancel": "Cancel",
     "cancel_subscription": "cancel subscription",
-    "cannot_increase_reward_of_post_within_the_last_minute_before_payout": "Cannot increase reward of post within the last minute before payout",
     "change_password": "Change Password",
     "clear": "Clear",
     "click_to_generate_password": "Click to generate password",
     "close": "Close",
     "collapse": "Collapse",
     "comments": "Comments",
-    "confirm_follow": "Are you sure you want to follow this user?",
-    "confirm_ignore": "Are you sure you want to block this user?",
     "confirm_password": "Confirm Password",
-    "confirm_unfollow": "Are you sure you want to unfollow this user?",
     "confirm_unfollow_user": "Are you sure you want to unfollow",
-    "connection_lost_reconnecting": "Connection lost, reconnecting",
     "continue": "continue",
     "convert": "Convert",
     "create_post": "Create post",
     "created": "New First",
-    "cryptography_test_failed": "Cryptography test failed",
-    "curation_rewards": "Curation rewards",
     "current_password": "Current Password",
     "date": "Date",
-    "date_months": {
-      "0": "January",
-      "1": "February",
-      "2": "March ",
-      "3": "April ",
-      "4": "May",
-      "5": "June ",
-      "6": "July",
-      "7": "August",
-      "8": "September",
-      "9": "October",
-      "10": "November",
-      "11": "December "
-    },
-    "delegated_vesting": "%(VESTING_TOKEN)s delegated from this account",
     "delete": "Delete",
     "dislike": "Dislike",
     "dismiss": "Dismiss",
-    "do_you_need_to": "Do you need to",
     "documentation": "Documentation",
     "donate": "Donate",
     "edit": "Edit",
     "edit_comment": "Edit comment",
     "email": "Email",
-    "email_recovery_hint": "Used to recover a hijacked or stolen GOLOS account",
     "empty": "So far empty",
     "empty_list": "Empty list",
-    "enter_username": "Enter your username",
     "error": "Error",
     "exclude": "Exclude",
     "expand": "Expand",
@@ -520,8 +370,6 @@
     "filter": "Filter",
     "flag": "Flag",
     "follow": "Follow",
-    "for": " for ",
-    "from": " from ",
     "gender": {
       "female": "Female",
       "male": "Male"
@@ -532,22 +380,16 @@
     "hide": "Hide",
     "hide_private_key": "Hide private key",
     "hot": "Hot",
-    "however_you_can_use_it_to": "However, you can use it to",
     "i_saved_password": "I have securely saved my generated password",
     "in": "in",
-    "in_reply_to": "in reply to",
     "incorrect_password": "Incorrect password",
-    "insufficient_balance": "Insufficient balance",
-    "invalid_amount": "Invalid amount",
-    "invited_users": "Invited users",
+    "increase_post_reward_time_limit": "Cannot increase reward of post within the last minute before payout",
     "invites": "Invites",
-    "joined": "Joined",
-    "keep_me_logged_in": "Keep me logged in",
+    "ip_access_limit": "Only one account allowed per IP address every 10 minutes",
     "like": "Like",
     "list_posts": "List",
     "loading": "Loading",
     "login": "Login",
-    "login_to_see_memo": "login to see memo",
     "logout": "Logout",
     "market": "Market",
     "mediafile": "mediafile",
@@ -555,52 +397,24 @@
     "messages": "Messages",
     "more": "more",
     "mute": "Mute",
-    "need_password_or_key": "You need a private password or key (not a public key)",
     "new": "new",
     "new_password": "New Password",
     "newer": "Newer",
     "next": "Next",
-    "next_3_blocks": {
-      "and": "and",
-      "are_well_tested_and_known_to_work_with": "are well tested and known to work with %(APP_DOMAIN)s.",
-      "the_latest_versions_of": "The latest versions of"
-    },
-    "next_3_strings_together": {
-      "show_less": "Show fewer",
-      "show_more": "Show more",
-      "value_posts": "low value posts"
-    },
-    "next_7_strings_sinngle_block": {
-      "and_vote_for_it": "and vote for it",
-      "authors_get_paid_when_people_like_you_upvote_their_post": "Authors get paid when people like you upvote their post",
-      "free_steem": "FREE %(LIQUID_TOKEN)ss!",
-      "if_you_enjoyed_what_you_read_earn_amount": "Join our amazing community to comment and reward others.",
-      "sign_up_now_to_receive": "Sign up now to receive ",
-      "when_you": "when you",
-      "when_you_link_text": "Sign Up"
-    },
     "no": "No",
-    "no_tags_selected": "No tags selected",
     "no_topics_by_order_found": "No topics by %(order)s found ",
-    "not_valid_email": "Not valid email",
-    "nothing_yet": "Nothing yet",
+    "note_contains_keys_error": "It seems that the memo includes password or private key. In this case your account can be taken by someone else. Please, edit the memo in order to make a transaction.",
     "ok": "Ok",
     "old": "Old First",
     "older": "Older",
-    "only_one_APP_NAME_account_allowed_per_ip_address_every_10_minutes": "Only one Steem account allowed per IP address every 10 minutes",
     "or": "or",
     "order_placed": "Order placed",
     "owner": "Owner key",
     "password": "Password",
-    "password_is_bound_to_your_accounts_owner_key": "This password is bound to your account's owner key and can not be used to login to this site",
     "password_must_be_characters_or_more": "Password must be %(amount)s characters or more",
-    "password_or_wif": "Password or WIF",
-    "password_update_succes": "The password for %(accountName)s was successfully updated",
     "passwords_do_not_match": "Passwords do not match",
     "payouts": "Payouts",
     "permissions": "Permissions",
-    "personal_info_will_be_private": "Your personal information will be kept",
-    "personal_info_will_be_private_link": "Private",
     "phone": "phone",
     "please": "Please",
     "please_email_questions_to": "Please email your questions to",
@@ -608,7 +422,6 @@
     "post_as": "Post as",
     "posting": "Posting key",
     "posts": "Posts",
-    "powered_up_100": "Powered Up 100%%",
     "preview": "Preview",
     "previous": "Previous",
     "price": "Price",
@@ -616,16 +429,16 @@
     "promote": "Promote",
     "promoted": "promoted",
     "publish": "Publish",
+    "questions_answers": "Questions-answers",
     "re": "RE",
     "re2": "Re",
     "re_enter_generate_password": "Re-enter Generated Password",
     "read_only_mode": "Из-за технического обслуживания серверов мы работаем в режиме чтения. Извините за неудобство.",
     "read_only_mode_notify": "Ведутся технические работы",
     "receive": "Receive",
-    "received_vesting": "%(VESTING_TOKEN)s delegated to this account",
+    "recent_password": "Recent Password",
     "recover_password": "Recover Account",
     "recover_your_account": "recover your account",
-    "remember_voting_and_posting_key": "Remember voting & posting key",
     "remove": "Remove",
     "remove_from_favorites": "Remove from favourite",
     "remove_vote": "Remove Vote",
@@ -637,9 +450,6 @@
     "reputation": "Reputation",
     "request": "request",
     "required": "Required",
-    "requires_auth_key": "This operation requires your %(authType)s key (or use your master password)",
-    "reset_usernames_password": "Reset %(username)s's Password",
-    "resteem_this_post": "Resteem This Post",
     "rewards": "Rewards",
     "save": "Save",
     "saved": "Saved",
@@ -650,9 +460,8 @@
     "settings": "Settings",
     "share_this_post": "Share this post",
     "show": "Show",
-    "show_less_low_value_posts": "Show fewer low value posts",
     "show_more": "Show more",
-    "show_more_low_value_posts": "Show more low value posts",
+    "show_more_2": "Show more",
     "show_more_topics": "Show more topics",
     "show_private_key": "Show private key",
     "show_rules": "Show security rules",
@@ -663,26 +472,14 @@
     "since": "since",
     "submit": "Submit",
     "submit_a_story": "Submit a Story",
-    "subscribe_to_get_sms_confirm": "Subscribe to get a notification when SMS confirmation is available",
     "subscriptions": "subscriptions",
     "tag": "Tag",
     "tags_and_topics": "Tags",
     "tags_filter": "Filter",
     "team": "Team Golos.io",
-    "terms_and_conditions": "Terms and Conditions",
-    "the_rules_of_APP_NAME": {
-      "fifth": "Use only randomly-generated passwords.",
-      "fourth": "If you can remember the password, it's not secure.",
-      "one": "Do not lose your password.",
-      "second": "Do not lose your password",
-      "seventh": "Always back up your password.",
-      "sixth": "Do not tell anyone your password.",
-      "third": "We cannot recover your password."
-    },
     "this_is_wrong_password": "This is the wrong password",
     "this_will_update_usernames_authtype_key": "This will update %(username)s %(authType)s key",
     "to": " to ",
-    "to_obtaion_a_more_secure_set_of_keys": "to obtain a more secure set of keys",
     "topics": "Topics",
     "transaction_history": "Transaction History",
     "transfer": "Transfer ",
@@ -690,14 +487,12 @@
     "trending_topics": "Trending Topics",
     "turn_back": "Turn back",
     "type": "Type",
-    "unable_to_log_you_in": "We will be unable to log you in with this browser",
     "understand_that_APP_NAME_cannot_recover_password": "I understand that %(APP_NAME)s cannot recover lost passwords",
     "unfollow": "Unfollow",
     "unknown": "Unknown",
     "unmute": "Unmute",
     "update": "Update",
     "update_password": "Update Password",
-    "update_your_password": "update your password",
     "upstairs": "Upstairs",
     "upvote": "Upvote",
     "upvote_post": "Upvote post",
@@ -716,91 +511,44 @@
     "with_the_tag": "with the tag ",
     "write_your_story": "Write your story",
     "yes": "Yes",
-    "you_are_viewing_a_single_comments_thread_from": "You are viewing a single comment's thread from",
     "you_need_private_password_or_key_not_a_public_key": "You need a private password or key (not a public key)"
   },
   "generated_password_input": {
     "i_have_read_and_agree_to_the": "I have read and agree to the",
     "terms_of_service": "Terms of service"
   },
-  "header": {
-    "account_price": "Account price"
-  },
   "header_jsx": {
-    "author_rewards_by": "Author rewards by",
-    "change_account_password": "Change Account Password",
-    "comments_by": "Comments by",
-    "create_a_post": "Create a post",
-    "create_account": "Create Account",
-    "curation_rewards_by": "Curation rewards by",
-    "home": "home",
-    "new_posts": "New posts",
-    "new_topic_posts": "New %(topic)s posts",
-    "people_followed_by": "People followed by",
-    "people_following": "People following",
-    "privacy_policy": "Privacy Policy",
-    "replies_to": "Replies to",
-    "sort_order_posts": "%(sort_order)s posts",
-    "sort_order_topic_posts": "%(sort_order)s %(topic)s posts",
-    "stolen_account_recovery": "Stolen Account Recovery",
-    "terms_of_service": "Terms of Service"
+    "home": "home"
   },
   "illegal_content": {
     "due_to_illegal_content": "due to illegal content",
-    "hidden": "hidden",
     "terms_of_service": "Terms of service",
     "terms_of_service_section": ", section 5.5.7",
     "unavailable": "User is blocked"
+  },
+  "layout_switcher": {
+    "tooltip": {
+      "compact": "Compact list",
+      "grid": "Grid",
+      "list": "List"
+    }
   },
   "link_to": {
     "telegram": "//tlg.name/golos_eng"
   },
   "loginform_jsx": {
     "active_key_error": "Active key can’t be used for sign in. Use posting key or password.",
-    "active_or_owner": "Active or Owner",
-    "amazing_community": "amazing community",
-    "are_well_tested_and_known_to_work_with": "are well tested and known to work with %(APP_DOMAIN)s.",
     "authorize_for": "Authorize to complete the action",
-    "consent": "I agree to the Terms and Conditions",
-    "cryptography_test_failed": "Cryptography test failed",
-    "due_to_server_maintenance": "Due to server maintenance we are running in read only mode. We are sorry for the inconvenience.",
     "enter_your_username": "Enter your username",
-    "free_money": "FREE MONEY!",
-    "however_you_can_use_it_to": "However, you can use it to ",
-    "join_our": "Join our",
     "keep_me_logged_in": "Keep me logged in",
-    "login_to_comment": "Login to Comment",
-    "login_to_post": "Login to Post",
-    "login_to_vote": "Login to Vote",
-    "login_to_your_steem_account": "Login to your Steem Account",
-    "password_info": "This password or private key was entered incorrectly. There is probably a handwriting or data-entry error.",
     "password_or_active": "Password or active key",
     "password_or_owner": "Password or owner key",
     "password_or_posting": "Password or posting key",
-    "password_update_succes": "The password for %(accountName)s was successfully updated",
     "password_warning": "Entered master password. For safety you could use private posting key.\n\nContinue with the password?",
-    "posting": "Posting",
-    "save_password_on_page": "Save password for this page",
-    "sign_up_now_to_receive": "Sign up now to receive ",
-    "the_latest_versions_of": "The latest versions of ",
-    "this_operation_requires_your_key_or_master_password": "This operation requires your %(authType)s key or Master password.",
-    "this_password_is_bound_to_your_account_active_key": "This password is bound to your account's active key and can not be used to login to this page.",
-    "this_password_is_bound_to_your_account_owner_key": "This password is bound to your account's owner key and can not be used to login to this site.",
-    "to_comment_and_reward_others": " to comment and reward others.",
-    "to_obtain_a_more_secure_set_of_keys": "to obtain a more secure set of keys.",
-    "unable_to_log_you_in": "We will be unable to log you in with this browser.",
-    "update_your_password": "update your password",
-    "you_account_has_been_successfully_created": "You account has been successfully created!",
-    "you_account_has_been_successfully_recovered": "You account has been successfully recovered!",
-    "you_may_use_this_active_key_on_other_more": "You may use this active key on other more secure pages like the Wallet or Market pages.",
-    "you_need_a_private_password_or_key": "You need a private password or key (not a public key)"
+    "save_password_on_page": "Save password for this page"
   },
   "main_menu": {
-    "active": "active",
     "hot": "hot",
-    "payout_time": "payout time",
-    "popular": "popular",
-    "responses": "responses",
     "trending": "trending"
   },
   "markdownviewer_jsx": {
@@ -821,17 +569,12 @@
     "open_orders": "Open Orders",
     "order_cancel_confirm": "Cancel order %(order_id)s from %(user)s?",
     "order_cancelled": "Order %(order_id)s cancelled.",
-    "price_warning_above": "This price is well above the current market price of %(marketPrice)s, are you sure?",
-    "price_warning_below": "This price is well below the current market price of %(marketPrice)s, are you sure?",
     "sell_amount_for_atleast": "Sell %(amount_to_sell)s for at least %(min_to_receive)s (%(effectivePrice)s)",
     "sell_orders": "Sell Orders",
     "spread": "Spread",
     "total": "Total",
     "total_DEBT_TOKEN_SHORT_CURRENCY_SIGN": "Total %(DEBT_TOKEN_SHORT)s)",
     "trade_history": "Trade History"
-  },
-  "messages_jsx": {
-    "start_conversation": "Start conversation"
   },
   "messenger": {
     "placeholder": {
@@ -857,44 +600,21 @@
       }
     }
   },
-  "mobilevalidation_js": {
-    "attempts_10": "Confirmation was attempted a moment ago. You can try again only in 10 seconds",
-    "attempts_300": "Confirmation was attempted a moment ago. You can try again only in 5 minutes",
-    "be_longer": "be longer",
-    "have_only_digits": "have only digits",
-    "not_be_empty": "not be empty",
-    "select_another_number": "Select another phone",
-    "waiting_from_you": "Waiting SMS message with confirmation code %(code)s from your number to our verification number %(phone)s.",
-    "waiting_from_you_line_1": "Please, send SMS with text %(code)s on %(phone)s",
-    "waiting_from_you_line_2": "Golos.io interested in registration real people, not robots. We ask you to send SMS.",
-    "you_can_change_your_number": "You can select another one phone number."
-  },
   "navigation": {
-    "APP_NAME_api_docs": "%(APP_NAME)s API Docs",
-    "APP_NAME_app_center": "%(APP_NAME)s App Center",
-    "APP_NAME_chat": "%(APP_NAME)s Chat",
-    "APP_NAME_whitepaper": "%(APP_NAME)s Whitepaper",
     "about": "About",
     "buy_LIQUID_TOKEN": "Buy %(LIQUID_TOKEN)s",
-    "change_account_password": "Change Account Password",
-    "currency_market": "Currency Market",
     "delegates": "Delegates",
     "explore": "Explore",
     "faq": "FAQ",
     "feedback": "Feedback",
     "market": "Market",
-    "payouts_by_tag": "Payouts by tag",
     "privacy_policy": "Privacy Policy",
-    "sale_agreement": "Sale Agreement",
     "sell_LIQUID_TOKEN": "Sell %(LIQUID_TOKEN)s",
     "sign_up": "Sign Up",
     "stolen_account_recovery": "Stolen Accounts Recovery",
     "technical_support": "Support",
-    "telegram_support": "%(APP_NAME_UP)s Support",
     "terms_of_service": "Terms of Service",
-    "vote_for_witnesses": "Vote for Witnesses",
     "welcome": "Welcome",
-    "wiki": "Wiki",
     "witnesses": "Witnesses"
   },
   "notifications": {
@@ -975,7 +695,19 @@
       }
     }
   },
+  "notifications_menu": {
+    "clear_notifications_history": "Mark all notifications as read"
+  },
   "on_golos_from": "On Golos from",
+  "password_rules": {
+    "p1": "Do not lose your password.",
+    "p2": "Do not lose your password",
+    "p3": "We cannot recover your password.",
+    "p4": "If you can remember the password, it's not secure.",
+    "p5": "Use only randomly-generated passwords.",
+    "p6": "Do not tell anyone your password.",
+    "p7": "Always back up your password."
+  },
   "payout_info": {
     "author": "Author's payout",
     "author_hint": "Reward for the post",
@@ -987,18 +719,6 @@
     "potential_payout": "Potential payout"
   },
   "plurals": {
-    "author_rewards_last_24_hours": "Author rewards last 24 hours",
-    "balance": "Balance",
-    "daily_average_author_rewards": "Daily average author rewards",
-    "estimate_account_value": "Estimated Account Value",
-    "history": "History",
-    "next_power_down_is_scheduled_to_happen_at": "The next power down is scheduled to happen",
-    "reply_count": {
-      "one": "1 reply",
-      "other": "%(count)s replies",
-      "zero": "no replies"
-    },
-    "transfers_are_temporary_disabled": "Transfers are temporary disabled",
     "view_count": {
       "one": "1 view",
       "other": "%(count)s views",
@@ -1059,42 +779,14 @@
     "voices": "Voices"
   },
   "postfull_jsx": {
-    "account_name_is_not_available": "Account name is not available",
-    "author_reward_of_VESTING_TOKEN_for": "Author reward of %(payout)s and %(reward)s %(VESTING_TOKEN)s for",
-    "curation_reward_of_VESTING_TOKEN_for": "Curation reward of %(reward)s %(VESTING_TOKEN)s for",
     "deadline_for_recovery_is": "Deadline for recovery is",
     "i_understand_dont_show_again": "I understand, don't show me again",
     "if_you_did_not_make_this_change": "If you did not make this change please",
-    "in_week_convert_DEBT_TOKEN_to_LIQUID_TOKEN": "In 3.5 days, convert %(amount)s %(DEBT_TOKEN)s into %(LIQUID_TOKEN)s",
-    "insufficent_balance": "Insufficient balance",
     "owhership_changed_on": "Ownership Changed On",
-    "recent_password": "Recent Password",
-    "recieve_amount_VESTING_TOKEN_from": "Receive %(amount)s %(VESTING_TOKEN)s from",
-    "recieve_amount_from": "Receive %(amount)s from",
-    "recieve_interest_of": "Receive interest of %(interest)s",
     "share": "Share",
     "share_in_social_networks": "Share in soc. networks",
-    "start_power_down_of": "Start power down of",
     "stop_power_down": "Stop power down",
-    "this_post_is_not_available_due_to_a_copyright_claim": "This post is not available due to a copyright claim.",
-    "this_post_is_not_available_due_to_breach_of_legislation": "This post is not available due to breach of legislation.",
-    "transfer_amount_VESTING_TOKEN_from_to": "Transfer %(amount)s %(VESTING_TOKEN)s from %(from)s to",
-    "transfer_amount_VESTING_TOKEN_to": "Transfer %(amount)s %(VESTING_TOKEN)s to",
-    "transfer_amount_from": "Transfer %(amount)s from",
-    "transfer_amount_to": "Transfer %(amount)s to",
-    "transfer_amount_to_VESTING_TOKEN": "Transfer %(amount)s to %(VESTING_TOKEN)s",
     "your_password_permissions_were_reduced": "Your password permissions were reduced"
-  },
-  "postsummary_jsx": {
-    "adjust_your": "adjust your",
-    "create_an_account": "create an account",
-    "display_preferences": "display preferences",
-    "resteemed": "Reposted",
-    "resteemed_by": "Reposted by",
-    "reveal_it": "reveal it",
-    "this_post_is": "This post is",
-    "to_save_your_preferences": "to save your preferences",
-    "you_can": "You can"
   },
   "recoveraccountstep1_jsx": {
     "account_name_is_not_found": "Account name is not found",
@@ -1110,20 +802,20 @@
     "recovering_account": "Recovering account",
     "request_already_submitted_contact_support": "Your request has been already submitted and we are working on it. Please contact %(SUPPORT_EMAIL)s for the status of your request.",
     "sending_recovery_request": "Sending recovery request",
-    "thanks_for_submitting_request_for_account_recovery_1": "Thanks for submitting your request for Account Recovery using %(APP_NAME)s's blockchain-based multi factor authentication.",
-    "thanks_for_submitting_request_for_account_recovery_2": "We will respond to you as quickly as possible, however, please expect there may be some delay in response due to high volume of emails.",
-    "thanks_for_submitting_request_for_account_recovery_3": "Please be prepared to verify your identity.",
-    "unable_to_recover_account_not_change_ownership_recently": "We are unable to recover this account, it has not changed ownership recently."
+    "report_line_1": "Thanks for submitting your request for Account Recovery using %(APP_NAME)s's blockchain-based multi factor authentication.",
+    "report_line_2": "We will respond to you as quickly as possible, however, please expect there may be some delay in response due to high volume of emails.",
+    "report_line_3": "Please be prepared to verify your identity.",
+    "unable_to_recover_account": "We are unable to recover this account, it has not changed ownership recently."
   },
   "registration_banner_jsx": {
-    "new_to_golos": "New to Golos?",
-    "everything_is_simple": "Everything is simple:",
-    "write_a_post": "Write a post on Golos.io",
     "community_votes": "Community votes",
-    "you_get_rewards": "You get rewards",
     "create_an_account": "Create an account",
+    "everything_is_simple": "Everything is simple:",
+    "faq": "FAQ",
+    "new_to_golos": "New to Golos?",
     "to_learn_more": "To learn morn",
-    "faq": "FAQ"
+    "write_a_post": "Write a post on Golos.io",
+    "you_get_rewards": "You get rewards"
   },
   "reply": {
     "comments_count": "Comments count"
@@ -1157,15 +849,8 @@
     "selecting_them": "selecting them",
     "shorten_title": "Shorten title",
     "support_by_telegram": "In addition, for operational technical assistance, we have introduced a Golos Support Service in Telegram",
-    "unable_to_contact_the_server": "Unable to contact the server",
     "update_post": "Update Post",
-    "uploading": "Uploading",
-    "use_limited_amount_of_tags": "You have %(tagsLength)s tags total %(includingCategory)s.  Please use only 5 in your post and category line."
-  },
-  "savingswithdrawhistory_jsx": {
-    "cancel_this_withdraw_request": "Cancel this withdraw request?",
-    "pending_savings_withdrawals": "PENDING SAVINGS WITHDRAWS",
-    "withdraw": "Withdraw"
+    "uploading": "Uploading"
   },
   "settings_jsx": {
     "about_is_too_long": "About is too long",
@@ -1188,7 +873,6 @@
     "choose_currency": "Choose currency",
     "choose_language": "Choose language",
     "cover_image_url": "Cover image url",
-    "default_voting_power": "Setting the voting power",
     "default_voting_power_tip": "Voting power %(value)s%%",
     "invalid_url": "Invalid URL",
     "keys": {
@@ -1254,7 +938,16 @@
       "notifications": "Notifications"
     },
     "update": "Update",
-    "website_url_is_too_long": "Website URL is too long"
+    "voting": "Voting settings",
+    "website_url_is_too_long": "Website URL is too long",
+    "voting_power_by_default": "Using voting power settings",
+    "auction_reward_destination": {
+      "label": "Penalty window settings",
+      "items": {
+        "to_reward_fund": "Back to the general award stream",
+        "to_curators": "Distribute between the curators"
+      }
+    }
   },
   "start_mobile_app": {
     "close_forever": "Close forever",
@@ -1262,39 +955,17 @@
     "open_in_app": "Open in Application"
   },
   "submit_a_story": {
-    "all_accounts_refunded": "All Recovered Accounts have been fully Refunded",
-    "editor": "editor",
-    "get_sp_when_sign_up": "Get %(signupBonus)s of %(VESTING_TOKEN)s when you sign up today.",
-    "get_sp_when_sign_up1": "Get ",
-    "get_sp_when_sign_up2": " %(VESTING_TOKENS)s when you sign up today.",
-    "learn_more": "Learn More",
-    "markdown_is_supported": "Styling with Markdown is supported",
     "markdown_not_supported": "Markdown is not supported here",
-    "title": "Title",
-    "update_post": "Update Post",
-    "welcome_to_the_blockchain": "Welcome to the Blockchain!",
-    "you_hasnt_started_bloggin_yet": "Looks like you hasn't started blogging yet!",
-    "your_voice_is_worth_something": "Your golos is worth something"
-  },
-  "suggestpassword_jsx": {
-    "APP_NAME_cannot_recover_passwords_keep_this_page_in_a_secure_location": "%(APP_NAME)s cannot recover passwords. Keep this page in a secure location, such as a fireproof safe or safety deposit box.",
-    "APP_NAME_password_backup": "%(APP_NAME)s Password Backup",
-    "APP_NAME_password_backup_required": "%(APP_NAME)s Password Backup (required)",
-    "after_printing_write_down_your_user_name": "After printing, write down your user name"
+    "welcome_to_the_blockchain": "Welcome to the Blockchain!"
   },
   "tags": {
     "popularTags": "Popular tags",
     "selectedTags": "Tags, that you choosed",
     "show_more_tags": "Show more"
   },
-  "tags_page": {
-    "payouts": "Payouts",
-    "replies": "Replies"
-  },
   "token_names": {
     "DEBT_TOKEN": "Gold Backed Golos",
     "DEBT_TOKEN2": "Gold",
-    "DEBT_TOKENS": "GOLD BACKED GOLOS",
     "LIQUID_TOKEN": "Golos",
     "LIQUID_TOKEN_PLURALIZE": {
       "one": "Golos",
@@ -1304,7 +975,6 @@
     "LIQUID_TOKEN_UPPERCASE": "GOLOS",
     "TOKEN_WORTH": "~1 mg of gold",
     "VESTING_TOKEN": "Golos Power",
-    "VESTING_TOKEN2": "Golos Power",
     "VESTING_TOKEN3": "GP",
     "VESTING_TOKENS": "Golos Power",
     "VESTING_TOKEN_PLURALIZE": {
@@ -1312,28 +982,6 @@
       "other": "Golos Power",
       "zero": "Golos Power"
     }
-  },
-  "transfer_jsx": {
-    "advanced": "Advanced",
-    "amount_is_in_form": "Amount is in the form 99999.999",
-    "balance": "Balance",
-    "balance_subject_to_3_day_withdraw_waiting_period": "Balance subject to 3 day withdraw waiting period,",
-    "basic": "Basic",
-    "convert_to_VESTING_TOKEN": "Convert to %(VESTING_TOKEN)s",
-    "insufficient_funds": "Insufficient funds",
-    "memo": "Memo",
-    "memo_placeholder": "You may comment your transfer here",
-    "move_funds_to_another_account": "Move funds to another account.",
-    "power_up": "Power Up",
-    "private": "Private",
-    "private_key_in_memo": "Do not write your private keys in this field!",
-    "protect_funds_by_requiring_a_3_day_withdraw_waiting_period": "Protect funds by requiring a 3 day withdraw waiting period.",
-    "public": "Public",
-    "send_to_account": "Send to account",
-    "submit": "Submit",
-    "this_memo_is": "This Memo is",
-    "use_only_3_digits_of_precison": "Use only 3 digits of precison",
-    "withdraw_funds_after_the_required_3_day_waiting_period": "Withdraw funds after the required 3 day waiting period."
   },
   "user_profile": {
     "account_summary": {
@@ -1392,48 +1040,12 @@
       "other": "%(count)s posts",
       "zero": "No posts"
     },
-    "recent_replies_to_users_posts": "Recent replies to %(name)s's posts",
     "select_image": "Choose image",
-    "this_is_users_reputations_score_it_is_based_on_history_of_votes": "This is %(name)s's reputation score.\n\nThe reputation score is based on the history of votes received by the account, and is used to hide low quality content.",
     "unknown_account": "Unknown Account",
     "user_hasnt_followed_anything_yet": "Looks like %(name)s might not be following anyone yet! If %(name)s recently added new users to follow, their personalized feed will populate once new content is available.",
-    "user_hasnt_had_any_replies_yet": "%(name)s hasn't had any replies yet",
-    "user_hasnt_made_any_posts_yet": "Looks like %(name)s hasn't made any posts yet!",
-    "user_hasnt_started_bloggin_yet": "Looks like %(name)s hasn't started blogging yet!",
-    "users_author_rewards": "%(name)s's author rewards",
     "users_blog": "%(name)s's blog",
-    "users_curation_rewards": "%(name)s's curation rewards",
-    "users_permissions": "%(name)s's permissions",
     "users_posts": "%(name)s's posts",
     "users_wallet": "%(name)s's wallet"
-  },
-  "user_profile_permissions": {
-    "APP_NAME_is_a_social_media_platform_where_everyone_gets_paid": "%(APP_NAME)s is a social media platform where everyone gets paid for creating and curating content. It leverages a robust digital points system, called %(LIQUID_TOKEN)s, that supports real value for digital rewards through market price discovery and liquidity.",
-    "APP_NAME_is_a_social_media_platform_where_everyone_gets_paid_for_creating_and_curating_content": "%(APP_NAME)s is a social media platform where everyone gets paid for creating and curating content",
-    "about_APP_NAME": "About %(APP_NAME)s",
-    "active_or_owner": "Active or Owner",
-    "advanced": "Advanced",
-    "asset": "Asset",
-    "author_rewards_last_week": "Author rewards last week",
-    "basic": "Basic",
-    "canceled": "Canceled",
-    "confirm": "Confirm",
-    "convert_to_VESTING_TOKEN": "Convert to %(VESTING_TOKEN)s",
-    "deposit": "Deposit",
-    "home": "home",
-    "join_our_slack": "Join our Slack",
-    "learn_more_at_LANDING_PAGE_URL": "Learn more at %(LANDING_PAGE_URL)s",
-    "owner": "Owner",
-    "posting": "Posting",
-    "power_down": "Power Down",
-    "power_up": "Power Up",
-    "resources": "Resources",
-    "sign": "Sign",
-    "this_memo_is_private": "This Memo is Private",
-    "this_memo_is_public": "This Memo is Public",
-    "transfer": "Transfer",
-    "transfer_to_account": "Transfer to Account",
-    "trending_24_hour": "trending (24 hour)"
   },
   "user_saga_js": {
     "image_upload": {
@@ -1501,49 +1113,19 @@
     "the_owner_key_is_required_to_change_other_keys": "The owner key is the master key for the account and is required to change the other keys.",
     "the_private_key_or_password_should_be_kept_offline": "The private key or password for the owner key should be kept offline as much as possible."
   },
-  "votesandcomments_jsx": {
-    "click_to_respond": "Click to respond",
-    "no_responses_yet_click_to_respond": "No responses yet. Click to respond.",
-    "response_count": {
-      "one": "1 responses",
-      "other": "%(count)s responses",
-      "zero": "no responses"
-    },
-    "vote_count": {
-      "one": "1 vote",
-      "other": "%(count)s votes",
-      "zero": "no votes"
-    }
-  },
   "voting_jsx": {
-    "authors": "Authors",
     "begin_recovery": "Begin Recovery",
-    "boost_payments": "Boost Payments",
     "changing_to_a_downvote": "Changing to a Down-Vote",
     "changing_to_an_upvote": "Changing to an Up-Vote",
     "confirm_flag": "Confirm Flag",
     "curators": "Curators",
-    "disagreement_on_rewards": "Disagreement on rewards",
     "downvote": "Downvote",
-    "flagging_post_can_remove_rewards_the_flag_should_be_used_for_the_following": "Flagging a post can remove rewards and make this material less visible. Some common reasons to flag",
-    "fraud_or_plagiarism": "Fraud or Plagiarism",
-    "hate_speech_or_internet_trolling": "Hate Speech or Internet Trolling",
-    "intentional_miss_categorized_content_or_spam": "Intentional miss-categorized content or Spam",
-    "max_accepted_payout": "Max accepted payout",
     "past_payouts": "Past Payouts",
-    "paste_a_youtube_or_vimeo_and_press_enter": "Paste a YouTube or Vimeo and press Enter",
-    "payouts_declined": "Payouts declined",
-    "pending_payout": "Pending Payout",
-    "please_remove_following_html_elements": "Please remove the following HTML elements from your post: ",
     "post_as": "Post as",
     "potential_payout": "Potential Payout",
     "raw_html": "Raw HTML",
     "removing_your_vote": "Removing your vote",
     "search": "Search",
-    "stop_seeing_content_from_this_user": "Stop seeing content from this user",
-    "there_was_an_error_uploading_your_image": "There was an error uploading your image",
-    "this_password_is_bound_to_your_accounts_private_key": "This password is bound to your account's active key and can not be used to login to this page. You may use this active key on other more secure pages like the Wallet or Market pages.",
-    "trending_30_day": "trending (30 day)",
     "we_will_reset_curation_rewards_for_this_post": "will reset your curation rewards for this post"
   },
   "wallet": {
@@ -1601,15 +1183,11 @@
     "props": "Props",
     "proxy_update_error": "Your proxy was not updated",
     "reg_fee": "Registration fee",
-    "set_witness_proxy": "You can also choose a proxy that will vote for witnesses for you. This will reset your current witness selection.",
     "top_witnesses": "Witness Voting",
     "version": "Version",
     "witness": "Witness",
     "witness_deactive": "Withness suspended the signature of the blocks",
-    "witness_proxy_clear": "Clear proxy",
-    "witness_proxy_current": "Your current proxy is",
     "witness_proxy_set": "Set proxy",
-    "witness_set": "You have set a voting proxy. If you would like to reenable manual voting, please clear your proxy.",
     "witness_thread": "witness thread",
     "you_can_vote_for_maximum_of_witnesses": "You can vote for a maximum of 30 witnesses",
     "you_have_votes_remaining": "",

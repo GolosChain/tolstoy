@@ -120,9 +120,7 @@ export default class CompactPostCardMenu extends PureComponent {
     render() {
         const { isFavorite } = this.props;
 
-        const favoriteText = isFavorite
-            ? tt('post_card.remove_from_favorites')
-            : tt('post_card.add_to_favorites');
+        const favoriteText = isFavorite ? tt('g.remove_from_favorites') : tt('g.add_to_favorites');
 
         return (
             <Root innerRef={this.root}>

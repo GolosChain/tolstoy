@@ -86,8 +86,8 @@ export default class LayoutSwitcherMenu extends PureComponent {
                     {layouts.map(layoutName => (
                         <Item
                             key={layoutName}
-                            data-tooltip={tt(`data-tooltip.${layoutName}`)}
-                            aria-label={tt(`data-tooltip.${layoutName}`)}
+                            data-tooltip={tt(`layout_switcher.tooltip.${layoutName}`)}
+                            aria-label={tt(`layout_switcher.tooltip.${layoutName}`)}
                             onClick={() => this.onItemClick(layoutName)}
                         >
                             <ItemIcon name={`layout_${layoutName}`} />

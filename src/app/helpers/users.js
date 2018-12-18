@@ -2,10 +2,10 @@ import throttle from 'lodash/throttle';
 import { api } from 'golos-js';
 import { getStoreState, dispatch } from 'app/clientRender';
 
-const MINNOW = 1000000;
-const CRUCIAN = 10000000;
-const DOLPHIN = 100000000;
-const ORCA = 1000000000;
+export const MINNOW = 1000000;
+export const CRUCIAN = 10000000;
+export const DOLPHIN = 100000000;
+export const ORCA = 1000000000;
 
 let usersToLoad = [];
 let currentLoading = [];

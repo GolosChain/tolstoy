@@ -7,11 +7,12 @@ import { Link } from 'react-router';
 import Icon from 'golos-ui/Icon';
 
 import { breakWordStyles } from 'src/app/helpers/styles';
-import Userpic from 'app/components/elements/Userpic';
 
+import Userpic from 'src/app/components/common/Userpic';
 import { ClosePopoverButton } from 'src/app/components/post/PopoverAdditionalStyles';
 import Mute from 'src/app/components/common/Mute';
 import Follow from 'src/app/components/common/Follow';
+import UserStatus from 'src/app/components/userProfile/common/UserStatus';
 
 const Block = styled.div`
     width: 100%;
@@ -87,7 +88,26 @@ const Followers = styled.div``;
 
 const AvatarLink = styled(Link)`
     display: flex;
+    position: relative;
     border-radius: 50%;
+
+    &::after {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        content: '${props => props.rating}';
+        bottom: 0;
+        right: 0;
+        width: 24px;
+        height: 24px;
+        border-radius: 100px;
+        background-color: #fff;
+        font-size: 10px;
+        font-weight: bold;
+        color: #2879ff;
+        transform: translate(30%, 40%);
+    }
 `;
 
 const PinnedPost = styled.div`
@@ -171,6 +191,7 @@ export class PopoverBody extends Component {
             followersCount,
             pinnedPosts,
             showFollowBlock,
+            reputation,
             className,
         } = this.props;
         const linkToAccount = `/@${account}`;
@@ -178,8 +199,8 @@ export class PopoverBody extends Component {
         return (
             <Wrapper className={className}>
                 <ClosePopoverButton
-                    onClick={this.closePopover}
                     aria-label={tt('aria_label.close_button')}
+                    onClick={this.closePopover}
                 >
                     <Icon name="cross" width={16} height={16} />
                 </ClosePopoverButton>
@@ -191,10 +212,15 @@ export class PopoverBody extends Component {
                                 @{account}
                             </AuthorAccount>
                         </AuthorInfoBlock>
-                        <AvatarLink to={linkToAccount} aria-label={tt('aria_label.avatar')}>
+                        <AvatarLink
+                            to={linkToAccount}
+                            aria-label={tt('aria_label.avatar')}
+                            rating={reputation}
+                        >
                             <Userpic size={50} account={account} />
                         </AvatarLink>
                     </AuthorTitle>
+                    <UserStatus currentAccount={account} popover />
                     <About>{about}</About>
                     <Followers>
                         {tt('user_profile.follower_count', { count: followersCount })}

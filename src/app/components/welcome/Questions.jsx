@@ -89,7 +89,7 @@ export default class Questions extends PureComponent {
                         <SubHeader>{tt('welcome_page.questions_subheader')}</SubHeader>
                         <div className="row">
                             <div className="columns small-12 medium-12 large-2">
-                                <div className="row small-up-2 medium-up-2 large-up-1">
+                                <div className="row small-up-1 medium-up-2 large-up-1">
                                     <div className="columns">
                                         <LinkStyled to="/faq">
                                             <Icon name="new/monitor" size="2x" />

@@ -7,7 +7,7 @@ import {
     SETTING_SET_OPTIONS_FOR_UNATHORIZED,
 } from 'src/app/redux/constants/settings';
 import { USER_LOGOUT } from 'src/app/redux/constants/auth';
-import { DEFAULT_LANGUAGE, DEFAULT_CURRENCY } from 'app/client_config';
+import { DEFAULT_LANGUAGE, DEFAULT_CURRENCY, AUCTION_REWARD_DESTINATION } from 'app/client_config';
 
 const defaults = {
     basic: {
@@ -16,8 +16,10 @@ const defaults = {
         nsfw: 'warn',
         lang: DEFAULT_LANGUAGE,
         currency: DEFAULT_CURRENCY,
-        award: 0,
+        awardByDefault: false,
+        award: 100,
         selectedTags: {},
+        auctionRewardDestination: AUCTION_REWARD_DESTINATION.DEFAULT,
     },
 };
 

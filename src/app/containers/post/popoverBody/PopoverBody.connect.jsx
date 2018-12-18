@@ -6,6 +6,7 @@ import { popoverUserInfoSelector } from 'src/app/redux/selectors/post/commonPost
 import { USER_PINNED_POSTS_LOAD } from 'src/app/redux/constants/pinnedPosts';
 import { PopoverBody } from 'src/app/containers/post/popoverBody/PopoverBody';
 import { loadUserFollowData } from 'src/app/redux/actions/followers';
+import { repLog10 } from 'app/utils/ParsersAndFormatters';
 
 export default connect(
     createSelector(
@@ -18,6 +19,7 @@ export default connect(
             pinnedPosts: author.pinnedPosts,
             pinnedPostsUrls: author.pinnedPostsUrls,
             showFollowBlock: author.account !== currentUsername,
+            reputation: repLog10(account.accountReputation),
         })
     ),
     {

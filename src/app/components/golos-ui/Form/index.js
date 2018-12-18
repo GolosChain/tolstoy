@@ -7,6 +7,8 @@ export {
     Select,
     Textarea,
     FormError,
+    FormFooter,
+    FormFooterButton,
 } from './Form';
 export { default as RadioGroup } from './components/RadioGroup';
 export { default as Switcher } from './components/Switcher';

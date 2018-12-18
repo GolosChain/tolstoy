@@ -231,7 +231,7 @@ export class ActivePanel extends Component {
         const shareTooltip = showSharePopover
             ? undefined
             : tt('postfull_jsx.share_in_social_networks');
-        const dotsTooltip = showDotsPopover ? undefined : tt('g.next_3_strings_together.show_more');
+        const dotsTooltip = showDotsPopover ? undefined : tt('g.show_more_2');
 
         return (
             <Wrapper>

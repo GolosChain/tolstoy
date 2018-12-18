@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
-import Userpic from 'app/components/elements/Userpic';
+import Userpic from 'src/app/components/common/Userpic';
 import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
 
 import {
