@@ -1,5 +1,9 @@
 # GOLOS.io
 
+[![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?badge_key=a3RqQlNrOXJpMW1wQ0luVmkvQzZVRW9uN0xQQ1o2RjljaEt4Z0dyWk45cz0tLTE2ckR0RWgvSDVDSzZ1RGgvajR5b3c9PQ==--3b5d111e1fefa1c0eb92e9b2d7962527ef0188db
+)](https://www.browserstack.com/automate/public-build/a3RqQlNrOXJpMW1wQ0luVmkvQzZVRW9uN0xQQ1o2RjljaEt4Z0dyWk45cz0tLTE2ckR0RWgvSDVDSzZ1RGgvajR5b3c9PQ==--3b5d111e1fefa1c0eb92e9b2d7962527ef0188db
+)
+
 GOLOS.io is the react.js web interface to the world's first and best blockchain-based social media platform.  It uses [STEEM/GOLOS](https://github.com/GolosChain/golos), a fork of Steem/Steemit blockchain powered by Graphene 2.0 technology to store JSON-based content for a plethora of web applications.   
 
 ## Why would I want to use GOLOS.io?
