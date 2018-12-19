@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { List } from 'immutable';
 
+import { compareActiveVotes } from 'app/utils/StateFunctions';
 import { getVoters } from 'src/app/redux/actions/vote';
 import {
     createDeepEqualSelector,
@@ -39,12 +40,7 @@ export default connect(
                     const percent = voter.get('percent');
                     return (percent > 0 && isLikes) || (percent < 0 && !isLikes);
                 })
-                .sort(
-                    (a, b) =>
-                        Math.abs(parseInt(a.get('rshares'))) > Math.abs(parseInt(b.get('rshares')))
-                            ? -1
-                            : 1
-                )
+                .sort(compareActiveVotes)
                 .map(voter => {
                     const name = voter.get('voter');
                     const percent = Math.abs((voter.get('percent') / MAX_VOTE_PERCENT) * 100);
