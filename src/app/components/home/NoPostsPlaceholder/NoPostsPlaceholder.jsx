@@ -73,7 +73,8 @@ const Tag = styled.span`
 
 export default class NoPostPlaceholder extends Component {
     render() {
-        const { order, tagsStr } = this.props;
+        const { order, tagsStr, accountName } = this.props;
+        const link = order === 'feed' ? `/@${accountName}/${order}` : `/${order}`;
 
         return (
             <Wrapper>
@@ -87,9 +88,7 @@ export default class NoPostPlaceholder extends Component {
                     )}
                 </Header>
                 {tagsStr ? (
-                    <RemoveTagsButton to={`/${order}`}>
-                        {tt('aria_label.reset_tags')}
-                    </RemoveTagsButton>
+                    <RemoveTagsButton to={link}>{tt('aria_label.reset_tags')}</RemoveTagsButton>
                 ) : null}
                 <Image src="/images/post/no_content.svg" alt="" />
             </Wrapper>
