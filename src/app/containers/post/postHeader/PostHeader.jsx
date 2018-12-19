@@ -10,8 +10,9 @@ import { TagLink } from 'golos-ui/Tag';
 
 import Userpic from 'src/app/components/common/Userpic';
 import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
-import PopoverBody from 'src/app/containers/post/popoverBody/index';
+import PopoverBody from 'src/app/containers/post/popoverBody';
 import {
+    AvatarBox,
     PopoverBackgroundShade,
     PopoverStyled,
 } from 'src/app/components/post/PopoverAdditionalStyles';
@@ -47,6 +48,7 @@ const Avatar = styled.div`
 `;
 
 const InfoBlock = styled.div`
+    display: block;
     margin: 0 10px;
     letter-spacing: 0.4px;
     line-height: 18px;
@@ -130,12 +132,6 @@ const PostActionsStyled = styled(PostActions)`
     height: 34px;
     padding: 5px;
     margin: 0 3px;
-`;
-
-const AvatarBox = styled.div`
-    position: absolute;
-    top: 50px;
-    width: 50px;
 `;
 
 const PromotedMark = styled.div`
@@ -232,13 +228,12 @@ export class PostHeader extends Component {
             isPromoted,
             className,
         } = this.props;
-
         const { showPopover } = this.state;
 
         return (
             <Wrapper innerRef={forwardRef} className={className}>
-                <UserInfoWrapper to={`/@${author}`} onClick={this.onUserInfoClick}>
-                    <Avatar aria-label={tt('aria_label.avatar')}>
+                <UserInfoWrapper to={`/@${author}`}>
+                    <Avatar aria-label={tt('aria_label.avatar')} onClick={this.onUserInfoClick}>
                         <PopoverBackgroundShade show={showPopover} />
                         <UserpicStyled account={author} size={50} />
                     </Avatar>
@@ -288,13 +283,13 @@ export class PostHeader extends Component {
                         togglePin={togglePin}
                     />
                 </PostActionsWrapper>
-                {showPopover ? (
-                    <AvatarBox>
-                        <PopoverStyled onClose={this.closePopover} show>
-                            <PopoverBody close={this.closePopover} author={author} />
+                {showPopover && (
+                    <AvatarBox popoverOffsetTop={50} userPicSize={50}>
+                        <PopoverStyled closePopover={this.closePopover} show>
+                            <PopoverBody accountName={author} closePopover={this.closePopover} />
                         </PopoverStyled>
                     </AvatarBox>
-                ) : null}
+                )}
             </Wrapper>
         );
     }

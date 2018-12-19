@@ -22,12 +22,13 @@ export const PopoverStyled = styled(Popover)`
 `;
 
 export const PopoverBackgroundShade = styled.div`
+    display: none;
+
     @media (max-width: 768px) {
         position: fixed;
         top: 0;
         left: 0;
         z-index: 100;
-        display: none;
         height: 100%;
         width: 100%;
         background: rgba(0, 0, 0, 0.5);
@@ -58,4 +59,10 @@ export const ClosePopoverButton = styled.div`
     @media (max-width: 768px) {
         display: flex;
     }
+`;
+
+export const AvatarBox = styled.div`
+    position: absolute;
+    top: ${({ popoverOffsetTop }) => popoverOffsetTop}px;
+    width: ${({ userPicSize }) => userPicSize}px;
 `;

@@ -35,8 +35,6 @@ const HeaderLine = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: relative;
-    z-index: 1;
 
     padding: 0 18px;
     pointer-events: none;
@@ -88,9 +86,8 @@ const Title = styled.div`
     margin-bottom: 8px;
 `;
 
-const CommentBody = styled(
-    ({ shortText, isPostPage, to, ...otherProps }) =>
-        isPostPage ? <div {...otherProps} /> : <Link to={to} {...otherProps} />
+const CommentBody = styled(({ shortText, isPostPage, to, ...otherProps }) =>
+    isPostPage ? <div {...otherProps} /> : <Link to={to} {...otherProps} />
 )`
     display: block;
     flex-grow: 1;
@@ -289,10 +286,14 @@ export class CommentCard extends PureComponent {
     renderHeaderForPost() {
         const { comment, extractedContent, isPostPage } = this.props;
         const { collapsed, showAlert } = this.state;
+
         return (
             <Header collapsed={collapsed}>
                 <HeaderLine alertmode={showAlert}>
                     <CardAuthor
+                        infoPopover
+                        noDateLink
+                        permLink={comment.get('permlink')}
                         contentLink={comment.get('url')}
                         author={comment.get('author')}
                         created={comment.get('created')}
