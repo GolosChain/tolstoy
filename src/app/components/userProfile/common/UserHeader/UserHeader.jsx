@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment, createRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import memoize from 'lodash/memoize';
@@ -7,7 +7,6 @@ import tt from 'counterpart';
 
 import o2j from 'shared/clash/object2json';
 import proxifyImageUrl from 'app/utils/ProxifyUrl';
-import normalizeProfile from 'app/utils/NormalizeProfile';
 import { getUserStatus } from 'src/app/helpers/users';
 
 import Icon from 'golos-ui/Icon';
@@ -86,21 +85,21 @@ const Details = styled.div`
 `;
 
 const Name = styled.div`
-    color: #fff;
+    margin-top: 15px;
     font-family: ${({ theme }) => theme.fontFamilySerif};
     font-size: 22px;
     font-weight: bold;
     line-height: 1;
     letter-spacing: 0.2;
+    color: #ffffff;
 `;
 
 const LoginContainer = styled.div`
     display: flex;
     align-items: center;
     line-height: 1.57;
-    color: #fff;
+    color: #ffffff;
     font-size: 14px;
-    padding-top: 8px;
 `;
 
 const Login = styled.div`
@@ -200,71 +199,21 @@ export default class UserHeader extends Component {
         notify: PropTypes.func,
     };
 
-    render() {
-        const { currentAccount, isOwner, isSettingsPage, power } = this.props;
-        const { name, profile_image, cover_image } = normalizeProfile(currentAccount.toJS());
+    dropdownRef = createRef();
 
-        const backgroundUrl = cover_image ? proxifyImageUrl(cover_image, '0x0') : false;
-        const userStatus = getUserStatus(power);
-
-        return (
-            <Wrapper backgroundUrl={backgroundUrl}>
-                <ContainerStyled>
-                    <UserProfileAvatar avatarUrl={profile_image}>
-                        {isOwner &&
-                            isSettingsPage && (
-                                <AvatarDropzone
-                                    onDrop={this._handleDropAvatar}
-                                    multiple={false}
-                                    accept="image/*"
-                                >
-                                    <IconPicture name="picture" size="20" />
-                                </AvatarDropzone>
-                            )}
-                    </UserProfileAvatar>
-                    <Details>
-                        <Buttons>
-                            {!isOwner && (
-                                <Fragment>
-                                    {/* <Button light>
-                                        <Icon name="reply" height="17" width="18" />Написать
-                                        </Button> */}
-                                    <ButtonFollow following={currentAccount.get('name')} />
-                                </Fragment>
-                            )}
-                        </Buttons>
-                        {name ? <Name>{name}</Name> : null}
-                        <LoginContainer>
-                            <Login>@{currentAccount.get('name')}</Login>
-                            {userStatus && (
-                                <StatusContainer>
-                                    <Icon name={userStatus} width={15} height={15} />
-                                    <UserStatus>
-                                        {tt(`user_profile.account_summary.status.${userStatus}`)}
-                                    </UserStatus>
-                                </StatusContainer>
-                            )}
-                        </LoginContainer>
-                    </Details>
-                    {isOwner && isSettingsPage && this._renderCoverDropDown()}
-                </ContainerStyled>
-            </Wrapper>
-        );
-    }
-
-    _renderCoverDropDown() {
-        const metaData = this._extractMetaData();
+    renderCoverDropDown() {
+        const metaData = this.extractMetaData();
 
         return (
             <DropdownStyled
-                innerRef={this._onDropdownRef}
+                innerRef={this.dropdownRef}
                 items={[
                     {
                         title: tt('user_profile.select_image'),
                         dontCloseOnClick: true,
                         Wrapper: DropzoneItem,
                         props: {
-                            onDrop: this._handleDropCover,
+                            onDrop: this.handleDropCover,
                             multiple: false,
                             accept: 'image/*',
                         },
@@ -272,7 +221,7 @@ export default class UserHeader extends Component {
                     metaData.profile.cover_image
                         ? {
                               title: `${tt('g.remove')}...`,
-                              onClick: this._onRemoveCoverClick,
+                              onClick: this.onRemoveCoverClick,
                           }
                         : null,
                 ]}
@@ -284,7 +233,7 @@ export default class UserHeader extends Component {
         );
     }
 
-    _getMetadata = memoize(account => {
+    getMetadata = memoize(account => {
         let metaData;
 
         if (account) {
@@ -302,11 +251,7 @@ export default class UserHeader extends Component {
         return metaData;
     });
 
-    _onDropdownRef = el => {
-        this._dropdown = el;
-    };
-
-    _uploadDropped = (acceptedFiles, rejectedFiles, key) => {
+    uploadDropped = (acceptedFiles, rejectedFiles, key) => {
         const { uploadImage, notify } = this.props;
 
         if (rejectedFiles.length) {
@@ -327,30 +272,30 @@ export default class UserHeader extends Component {
             }
 
             if (url) {
-                const metaData = this._extractMetaData();
+                const metaData = this.extractMetaData();
 
                 metaData.profile[key] = url;
 
-                this._updateMetaData(metaData);
+                this.updateMetaData(metaData);
             }
         });
     };
 
-    _onRemoveCoverClick = () => {
-        const metaData = this._extractMetaData();
+    onRemoveCoverClick = () => {
+        const metaData = this.extractMetaData();
 
         delete metaData.profile.cover_image;
 
-        this._updateMetaData(metaData);
+        this.updateMetaData(metaData);
     };
 
-    _extractMetaData() {
+    extractMetaData() {
         const { currentAccount } = this.props;
 
-        return this._getMetadata(currentAccount);
+        return this.getMetadata(currentAccount);
     }
 
-    _updateMetaData(metaData) {
+    updateMetaData(metaData) {
         const { currentAccount, notify } = this.props;
 
         this.props.updateAccount({
@@ -369,12 +314,69 @@ export default class UserHeader extends Component {
         });
     }
 
-    _handleDropAvatar = (acceptedFiles, rejectedFiles) => {
-        this._uploadDropped(acceptedFiles, rejectedFiles, 'profile_image');
+    handleDropAvatar = (acceptedFiles, rejectedFiles) => {
+        this.uploadDropped(acceptedFiles, rejectedFiles, 'profile_image');
     };
 
-    _handleDropCover = (acceptedFiles, rejectedFiles) => {
-        this._uploadDropped(acceptedFiles, rejectedFiles, 'cover_image');
-        this._dropdown.close();
+    handleDropCover = (acceptedFiles, rejectedFiles) => {
+        this.uploadDropped(acceptedFiles, rejectedFiles, 'cover_image');
+        this.dropdownRef.current.close();
     };
+
+    render() {
+        const {
+            currentAccount,
+            isOwner,
+            isSettingsPage,
+            realName,
+            profileImg,
+            coverImg,
+            power,
+        } = this.props;
+        const backgroundUrl = coverImg ? proxifyImageUrl(coverImg, '0x0') : false;
+        const userStatus = getUserStatus(power);
+
+        return (
+            <Wrapper backgroundUrl={backgroundUrl}>
+                <ContainerStyled>
+                    <UserProfileAvatar avatarUrl={profileImg}>
+                        {isOwner && isSettingsPage && (
+                            <AvatarDropzone
+                                onDrop={this.handleDropAvatar}
+                                multiple={false}
+                                accept="image/*"
+                            >
+                                <IconPicture name="picture" size="20" />
+                            </AvatarDropzone>
+                        )}
+                    </UserProfileAvatar>
+                    <Details>
+                        <Name>{realName}</Name>
+                        <Buttons>
+                            {!isOwner && (
+                                <Fragment>
+                                    {/* <Button light>
+                                        <Icon name="reply" height="17" width="18" />Написать
+                                        </Button> */}
+                                    <ButtonFollow following={currentAccount.get('name')} />
+                                </Fragment>
+                            )}
+                        </Buttons>
+                        <LoginContainer>
+                            <Login>@{currentAccount.get('name')}</Login>
+                            {userStatus && (
+                                <StatusContainer>
+                                    <Icon name={userStatus} width={15} height={15} />
+                                    <UserStatus>
+                                        {tt(`user_profile.account_summary.status.${userStatus}`)}
+                                    </UserStatus>
+                                </StatusContainer>
+                            )}
+                        </LoginContainer>
+                    </Details>
+                    {isOwner && isSettingsPage && this.renderCoverDropDown()}
+                </ContainerStyled>
+            </Wrapper>
+        );
+    }
 }
