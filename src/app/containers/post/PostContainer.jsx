@@ -66,10 +66,6 @@ export class PostContainer extends Component {
 
     postContentRef = createRef();
 
-    componentDidMount() {
-        this.props.loadUserFollowData(this.props.author);
-    }
-
     componentWillReceiveProps(props) {
         if (!this.props.state && props.state) {
             this.setState({

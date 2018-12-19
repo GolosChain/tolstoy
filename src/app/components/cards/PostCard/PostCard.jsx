@@ -26,14 +26,16 @@ const Header = styled.div`
 
 const HeaderRepost = styled(Header)`
     padding: 0 0 10px;
+
+    ${is('postInFeed')`
+        position: relative;
+    `}
 `;
 
 const HeaderLine = styled.div`
     display: flex;
-    position: relative;
     align-items: center;
     padding: 2px 18px;
-    z-index: 1;
     pointer-events: none;
 
     & > * {
@@ -235,11 +237,11 @@ export default class PostCard extends PureComponent {
     };
 
     componentDidMount() {
-        window.addEventListener('resize', this._onResize);
+        window.addEventListener('resize', this.onResize);
     }
 
     componentWillUnmount() {
-        window.removeEventListener('resize', this._onResize);
+        window.removeEventListener('resize', this.onResize);
     }
 
     render() {
@@ -261,7 +263,7 @@ export default class PostCard extends PureComponent {
     }
 
     renderHeader() {
-        const { data, isRepost, compact, reblogData, params } = this.props;
+        const { data, isRepost, compact, reblogData, params, postInFeed } = this.props;
 
         const category = detransliterate(data.get('category'));
         let author;
@@ -282,7 +284,12 @@ export default class PostCard extends PureComponent {
         return (
             <Header>
                 <HeaderLine>
-                    <CardAuthor contentLink={data.get('url')} author={author} created={created} />
+                    <CardAuthor
+                        infoPopover={postInFeed}
+                        contentLink={data.get('url')}
+                        author={author}
+                        created={created}
+                    />
                     <Filler />
                     {compact ? null : (
                         <Category
@@ -365,7 +372,7 @@ export default class PostCard extends PureComponent {
                     data-tooltip={pinTip}
                     enabled={!pinDisabled}
                     isPinned={isPinned}
-                    onClick={!pinDisabled ? this._onPinClick : null}
+                    onClick={!pinDisabled ? this.onPinClick : null}
                 >
                     <Icon name="pin" width={23} height={23} />
                 </IconWrapper>
@@ -414,7 +421,7 @@ export default class PostCard extends PureComponent {
     }
 
     renderRepostPart() {
-        const { repostHtml, data, postLink } = this.props;
+        const { repostHtml, data, postLink, postInFeed } = this.props;
 
         return (
             <RepostBlock>
@@ -423,9 +430,11 @@ export default class PostCard extends PureComponent {
                         <PostContent dangerouslySetInnerHTML={repostHtml} />
                     </RepostBody>
                 ) : null}
-                <HeaderRepost>
+                <HeaderRepost postInFeed={postInFeed}>
                     <HeaderLine>
                         <CardAuthor
+                            infoPopover={postInFeed}
+                            popoverOffsetTop={42}
                             contentLink={postLink}
                             author={data.get('author')}
                             created={data.get('created')}
@@ -492,7 +501,7 @@ export default class PostCard extends PureComponent {
         this.props.openRepostDialog(postLink);
     };
 
-    _onPinClick = () => {
+    onPinClick = () => {
         const { postLink, isPinned } = this.props;
 
         this.props.togglePin(postLink, !isPinned);

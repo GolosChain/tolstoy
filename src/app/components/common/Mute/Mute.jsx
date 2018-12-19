@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
 import Button from 'golos-ui/Button';
-
-import { muteSelector } from 'src/app/redux/selectors/follow/follow';
-import { currentUsernameSelector } from 'src/app/redux/selectors/common';
-import { updateFollow } from 'src/app/redux/actions/follow';
 
 const MuteButton = styled.div`
     display: flex;
@@ -34,18 +29,7 @@ const UnmuteButton = styled(Button)`
     line-height: 23px;
 `;
 
-@connect(
-    (state, props) => {
-        return {
-            ...muteSelector(state, props),
-            username: currentUsernameSelector(state),
-        };
-    },
-    {
-        updateFollow,
-    }
-)
-export default class Mute extends Component {
+export class Mute extends Component {
     static propTypes = {
         muting: PropTypes.string.isRequired,
         onClick: PropTypes.func,
@@ -55,25 +39,12 @@ export default class Mute extends Component {
         onClick: () => {},
     };
 
-    render() {
-        const { isMute, className } = this.props;
-        return isMute ? (
-            <UnmuteButton light onClick={this._unmute} className={className}>
-                {tt('g.unmute')}
-            </UnmuteButton>
-        ) : (
-            <MuteButton onClick={this._mute} className={className}>
-                {tt('g.mute')}
-            </MuteButton>
-        );
-    }
-
-    _mute = e => {
+    mute = e => {
         this.updateFollow('ignore');
         this.props.onClick(e);
     };
 
-    _unmute = e => {
+    unmute = e => {
         this.updateFollow(null);
         this.props.onClick(e);
     };
@@ -82,5 +53,18 @@ export default class Mute extends Component {
         const { username, muting } = this.props;
 
         this.props.updateFollow(username, muting, action);
+    }
+
+    render() {
+        const { isMute, className } = this.props;
+        return isMute ? (
+            <UnmuteButton light className={className} onClick={this.unmute}>
+                {tt('g.unmute')}
+            </UnmuteButton>
+        ) : (
+            <MuteButton className={className} onClick={this.mute}>
+                {tt('g.mute')}
+            </MuteButton>
+        );
     }
 }

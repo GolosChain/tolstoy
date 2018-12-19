@@ -7,10 +7,11 @@ import { Link } from 'react-router';
 import Icon from 'golos-ui/Icon';
 
 import { breakWordStyles } from 'src/app/helpers/styles';
+
 import Userpic from 'src/app/components/common/Userpic';
-import Mute from 'src/app/components/common/Mute/index';
-import Follow from 'src/app/components/common/Follow';
 import { ClosePopoverButton } from 'src/app/components/post/PopoverAdditionalStyles';
+import Mute from 'src/app/components/common/Mute';
+import Follow from 'src/app/components/common/Follow';
 import UserStatus from 'src/app/components/userProfile/common/UserStatus';
 
 const Block = styled.div`
@@ -144,7 +145,8 @@ const PostTitle = styled(Link)`
     }
 `;
 
-const FollowButton = styled(Follow)`
+//Follow has undefined value at first time component mounting
+const FollowButton = styled(props => <Follow {...props} />)`
     min-width: 150px;
     min-height: 30px;
 `;
@@ -157,42 +159,42 @@ const MuteButton = styled(Mute)`
 
 export class PopoverBody extends Component {
     static propTypes = {
-        close: PropTypes.func,
+        closePopover: PropTypes.func,
     };
 
     componentDidMount() {
+        this.fetchFollowData();
         if (this.props.pinnedPostsUrls) {
             this.props.getPostContent(this.props.pinnedPostsUrls);
         }
     }
 
-    closePopover = () => {
-        if (this.props.onClose) {
-            this.props.onClose();
-        } else {
-            this.props.close();
+    fetchFollowData() {
+        const { account, followersCount, loadUserFollowData } = this.props;
+        if (!followersCount) {
+            loadUserFollowData(account);
         }
-    };
+    }
 
     render() {
         const {
             account,
             name,
             about,
-            followerCount,
+            followersCount,
             pinnedPosts,
-            className,
             showFollowBlock,
             reputation,
+            closePopover,
+            className,
         } = this.props;
-
         const linkToAccount = `/@${account}`;
 
         return (
             <Wrapper className={className}>
                 <ClosePopoverButton
                     aria-label={tt('aria_label.close_button')}
-                    onClick={this.closePopover}
+                    onClick={closePopover}
                 >
                     <Icon name="cross" width={16} height={16} />
                 </ClosePopoverButton>
@@ -215,7 +217,7 @@ export class PopoverBody extends Component {
                     <UserStatus currentAccount={account} popover />
                     <About>{about}</About>
                     <Followers>
-                        {tt('user_profile.follower_count', { count: followerCount })}
+                        {tt('user_profile.follower_count', { count: followersCount })}
                     </Followers>
                 </Block>
                 {pinnedPosts.length > 0 && (

@@ -1,1 +1,2 @@
-export { default } from './Mute';
+export { default } from './Mute.connect';
+export { Mute } from './Mute';

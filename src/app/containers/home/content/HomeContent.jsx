@@ -61,11 +61,12 @@ export default class HomeContent extends Component {
     renderCallout() {
         const { category, order, currentUsername, routeParams, tagsStr } = this.props;
 
+        const accountName = routeParams.order.slice(1);
+
         if (category !== 'feed') {
-            return <NoPostsPlaceholder order={order} tagsStr={tagsStr} />;
+            return <NoPostsPlaceholder order={order} tagsStr={tagsStr} accountName={accountName} />;
         }
 
-        const accountName = routeParams.order.slice(1);
         const isMyAccount = currentUsername === accountName;
         if (isMyAccount) {
             return (

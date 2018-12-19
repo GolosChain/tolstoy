@@ -1,6 +1,7 @@
 import {
     FOLLOWERS_GET_FOLLOWERS,
     FOLLOWERS_GET_FOLLOWING,
+    USER_FOLLOW_DATA_LOAD,
 } from 'src/app/redux/constants/followers';
 import { USERS_PER_PAGE } from 'src/app/redux/constants/common';
 
@@ -34,6 +35,15 @@ export function getFollowing({
             startFollowing,
             followType,
             limit,
+        },
+    };
+}
+
+export function loadUserFollowData(username) {
+    return {
+        type: USER_FOLLOW_DATA_LOAD,
+        payload: {
+            username,
         },
     };
 }

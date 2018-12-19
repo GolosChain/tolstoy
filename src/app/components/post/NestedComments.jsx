@@ -26,7 +26,7 @@ const Comment = styled(CommentCard)`
 
 const ToggleButton = styled(CloseOpenButton)`
     position: absolute;
-    top: 13px;
+    top: 18px;
     right: 18px;
     z-index: 2;
 
@@ -34,7 +34,7 @@ const ToggleButton = styled(CloseOpenButton)`
     height: 30px;
 
     ${is('collapsed')`
-        top: 10px;
+        top: 14px;
     `};
 `;
 

@@ -17,16 +17,16 @@ const collapseStyles = `
     height: 34px;
     min-width: 0;
     border-radius: 50%;
-
+    
+    span {
+        display: none;
+    }
+    
     & > svg {
         min-width: 12px;
         min-height: 12px;
         margin: 0;
     };
-
-    span {
-        display: none;
-    }
 `;
 
 const Wrapper = styled(Button)`
@@ -34,7 +34,6 @@ const Wrapper = styled(Button)`
     justify-content: center;
     align-items: center;
     min-width: 165px;
-
     font-size: 12px;
     font-weight: bold;
     line-height: 23px;
@@ -54,7 +53,7 @@ const Wrapper = styled(Button)`
     `};
 `;
 
-export default class Follow extends Component {
+export class Follow extends Component {
     static propTypes = {
         // external
         following: PropTypes.string.isRequired,
@@ -88,22 +87,18 @@ export default class Follow extends Component {
     render() {
         const { collapseOnMobile, collapse, isFollow, className } = this.props;
 
-        if (isFollow) {
-            return (
-                <Wrapper
-                    light
-                    collapseOnMobile={collapseOnMobile}
-                    collapse={collapse}
-                    onClick={this.unfollow}
-                    className={className}
-                >
-                    <IconStyled width="14" height="10" name="tick" />
-                    <span>{tt('g.subscriptions')}</span>
-                </Wrapper>
-            );
-        }
-
-        return (
+        return isFollow ? (
+            <Wrapper
+                light
+                collapseOnMobile={collapseOnMobile}
+                collapse={collapse}
+                onClick={this.unfollow}
+                className={className}
+            >
+                <IconStyled width="14" height="10" name="tick" />
+                <span>{tt('g.subscriptions')}</span>
+            </Wrapper>
+        ) : (
             <Wrapper
                 collapseOnMobile={collapseOnMobile}
                 collapse={collapse}

@@ -2,6 +2,12 @@ import { Map, List } from 'immutable';
 import memoize from 'lodash/memoize';
 import { createSelector } from 'reselect';
 
+import { detransliterate, parsePayoutAmount } from 'app/utils/ParsersAndFormatters';
+import normalizeProfile from 'app/utils/NormalizeProfile';
+import { extractContentMemoized, extractRepost } from 'app/utils/ExtractContent';
+import { hasReblog, extractReblogData, isHide, isContainTags } from 'app/utils/StateFunctions';
+import resolveRoute from 'app/ResolveRoute';
+
 import {
     createDeepEqualSelector,
     dataSelector,
@@ -11,10 +17,7 @@ import {
 } from '../common';
 import { locationTagsSelector } from 'src/app/redux/selectors/app/location';
 import { extractPinnedPosts, getPinnedPosts } from 'src/app/redux/selectors/account/pinnedPosts';
-import { detransliterate, parsePayoutAmount } from 'app/utils/ParsersAndFormatters';
-import normalizeProfile from 'app/utils/NormalizeProfile';
-import { extractContentMemoized, extractRepost } from 'app/utils/ExtractContent';
-import { hasReblog, extractReblogData, isHide, isContainTags } from 'app/utils/StateFunctions';
+import { appSelector } from 'src/app/redux/selectors/common';
 import { HIDE_BY_TAGS } from 'src/app/constants/tags';
 
 const emptyMap = Map();
@@ -96,7 +99,7 @@ export const currentPostSelector = createDeepEqualSelector(
     }
 );
 
-export const authorSelector = createDeepEqualSelector(
+export const authorSelector = createSelector(
     [
         globalSelector('accounts'),
         globalSelector('follow_count'),
@@ -108,32 +111,47 @@ export const authorSelector = createDeepEqualSelector(
         if (post) {
             authorAccountName = post.author;
         }
-        const authorData = accounts.get(authorAccountName) || emptyMap;
-        const jsonData = normalizeProfile({
-            json_metadata: authorData.get('json_metadata'),
-            name: authorAccountName,
-        });
-
-        const pinnedPostsUrls = extractPinnedPosts(authorData.get('json_metadata'));
-
-        return {
-            name: jsonData.name || authorAccountName,
-            account: authorAccountName,
-            about: jsonData.about,
-            followerCount:
-                (followCount && followCount.getIn([authorAccountName, 'follower_count'])) || 0,
-            pinnedPostsUrls,
-            pinnedPosts: pinnedPostsUrls
-                .map(url => content.get(url))
-                .filter(post => post)
-                .map(post => ({
-                    title: post.get('title'),
-                    url: post.get('url'),
-                })),
-            created: authorData.get('created'),
-        };
+        return processingAuthorData(accounts, followCount, content, authorAccountName);
     }
 );
+
+export const popoverUserInfoSelector = createSelector(
+    [
+        globalSelector('accounts'),
+        globalSelector('follow_count'),
+        globalSelector('content'),
+        (state, { accountName }) => accountName,
+    ],
+    (accounts, followCount, content, accountName) => {
+        return processingAuthorData(accounts, followCount, content, accountName);
+    }
+);
+
+const processingAuthorData = (accounts, followCount, content, authorAccountName) => {
+    const authorData = accounts.get(authorAccountName) || emptyMap;
+    const jsonData = normalizeProfile({
+        json_metadata: authorData.get('json_metadata'),
+        name: authorAccountName,
+    });
+
+    const pinnedPostsUrls = extractPinnedPosts(authorData.get('json_metadata'));
+    return {
+        name: jsonData.name || authorAccountName,
+        account: authorAccountName,
+        accountReputation: authorData.get('reputation'),
+        about: jsonData.about,
+        followerCount:
+            (followCount && followCount.getIn([authorAccountName, 'follower_count'])) || 0,
+        pinnedPostsUrls,
+        pinnedPosts: pinnedPostsUrls
+            .map(url => content.get(url))
+            .filter(post => post)
+            .map(post => ({
+                title: post.get('title'),
+                url: post.get('url'),
+            })),
+    };
+};
 
 export const commentsSelector = createDeepEqualSelector(
     [currentPostSelector, state => state.data.comments, state => state.status.comments],
@@ -183,9 +201,10 @@ export const postCardSelector = createDeepEqualSelector(
         (state, props) =>
             props.showPinButton &&
             getPinnedPosts(state, props.pageAccountName).includes(props.permLink),
+        appSelector('location'),
         (_, props) => props,
     ],
-    (currentUsername, { tagsSelect }, favoritesSet, settings, data, isPinned, props) => {
+    (currentUsername, { tagsSelect }, favoritesSet, settings, data, isPinned, location, props) => {
         let repostHtml = null;
         let isRepost = false;
         let reblogData = null;
@@ -228,6 +247,13 @@ export const postCardSelector = createDeepEqualSelector(
             isHidden:
                 isHide(data) ||
                 (!isOwner && isContainTags(data, HIDE_BY_TAGS) && !tagsSelect.length),
+            postInFeed: checkPostInFeed(location),
         };
     }
 );
+
+const checkPostInFeed = location => {
+    const route = resolveRoute(location.getIn(['current', 'pathname']));
+    const postCategory = route.params.category;
+    return /feed|created|hot|trending|promoted/.test(postCategory);
+};
