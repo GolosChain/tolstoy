@@ -43,6 +43,14 @@ const Root = styled.i`
         margin-top: 0;
     `};
 
+    ${is('isMobile')`
+        display: block;
+    `};
+
+    ${is('isDesktop')`
+        display: block;
+    `};
+
     &:hover {
         color: #0078c4;
     }
@@ -56,13 +64,25 @@ const Root = styled.i`
             height: 24px;
         }
     }
+
+    @media (min-width: 821px) {
+        ${is('isMobile')`
+            display: none;
+        `};
+    }
+
+    @media (max-width: 820px) {
+        ${is('isDesktop')`
+            display: none;
+        `};
+    }
 `;
 
 export default class PreviewButton extends PureComponent {
     previewButton = React.createRef();
 
     render() {
-        const { isPreview, isStatic, isVisible } = this.props;
+        const { isPreview, isStatic, isVisible, isMobile, isDesktop } = this.props;
         const buttonText = isPreview ? tt('post_editor.edit_mode') : tt('post_editor.preview_mode');
 
         let icon = (
@@ -71,6 +91,8 @@ export default class PreviewButton extends PureComponent {
                 isStatic={isStatic}
                 isPreview={isPreview}
                 isInvisible={!isVisible && !isStatic}
+                isMobile={isMobile}
+                isDesktop={isDesktop}
                 onClick={this._onPreviewClick}
             >
                 <Icon

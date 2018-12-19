@@ -84,12 +84,12 @@ export default class MarkdownEditorToolbar extends React.PureComponent {
     }
 
     render() {
-        const { commentMode } = this.props;
+        const { commentMode, mobile } = this.props;
         const { newLineHelper } = this.state;
 
         return (
             <div
-                className={cn('MET', { MET_comment: commentMode })}
+                className={cn('MET', { MET_comment: commentMode, MET_desktop: !mobile })}
                 ref="root"
                 style={{ display: 'none' }}
             >
@@ -100,7 +100,7 @@ export default class MarkdownEditorToolbar extends React.PureComponent {
     }
 
     _renderToolbar() {
-        const { SM, commentMode } = this.props;
+        const { SM, commentMode, mobile } = this.props;
         const { state, toolbarPosition, toolbarShow } = this.state;
         const { root } = this.refs;
 
@@ -114,7 +114,12 @@ export default class MarkdownEditorToolbar extends React.PureComponent {
 
         let toolbarTipLeft = null;
 
-        if (toolbarPosition) {
+        if (mobile) {
+            style.top = 'auto';
+            style.bottom = 0;
+            style.left = 0;
+            style.width = 'auto';
+        } else if (toolbarPosition) {
             const rootPos = root.getBoundingClientRect();
 
             style.top = toolbarPosition.top - rootPos.top - TOOLBAR_OFFSET;
@@ -255,7 +260,7 @@ export default class MarkdownEditorToolbar extends React.PureComponent {
     }
 
     _renderHelper(pos) {
-        const { commentMode } = this.props;
+        const { commentMode, mobile } = this.props;
         const { newLineOpen, selected } = this.state;
         const { root } = this.refs;
 
@@ -267,6 +272,7 @@ export default class MarkdownEditorToolbar extends React.PureComponent {
                     'MET__new-line-helper_comment': commentMode,
                     'MET__new-line-helper_open': newLineOpen,
                     'MET__new-line-helper_selected': newLineOpen && selected,
+                    'MET__new-line-helper_mobile': mobile,
                 })}
                 style={{
                     top: Math.round(pos.top - root.getBoundingClientRect().top - window.scrollY),

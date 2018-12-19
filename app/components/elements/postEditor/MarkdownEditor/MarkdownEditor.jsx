@@ -1,4 +1,6 @@
 import React, { PureComponent } from 'react';
+import { createPortal } from 'react-dom';
+import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import throttle from 'lodash/throttle';
@@ -18,6 +20,25 @@ if (process.env.BROWSER) {
 }
 
 let lastWidgetId = 0;
+
+const PanelWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 46px;
+    width: 100vw;
+    max-width: 100vw;
+    position: sticky;
+    bottom: 0;
+    padding: 0;
+    background-color: #fff;
+    z-index: 5;
+    overflow: auto;
+
+    @media (min-width: 860px) {
+        display: none;
+    }
+`;
 
 export default class MarkdownEditor extends PureComponent {
     static propTypes = {
@@ -125,7 +146,7 @@ export default class MarkdownEditor extends PureComponent {
     }
 
     render() {
-        const { uploadImage, commentMode } = this.props;
+        const { uploadImage, commentMode, wrapperRef } = this.props;
         return (
             <div
                 className={cn('MarkdownEditor', {
@@ -149,6 +170,21 @@ export default class MarkdownEditor extends PureComponent {
                     ) : null}
                     <textarea ref="textarea" className="MarkdownEditor__textarea" />
                 </Dropzone>
+                {wrapperRef && wrapperRef.current && this.simplemde
+                    ? createPortal(
+                          <PanelWrapper>
+                              <MarkdownEditorToolbar
+                                  commentMode={commentMode}
+                                  editor={this.simplemde}
+                                  uploadImage={uploadImage}
+                                  SM={SimpleMDE}
+                                  mobile
+                                  wrapperRef={wrapperRef}
+                              />
+                          </PanelWrapper>,
+                          wrapperRef.current
+                      )
+                    : null}
             </div>
         );
     }

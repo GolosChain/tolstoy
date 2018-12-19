@@ -18,7 +18,11 @@ const ButtonWrapper = styled.div`
     box-shadow: 0 -2px 12px 0 rgba(0, 0, 0, 0.07);
     z-index: 5;
 
-    @media (min-width: 577px) {
+    @media (min-width: 769px) {
+        top: 60px;
+    }
+
+    @media (min-width: 861px) {
         display: none;
     }
 `;

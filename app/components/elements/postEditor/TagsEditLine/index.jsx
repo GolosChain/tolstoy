@@ -17,7 +17,8 @@ const Wrapper = styled.div`
     margin-left: 20px;
     overflow: hidden;
 
-    @media (max-width: 576px) {
+    @media (max-width: 860px) {
+        width: 100%;
         padding: 12px 16px;
         margin: 0;
         border-bottom: 1px solid #e9e9e9;
@@ -58,7 +59,7 @@ const RecommendedTagsLabel = styled.h5`
     letter-spacing: normal;
     color: #959595;
 
-    @media (min-width: 577px) {
+    @media (min-width: 861px) {
         display: none;
     }
 `;
@@ -68,7 +69,6 @@ export default class TagsEditLine extends PureComponent {
         tags: PropTypes.arrayOf(PropTypes.string).isRequired,
         inline: PropTypes.bool,
         editMode: PropTypes.bool,
-        hidePopular: PropTypes.bool,
         onChange: PropTypes.func.isRequired,
     };
 
@@ -83,18 +83,23 @@ export default class TagsEditLine extends PureComponent {
     }
 
     render() {
-        const { hidePopular, editMode } = this.props;
+        const { editMode, tags } = this.props;
+        const { favoriteTags } = this.state;
 
-        return (
+        return (tags && tags.length) || (favoriteTags && favoriteTags.length) ? (
             <Wrapper isEditMode={editMode}>
                 {this._renderTagList()}
-                {hidePopular ? null : this._renderPopularList()}
+                {this._renderPopularList()}
             </Wrapper>
-        );
+        ) : null;
     }
 
     _renderTagList() {
         const { tags } = this.props;
+
+        if (!tags || !tags.length) {
+            return null;
+        }
 
         return <TagsLine>{tags.map((tag, i) => this._renderTag(tag, i))}</TagsLine>;
     }

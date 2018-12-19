@@ -16,7 +16,7 @@ const Wrapper = styled.div`
     flex-shrink: 0;
     margin: 0 30px;
 
-    @media (max-width: 576px) {
+    @media (max-width: 860px) {
         flex-direction: column;
         width: 100%;
         margin: 0;
@@ -26,7 +26,7 @@ const Wrapper = styled.div`
 const DesktopWrapper = styled.div`
     position: relative;
 
-    @media (max-width: 576px) {
+    @media (max-width: 860px) {
         display: none;
     }
 `;
@@ -69,7 +69,7 @@ const MobileWrapper = styled.div`
         border-bottom: 1px solid #e9e9e9;
     }
 
-    @media (min-width: 576px) {
+    @media (min-width: 861px) {
         display: none;
     }
 `;

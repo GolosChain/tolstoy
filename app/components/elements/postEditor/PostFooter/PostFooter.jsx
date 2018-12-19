@@ -19,7 +19,7 @@ const Wrapper = styled.div`
     align-items: center;
     min-height: 80px;
 
-    @media (max-width: 576px) {
+    @media (max-width: 860px) {
         flex-direction: column;
         justify-content: center;
         height: auto;
@@ -34,7 +34,7 @@ const Tags = styled.div`
     align-items: center;
     height: 100%;
 
-    @media (max-width: 576px) {
+    @media (max-width: 860px) {
         flex-direction: column;
         justify-content: center;
         width: 100%;
@@ -47,7 +47,7 @@ const Tags = styled.div`
 `;
 
 const ButtonsWrapper = styled.div`
-    @media (max-width: 576px) {
+    @media (max-width: 860px) {
         display: none;
     }
 `;
@@ -147,6 +147,8 @@ export default class PostFooter extends PureComponent {
             isPreview,
             isVisible,
             onPreviewChange,
+            onResetClick,
+            onCancelClick,
         } = this.props;
         const { temporaryErrorText, singleLine, showHint } = this.state;
 
@@ -160,7 +162,6 @@ export default class PostFooter extends PureComponent {
                                 tags={tags}
                                 inline
                                 editMode={editMode}
-                                hidePopular={editMode}
                                 onChange={this.props.onTagsChange}
                             />
                         )}
@@ -177,7 +178,7 @@ export default class PostFooter extends PureComponent {
                         createPortal(
                             <MobileButtons>
                                 <ClearButton
-                                    onClick={this.props.onCancelClick}
+                                    onClick={editMode ? onCancelClick : onResetClick}
                                     aria-label={editMode ? tt('g.cancel') : tt('g.clear')}
                                 >
                                     <Icon name="cross_thin" size={17} />
@@ -187,6 +188,7 @@ export default class PostFooter extends PureComponent {
                                     isVisible={isVisible}
                                     onPreviewChange={onPreviewChange}
                                     isStatic
+                                    isMobile
                                 />
                                 <SendButton
                                     disabled={postDisabled}

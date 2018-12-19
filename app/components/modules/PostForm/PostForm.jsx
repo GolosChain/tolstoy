@@ -103,10 +103,7 @@ const Footer = styled.div`
     user-select: none;
     background: #fff;
     box-shadow: 0 -2px 12px 0 rgba(0, 0, 0, 0.07);
-
-    @media (max-width: 576px) {
-        margin-top: 16px;
-    }
+    margin-top: 10px;
 
     ${is('isEdit')`
         box-shadow: none;
@@ -119,7 +116,7 @@ const FooterContent = styled.div`
     padding: 0 8px;
     margin: 0 auto;
 
-    @media (max-width: 576px) {
+    @media (max-width: 860px) {
         max-width: 100%;
         padding: 0;
         overflow: hidden;
@@ -151,10 +148,11 @@ const SpinnerInner = styled(Icon)`
 `;
 
 const EditorSwitcherWrapper = styled.div`
-    @media (max-width: 576px) {
+    @media (max-width: 860px) {
         display: none;
     }
 `;
+
 export default class PostForm extends React.Component {
     static propTypes = {
         editMode: PropTypes.bool,
@@ -208,6 +206,8 @@ export default class PostForm extends React.Component {
         }
 
         this.previewButton = createRef();
+        this.workAreaRef = createRef();
+        this.editorWrapper = createRef();
     }
 
     componentDidMount() {
@@ -307,12 +307,13 @@ export default class PostForm extends React.Component {
 
         return (
             <Wrapper>
-                <WorkArea innerRef="workArea">
+                <WorkArea innerRef={this.workAreaRef}>
                     <Content>
                         <PreviewButton
                             ref={this.previewButton}
                             isPreview={isPreview}
                             isVisible={isPreviewButtonVisible}
+                            isDesktop
                             onPreviewChange={this._onPreviewChange}
                         />
                         <EditorSwitcherWrapper>
@@ -384,14 +385,17 @@ export default class PostForm extends React.Component {
 
         if (editorId === EDITORS_TYPES.MARKDOWN) {
             return (
-                <MarkdownEditor
-                    ref="editor"
-                    initialValue={text}
-                    scrollContainer={this.refs.workArea}
-                    placeholder={tt('post_editor.text_placeholder')}
-                    uploadImage={this._onUploadImage}
-                    onChangeNotify={this._onTextChangeNotify}
-                />
+                <div ref={this.editorWrapper}>
+                    <MarkdownEditor
+                        ref="editor"
+                        initialValue={text}
+                        scrollContainer={this.refs.workArea}
+                        placeholder={tt('post_editor.text_placeholder')}
+                        uploadImage={this._onUploadImage}
+                        onChangeNotify={this._onTextChangeNotify}
+                        wrapperRef={this.editorWrapper}
+                    />
+                </div>
             );
         } else if (editorId === EDITORS_TYPES.HTML) {
             return (
@@ -804,7 +808,7 @@ export default class PostForm extends React.Component {
 
     _checkPreviewButtonPosition = () => {
         const { isPreviewButtonVisible } = this.state;
-        const { workArea } = this.refs;
+        const workArea = this.workAreaRef.current;
         const { current } = this.previewButton;
 
         const containerYBottom = workArea ? workArea.getBoundingClientRect().bottom : null;

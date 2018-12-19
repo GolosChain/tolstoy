@@ -1,10 +1,18 @@
-@import "../../../extends";
+@import '../../../extends';
 
 .MET {
   display: flex !important;
   font-size: 16px;
   $toolbar_height: 46px;
   $toolbar_comment_height: 36px;
+
+  &_desktop {
+    @media (max-width: 860px) {
+      .MET__toolbar {
+        display: none !important;
+      }
+    }
+  }
 
   &__toolbar {
     position: absolute;
@@ -15,7 +23,7 @@
     border-radius: $toolbar_height / 2;
     align-items: center;
     background: #fff;
-    box-shadow: -1px 1px 14px 0 rgba(0,0,0, 0.15);
+    box-shadow: -1px 1px 14px 0 rgba(0, 0, 0, 0.15);
     transform: translate3d(-50%, -100%, 0);
     opacity: 0;
     transition: opacity 0.2s;
@@ -25,6 +33,15 @@
     &_raising {
       opacity: 1;
       pointer-events: initial;
+    }
+
+    @media (max-width: 860px) {
+      justify-content: center;
+      padding: 0;
+      padding-right: 14px;
+      border-radius: 0;
+      box-shadow: none;
+      transform: translate3d(0, 0, 0);
     }
   }
 
@@ -93,10 +110,10 @@
     margin-top: -20px;
     border-radius: 20px;
     background: #fff;
-    box-shadow: 0 0 9px 0 rgba(0,0,0, 0.25);
+    box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.25);
     transition: width 0.3s;
     overflow: hidden;
-    z-index: 10;
+    z-index: 4;
     animation: fade-in 0.1s;
 
     &_comment {
@@ -122,6 +139,12 @@
 
     &_selected {
       width: 400px;
+    }
+
+    &_mobile {
+      @media (max-width: 860px) {
+        display: none;
+      }
     }
   }
 

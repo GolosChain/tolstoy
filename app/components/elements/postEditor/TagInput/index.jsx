@@ -1,6 +1,7 @@
 import React, { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import is from 'styled-is';
 import tt from 'counterpart';
 
 import Icon from 'app/components/elements/Icon';
@@ -12,7 +13,7 @@ const Wrapper = styled.div`
     position: relative;
     display: block;
 
-    @media (max-width: 576px) {
+    @media (max-width: 860px) {
         width: 100%;
     }
 `;
@@ -35,7 +36,7 @@ const Input = styled.input`
         font-size: 15px;
     }
 
-    @media (max-width: 576px) {
+    @media (max-width: 860px) {
         width: 100%;
         padding: 0 20px 1px;
         border-bottom: 1px solid #e9e9e9;
@@ -60,6 +61,33 @@ const StyledIcon = styled(Icon)`
     cursor: pointer;
 `;
 
+const MobileError = styled.p`
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin: 0;
+    padding: 12px 16px 0;
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.43;
+    letter-spacing: normal;
+    color: #333;
+
+    ${is('isError')`
+        color: #fc5d16;
+    `};
+
+    @media (min-width: 861px) {
+        display: none;
+    }
+`;
+
+const ErrorIcon = styled(Icon)`
+    margin-right: 18px;
+`;
+
 export default class TagInput extends PureComponent {
     static propTypes = {
         tags: PropTypes.array.isRequired,
@@ -80,14 +108,18 @@ export default class TagInput extends PureComponent {
     }
 
     render() {
+        const { inputError, temporaryHintText, value } = this.state;
+
         return (
             <Wrapper>
                 <Input
-                    value={this.state.value}
+                    value={value}
                     type="text"
                     innerRef={this.inputRef}
                     maxLength="20"
                     placeholder={tt('post_editor.tags_input_placeholder')}
+                    autoCapitalize="off"
+                    autoCorrect="off"
                     onFocus={this._onFocus}
                     onBlur={this._onBlur}
                     onChange={this._onInputChange}
@@ -98,6 +130,20 @@ export default class TagInput extends PureComponent {
                     data-tooltip={tt('g.add')}
                     onClick={this._onPlusClick}
                 />
+                {inputError &&
+                    !temporaryHintText && (
+                        <MobileError isError>
+                            <ErrorIcon name="editor/info" />
+                            {inputError}
+                        </MobileError>
+                    )}
+                {temporaryHintText &&
+                    !inputError && (
+                        <MobileError>
+                            <ErrorIcon name="editor/info" />
+                            {temporaryHintText}
+                        </MobileError>
+                    )}
                 {this._renderErrorBlock()}
             </Wrapper>
         );
@@ -148,7 +194,7 @@ export default class TagInput extends PureComponent {
     };
 
     _onInputChange = e => {
-        const value = e.target.value;
+        const value = e.target.value ? e.target.value.toLowerCase() : '';
 
         if (/\s/.test(value) || Math.abs(this.state.value.length - value.length) >= 2) {
             const tags = value.split(/\s+/).filter(t => t);
