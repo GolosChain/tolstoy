@@ -1000,7 +1000,12 @@
       "post_count": {
         "one": "Пост",
         "other": "Постов",
-        "zero": "постов"
+        "zero": "Постов"
+      },
+      "comment_count": {
+        "one": "Комментарий",
+        "other": "Комментариев",
+        "zero": "Комментариев"
       },
       "registered": "На Golos с",
       "reputation": "Рейтинг",
@@ -1205,5 +1210,8 @@
       "other": "%(count)s голосов",
       "zero": "0 голосов"
     }
+  },
+  "view_count": {
+    "views": "Просмотров"
   }
 }

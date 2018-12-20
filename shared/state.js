@@ -8,6 +8,7 @@ export async function processBlog(state, { uname, voteLimit }) {
         limit: 20,
         truncate_body: 1024,
     });
+
     const account = state.accounts[uname];
 
     account.blog = [];
@@ -32,14 +33,19 @@ export async function processBlog(state, { uname, voteLimit }) {
         account.blog.push(postLink);
         state.content[postLink] = discussion;
     }
-  
-    for (let pinned of reverse(pinnedPosts)) {
+
+    for (const pinned of reverse(pinnedPosts)) {
         if (account.blog.includes(pinned)) {
             account.blog = without([pinned], account.blog);
             account.blog.unshift(pinned);
         } else {
             const [author, permlink] = pinned.split('/');
             const postData = await api.getContentAsync(author, permlink, voteLimit);
+
+            if (!postData || !postData.permlink) {
+                // В том случае, если в pinnedPosts есть ссылка на несуществующий пост
+                continue;
+            }
 
             account.blog.unshift(pinned);
             state.content[pinned] = postData;

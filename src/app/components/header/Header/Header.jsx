@@ -7,16 +7,22 @@ import throttle from 'lodash/throttle';
 import tt from 'counterpart';
 
 import { REGISTRATION_URL } from 'app/client_config';
+import {
+    CONTAINER_FULL_WIDTH,
+    CONTAINER_MOBILE_WIDTH,
+    CONTAINER_BASE_MARGIN,
+    CONTAINER_MOBILE_MARGIN,
+} from 'src/app/constants/container';
 
 import Icon from 'golos-ui/Icon';
 import IconBadge from 'golos-ui/IconBadge';
 import Button from 'golos-ui/Button';
-import Container from 'src/app/components/common/Container';
-import Userpic from 'src/app/components/common/Userpic';
 import Menu from '../Menu';
 import NotificationsMenu from '../NotificationsMenu';
 import Popover from 'src/app/components/header/Popover/Popover';
 import LocaleSelect from '../LocaleSelect';
+import AccountInfo from '../AccountInfo';
+import AccountInfoMobile from '../AccountInfoMobile';
 
 const MIN_PAD_WIDTH = 768;
 const MIN_MOBILE_WIDTH = 576;
@@ -33,39 +39,67 @@ const Fixed = styled.div`
 
     height: 60px;
 
-    background: #ffffff;
+    background: #fff;
     border-bottom: 1px solid #e9e9e9;
     z-index: 10;
 
     ${is('mobile')`
         position: relative;
-
         border: none;
     `};
 `;
 
-const ContainerWrapper = styled(Container)`
-    @media (max-width: 350px) {
+const HeaderStub = styled.div`
+    height: 60px;
+`;
+
+const ContainerWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: ${CONTAINER_FULL_WIDTH}px;
+    margin: 0 auto;
+
+    @media (max-width: ${CONTAINER_FULL_WIDTH}px) {
+        width: 100%;
+        margin: 0;
+    }
+`;
+
+const BaseIconWrapper = styled.div`
+    flex-shrink: 0;
+    margin-left: 4px;
+    margin-right: 4px;
+
+    @media (max-width: 500px) {
+        margin-left: 0;
         margin-right: 0;
     }
 `;
 
-const Filler = styled.div`
-    height: 60px;
+const IconWrapper = styled(BaseIconWrapper)`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+    user-select: none;
+`;
+
+const LocaleWrapper = styled(IconWrapper)`
+    width: unset;
 `;
 
 const LogoLink = styled(Link)`
     display: flex;
     align-items: center;
-    padding: 10px;
-    margin-left: -10px;
+    flex-shrink: 0;
+    padding: 10px 10px 10px ${CONTAINER_BASE_MARGIN}px;
 
-    @media (max-width: 1230px) {
-        margin-left: 0;
-    }
-
-    @media (max-width: 350px) {
-        padding: 10px 0;
+    @media (max-width: ${CONTAINER_MOBILE_WIDTH}px) {
+        padding-left: ${CONTAINER_MOBILE_MARGIN}px;
     }
 `;
 
@@ -93,19 +127,21 @@ const LogoText = styled.div`
 
 const SearchBlock = styled(Link)`
     display: flex;
-    align-items: center;
     flex-grow: 1;
-    margin: 0 20px 0 8px;
+    align-items: center;
 
-    ${is('pad')`
-        padding: 10px 20px;
-        margin-right: 0;
-    `};
+    @media (max-width: ${MIN_PAD_WIDTH}px) {
+        flex-grow: 0;
+    }
 
     ${is('mobile')`
         margin: 0;
         padding: 8px 10px;
     `};
+`;
+
+const Filler = styled.div`
+    flex-grow: 1;
 `;
 
 const SearchInput = styled.input`
@@ -119,22 +155,11 @@ const SearchInput = styled.input`
     outline: none;
 `;
 
-const FlexFiller = styled.div`
-    flex-grow: 1;
-`;
-
 const SearchIcon = styled(Icon)`
     flex-shrink: 0;
-
     width: 18px;
     height: 18px;
     color: #393636;
-`;
-
-const LocaleSelectWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
 `;
 
 const Buttons = styled.div`
@@ -159,17 +184,10 @@ const SignUp = styled.a`
 
 const SignIn = SignUp.withComponent(Link);
 
-const AuthorizedBlock = styled.div`
-    display: flex;
-    align-items: center;
-    height: 100%;
-
-    ${is('appear')`
-        animation: fade-in 0.3s;
-    `};
-`;
-
 const NewPostLink = styled(Link)`
+    display: flex;
+    height: 48px;
+    align-items: center;
     margin: 0 10px;
 
     @media (max-width: 576px) {
@@ -202,82 +220,8 @@ const NewPostIcon = styled(Icon)`
     margin-right: 7px;
 `;
 
-const AccountInfoBlock = styled(Link)`
-    position: relative;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-
-    height: 100%;
-    padding: 0 20px;
-
+const Notifications = styled(IconWrapper)`
     color: #393636;
-    user-select: none;
-    cursor: pointer;
-
-    &:hover,
-    &:focus {
-        color: #393636;
-    }
-`;
-
-const AccountText = styled.div`
-    margin: 0 0 0 12px;
-`;
-
-const AccountName = styled.div`
-    max-width: 120px;
-    line-height: 18px;
-    font-size: 14px;
-    font-weight: bold;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-`;
-
-const AccountPowerBlock = styled.div`
-    display: flex;
-
-    margin-top: 3px;
-    line-height: 18px;
-`;
-
-const AccountPowerValue = styled.span`
-    color: #2879ff;
-    font-size: 13px;
-`;
-
-const AccountPowerBar = styled.div`
-    display: flex;
-    align-items: center;
-
-    margin-right: 8px;
-`;
-
-const AccountPowerChunk = styled.div`
-    width: 4px;
-    height: 14px;
-    margin: 0 1px;
-    border-radius: 2px;
-    background: #cde0ff;
-
-    ${is('fill')`
-        background: #2879ff;
-    `};
-`;
-
-const Notifications = styled.div`
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    margin-left: 10px;
-    user-select: none;
-    cursor: pointer;
-    color: #393636;
-
-    ${is('mobile')`
-        margin-left: 0;
-    `};
 
     &:hover {
         color: #2879ff;
@@ -285,6 +229,10 @@ const Notifications = styled.div`
 
     ${is('active')`
         color: #2879ff;
+        `};
+
+    ${is('mobile')`
+        margin-left: 0;
     `};
 `;
 
@@ -319,12 +267,7 @@ const Dots = styled(Icon)`
     user-select: none;
 `;
 
-const DotsWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    cursor: pointer;
-
+const DotsWrapper = styled(IconWrapper)`
     &:hover > ${Dots} {
         color: #2879ff;
     }
@@ -343,56 +286,6 @@ const DotsWrapper = styled.div`
         padding: 10px 16px;
     `};
 `;
-
-const MobileAccountBlock = styled(Link)`
-    display: flex;
-    align-items: center;
-
-    height: 100%;
-    padding: 0 15px 0 12px;
-
-    cursor: pointer;
-    z-index: 1;
-
-    ${is('mobile')`
-        padding: 0 10px;
-    `};
-`;
-
-const MobileAccountContainer = styled.div`
-    position: relative;
-    width: 50px;
-    height: 50px;
-`;
-
-const UserpicMobile = styled(Userpic)`
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    right: 3px;
-    bottom: 3px;
-`;
-
-const PowerCircle = styled.div`
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border-radius: 50%;
-    box-shadow: 0 2px 7px 1px rgba(0, 0, 0, 0.1);
-`;
-
-function formatPower(percent) {
-    return percent.toFixed(2).replace(/\.?0+$/, '');
-}
-
-function calcXY(angle) {
-    return {
-        x: Math.sin(angle),
-        y: -Math.cos(angle),
-    };
-}
 
 export default class Header extends PureComponent {
     static propTypes = {
@@ -496,10 +389,11 @@ export default class Header extends PureComponent {
     };
 
     renderAuthorizedPart() {
-        const { isPadScreen, waitAuth, isMenuOpen } = this.state;
+        const { currentUsername, votingPower, realName } = this.props;
+        const { isPadScreen } = this.state;
 
         return (
-            <AuthorizedBlock appear={waitAuth}>
+            <Fragment>
                 <NewPostLink to="/submit">
                     <Button>
                         <NewPostIcon name="new-post" />
@@ -512,40 +406,25 @@ export default class Header extends PureComponent {
                 {this.renderNotificationsBlock()}
                 {/*{this.renderMessagesBlock()} uncomment when messenger done*/}
                 {this.renderLocaleBlock()}
-                {isPadScreen ? null : this.renderFullAccountBlock()}
-                {isPadScreen ? this.renderMobileAccountBlock() : null}
-            </AuthorizedBlock>
-        );
-    }
-
-    renderFullAccountBlock() {
-        const { currentUsername, votingPower, realName } = this.props;
-
-        const powerPercent = formatPower(votingPower);
-
-        return (
-            <AccountInfoBlock to={`/@${currentUsername}`}>
-                <Userpic account={currentUsername} size={36} ariaLabel={tt('aria_label.avatar')} />
-                <AccountText>
-                    <AccountName>{realName}</AccountName>
-                    <AccountPowerBlock>
-                        <AccountPowerBar title={`Сила голоса: ${powerPercent}%`}>
-                            <AccountPowerChunk fill={votingPower > 10 ? 1 : 0} />
-                            <AccountPowerChunk fill={votingPower > 30 ? 1 : 0} />
-                            <AccountPowerChunk fill={votingPower > 50 ? 1 : 0} />
-                            <AccountPowerChunk fill={votingPower > 70 ? 1 : 0} />
-                            <AccountPowerChunk fill={votingPower > 90 ? 1 : 0} />
-                        </AccountPowerBar>
-                        <AccountPowerValue>{powerPercent}%</AccountPowerValue>
-                    </AccountPowerBlock>
-                </AccountText>
-            </AccountInfoBlock>
+                {isPadScreen ? (
+                    <AccountInfoMobile
+                        currentUsername={currentUsername}
+                        votingPower={votingPower}
+                    />
+                ) : (
+                    <AccountInfo
+                        currentUsername={currentUsername}
+                        votingPower={votingPower}
+                        realName={realName}
+                    />
+                )}
+            </Fragment>
         );
     }
 
     renderNotificationsBlock() {
         const { freshCount, currentUsername } = this.props;
-        const { isPadScreen, isNotificationsOpen } = this.state;
+        const { isNotificationsOpen } = this.state;
 
         return (
             <Link
@@ -555,7 +434,6 @@ export default class Header extends PureComponent {
                 onClick={this.onNotificationsMenuToggle}
             >
                 <Notifications
-                    mobile={isPadScreen ? 1 : 0}
                     active={isNotificationsOpen ? 1 : 0}
                     innerRef={this.notificationsRef}
                 >
@@ -577,45 +455,11 @@ export default class Header extends PureComponent {
         );
     }*/
 
-    renderMobileAccountBlock() {
-        const { isPadScreen } = this.state;
-        const { currentUsername, votingPower } = this.props;
-
-        const angle = 2 * Math.PI - 2 * Math.PI * (votingPower / 100);
-
-        const { x, y } = calcXY(angle);
-
-        return (
-            <Fragment>
-                <MobileAccountBlock to={`/@${currentUsername}`} mobile={isPadScreen ? 1 : 0}>
-                    <MobileAccountContainer innerRef={this.accountRef}>
-                        <PowerCircle>
-                            <svg viewBox="-1 -1 2 2">
-                                <circle cx="0" cy="0" r="1" fill="#2879ff" />
-                                <path
-                                    d={`M ${x * -1} ${y} A 1 1 0 ${
-                                        angle > Math.PI ? 1 : 0
-                                    } 1 0 -1 L 0 0`}
-                                    fill="#cde0ff"
-                                />
-                            </svg>
-                        </PowerCircle>
-                        <UserpicMobile
-                            account={currentUsername}
-                            size={44}
-                            ariaLabel={tt('aria_label.avatar')}
-                        />
-                    </MobileAccountContainer>
-                </MobileAccountBlock>
-            </Fragment>
-        );
-    }
-
     renderLocaleBlock() {
         return (
-            <LocaleSelectWrapper>
+            <LocaleWrapper>
                 <LocaleSelect onChangeLocale={this.props.onChangeLocale} />
-            </LocaleSelectWrapper>
+            </LocaleWrapper>
         );
     }
 
@@ -631,14 +475,12 @@ export default class Header extends PureComponent {
                             <LogoIcon mobile={isMobile ? 1 : 0} />
                             {isPadScreen ? null : <LogoText>GOLOS</LogoText>}
                         </LogoLink>
-                        <SearchBlock
-                            href="/static/search.html"
-                            pad={isPadScreen ? 1 : 0}
-                            mobile={isMobile ? 1 : 0}
-                            aria-label={tt('g.search')}
-                        >
-                            {isPadScreen ? <FlexFiller /> : <SearchInput />}
-                            <SearchIcon name="search" />
+                        {isPadScreen && !isMobile ? <Filler /> : null}
+                        <SearchBlock href="/static/search.html" aria-label={tt('g.search')}>
+                            {isPadScreen ? null : <SearchInput />}
+                            <IconWrapper>
+                                <SearchIcon name="search" />
+                            </IconWrapper>
                         </SearchBlock>
                         {currentUsername ? (
                             this.renderAuthorizedPart()
@@ -698,7 +540,7 @@ export default class Header extends PureComponent {
                         </Popover>
                     ) : null}
                 </Fixed>
-                {isPadScreen ? null : <Filler />}
+                {isPadScreen ? null : <HeaderStub />}
             </Root>
         );
     }

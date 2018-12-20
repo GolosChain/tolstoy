@@ -103,7 +103,7 @@ export const getLocale = createSelector(
     ],
     (currentUser, changedLocale, offchainLocale, settings) => {
         return currentUser
-            ? settings.getIn(['basic', 'lang'])
+            ? settings.getIn(['basic', 'lang']) || offchainLocale
             : changedLocale
                 ? changedLocale
                 : offchainLocale;

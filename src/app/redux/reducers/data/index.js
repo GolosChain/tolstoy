@@ -3,6 +3,7 @@ import settings from './settings';
 import followers from './followers';
 import favorites from './favorites';
 import rates from './rates';
+import viewCount from './viewCount';
 import comments from './comments';
 
 import { initReducer } from 'app/redux/reducers';
@@ -12,5 +13,6 @@ export default combineReducers({
     followers: initReducer(followers),
     comments: initReducer(comments),
     favorites,
+    viewCount,
     rates,
 });

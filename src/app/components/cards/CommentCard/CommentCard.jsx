@@ -86,8 +86,9 @@ const Title = styled.div`
     margin-bottom: 8px;
 `;
 
-const CommentBody = styled(({ shortText, isPostPage, to, ...otherProps }) =>
-    isPostPage ? <div {...otherProps} /> : <Link to={to} {...otherProps} />
+const CommentBody = styled(
+    ({ shortText, isPostPage, to, ...otherProps }) =>
+        isPostPage ? <div {...otherProps} /> : <Link to={to} {...otherProps} />
 )`
     display: block;
     flex-grow: 1;
@@ -292,8 +293,7 @@ export class CommentCard extends PureComponent {
                 <HeaderLine alertmode={showAlert}>
                     <CardAuthor
                         infoPopover
-                        noDateLink
-                        permLink={comment.get('permlink')}
+                        commentInPost
                         contentLink={comment.get('url')}
                         author={comment.get('author')}
                         created={comment.get('created')}

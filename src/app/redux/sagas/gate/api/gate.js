@@ -67,28 +67,25 @@ function* write(socket, writeChannel) {
     while (true) {
         // TODO: need to cancel same request.?
         const action = yield take(writeChannel);
-        const {
-            payload: {
-                types: [requestType, successType, failureType],
-                method,
-                data,
-                normalize,
-                successCallback,
-                errorCallback,
-            },
-        } = action;
+        const { types, method, data, normalize, successCallback, errorCallback } = action.payload;
+
+        const [requestType, successType, failureType] = types || [];
 
         const actionWith = data => ({ ...action, ...data });
-        yield put(actionWith({ type: requestType }));
+
+        if (requestType) {
+            yield put(actionWith({ type: requestType }));
+        }
+
         try {
-            const payload = yield call([socket, 'call'], method, data);
+            const result = yield call([socket, 'call'], method, data);
             let normalizedPayload = {};
 
             if (normalize) {
                 const { transform, saga, schema } = normalize;
                 // if we need to get result from unusual property
                 if (transform) {
-                    normalizedPayload = transform(payload);
+                    normalizedPayload = transform(result);
                 }
                 // if exists saga for hydrate data from blockchain
                 if (saga) {
@@ -99,23 +96,31 @@ function* write(socket, writeChannel) {
                 }
             }
 
-            yield put(
-                actionWith({ type: successType, payload: { ...payload, ...normalizedPayload } })
-            );
+            const payload = { ...result, ...normalizedPayload };
+
+            if (successType) {
+                yield put(actionWith({ type: successType, payload }));
+            }
+
             if (successCallback) {
                 try {
-                    successCallback();
+                    successCallback(payload);
                 } catch (error) {
                     console.error(error);
                 }
             }
-        } catch (e) {
-            console.error('Gate error:', e);
+        } catch (err) {
+            console.error('Gate error:', err);
 
-            yield put(showNotification(e.message));
+            yield put(showNotification(err.message));
 
-            yield put(actionWith({ type: failureType, error: e.message }));
-            if (errorCallback) errorCallback(e.message);
+            if (failureType) {
+                yield put(actionWith({ type: failureType, error: err.message }));
+            }
+
+            if (errorCallback) {
+                errorCallback(err.message);
+            }
         }
     }
 }

@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import { currentUserSelector, currentUsernameSelector } from 'src/app/redux/selectors/common';
 import { postSelector } from 'src/app/redux/selectors/post/commonPost';
 import { onVote } from 'src/app/redux/actions/vote';
-import { calcVotesStats } from 'app/utils/StateFunctions';
+import { calcVotesStats, compareActiveVotes } from 'app/utils/StateFunctions';
 import { openVotersDialog } from 'src/app/redux/actions/dialogs';
 import { loginIfNeed } from 'src/app/redux/actions/login';
 import { VOTE_PERCENT_THRESHOLD } from './helpers';
@@ -27,7 +27,7 @@ export default connect(
                 return;
             }
 
-            const votes = post.get('active_votes');
+            const votes = post.get('active_votes').sort(compareActiveVotes);
             let isRich = false;
 
             if (user) {

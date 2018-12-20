@@ -996,6 +996,11 @@
         "other": "Posts",
         "zero": "posts"
       },
+      "comment_count": {
+        "one": "Comment",
+        "other": "Comments",
+        "zero": "Comments"
+      },
       "registered": "Registered on",
       "reputation": "Reputation",
       "status": {
@@ -1198,5 +1203,8 @@
       "other": "You have %(count)s votes remaining",
       "zero": "You have no votes remaining"
     }
+  },
+  "view_count": {
+    "views": "Views count"
   }
 }

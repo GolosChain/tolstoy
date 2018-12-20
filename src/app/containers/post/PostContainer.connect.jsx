@@ -7,6 +7,7 @@ import { currentPostSelector, authorSelector } from 'src/app/redux/selectors/pos
 import { PostContainer } from 'src/app/containers/post/PostContainer';
 import { togglePin } from 'src/app/redux/actions/pinnedPosts';
 import { toggleFavorite } from 'src/app/redux/actions/favorites';
+import { recordPostView } from 'src/app/redux/actions/post';
 import { isHide, isContainTags } from 'app/utils/StateFunctions';
 import { HIDE_BY_TAGS } from 'src/app/constants/tags';
 
@@ -46,5 +47,6 @@ export default connect(
     {
         togglePin,
         toggleFavorite,
+        recordPostView,
     }
 )(PostContainer);
