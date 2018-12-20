@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { isNil } from 'ramda';
 import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
@@ -22,7 +23,7 @@ export default class ViewCount extends Component {
     componentDidMount() {
         const { viewCount, postLink } = this.props;
 
-        if (viewCount === null || viewCount === undefined) {
+        if (isNil(viewCount)) {
             this.props.fetchViewCount(postLink);
         }
     }
@@ -30,7 +31,7 @@ export default class ViewCount extends Component {
     render() {
         const { viewCount } = this.props;
 
-        if (viewCount === null || viewCount === undefined) {
+        if (isNil(viewCount)) {
             return null;
         }
 
