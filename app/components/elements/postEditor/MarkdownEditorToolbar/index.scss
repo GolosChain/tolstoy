@@ -36,12 +36,18 @@
     }
 
     @media (max-width: 860px) {
+      position: static;
       justify-content: center;
       padding: 0;
+      display: none;
       padding-right: 14px;
       border-radius: 0;
       box-shadow: none;
       transform: translate3d(0, 0, 0);
+
+      &_raising {
+        display: flex;
+      }
     }
   }
 

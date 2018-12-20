@@ -32,7 +32,6 @@ const PanelWrapper = styled.div`
     bottom: 0;
     padding: 0;
     background-color: #fff;
-    z-index: 5;
     overflow: auto;
 
     @media (min-width: 860px) {
