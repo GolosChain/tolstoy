@@ -25,7 +25,7 @@ const Wrapper = styled.div.attrs({
     border-radius: 50%;
     box-shadow: 0 7px 16px 0 rgba(0, 0, 0, 0.18);
 
-    background-color: #fff;
+    background-color: #ffffff;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;

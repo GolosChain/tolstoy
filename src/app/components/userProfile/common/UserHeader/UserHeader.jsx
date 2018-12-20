@@ -16,6 +16,7 @@ import Follow from 'src/app/components/common/FollowMute';
 import Container from 'src/app/components/common/Container';
 import UserProfileAvatar from './../UserProfileAvatar';
 import Dropdown from 'src/app/components/common/Dropdown';
+import DotsButton from 'src/app/components/userProfile/common/UserHeader/DotsMenu/DotsButton';
 
 const Wrapper = styled.div`
     position: relative;
@@ -85,13 +86,20 @@ const Details = styled.div`
 `;
 
 const Name = styled.div`
-    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    margin: 15px 0 5px 0;
     font-family: ${({ theme }) => theme.fontFamilySerif};
     font-size: 22px;
     font-weight: bold;
     line-height: 1;
     letter-spacing: 0.2;
     color: #ffffff;
+`;
+
+const WitnessText = styled.span`
+    margin-left: 7px;
+    text-transform: capitalize;
 `;
 
 const LoginContainer = styled.div`
@@ -110,10 +118,10 @@ const Login = styled.div`
 
 const Buttons = styled(Flex)`
     justify-content: center;
-    padding: 10px 0;
+    margin: 10px 0;
 
     @media (max-width: 768px) {
-        padding: 16px 0 10px 0;
+        margin: 16px 0 10px 0;
     }
 `;
 
@@ -158,7 +166,7 @@ const IconCoverWrapper = styled.div`
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: #fff;
+    background: #ffffff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
 `;
 
@@ -187,6 +195,28 @@ const UserStatus = styled.p`
     padding: 0;
 `;
 
+const UserProfileAvatarWrapper = styled.div`
+    position: relative;
+`;
+
+const Reputation = styled.div`
+    position: absolute;
+    right: 7px;
+    bottom: 7px;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    background-color: #ffffff;
+    border-radius: 50%;
+
+    font-size: 11px;
+    color: #2879ff;
+    pointer-events: none;
+`;
+
 export default class UserHeader extends Component {
     static propTypes = {
         currentAccount: PropTypes.object,
@@ -200,6 +230,17 @@ export default class UserHeader extends Component {
     };
 
     dropdownRef = createRef();
+
+    componentDidMount() {
+        this.checkWitness();
+    }
+
+    checkWitness() {
+        const { witnessInfo, currentAccount, checkWitness } = this.props;
+        if (!witnessInfo) {
+            checkWitness(currentAccount.get('name'));
+        }
+    }
 
     renderCoverDropDown() {
         const metaData = this.extractMetaData();
@@ -332,26 +373,37 @@ export default class UserHeader extends Component {
             profileImg,
             coverImg,
             power,
+            witnessInfo,
+            reputation,
         } = this.props;
         const backgroundUrl = coverImg ? proxifyImageUrl(coverImg, '0x0') : false;
         const userStatus = getUserStatus(power);
+        const witnessText =
+            witnessInfo && witnessInfo.get('isWitness') ? `/ ${tt('g.witness')}` : null;
 
         return (
             <Wrapper backgroundUrl={backgroundUrl}>
                 <ContainerStyled>
-                    <UserProfileAvatar avatarUrl={profileImg}>
-                        {isOwner && isSettingsPage && (
-                            <AvatarDropzone
-                                onDrop={this.handleDropAvatar}
-                                multiple={false}
-                                accept="image/*"
-                            >
-                                <IconPicture name="picture" size="20" />
-                            </AvatarDropzone>
-                        )}
-                    </UserProfileAvatar>
+                    <UserProfileAvatarWrapper>
+                        <Reputation>{reputation}</Reputation>
+                        <UserProfileAvatar avatarUrl={profileImg}>
+                            {isOwner && isSettingsPage && (
+                                <AvatarDropzone
+                                    onDrop={this.handleDropAvatar}
+                                    multiple={false}
+                                    accept="image/*"
+                                >
+                                    <IconPicture name="picture" size="20" />
+                                </AvatarDropzone>
+                            )}
+                        </UserProfileAvatar>
+                    </UserProfileAvatarWrapper>
                     <Details>
-                        <Name>{realName}</Name>
+                        <Name>
+                            {realName}
+                            <WitnessText>{witnessText}</WitnessText>
+                            <DotsButton />
+                        </Name>
                         <Buttons>
                             {!isOwner && (
                                 <Fragment>

@@ -300,6 +300,7 @@
     "total_paid": "Всего выплачено"
   },
   "g": {
+    "witness": "делегат",
     "APP_NAME": "Голос",
     "APP_NAME_support": "%(APP_NAME)s поддержка",
     "account_name": "Имя аккаунта",

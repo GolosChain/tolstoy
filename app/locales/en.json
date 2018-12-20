@@ -299,6 +299,7 @@
     "total_paid": "Total paid"
   },
   "g": {
+    "witness": "witness",
     "APP_NAME": "Golos",
     "APP_NAME_support": "%(APP_NAME)s Support",
     "account_name": "Account Name",
