@@ -333,3 +333,7 @@ export function sortFollowers(followers) {
         })
         .sort((a, b) => a.get('profileName').localeCompare(b.get('profileName')));
 }
+
+export function compareActiveVotes(a, b) {
+    return Math.abs(parseInt(b.get('rshares'))) - Math.abs(parseInt(a.get('rshares')));
+}
