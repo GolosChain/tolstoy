@@ -96,10 +96,11 @@ const LogoLink = styled(Link)`
     display: flex;
     align-items: center;
     flex-shrink: 0;
-    padding: 10px 10px 10px ${CONTAINER_BASE_MARGIN}px;
+    padding: 10px;
+    margin-left: ${CONTAINER_BASE_MARGIN - 10}px;
 
     @media (max-width: ${CONTAINER_MOBILE_WIDTH}px) {
-        padding-left: ${CONTAINER_MOBILE_MARGIN}px;
+        margin-left: ${CONTAINER_MOBILE_MARGIN - 10}px;
     }
 `;
 

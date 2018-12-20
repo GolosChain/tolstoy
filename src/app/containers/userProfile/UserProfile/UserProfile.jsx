@@ -8,12 +8,19 @@ import { Helmet } from 'react-helmet';
 
 import { blockedUsers, blockedUsersContent } from 'app/utils/IllegalContent';
 
+import { listenLazy } from 'src/app/helpers/hoc';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import IllegalContentMessage from 'app/components/elements/IllegalContentMessage';
 import Container from 'src/app/components/common/Container';
 import UserHeader from 'src/app/components/userProfile/common/UserHeader';
 import UserNavigation from 'src/app/components/userProfile/common/UserNavigation';
 import UserCardAbout from 'src/app/components/userProfile/common/UserCardAbout';
+
+const NAV_BAR_TYPES = {
+    BIG: 1,
+    SMALL: 2,
+    MOBILE: 3,
+};
 
 const Main = styled(Container).attrs({
     align: 'flex-start',
@@ -64,21 +71,11 @@ const SidebarLeft = styled.div`
     }
 `;
 
-const BigUserNavigation = styled(UserNavigation)`
-    @media (max-width: 890px) {
-        display: none;
-    }
-`;
-
 const SmallUserNavigation = styled(UserNavigation)`
-    display: none;
-
-    @media (max-width: 890px) {
-        display: block;
-        order: 3;
-    }
+    order: 3;
 `;
 
+@listenLazy('resize')
 export default class UserProfile extends Component {
     static propTypes = {
         pageAccountName: PropTypes.string,
@@ -92,6 +89,33 @@ export default class UserProfile extends Component {
         currentUser: PropTypes.object, // Immutable.Map
         currentAccount: PropTypes.object, // Immutable.Map
     };
+
+    state = {
+        navBarType: process.env.BROWSER ? this.getNavBarType() : NAV_BAR_TYPES.BIG,
+    };
+
+    getNavBarType() {
+        const width = window.innerWidth;
+
+        if (width <= 500) {
+            return NAV_BAR_TYPES.MOBILE;
+        } else if (width <= 768) {
+            return NAV_BAR_TYPES.SMALL;
+        } else {
+            return NAV_BAR_TYPES.BIG;
+        }
+    }
+
+    // calling by @listenLazy('resize')
+    onResize() {
+        const navBarType = this.getNavBarType();
+
+        if (this.state.navBarType !== navBarType) {
+            this.setState({
+                navBarType,
+            });
+        }
+    }
 
     render() {
         const { pageAccountName } = this.props;
@@ -143,6 +167,8 @@ export default class UserProfile extends Component {
             return <div>{tt('g.blocked_user_content')}</div>;
         }
 
+        const { navBarType } = this.state;
+
         const route = last(this.props.routes).path;
         const showLayoutSwitcher = !route || route === 'blog' || route === 'favorites';
 
@@ -157,18 +183,23 @@ export default class UserProfile extends Component {
                     notify={notify}
                     isSettingsPage={route === 'settings'}
                 />
-                <BigUserNavigation
-                    accountName={currentAccount.get('name')}
-                    isOwner={isOwner}
-                    showLayout={showLayoutSwitcher}
-                />
+                {navBarType === NAV_BAR_TYPES.BIG ? (
+                    <UserNavigation
+                        accountName={currentAccount.get('name')}
+                        isOwner={isOwner}
+                        showLayout={showLayoutSwitcher}
+                    />
+                ) : null}
                 <WrapperMain>
                     <Main>
-                        <SmallUserNavigation
-                            accountName={currentAccount.get('name')}
-                            isOwner={isOwner}
-                            showLayout={showLayoutSwitcher}
-                        />
+                        {navBarType !== NAV_BAR_TYPES.BIG ? (
+                            <SmallUserNavigation
+                                accountName={currentAccount.get('name')}
+                                isOwner={isOwner}
+                                isMobile={navBarType === NAV_BAR_TYPES.MOBILE}
+                                showLayout={showLayoutSwitcher}
+                            />
+                        ) : null}
                         {route === 'settings' ? null : (
                             <SidebarLeft>
                                 {route === 'transfers' ? null : (
