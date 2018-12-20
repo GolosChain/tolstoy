@@ -187,6 +187,7 @@ export class PostHeader extends Component {
 
     onUserInfoClick = e => {
         e.preventDefault();
+        e.stopPropagation();
 
         if (Date.now() > this.closePopoverTs + 200) {
             this.setState({
