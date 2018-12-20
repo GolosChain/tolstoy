@@ -56,6 +56,7 @@
     "file-loader": "1.1.11",
     "final-form": "^4.10.0",
     "final-form-calculate": "^1.2.1",
+    "fingerprintjs2": "^1.8.6",
     "foundation-sites": "^6.4.3",
     "git-rev-sync": "^1.12.0",
     "golos-js": "0.7.6",

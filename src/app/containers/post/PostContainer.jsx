@@ -14,6 +14,7 @@ import NotFoundFragment from 'app/components/elements/NotFoundFragment';
 
 export const POST_MAX_WIDTH = 840;
 const POST_MARGINS_MOBILE = 20;
+const SEEN_TIMEOUT = 5 * 1000; // Время необходимое для засчитывания просмотра поста
 
 const Wrapper = styled.div`
     width: 100%;
@@ -66,6 +67,14 @@ export class PostContainer extends Component {
 
     postContentRef = createRef();
 
+    componentDidMount() {
+        this.seenTimeout = setTimeout(this.recordSeen, SEEN_TIMEOUT);
+    }
+
+    componentWillUnmount() {
+        clearTimeout(this.seenTimeout);
+    }
+
     componentWillReceiveProps(props) {
         if (!this.props.state && props.state) {
             this.setState({
@@ -81,6 +90,19 @@ export class PostContainer extends Component {
 
         return false;
     }
+
+    recordSeen = () => {
+        try {
+            const fingerPrint = require('fingerprintjs2')();
+
+            fingerPrint.get(fingerPrint => {
+                const { author, permLink } = this.props;
+                this.props.recordPostView(`${author}/${permLink}`, fingerPrint);
+            });
+        } catch (err) {
+            console.warn('Fingerprint getting failed:', err);
+        }
+    };
 
     togglePin = () => {
         const { author, permLink, isPinned, togglePin } = this.props;

@@ -1196,5 +1196,8 @@
       "other": "You have %(count)s votes remaining",
       "zero": "You have no votes remaining"
     }
+  },
+  "view_count": {
+    "views": "Views count"
   }
 }

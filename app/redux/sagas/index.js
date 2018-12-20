@@ -12,6 +12,7 @@ import notificationsOnlineWatches from 'src/app/redux/sagas/notificationsOnline'
 import favoritesWatch from 'src/app/redux/sagas/favorites';
 import pinnedPostsWatch from 'src/app/redux/sagas/pinnedPosts';
 import ratesWatch from 'src/app/redux/sagas/rates';
+import viewCountWatch from 'src/app/redux/sagas/viewCount';
 import followersWatch from 'src/app/redux/sagas/followers';
 import loginWatch from 'src/app/redux/sagas/login';
 import dialogsWatch from 'src/app/redux/sagas/dialogs';
@@ -33,6 +34,7 @@ export default function* rootSaga() {
     yield fork(showVotedUserWatcher);
     yield fork(pinnedPostsWatch);
     yield fork(ratesWatch);
+    yield fork(viewCountWatch);
     yield fork(followersWatch);
     yield fork(loginWatch);
     yield fork(dialogsWatch);
