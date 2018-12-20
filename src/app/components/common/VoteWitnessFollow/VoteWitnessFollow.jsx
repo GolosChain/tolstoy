@@ -1,16 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { Set, Map } from 'immutable';
 import tt from 'counterpart';
 
 import Button from 'golos-ui/Button';
 import Icon from 'golos-ui/Icon';
 
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
-import { confirmUnfollowDialog } from 'src/app/redux/actions/dialogs';
-import { updateFollow } from 'src/app/redux/actions/follow';
 
 const ButtonStyled = styled(Button)`
     &:not(:last-child) {
@@ -26,10 +22,10 @@ const IconStyled = styled(Icon)`
     margin-right: 10px;
 `;
 
-class Follow extends Component {
+export default class VoteWitnessFollow extends Component {
     static propTypes = {
-        following: PropTypes.string,
-        follower: PropTypes.string, // OPTIONAL default to current user
+        accountUsername: PropTypes.string,
+        authUser: PropTypes.string, // OPTIONAL default to current user
         showFollow: PropTypes.bool,
         showMute: PropTypes.bool,
         children: PropTypes.any,
@@ -48,12 +44,10 @@ class Follow extends Component {
         if (this.state.busy) {
             return;
         }
-
-        const { follower, following } = this.props;
+        const { authUser, accountUsername, updateFollow } = this.props;
 
         this.setState({ busy: true });
-
-        this.props.updateFollow(follower, following, type, () => {
+        updateFollow(authUser, accountUsername, type, () => {
             this.setState({ busy: false });
         });
     }
@@ -63,7 +57,8 @@ class Follow extends Component {
     };
 
     unfollow = () => {
-        this.props.confirmUnfollowDialog(this.props.following);
+        const { accountUsername, confirmUnfollowDialog } = this.props;
+        confirmUnfollowDialog(accountUsername);
     };
 
     ignore = () => {
@@ -75,9 +70,10 @@ class Follow extends Component {
     };
 
     render() {
-        const { loading } = this.props;
+        const { showFollow, showMute, children, followInfo } = this.props;
+        const { busy } = this.state;
 
-        if (loading) {
+        if (followInfo.loading) {
             return (
                 <span>
                     <LoadingIndicator /> {tt('g.loading')}
@@ -86,14 +82,14 @@ class Follow extends Component {
             );
         }
 
-        if (loading !== false) {
-            // must know what the user is already following before any update can happen
+        if (followInfo.loading !== false) {
+            // must know what the user is already accountUsername before any update can happen
             return null;
         }
 
-        const { follower, following } = this.props;
+        const { authUser, accountUsername } = this.props;
         // Show follow preview for new users
-        if (!follower || !following)
+        if (!authUser || !accountUsername)
             return (
                 <ButtonStyled onClick={this.follow}>
                     <IconStyled name="plus" height="14" width="14" />
@@ -102,16 +98,20 @@ class Follow extends Component {
             );
 
         // Can't follow or ignore self
-        if (follower === following) {
-            return null;
-        }
-
-        const { showFollow, showMute, children, followingWhat } = this.props;
-        const { busy } = this.state;
 
         return (
             <Fragment>
-                {showFollow && followingWhat !== 'blog' ? (
+                {showMute && followInfo.followState !== 'ignore' ? (
+                    <ButtonStyled disabled={busy} onClick={this.ignore}>
+                        {tt('g.mute')}
+                    </ButtonStyled>
+                ) : (
+                    <ButtonStyled disabled={busy} light onClick={this.unignore}>
+                        {tt('g.unmute')}
+                    </ButtonStyled>
+                )}
+
+                {showFollow && followInfo.followState !== 'blog' ? (
                     <ButtonStyled disabled={busy} onClick={this.follow}>
                         <IconStyled name="plus" height="14" width="14" />
                         {tt('g.follow')}
@@ -120,16 +120,6 @@ class Follow extends Component {
                     <ButtonStyled disabled={busy} light onClick={this.unfollow}>
                         <IconStyled name="tick" height="10" width="14" />
                         {tt('g.subscriptions')}
-                    </ButtonStyled>
-                )}
-
-                {showMute && followingWhat !== 'ignore' ? (
-                    <ButtonStyled disabled={busy} onClick={this.ignore}>
-                        {tt('g.mute')}
-                    </ButtonStyled>
-                ) : (
-                    <ButtonStyled disabled={busy} light onClick={this.unignore}>
-                        {tt('g.unmute')}
                     </ButtonStyled>
                 )}
 
@@ -143,42 +133,3 @@ class Follow extends Component {
         );
     }
 }
-
-const emptyMap = Map();
-const emptySet = Set();
-
-export default connect(
-    (state, ownProps) => {
-        let { follower } = ownProps;
-
-        if (!follower) {
-            const current_user = state.user.get('current');
-            follower = current_user ? current_user.get('username') : null;
-        }
-
-        const { following } = ownProps;
-        const follow = state.global.getIn(['follow', 'getFollowingAsync', follower], emptyMap);
-        const loading = follow.get('blog_loading', false) || follow.get('ignore_loading', false);
-
-        let followingWhat;
-
-        if (follow.get('blog_result', emptySet).contains(following)) {
-            followingWhat = 'blog';
-        } else if (follow.get('ignore_result', emptySet).contains(following)) {
-            followingWhat = 'ignore';
-        } else {
-            followingWhat = null;
-        }
-
-        return {
-            follower,
-            following,
-            followingWhat,
-            loading,
-        };
-    },
-    {
-        updateFollow,
-        confirmUnfollowDialog,
-    }
-)(Follow);

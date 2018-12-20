@@ -12,7 +12,7 @@ import { getUserStatus } from 'src/app/helpers/users';
 import Icon from 'golos-ui/Icon';
 import Flex from 'golos-ui/Flex';
 
-import Follow from 'src/app/components/common/FollowMute';
+import VoteWitnessFollow from 'src/app/components/common/VoteWitnessFollow';
 import Container from 'src/app/components/common/Container';
 import UserProfileAvatar from './../UserProfileAvatar';
 import Dropdown from 'src/app/components/common/Dropdown';
@@ -178,10 +178,10 @@ const IconCover = styled(Icon)`
 `;
 
 const IconPicture = styled(Icon)`
-    color: #333;
+    color: #333333;
 `;
 
-const ButtonFollow = styled(Follow)`
+const VoteWitnessFollowButtons = styled(VoteWitnessFollow)`
     margin-right: 0;
 `;
 
@@ -276,15 +276,12 @@ export default class UserHeader extends Component {
 
     getMetadata = memoize(account => {
         let metaData;
-
         if (account) {
             metaData = o2j.ifStringParseJSON(account.get('json_metadata'));
         }
-
         if (!metaData) {
             metaData = {};
         }
-
         if (!metaData.profile) {
             metaData.profile = {};
         }
@@ -298,7 +295,6 @@ export default class UserHeader extends Component {
         if (rejectedFiles.length) {
             notify(tt('reply_editor.please_insert_only_image_files'), 10000);
         }
-
         if (!acceptedFiles.length) {
             return;
         }
@@ -316,7 +312,6 @@ export default class UserHeader extends Component {
                 const metaData = this.extractMetaData();
 
                 metaData.profile[key] = url;
-
                 this.updateMetaData(metaData);
             }
         });
@@ -366,6 +361,7 @@ export default class UserHeader extends Component {
 
     render() {
         const {
+            currentUser,
             currentAccount,
             isOwner,
             isSettingsPage,
@@ -375,11 +371,17 @@ export default class UserHeader extends Component {
             power,
             witnessInfo,
             reputation,
+            updateFollow,
+            followInfo,
+            confirmUnfollowDialog,
         } = this.props;
+
         const backgroundUrl = coverImg ? proxifyImageUrl(coverImg, '0x0') : false;
         const userStatus = getUserStatus(power);
         const witnessText =
             witnessInfo && witnessInfo.get('isWitness') ? `/ ${tt('g.witness')}` : null;
+        const accountUsername = currentAccount.get('name');
+        const authUser = currentUser.get('username');
 
         return (
             <Wrapper backgroundUrl={backgroundUrl}>
@@ -402,7 +404,14 @@ export default class UserHeader extends Component {
                         <Name>
                             {realName}
                             <WitnessText>{witnessText}</WitnessText>
-                            <DotsButton />
+                            {authUser && authUser !== accountUsername && (
+                                <DotsButton
+                                    authUser={authUser}
+                                    accountUsername={accountUsername}
+                                    updateFollow={updateFollow}
+                                    followInfo={followInfo}
+                                />
+                            )}
                         </Name>
                         <Buttons>
                             {!isOwner && (
@@ -410,12 +419,18 @@ export default class UserHeader extends Component {
                                     {/* <Button light>
                                         <Icon name="reply" height="17" width="18" />Написать
                                         </Button> */}
-                                    <ButtonFollow following={currentAccount.get('name')} />
+                                    <VoteWitnessFollowButtons
+                                        accountUsername={accountUsername}
+                                        authUser={authUser}
+                                        followInfo={followInfo}
+                                        updateFollow={updateFollow}
+                                        confirmUnfollowDialog={confirmUnfollowDialog}
+                                    />
                                 </Fragment>
                             )}
                         </Buttons>
                         <LoginContainer>
-                            <Login>@{currentAccount.get('name')}</Login>
+                            <Login>@{accountUsername}</Login>
                             {userStatus && (
                                 <StatusContainer>
                                     <Icon name={userStatus} width={15} height={15} />
