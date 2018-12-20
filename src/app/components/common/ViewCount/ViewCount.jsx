@@ -22,7 +22,7 @@ export default class ViewCount extends Component {
     componentDidMount() {
         const { viewCount, postLink } = this.props;
 
-        if (viewCount == null) {
+        if (viewCount === null || viewCount === undefined) {
             this.props.fetchViewCount(postLink);
         }
     }
@@ -30,7 +30,7 @@ export default class ViewCount extends Component {
     render() {
         const { viewCount } = this.props;
 
-        if (viewCount == null) {
+        if (viewCount === null || viewCount === undefined) {
             return null;
         }
 
