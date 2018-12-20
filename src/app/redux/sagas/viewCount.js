@@ -1,6 +1,4 @@
-import { takeEvery } from 'redux-saga/effects';
-import throttle from 'lodash/throttle';
-import { dispatch } from 'app/clientRender';
+import { takeEvery, throttle } from 'redux-saga/effects';
 
 import { GATE_SEND_MESSAGE } from '../constants/gate';
 import { POST_NEED_VIEW_COUNT, POST_FETCH_VIEW_COUNT_SUCCESS } from '../constants/post';
@@ -9,28 +7,19 @@ const queue = new Set();
 const loading = new Set();
 
 export default function* watch() {
-    yield takeEvery(POST_NEED_VIEW_COUNT, loadHistorical);
+    yield takeEvery(POST_NEED_VIEW_COUNT, addPostInQuery);
+    yield throttle(150, POST_NEED_VIEW_COUNT, fetchViewCounts);
 }
 
-function* loadHistorical({ payload }) {
-    if (!process.env.BROWSER) {
-        return;
-    }
-
+function* addPostInQuery({ payload }) {
     const { postLink } = payload;
 
     if (!queue.has(postLink) && !loading.has(postLink)) {
         queue.add(postLink);
-
-        startLoadingLazy();
     }
 }
 
-let reloadTimeout = null;
-
-async function startLoading() {
-    clearTimeout(reloadTimeout);
-
+function* fetchViewCounts() {
     if (!queue.size) {
         return;
     }
@@ -43,7 +32,7 @@ async function startLoading() {
 
     queue.clear();
 
-    dispatch({
+    yield put({
         type: GATE_SEND_MESSAGE,
         payload: {
             method: 'meta.getPostsViewCount',
@@ -60,5 +49,3 @@ async function startLoading() {
         }
     }
 }
-
-const startLoadingLazy = throttle(startLoading, 150, { leading: false });
