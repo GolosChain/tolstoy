@@ -49,6 +49,10 @@ const Fixed = styled.div`
     `};
 `;
 
+const HeaderStub = styled.div`
+    height: 60px;
+`;
+
 const ContainerWrapper = styled.div`
     display: flex;
     align-items: center;
@@ -438,7 +442,7 @@ export default class Header extends PureComponent {
                             <LogoIcon mobile={isMobile ? 1 : 0} />
                             {isPadScreen ? null : <LogoText>GOLOS</LogoText>}
                         </LogoLink>
-                        {isPadScreen ? <Filler /> : null}
+                        {isPadScreen && !isMobile ? <Filler /> : null}
                         <SearchBlock href="/static/search.html" aria-label={tt('g.search')}>
                             {isPadScreen ? null : <SearchInput />}
                             <IconWrapper>
@@ -503,6 +507,7 @@ export default class Header extends PureComponent {
                         </Popover>
                     ) : null}
                 </Fixed>
+                {isPadScreen ? null : <HeaderStub />}
             </Root>
         );
     }
