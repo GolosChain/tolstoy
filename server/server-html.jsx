@@ -19,7 +19,10 @@ export default function ServerHTML({ body, title, assets, helmet, meta }) {
             <head>
                 <meta charSet="utf-8" />
                 {helmet && helmet.title ? helmet.title.toComponent() : <title>{title}</title>}
-                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                <meta
+                    name="viewport"
+                    content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+                />
                 {meta ? renderMeta(meta) : null}
                 <link rel="manifest" href="/static/manifest.json" />
                 <link rel="icon" type="image/x-icon" href="/favicon.ico" />

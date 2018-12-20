@@ -4,11 +4,17 @@ import is from 'styled-is';
 
 import { LANGUAGES } from 'app/client_config';
 
+const HIDE_CHEVRON_WIDTH = 500;
+
 const Wrapper = styled.div`
     position: relative;
-    margin-left: 1em;
+    margin-right: 8px;
     cursor: pointer;
     z-index: 1;
+
+    @media (max-width: ${HIDE_CHEVRON_WIDTH}px) {
+        margin-right: 0;
+    }
 `;
 
 const Current = styled.div`
@@ -16,8 +22,8 @@ const Current = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 60px;
-    height: 34px;
+    width: 48px;
+    height: 48px;
     font-weight: 500;
     text-transform: uppercase;
     color: #393636;
@@ -27,24 +33,29 @@ const Current = styled.div`
 
 const Chevron = styled.div`
     position: absolute;
-    top: 15px;
-    right: 8px;
+    top: 22px;
+    right: 5px;
     border: 3px solid transparent;
     border-top-color: #363636;
+
     ${is('open')`
-        top: 11px;
+        top: 19px;
         border-top-color: transparent;
         border-bottom-color: #363636;
     `};
+
+    @media (max-width: ${HIDE_CHEVRON_WIDTH}px) {
+        display: none;
+    }
 `;
 
 const List = styled.div`
     position: absolute;
     display: flex;
     flex-direction: column;
-    top: -4px;
-    left: 0;
-    right: 0;
+    top: 2px;
+    left: -6px;
+    right: -6px;
     padding: 38px 0 4px;
     border-radius: 8px;
     background: #fff;
@@ -53,10 +64,15 @@ const List = styled.div`
     opacity: 0;
     transition: opacity 0.4s;
     pointer-events: none;
+
     ${is('open')`
         opacity: 1;
         pointer-events: initial;
     `};
+
+    @media (max-width: 500px) {
+        padding-top: 46px;
+    }
 `;
 
 const ListItem = styled.div`
@@ -69,8 +85,13 @@ const ListItem = styled.div`
     color: #959595;
     cursor: pointer;
     user-select: none;
+
     &:hover {
         color: #333;
+    }
+
+    @media (max-width: 500px) {
+        height: 48px;
     }
 `;
 
@@ -120,19 +141,21 @@ export default class LocaleSelect extends PureComponent {
                     <Chevron open={open} />
                 </Current>
                 <List open={open}>
-                    {Object.keys(LANGUAGES).map(lang => (
-                        <ListItem
-                            key={lang}
-                            onClick={() => {
-                                if (currentUser) {
-                                    this.props.setSettingsLocale(lang);
-                                }
-                                this.props.onChangeLocale(lang);
-                            }}
-                        >
-                            {LANGUAGES[lang].shortValue}
-                        </ListItem>
-                    ))}
+                    {Object.keys(LANGUAGES)
+                        .filter(lang => lang !== locale)
+                        .map(lang => (
+                            <ListItem
+                                key={lang}
+                                onClick={() => {
+                                    if (currentUser) {
+                                        this.props.setSettingsLocale(lang);
+                                    }
+                                    this.props.onChangeLocale(lang);
+                                }}
+                            >
+                                {LANGUAGES[lang].shortValue}
+                            </ListItem>
+                        ))}
                 </List>
             </Wrapper>
         );
