@@ -74,17 +74,25 @@ const Answer = styled.strong`
 `;
 
 const ExplanationList = styled.ul`
+    display: flex;
+    flex-direction: column;
     width: 100%;
     margin: 0;
     padding: 0 20px 20px;
     list-style: none;
 
     @media (max-width: 768px) {
+        width: max-content;
+        margin: 0 auto;
         padding: 0 35px 20px;
     }
 `;
 
 const Explanation = styled.li`
+    display: flex;
+    align-items: center;
+    width: 100%;
+
     &:not(:last-child) {
         padding-bottom: 20px;
     }
@@ -158,7 +166,9 @@ const InfoLink = styled(Link)`
 `;
 
 const Splitter = styled.div`
-    height: 100%;
+    height: 45px;
+    min-height: 100%;
+    max-height: 100%;
     width: 1px;
     background-color: #e1e1e1;
 `;
