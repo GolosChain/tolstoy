@@ -994,6 +994,11 @@
         "other": "Posts",
         "zero": "posts"
       },
+      "comment_count": {
+        "one": "Comment",
+        "other": "Comments",
+        "zero": "Comments"
+      },
       "registered": "Registered on",
       "reputation": "Reputation",
       "status": {

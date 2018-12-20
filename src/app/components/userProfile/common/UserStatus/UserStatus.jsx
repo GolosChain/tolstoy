@@ -5,6 +5,7 @@ import tt from 'counterpart';
 
 import { MINNOW, CRUCIAN, DOLPHIN, ORCA } from 'src/app/helpers/users';
 import Icon from 'golos-ui/Icon';
+import { repLog10 } from 'app/utils/ParsersAndFormatters';
 
 const grey = '#e0e0e0';
 const blue = '#2879ff';
@@ -82,12 +83,27 @@ const ColoredIcon = styled(Icon)`
     color: ${props => props.color};
 `;
 
+const Rating = styled.div`
+    margin-top: 18px;
+    line-height: 1;
+    font-size: 14px;
+    font-weight: 300;
+    color: #393636;
+`;
+
+const RatingValue = styled.span`
+    font-weight: bold;
+    color: #333;
+`;
+
 export default class UserStatus extends Component {
     render() {
-        const { userStatus, popover } = this.props;
+        const { userStatus, reputation, popover } = this.props;
         const statusPosition = this.getStatusPosition(userStatuses, userStatus);
         const coloredStatuses = this.getColoredStatuses(userStatuses, statusPosition);
         const toNext = this.getPercentToNextStatus(userStatuses, statusesByPower, statusPosition);
+
+        const rep10 = repLog10(reputation);
 
         return coloredStatuses ? (
             <Wrapper popover={Boolean(popover)}>
@@ -97,13 +113,22 @@ export default class UserStatus extends Component {
                             name={status.name}
                             width={status.width}
                             height={status.height}
-                            data-tooltip={tt(`user_profile.account_summary.status.${status.name}`)}
+                            data-tooltip={tt([
+                                'user_profile',
+                                'account_summary',
+                                'status',
+                                status.name,
+                            ])}
                             key={status.name}
                             color={status.color}
                         />
                     ))}
                 </Statuses>
                 <ProgressLine progress={statusPosition} toNext={toNext} />
+                <Rating>
+                    ${tt('user_profile.account_summary.reputation')}:{' '}
+                    <RatingValue>{rep10}</RatingValue>
+                </Rating>
             </Wrapper>
         ) : null;
     }
