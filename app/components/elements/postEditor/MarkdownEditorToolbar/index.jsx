@@ -89,7 +89,11 @@ export default class MarkdownEditorToolbar extends React.PureComponent {
 
         return (
             <div
-                className={cn('MET', { MET_comment: commentMode, MET_desktop: !mobile })}
+                className={cn('MET', {
+                    MET_comment: commentMode,
+                    MET_desktop: !mobile,
+                    MET_mobile: mobile,
+                })}
                 ref="root"
                 style={{ display: 'none' }}
             >

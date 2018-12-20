@@ -1,5 +1,6 @@
 import React, { PureComponent, Fragment, createRef } from 'react';
 import styled from 'styled-components';
+import is from 'styled-is';
 
 const Stub = styled.div`
     min-height: 650px;
@@ -25,6 +26,17 @@ const ButtonWrapper = styled.div`
     @media (min-width: 861px) {
         display: none;
     }
+
+    @media (max-width: 576px) {
+        ${is('isEdit')`
+            padding: 0 20px;
+        `};
+    }
+
+    ${is('isEdit')`
+        box-shadow: none;
+        padding: 0 70px;
+    `};
 `;
 
 let PostForm = null;
@@ -49,10 +61,11 @@ export default class PostFormLoader extends PureComponent {
     }
 
     render() {
+        const { editMode } = this.props;
         if (PostForm) {
             return (
                 <Fragment>
-                    <ButtonWrapper innerRef={this.mobileButtons} />
+                    <ButtonWrapper innerRef={this.mobileButtons} isEdit={editMode} />
                     <PostForm {...this.props} mobileButtonsWrapperRef={this.mobileButtons} />
                 </Fragment>
             );

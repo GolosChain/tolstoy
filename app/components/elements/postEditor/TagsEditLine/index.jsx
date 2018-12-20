@@ -89,7 +89,7 @@ export default class TagsEditLine extends PureComponent {
         return (tags && tags.length) || (favoriteTags && favoriteTags.length) ? (
             <Wrapper isEditMode={editMode}>
                 {this._renderTagList()}
-                {this._renderPopularList()}
+                {!editMode && this._renderPopularList()}
             </Wrapper>
         ) : null;
     }

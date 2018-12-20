@@ -83,6 +83,16 @@ const WorkArea = styled.div`
     height: calc(100% - 80px);
     padding-top: 10px;
     overflow-y: auto;
+
+    ${is('isEdit')`
+        padding: 10px 70px 0;
+    `};
+
+    @media (max-width: 576px) {
+        ${is('isEdit')`
+            padding: 10px 20px 0;
+        `};
+    }
 `;
 
 const Content = styled.div`
@@ -90,7 +100,7 @@ const Content = styled.div`
     padding: 0 8px;
     margin: 0 auto;
 
-    @media (max-width: 700px) {
+    @media (max-width: 860px) {
         overflow-x: hidden;
         max-width: 100%;
     }
@@ -307,7 +317,7 @@ export default class PostForm extends React.Component {
 
         return (
             <Wrapper>
-                <WorkArea innerRef={this.workAreaRef}>
+                <WorkArea innerRef={this.workAreaRef} isEdit={editMode}>
                     <Content>
                         <PreviewButton
                             ref={this.previewButton}
@@ -382,6 +392,7 @@ export default class PostForm extends React.Component {
 
     _renderEditorPanel() {
         const { editorId, text } = this.state;
+        const { editMode } = this.props;
 
         if (editorId === EDITORS_TYPES.MARKDOWN) {
             return (
@@ -390,10 +401,11 @@ export default class PostForm extends React.Component {
                         ref="editor"
                         initialValue={text}
                         scrollContainer={this.refs.workArea}
+                        wrapperRef={this.editorWrapper}
                         placeholder={tt('post_editor.text_placeholder')}
+                        editMode={editMode}
                         uploadImage={this._onUploadImage}
                         onChangeNotify={this._onTextChangeNotify}
-                        wrapperRef={this.editorWrapper}
                     />
                 </div>
             );

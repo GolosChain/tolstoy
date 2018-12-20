@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
+import is from 'styled-is';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import throttle from 'lodash/throttle';
@@ -24,7 +25,7 @@ let lastWidgetId = 0;
 const PanelWrapper = styled.div`
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     height: 46px;
     width: 100vw;
     max-width: 100vw;
@@ -37,6 +38,18 @@ const PanelWrapper = styled.div`
     @media (min-width: 860px) {
         display: none;
     }
+
+    @media (max-width: 360px) {
+        ${is('isEdit')`
+            width: 100vw;
+            max-width: 100vw;
+        `};
+    }
+
+    ${is('isEdit')`
+        width: 100%;
+        max-width: 100%;
+    `};
 `;
 
 export default class MarkdownEditor extends PureComponent {
@@ -145,7 +158,7 @@ export default class MarkdownEditor extends PureComponent {
     }
 
     render() {
-        const { uploadImage, commentMode, wrapperRef } = this.props;
+        const { uploadImage, commentMode, wrapperRef, editMode } = this.props;
         return (
             <div
                 className={cn('MarkdownEditor', {
@@ -171,9 +184,9 @@ export default class MarkdownEditor extends PureComponent {
                 </Dropzone>
                 {wrapperRef && wrapperRef.current && this.simplemde
                     ? createPortal(
-                          <PanelWrapper>
+                          <PanelWrapper isEdit={editMode}>
                               <MarkdownEditorToolbar
-                                  commentMode={commentMode}
+                                  commentMode
                                   editor={this.simplemde}
                                   uploadImage={uploadImage}
                                   SM={SimpleMDE}

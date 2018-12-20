@@ -26,6 +26,10 @@ const Wrapper = styled.div`
         width: 100%;
         max-width: 100%;
     }
+
+    ${is('isEdit')`
+        justify-content: center;
+    `};
 `;
 
 const Tags = styled.div`
@@ -43,6 +47,7 @@ const Tags = styled.div`
 
     ${is('isOtherLine')`
         flex-direction: column;
+        flex-grow: 0;
     `};
 `;
 
@@ -150,7 +155,7 @@ export default class PostFooter extends PureComponent {
             onResetClick,
             onCancelClick,
         } = this.props;
-        const { temporaryErrorText, singleLine, showHint } = this.state;
+        const { temporaryErrorText, showHint } = this.state;
 
         return (
             <Fragment>
