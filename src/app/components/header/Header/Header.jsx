@@ -101,6 +101,10 @@ const LogoLink = styled(Link)`
     @media (max-width: ${CONTAINER_MOBILE_WIDTH}px) {
         padding-left: ${CONTAINER_MOBILE_MARGIN}px;
     }
+
+    @media (max-width: 400px) {
+        padding: 10px 8px;
+    }
 `;
 
 const LogoIcon = styled.div`
@@ -285,6 +289,12 @@ const DotsWrapper = styled(IconWrapper)`
     ${is('mobile')`
         padding: 10px 16px;
     `};
+
+    @media (max-width: 400px) {
+        ${is('mobile')`
+            padding: 10px 8px;
+        `};
+    }
 `;
 
 export default class Header extends PureComponent {
