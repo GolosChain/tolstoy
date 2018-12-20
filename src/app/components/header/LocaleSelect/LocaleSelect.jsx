@@ -113,6 +113,9 @@ export default class LocaleSelect extends PureComponent {
         const { currentUser, locale } = this.props;
         const { open } = this.state;
 
+        // for debug only, remove after fix
+        console.warn('locale', locale);
+
         return (
             <Wrapper innerRef={this.onRef}>
                 <Current onClick={this.onOpenClick}>
