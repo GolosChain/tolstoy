@@ -1,18 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
 import is from 'styled-is';
-import { Map } from 'immutable';
 import { last } from 'ramda';
 import tt from 'counterpart';
 import { Helmet } from 'react-helmet';
 
 import { blockedUsers, blockedUsersContent } from 'app/utils/IllegalContent';
-
-import user from 'app/redux/User';
-import transaction from 'app/redux/Transaction';
-import { showNotification } from 'src/app/redux/actions/ui';
 
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import IllegalContentMessage from 'app/components/elements/IllegalContentMessage';
@@ -85,65 +79,7 @@ const SmallUserNavigation = styled(UserNavigation)`
     }
 `;
 
-@connect(
-    (state, props) => {
-        const accountName = props.params.accountName.toLowerCase();
-
-        const currentUser = state.user.get('current') || Map();
-        const currentAccount = state.global.getIn(['accounts', accountName]);
-
-        const fetching = state.app.get('loading');
-        const isOwner = currentUser.get('username') === accountName;
-
-        const followerCount = state.global.getIn(
-            ['follow_count', accountName, 'follower_count'],
-            0
-        );
-
-        const followingCount = state.global.getIn(
-            ['follow_count', accountName, 'following_count'],
-            0
-        );
-
-        return {
-            pageAccountName: accountName,
-            currentUser,
-            currentAccount,
-
-            fetching,
-            isOwner,
-
-            followerCount,
-            followingCount,
-        };
-    },
-    dispatch => ({
-        fetchFollowCount: () => dispatch(fetchFollowCount),
-        uploadImage: (file, progress) => {
-            dispatch({
-                type: 'user/UPLOAD_IMAGE',
-                payload: { file, progress },
-            });
-        },
-        updateAccount: ({ successCallback, errorCallback, ...operation }) => {
-            dispatch(
-                transaction.actions.broadcastOperation({
-                    type: 'account_metadata',
-                    operation,
-                    successCallback() {
-                        dispatch(user.actions.getAccount());
-                        successCallback();
-                    },
-                    errorCallback,
-                })
-            );
-        },
-        notify: (message, dismiss = 3000) => {
-            dispatch(showNotification(message, 'settings', dismiss));
-        },
-    })
-)
-class UserProfileContainer extends Component {
+export default class UserProfile extends Component {
     static propTypes = {
         pageAccountName: PropTypes.string,
         isOwner: PropTypes.bool,
@@ -253,79 +189,3 @@ class UserProfileContainer extends Component {
         );
     }
 }
-
-export default {
-    path: '@:accountName',
-    component: UserProfileContainer,
-    getIndexRoute(nextState, cb) {
-        cb(null, {
-            components: {
-                content: require('./blog/BlogContent').default,
-                sidebarRight: require('../../components/userProfile/common/RightPanel').default,
-            },
-        });
-    },
-    childRoutes: [
-        {
-            path: 'comments',
-            getComponents(nextState, cb) {
-                cb(null, {
-                    content: require('./comments/CommentsContent').default,
-                    sidebarRight: require('../../components/userProfile/common/RightPanel').default,
-                });
-            },
-        },
-        {
-            path: 'recent-replies',
-            getComponents(nextState, cb) {
-                cb(null, {
-                    content: require('./replies/RepliesContent').default,
-                    sidebarRight: require('../../components/userProfile/common/RightPanel').default,
-                });
-            },
-        },
-        {
-            path: 'settings',
-            getComponents(nextState, cb) {
-                cb(null, {
-                    content: require('./settings/SettingsContent').default,
-                });
-            },
-        },
-        {
-            path: 'transfers',
-            getComponents(nextState, cb) {
-                cb(null, {
-                    content: require('./wallet/WalletContent').default,
-                    sidebarRight: require('../../components/userProfile/common/RightPanel').default,
-                });
-            },
-        },
-        {
-            path: 'activity',
-            getComponents(nextState, cb) {
-                cb(null, {
-                    content: require('./activity').default,
-                    sidebarRight: require('../../components/userProfile/common/RightPanel').default,
-                });
-            },
-        },
-        {
-            path: 'favorites',
-            getComponents(nextState, cb) {
-                cb(null, {
-                    content: require('./favorites/FavoritesContent').default,
-                    sidebarRight: require('../../components/userProfile/common/RightPanel').default,
-                });
-            },
-        },
-        {
-            path: 'messages',
-            getComponents(nextState, cb) {
-                cb(null, {
-                    content: require('../../../messenger/containers/Messenger').default,
-                });
-            },
-        },
-    ],
-};
