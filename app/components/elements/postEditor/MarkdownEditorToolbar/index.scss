@@ -139,7 +139,7 @@
     border-radius: 20px;
     background: #fff;
     box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.25);
-    transition: width 0.3s;
+    transition: width 0.3s, opacity 0.2s, transform 0.2s;
     overflow: hidden;
     z-index: 4;
     animation: fade-in 0.1s;
@@ -147,17 +147,6 @@
     &_comment {
       left: 0;
       margin-top: 20px;
-    }
-
-    @media (max-width: 890px) {
-      left: 0;
-      margin-top: 20px;
-      opacity: 0.7;
-      transition: width 0.3s, opacity 0.2s, transform 0.2s;
-
-      &:hover {
-        opacity: 1;
-      }
     }
 
     &_open {
@@ -170,7 +159,7 @@
 
       @media (max-width: 420px) {
         width: 300px;
-        transform: translateX(-30px);
+        transform: translateX(0);
       }
     }
 
@@ -180,9 +169,19 @@
       }
     }
 
-    &_mobile.MET__new-line-helper_selected {
+    &_comment.MET__new-line-helper_selected {
       @media (max-width: 420px) {
-        transform: translateX(0);
+        transform: translateX(-30px);
+      }
+    }
+
+    @media (max-width: 890px) {
+      left: 0;
+      margin-top: 20px;
+      opacity: 0.7;
+
+      &:hover {
+        opacity: 1;
       }
     }
   }

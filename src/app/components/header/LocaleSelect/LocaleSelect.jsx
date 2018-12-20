@@ -9,6 +9,10 @@ const Wrapper = styled.div`
     margin-left: 1em;
     cursor: pointer;
     z-index: 1;
+
+    @media (max-width: 576px) {
+        margin-left: 0;
+    }
 `;
 
 const Current = styled.div`

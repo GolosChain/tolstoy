@@ -39,7 +39,7 @@ const Fixed = styled.div`
 
     ${is('mobile')`
         position: relative;
-        
+
         border: none;
     `};
 `;
@@ -103,8 +103,8 @@ const SearchBlock = styled(Link)`
     `};
 
     ${is('mobile')`
-        margin: 0 4px 0 0;
-        padding: 8px;
+        margin: 0;
+        padding: 8px 10px;
     `};
 `;
 
@@ -171,6 +171,29 @@ const AuthorizedBlock = styled.div`
 
 const NewPostLink = styled(Link)`
     margin: 0 10px;
+
+    @media (max-width: 576px) {
+        display: none;
+    }
+`;
+
+const MobileNewPostLink = styled(Link)`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+    height: 100%;
+    color: #393636;
+
+    & > svg {
+        margin: 0;
+        width: 20px;
+        height: 20px;
+    }
+
+    @media (min-width: 577px) {
+        display: none;
+    }
 `;
 
 const NewPostIcon = styled(Icon)`
@@ -253,7 +276,6 @@ const Notifications = styled.div`
     color: #393636;
 
     ${is('mobile')`
-        padding: 10px 20px;
         margin-left: 0;
     `};
 
@@ -478,14 +500,15 @@ export default class Header extends PureComponent {
 
         return (
             <AuthorizedBlock appear={waitAuth}>
-                {isPadScreen ? null : (
-                    <NewPostLink to="/submit">
-                        <Button>
-                            <NewPostIcon name="new-post" />
-                            {tt('g.create_post')}
-                        </Button>
-                    </NewPostLink>
-                )}
+                <NewPostLink to="/submit">
+                    <Button>
+                        <NewPostIcon name="new-post" />
+                        {tt('g.create_post')}
+                    </Button>
+                </NewPostLink>
+                <MobileNewPostLink to="/submit" aria-label={tt('g.create_post')}>
+                    <NewPostIcon name="new-post" />
+                </MobileNewPostLink>
                 {this.renderNotificationsBlock()}
                 {/*{this.renderMessagesBlock()} uncomment when messenger done*/}
                 {this.renderLocaleBlock()}

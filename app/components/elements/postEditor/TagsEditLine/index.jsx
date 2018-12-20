@@ -24,8 +24,15 @@ const Wrapper = styled.div`
         border-bottom: 1px solid #e9e9e9;
     }
 
+    @media (max-width: 576px) {
+        ${is('isEditMode')`
+            padding: 0 20px;
+        `};
+    }
+
     ${is('isEditMode')`
         margin: 0;
+        padding: 0 70px;
     `};
 `;
 

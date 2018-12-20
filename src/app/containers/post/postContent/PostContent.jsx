@@ -25,7 +25,13 @@ const Wrapper = styled.article`
     }
 `;
 
-const Preview = styled.div``;
+const Preview = styled.div`
+    padding: 0 70px;
+
+    @media (max-width: 576px) {
+        padding: 0 20px;
+    }
+`;
 
 const Body = styled.div`
     margin-top: 5px;
