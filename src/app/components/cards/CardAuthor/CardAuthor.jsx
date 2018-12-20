@@ -110,10 +110,15 @@ export default class CardAuthor extends Component {
     };
 
     openPopover = e => {
-        if (!this.props.infoPopover) {
+        const { infoPopover, commentInPost } = this.props;
+        if (!infoPopover) {
             return;
         }
+
         e.preventDefault();
+        if (commentInPost) {
+            e.stopPropagation();
+        }
         if (Date.now() > this.closePopoverTs + 200) {
             this.setState({
                 showPopover: true,
@@ -154,7 +159,7 @@ export default class CardAuthor extends Component {
             isRepost,
             created,
             noLinks,
-            noDateLink,
+            commentInPost,
             className,
         } = this.props;
 
@@ -167,7 +172,7 @@ export default class CardAuthor extends Component {
             AuthorNameComp = AuthorName;
         }
 
-        if (noDateLink || noLinks) {
+        if (commentInPost || noLinks) {
             PostDateComp = PostDate;
         }
 
