@@ -4,69 +4,95 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 import { Link } from 'react-router';
 
+import Icon from 'golos-ui/Icon';
 import LayoutSwitcher from 'src/app/components/common/LayoutSwitcher';
 import Navigation from 'src/app/components/common/Navigation';
+import NavigationMobile from 'src/app/components/common/NavigationMobile';
 
-const IconLink = styled(Link)`
+const SettingsLink = styled(Link)`
     display: flex;
-    padding: 4px;
-    margin-left: 7px;
-    color: #b7b7b9;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    color: #393636;
 
-    &.${({ activeClassName }) => activeClassName}, &:hover {
+    &:hover {
         color: #2879ff;
     }
 `;
 
-IconLink.defaultProps = {
-    activeClassName: 'active',
-};
+const GearIcon = styled(Icon)`
+    width: 17px;
+    height: 17px;
+`;
 
 export default class UserNavigation extends PureComponent {
     static propTypes = {
         accountName: PropTypes.string,
         isOwner: PropTypes.bool,
+        isMobile: PropTypes.bool,
         showLayout: PropTypes.bool,
     };
 
     render() {
-        const { accountName, isOwner, className } = this.props;
+        const { accountName, isOwner, isMobile, showLayout, className } = this.props;
 
         const tabLinks = [];
+        const rightItems = [];
 
         tabLinks.push(
-            { value: tt('g.blog'), to: `/@${accountName}` },
-            { value: tt('g.comments'), to: `/@${accountName}/comments` },
-            { value: tt('g.replies'), to: `/@${accountName}/recent-replies` }
+            { text: tt('g.blog'), to: `/@${accountName}` },
+            { text: tt('g.comments'), to: `/@${accountName}/comments` },
+            { text: tt('g.replies'), to: `/@${accountName}/recent-replies` }
         );
 
         if (isOwner) {
-            tabLinks.push({ value: tt('g.favorites'), to: `/@${accountName}/favorites` });
+            tabLinks.push({ text: tt('g.favorites'), to: `/@${accountName}/favorites` });
         }
 
-        tabLinks.push({ value: tt('g.wallet'), to: `/@${accountName}/transfers` });
+        tabLinks.push({ text: tt('g.wallet'), to: `/@${accountName}/transfers` });
 
         if (isOwner) {
-            tabLinks.push(
-                { value: tt('g.activity'), to: `/@${accountName}/activity` },
-                { value: tt('g.settings'), to: `/@${accountName}/settings` }
-                // { value: tt('g.messages'), to: `/@${accountName}/messages` },
+            tabLinks.push({ text: tt('g.activity'), to: `/@${accountName}/activity` });
+
+            if (isMobile) {
+                rightItems.push(
+                    <SettingsLink key="settings" to={`/@${accountName}/settings`}>
+                        <GearIcon name="gear" />
+                    </SettingsLink>
+                );
+            } else {
+                tabLinks.push({ text: tt('g.settings'), to: `/@${accountName}/settings` });
+            }
+
+            // { text: tt('g.messages'), to: `/@${accountName}/messages` },
+        }
+
+        if (showLayout) {
+            rightItems.push(<LayoutSwitcher key="layout" mobile={isMobile} />);
+        }
+
+        const rightFragment = rightItems.length ? <Fragment>{rightItems}</Fragment> : null;
+
+        if (isMobile) {
+            return (
+                <NavigationMobile
+                    tabLinks={tabLinks}
+                    rightItems={rightFragment}
+                    className={className}
+                />
+            );
+        } else {
+            return (
+                <Navigation
+                    tabLinks={tabLinks}
+                    compact
+                    rightItems={rightFragment}
+                    className={className}
+                />
             );
         }
-
-        return (
-            <Navigation
-                tabLinks={tabLinks}
-                compact
-                rightItems={this.renderRightIcons()}
-                className={className}
-            />
-        );
-    }
-
-    renderRightIcons() {
-        const { showLayout } = this.props;
-
-        return <Fragment>{showLayout ? <LayoutSwitcher /> : null}</Fragment>;
     }
 }

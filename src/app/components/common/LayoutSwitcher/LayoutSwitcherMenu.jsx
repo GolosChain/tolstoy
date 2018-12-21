@@ -17,7 +17,7 @@ const Menu = styled.div`
 `;
 
 const List = styled.ul`
-    padding: 9px 0;
+    padding: 8px 0 7px;
     margin: 0;
 `;
 
@@ -30,6 +30,10 @@ const Item = styled.li`
 
     &:hover {
         color: #2879ff;
+    }
+
+    @media (max-width: 500px) {
+        padding: 15px 20px;
     }
 `;
 

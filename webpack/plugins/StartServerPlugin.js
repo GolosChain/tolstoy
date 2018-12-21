@@ -8,21 +8,22 @@ let serverReload;
 const KOA_PATH = path.join(__dirname, '../../server/index');
 
 const startServer = () => {
-
     // Define `restartServer`
     const restartServer = () => {
-        console.log('restarting koa application');
-        serverReload = true;
-        server.kill('SIGTERM');
-        return startServer();
+        if (server) {
+            console.log('restarting koa application');
+            serverReload = true;
+            server.kill('SIGTERM');
+            return startServer();
+        }
     };
 
     // merge env for the new process
-    const env = {...process.env, NODE_ENV: 'development', BABEL_ENV: 'server'};
+    const env = { ...process.env, NODE_ENV: 'development', BABEL_ENV: 'server' };
     // start the server procress
-    server = cp.fork(KOA_PATH, {env});
+    server = cp.fork(KOA_PATH, { env });
     // when server is `online`
-    server.once('message', (message) => {
+    server.once('message', message => {
         if (message.match(/^online$/)) {
             if (serverReload) {
                 serverReload = false;
@@ -34,7 +35,7 @@ const startServer = () => {
                 // Listen for `rs` in stdin to restart server
                 console.log('type `rs` in console for restarting koa application');
                 process.stdin.setEncoding('utf8');
-                process.stdin.on('data', (data) => {
+                process.stdin.on('data', data => {
                     const parsedData = (data + '').trim().toLowerCase();
                     if (parsedData === 'rs') return restartServer();
                 });
@@ -53,8 +54,9 @@ process.on('exit', () => server.kill('SIGTERM'));
 
 module.exports = class StartServerPlugin {
     apply(compiler) {
-        console.log("Please wait for app server startup (~60s)" +
-            " after webpack server startup...")
-        compiler.hooks.done.tap('StartServerPlugin', () => !server ? startServer() : () => ({}))
+        console.log(
+            'Please wait for app server startup (~60s)' + ' after webpack server startup...'
+        );
+        compiler.hooks.done.tap('StartServerPlugin', () => (!server ? startServer() : () => ({})));
     }
-}
+};

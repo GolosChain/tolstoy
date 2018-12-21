@@ -8,12 +8,7 @@ import is from 'styled-is';
 
 import { APP_NAME } from 'app/client_config';
 
-import {
-    SINGLE_COLUMN_WIDTH,
-    CONTAINER_BASE_MARGIN,
-    CONTAINER_MOBILE_WIDTH,
-    CONTAINER_MOBILE_MARGIN,
-} from 'src/app/constants/container';
+import { CONTAINER_MOBILE_WIDTH, CONTAINER_MOBILE_MARGIN } from 'src/app/constants/container';
 import CardsList from 'src/app/components/common/CardsList';
 import NoPostsPlaceholder from 'src/app/components/home/NoPostsPlaceholder';
 
@@ -21,10 +16,6 @@ const Wrapper = styled.div`
     background-color: #f9f9f9;
 
     ${is('addGaps')`
-        @media (max-width: ${SINGLE_COLUMN_WIDTH}px) {
-            margin: 0 ${CONTAINER_BASE_MARGIN}px;
-        }
-
         @media (max-width: ${CONTAINER_MOBILE_WIDTH}px) {
             margin-left: ${CONTAINER_MOBILE_MARGIN}px;
             margin-right: ${CONTAINER_MOBILE_MARGIN}px;
