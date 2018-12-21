@@ -48,6 +48,7 @@ const List = styled.ul`
     top: 0;
     left: 3px;
     z-index: 12;
+    min-width: 100%;
     padding: 34px 0 4px 0;
     margin: 0;
     border-radius: 8px;
