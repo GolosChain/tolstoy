@@ -74,6 +74,7 @@ export default class Navigation extends PureComponent {
         compact: PropTypes.bool,
         pathname: PropTypes.string,
         tabLinks: PropTypes.array.isRequired,
+        rightItems: PropTypes.object,
     };
 
     render() {
@@ -83,14 +84,14 @@ export default class Navigation extends PureComponent {
             <SlideContainerStyled className={className}>
                 <Container>
                     <Wrapper>
-                        {tabLinks.map(({ value, to, index }) => (
+                        {tabLinks.map(({ text, to, index }) => (
                             <TabLinkStyled
                                 key={to}
                                 to={to}
                                 compact={compact ? 1 : 0}
                                 className={index && pathname === '/' ? 'active' : null}
                             >
-                                {value}
+                                {text}
                             </TabLinkStyled>
                         ))}
                         {rightItems ? <Right>{rightItems}</Right> : null}
