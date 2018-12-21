@@ -26,7 +26,7 @@ const Dots = styled.button`
 export default class DotsButton extends Component {
     static propTypes = {
         authUser: PropTypes.string,
-        followInfo: PropTypes.object,
+        profileButtonsInfo: PropTypes.object,
         accountUsername: PropTypes.string.isRequired,
         updateFollow: PropTypes.func.isRequired,
     };
@@ -45,7 +45,7 @@ export default class DotsButton extends Component {
     };
 
     render() {
-        const { authUser, accountUsername, updateFollow, followInfo } = this.props;
+        const { authUser, accountUsername, updateFollow, profileButtonsInfo } = this.props;
         const { menuOpen } = this.state;
 
         return (
@@ -55,7 +55,7 @@ export default class DotsButton extends Component {
                         authUser={authUser}
                         accountUsername={accountUsername}
                         updateFollow={updateFollow}
-                        followInfo={followInfo}
+                        profileButtonsInfo={profileButtonsInfo}
                         closeMenu={this.closeMenu}
                     />
                 )}

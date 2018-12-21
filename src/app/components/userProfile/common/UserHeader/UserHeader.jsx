@@ -372,14 +372,16 @@ export default class UserHeader extends Component {
             witnessInfo,
             reputation,
             updateFollow,
-            followInfo,
+            profileButtonsInfo,
             confirmUnfollowDialog,
+            loginIfNeed,
+            accountWitnessVote,
         } = this.props;
 
         const backgroundUrl = coverImg ? proxifyImageUrl(coverImg, '0x0') : false;
         const userStatus = getUserStatus(power);
-        const witnessText =
-            witnessInfo && witnessInfo.get('isWitness') ? `/ ${tt('g.witness')}` : null;
+        const isWitness = witnessInfo && witnessInfo.get('isWitness');
+        const witnessText = isWitness ? `/ ${tt('g.witness')}` : null;
         const accountUsername = currentAccount.get('name');
         const authUser = currentUser.get('username');
 
@@ -409,7 +411,7 @@ export default class UserHeader extends Component {
                                     authUser={authUser}
                                     accountUsername={accountUsername}
                                     updateFollow={updateFollow}
-                                    followInfo={followInfo}
+                                    profileButtonsInfo={profileButtonsInfo}
                                 />
                             )}
                         </Name>
@@ -422,9 +424,12 @@ export default class UserHeader extends Component {
                                     <VoteWitnessFollowButtons
                                         accountUsername={accountUsername}
                                         authUser={authUser}
-                                        followInfo={followInfo}
+                                        isWitness={isWitness}
+                                        profileButtonsInfo={profileButtonsInfo}
                                         updateFollow={updateFollow}
                                         confirmUnfollowDialog={confirmUnfollowDialog}
+                                        loginIfNeed={loginIfNeed}
+                                        accountWitnessVote={accountWitnessVote}
                                     />
                                 </Fragment>
                             )}

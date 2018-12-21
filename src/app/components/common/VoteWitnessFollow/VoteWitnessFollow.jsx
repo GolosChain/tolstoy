@@ -19,21 +19,19 @@ const ButtonStyled = styled(Button)`
 `;
 
 const IconStyled = styled(Icon)`
+    flex-shrink: 0;
     margin-right: 10px;
 `;
 
 export default class VoteWitnessFollow extends Component {
     static propTypes = {
         accountUsername: PropTypes.string,
-        authUser: PropTypes.string, // OPTIONAL default to current user
+        authUser: PropTypes.string,
         showFollow: PropTypes.bool,
-        showMute: PropTypes.bool,
-        children: PropTypes.any,
     };
 
     static defaultProps = {
         showFollow: true,
-        showMute: true,
     };
 
     state = {
@@ -61,19 +59,57 @@ export default class VoteWitnessFollow extends Component {
         confirmUnfollowDialog(accountUsername);
     };
 
-    ignore = () => {
-        this.handleUpdateFollow('ignore');
+    voteForWitness = () => {
+        const {
+            profileButtonsInfo,
+            authUser,
+            accountUsername,
+            loginIfNeed,
+            accountWitnessVote,
+        } = this.props;
+
+        loginIfNeed(logged => {
+            if (logged) {
+                this.setState({ busy: true });
+                accountWitnessVote(
+                    authUser,
+                    accountUsername,
+                    !profileButtonsInfo.witnessUpvoted,
+                    () => this.setState({ busy: false })
+                );
+            }
+        });
     };
 
-    unignore = () => {
-        this.handleUpdateFollow(null);
-    };
+    renderWitnessButton() {
+        const { isWitness, profileButtonsInfo } = this.props;
+        const { busy } = this.state;
+        if (!isWitness) {
+            return;
+        }
+        return (
+            <Fragment>
+                {profileButtonsInfo.witnessUpvoted ? (
+                    <ButtonStyled disabled={busy} light onClick={this.voteForWitness}>
+                        <IconStyled name="opposite-witness" size="16" />
+                        {tt('witnesses_jsx.remove_vote_from_witness_node')}
+                    </ButtonStyled>
+                ) : (
+                    <ButtonStyled disabled={busy} light onClick={this.voteForWitness}>
+                        <IconStyled name="witness-logo" size="16" />
+                        {tt('witnesses_jsx.vote_for_witness')}
+                    </ButtonStyled>
+                )}
+            </Fragment>
+        );
+    }
 
     render() {
-        const { showFollow, showMute, children, followInfo } = this.props;
+        const { authUser, profileButtonsInfo } = this.props;
+        const { loading, followState } = profileButtonsInfo;
         const { busy } = this.state;
 
-        if (followInfo.loading) {
+        if (loading) {
             return (
                 <span>
                     <LoadingIndicator /> {tt('g.loading')}
@@ -82,14 +118,7 @@ export default class VoteWitnessFollow extends Component {
             );
         }
 
-        if (followInfo.loading !== false) {
-            // must know what the user is already accountUsername before any update can happen
-            return null;
-        }
-
-        const { authUser, accountUsername } = this.props;
-        // Show follow preview for new users
-        if (!authUser || !accountUsername)
+        if (!authUser)
             return (
                 <ButtonStyled onClick={this.follow}>
                     <IconStyled name="plus" height="14" width="14" />
@@ -97,23 +126,12 @@ export default class VoteWitnessFollow extends Component {
                 </ButtonStyled>
             );
 
-        // Can't follow or ignore self
-
         return (
             <Fragment>
-                {showMute && followInfo.followState !== 'ignore' ? (
-                    <ButtonStyled disabled={busy} onClick={this.ignore}>
-                        {tt('g.mute')}
-                    </ButtonStyled>
-                ) : (
-                    <ButtonStyled disabled={busy} light onClick={this.unignore}>
-                        {tt('g.unmute')}
-                    </ButtonStyled>
-                )}
-
-                {showFollow && followInfo.followState !== 'blog' ? (
+                {this.renderWitnessButton()}
+                {followState !== 'blog' ? (
                     <ButtonStyled disabled={busy} onClick={this.follow}>
-                        <IconStyled name="plus" height="14" width="14" />
+                        <IconStyled name="plus" size="14" />
                         {tt('g.follow')}
                     </ButtonStyled>
                 ) : (
@@ -122,13 +140,6 @@ export default class VoteWitnessFollow extends Component {
                         {tt('g.subscriptions')}
                     </ButtonStyled>
                 )}
-
-                {children ? (
-                    <span>
-                        &nbsp;&nbsp;
-                        {children}
-                    </span>
-                ) : null}
             </Fragment>
         );
     }

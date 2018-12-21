@@ -1190,6 +1190,8 @@
     "witness_deactive": "Withness suspended the signature of the blocks",
     "witness_proxy_set": "Set proxy",
     "witness_thread": "witness thread",
+    "vote_for_witness": "vote for",
+    "remove_vote_from_witness_node": "remove vote",
     "you_can_vote_for_maximum_of_witnesses": "You can vote for a maximum of 30 witnesses",
     "you_have_votes_remaining": "",
     "you_have_votes_remaining_count": {

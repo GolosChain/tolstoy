@@ -1101,6 +1101,8 @@
     "witness_deactive": "Делегат призупинив підпис блоків",
     "witness_proxy_set": "Установить прокси",
     "witness_thread": "пост делегата",
+    "vote_for_witness": "проголосовать",
+    "remove_vote_from_witness_node": "снять голос",
     "you_can_vote_for_maximum_of_witnesses": "Ви можете голосувати максимум за 30 делегатів",
     "you_have_votes_remaining": "У Вас залишилося ",
     "you_have_votes_remaining_count": {

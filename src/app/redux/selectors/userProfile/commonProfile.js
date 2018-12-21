@@ -9,33 +9,50 @@ import { currentUsernameSelector, globalSelector } from 'src/app/redux/selectors
 const emptyMap = Map();
 const emptySet = Set();
 
-const checkFollowState = createSelector(
+const checkFollowWitnessButtons = createSelector(
     [
         globalSelector('follow'),
+        globalSelector('accounts'),
         currentUsernameSelector,
-        (state, props) => props.currentAccount.get('name'),
+        (state, { currentAccount }) => currentAccount.get('name'),
     ],
-    (followInfo, authUser, following) => {
+    (followInfo, accounts, authUser, accountUsername) => {
         const follow = followInfo.getIn(['getFollowingAsync', authUser], emptyMap);
         const loading = follow.get('blog_loading', false) || follow.get('ignore_loading', false);
         let followState;
-        if (follow.get('blog_result', emptySet).contains(following)) {
+        if (follow.get('blog_result', emptySet).contains(accountUsername)) {
             followState = 'blog';
-        } else if (follow.get('ignore_result', emptySet).contains(following)) {
+        } else if (follow.get('ignore_result', emptySet).contains(accountUsername)) {
             followState = 'ignore';
         } else {
             followState = null;
         }
+
+        let witnessUpvoted = false;
+        accounts
+            .get(authUser, emptyMap)
+            .get('witness_votes', emptyMap)
+            .forEach(witnesses => {
+                if (witnesses === accountUsername) {
+                    witnessUpvoted = true;
+                }
+            });
+
         return {
             loading,
             followState,
+            witnessUpvoted,
         };
     }
 );
 
 export const userHeaderSelector = createSelector(
-    [(state, { currentAccount }) => currentAccount, state => state.ui.profile, checkFollowState],
-    (account, profileInfo, followInfo) => {
+    [
+        (state, { currentAccount }) => currentAccount,
+        state => state.ui.profile,
+        checkFollowWitnessButtons,
+    ],
+    (account, profileInfo, profileButtonsInfo) => {
         const accountName = account.get('name');
         let witnessInfo = null;
         profileInfo.get('accountsWitnessesInfo').forEach(account => {
@@ -51,7 +68,7 @@ export const userHeaderSelector = createSelector(
 
         return {
             witnessInfo,
-            followInfo,
+            profileButtonsInfo,
             realName: jsonData.name || accountName,
             profileImg: jsonData.profile_image,
             coverImg: jsonData.cover_image,

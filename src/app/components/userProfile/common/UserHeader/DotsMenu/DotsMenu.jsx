@@ -74,7 +74,7 @@ const MuteButton = styled.button`
 export default class DotsMenu extends PureComponent {
     static propTypes = {
         authUser: PropTypes.string,
-        followInfo: PropTypes.object,
+        profileButtonsInfo: PropTypes.object,
         accountUsername: PropTypes.string.isRequired,
         updateFollow: PropTypes.func.isRequired,
     };
@@ -114,13 +114,13 @@ export default class DotsMenu extends PureComponent {
     };
 
     render() {
-        const { followInfo } = this.props;
+        const { profileButtonsInfo } = this.props;
 
         return (
             <Wrapper innerRef={this.wrapperRef}>
                 <Pointer />
                 <Content>
-                    {followInfo.followState !== 'ignore' ? (
+                    {profileButtonsInfo.followState !== 'ignore' ? (
                         <MuteButton onClick={this.muteUser}>
                             <Icon name="mute" size="18" />
                             {tt('g.mute')}
