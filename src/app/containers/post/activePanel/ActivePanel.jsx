@@ -23,11 +23,22 @@ const Wrapper = styled.div`
 
     @media (max-width: 768px) {
         display: grid;
+        padding: 2px 0 0;
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-        grid-template-rows: 1fr 1fr;
+        grid-template-rows: 1fr 1px 1fr;
         grid-template-areas:
             'vpw vpw vpw vpw vpw dm'
+            'spl spl spl spl spl spl'
             'rsw rsw . . rbs rbs';
+
+        &::after {
+            content: '';
+            display: block;
+            grid-area: spl;
+            width: 100%;
+            margin-top: 2px;
+            border-top: 1px solid #e1e1e1;
+        }
     }
 
     @media (max-width: 360px) {
@@ -47,7 +58,7 @@ const Divider = styled.div`
 `;
 
 const VotePanelWrapper = styled(VotePanel)`
-    padding: 12px 22px 12px 18px;
+    padding: 0 22px 0 18px;
 
     @media (max-width: 768px) {
         display: -webkit-box;

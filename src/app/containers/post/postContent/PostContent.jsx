@@ -22,6 +22,7 @@ const Wrapper = styled.article`
 
     @media (max-width: 576px) {
         padding: 20px 0;
+        border-radius: 0;
     }
 `;
 

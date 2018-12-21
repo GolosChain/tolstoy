@@ -21,6 +21,10 @@ const Wrapper = styled.div`
     @media (max-width: 768px) {
         flex-direction: column;
     }
+
+    @media (max-width: 576px) {
+        border-radius: 0;
+    }
 `;
 
 const Avatar = styled.div`
