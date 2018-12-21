@@ -67,10 +67,17 @@ const ContainerWrapper = styled.div`
     }
 `;
 
-const BaseIconWrapper = styled.div`
+const IconWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
+    width: 48px;
+    height: 48px;
     margin-left: 4px;
     margin-right: 4px;
+    cursor: pointer;
+    user-select: none;
 
     @media (max-width: 500px) {
         margin-left: 0;
@@ -78,18 +85,14 @@ const BaseIconWrapper = styled.div`
     }
 `;
 
-const IconWrapper = styled(BaseIconWrapper)`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 48px;
-    height: 48px;
-    cursor: pointer;
-    user-select: none;
-`;
-
 const LocaleWrapper = styled(IconWrapper)`
+    position: relative;
     width: unset;
+    z-index: 2;
+
+    @media (max-width: 345px) {
+        display: none;
+    }
 `;
 
 const LogoLink = styled(Link)`
@@ -105,6 +108,10 @@ const LogoLink = styled(Link)`
 
     @media (max-width: 400px) {
         padding: 10px 8px;
+    }
+
+    @media (max-width: 340px) {
+        padding-right: 4px;
     }
 `;
 
@@ -200,29 +207,24 @@ const NewPostLink = styled(Link)`
     }
 `;
 
-const MobileNewPostLink = styled(Link)`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 10px;
-    height: 100%;
+const MobileNewPostLink = styled(IconWrapper.withComponent(Link))`
     color: #393636;
-
-    & > svg {
-        margin: 0;
-        width: 20px;
-        height: 20px;
-    }
 
     @media (min-width: 577px) {
         display: none;
     }
 `;
 
-const NewPostIcon = styled(Icon)`
+const NewPostIcon = styled(Icon).attrs({ name: 'new-post' })`
     width: 16px;
     height: 16px;
     margin-right: 7px;
+
+    ${is('mobile')`
+        width: 20px;
+        height: 20px;
+        margin: 0;
+    `}
 `;
 
 const Notifications = styled(IconWrapper)`
@@ -407,12 +409,12 @@ export default class Header extends PureComponent {
             <Fragment>
                 <NewPostLink to="/submit">
                     <Button>
-                        <NewPostIcon name="new-post" />
+                        <NewPostIcon />
                         {tt('g.create_post')}
                     </Button>
                 </NewPostLink>
                 <MobileNewPostLink to="/submit" aria-label={tt('g.create_post')}>
-                    <NewPostIcon name="new-post" />
+                    <NewPostIcon mobile={1} />
                 </MobileNewPostLink>
                 {this.renderNotificationsBlock()}
                 {/*{this.renderMessagesBlock()} uncomment when messenger done*/}
