@@ -335,9 +335,11 @@ export default class VotePanelAbstract extends PureComponent {
     };
 
     onPercentChange = percent => {
-        this.setState({
-            votePercent: percent,
-        });
+        if (percent !== 0) {
+            this.setState({
+                votePercent: percent,
+            });
+        }
     };
 
     onOkVoteClick = async () => {
@@ -350,10 +352,15 @@ export default class VotePanelAbstract extends PureComponent {
         }
 
         const multiplier = sliderAction === 'like' ? 1 : -1;
-        this.onChange(multiplier * (votePercent / 100));
-        savePercent(sliderAction === 'like' ? LIKE_PERCENT_KEY : DISLIKE_PERCENT_KEY, votePercent);
 
-        this.hideSlider();
+        if (votePercent) {
+            this.onChange(multiplier * (votePercent / 100));
+            savePercent(
+                sliderAction === 'like' ? LIKE_PERCENT_KEY : DISLIKE_PERCENT_KEY,
+                votePercent
+            );
+            this.hideSlider();
+        }
     };
 
     onCancelVoteClick = () => {
