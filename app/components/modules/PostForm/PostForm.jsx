@@ -72,6 +72,14 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     min-height: 100%;
+
+    @media (min-width: 861px) {
+        min-height: calc(100vh - 60px);
+
+        ${is('isEdit')`
+            min-height: 100%;
+        `};
+    }
 `;
 
 const WorkArea = styled.div`
@@ -316,7 +324,7 @@ export default class PostForm extends React.Component {
         const disallowPostCode = this._checkDisallowPost();
 
         return (
-            <Wrapper>
+            <Wrapper isEdit={editMode}>
                 <WorkArea innerRef={this.workAreaRef} isEdit={editMode}>
                     <Content>
                         <PreviewButton

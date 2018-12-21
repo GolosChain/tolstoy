@@ -1,18 +1,17 @@
+body {
+  overflow-x: hidden;
+}
+
 body.submit-page {
   &,
   #content,
-  .App,
-  .PostForm {
+  .App {
     height: 100%;
   }
 
   .App__content {
-    height: calc(100% - 60px);
+    min-height: calc(100% - 60px);
   }
-}
-
-.App {
-  overflow-x: hidden;
 }
 
 .SubmitPost {
