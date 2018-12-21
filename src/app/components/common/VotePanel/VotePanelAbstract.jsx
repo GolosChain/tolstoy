@@ -103,6 +103,19 @@ const PostPayoutStyled = styled(PostPayout)`
 
 const Money = styled.div``;
 
+const MoneyWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    height: 36px;
+    padding: 0 4px;
+    cursor: pointer;
+
+    @media (max-width: 500px) {
+        height: 48px;
+        padding: 0 8px;
+    }
+`;
+
 export default class VotePanelAbstract extends PureComponent {
     static propTypes = {
         data: PropTypes.instanceOf(Map),
@@ -228,18 +241,25 @@ export default class VotePanelAbstract extends PureComponent {
 
         if (isMobile) {
             return (
-                <Money onClick={this.onPayoutClick} aria-label={tt('aria_label.expected_payout')}>
-                    <PostPayoutStyled postLink={postLink} />
-                    {add}
-                </Money>
-            );
-        } else {
-            return (
-                <Popover content={this.getPayoutInfoComponent}>
+                <MoneyWrapper
+                    aria-label={tt('aria_label.expected_payout')}
+                    onClick={this.onPayoutClick}
+                >
                     <Money>
                         <PostPayoutStyled postLink={postLink} />
                         {add}
                     </Money>
+                </MoneyWrapper>
+            );
+        } else {
+            return (
+                <Popover content={this.getPayoutInfoComponent}>
+                    <MoneyWrapper>
+                        <Money>
+                            <PostPayoutStyled postLink={postLink} />
+                            {add}
+                        </Money>
+                    </MoneyWrapper>
                 </Popover>
             );
         }

@@ -10,6 +10,8 @@ import Icon from 'src/app/components/golos-ui/Icon';
 import VotePanel from 'src/app/components/common/VotePanel';
 import ReplyBlock from 'src/app/components/common/ReplyBlock';
 
+const FORCE_ONE_COLUMN_WIDTH = 550;
+
 const Wrapper = styled.div`
     position: relative;
     display: flex;
@@ -17,30 +19,25 @@ const Wrapper = styled.div`
     justify-content: space-between;
     align-items: center;
     z-index: 1;
-    pointer-events: none;
 
-    & > * {
-        pointer-events: initial;
-    }
-
-    @media (min-width: 890px) and (max-width: 1087px), (max-width: 639px) {
+    @media (max-width: ${FORCE_ONE_COLUMN_WIDTH}px) {
         flex-direction: column;
+        justify-content: unset;
     }
 `;
 
 const CommentVotePanel = styled(VotePanel)`
-    width: 257px;
+    padding: 6px 18px 4px;
 
-    @media (min-width: 890px) and (max-width: 1087px), (max-width: 639px) {
+    @media (max-width: ${FORCE_ONE_COLUMN_WIDTH}px) {
         width: 100%;
-        justify-content: space-between;
     }
 `;
 
 const CommentReplyBlock = styled(ReplyBlock)`
     margin: 0;
 
-    @media (min-width: 890px) and (max-width: 1087px), (max-width: 639px) {
+    @media (max-width: ${FORCE_ONE_COLUMN_WIDTH}px) {
         justify-content: center;
     }
 `;
@@ -49,10 +46,10 @@ const CommentRightButtons = styled.div`
     display: flex;
     align-items: center;
 
-    @media (min-width: 890px) and (max-width: 1087px), (max-width: 639px) {
+    @media (max-width: ${FORCE_ONE_COLUMN_WIDTH}px) {
         width: 100%;
         justify-content: center;
-        border-top: 2px solid #e9e9e9;
+        border-top: 1px solid #e9e9e9;
     }
 `;
 
@@ -66,6 +63,12 @@ const Splitter = styled.div`
 
 const DonateSplitter = styled(Splitter)`
     margin: 0;
+
+    @media (max-width: ${FORCE_ONE_COLUMN_WIDTH}px) {
+        flex-grow: 1;
+        width: unset;
+        background: unset;
+    }
 `;
 
 const FooterConfirm = styled.div`
@@ -103,14 +106,13 @@ const ButtonConfirm = styled.div`
 const DonateButton = styled.div`
     display: flex;
     align-items: center;
-    height: 100%;
-    min-height: 50px;
-    padding: 0 10px;
-
+    justify-content: center;
+    width: 48px;
+    height: 48px;
     cursor: pointer;
 
-    @media (min-width: 890px) and (max-width: 1087px), (max-width: 639px) {
-        margin-left: 0;
+    @media (max-width: ${FORCE_ONE_COLUMN_WIDTH}px) {
+        margin-left: 5px;
     }
 `;
 

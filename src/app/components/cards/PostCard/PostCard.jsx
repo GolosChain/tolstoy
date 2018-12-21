@@ -147,23 +147,14 @@ const Footer = styled.div`
 `;
 
 const VotePanelStyled = styled(VotePanel)`
-    ${is('compact')`
-        padding: 0;
-        padding-bottom: 15px;
-        justify-content: space-around;
-    `};
-`;
+    padding: 0 18px;
 
-const VotePanelWrapper = styled.div`
     ${is('compact')`
-        display: flex;
-        justify-content: flex-start;
         width: 100%;
-        padding: 0 18px;
-
-        @media (max-width: 689px) {
-            justify-content: center;
-            padding: 0;
+        margin-bottom: 6px;
+        
+        @media (max-width: 500px) {
+            margin-bottom: 3px;
         }
     `};
 `;
@@ -475,9 +466,7 @@ export default class PostCard extends PureComponent {
 
         return (
             <Footer compact={compact}>
-                <VotePanelWrapper compact={compact}>
-                    <VotePanelStyled contentLink={permLink} compact={compact} />
-                </VotePanelWrapper>
+                <VotePanelStyled contentLink={permLink} compact={compact} />
                 {compact ? null : <Filler />}
                 <ReplyBlock
                     compact={compact}
