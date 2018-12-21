@@ -182,12 +182,11 @@ export function* broadcastOperation({
         username,
         password,
         hideErrors,
-        successCallback,
-        errorCallback,
+        successCallback = () => {},
+        errorCallback = () => {},
     },
 }) {
     const confirmText = typeof confirm === 'function' ? confirm() : confirm;
-
     if (confirmText) {
         if (!(yield DialogManager[warning ? 'dangerConfirm' : 'confirm'](confirmText))) {
             errorCallback();

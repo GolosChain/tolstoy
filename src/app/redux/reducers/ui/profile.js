@@ -3,6 +3,7 @@ import {
     UI_PROFILE_CHANGE_LAYOUT,
     UI_PROFILE_ACTIVITY_CHANGE_TAB,
 } from 'src/app/redux/constants/ui';
+import { FETCH_WITNESS_DATA_SUCCESS } from 'src/app/redux/constants/user';
 
 const LAYOUT_STORAGE_KEY = 'profile.layout';
 
@@ -11,6 +12,7 @@ const initialState = fromJS({
     activity: {
         currentTabId: 'all',
     },
+    accountsWitnessesInfo: [],
 });
 
 export default function(state = initialState, { type, payload }) {
@@ -25,6 +27,9 @@ export default function(state = initialState, { type, payload }) {
 
         case UI_PROFILE_ACTIVITY_CHANGE_TAB:
             return state.setIn(['activity', 'currentTabId'], payload);
+
+        case FETCH_WITNESS_DATA_SUCCESS:
+            return state.update('accountsWitnessesInfo', list => list.push(fromJS(payload)));
     }
 
     return state;

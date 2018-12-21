@@ -115,8 +115,8 @@ class Witnesses extends Component {
                         isWitnessesDeactive
                             ? tt('witnesses_jsx.witness_deactive')
                             : noPriceFeed
-                                ? tt('witnesses_jsx.no_price_feed')
-                                : null
+                            ? tt('witnesses_jsx.no_price_feed')
+                            : null
                     }
                 >
                     <td width="75">
@@ -314,7 +314,6 @@ class Witnesses extends Component {
         e.preventDefault();
 
         this.setState({ customUsername: '' });
-
         this.props.loginIfNeed(logged => {
             if (logged) {
                 this.props.accountWitnessVote(this.props.username, accountName, approve);

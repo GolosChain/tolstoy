@@ -509,6 +509,7 @@
     "wallet": "Wallet",
     "warning": "warning",
     "with_the_tag": "with the tag ",
+    "witness": "witness",
     "write_your_story": "Write your story",
     "yes": "Yes",
     "you_need_private_password_or_key_not_a_public_key": "You need a private password or key (not a public key)"
@@ -802,11 +803,11 @@
     "recover_account": "Recover Account",
     "recover_account_intro": "From time to time, a Steemian's owner key may be compromised. Stolen Account Recovery gives the rightful account owner 30 days to recover their account from the moment the thief changed their owner key. Stolen Account Recovery can only be used on %(APP_DOMAIN)s if the account owner had perviously listed '%(APP_NAME)s' as their account trustee and complied with %(APP_NAME)s's Terms of Service.",
     "recovering_account": "Recovering account",
-    "request_already_submitted_contact_support": "Your request has been already submitted and we are working on it. Please contact %(SUPPORT_EMAIL)s for the status of your request.",
-    "sending_recovery_request": "Sending recovery request",
     "report_line_1": "Thanks for submitting your request for Account Recovery using %(APP_NAME)s's blockchain-based multi factor authentication.",
     "report_line_2": "We will respond to you as quickly as possible, however, please expect there may be some delay in response due to high volume of emails.",
     "report_line_3": "Please be prepared to verify your identity.",
+    "request_already_submitted_contact_support": "Your request has been already submitted and we are working on it. Please contact %(SUPPORT_EMAIL)s for the status of your request.",
+    "sending_recovery_request": "Sending recovery request",
     "unable_to_recover_account": "We are unable to recover this account, it has not changed ownership recently."
   },
   "registration_banner_jsx": {
@@ -872,6 +873,13 @@
     "always_hide": "Always hide",
     "always_show": "Always show",
     "always_warn": "Always warn",
+    "auction_reward_destination": {
+      "items": {
+        "to_curators": "Distribute between the curators",
+        "to_reward_fund": "Back to the general award stream"
+      },
+      "label": "Penalty window settings"
+    },
     "choose_currency": "Choose currency",
     "choose_language": "Choose language",
     "cover_image_url": "Cover image url",
@@ -941,15 +949,8 @@
     },
     "update": "Update",
     "voting": "Voting settings",
-    "website_url_is_too_long": "Website URL is too long",
     "voting_power_by_default": "Using voting power settings",
-    "auction_reward_destination": {
-      "label": "Penalty window settings",
-      "items": {
-        "to_reward_fund": "Back to the general award stream",
-        "to_curators": "Distribute between the curators"
-      }
-    }
+    "website_url_is_too_long": "Website URL is too long"
   },
   "start_mobile_app": {
     "close_forever": "Close forever",
@@ -1190,8 +1191,10 @@
     "props": "Props",
     "proxy_update_error": "Your proxy was not updated",
     "reg_fee": "Registration fee",
+    "remove_vote_from_witness_node": "remove vote",
     "top_witnesses": "Witness Voting",
     "version": "Version",
+    "vote_for_witness": "vote for",
     "witness": "Witness",
     "witness_deactive": "Withness suspended the signature of the blocks",
     "witness_proxy_set": "Set proxy",

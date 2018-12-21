@@ -29,6 +29,7 @@ export default async function getState(
             content: {},
             accounts: {},
             witnesses: {},
+            follow: {},
             discussion_idx: {},
         },
         offchain,
