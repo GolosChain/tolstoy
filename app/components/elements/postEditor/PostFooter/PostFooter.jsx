@@ -208,7 +208,10 @@ export default class PostFooter extends PureComponent {
                             ) : (
                                 <Button onClick={this.props.onResetClick}>{tt('g.clear')}</Button>
                             )}
-                            <ConfirmButtonWrapper>
+                            <ConfirmButtonWrapper
+                                onMouseOver={this.showHint}
+                                onMouseOut={this.hideHint}
+                            >
                                 {postDisabled && disabledHint ? (
                                     <DisabledHint
                                         key="1"
@@ -227,8 +230,6 @@ export default class PostFooter extends PureComponent {
                                     primary
                                     disabled={postDisabled}
                                     onClick={this.props.onPostClick}
-                                    onMouseOver={this.showHint}
-                                    onMouseOut={this.hideHint}
                                 >
                                     {editMode ? tt('post_editor.update') : tt('g.post')}
                                 </Button>
