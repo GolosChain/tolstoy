@@ -91,8 +91,6 @@ const DisabledHint = styled(Hint)`
 
 const SendButton = styled.button`
     color: #2879ff;
-    -webkit-appearance: none;
-    -moz-appearance: none;
     appearance: none;
     user-select: none;
     cursor: pointer;
@@ -104,8 +102,6 @@ const SendButton = styled.button`
 
 const ClearButton = styled.button`
     color: #333;
-    -webkit-appearance: none;
-    -moz-appearance: none;
     appearance: none;
     user-select: none;
     cursor: pointer;
@@ -173,9 +169,9 @@ export default class PostFooter extends PureComponent {
                     </Tags>
                     <PostOptions
                         nsfw={this.props.tags.includes(NSFW_TAG)}
-                        onNsfwClick={this._onNsfwClick}
                         payoutType={this.props.payoutType}
                         editMode={editMode}
+                        onNsfwClick={this._onNsfwClick}
                         onPayoutChange={this.props.onPayoutTypeChange}
                     />
                     {mobileButtonsWrapperRef &&
@@ -183,22 +179,22 @@ export default class PostFooter extends PureComponent {
                         createPortal(
                             <MobileButtons>
                                 <ClearButton
-                                    onClick={editMode ? onCancelClick : onResetClick}
                                     aria-label={editMode ? tt('g.cancel') : tt('g.clear')}
+                                    onClick={editMode ? onCancelClick : onResetClick}
                                 >
                                     <Icon name="cross_thin" size={17} />
                                 </ClearButton>
                                 <PreviewButton
                                     isPreview={isPreview}
                                     isVisible={isVisible}
-                                    onPreviewChange={onPreviewChange}
                                     isStatic
                                     isMobile
+                                    onPreviewChange={onPreviewChange}
                                 />
                                 <SendButton
                                     disabled={postDisabled}
-                                    onClick={this.props.onPostClick}
                                     aria-label={editMode ? tt('post_editor.update') : tt('g.post')}
+                                    onClick={this.props.onPostClick}
                                 >
                                     <Icon name="send" width={32} height={22} />
                                 </SendButton>

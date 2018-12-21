@@ -89,13 +89,13 @@ const PayoutLabel = styled.h5`
 
 const StyledRadioGroup = styled(RadioGroup)`
     label {
-        font-size: 15px !important;
-        font-weight: 500 !important;
-        font-style: normal !important;
-        font-stretch: normal !important;
-        line-height: 1.33 !important;
-        letter-spacing: normal !important;
-        color: #333333 !important;
+        font-size: 15px;
+        font-weight: 500;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.33;
+        letter-spacing: normal;
+        color: #333333;
     }
 `;
 

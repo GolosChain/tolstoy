@@ -233,7 +233,7 @@ const Notifications = styled(IconWrapper)`
 
     ${is('active')`
         color: #2879ff;
-        `};
+    `};
 
     ${is('mobile')`
         margin-left: 0;

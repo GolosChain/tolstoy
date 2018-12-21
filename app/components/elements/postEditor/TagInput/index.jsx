@@ -68,9 +68,6 @@ const MobileError = styled.p`
     margin: 0;
     padding: 12px 16px 0;
     font-size: 14px;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
     line-height: 1.43;
     letter-spacing: normal;
     color: #333;
@@ -130,20 +127,18 @@ export default class TagInput extends PureComponent {
                     data-tooltip={tt('g.add')}
                     onClick={this._onPlusClick}
                 />
-                {inputError &&
-                    !temporaryHintText && (
-                        <MobileError isError>
-                            <ErrorIcon name="editor/info" />
-                            {inputError}
-                        </MobileError>
-                    )}
-                {temporaryHintText &&
-                    !inputError && (
-                        <MobileError>
-                            <ErrorIcon name="editor/info" />
-                            {temporaryHintText}
-                        </MobileError>
-                    )}
+                {inputError && !temporaryHintText && (
+                    <MobileError isError>
+                        <ErrorIcon name="editor/info" />
+                        {inputError}
+                    </MobileError>
+                )}
+                {temporaryHintText && !inputError && (
+                    <MobileError>
+                        <ErrorIcon name="editor/info" />
+                        {temporaryHintText}
+                    </MobileError>
+                )}
                 {this._renderErrorBlock()}
             </Wrapper>
         );
