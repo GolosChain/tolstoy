@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {recordPageView} from 'app/utils/ServerApiClient';
+import { recordPageView } from 'app/utils/ServerApiClient';
 import Icon from 'app/components/elements/Icon';
 import tt from 'counterpart';
 
 export default class PageViewsCounter extends React.Component {
-
     static propTypes = {
         hidden: PropTypes.bool,
         aiPosts: PropTypes.array,
@@ -14,14 +13,14 @@ export default class PageViewsCounter extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {views: 0};
+        this.state = { views: 0 };
         this.last_page = null;
     }
 
     pageView() {
         let ref = document.referrer || '';
         if (ref.match('://' + window.location.hostname)) ref = '';
-        recordPageView(window.location.pathname, ref, this.props.aiPosts || []).then(views => this.setState({views}));
+        recordPageView(window.location.pathname, ref, this.props.aiPosts || []);
         this.last_page = window.location.pathname;
     }
 
@@ -47,8 +46,13 @@ export default class PageViewsCounter extends React.Component {
 
         const suffix = this.props.sinceDate ? tt('g.since') + this.props.sinceDate : '';
 
-        return <span className="PageViewsCounter" title={tt('plurals.view_count', {count: views}) + suffix}>
-            <Icon name="eye" /> {views.toLocaleString()}
-        </span>;
+        return (
+            <span
+                className="PageViewsCounter"
+                title={tt('plurals.view_count', { count: views }) + suffix}
+            >
+                <Icon name="eye" /> {views.toLocaleString()}
+            </span>
+        );
     }
 }
