@@ -5,13 +5,8 @@ import './assets/stylesheets/app.scss';
 import * as golos from 'golos-js';
 import Iso from 'iso';
 import plugins from 'app/utils/JsPlugins';
-import { serverApiRecordEvent } from 'app/utils/ServerApiClient';
 import clientRender from 'app/clientRender';
 import { addChunkLoadingErrorHandler } from 'src/app/helpers/browser';
-
-// window.onerror = error => {
-//     if (window.$STM_csrf) serverApiRecordEvent('client_error', error);
-// };
 
 function runApp(initialState) {
     const config = initialState.offchain.config;
@@ -32,7 +27,6 @@ function runApp(initialState) {
         clientRender(initialState);
     } catch (err) {
         console.error(err);
-        serverApiRecordEvent('client_error', err);
     }
 
     addChunkLoadingErrorHandler();

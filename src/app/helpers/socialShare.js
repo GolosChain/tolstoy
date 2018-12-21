@@ -1,5 +1,4 @@
 import { APP_URL } from 'app/client_config';
-import { serverApiRecordEvent } from 'app/utils/ServerApiClient';
 
 export const shareList = [
     {
@@ -34,11 +33,7 @@ function fbShare(post) {
             method: 'share',
             href: APP_URL + post.link,
         },
-        response => {
-            if (response && !response.error_message) {
-                serverApiRecordEvent('FbShare', post.link);
-            }
-        }
+        response => {}
     );
 }
 
