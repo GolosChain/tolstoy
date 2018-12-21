@@ -82,7 +82,7 @@ export default class Menu extends PureComponent {
         },
         {
             link: `/@${this.props.accountName}/settings`,
-            icon: 'settings',
+            icon: 'settings-cogwheel',
             text: tt('g.settings'),
             width: 22,
             height: 22,
@@ -169,13 +169,9 @@ export default class Menu extends PureComponent {
                         },
                         i
                     ) => (
-                        <Fragment>
+                        <Fragment key={icon}>
                             {!isMobile && hideOnDesktop ? null : (
-                                <Li
-                                    key={i}
-                                    aria-label={text}
-                                    onClick={() => this.onItemClick(link)}
-                                >
+                                <Li aria-label={text} onClick={() => this.onItemClick(link)}>
                                     <LinkStyled
                                         to={link}
                                         target={link.startsWith('//') ? '_blank' : null}
