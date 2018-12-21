@@ -89,7 +89,7 @@ const About = styled.p`
 const Followers = styled.div``;
 
 const AvatarLink = styled(Link)`
-position: relative;
+    position: relative;
     display: flex;
     width: ${USER_ICON_SIZE}px;
     height: ${USER_ICON_SIZE}px;
