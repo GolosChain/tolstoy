@@ -29,6 +29,11 @@ const Wrapper = styled.div.attrs({
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+
+    @media (max-width: 576px) {
+        width: 80px;
+        height: 80px;
+    }
 `;
 
 const EmptyAvatar = styled(Icon).attrs({

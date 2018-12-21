@@ -9,6 +9,10 @@ import DotsMenu from 'src/app/components/userProfile/common/UserHeader/DotsMenu/
 const Wrapper = styled.div`
     position: relative;
     margin: 0 0 -5px 5px;
+
+    @media (max-width: 576px) {
+        margin: 0 0 0 5px;
+    }
 `;
 
 const Dots = styled.button`
@@ -20,6 +24,10 @@ const Dots = styled.button`
 
     &:hover {
         color: #2879ff;
+    }
+
+    @media (max-width: 576px) {
+        color: #333333;
     }
 `;
 

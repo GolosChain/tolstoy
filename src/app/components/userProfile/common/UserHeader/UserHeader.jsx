@@ -1,6 +1,7 @@
 import React, { Component, Fragment, createRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import is from 'styled-is';
 import memoize from 'lodash/memoize';
 import Dropzone from 'react-dropzone';
 import tt from 'counterpart';
@@ -45,6 +46,14 @@ const Wrapper = styled.div`
         }
     }
 
+    @media (max-width: 576px) {
+        min-height: 160px;
+
+        &:before {
+            display: none;
+        }
+    }
+
     ${({ backgroundUrl }) =>
         backgroundUrl
             ? `
@@ -65,7 +74,7 @@ const Wrapper = styled.div`
         `};
 `;
 
-const ContainerStyled = styled(Container)`
+const ContainerWrapper = styled(Container)`
     position: relative;
     flex-direction: column;
     align-items: center;
@@ -74,7 +83,11 @@ const ContainerStyled = styled(Container)`
     margin: 0 auto;
 
     @media (max-width: 768px) {
-        padding: 100px 0 10px 0;
+        padding: 90px 0 20px 0;
+    }
+
+    @media (max-width: 576px) {
+        display: none;
     }
 `;
 
@@ -95,11 +108,20 @@ const Name = styled.div`
     line-height: 1;
     letter-spacing: 0.2;
     color: #ffffff;
+
+    @media (max-width: 576px) {
+        margin: 0;
+        color: #333333;
+    }
 `;
 
 const WitnessText = styled.span`
     margin-left: 7px;
     text-transform: capitalize;
+
+    @media (max-width: 576px) {
+        font-size: 16px;
+    }
 `;
 
 const LoginContainer = styled.div`
@@ -108,6 +130,11 @@ const LoginContainer = styled.div`
     line-height: 1.57;
     color: #ffffff;
     font-size: 14px;
+
+    @media (max-width: 576px) {
+        margin-top: 7px;
+        color: #757575;
+    }
 `;
 
 const Login = styled.div`
@@ -122,6 +149,22 @@ const Buttons = styled(Flex)`
 
     @media (max-width: 768px) {
         margin: 16px 0 10px 0;
+    }
+
+    @media (max-width: 576px) {
+        justify-content: center;
+        margin: 0;
+    }
+
+    @media (max-width: 410px) {
+        flex-direction: column;
+
+        & button:first-child {
+            margin: 0;
+        }
+        & button:last-child {
+            margin-top: 10px;
+        }
     }
 `;
 
@@ -197,6 +240,12 @@ const UserStatus = styled.p`
 
 const UserProfileAvatarWrapper = styled.div`
     position: relative;
+
+    @media (max-width: 576px) {
+        width: 80px;
+        height: 80px;
+        margin-top: -35px;
+    }
 `;
 
 const Reputation = styled.div`
@@ -215,6 +264,51 @@ const Reputation = styled.div`
     font-size: 11px;
     color: #2879ff;
     pointer-events: none;
+
+    @media (max-width: 576px) {
+        right: 2px;
+        bottom: 2px;
+    }
+`;
+
+const MobileUserHeader = styled.div`
+    display: none;
+    flex-direction: column;
+    padding: 16px;
+    background-color: f9f9f9;
+
+    @media (max-width: 576px) {
+        display: flex;
+    }
+`;
+
+const MobileUserInfo = styled.div`
+    display: flex;
+    justify-content: center;
+
+    @media (max-width: 410px) {
+        flex-direction: column;
+        align-items: center;
+    }
+`;
+
+const MobileButtons = styled.div`
+    margin-top: 16px;
+
+    ${is('owner')`
+        display: none;
+    `};
+`;
+
+const MobileNameStatusWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+
+    @media (max-width: 410px) {
+        align-items: center;
+        margin: 10px 0 0 0;
+    }
 `;
 
 export default class UserHeader extends Component {
@@ -359,18 +453,64 @@ export default class UserHeader extends Component {
         this.dropdownRef.current.close();
     };
 
-    render() {
+    renderAvatar() {
+        const { isOwner, isSettingsPage, profileImg, reputation } = this.props;
+
+        return (
+            <UserProfileAvatarWrapper>
+                <Reputation>{reputation}</Reputation>
+                <UserProfileAvatar avatarUrl={profileImg}>
+                    {isOwner && isSettingsPage && (
+                        <AvatarDropzone
+                            onDrop={this.handleDropAvatar}
+                            multiple={false}
+                            accept="image/*"
+                        >
+                            <IconPicture name="picture" size="20" />
+                        </AvatarDropzone>
+                    )}
+                </UserProfileAvatar>
+            </UserProfileAvatarWrapper>
+        );
+    }
+
+    renderName() {
+        const {
+            currentUser,
+            currentAccount,
+            realName,
+            witnessInfo,
+            updateFollow,
+            profileButtonsInfo,
+        } = this.props;
+
+        const isWitness = witnessInfo && witnessInfo.get('isWitness');
+        const witnessText = isWitness ? `/ ${tt('g.witness')}` : null;
+        const accountUsername = currentAccount.get('name');
+        const authUser = currentUser.get('username');
+
+        return (
+            <Name>
+                {realName}
+                <WitnessText>{witnessText}</WitnessText>
+                {authUser && authUser !== accountUsername && (
+                    <DotsButton
+                        authUser={authUser}
+                        accountUsername={accountUsername}
+                        updateFollow={updateFollow}
+                        profileButtonsInfo={profileButtonsInfo}
+                    />
+                )}
+            </Name>
+        );
+    }
+
+    renderButtons() {
         const {
             currentUser,
             currentAccount,
             isOwner,
-            isSettingsPage,
-            realName,
-            profileImg,
-            coverImg,
-            power,
             witnessInfo,
-            reputation,
             updateFollow,
             profileButtonsInfo,
             confirmUnfollowDialog,
@@ -378,77 +518,87 @@ export default class UserHeader extends Component {
             accountWitnessVote,
         } = this.props;
 
-        const backgroundUrl = coverImg ? proxifyImageUrl(coverImg, '0x0') : false;
-        const userStatus = getUserStatus(power);
         const isWitness = witnessInfo && witnessInfo.get('isWitness');
-        const witnessText = isWitness ? `/ ${tt('g.witness')}` : null;
         const accountUsername = currentAccount.get('name');
         const authUser = currentUser.get('username');
 
         return (
-            <Wrapper backgroundUrl={backgroundUrl}>
-                <ContainerStyled>
-                    <UserProfileAvatarWrapper>
-                        <Reputation>{reputation}</Reputation>
-                        <UserProfileAvatar avatarUrl={profileImg}>
-                            {isOwner && isSettingsPage && (
-                                <AvatarDropzone
-                                    onDrop={this.handleDropAvatar}
-                                    multiple={false}
-                                    accept="image/*"
-                                >
-                                    <IconPicture name="picture" size="20" />
-                                </AvatarDropzone>
-                            )}
-                        </UserProfileAvatar>
-                    </UserProfileAvatarWrapper>
-                    <Details>
-                        <Name>
-                            {realName}
-                            <WitnessText>{witnessText}</WitnessText>
-                            {authUser && authUser !== accountUsername && (
-                                <DotsButton
-                                    authUser={authUser}
-                                    accountUsername={accountUsername}
-                                    updateFollow={updateFollow}
-                                    profileButtonsInfo={profileButtonsInfo}
-                                />
-                            )}
-                        </Name>
-                        <Buttons>
-                            {!isOwner && (
-                                <Fragment>
-                                    {/* <Button light>
-                                        <Icon name="reply" height="17" width="18" />Написать
-                                        </Button> */}
-                                    <VoteWitnessFollowButtons
-                                        accountUsername={accountUsername}
-                                        authUser={authUser}
-                                        isWitness={isWitness}
-                                        profileButtonsInfo={profileButtonsInfo}
-                                        updateFollow={updateFollow}
-                                        confirmUnfollowDialog={confirmUnfollowDialog}
-                                        loginIfNeed={loginIfNeed}
-                                        accountWitnessVote={accountWitnessVote}
-                                    />
-                                </Fragment>
-                            )}
-                        </Buttons>
-                        <LoginContainer>
-                            <Login>@{accountUsername}</Login>
-                            {userStatus && (
-                                <StatusContainer>
-                                    <Icon name={userStatus} width={15} height={15} />
-                                    <UserStatus>
-                                        {tt(`user_profile.account_summary.status.${userStatus}`)}
-                                    </UserStatus>
-                                </StatusContainer>
-                            )}
-                        </LoginContainer>
-                    </Details>
-                    {isOwner && isSettingsPage && this.renderCoverDropDown()}
-                </ContainerStyled>
-            </Wrapper>
+            <Buttons>
+                {!isOwner && (
+                    <Fragment>
+                        {/* <Button light>
+                            <Icon name="reply" height="17" width="18" />Написать
+                            </Button> */}
+                        <VoteWitnessFollowButtons
+                            accountUsername={accountUsername}
+                            authUser={authUser}
+                            isWitness={isWitness}
+                            profileButtonsInfo={profileButtonsInfo}
+                            updateFollow={updateFollow}
+                            confirmUnfollowDialog={confirmUnfollowDialog}
+                            loginIfNeed={loginIfNeed}
+                            accountWitnessVote={accountWitnessVote}
+                        />
+                    </Fragment>
+                )}
+            </Buttons>
+        );
+    }
+
+    renderLoginContainer() {
+        const { currentAccount, power } = this.props;
+
+        const userStatus = getUserStatus(power);
+        const accountUsername = currentAccount.get('name');
+
+        return (
+            <LoginContainer>
+                <Login>@{accountUsername}</Login>
+                {userStatus && (
+                    <StatusContainer>
+                        <Icon name={userStatus} width={15} height={15} />
+                        <UserStatus>
+                            {tt(`user_profile.account_summary.status.${userStatus}`)}
+                        </UserStatus>
+                    </StatusContainer>
+                )}
+            </LoginContainer>
+        );
+    }
+
+    render() {
+        const { isOwner, isSettingsPage, coverImg, currentUser, currentAccount } = this.props;
+
+        const backgroundUrl = coverImg ? proxifyImageUrl(coverImg, '0x0') : false;
+
+        return (
+            <Fragment>
+                <Wrapper backgroundUrl={backgroundUrl}>
+                    <ContainerWrapper>
+                        {this.renderAvatar()}
+                        <Details>
+                            {this.renderName()}
+                            {this.renderButtons()}
+                            {this.renderLoginContainer()}
+                        </Details>
+                        {isOwner && isSettingsPage && this.renderCoverDropDown()}
+                    </ContainerWrapper>
+                </Wrapper>
+                <MobileUserHeader>
+                    <MobileUserInfo>
+                        {this.renderAvatar()}
+                        <MobileNameStatusWrapper>
+                            {this.renderName()}
+                            {this.renderLoginContainer()}
+                        </MobileNameStatusWrapper>
+                    </MobileUserInfo>
+                    <MobileButtons
+                        owner={currentUser.get('username') === currentAccount.get('name')}
+                    >
+                        {this.renderButtons()}
+                    </MobileButtons>
+                </MobileUserHeader>
+            </Fragment>
         );
     }
 }
