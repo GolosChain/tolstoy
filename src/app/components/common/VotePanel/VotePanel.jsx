@@ -10,26 +10,56 @@ const OFFSET = -36;
 const VERT_OFFSET_UP = -44;
 const VERT_OFFSET_DOWN = 26;
 
-const LikeWrapper = styled.i`
-    margin-left: -8px;
-    padding: 8px;
-    ${is('vertical')`
-        margin: -8px 0 0 0;
-    `};
+const Root = styled.div``;
 
+const Wrapper = styled.div`
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 -7px 0 -9px;
+
+    @media (max-width: 500px) {
+        margin: 0 -12px 0 -14px;
+    }
+
+    ${is('vertical')`
+        flex-direction: column;
+        margin: -4px 0 !important;
+    `};
+`;
+
+const LikeWrapper = styled.i`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
     transition: transform 0.15s;
+
+    @media (max-width: 500px) {
+        width: 48px;
+        height: 48px;
+    }
+
     &:hover {
         transform: scale(1.15);
     }
 `;
 
 const LikeCount = styled.span`
-    ${({ vertical }) => (vertical ? `padding: 0 8px;` : `padding: 8px 0;`)};
+    padding: ${({ vertical }) => (vertical ? '0 8px 2px' : '8px 8px 8px 3px')};
     color: #959595;
+    cursor: pointer;
     transition: color 0.15s;
 
+    @media (max-width: 500px) {
+        padding: ${({ vertical }) => (vertical ? '0 8px 2px' : '8px 10px 8px 5px')};
+        font-size: 16px;
+    }
+
     &:hover {
-        color: #000000;
+        color: #000;
     }
 `;
 
@@ -51,19 +81,14 @@ const LikeIconNeg = styled(LikeIcon)`
 const LikeBlock = styled.div`
     display: flex;
     align-items: center;
-
-    cursor: pointer;
-    user-select: none;
     white-space: nowrap;
+    user-select: none;
+    cursor: pointer;
 
     ${is('vertical')`
         flex-direction: column;
         margin: 0 !important;
         padding: 0 0 10px;
-    `};
-
-    ${is('last')`
-        padding: 0;
     `};
 
     ${isNot('vertical')`
@@ -86,51 +111,40 @@ const LikeBlock = styled.div`
     `};
 `;
 
-const LikeBlockNeg = styled(LikeBlock)`
-    margin-left: 5px;
-`;
-
-const Root = styled.div`
-    position: relative;
-    padding: 12px 18px;
-    display: flex;
-    align-items: center;
-
-    ${is('vertical')`
-        flex-direction: column;
-    `};
-`;
-
 const IconTriangle = styled(Icon).attrs({
     name: 'triangle',
 })`
     width: 5px;
-    margin-top: 1px;
-    margin-left: 2px;
-    vertical-align: top;
+    margin-left: 3px;
+    vertical-align: middle;
     color: #393636;
-    cursor: pointer;
     user-select: none;
 `;
 
 const Money = styled.div`
     display: flex;
     align-items: center;
+    justify-content: center;
 
+    min-width: 48px;
     height: 26px;
     padding: 0 9px;
-    margin: 0 10px;
 
     border: 1px solid #959595;
     border-radius: 100px;
+    white-space: nowrap;
     color: #959595;
     cursor: pointer;
-    white-space: nowrap;
     transition: all 0.15s;
 
     &:hover {
         border-color: #393636;
         color: #393636;
+    }
+
+    @media (max-width: 500px) {
+        height: 30px;
+        font-size: 16px;
     }
 `;
 
@@ -176,66 +190,70 @@ export default class VotePanel extends VotePanelAbstract {
         const { likeTooltip, dislikeTooltip } = this.getVotesTooltips();
 
         return (
-            <Root className={className} innerRef={this.rootRef} vertical={vertical}>
-                <LikeBlock
-                    active={votesSummary.myVote === 'like' || sliderAction === 'like'}
-                    vertical={vertical}
-                >
-                    <LikeWrapper
-                        role="button"
-                        data-tooltip={tt('g.like')}
-                        aria-label={tt('g.like')}
-                        innerRef={this.likeRef}
+            <Root className={className} innerRef={this.rootRef}>
+                <Wrapper vertical={vertical}>
+                    <LikeBlock
+                        active={votesSummary.myVote === 'like' || sliderAction === 'like'}
                         vertical={vertical}
-                        onClick={this.onLikeClick}
                     >
-                        <LikeIcon name="like" />
-                    </LikeWrapper>
-                    <LikeCount
-                        data-tooltip={likeTooltip}
-                        data-tooltip-down
-                        data-tooltip-html
-                        role="button"
-                        aria-label={tt('aria_label.likers_list', { count: votesSummary.likes })}
+                        <LikeWrapper
+                            role="button"
+                            data-tooltip={tt('g.like')}
+                            aria-label={tt('g.like')}
+                            innerRef={this.likeRef}
+                            vertical={vertical}
+                            onClick={this.onLikeClick}
+                        >
+                            <LikeIcon name="like" />
+                        </LikeWrapper>
+                        <LikeCount
+                            data-tooltip={likeTooltip}
+                            data-tooltip-down
+                            data-tooltip-html
+                            role="button"
+                            aria-label={tt('aria_label.likers_list', { count: votesSummary.likes })}
+                            vertical={vertical}
+                            onClick={votesSummary.likes === 0 ? null : this.onLikesNumberClick}
+                        >
+                            {votesSummary.likes}
+                            {vertical ? null : <IconTriangle />}
+                        </LikeCount>
+                    </LikeBlock>
+                    {vertical ? null : this.renderPayout()}
+                    <LikeBlock
+                        activeNeg={votesSummary.myVote === 'dislike' || sliderAction === 'dislike'}
                         vertical={vertical}
-                        onClick={votesSummary.likes === 0 ? null : this.onLikesNumberClick}
                     >
-                        {votesSummary.likes}
-                        {vertical ? null : <IconTriangle />}
-                    </LikeCount>
-                </LikeBlock>
-                {vertical ? null : this.renderPayout()}
-                <LikeBlockNeg
-                    last
-                    activeNeg={votesSummary.myVote === 'dislike' || sliderAction === 'dislike'}
-                    vertical={vertical}
-                >
-                    <LikeWrapper
-                        role="button"
-                        data-tooltip={tt('g.dislike')}
-                        aria-label={tt('g.dislike')}
-                        innerRef={this.dislikeRef}
-                        vertical={vertical}
-                        onClick={this.onDislikeClick}
-                    >
-                        <LikeIconNeg name="like" />
-                    </LikeWrapper>
-                    <LikeCount
-                        data-tooltip={dislikeTooltip}
-                        data-tooltip-down
-                        data-tooltip-html
-                        role="button"
-                        aria-label={tt('aria_label.dislikers_list', {
-                            count: votesSummary.dislikes,
-                        })}
-                        vertical={vertical}
-                        onClick={votesSummary.dislikes === 0 ? null : this.onDislikesNumberClick}
-                    >
-                        {votesSummary.dislikes}
-                        {vertical ? null : <IconTriangle />}
-                    </LikeCount>
-                </LikeBlockNeg>
-                {showSlider ? this.renderSlider() : null}
+                        <LikeWrapper
+                            role="button"
+                            data-tooltip={tt('g.dislike')}
+                            aria-label={tt('g.dislike')}
+                            innerRef={this.dislikeRef}
+                            vertical={vertical}
+                            negative
+                            onClick={this.onDislikeClick}
+                        >
+                            <LikeIconNeg name="like" />
+                        </LikeWrapper>
+                        <LikeCount
+                            data-tooltip={dislikeTooltip}
+                            data-tooltip-down
+                            data-tooltip-html
+                            role="button"
+                            aria-label={tt('aria_label.dislikers_list', {
+                                count: votesSummary.dislikes,
+                            })}
+                            vertical={vertical}
+                            onClick={
+                                votesSummary.dislikes === 0 ? null : this.onDislikesNumberClick
+                            }
+                        >
+                            {votesSummary.dislikes}
+                            {vertical ? null : <IconTriangle />}
+                        </LikeCount>
+                    </LikeBlock>
+                    {showSlider ? this.renderSlider() : null}
+                </Wrapper>
             </Root>
         );
     }
