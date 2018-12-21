@@ -12,11 +12,14 @@ const Action = styled.div`
     color: ${props => (props.active ? '#2879ff' : '#333333')} !important;
     cursor: pointer;
 
-    ${({ colored }) => colored ? `   
+    ${({ colored }) =>
+        colored
+            ? `
         &:hover {
             color: #2879ff !important;
         }
-    ` : `
+    `
+            : `
         transition: transform 0.15s;
         &:hover {
             transform: scale(1.15);
@@ -24,11 +27,7 @@ const Action = styled.div`
     `};
 `;
 
-const ActionEditLink = styled(Action.withComponent(Link))`
-    @media (max-width: 880px) {
-        display: none;
-    }
-`;
+const ActionEditLink = styled(Action.withComponent(Link))``;
 
 const ActionIcon = styled(Icon)`
     width: 20px;

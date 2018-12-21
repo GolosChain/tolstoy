@@ -55,20 +55,22 @@
   }
 }
 
-@media (max-width: 576px) {
+@media (max-width: 860px) {
   .HintIcon {
     &__bubble {
       top: -45px;
       left: auto;
-      right: -14px;
+      right: -7px;
       display: flex;
       flex-direction: row-reverse;
       align-items: center;
+      padding: 0 10px;
     }
 
     &__text {
+      font-size: 12px;
       margin-right: 15px;
-      margin-left: 0;
+      margin-left: 5px;
     }
   }
 }

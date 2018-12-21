@@ -24,6 +24,7 @@ import CheckLoginOwner from 'src/app/components/common/CheckLoginOwner';
 import ContentErrorBoundary from 'src/app/containers/ContentErrorBoundary';
 
 injectGlobal`
+
     html {
         height: 100%;
     }
@@ -179,7 +180,9 @@ export class App extends Component {
                             {this.renderCallout()}
                             {children}
                             {location.pathname.startsWith('/submit') ? null : <Footer />}
-                            <ScrollUpstairsButton />
+                            {location.pathname.startsWith('/submit') ? null : (
+                                <ScrollUpstairsButton />
+                            )}
                             <MobileAppButton />
                         </div>
                         <DialogManager />

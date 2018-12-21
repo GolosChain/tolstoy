@@ -86,8 +86,9 @@ const Title = styled.div`
     margin-bottom: 8px;
 `;
 
-const CommentBody = styled(({ shortText, isPostPage, to, ...otherProps }) =>
-    isPostPage ? <div {...otherProps} /> : <Link to={to} {...otherProps} />
+const CommentBody = styled(
+    ({ shortText, isPostPage, to, ...otherProps }) =>
+        isPostPage ? <div {...otherProps} /> : <Link to={to} {...otherProps} />
 )`
     display: block;
     flex-grow: 1;

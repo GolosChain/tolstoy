@@ -1,29 +1,102 @@
-import React from 'react';
+import React, { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
+import styled from 'styled-components';
+import is from 'styled-is';
 import tt from 'counterpart';
+
 import Icon from 'app/components/elements/Icon';
 import Hint from 'app/components/elements/common/Hint';
 import { validateTag } from 'app/utils/tags';
 import KEYS from 'app/utils/keyCodes';
-import './index.scss';
 
-export default class TagInput extends React.PureComponent {
+const Wrapper = styled.div`
+    position: relative;
+    display: block;
+
+    @media (max-width: 860px) {
+        width: 100%;
+    }
+`;
+
+const Input = styled.input`
+    width: 240px;
+    height: 40px;
+    padding: 0 20px 1px 18px;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.18);
+    background-color: #fff;
+    transition: none;
+
+    &:focus {
+        border: none;
+    }
+
+    &::placeholder {
+        font-size: 15px;
+    }
+
+    @media (max-width: 860px) {
+        width: 100%;
+        padding: 0 20px 1px;
+        border-bottom: 1px solid #e9e9e9;
+        border-radius: 0;
+        box-shadow: none;
+
+        &:focus {
+            border-bottom: 1px solid #e9e9e9;
+            box-shadow: none;
+        }
+    }
+`;
+
+const StyledIcon = styled(Icon)`
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    right: 20px;
+    height: 40px;
+    line-height: 38px;
+    cursor: pointer;
+`;
+
+const MobileError = styled.p`
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin: 0;
+    padding: 12px 16px 0;
+    font-size: 14px;
+    line-height: 1.43;
+    letter-spacing: normal;
+    color: #333;
+
+    ${is('isError')`
+        color: #fc5d16;
+    `};
+
+    @media (min-width: 861px) {
+        display: none;
+    }
+`;
+
+const ErrorIcon = styled(Icon)`
+    margin-right: 18px;
+`;
+
+export default class TagInput extends PureComponent {
     static propTypes = {
         tags: PropTypes.array.isRequired,
-        className: PropTypes.string,
         onChange: PropTypes.func.isRequired,
     };
+    state = {
+        value: '',
+        inputError: null,
+        temporaryHintText: null,
+    };
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            value: '',
-            inputError: null,
-            temporaryHintText: null,
-        };
-    }
+    inputRef = createRef();
 
     componentWillUnmount() {
         if (this._hintTimeout) {
@@ -32,31 +105,42 @@ export default class TagInput extends React.PureComponent {
     }
 
     render() {
-        const { className } = this.props;
+        const { inputError, temporaryHintText, value } = this.state;
 
         return (
-            <div className={cn('TagInput', className)}>
-                <input
-                    className="TagInput__input"
-                    value={this.state.value}
+            <Wrapper>
+                <Input
+                    value={value}
                     type="text"
-                    ref="input"
-                    maxLength="25"
+                    innerRef={this.inputRef}
+                    maxLength="20"
                     placeholder={tt('post_editor.tags_input_placeholder')}
+                    autoCapitalize="off"
+                    autoCorrect="off"
                     onFocus={this._onFocus}
                     onBlur={this._onBlur}
                     onChange={this._onInputChange}
                     onKeyDown={this._onInputKeyDown}
                 />
-                <i
-                    className="TagInput__input-plus"
+                <StyledIcon
+                    name="editor/plus"
                     data-tooltip={tt('g.add')}
                     onClick={this._onPlusClick}
-                >
-                    <Icon name="editor/plus" />
-                </i>
+                />
+                {inputError && !temporaryHintText && (
+                    <MobileError isError>
+                        <ErrorIcon name="editor/info" />
+                        {inputError}
+                    </MobileError>
+                )}
+                {temporaryHintText && !inputError && (
+                    <MobileError>
+                        <ErrorIcon name="editor/info" />
+                        {temporaryHintText}
+                    </MobileError>
+                )}
                 {this._renderErrorBlock()}
-            </div>
+            </Wrapper>
         );
     }
 
@@ -105,7 +189,7 @@ export default class TagInput extends React.PureComponent {
     };
 
     _onInputChange = e => {
-        const value = e.target.value;
+        const value = e.target.value ? e.target.value.toLowerCase() : '';
 
         if (/\s/.test(value) || Math.abs(this.state.value.length - value.length) >= 2) {
             const tags = value.split(/\s+/).filter(t => t);
@@ -168,10 +252,10 @@ export default class TagInput extends React.PureComponent {
 
     _onPlusClick = () => {
         if (!this.state.inputError) {
-            this._addTag(this.refs.input.value);
+            this._addTag(this.inputRef.current.value);
         }
 
-        this.refs.input.focus();
+        this.inputRef.current.focus();
     };
 
     _checkTag(tag) {

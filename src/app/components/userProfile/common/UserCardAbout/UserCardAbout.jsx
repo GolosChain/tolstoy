@@ -309,43 +309,47 @@ export default class UserCardAbout extends PureComponent {
                 )}
                 {about && <CardContent>{about && <UserCardBio>{about}</UserCardBio>}</CardContent>}
 
-                {social && Boolean(Object.keys(social).length) && (
-                    <SocialBlock justify="space-between">
-                        {social.facebook && (
-                            <SocialLink
-                                href={makeSocialLink(social.facebook, 'https://facebook.com/')}
-                                fb={1}
-                                target="_blank"
-                            >
-                                <IconStyled name="facebook" width="13" height="24" />
-                            </SocialLink>
-                        )}
-                        {social.vkontakte && (
-                            <SocialLink
-                                href={makeSocialLink(social.vkontakte, 'https://vk.com/')}
-                                target="_blank"
-                            >
-                                <IconStyled name="vk" width="28" height="18" />
-                            </SocialLink>
-                        )}
-                        {social.instagram && (
-                            <SocialLink
-                                href={makeSocialLink(social.instagram, 'https://instagram.com/')}
-                                target="_blank"
-                            >
-                                <IconStyled name="instagram" size="23" />
-                            </SocialLink>
-                        )}
-                        {social.twitter && (
-                            <SocialLink
-                                href={makeSocialLink(social.twitter, 'https://twitter.com/')}
-                                target="_blank"
-                            >
-                                <IconStyled name="twitter" width="26" height="22" />
-                            </SocialLink>
-                        )}
-                    </SocialBlock>
-                )}
+                {social &&
+                    Boolean(Object.keys(social).length) && (
+                        <SocialBlock justify="space-between">
+                            {social.facebook && (
+                                <SocialLink
+                                    href={makeSocialLink(social.facebook, 'https://facebook.com/')}
+                                    fb={1}
+                                    target="_blank"
+                                >
+                                    <IconStyled name="facebook" width="13" height="24" />
+                                </SocialLink>
+                            )}
+                            {social.vkontakte && (
+                                <SocialLink
+                                    href={makeSocialLink(social.vkontakte, 'https://vk.com/')}
+                                    target="_blank"
+                                >
+                                    <IconStyled name="vk" width="28" height="18" />
+                                </SocialLink>
+                            )}
+                            {social.instagram && (
+                                <SocialLink
+                                    href={makeSocialLink(
+                                        social.instagram,
+                                        'https://instagram.com/'
+                                    )}
+                                    target="_blank"
+                                >
+                                    <IconStyled name="instagram" size="23" />
+                                </SocialLink>
+                            )}
+                            {social.twitter && (
+                                <SocialLink
+                                    href={makeSocialLink(social.twitter, 'https://twitter.com/')}
+                                    target="_blank"
+                                >
+                                    <IconStyled name="twitter" width="26" height="22" />
+                                </SocialLink>
+                            )}
+                        </SocialBlock>
+                    )}
             </CollapsingCardStyled>
         );
     }

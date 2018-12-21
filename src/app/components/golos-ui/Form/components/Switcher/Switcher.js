@@ -42,13 +42,9 @@ const HiddenCheckbox = styled.input`
 `;
 
 const Switcher = ({ value, onChange }) => (
-    <Wrapper checked={value}>
+    <Wrapper checked={value} onClick={() => onChange(!value)}>
         <Toggler checked={value} />
-        <HiddenCheckbox
-            type="checkbox"
-            checked={Boolean(value)}
-            onChange={e => onChange(e.target.checked)}
-        />
+        <HiddenCheckbox type="checkbox" defaultChecked={Boolean(value)} />
     </Wrapper>
 );
 export default Switcher;

@@ -15,17 +15,23 @@ import PostFormLoader from 'app/components/modules/PostForm/loader';
 
 const Wrapper = styled.article`
     position: relative;
-    padding: 40px 70px 60px;
+    padding: 40px 0 60px;
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
 
     @media (max-width: 576px) {
-        padding: 20px;
+        padding: 20px 0;
     }
 `;
 
-const Preview = styled.div``;
+const Preview = styled.div`
+    padding: 0 70px;
+
+    @media (max-width: 576px) {
+        padding: 0 20px;
+    }
+`;
 
 const Body = styled.div`
     margin-top: 5px;

@@ -1,4 +1,7 @@
 import React, { PureComponent } from 'react';
+import { createPortal } from 'react-dom';
+import styled from 'styled-components';
+import is from 'styled-is';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import throttle from 'lodash/throttle';
@@ -18,6 +21,36 @@ if (process.env.BROWSER) {
 }
 
 let lastWidgetId = 0;
+
+const PanelWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 46px;
+    width: 100vw;
+    max-width: 100vw;
+    position: sticky;
+    bottom: 0;
+    padding: 0;
+    background-color: #fff;
+    overflow: auto;
+
+    @media (min-width: 860px) {
+        display: none;
+    }
+
+    @media (max-width: 360px) {
+        ${is('isEdit')`
+            width: 100vw;
+            max-width: 100vw;
+        `};
+    }
+
+    ${is('isEdit')`
+        width: 100%;
+        max-width: 100%;
+    `};
+`;
 
 export default class MarkdownEditor extends PureComponent {
     static propTypes = {
@@ -125,7 +158,7 @@ export default class MarkdownEditor extends PureComponent {
     }
 
     render() {
-        const { uploadImage, commentMode } = this.props;
+        const { uploadImage, commentMode, wrapperRef, editMode } = this.props;
         return (
             <div
                 className={cn('MarkdownEditor', {
@@ -149,6 +182,21 @@ export default class MarkdownEditor extends PureComponent {
                     ) : null}
                     <textarea ref="textarea" className="MarkdownEditor__textarea" />
                 </Dropzone>
+                {wrapperRef && wrapperRef.current && this.simplemde
+                    ? createPortal(
+                          <PanelWrapper isEdit={editMode}>
+                              <MarkdownEditorToolbar
+                                  commentMode
+                                  editor={this.simplemde}
+                                  uploadImage={uploadImage}
+                                  SM={SimpleMDE}
+                                  mobile
+                                  wrapperRef={wrapperRef}
+                              />
+                          </PanelWrapper>,
+                          wrapperRef.current
+                      )
+                    : null}
             </div>
         );
     }

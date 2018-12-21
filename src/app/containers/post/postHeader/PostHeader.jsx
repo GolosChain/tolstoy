@@ -20,7 +20,7 @@ import PostActions from 'src/app/components/post/PostActions';
 
 const Wrapper = styled.div`
     position: relative;
-    padding-bottom: 25px;
+    padding: 0 70px 25px;
 
     display: grid;
     grid-template-rows: auto;
@@ -37,7 +37,7 @@ const Wrapper = styled.div`
     }
 
     @media (max-width: 576px) {
-        padding-bottom: 15px;
+        padding: 0 20px 15px;
     }
 `;
 

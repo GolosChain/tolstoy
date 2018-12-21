@@ -1,6 +1,4 @@
-
 .AddImageDialog {
-
   &__body {
     padding: 10px 30px 28px;
   }
@@ -32,5 +30,9 @@
 
   &__drop-zone-text {
     border-bottom: 1px dashed #bbb;
+  }
+
+  @media (max-width: 400px) {
+    min-width: 300px;
   }
 }

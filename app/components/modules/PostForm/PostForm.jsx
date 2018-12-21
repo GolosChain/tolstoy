@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { Fragment, createRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import is from 'styled-is';
 import throttle from 'lodash/throttle';
 import Turndown from 'turndown';
-import cn from 'classnames';
 import tt from 'counterpart';
+
 import HtmlReady, { getTags } from 'shared/HtmlReady';
 import DialogManager from 'app/components/elements/common/DialogManager';
 import Icon from 'app/components/elements/Icon';
@@ -25,7 +26,6 @@ import {
 } from 'app/utils/tags';
 import { DRAFT_KEY, EDIT_KEY } from 'app/utils/postForm';
 import { breakWordStyles } from 'src/app/helpers/styles';
-import './PostForm.scss';
 
 const EDITORS_TYPES = {
     MARKDOWN: 1,
@@ -68,10 +68,104 @@ const PreviewHeader = styled.h1`
     ${breakWordStyles};
 `;
 
+const Wrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+`;
+
+const WorkArea = styled.div`
+    flex-grow: 1;
+    flex-shrink: 0;
+    width: 100%;
+    max-width: 100%;
+    min-height: 400px;
+    height: calc(100% - 80px);
+    padding-top: 10px;
+    overflow-y: auto;
+
+    ${is('isEdit')`
+        padding: 10px 70px 0;
+    `};
+
+    @media (max-width: 576px) {
+        ${is('isEdit')`
+            padding: 10px 20px 0;
+        `};
+    }
+`;
+
+const Content = styled.div`
+    max-width: 700px;
+    padding: 0 8px;
+    margin: 0 auto;
+
+    @media (max-width: 860px) {
+        overflow-x: hidden;
+        max-width: 100%;
+    }
+`;
+
+const Footer = styled.div`
+    width: 100%;
+    flex-shrink: 0;
+    z-index: 1;
+    user-select: none;
+    background: #fff;
+    box-shadow: 0 -2px 12px 0 rgba(0, 0, 0, 0.07);
+    margin-top: 10px;
+
+    ${is('isEdit')`
+        box-shadow: none;
+    `};
+`;
+
+const FooterContent = styled.div`
+    width: 100%;
+    max-width: 75rem;
+    padding: 0 8px;
+    margin: 0 auto;
+
+    @media (max-width: 860px) {
+        max-width: 100%;
+        padding: 0;
+        overflow: hidden;
+    }
+`;
+
+const Spinner = styled.div`
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 100%;
+    color: #999;
+    pointer-events: none;
+    opacity: 0;
+    animation: fade-in 1s forwards;
+    animation-delay: 0.3s;
+`;
+
+const SpinnerInner = styled(Icon)`
+    width: unset;
+    height: unset;
+    padding: 40px 60px;
+    border-radius: 18px;
+    background: rgba(0, 0, 0, 0.1);
+`;
+
+const EditorSwitcherWrapper = styled.div`
+    @media (max-width: 860px) {
+        display: none;
+    }
+`;
+
 export default class PostForm extends React.Component {
     static propTypes = {
         editMode: PropTypes.bool,
-        author: PropTypes.string.isRequired,
         onCancel: PropTypes.func,
         onSuccess: PropTypes.func,
 
@@ -121,7 +215,9 @@ export default class PostForm extends React.Component {
             this._fillFromMetadata();
         }
 
-        this.previewButton = React.createRef();
+        this.previewButton = createRef();
+        this.workAreaRef = createRef();
+        this.editorWrapper = createRef();
     }
 
     componentDidMount() {
@@ -203,7 +299,7 @@ export default class PostForm extends React.Component {
     }
 
     render() {
-        const { editMode } = this.props;
+        const { editMode, mobileButtonsWrapperRef } = this.props;
 
         const {
             editorId,
@@ -220,46 +316,29 @@ export default class PostForm extends React.Component {
         const disallowPostCode = this._checkDisallowPost();
 
         return (
-            <div
-                className={cn('PostForm', {
-                    PostForm_page: !editMode,
-                    PostForm_edit: editMode,
-                })}
-            >
-                <div className="PostForm__work-area" ref="workArea">
-                    <div className="PostForm__content">
+            <Wrapper>
+                <WorkArea innerRef={this.workAreaRef} isEdit={editMode}>
+                    <Content>
                         <PreviewButton
                             ref={this.previewButton}
                             isPreview={isPreview}
                             isVisible={isPreviewButtonVisible}
+                            isDesktop
                             onPreviewChange={this._onPreviewChange}
                         />
-                        <EditorSwitcher
-                            items={[
-                                {
-                                    id: EDITORS_TYPES.MARKDOWN,
-                                    text: tt('post_editor.new_editor'),
-                                },
-                                {
-                                    id: EDITORS_TYPES.HTML,
-                                    text: tt('post_editor.html_editor'),
-                                },
-                            ]}
-                            activeId={editorId}
-                            onChange={this._onEditorChange}
-                        />
-                        {isPreview ? null : (
-                            <PostTitle
-                                initialValue={title}
-                                placeholder={tt('post_editor.title_placeholder')}
-                                validate={this._validateTitle}
-                                onTab={this._onTitleTab}
-                                onChange={this._onTitleChange}
+                        <EditorSwitcherWrapper>
+                            <EditorSwitcher
+                                items={[
+                                    {
+                                        id: EDITORS_TYPES.MARKDOWN,
+                                        text: tt('post_editor.new_editor'),
+                                    },
+                                    { id: EDITORS_TYPES.HTML, text: tt('post_editor.html_editor') },
+                                ]}
+                                activeId={editorId}
+                                onChange={this._onEditorChange}
                             />
-                        )}
-                        <div style={{ display: isPreview ? 'none' : 'block' }}>
-                            {this._renderEditorPanel()}
-                        </div>
+                        </EditorSwitcherWrapper>
                         {isPreview ? (
                             <Preview>
                                 <PreviewHeader>
@@ -267,11 +346,22 @@ export default class PostForm extends React.Component {
                                 </PreviewHeader>
                                 <MarkdownViewer text={text} large />
                             </Preview>
-                        ) : null}
-                    </div>
-                </div>
-                <div className="PostForm__footer">
-                    <div className="PostForm__footer-content">
+                        ) : (
+                            <Fragment>
+                                <PostTitle
+                                    initialValue={title}
+                                    placeholder={tt('post_editor.title_placeholder')}
+                                    validate={this._validateTitle}
+                                    onTab={this._onTitleTab}
+                                    onChange={this._onTitleChange}
+                                />
+                                {this._renderEditorPanel()}
+                            </Fragment>
+                        )}
+                    </Content>
+                </WorkArea>
+                <Footer isEdit={editMode}>
+                    <FooterContent>
                         <PostFooter
                             ref="footer"
                             editMode={editMode}
@@ -284,31 +374,40 @@ export default class PostForm extends React.Component {
                             onPostClick={this._postSafe}
                             onResetClick={this._onResetClick}
                             onCancelClick={this._onCancelClick}
+                            mobileButtonsWrapperRef={mobileButtonsWrapperRef}
+                            isPreview={isPreview}
+                            isVisible={isPreviewButtonVisible}
+                            onPreviewChange={this._onPreviewChange}
                         />
-                    </div>
-                </div>
+                    </FooterContent>
+                </Footer>
                 {uploadingCount > 0 || isPosting ? (
-                    <div className="PostForm__spinner">
-                        <Icon name="clock" size="4x" className="PostForm__spinner-inner" />
-                    </div>
+                    <Spinner>
+                        <SpinnerInner name="clock" size="4x" />
+                    </Spinner>
                 ) : null}
-            </div>
+            </Wrapper>
         );
     }
 
     _renderEditorPanel() {
         const { editorId, text } = this.state;
+        const { editMode } = this.props;
 
         if (editorId === EDITORS_TYPES.MARKDOWN) {
             return (
-                <MarkdownEditor
-                    ref="editor"
-                    initialValue={text}
-                    scrollContainer={this.refs.workArea}
-                    placeholder={tt('post_editor.text_placeholder')}
-                    uploadImage={this._onUploadImage}
-                    onChangeNotify={this._onTextChangeNotify}
-                />
+                <div ref={this.editorWrapper}>
+                    <MarkdownEditor
+                        ref="editor"
+                        initialValue={text}
+                        scrollContainer={this.refs.workArea}
+                        wrapperRef={this.editorWrapper}
+                        placeholder={tt('post_editor.text_placeholder')}
+                        editMode={editMode}
+                        uploadImage={this._onUploadImage}
+                        onChangeNotify={this._onTextChangeNotify}
+                    />
+                </div>
             );
         } else if (editorId === EDITORS_TYPES.HTML) {
             return (
@@ -721,7 +820,7 @@ export default class PostForm extends React.Component {
 
     _checkPreviewButtonPosition = () => {
         const { isPreviewButtonVisible } = this.state;
-        const { workArea } = this.refs;
+        const workArea = this.workAreaRef.current;
         const { current } = this.previewButton;
 
         const containerYBottom = workArea ? workArea.getBoundingClientRect().bottom : null;
