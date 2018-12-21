@@ -26,8 +26,7 @@ const Wrapper = styled.div`
     border-radius: 6px;
     background: #ffffff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
-    animation: ${fromUp} 0.2s linear;
-    animation-fill-mode: forwards;
+    animation: ${fromUp} 0.2s linear forwards;
 `;
 
 const Pointer = styled.div`

@@ -28,15 +28,9 @@ const checkFollowWitnessButtons = createSelector(
             followState = null;
         }
 
-        let witnessUpvoted = false;
-        accounts
-            .get(authUser, emptyMap)
-            .get('witness_votes', emptyMap)
-            .forEach(witnesses => {
-                if (witnesses === accountUsername) {
-                    witnessUpvoted = true;
-                }
-            });
+        const witnessUpvoted = accounts
+            .getIn([authUser, 'witness_votes'], emptyMap)
+            .some(witnesses => witnesses === accountUsername);
 
         return {
             loading,
