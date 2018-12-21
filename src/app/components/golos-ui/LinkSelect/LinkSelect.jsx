@@ -1,6 +1,7 @@
 import React, { PureComponent, createRef } from 'react';
-import styled from 'styled-components';
 import { Link } from 'react-router';
+import styled from 'styled-components';
+import is from 'styled-is';
 import tt from 'counterpart';
 
 const Wrapper = styled.div`
@@ -9,6 +10,7 @@ const Wrapper = styled.div`
 
 const SelectLike = styled.div`
     position: relative;
+    z-index: 13;
     display: flex;
     height: 34px;
     padding: 0 16px;
@@ -17,7 +19,7 @@ const SelectLike = styled.div`
     text-transform: uppercase;
     font-size: 14px;
     font-weight: 600;
-    z-index: 12;
+    cursor: pointer;
 
     @media (max-width: 500px) {
         height: 48px;
@@ -29,6 +31,11 @@ const Chevron = styled.div`
     margin-top: 1px;
     border: 3px solid transparent;
     border-top-color: #363636;
+
+    ${is('open')`
+        margin-top: -4px;
+        transform: rotate(180deg);
+    `}
 `;
 
 const Placeholder = styled.div`
@@ -40,13 +47,13 @@ const List = styled.ul`
     position: absolute;
     top: 0;
     left: 3px;
+    z-index: 12;
     padding: 34px 0 4px 0;
     margin: 0;
     border-radius: 8px;
     background: #fff;
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
     animation: fade-in 0.25s;
-    z-index: 11;
 
     @media (max-width: 500px) {
         padding-top: 48px;
@@ -61,7 +68,7 @@ const ItemLink = styled(Link)`
     display: flex;
     align-items: center;
     height: 34px;
-    padding: 0 13px;
+    padding: 0 16px;
     white-space: nowrap;
     text-transform: uppercase;
     font-size: 14px;
@@ -139,7 +146,7 @@ export default class LinkSelect extends PureComponent {
                     ) : (
                         <Placeholder>{placeholder || tt('g.select')}</Placeholder>
                     )}
-                    <Chevron />
+                    <Chevron open={isOpen} />
                 </SelectLike>
                 {isOpen ? (
                     <List innerRef={this.onListRef}>
