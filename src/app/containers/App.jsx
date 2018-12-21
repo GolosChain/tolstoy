@@ -25,6 +25,10 @@ import ContentErrorBoundary from 'src/app/containers/ContentErrorBoundary';
 
 injectGlobal`
 
+    html {
+        height: 100%;
+    }
+
     body {
         fill: currentColor;
     }
