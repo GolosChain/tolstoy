@@ -14,6 +14,8 @@ import Mute from 'src/app/components/common/Mute';
 import Follow from 'src/app/components/common/Follow';
 import UserStatus from 'src/app/components/userProfile/common/UserStatus';
 
+const USER_ICON_SIZE = 50;
+
 const Block = styled.div`
     width: 100%;
     border-bottom: 2px solid #e1e1e1;
@@ -87,8 +89,10 @@ const About = styled.p`
 const Followers = styled.div``;
 
 const AvatarLink = styled(Link)`
+position: relative;
     display: flex;
-    position: relative;
+    width: ${USER_ICON_SIZE}px;
+    height: ${USER_ICON_SIZE}px;
     border-radius: 50%;
 
     &::after {
@@ -211,7 +215,7 @@ export class PopoverBody extends Component {
                             aria-label={tt('aria_label.avatar')}
                             rating={reputation}
                         >
-                            <Userpic size={50} account={account} />
+                            <Userpic size={USER_ICON_SIZE} account={account} />
                         </AvatarLink>
                     </AuthorTitle>
                     <UserStatus currentAccount={account} popover />
