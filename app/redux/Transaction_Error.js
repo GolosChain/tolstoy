@@ -45,9 +45,9 @@ export default function transactionErrorReducer(
                 errorKey = errorStr = tt('post_editor.empty_body_error');
             } else if (errorKey.includes('maximum_block_size')) {
                 errorKey = errorStr = tt('post_editor.body_length_over_limit_error');
-            } else if (errorKey.includes('You may only comment once every 20 seconds')) {
+            } else if (errorKey.includes('You may only comment')) {
                 errorKey = errorStr = tt('chain_errors.only_comment_once_every');
-            } else if (errorKey.includes('You may only post 1 times in 300 seconds.')) {
+            } else if (errorKey.includes('You may only post')) {
                 errorKey = errorStr = tt('chain_errors.only_post_once_every');
             } else if (
                 errorKey.includes('Account exceeded maximum allowed bandwidth per vesting share')
