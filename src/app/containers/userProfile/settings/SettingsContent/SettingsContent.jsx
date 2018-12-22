@@ -99,6 +99,7 @@ export default class SettingsContent extends PureComponent {
                 accountName: values.username,
                 password: values.password,
                 newWif: values.newWif,
+                clearAccountAuths: values.clearAccountAuths,
                 successCallback: () => {
                     notify('Password Updated');
                     window.location = `/login#account=${values.username}&msg=passwordupdated`;

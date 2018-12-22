@@ -94,16 +94,26 @@ export default class ResetKey extends PureComponent {
             password: !values.password
                 ? tt('g.required')
                 : PublicKey.fromString(values.password)
-                    ? tt('g.you_need_private_password_or_key_not_a_public_key')
-                    : undefined,
+                ? tt('g.you_need_private_password_or_key_not_a_public_key')
+                : undefined,
             confirmPassword: !values.confirmPassword
                 ? tt('g.required')
                 : values.confirmPassword.trim() !== values.newWif
-                    ? tt('g.passwords_do_not_match')
-                    : undefined,
+                ? tt('g.passwords_do_not_match')
+                : undefined,
             confirmCheck: !values.confirmCheck ? tt('g.required') : undefined,
             confirmSaved: !values.confirmSaved ? tt('g.required') : undefined,
         };
+    };
+
+    getAccountAuths = account => {
+        return ['posting', 'active', 'owner'].reduce((acc, key) => {
+            const auths = account.getIn([key, 'account_auths']);
+            if (!auths.isEmpty()) {
+                acc.push(auths);
+            }
+            return acc;
+        }, []);
     };
 
     render() {
@@ -114,6 +124,9 @@ export default class ResetKey extends PureComponent {
             username: account.get('name'),
             newWif,
         };
+
+        const accountAuths = this.getAccountAuths(account);
+        const hasAuths = accountAuths.length > 0;
 
         return (
             <Form
@@ -203,6 +216,23 @@ export default class ResetKey extends PureComponent {
                                     </FieldBlock>
                                 )}
                             </Field>
+                            {hasAuths && (
+                                <Field name="clearAccountAuths">
+                                    {({ input, meta }) => (
+                                        <FieldBlock mini>
+                                            <CheckboxInput
+                                                {...input}
+                                                title={
+                                                    <CheckboxLabel>
+                                                        {tt('g.clear_accounts_auths')}
+                                                    </CheckboxLabel>
+                                                }
+                                            />
+                                            <FormErrorStyled meta={meta} />
+                                        </FieldBlock>
+                                    )}
+                                </Field>
+                            )}
                             <Field name="confirmCheck">
                                 {({ input, meta }) => (
                                     <FieldBlock mini>
