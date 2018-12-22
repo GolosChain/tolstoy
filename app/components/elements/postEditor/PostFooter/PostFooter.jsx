@@ -120,11 +120,20 @@ export default class PostFooter extends PureComponent {
         onCancelClick: PropTypes.func.isRequired,
     };
 
-    state = { temporaryErrorText: null, showHint: false };
+    state = { temporaryErrorText: null, singleLine: true, showHint: false };
 
     root = createRef();
 
+    componentDidMount() {
+        this._checkSingleLine();
+
+        this._resizeInterval = setInterval(() => {
+            this._checkSingleLine();
+        }, 1000);
+    }
+
     componentWillUnmount() {
+        clearInterval(this._resizeInterval);
         clearTimeout(this._temporaryErrorTimeout);
     }
 
@@ -258,11 +267,25 @@ export default class PostFooter extends PureComponent {
     showPostError(errorText) {
         clearTimeout(this._temporaryErrorTimeout);
 
-        this.setState({ temporaryErrorText: errorText, showHint: true });
+        this.setState({
+            temporaryErrorText: errorText,
+            showHint: true,
+        });
 
         this._temporaryErrorTimeout = setTimeout(() => {
-            this.setState({ temporaryErrorText: null, showHint: false });
+            this.setState({
+                temporaryErrorText: null,
+                showHint: false,
+            });
         }, 5000);
+    }
+
+    _checkSingleLine() {
+        const singleLine = this.root.current.clientWidth > 950;
+
+        if (this.state.singleLine !== singleLine) {
+            this.setState({ singleLine });
+        }
     }
 
     _onNsfwClick = () => {
