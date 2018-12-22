@@ -20,15 +20,20 @@ const Wrapper = styled.div.attrs({
     justify-content: center;
     overflow: hidden;
 
-    height: 125px;
-    width: 125px;
+    height: 120px;
+    width: 120px;
     border-radius: 50%;
     box-shadow: 0 7px 16px 0 rgba(0, 0, 0, 0.18);
 
-    background-color: #fff;
+    background-color: #ffffff;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+
+    @media (max-width: 576px) {
+        width: 80px;
+        height: 80px;
+    }
 `;
 
 const EmptyAvatar = styled(Icon).attrs({

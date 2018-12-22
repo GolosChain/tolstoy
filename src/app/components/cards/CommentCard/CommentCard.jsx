@@ -86,9 +86,8 @@ const Title = styled.div`
     margin-bottom: 8px;
 `;
 
-const CommentBody = styled(
-    ({ shortText, isPostPage, to, ...otherProps }) =>
-        isPostPage ? <div {...otherProps} /> : <Link to={to} {...otherProps} />
+const CommentBody = styled(({ shortText, isPostPage, to, ...otherProps }) =>
+    isPostPage ? <div {...otherProps} /> : <Link to={to} {...otherProps} />
 )`
     display: block;
     flex-grow: 1;
@@ -150,6 +149,10 @@ const Root = styled(EntryWrapper)`
 
 const Reply = styled.div`
     padding: 0 18px 0 60px;
+
+    @media (max-width: 450px) {
+        padding-left: 40px;
+    }
 `;
 
 const LoaderWrapper = styled.div`

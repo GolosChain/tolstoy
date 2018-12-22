@@ -12,8 +12,8 @@ const MobileAccountBlock = styled(Link)`
     flex-shrink: 0;
     width: 50px;
     height: 50px;
-    margin-left: 4px;
-    margin-right: 0;
+    margin-left: 5px;
+    margin-right: -2px;
     cursor: pointer;
     z-index: 1;
 

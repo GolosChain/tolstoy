@@ -21,9 +21,8 @@ const ReplyIcon = styled(Icon)`
     color: #393636;
 `;
 
-const Replies = styled(
-    ({ to, isLink, ...otherProps }) =>
-        isLink ? <Link to={to} {...otherProps} /> : <div {...otherProps} />
+const Replies = styled(({ to, isLink, ...otherProps }) =>
+    isLink ? <Link to={to} {...otherProps} /> : <div {...otherProps} />
 )`
     display: flex;
     align-items: center;
@@ -86,30 +85,21 @@ const Splitter = styled.div`
     background: #e1e1e1;
 `;
 
-const ReplyButton = styled(
-    ({ to, ...otherProps }) => (to ? <Link to={to} {...otherProps} /> : <div {...otherProps} />)
+const ReplyButton = styled(({ to, ...otherProps }) =>
+    to ? <Link to={to} {...otherProps} /> : <div {...otherProps} />
 )`
     height: 100%;
     min-height: 50px;
     padding: 0 18px 0 10px;
     display: flex;
     align-items: center;
-    flex-grow: 1;
+    flex-grow: ${({ compact }) => (compact ? '0' : '1')};
     font-size: 12px;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 0.8px;
     color: #393636 !important;
     cursor: pointer;
-
-    ${is('compact')`
-        flex-grow: 0;
-        padding: 0 10px;
-    `};
-
-    @media (max-width: 360px) {
-        padding: 0 10px;
-    }
 `;
 
 const Root = styled.div`
