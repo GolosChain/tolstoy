@@ -677,7 +677,7 @@ function* recoverAccount({
 /** auths must start with most powerful key: owner for example */
 // const twofaAccount = 'steem'
 function* updateAuthorities({
-    payload: { accountName, signingKey, auths, twofa, onSuccess, onError },
+    payload: { accountName, signingKey, auths, twofa, clearAccountAuths, onSuccess, onError },
 }) {
     // Be sure this account is up-to-date (other required fields are sent in the update)
     const [account] = yield call([api, api.getAccountsAsync], [accountName]);
@@ -735,6 +735,10 @@ function* updateAuthorities({
             authority = fromJS(account[authType]).toJS();
             authority.key_auths = [];
             authority.key_auths.push([newAuthPubkey, authority.weight_threshold]);
+
+            if (clearAccountAuths) {
+                authority.account_auths = [];
+            }
         }
 
         ops2[authType] = authority ? authority : account[authType];

@@ -27,7 +27,14 @@ export default authProtection()(
                     })
                 );
             },
-            changePassword: ({ accountName, password, newWif, successCallback, errorCallback }) => {
+            changePassword: ({
+                accountName,
+                password,
+                newWif,
+                clearAccountAuths,
+                successCallback,
+                errorCallback,
+            }) => {
                 const ph = role => PrivateKey.fromSeed(`${accountName}${role}${newWif}`).toWif();
                 dispatch(
                     transaction.actions.updateAuthorities({
@@ -46,6 +53,7 @@ export default authProtection()(
                             },
                             { authType: 'memo', oldAuth: password, newAuth: ph('memo', newWif) },
                         ],
+                        clearAccountAuths,
                         onSuccess: successCallback,
                         onError: errorCallback,
                     })

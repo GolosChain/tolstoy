@@ -339,6 +339,7 @@
     "cancel_subscription": "cancel subscription",
     "change_password": "Change Password",
     "clear": "Clear",
+    "clear_accounts_auths": "Clear multi-signature",
     "click_to_generate_password": "Click to generate password",
     "close": "Close",
     "collapse": "Collapse",
