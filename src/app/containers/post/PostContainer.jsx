@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 
 import Button from 'golos-ui/Button';
+import { blockedUsersContent, blockedContent } from 'app/utils/IllegalContent';
 import SidePanel from 'src/app/containers/post/sidePanel';
 import PostContent from 'src/app/containers/post/postContent';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
@@ -11,6 +12,7 @@ import AboutPanel from 'src/app/containers/post/aboutPanel';
 import ActivePanel from 'src/app/containers/post/activePanel';
 import CommentsContainer from 'src/app/containers/post/commentsContainer';
 import NotFoundFragment from 'app/components/elements/NotFoundFragment';
+import BlockedContent from 'app/components/elements/BlockedContent';
 
 export const POST_MAX_WIDTH = 840;
 const POST_MARGINS_MOBILE = 20;
@@ -121,7 +123,7 @@ export class PostContainer extends Component {
     };
 
     render() {
-        const { postLoaded, user, isOwner, isHidden } = this.props;
+        const { postLoaded, user, isOwner, isHidden, author, permLink } = this.props;
         const { showAlert } = this.state;
         if (!postLoaded) {
             return <Loader type="circle" center size={40} />;
@@ -129,6 +131,13 @@ export class PostContainer extends Component {
 
         if (isHidden) {
             return <NotFoundFragment />;
+        }
+
+        if (
+            blockedUsersContent.includes(author) ||
+            blockedContent.includes(`${author}/${permLink}`)
+        ) {
+            return <BlockedContent reason={tt('g.blocked_user_content')} />;
         }
 
         if (showAlert) {
