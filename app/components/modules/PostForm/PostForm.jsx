@@ -141,27 +141,25 @@ const FooterContent = styled.div`
     }
 `;
 
-const Spinner = styled.div`
+const SpinnerContainer = styled.div`
     position: absolute;
     display: flex;
     align-items: center;
     justify-content: center;
+    top: 0;
     left: 0;
     right: 0;
-    top: 0;
-    height: 100%;
-    color: #999;
+    bottom: 0;
     pointer-events: none;
     opacity: 0;
     animation: fade-in 1s forwards;
     animation-delay: 0.3s;
 `;
 
-const SpinnerInner = styled(Icon)`
-    width: unset;
-    height: unset;
+const SpinnerWrapper = styled.div`
     padding: 40px 60px;
     border-radius: 18px;
+    color: #999;
     background: rgba(0, 0, 0, 0.1);
 `;
 
@@ -390,9 +388,11 @@ export default class PostForm extends React.Component {
                     </FooterContent>
                 </Footer>
                 {uploadingCount > 0 || isPosting ? (
-                    <Spinner>
-                        <SpinnerInner name="clock" size="4x" />
-                    </Spinner>
+                    <SpinnerContainer>
+                        <SpinnerWrapper>
+                            <Icon name="clock" size="4x" />
+                        </SpinnerWrapper>
+                    </SpinnerContainer>
                 ) : null}
             </Wrapper>
         );
