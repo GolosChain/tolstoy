@@ -192,10 +192,6 @@ const SignUp = styled.a`
     &:last-child {
         margin-right: 0;
     }
-
-    @media (max-width: 350px) {
-        margin-right: 4px;
-    }
 `;
 
 const SignIn = SignUp.withComponent(Link);
