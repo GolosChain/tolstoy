@@ -36,6 +36,7 @@ const LikeWrapper = styled.i`
     width: 38px;
     height: 38px;
     transition: transform 0.15s;
+    cursor: pointer;
 
     @media (max-width: 500px) {
         width: 48px;
@@ -83,7 +84,6 @@ const LikeBlock = styled.div`
     align-items: center;
     white-space: nowrap;
     user-select: none;
-    cursor: pointer;
 
     ${is('vertical')`
         flex-direction: column;
