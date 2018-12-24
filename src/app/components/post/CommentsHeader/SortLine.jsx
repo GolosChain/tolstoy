@@ -22,17 +22,18 @@ const Wrapper = styled(Link)`
 
 export default class SortLine extends Component {
     static propTypes = {
-        changeSortCategory: PropTypes.func.isRequired,
         sortCategory: PropTypes.string.isRequired,
+        onChange: PropTypes.func.isRequired,
     };
 
-    linkClick = () => {
-        const { sortCategory, changeSortCategory } = this.props;
-        changeSortCategory(sortCategory);
+    onClick = () => {
+        const { sortCategory } = this.props;
+        this.props.onChange(sortCategory);
     };
 
     urlSortParam() {
         const { sortCategory } = this.props;
+
         switch (sortCategory) {
             case 'popularity':
                 return 'trending';
@@ -50,8 +51,8 @@ export default class SortLine extends Component {
         const urlWithSortParam = `${window.location.pathname}?sort=${this.urlSortParam()}#comments`;
 
         return (
-            <Wrapper to={urlWithSortParam} onClick={this.linkClick}>
-                {tt(`post_jsx.${sortCategory}`)}
+            <Wrapper to={urlWithSortParam} onClick={this.onClick}>
+                {tt(['post_jsx', sortCategory])}
             </Wrapper>
         );
     }

@@ -6,7 +6,7 @@ import CreateComment from 'src/app/components/post/CreateComment';
 import CommentsList from 'src/app/components/post/CommentsList';
 
 const Wrapper = styled.div`
-    padding-top: 30px;
+    padding-top: 20px;
 
     @media (max-width: 576px) {
         margin: 0 20px;

@@ -3,18 +3,25 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import tt from 'counterpart';
 
-import Popover from 'golos-ui/Popover/index';
+import Popover from 'golos-ui/Popover';
 import { logClickAnalytics } from 'src/app/helpers/gaLogs';
 import SortLine from 'src/app/components/post/CommentsHeader/SortLine';
 
-const sortCategories = ['popularity', 'voices', 'first_new', 'first_old'];
+const SORT_CATEGORIES = ['popularity', 'voices', 'first_new', 'first_old'];
 
 const CommentsHeaderWrapper = styled.div`
     display: flex;
+    height: 32px;
     justify-content: space-between;
+
+    @media (max-width: 500px) {
+        height: 48px;
+    }
 `;
 
 const CommentsCount = styled.div`
+    display: flex;
+    align-items: center;
     font-family: 'Open Sans', sans-serif;
     font-size: 14px;
     font-weight: 600;
@@ -33,8 +40,9 @@ const SortComments = styled.div`
 
 const CommentCategory = styled.div`
     position: relative;
-    padding: 5px 10px 5px 5px;
-    margin-top: -5px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px 0 5px;
     color: #333333;
     cursor: pointer;
 
@@ -51,6 +59,9 @@ const CommentCategory = styled.div`
 `;
 
 const SortBy = styled.div`
+    display: flex;
+    align-items: center;
+
     @media (max-width: 576px) {
         display: none;
     }
@@ -63,7 +74,7 @@ const CustomPopover = styled(Popover)`
 const SortWrapper = styled.div`
     display: flex;
     width: 170px;
-    padding: 0;
+    padding: 4px 0;
     margin: 0;
     flex-direction: column;
 `;
@@ -75,7 +86,7 @@ export default class CommentsHeader extends Component {
 
     state = {
         showPopover: false,
-        sortCategory: tt('post_jsx.first_old'),
+        sortCategory: 'first_old',
     };
 
     closePopover = e => {
@@ -86,22 +97,31 @@ export default class CommentsHeader extends Component {
         this.setState({
             showPopover: false,
         });
+
+        this.lastCloseTs = Date.now();
     };
 
     openPopover = () => {
+        // Unexpected reopen popup protection
+        if (this.lastCloseTs && Date.now() - this.lastCloseTs < 250) {
+            return;
+        }
+
         this.setState({
             showPopover: true,
         });
     };
 
-    changeSortCategory = category => {
-        logClickAnalytics('Link', `Sort by ${category}`);
-        this.setState({ sortCategory: tt(`post_jsx.${category}`) });
+    onSortCategoryChange = sortCategory => {
+        this.closePopover();
+
+        logClickAnalytics('Link', `Sort by ${sortCategory}`);
+        this.setState({ sortCategory });
     };
 
     render() {
-        const { showPopover, sortCategory } = this.state;
         const { commentsCount } = this.props;
+        const { showPopover, sortCategory } = this.state;
 
         return (
             <CommentsHeaderWrapper>
@@ -111,15 +131,15 @@ export default class CommentsHeader extends Component {
                 <SortComments>
                     <SortBy>{tt('post_jsx.sort_by')}:</SortBy>
                     <CommentCategory onClick={this.openPopover}>
-                        {sortCategory}
+                        {tt(['post_jsx', sortCategory])}
                         {showPopover ? (
-                            <CustomPopover show onClose={this.closePopover} withArrow={false}>
-                                <SortWrapper onClick={this.closePopover}>
-                                    {sortCategories.map(sortCategory => (
+                            <CustomPopover show withArrow={false} closePopover={this.closePopover}>
+                                <SortWrapper>
+                                    {SORT_CATEGORIES.map(sortCategory => (
                                         <SortLine
                                             key={sortCategory}
-                                            changeSortCategory={this.changeSortCategory}
                                             sortCategory={sortCategory}
+                                            onChange={this.onSortCategoryChange}
                                         />
                                     ))}
                                 </SortWrapper>
