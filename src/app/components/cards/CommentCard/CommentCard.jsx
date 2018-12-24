@@ -117,6 +117,7 @@ const Root = styled(EntryWrapper)`
     position: relative;
     display: flex;
     flex-direction: column;
+    margin: -1px;
     border: 1px solid transparent;
 
     min-height: 50px;

@@ -21,7 +21,17 @@ const Wrapper = styled.div`
 `;
 
 const Comment = styled(CommentCard)`
-    margin: 0 0 0 ${({ innerDeep }) => innerDeep * 20}px;
+    margin-left: ${({ innerDeep }) => innerDeep * 20 - 1}px;
+
+    @media (max-width: 500px) {
+        margin-bottom: 10px;
+        border-bottom: 1px solid #e9e9e9;
+
+        &:last-of-type {
+            margin-bottom: 0;
+            border-bottom: none;
+        }
+    }
 `;
 
 const ToggleButton = styled(CloseOpenButton)`
