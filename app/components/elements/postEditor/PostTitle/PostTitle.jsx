@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
@@ -59,6 +59,8 @@ export default class PostTitle extends PureComponent {
         showPlaceholder: !this.props.initialValue,
     };
 
+    inputRef = createRef();
+
     componentWillReceiveProps(newProps) {
         const { dotAlertAlreadyShown, showDotAlert } = this.state;
 
@@ -80,11 +82,20 @@ export default class PostTitle extends PureComponent {
         clearTimeout(this._dotTimeout);
     }
 
+    reset() {
+        this.inputRef.current.innerText = '';
+    }
+
     render() {
         const { placeholder } = this.props;
         const { showDotAlert } = this.state;
+        let text = '';
 
-        const text = this.input ? this.input.innerText : this.props.initialValue;
+        if (this.props.initialValue) {
+            text = this.inputRef.current
+                ? this.inputRef.current.innerText
+                : this.props.initialValue;
+        }
 
         let error = this.props.validate(text);
         let isDotWarning = false;
@@ -98,7 +109,7 @@ export default class PostTitle extends PureComponent {
             <Root>
                 {text && text !== '\n' ? null : <Placeholder>{placeholder}</Placeholder>}
                 <Input
-                    innerRef={this.onRef}
+                    innerRef={this.inputRef}
                     contentEditable
                     tabIndex="0"
                     onKeyDown={this.onKeyDown}
@@ -119,14 +130,6 @@ export default class PostTitle extends PureComponent {
         );
     }
 
-    onRef = el => {
-        this.input = el;
-
-        if (el) {
-            el.innerText = this.props.initialValue;
-        }
-    };
-
     onKeyDown = e => {
         if (e.which === KEYS.TAB || e.which === KEYS.ENTER) {
             e.preventDefault();
@@ -135,8 +138,7 @@ export default class PostTitle extends PureComponent {
     };
 
     onInput = () => {
-        const text = this.input.innerText;
-
+        const text = this.inputRef.current.innerText;
         const showPlaceholder = !text;
 
         if (this.state.showPlaceholder !== showPlaceholder) {

@@ -184,6 +184,11 @@ export default class PostForm extends React.Component {
         jsonMetadata: PropTypes.object,
     };
 
+    previewButton = createRef();
+    workAreaRef = createRef();
+    editorWrapper = createRef();
+    postTitle = createRef();
+
     constructor(props) {
         super(props);
 
@@ -220,10 +225,6 @@ export default class PostForm extends React.Component {
         if (!isLoaded && editMode) {
             this._fillFromMetadata();
         }
-
-        this.previewButton = createRef();
-        this.workAreaRef = createRef();
-        this.editorWrapper = createRef();
     }
 
     componentDidMount() {
@@ -355,6 +356,7 @@ export default class PostForm extends React.Component {
                         ) : (
                             <Fragment>
                                 <PostTitle
+                                    innerRef={this.postTitle}
                                     initialValue={title}
                                     placeholder={tt('post_editor.title_placeholder')}
                                     validate={this._validateTitle}
@@ -748,6 +750,8 @@ export default class PostForm extends React.Component {
         } else {
             rteState = HtmlEditor.getStateFromHtml('');
         }
+
+        this.postTitle.current.reset();
 
         this.setState({
             title: '',
