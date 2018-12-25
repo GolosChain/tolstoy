@@ -78,16 +78,12 @@ export default class PostTitle extends PureComponent {
         }
     }
 
-    componentDidUpdate() {
-        const { initialValue } = this.props;
-
-        if (!initialValue && this.inputRef && this.inputRef.current) {
-            this.inputRef.current.innerText = '';
-        }
-    }
-
     componentWillUnmount() {
         clearTimeout(this._dotTimeout);
+    }
+
+    reset() {
+        this.inputRef.current.innerText = '';
     }
 
     render() {
@@ -96,10 +92,9 @@ export default class PostTitle extends PureComponent {
         let text = '';
 
         if (this.props.initialValue) {
-            text =
-                this.inputRef && this.inputRef.current
-                    ? this.inputRef.current.innerText
-                    : this.props.initialValue;
+            text = this.inputRef.current
+                ? this.inputRef.current.innerText
+                : this.props.initialValue;
         }
 
         let error = this.props.validate(text);
@@ -143,10 +138,7 @@ export default class PostTitle extends PureComponent {
     };
 
     onInput = () => {
-        const text =
-            this.inputRef && this.inputRef.current
-                ? this.inputRef.current.innerText
-                : this.props.initialValue;
+        const text = this.inputRef.current.innerText;
         const showPlaceholder = !text;
 
         if (this.state.showPlaceholder !== showPlaceholder) {
