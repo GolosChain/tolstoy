@@ -7,6 +7,7 @@ import {
     DelegateVestingDialog,
     TransferDialog,
     SafeDialog,
+    ResetKeysDialog,
 } from 'src/app/components/dialogs';
 import VotersDialog from 'src/app/components/dialogs/VotersDialog';
 import UnfollowDialog from 'src/app/components/dialogs/UnfollowDialog';
@@ -106,6 +107,20 @@ export function confirmUnfollowDialog(unfollowingUser) {
             component: UnfollowDialog,
             props: {
                 unfollowingUser,
+            },
+        },
+    };
+}
+
+export function openResetKeysDialog(user, password) {
+    return {
+        type: SHOW_DIALOG,
+        payload: {
+            needAuth: false,
+            component: ResetKeysDialog,
+            props: {
+                user,
+                password,
             },
         },
     };

@@ -91,34 +91,6 @@ export default class SettingsContent extends PureComponent {
         });
     };
 
-    onSubmitChangePassword = values => {
-        const { changePassword, notify } = this.props;
-
-        return new Promise((resolve, reject) => {
-            changePassword({
-                accountName: values.username,
-                password: values.password,
-                newWif: values.newWif,
-                clearAccountAuths: values.clearAccountAuths,
-                successCallback: () => {
-                    notify('Password Updated');
-                    window.location = `/login#account=${values.username}&msg=passwordupdated`;
-                    resolve();
-                },
-                errorCallback: e => {
-                    if (e === 'Canceled') {
-                        resolve();
-                    } else {
-                        console.log('changePassword ERROR:', e);
-                        reject({
-                            [FORM_ERROR]: e,
-                        });
-                    }
-                },
-            });
-        });
-    };
-
     render() {
         const {
             profile,
@@ -143,7 +115,6 @@ export default class SettingsContent extends PureComponent {
                     isChanging={isChanging}
                     onSubmitBlockchain={this.onSubmitBlockchain}
                     onSubmitGate={this.onSubmitGate}
-                    onSubmitChangePassword={this.onSubmitChangePassword}
                 />
             </Fragment>
         );

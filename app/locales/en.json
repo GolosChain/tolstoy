@@ -181,6 +181,9 @@
     "title": "Repost this post",
     "too_long": "Repost body can't exceed %(count)s symbols."
   },
+  "dialogs_reset_keys": {
+    "title": "Reset %(user)s's Password"
+  },
   "dialogs_transfer": {
     "amount": "Amount",
     "amount_placeholder": "Available %(amount)s",
@@ -543,6 +546,12 @@
     "authorize_for": "Authorize to complete the action",
     "enter_your_username": "Enter your username",
     "keep_me_logged_in": "Keep me logged in",
+    "login_by_owner_key": {
+      "first": "This password is bound to your account's owner key and can not be used to login to this site.",
+      "reset_keys": "update your password",
+      "second": "However, you can use it to",
+      "third": "to obtain a more secure set of keys"
+    },
     "password_or_active": "Password or active key",
     "password_or_owner": "Password or owner key",
     "password_or_posting": "Password or posting key",
@@ -990,6 +999,11 @@
   "user_profile": {
     "account_summary": {
       "about": "About",
+      "comment_count": {
+        "one": "Comment",
+        "other": "Comments",
+        "zero": "Comments"
+      },
       "followers": "Followers",
       "following": "Following",
       "gender": "gender",
@@ -997,11 +1011,6 @@
         "one": "Post",
         "other": "Posts",
         "zero": "posts"
-      },
-      "comment_count": {
-        "one": "Comment",
-        "other": "Comments",
-        "zero": "Comments"
       },
       "registered": "Registered on",
       "reputation": "Reputation",
@@ -1122,6 +1131,9 @@
     "the_owner_key_is_required_to_change_other_keys": "The owner key is the master key for the account and is required to change the other keys.",
     "the_private_key_or_password_should_be_kept_offline": "The private key or password for the owner key should be kept offline as much as possible."
   },
+  "view_count": {
+    "views": "Views count"
+  },
   "voting_jsx": {
     "begin_recovery": "Begin Recovery",
     "changing_to_a_downvote": "Changing to a Down-Vote",
@@ -1207,8 +1219,5 @@
       "other": "You have %(count)s votes remaining",
       "zero": "You have no votes remaining"
     }
-  },
-  "view_count": {
-    "views": "Views count"
   }
 }

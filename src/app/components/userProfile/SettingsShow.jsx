@@ -41,7 +41,6 @@ export default class SettingsShow extends PureComponent {
 
             onSubmitBlockchain,
             onSubmitGate,
-            onSubmitChangePassword,
         } = this.props;
 
         return (
@@ -84,11 +83,7 @@ export default class SettingsShow extends PureComponent {
                         /> */}
                     </TabContainer>
                     <TabContainer id="keysTab" title={tt('settings_jsx.tabs.keys')}>
-                        <Keys
-                            account={account}
-                            privateKeys={privateKeys}
-                            onSubmitChangePassword={onSubmitChangePassword}
-                        />
+                        <Keys account={account} privateKeys={privateKeys} />
                     </TabContainer>
                 </Tabs>
             </Card>

@@ -156,6 +156,12 @@ const LoginButton = styled(Button)`
     margin-bottom: 0;
 `;
 
+const OwnerLoginWarning = styled(ErrorBlock)`
+    max-width: 400px;
+    font-size: 16px;
+    line-height: 1.2rem;
+`;
+
 export class LoginForm extends Component {
     static propTypes = {
         currentUsername: PropTypes.string,
@@ -313,12 +319,19 @@ export class LoginForm extends Component {
         this.clearError();
     };
 
+    onResetKeysClick = () => {
+        const { username, password } = this.state;
+        this.props.openResetKeysDialog(username, password);
+        this.onCrossClick();
+    };
+
     render() {
         const { onClose, loginError, isConfirm, forceSave, operationType, className } = this.props;
         const { username, password, consent, saveCredentials, submitting } = this.state;
 
         let loginErr = null;
         let passwordErr = null;
+        let isLoginByOwnerKey = false;
 
         const lockUsername = isConfirm && username;
 
@@ -327,6 +340,8 @@ export class LoginForm extends Component {
                 passwordErr = tt('g.incorrect_password');
             } else if (loginError === 'active_login_blocked') {
                 passwordErr = tt('loginform_jsx.active_key_error');
+            } else if (loginError === 'owner_login_blocked') {
+                isLoginByOwnerKey = true;
             } else {
                 loginErr = translateError(loginError);
             }
@@ -380,6 +395,18 @@ export class LoginForm extends Component {
                         onChange={this.onPasswordChange}
                     />
                     <ErrorBlock>{passwordErr}</ErrorBlock>
+                    {isLoginByOwnerKey && (
+                        <OwnerLoginWarning>
+                            <p>{tt('loginform_jsx.login_by_owner_key.first')}</p>
+                            <p>
+                                {tt('loginform_jsx.login_by_owner_key.second')}{' '}
+                                <a onClick={this.onResetKeysClick}>
+                                    {tt('loginform_jsx.login_by_owner_key.reset_keys')}
+                                </a>{' '}
+                                {tt('loginform_jsx.login_by_owner_key.third')}
+                            </p>
+                        </OwnerLoginWarning>
+                    )}
                     <BlockCheckboxes>
                         {
                             // commented for a while
@@ -399,7 +426,10 @@ export class LoginForm extends Component {
                             </ConsentCheckbox>
                         )}
                     </BlockCheckboxes>
-                    <LoginButton disabled={submitting || !consent} onClick={this.submit}>
+                    <LoginButton
+                        disabled={submitting || !consent || isLoginByOwnerKey}
+                        onClick={this.submit}
+                    >
                         {isConfirm ? tt('g.authorize') : tt('g.login')}
                     </LoginButton>
                 </Form>
