@@ -14,7 +14,7 @@ import NotFoundFragment from 'app/components/elements/NotFoundFragment';
 
 export const POST_MAX_WIDTH = 840;
 const POST_MARGINS_MOBILE = 20;
-const SEEN_TIMEOUT = 5 * 1000; // Время необходимое для засчитывания просмотра поста
+const VIEW_POST_TIMEOUT = 500; // Время необходимое для срабатывания просмотра поста (ms)
 
 const Wrapper = styled.div`
     width: 100%;
@@ -68,7 +68,7 @@ export class PostContainer extends Component {
     postContentRef = createRef();
 
     componentDidMount() {
-        this.seenTimeout = setTimeout(this.recordSeen, SEEN_TIMEOUT);
+        this.seenTimeout = setTimeout(this.recordSeen, VIEW_POST_TIMEOUT);
     }
 
     componentWillUnmount() {
