@@ -189,8 +189,8 @@ const Buttons = styled.div`
 const SignUp = styled.a`
     margin-right: 12px;
 
-    @media (max-width: 350px) {
-        margin-right: 4px;
+    &:last-child {
+        margin-right: 0;
     }
 `;
 
