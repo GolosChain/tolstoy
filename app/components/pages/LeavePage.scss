@@ -1,17 +1,10 @@
 .leave-page {
-  background-size: contain;
-  background-repeat: no-repeat;
+  background-size: cover;
+  background: #ffffff no-repeat;
   background-position-x: right;
   background-position-y: bottom;
-  background-color: #fff;
-  position: fixed;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 99999999;
+
   .leave-page_content {
-    margin-top: 40px;
     font-family: Roboto;
     font-size: 0.8rem;
     font-weight: 300;
@@ -31,7 +24,7 @@
   }
 }
 
-@media(max-width: 63.9375em) {
+@media (max-width: 63.9375em) {
   .leave-page {
     background-size: cover;
     background-position: center;

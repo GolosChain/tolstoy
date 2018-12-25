@@ -10,6 +10,36 @@ const ButtonStyled = styled(Button)`
     }
 `;
 
+const Content = styled.div`
+    margin: 80px 10px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 20px;
+    box-shadow: 0 0 5px 5px rgba(255, 255, 255, 0.6);
+`;
+
+const ButtonsWrapper = styled.p`
+    display: flex;
+    margin-bottom: 0;
+
+    & ${ButtonStyled} {
+        margin-bottom: 0;
+        white-space: nowrap;
+    }
+
+    @media (max-width: 840px) and (min-width: 640px), (max-width: 500px) {
+        flex-direction: column;
+
+        & ${ButtonStyled}:first-child {
+            margin-right: 0;
+        }
+
+        & ${ButtonStyled}:last-child {
+            margin-top: 10px;
+        }
+    }
+`;
+
 class LeavePage extends Component {
     goBack = () => {
         this.props.router.goBack();
@@ -24,7 +54,7 @@ class LeavePage extends Component {
         return (
             <div className="leave-page" style={{ backgroundImage: 'url(images/leave-bg.svg)' }}>
                 <div className="leave-page_content row medium-7 large-7">
-                    <div className="column">
+                    <Content>
                         <h4>
                             Вы покидаете{' '}
                             <a href="https://golos.io/" target="_blank">
@@ -62,7 +92,7 @@ class LeavePage extends Component {
                             не может быть восстановлен, а доступ к нему позволит мошенникам
                             завладеть всеми вашими средствами.
                         </p>
-                        <p className="text-center medium-text-left">
+                        <ButtonsWrapper>
                             <ButtonStyled round onClick={this.goBack}>
                                 Вернуться на Golos.io
                             </ButtonStyled>
@@ -73,8 +103,8 @@ class LeavePage extends Component {
                             >
                                 Перейти по ссылке
                             </ButtonStyled>
-                        </p>
-                    </div>
+                        </ButtonsWrapper>
+                    </Content>
                 </div>
             </div>
         );
