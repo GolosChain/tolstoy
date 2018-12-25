@@ -10,6 +10,7 @@ import { blockedUsers, blockedUsersContent } from 'app/utils/IllegalContent';
 
 import { listenLazy } from 'src/app/helpers/hoc';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
+import BlockedContent from 'app/components/elements/BlockedContent';
 import IllegalContentMessage from 'app/components/elements/IllegalContentMessage';
 import Container from 'src/app/components/common/Container';
 import UserHeader from 'src/app/components/userProfile/common/UserHeader';
@@ -164,7 +165,7 @@ export default class UserProfile extends Component {
         }
 
         if (blockedUsersContent.includes(currentAccount.get('name'))) {
-            return <div>{tt('g.blocked_user_content')}</div>;
+            return <BlockedContent reason={tt('g.blocked_user_content')} />;
         }
 
         const { navBarType } = this.state;
