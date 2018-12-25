@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { PrivateKey } from 'golos-js/lib/auth/ecc';
 
 import user from 'app/redux/User';
 import transaction from 'app/redux/Transaction';
@@ -24,38 +23,6 @@ export default authProtection()(
                             successCallback();
                         },
                         errorCallback,
-                    })
-                );
-            },
-            changePassword: ({
-                accountName,
-                password,
-                newWif,
-                clearAccountAuths,
-                successCallback,
-                errorCallback,
-            }) => {
-                const ph = role => PrivateKey.fromSeed(`${accountName}${role}${newWif}`).toWif();
-                dispatch(
-                    transaction.actions.updateAuthorities({
-                        accountName,
-                        auths: [
-                            { authType: 'owner', oldAuth: password, newAuth: ph('owner', newWif) },
-                            {
-                                authType: 'active',
-                                oldAuth: password,
-                                newAuth: ph('active', newWif),
-                            },
-                            {
-                                authType: 'posting',
-                                oldAuth: password,
-                                newAuth: ph('posting', newWif),
-                            },
-                            { authType: 'memo', oldAuth: password, newAuth: ph('memo', newWif) },
-                        ],
-                        clearAccountAuths,
-                        onSuccess: successCallback,
-                        onError: errorCallback,
                     })
                 );
             },

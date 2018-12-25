@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
+import { isNil } from 'ramda';
 import { Form, Field } from 'react-final-form';
 import { PublicKey, key_utils } from 'golos-js/lib/auth/ecc';
 
@@ -116,13 +117,44 @@ export default class ResetKey extends PureComponent {
         }, []);
     };
 
+    onSubmitChangePassword = values => {
+        const { changePassword, notify } = this.props;
+
+        return new Promise((resolve, reject) => {
+            changePassword({
+                accountName: values.username,
+                password: values.password,
+                newWif: values.newWif,
+                clearAccountAuths: values.clearAccountAuths,
+                successCallback: () => {
+                    notify('Password Updated');
+                    window.location = `/login#account=${values.username}&msg=passwordupdated`;
+                    resolve();
+                },
+                errorCallback: e => {
+                    if (e === 'Canceled') {
+                        resolve();
+                    } else {
+                        console.log('changePassword ERROR:', e);
+                        reject({
+                            [FORM_ERROR]: e,
+                        });
+                    }
+                },
+            });
+        });
+    };
+
     render() {
-        const { account, onSubmitChangePassword } = this.props;
+        const { account, password } = this.props;
         const { newWif } = this.state;
+
+        const isDialog = !isNil(password);
 
         const initialData = {
             username: account.get('name'),
             newWif,
+            password: isDialog ? password : '',
         };
 
         const accountAuths = this.getAccountAuths(account);
@@ -132,7 +164,7 @@ export default class ResetKey extends PureComponent {
             <Form
                 initialValues={initialData}
                 validate={this.validate}
-                onSubmit={onSubmitChangePassword}
+                onSubmit={this.onSubmitChangePassword}
             >
                 {({
                     handleSubmit,
@@ -177,7 +209,7 @@ export default class ResetKey extends PureComponent {
                                             autoCorrect="off"
                                             autoCapitalize="off"
                                             spellCheck="false"
-                                            disabled={submitting}
+                                            disabled={submitting || isDialog}
                                         />
                                         <FormErrorStyled meta={meta} />
                                     </FieldBlock>
@@ -269,12 +301,24 @@ export default class ResetKey extends PureComponent {
                             {submitError && <div>{submitError}</div>}
                         </CardContent>
                         <FormFooter>
-                            <FormFooterButton
-                                onClick={form.reset}
-                                disabled={submitting || pristine}
-                            >
-                                {tt('settings_jsx.reset')}
-                            </FormFooterButton>
+                            {isDialog ? (
+                                <FormFooterButton
+                                    onClick={() => {
+                                        form.reset();
+                                        this.props.onCloseClick();
+                                    }}
+                                    disabled={submitting}
+                                >
+                                    {tt('g.cancel')}
+                                </FormFooterButton>
+                            ) : (
+                                <FormFooterButton
+                                    onClick={form.reset}
+                                    disabled={submitting || pristine}
+                                >
+                                    {tt('settings_jsx.reset')}
+                                </FormFooterButton>
+                            )}
                             <FormFooterButton
                                 type="submit"
                                 primary

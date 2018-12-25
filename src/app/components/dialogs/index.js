@@ -6,3 +6,4 @@ export { default as RepostDialog } from './RepostDialog';
 export { default as SafeDialog } from './SafeDialog';
 export { default as TransferDialog } from './TransferDialog';
 export { default as DislikeAlert } from './DislikeAlert';
+export { default as ResetKeysDialog } from './ResetKeysDialog';
