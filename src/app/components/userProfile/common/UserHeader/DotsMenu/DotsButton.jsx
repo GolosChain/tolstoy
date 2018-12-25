@@ -8,6 +8,8 @@ import DotsMenu from 'src/app/components/userProfile/common/UserHeader/DotsMenu/
 
 const Wrapper = styled.div`
     position: relative;
+    grid-area: dots;
+    align-self: center;
     margin: 0 0 -5px 5px;
 
     @media (max-width: 576px) {

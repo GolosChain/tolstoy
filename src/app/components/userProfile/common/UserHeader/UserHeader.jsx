@@ -99,8 +99,10 @@ const Details = styled.div`
 `;
 
 const Name = styled.div`
-    display: flex;
-    align-items: center;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-areas: 'name witness dots';
+
     margin: 15px 0 5px 0;
     font-family: ${({ theme }) => theme.fontFamilySerif};
     font-size: 22px;
@@ -110,16 +112,32 @@ const Name = styled.div`
     color: #ffffff;
 
     @media (max-width: 576px) {
+        grid-template-columns: auto auto;
+        grid-template-rows: auto auto;
+        grid-template-areas:
+            'name dots'
+            'witness .';
+
         margin: 0;
         color: #333333;
     }
 `;
 
+const RealName = styled.p`
+    grid-area: name;
+    margin: 0;
+    white-space: nowrap;
+`;
+
 const WitnessText = styled.span`
+    grid-area: witness;
+    align-self: center;
     margin-left: 7px;
     text-transform: capitalize;
+    white-space: nowrap;
 
     @media (max-width: 576px) {
+        margin-left: 0;
         font-size: 16px;
     }
 `;
@@ -491,7 +509,7 @@ export default class UserHeader extends Component {
 
         return (
             <Name>
-                {realName}
+                <RealName>{realName}</RealName>
                 <WitnessText>{witnessText}</WitnessText>
                 {authUser && authUser !== accountUsername && (
                     <DotsButton
