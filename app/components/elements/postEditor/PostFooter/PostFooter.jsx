@@ -259,7 +259,7 @@ export default class PostFooter extends PureComponent {
                                         {disabledHint}
                                     </DisabledHint>
                                 ) : temporaryErrorText ? (
-                                    <DisabledHint key="2" error align="right">
+                                    <DisabledHint key="2" error align="right" isVisible={showHint}>
                                         {temporaryErrorText}
                                     </DisabledHint>
                                 ) : null}
@@ -295,8 +295,8 @@ export default class PostFooter extends PureComponent {
     };
 
     hideHint = (isDisabled = this.props.postDisabled) => {
-        const { showHint } = this.state;
-        if (isDisabled && showHint) {
+        const { showHint, temporaryErrorText } = this.state;
+        if (isDisabled && showHint && !temporaryErrorText) {
             this.setState({ showHint: false });
         }
     };
