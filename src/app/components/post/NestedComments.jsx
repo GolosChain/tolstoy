@@ -22,6 +22,7 @@ const Wrapper = styled.div`
 
 const Comment = styled(CommentCard)`
     margin-left: ${({ innerDeep }) => innerDeep * 20 - 1}px;
+    margin-bottom: 0;
 
     @media (max-width: 500px) {
         margin-bottom: 10px;
