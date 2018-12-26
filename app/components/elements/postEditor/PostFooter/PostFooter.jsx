@@ -119,7 +119,7 @@ const MobileError = styled.p`
     letter-spacing: normal;
     color: #333;
 
-    ${is('isError')`
+    ${is('error')`
         color: #fc5d16;
     `};
 
@@ -193,13 +193,13 @@ export default class PostFooter extends PureComponent {
                         )}
                     </Tags>
                     {temporaryErrorText && !disabledHint && (
-                        <MobileError isError>
+                        <MobileError error>
                             <ErrorIcon name="editor/info" />
                             {temporaryErrorText}
                         </MobileError>
                     )}
                     {!temporaryErrorText && disabledHint && (
-                        <MobileError isError>
+                        <MobileError error>
                             <ErrorIcon name="editor/info" />
                             {disabledHint}
                         </MobileError>

@@ -79,8 +79,10 @@ export default class PostTitle extends PureComponent {
     }
 
     componentDidMount() {
-        if (this.props.initialValue && !this.inputRef.current.innerText) {
-            this.inputRef.current.innerText = this.props.initialValue;
+        const { initialValue } = this.props;
+
+        if (initialValue && !this.inputRef.current.innerText) {
+            this.inputRef.current.innerText = initialValue;
         }
     }
 
@@ -93,14 +95,12 @@ export default class PostTitle extends PureComponent {
     };
 
     render() {
-        const { placeholder } = this.props;
+        const { placeholder, initialValue } = this.props;
         const { showDotAlert } = this.state;
         let text = '';
 
-        if (this.props.initialValue) {
-            text = this.inputRef.current
-                ? this.inputRef.current.innerText
-                : this.props.initialValue;
+        if (initialValue) {
+            text = this.inputRef.current ? this.inputRef.current.innerText : initialValue;
         }
 
         let error = this.props.validate(text);
