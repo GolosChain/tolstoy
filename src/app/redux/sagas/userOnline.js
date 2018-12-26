@@ -22,20 +22,19 @@ function* onAuthorized() {
 }
 
 function* onLogout() {
-    console.log('LOGOUT');
     clearInterval(intervalId);
     document.removeEventListener('visibilityChange', checkState);
 }
 
 function checkState() {
     if (document.hidden) {
+        clearInterval(intervalId);
+        intervalId = null;
+    } else {
         if (!intervalId) {
             markOnline();
             intervalId = setInterval(markOnline, 2 * 60 * 1000);
         }
-    } else {
-        clearInterval(intervalId);
-        intervalId = null;
     }
 }
 
