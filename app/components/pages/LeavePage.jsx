@@ -4,6 +4,7 @@ import Button from '@elements/Button';
 
 const ButtonStyled = styled(Button)`
     margin-right: 14px;
+    outline: none;
 
     &:last-child {
         margin-right: 0;
@@ -45,12 +46,14 @@ class LeavePage extends Component {
         this.props.router.goBack();
     };
 
-    leaveOut = target => () => {
-        window.location.assign(decodeURIComponent(target));
+    leaveOut = decodedUrl => () => {
+        window.location.assign(decodedUrl);
     };
 
     render() {
         const targetPage = this.props.location.search.slice(1);
+        const decodedUrl = decodeURIComponent(targetPage);
+
         return (
             <div className="leave-page" style={{ backgroundImage: 'url(images/leave-bg.svg)' }}>
                 <div className="leave-page_content row medium-7 large-7">
@@ -71,7 +74,7 @@ class LeavePage extends Component {
                         </p>
                         <p>
                             Ссылка, на которую вы кликнули, переведет вас по адресу:{' '}
-                            <strong>{decodeURIComponent(targetPage)}</strong>
+                            <strong>{decodedUrl}</strong>
                         </p>
                         <p>
                             <a href="https://golos.io/" target="_blank">
@@ -99,7 +102,7 @@ class LeavePage extends Component {
                             <ButtonStyled
                                 type="secondary"
                                 round
-                                onClick={this.leaveOut(targetPage)}
+                                onClick={this.leaveOut(decodedUrl)}
                             >
                                 Перейти по ссылке
                             </ButtonStyled>

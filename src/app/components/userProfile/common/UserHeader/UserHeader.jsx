@@ -541,25 +541,27 @@ export default class UserHeader extends Component {
         const authUser = currentUser.get('username');
 
         return (
-            <Buttons>
+            <Fragment>
                 {!isOwner && (
-                    <Fragment>
-                        {/* <Button light>
+                    <Buttons>
+                        <Fragment>
+                            {/* <Button light>
                             <Icon name="reply" height="17" width="18" />Написать
                             </Button> */}
-                        <VoteWitnessFollowButtons
-                            accountUsername={accountUsername}
-                            authUser={authUser}
-                            isWitness={isWitness}
-                            profileButtonsInfo={profileButtonsInfo}
-                            updateFollow={updateFollow}
-                            confirmUnfollowDialog={confirmUnfollowDialog}
-                            loginIfNeed={loginIfNeed}
-                            accountWitnessVote={accountWitnessVote}
-                        />
-                    </Fragment>
+                            <VoteWitnessFollowButtons
+                                accountUsername={accountUsername}
+                                authUser={authUser}
+                                isWitness={isWitness}
+                                profileButtonsInfo={profileButtonsInfo}
+                                updateFollow={updateFollow}
+                                confirmUnfollowDialog={confirmUnfollowDialog}
+                                loginIfNeed={loginIfNeed}
+                                accountWitnessVote={accountWitnessVote}
+                            />
+                        </Fragment>
+                    </Buttons>
                 )}
-            </Buttons>
+            </Fragment>
         );
     }
 
