@@ -356,7 +356,7 @@ export default class PostForm extends React.Component {
                         ) : (
                             <Fragment>
                                 <PostTitle
-                                    innerRef={this.postTitle}
+                                    ref={this.postTitle}
                                     initialValue={title}
                                     placeholder={tt('post_editor.title_placeholder')}
                                     validate={this._validateTitle}

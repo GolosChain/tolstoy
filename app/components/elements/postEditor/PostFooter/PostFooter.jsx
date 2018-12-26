@@ -11,6 +11,7 @@ import PostOptions from 'app/components/elements/postEditor/PostOptions/PostOpti
 import Button from 'app/components/elements/common/Button';
 import Hint from 'app/components/elements/common/Hint';
 import Icon from 'golos-ui/Icon';
+import InfoIcon from 'app/components/elements/Icon';
 import PreviewButton from 'app/components/elements/postEditor/PreviewButton';
 import { NSFW_TAG } from 'app/utils/tags';
 
@@ -107,6 +108,30 @@ const ClearButton = styled.button`
     cursor: pointer;
 `;
 
+const MobileError = styled.p`
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin: 0;
+    padding: 12px 16px 0;
+    font-size: 14px;
+    line-height: 1.43;
+    letter-spacing: normal;
+    color: #333;
+
+    ${is('isError')`
+        color: #fc5d16;
+    `};
+
+    @media (min-width: 861px) {
+        display: none;
+    }
+`;
+
+const ErrorIcon = styled(InfoIcon)`
+    margin-right: 18px;
+`;
+
 export default class PostFooter extends PureComponent {
     static propTypes = {
         editMode: PropTypes.bool,
@@ -167,6 +192,18 @@ export default class PostFooter extends PureComponent {
                             />
                         )}
                     </Tags>
+                    {temporaryErrorText && !disabledHint && (
+                        <MobileError isError>
+                            <ErrorIcon name="editor/info" />
+                            {temporaryErrorText}
+                        </MobileError>
+                    )}
+                    {!temporaryErrorText && disabledHint && (
+                        <MobileError isError>
+                            <ErrorIcon name="editor/info" />
+                            {disabledHint}
+                        </MobileError>
+                    )}
                     <PostOptions
                         nsfw={this.props.tags.includes(NSFW_TAG)}
                         payoutType={this.props.payoutType}

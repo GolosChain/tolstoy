@@ -267,7 +267,10 @@ export class ActivePanel extends Component {
                         data-tooltip={shareTooltip}
                         aria-label={shareTooltip}
                     >
-                        <PopoverBackgroundShade show={showSharePopover} />
+                        <PopoverBackgroundShade
+                            show={showSharePopover}
+                            onClick={this.closeSharePopover}
+                        />
                         <Icon
                             width="26"
                             height="26"
@@ -290,7 +293,10 @@ export class ActivePanel extends Component {
                     data-tooltip={dotsTooltip}
                     aria-label={dotsTooltip}
                 >
-                    <PopoverBackgroundShade show={showDotsPopover} />
+                    <PopoverBackgroundShade
+                        show={showDotsPopover}
+                        onClick={this.closeDotsPopover}
+                    />
                     <Icon
                         width="32"
                         height="32"

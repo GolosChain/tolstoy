@@ -78,13 +78,19 @@ export default class PostTitle extends PureComponent {
         }
     }
 
+    componentDidMount() {
+        if (this.props.initialValue && !this.inputRef.current.innerText) {
+            this.inputRef.current.innerText = this.props.initialValue;
+        }
+    }
+
     componentWillUnmount() {
         clearTimeout(this._dotTimeout);
     }
 
-    reset() {
+    reset = () => {
         this.inputRef.current.innerText = '';
-    }
+    };
 
     render() {
         const { placeholder } = this.props;
