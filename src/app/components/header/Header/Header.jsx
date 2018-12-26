@@ -41,7 +41,7 @@ const Fixed = styled.div`
 
     background: #fff;
     border-bottom: 1px solid #e9e9e9;
-    z-index: 10;
+    z-index: 15;
 
     ${is('mobile')`
         position: relative;
