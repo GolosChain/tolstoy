@@ -9,7 +9,9 @@ export function connect() {
 
         const socket = new Client(gateServiceUrl);
 
-        socket.on('open', () => resolve(socket));
+        socket.on('open', () => {
+            resolve(socket);
+        });
     });
 }
 
@@ -19,4 +21,10 @@ export function getGateSocket() {
     }
 
     return socketPromise;
+}
+
+export function reconnectGateSocket() {
+    socketPromise = null;
+
+    return getGateSocket();
 }

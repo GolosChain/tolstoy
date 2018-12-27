@@ -3,7 +3,7 @@ import { eventChannel, buffers } from 'redux-saga';
 import golos from 'golos-js';
 import { normalize as normalizr } from 'normalizr';
 
-import { getGateSocket } from 'src/app/helpers/gate';
+import { reconnectGateSocket } from 'src/app/helpers/gate';
 import { makeFakeAuthTransaction } from './utils';
 import { addNotificationOnline } from 'src/app/redux/actions/notificationsOnline';
 import { showNotification } from 'src/app/redux/actions/ui';
@@ -31,7 +31,7 @@ function* flow() {
 
         yield put({ type: GATE_CONNECT });
 
-        const socket = yield call(getGateSocket);
+        const socket = yield call(reconnectGateSocket);
 
         yield put({ type: GATE_CONNECT_SUCCESS });
 
