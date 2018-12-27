@@ -31,8 +31,9 @@ function checkState() {
         clearInterval(intervalId);
         intervalId = null;
     } else {
+        markOnline();
+
         if (!intervalId) {
-            markOnline();
             intervalId = setInterval(markOnline, 2 * 60 * 1000);
         }
     }
@@ -41,11 +42,12 @@ function checkState() {
 async function markOnline() {
     const now = Date.now();
 
-    if (!lastOnlineSyncTs || now - lastOnlineSyncTs < 60 * 1000) {
+    if (!lastOnlineSyncTs || now - lastOnlineSyncTs > 60 * 1000) {
         lastOnlineSyncTs = now;
 
         try {
-            await getGateSocket().call('meta.markUserOnline', {});
+            const gate = await getGateSocket();
+            await gate.call('meta.markUserOnline', {});
         } catch (err) {
             console.warn('Calling "meta.markUserOnline" failed:', err);
         }

@@ -19,16 +19,16 @@ export default connect(
 
             if (!currentRequest) {
                 currentRequest = gate.call('meta.getUserLastOnline', {
-                    username,
+                    user: username,
                 });
 
                 await currentRequest;
                 delete currentRequests[username];
             }
 
-            const { lastOnlineTs } = await currentRequest;
+            const { lastOnlineAt } = await currentRequest;
 
-            callback(lastOnlineTs);
+            callback(lastOnlineAt);
         },
     }
 )(OnlineStatus);

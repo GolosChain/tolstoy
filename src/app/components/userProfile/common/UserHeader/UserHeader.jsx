@@ -24,8 +24,7 @@ import OnlineStatus from 'src/app/components/userProfile/common/OnlineStatus';
 const Wrapper = styled.div`
     position: relative;
     display: block;
-    height: 267px;
-    height: 100%;
+    min-height: 267px;
 
     &::before {
         position: absolute;
@@ -50,6 +49,7 @@ const Wrapper = styled.div`
 
     @media (max-width: 576px) {
         height: 160px;
+        min-height: 160px;
 
         &::before {
             display: none;
