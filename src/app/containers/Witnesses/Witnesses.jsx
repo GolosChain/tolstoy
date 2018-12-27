@@ -1,21 +1,59 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import ByteBuffer from 'bytebuffer';
 import { is } from 'immutable';
 import tt from 'counterpart';
+
 import links from 'app/utils/Links';
 import Icon from 'app/components/elements/Icon';
-import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
-import transaction from 'app/redux/Transaction';
-import { formatDecimal } from 'app/utils/ParsersAndFormatters';
-import { loginIfNeed } from 'src/app/redux/actions/login';
 import './Witnesses.scss';
+
+import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
+
+import { formatDecimal } from 'app/utils/ParsersAndFormatters';
 
 const Long = ByteBuffer.Long;
 
-class Witnesses extends Component {
+const WrapperForBackground = styled.div`
+    background-color: #f9f9f9;
+
+    & button {
+        outline: none;
+    }
+`;
+
+const Wrapper = styled.div`
+    max-width: 1150px;
+    margin: 0 auto;
+`;
+
+const Header = styled.div`
+    padding-top: 30px;
+`;
+
+const HeaderTitle = styled.h2`
+    margin-bottom: 10px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 34px;
+    font-weight: bold;
+    line-height: 1.21;
+    letter-spacing: 0.4px;
+    color: #333333;
+`;
+
+const HeaderSubtitle = styled.p`
+    margin-bottom: 30px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.2px;
+    color: #393636;
+`;
+
+const VoteForWitness = styled.div``;
+
+export class Witnesses extends Component {
     static propTypes = {
         witnesses: PropTypes.object.isRequired,
         accountWitnessVote: PropTypes.func.isRequired,
@@ -41,6 +79,22 @@ class Witnesses extends Component {
             ns.proxyFailed !== this.state.proxyFailed
         );
     }
+
+    accountWitnessVote = (accountName, approve, e) => {
+        e.preventDefault();
+
+        this.setState({ customUsername: '' });
+        this.props.loginIfNeed(logged => {
+            if (logged) {
+                this.props.accountWitnessVote(this.props.username, accountName, approve);
+            }
+        });
+    };
+
+    onWitnessChange = e => {
+        const customUsername = e.target.value;
+        this.setState({ customUsername });
+    };
 
     render() {
         const { witnessVotes, currentProxy, totalVestingShares } = this.props;
@@ -127,7 +181,7 @@ class Witnesses extends Component {
                             <a
                                 href="#"
                                 className="VotingButton__link"
-                                onClick={e => this._accountWitnessVote(owner, !myVote, e)}
+                                onClick={e => this.accountWitnessVote(owner, !myVote, e)}
                                 title={tt('g.vote')}
                             >
                                 {up}
@@ -190,7 +244,7 @@ class Witnesses extends Component {
                                         <a
                                             className="VotingButton__link"
                                             href="#"
-                                            onClick={this._accountWitnessVote.bind(
+                                            onClick={this.accountWitnessVote.bind(
                                                 this,
                                                 item,
                                                 false
@@ -211,12 +265,12 @@ class Witnesses extends Component {
         }
 
         return (
-            <div>
-                <div className="row">
-                    <div className="column">
-                        <h2>{tt('witnesses_jsx.top_witnesses')}</h2>
+            <WrapperForBackground>
+                <Wrapper>
+                    <Header>
+                        <HeaderTitle>{tt('witnesses_jsx.top_witnesses')}</HeaderTitle>
                         {currentProxy && currentProxy.length ? null : (
-                            <p>
+                            <HeaderSubtitle>
                                 <strong>
                                     {tt('witnesses_jsx.you_have_votes_remaining') +
                                         tt('witnesses_jsx.you_have_votes_remaining_count', {
@@ -225,43 +279,41 @@ class Witnesses extends Component {
                                     .
                                 </strong>{' '}
                                 {tt('witnesses_jsx.you_can_vote_for_maximum_of_witnesses')}.
-                            </p>
+                            </HeaderSubtitle>
                         )}
-                    </div>
-                </div>
+                    </Header>
 
-                {currentProxy && currentProxy.length ? null : (
-                    <div className="row small-collapse">
-                        <div className="column">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th />
-                                        <th>{tt('witnesses_jsx.witness')}</th>
-                                        <th>{tt('witnesses_jsx.approval')}</th>
-                                        <th style={{ textAlign: 'center' }}>%</th>
-                                        <th>{tt('witnesses_jsx.information')}</th>
-                                        <th style={{ textAlign: 'center' }}>
-                                            <div>{tt('witnesses_jsx.missed_1')}</div>
-                                            <div>{tt('witnesses_jsx.missed_2')}</div>
-                                        </th>
-                                        <th style={{ textAlign: 'center' }}>
-                                            {tt('witnesses_jsx.last_block')}
-                                        </th>
-                                        <th>{tt('witnesses_jsx.price_feed')}</th>
-                                        <th>{tt('witnesses_jsx.props')}</th>
-                                        <th>{tt('witnesses_jsx.version')}</th>
-                                    </tr>
-                                </thead>
-                                <tbody>{witnesses.toArray()}</tbody>
-                            </table>
+                    {currentProxy && currentProxy.length ? null : (
+                        <div className="row small-collapse">
+                            <div className="column">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th />
+                                            <th>{tt('witnesses_jsx.witness')}</th>
+                                            <th>{tt('witnesses_jsx.approval')}</th>
+                                            <th style={{ textAlign: 'center' }}>%</th>
+                                            <th>{tt('witnesses_jsx.information')}</th>
+                                            <th style={{ textAlign: 'center' }}>
+                                                <div>{tt('witnesses_jsx.missed_1')}</div>
+                                                <div>{tt('witnesses_jsx.missed_2')}</div>
+                                            </th>
+                                            <th style={{ textAlign: 'center' }}>
+                                                {tt('witnesses_jsx.last_block')}
+                                            </th>
+                                            <th>{tt('witnesses_jsx.price_feed')}</th>
+                                            <th>{tt('witnesses_jsx.props')}</th>
+                                            <th>{tt('witnesses_jsx.version')}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>{witnesses.toArray()}</tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div>
-                )}
+                    )}
 
-                {currentProxy && currentProxy.length ? null : (
-                    <div className="row">
-                        <div className="column">
+                    {currentProxy && currentProxy.length ? null : (
+                        <VoteForWitness>
                             <p>
                                 {tt(
                                     'witnesses_jsx.if_you_want_to_vote_outside_of_top_enter_account_name'
@@ -279,13 +331,13 @@ class Witnesses extends Component {
                                             maxWidth: '20rem',
                                         }}
                                         value={customUsername}
-                                        onChange={this._onWitnessChange}
+                                        onChange={this.onWitnessChange}
                                     />
                                     <div className="input-group-button">
                                         <button
                                             className="button"
                                             onClick={e =>
-                                                this._accountWitnessVote(
+                                                this.accountWitnessVote(
                                                     customUsername,
                                                     witnessVotes
                                                         ? !witnessVotes.has(customUsername)
@@ -303,56 +355,10 @@ class Witnesses extends Component {
                             {addlWitnesses}
                             <br />
                             <br />
-                        </div>
-                    </div>
-                )}
-            </div>
+                        </VoteForWitness>
+                    )}
+                </Wrapper>
+            </WrapperForBackground>
         );
     }
-
-    _accountWitnessVote = (accountName, approve, e) => {
-        e.preventDefault();
-
-        this.setState({ customUsername: '' });
-        this.props.loginIfNeed(logged => {
-            if (logged) {
-                this.props.accountWitnessVote(this.props.username, accountName, approve);
-            }
-        });
-    };
-
-    _onWitnessChange = e => {
-        const customUsername = e.target.value;
-        this.setState({ customUsername });
-    };
 }
-
-export default connect(
-    state => {
-        const currentUser = state.user.get('current');
-        const username = currentUser && currentUser.get('username');
-        const currentAccount = currentUser && state.global.getIn(['accounts', username]);
-        const witnessVotes = currentAccount && currentAccount.get('witness_votes').toSet();
-        const currentProxy = currentAccount && currentAccount.get('proxy');
-
-        return {
-            witnesses: state.global.get('witnesses'),
-            username,
-            witnessVotes,
-            currentProxy,
-            totalVestingShares: state.global.getIn(['props', 'total_vesting_shares']),
-        };
-    },
-    {
-        loginIfNeed,
-        accountWitnessVote: (username, witness, approve) =>
-            transaction.actions.broadcastOperation({
-                type: 'account_witness_vote',
-                operation: {
-                    account: username,
-                    witness,
-                    approve,
-                },
-            }),
-    }
-)(Witnesses);
