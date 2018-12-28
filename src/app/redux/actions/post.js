@@ -1,6 +1,6 @@
 import { UI_ON_BACK_CLICK } from '../constants/ui';
-import { GATE_SEND_MESSAGE } from '../constants/gate';
 import { POST_NEED_VIEW_COUNT } from '../constants/post';
+import { getGateSocket } from '../../helpers/gate';
 
 export const onBackClick = backUrl => ({
     type: UI_ON_BACK_CLICK,
@@ -17,13 +17,11 @@ export const fetchViewCount = postLink => ({
     },
 });
 
-export const recordPostView = (postLink, fingerPrint) => ({
-    type: GATE_SEND_MESSAGE,
-    payload: {
-        method: 'meta.recordPostView',
-        data: {
-            postLink,
-            fingerPrint,
-        },
-    },
-});
+export const recordPostView = (postLink, fingerPrint) => async () => {
+    const gate = await getGateSocket();
+
+    await gate.call('meta.recordPostView', {
+        postLink,
+        fingerPrint,
+    });
+};
