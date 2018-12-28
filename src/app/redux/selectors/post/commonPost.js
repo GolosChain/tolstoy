@@ -137,9 +137,10 @@ const processingAuthorData = (accounts, followCount, content, authorAccountName)
     const pinnedPostsUrls = extractPinnedPosts(authorData.get('json_metadata'));
     return {
         name: jsonData.name || authorAccountName,
+        about: jsonData.about,
         account: authorAccountName,
         accountReputation: authorData.get('reputation'),
-        about: jsonData.about,
+        created: authorData.get('created'),
         followerCount:
             (followCount && followCount.getIn([authorAccountName, 'follower_count'])) || 0,
         pinnedPostsUrls,
