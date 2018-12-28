@@ -23,7 +23,8 @@ import OnlineStatus from 'src/app/components/userProfile/common/OnlineStatus';
 
 const Wrapper = styled.div`
     position: relative;
-    display: block;
+    display: flex;
+    align-items: center;
     min-height: 267px;
 
     &::before {
