@@ -2,35 +2,24 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import styledIs from 'styled-is';
 import ByteBuffer from 'bytebuffer';
 import { is } from 'immutable';
 import tt from 'counterpart';
 
-import links from 'app/utils/Links';
 import './Witnesses.scss';
 
-import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
-import Icon from 'golos-ui/Icon';
-
-import { formatDecimal } from 'app/utils/ParsersAndFormatters';
-import CloseOpenButton from 'src/app/components/cards/CloseOpenButton';
+import {
+    firstBreakPoint,
+    firstBreakPointStrTemplate,
+    secondBreakPoint,
+    secondBreakPointStrTemplate,
+    stringTemplate,
+    thirdBreakPoint,
+    thirdBreakPointStrTemplate,
+} from 'src/app/containers/Witnesses/WitnessesStrings/WitnessesString';
+import WitnessesStrings from 'src/app/containers/Witnesses/WitnessesStrings/WitnessesStrings';
 
 const Long = ByteBuffer.Long;
-
-const stringTemplate = '170px 70px 90px 115px 160px 120px 140px 225px 60px';
-const firstBreakPoint = 1180;
-const firstBreakPointStrTemplate = '165px 70px 90px 115px 120px 130px 60px';
-const secondBreakPoint = 767;
-const secondBreakPointStrTemplate = '165px 70px 90px 115px 60px';
-const thirdBreakPoint = 530;
-const thirdBreakPointStrTemplate = '140px 50px 80px 50px';
-
-const ellipsisStyles = `
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-`;
 
 const WrapperForBackground = styled.div`
     background-color: #f9f9f9;
@@ -150,170 +139,6 @@ const TableHead = styled.div`
     }
 `;
 
-const WitnessInfoCeil = styled.div`
-    align-self: center;
-    padding-left: 16px;
-`;
-
-const WitnessNumberAndName = styled(WitnessInfoCeil)`
-    display: flex;
-
-    & > * {
-        font-weight: bold;
-        color: #393636;
-    }
-
-    & > a {
-        margin-left: 12px;
-        ${ellipsisStyles};
-    }
-
-    & > a:hover {
-        color: #2879ff;
-    }
-`;
-
-const VoteButtonCeil = styled(WitnessInfoCeil)`
-    justify-self: center;
-    padding-left: 0;
-`;
-
-const PercentsCeil = styled(WitnessInfoCeil)`
-    line-height: 1.29;
-    letter-spacing: 0.4px;
-`;
-
-const AllVotesCeil = styled(WitnessInfoCeil)`
-    line-height: 1.29;
-    letter-spacing: 0.4px;
-
-    & > span {
-        font-size: 10px;
-        color: #959595;
-    }
-
-    @media (max-width: ${thirdBreakPoint}px) {
-        display: none;
-    }
-`;
-
-const FeedCeil = styled(WitnessInfoCeil)`
-    font-family: 'Open Sans', sans-serif;
-    line-height: 1.4;
-
-    @media (max-width: ${firstBreakPoint}px) {
-        display: none;
-    }
-`;
-
-const PostLinkCeil = styled(WitnessInfoCeil)`
-    position: relative;
-    text-transform: capitalize;
-
-    & > a {
-        color: #2879ff;
-    }
-
-    & > a:hover {
-        text-decoration: underline;
-    }
-
-    & ${Icon} {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        margin-left: 8px;
-        color: #2879ff;
-    }
-
-    @media (max-width: ${firstBreakPoint}px) {
-        display: none;
-    }
-`;
-
-const MissedCeil = styled(WitnessInfoCeil)`
-    ${ellipsisStyles};
-
-    @media (max-width: ${secondBreakPoint}px) {
-        display: none;
-    }
-`;
-
-const LastBlockCeil = styled(WitnessInfoCeil)`
-    ${ellipsisStyles};
-
-    @media (max-width: ${secondBreakPoint}px) {
-        display: none;
-    }
-`;
-
-const ToggleStringCeil = styled(WitnessInfoCeil)`
-    justify-self: center;
-    padding-left: 0;
-`;
-
-const WitnessString = styled.div`
-    display: grid;
-    grid-template-columns: ${stringTemplate};
-    grid-template-rows: 55px;
-    background-color: #ffffff;
-    border-bottom: 1px solid #e1e1e1;
-
-    & ${WitnessInfoCeil}:last-child {
-        justify-self: end;
-        padding-right: 16px;
-    }
-
-    @media (max-width: ${firstBreakPoint}px) {
-        grid-template-columns: ${firstBreakPointStrTemplate};
-    }
-    @media (max-width: ${secondBreakPoint}px) {
-        grid-template-columns: ${secondBreakPointStrTemplate};
-    }
-    @media (max-width: ${thirdBreakPoint}px) {
-        grid-template-columns: ${thirdBreakPointStrTemplate};
-    }
-`;
-
-const VoteButton = styled.button`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 30px;
-    height: 30px;
-    background-color: #2879ff;
-    border-radius: 50%;
-    cursor: pointer;
-
-    &:hover {
-        ${({ upvoted }) =>
-            upvoted ? 'border: 1px solid rgba(57, 54, 54, 0.6);' : 'background-color: #0e69ff'};
-    }
-
-    ${styledIs('upvoted')`
-        border: 1px solid rgba(57, 54, 54, 0.3);
-        background-color: #ffffff;
-    `};
-
-    & svg {
-        color: #${({ upvoted }) => (upvoted ? '393636' : 'ffffff')};
-        flex-shrink: 0;
-    }
-`;
-
-const PriceFeedQuote = styled.span`
-    font-weight: bold;
-`;
-
-const PriceFeedTokens = styled.div`
-    white-space: nowrap;
-`;
-
-const LastFeedTime = styled.div`
-    font-size: 12px;
-    color: #959595;
-`;
-
 const VoteForWitness = styled.div`
     margin-top: 30px;
 `;
@@ -370,108 +195,6 @@ export class Witnesses extends Component {
         );
 
         let witness_vote_count = 30;
-        let rank = 1;
-        const witnesses = sorted_witnesses.map(item => {
-            const owner = item.get('owner');
-            const thread = item.get('url');
-            const votes = item.get('votes');
-            const missed = item.get('total_missed');
-            const lastBlock = item.get('last_confirmed_block_num');
-            const lastUpdateFeed = item.get('last_sbd_exchange_update');
-            const priceFeed = item.get('sbd_exchange_rate');
-            const version = item.get('running_version');
-            const signingKey = item.get('signing_key');
-            const props = item.get('props').toJS();
-
-            //https://github.com/roadscape/db.steemd.com/blob/acabdcb7c7a9c9c4260a464ca86ae4da347bbd7a/app/views/witnesses/index.html.erb#L116
-            const oneM = Math.pow(10, 6);
-            const approval = votes / oneM / oneM;
-            const percentage = 100 * (votes / oneM / totalVestingShares.split(' ')[0]);
-
-            const lastFeedDate = new Date(lastUpdateFeed).getTime();
-            const isOneDayAgo = lastFeedDate < new Date().setDate(new Date().getDate() - 1);
-            const isOneWeekAgo = lastFeedDate < new Date().setDate(new Date().getDate() - 7);
-
-            const isWitnessesDeactive = /GLS1111111111111111111111111111111114T1Anm/.test(
-                signingKey
-            );
-            const noPriceFeed = /0.000 GOLOS/.test(priceFeed.get('base'));
-
-            let lastUpdateFeedClassName;
-            if (isOneDayAgo) {
-                lastUpdateFeedClassName = 'warning';
-            }
-
-            if (isOneWeekAgo) {
-                lastUpdateFeedClassName = 'error';
-            }
-
-            const myVote = witnessVotes ? witnessVotes.has(owner) : null;
-            let witness_thread = '';
-            if (thread) {
-                if (links.local.test(thread)) {
-                    witness_thread = <Link to={thread}>{tt('witnesses_jsx.witness_thread')}</Link>;
-                } else {
-                    witness_thread = (
-                        <a href={thread}>
-                            {tt('witnesses_jsx.witness_thread')}
-                            <Icon name="external-link" size="13" />
-                        </a>
-                    );
-                }
-            }
-            return (
-                <WitnessString
-                    key={owner}
-                    style={isWitnessesDeactive || noPriceFeed ? { opacity: '0.4' } : null}
-                    title={
-                        isWitnessesDeactive
-                            ? tt('witnesses_jsx.witness_deactive')
-                            : noPriceFeed
-                            ? tt('witnesses_jsx.no_price_feed')
-                            : null
-                    }
-                >
-                    <WitnessNumberAndName>
-                        <div>{rank++}</div>
-                        <Link to={'/@' + owner}>{owner}</Link>
-                    </WitnessNumberAndName>
-                    <VoteButtonCeil>
-                        <VoteButton
-                            onClick={() => this.accountWitnessVote(owner, !myVote)}
-                            title={tt('g.vote')}
-                            upvoted={myVote ? 1 : 0}
-                        >
-                            <Icon name={myVote ? 'opposite-witness' : 'witness-logo'} size="16" />
-                        </VoteButton>
-                    </VoteButtonCeil>
-                    <PercentsCeil>{percentage.toFixed(2)}%</PercentsCeil>
-                    <AllVotesCeil>
-                        {formatDecimal(approval.toFixed(), 0)}
-                        <span>M</span>
-                    </AllVotesCeil>
-                    <PostLinkCeil>{witness_thread}</PostLinkCeil>
-                    <MissedCeil>{missed}</MissedCeil>
-                    <LastBlockCeil>{lastBlock}</LastBlockCeil>
-                    <FeedCeil>
-                        <PriceFeedTokens>
-                            <PriceFeedQuote>{priceFeed.get('quote')} / </PriceFeedQuote>
-                            {priceFeed.get('base')}
-                        </PriceFeedTokens>
-                        <LastFeedTime>
-                            <TimeAgoWrapper
-                                date={lastUpdateFeed}
-                                className={lastUpdateFeedClassName}
-                            />
-                        </LastFeedTime>
-                    </FeedCeil>
-                    <ToggleStringCeil>
-                        <CloseOpenButton collapsed toggle={() => {}} />
-                    </ToggleStringCeil>
-                </WitnessString>
-            );
-        });
-
         let addlWitnesses = false;
 
         if (witnessVotes) {
@@ -547,7 +270,11 @@ export class Witnesses extends Component {
                                 </PriceFeedHeadItem>
                                 <TableHeadItem />
                             </TableHead>
-                            {witnesses.toArray()}
+                            <WitnessesStrings
+                                sortedWitnesses={sorted_witnesses}
+                                witnessVotes={witnessVotes}
+                                totalVestingShares={totalVestingShares}
+                            />
                         </TableWrapper>
                     )}
 
