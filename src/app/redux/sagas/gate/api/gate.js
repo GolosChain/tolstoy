@@ -3,7 +3,7 @@ import { eventChannel, buffers } from 'redux-saga';
 import golos from 'golos-js';
 import { normalize as normalizr } from 'normalizr';
 
-import { connect } from 'src/app/helpers/gate';
+import { reconnectGateSocket } from 'src/app/helpers/gate';
 import { makeFakeAuthTransaction } from './utils';
 import { addNotificationOnline } from 'src/app/redux/actions/notificationsOnline';
 import { showNotification } from 'src/app/redux/actions/ui';
@@ -22,10 +22,6 @@ export default function* rootSaga() {
 }
 
 function* flow() {
-    const gateServiceUrl = yield select(state =>
-        state.offchain.getIn(['config', 'gate_service_url'])
-    );
-
     // Channel listen messages for writing
     const writeChannel = yield actionChannel(GATE_SEND_MESSAGE, buffers.expanding(10));
 
@@ -35,7 +31,8 @@ function* flow() {
 
         yield put({ type: GATE_CONNECT });
 
-        const socket = yield call(connect, gateServiceUrl);
+        const socket = yield call(reconnectGateSocket);
+
         yield put({ type: GATE_CONNECT_SUCCESS });
 
         const task = yield fork(handleIO, socket, writeChannel);

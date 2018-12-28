@@ -1,14 +1,30 @@
 import { Client } from 'rpc-websockets';
+import { getStoreState } from 'app/clientRender';
 
-let socket = null;
+let socketPromise = null;
 
-export function connect(connectionString) {
+export function connect() {
     return new Promise(resolve => {
-        socket = new Client(connectionString);
-        socket.on('open', () => resolve(socket));
+        const gateServiceUrl = getStoreState().offchain.getIn(['config', 'gate_service_url']);
+
+        const socket = new Client(gateServiceUrl);
+
+        socket.on('open', () => {
+            resolve(socket);
+        });
     });
 }
 
 export function getGateSocket() {
-    return socket;
+    if (!socketPromise) {
+        socketPromise = connect();
+    }
+
+    return socketPromise;
+}
+
+export function reconnectGateSocket() {
+    socketPromise = null;
+
+    return getGateSocket();
 }

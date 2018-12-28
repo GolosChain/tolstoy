@@ -64,16 +64,14 @@ export class App extends Component {
 
         window.addEventListener('storage', this.checkLogin);
 
-        if (process.env.BROWSER) {
-            initAnchorHelper();
+        initAnchorHelper();
 
-            const locale = validateLocaleQuery(this.props.location);
-            if (locale) {
-                this.onChangeLocale(locale);
+        const locale = validateLocaleQuery(this.props.location);
+        if (locale) {
+            this.onChangeLocale(locale);
 
-                const uri = window.location.toString();
-                window.history.replaceState({}, document.title, uri.substring(0, uri.indexOf('?')));
-            }
+            const uri = window.location.toString();
+            window.history.replaceState({}, document.title, uri.substring(0, uri.indexOf('?')));
         }
     }
 

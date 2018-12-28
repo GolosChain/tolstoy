@@ -1,7 +1,7 @@
 import { takeEvery, throttle } from 'redux-saga/effects';
 
-import { GATE_SEND_MESSAGE } from '../constants/gate';
 import { POST_NEED_VIEW_COUNT, POST_FETCH_VIEW_COUNT_SUCCESS } from '../constants/post';
+import { getGateSocket } from '../../helpers/gate';
 
 const queue = new Set();
 const loading = new Set();
@@ -32,20 +32,22 @@ function* fetchViewCounts() {
 
     queue.clear();
 
-    yield put({
-        type: GATE_SEND_MESSAGE,
-        payload: {
-            method: 'meta.getPostsViewCount',
-            types: [null, POST_FETCH_VIEW_COUNT_SUCCESS],
-            data: { postLinks: load },
-            successCallback: onDone,
-            errorCallback: onDone,
-        },
-    });
+    const gate = yield call(getGateSocket);
 
-    function onDone() {
-        for (const link of load) {
-            loading.delete(link);
-        }
+    try {
+        const result = yield call([gate, gate.call], 'meta.getPostsViewCount', {
+            postLinks: load,
+        });
+
+        yield put({
+            type: POST_FETCH_VIEW_COUNT_SUCCESS,
+            payload: result,
+        });
+    } catch (err) {
+        console.warn(err);
+    }
+
+    for (const link of load) {
+        loading.delete(link);
     }
 }

@@ -13,19 +13,20 @@ import { getUserStatus } from 'src/app/helpers/users';
 import Icon from 'golos-ui/Icon';
 import Flex from 'golos-ui/Flex';
 
+import { CONTAINER_MAX_WIDTH } from 'src/app/constants/container';
 import VoteWitnessFollow from 'src/app/components/common/VoteWitnessFollow';
 import Container from 'src/app/components/common/Container';
 import UserProfileAvatar from './../UserProfileAvatar';
 import Dropdown from 'src/app/components/common/Dropdown';
 import DotsButton from 'src/app/components/userProfile/common/UserHeader/DotsMenu/DotsButton';
+import OnlineStatus from 'src/app/components/userProfile/common/OnlineStatus';
 
 const Wrapper = styled.div`
     position: relative;
-    display: flex;
-    align-items: center;
+    display: block;
     min-height: 267px;
 
-    &:before {
+    &::before {
         position: absolute;
         content: '';
         height: 164px;
@@ -41,15 +42,16 @@ const Wrapper = styled.div`
     }
 
     @media (max-width: 768px) {
-        &:before {
+        &::before {
             height: 50%;
         }
     }
 
     @media (max-width: 576px) {
+        height: 160px;
         min-height: 160px;
 
-        &:before {
+        &::before {
             display: none;
         }
     }
@@ -71,16 +73,21 @@ const Wrapper = styled.div`
         @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
             background-image: url('/images/profile/pattern@2x.png');
         }
-        `};
+    `};
 `;
 
 const ContainerWrapper = styled(Container)`
     position: relative;
+    display: block;
+    height: 100%;
+    margin: 0 auto;
+`;
+
+const ContainerWrapperInner = styled.div`
+    display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100%;
     padding: 20px 10px;
-    margin: 0 auto;
 
     @media (max-width: 768px) {
         padding: 90px 0 20px 0;
@@ -108,7 +115,7 @@ const Name = styled.div`
     font-size: 22px;
     font-weight: bold;
     line-height: 1;
-    letter-spacing: 0.2;
+    letter-spacing: 0.2px;
     color: #ffffff;
 
     @media (max-width: 576px) {
@@ -293,7 +300,7 @@ const MobileUserHeader = styled.div`
     display: none;
     flex-direction: column;
     padding: 16px;
-    background-color: f9f9f9;
+    background-color: #f9f9f9;
 
     @media (max-width: 576px) {
         display: flex;
@@ -326,6 +333,17 @@ const MobileNameStatusWrapper = styled.div`
     @media (max-width: 410px) {
         align-items: center;
         margin: 10px 0 0 0;
+    }
+`;
+
+const OnlineStatusStyled = styled(OnlineStatus)`
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    margin-bottom: 16px;
+
+    @media (max-width: ${CONTAINER_MAX_WIDTH}px) {
+        margin-right: 16px;
     }
 `;
 
@@ -595,13 +613,16 @@ export default class UserHeader extends Component {
             <Fragment>
                 <Wrapper backgroundUrl={backgroundUrl}>
                     <ContainerWrapper>
-                        {this.renderAvatar()}
-                        <Details>
-                            {this.renderName()}
-                            {this.renderButtons()}
-                            {this.renderLoginContainer()}
-                        </Details>
-                        {isOwner && isSettingsPage && this.renderCoverDropDown()}
+                        <ContainerWrapperInner>
+                            {this.renderAvatar()}
+                            <Details>
+                                {this.renderName()}
+                                {this.renderButtons()}
+                                {this.renderLoginContainer()}
+                            </Details>
+                            {isOwner && isSettingsPage && this.renderCoverDropDown()}
+                        </ContainerWrapperInner>
+                        <OnlineStatusStyled username={currentAccount.get('name')} />
                     </ContainerWrapper>
                 </Wrapper>
                 <MobileUserHeader>
