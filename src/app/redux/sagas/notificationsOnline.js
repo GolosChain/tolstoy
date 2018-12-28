@@ -72,15 +72,14 @@ function* markReadLazy({ payload }) {
     }
     try {
         const socket = yield getGateSocket();
-        yield socket.call('notify.markAsViewed', { ids: currentQuery }).then(onDone, onDone);
-        yield put(getNotificationsOnlineHistoryFreshCount());
-
-        function onDone() {
-            for (let id of currentQuery) {
-                currentExecuting.delete(id);
-            }
-        }
+        yield socket.call('notify.markAsViewed', { ids: currentQuery });
     } catch (err) {
         console.warn(err);
     }
+
+    for (const id of currentQuery) {
+        currentExecuting.delete(id);
+    }
+
+    yield put(getNotificationsOnlineHistoryFreshCount());
 }
