@@ -1,12 +1,9 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import styled from 'styled-components';
-
 import { Form, Field } from 'react-final-form';
 import tt from 'counterpart';
 
 import { USER_GENDER } from 'app/client_config';
-
 import SplashLoader from 'golos-ui/SplashLoader';
 import { CardContent } from 'golos-ui/Card';
 import {
@@ -36,13 +33,17 @@ const composeValidators = (...validators) => value =>
     validators.reduce((error, validator) => error || (value && validator(value)), undefined);
 
 const isLengthGreaterThan = (min, err) => value => (value && value.length > min ? err : undefined);
+
 const isStartWithAt = err => value => (/^\s*@/.test(value) ? err : undefined);
+
 const isNotUrl = err => value => (!/^https?:\/\//.test(value) ? err : undefined);
+
 const composedUrlValidator = value =>
     composeValidators(
         isLengthGreaterThan(100, tt('settings_jsx.website_url_is_too_long')),
         isNotUrl(tt('settings_jsx.invalid_url'))
     )(value);
+
 const usernameValidation = (username, err) =>
     username && /^[a-zA-Z0-9\-\.]+$/.test(username) ? err : undefined;
 
@@ -264,6 +265,7 @@ function renderSocialField(placeholder, input, meta, icon) {
                 {...input}
                 type="text"
                 placeholder={placeholder}
+                value={input.value.replace(' ', '').trim()}
             />
             <FormError meta={meta} />
         </FormGroupRow>
