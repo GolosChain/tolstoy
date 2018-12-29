@@ -15,7 +15,7 @@ export default connect(
         clearError: () => user.actions.loginError({ error: null }),
         dispatchLogin: user.actions.usernamePasswordLogin,
         loginCanceled,
-        openResetKeysDialog,
+        openResetKeysDialog: (...args) => openResetKeysDialog(...args),
     },
     null,
     { withRef: true }
