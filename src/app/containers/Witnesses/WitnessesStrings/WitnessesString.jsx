@@ -299,7 +299,7 @@ export default class WitnessesString extends Component {
     };
 
     render() {
-        const { rank, item, witnessVotes, totalVestingShares } = this.props;
+        const { rank, item, witnessVotes, totalVestingShares, accountWitnessVote } = this.props;
         const { stringCollapsed } = this.state;
 
         const owner = item.get('owner');
@@ -374,7 +374,7 @@ export default class WitnessesString extends Component {
                     </WitnessNumberAndName>
                     <VoteButtonCeil>
                         <VoteButton
-                            onClick={() => this.accountWitnessVote(owner, !myVote)}
+                            onClick={() => accountWitnessVote(owner, !myVote)}
                             title={tt('g.vote')}
                             upvoted={myVote ? 1 : 0}
                         >

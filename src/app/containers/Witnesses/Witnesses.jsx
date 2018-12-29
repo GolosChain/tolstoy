@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import ByteBuffer from 'bytebuffer';
 import { is } from 'immutable';
 import tt from 'counterpart';
-
-import './Witnesses.scss';
 
 import {
     firstBreakPoint,
@@ -18,6 +15,7 @@ import {
     thirdBreakPointStrTemplate,
 } from 'src/app/containers/Witnesses/WitnessesStrings/WitnessesString';
 import WitnessesStrings from 'src/app/containers/Witnesses/WitnessesStrings/WitnessesStrings';
+import VoteForAnyWitness from 'src/app/containers/Witnesses/VoteForAnyWitness';
 
 const Long = ByteBuffer.Long;
 
@@ -139,10 +137,6 @@ const TableHead = styled.div`
     }
 `;
 
-const VoteForWitness = styled.div`
-    margin-top: 30px;
-`;
-
 export class Witnesses extends Component {
     static propTypes = {
         witnesses: PropTypes.object.isRequired,
@@ -153,81 +147,46 @@ export class Witnesses extends Component {
     };
 
     state = {
-        customUsername: '',
         proxy: '',
         proxyFailed: false,
     };
 
     shouldComponentUpdate(np, ns) {
+        const { witnessVotes, witnesses, currentProxy, username } = this.props;
+        const { proxy, proxyFailed } = this.state;
+
         return (
-            !is(np.witnessVotes, this.props.witnessVotes) ||
-            np.witnesses !== this.props.witnesses ||
-            np.currentProxy !== this.props.currentProxy ||
-            np.username !== this.props.username ||
-            ns.customUsername !== this.state.customUsername ||
-            ns.proxy !== this.state.proxy ||
-            ns.proxyFailed !== this.state.proxyFailed
+            !is(np.witnessVotes, witnessVotes) ||
+            np.witnesses !== witnesses ||
+            np.currentProxy !== currentProxy ||
+            np.username !== username ||
+            ns.proxy !== proxy ||
+            ns.proxyFailed !== proxyFailed
         );
     }
 
     accountWitnessVote = (accountName, approve) => {
-        this.setState({ customUsername: '' });
-        this.props.loginIfNeed(logged => {
+        const { loginIfNeed, username, accountWitnessVote } = this.props;
+
+        loginIfNeed(logged => {
             if (logged) {
-                this.props.accountWitnessVote(this.props.username, accountName, approve);
+                accountWitnessVote(username, accountName, approve);
             }
         });
     };
 
-    onWitnessChange = e => {
-        const customUsername = e.target.value;
-        this.setState({ customUsername });
-    };
-
     render() {
         const { witnessVotes, currentProxy, totalVestingShares, witnesses } = this.props;
-        const { customUsername } = this.state;
 
         const sorted_witnesses = witnesses.sort((a, b) =>
             Long.fromString(String(b.get('votes'))).subtract(
                 Long.fromString(String(a.get('votes'))).toString()
             )
         );
-
         let witness_vote_count = 30;
-        let addlWitnesses = false;
 
         if (witnessVotes) {
             witness_vote_count -= witnessVotes.size;
-            addlWitnesses = witnessVotes
-                .filter(item => {
-                    return !sorted_witnesses.has(item);
-                })
-                .map(item => {
-                    return (
-                        <div className="row" key={item}>
-                            <div className="column small-12">
-                                <span>
-                                    <span className="VotingButton VotingButton_upvoted space-right">
-                                        <a
-                                            className="VotingButton__link"
-                                            href="#"
-                                            onClick={this.accountWitnessVote.bind(
-                                                this,
-                                                item,
-                                                false
-                                            )}
-                                            title={tt('g.vote')}
-                                        />
-                                        &nbsp;
-                                    </span>
-                                </span>
-                                <Link to={'/@' + item}>{item}</Link>
-                            </div>
-                        </div>
-                    );
-                })
-                .toArray();
         }
 
         return (
@@ -248,7 +207,6 @@ export class Witnesses extends Component {
                             </HeaderSubtitle>
                         )}
                     </Header>
-
                     {currentProxy && currentProxy.length ? null : (
                         <TableWrapper>
                             <TableHead>
@@ -274,54 +232,15 @@ export class Witnesses extends Component {
                                 sortedWitnesses={sorted_witnesses}
                                 witnessVotes={witnessVotes}
                                 totalVestingShares={totalVestingShares}
+                                accountWitnessVote={this.accountWitnessVote}
                             />
                         </TableWrapper>
                     )}
-
                     {currentProxy && currentProxy.length ? null : (
-                        <VoteForWitness>
-                            <p>
-                                {tt(
-                                    'witnesses_jsx.if_you_want_to_vote_outside_of_top_enter_account_name'
-                                )}
-                                .
-                            </p>
-                            <form>
-                                <div className="input-group">
-                                    <input
-                                        className="input-group-field"
-                                        type="text"
-                                        style={{
-                                            float: 'left',
-                                            width: '75%',
-                                            maxWidth: '20rem',
-                                        }}
-                                        value={customUsername}
-                                        onChange={this.onWitnessChange}
-                                    />
-                                    <div className="input-group-button">
-                                        <button
-                                            className="button"
-                                            onClick={e =>
-                                                this.accountWitnessVote(
-                                                    customUsername,
-                                                    witnessVotes
-                                                        ? !witnessVotes.has(customUsername)
-                                                        : true,
-                                                    e
-                                                )
-                                            }
-                                        >
-                                            {tt('g.vote')}
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                            <br />
-                            {addlWitnesses}
-                            <br />
-                            <br />
-                        </VoteForWitness>
+                        <VoteForAnyWitness
+                            witnessVotes={witnessVotes}
+                            accountWitnessVote={this.accountWitnessVote}
+                        />
                     )}
                 </Wrapper>
             </WrapperForBackground>
