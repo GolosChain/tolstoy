@@ -185,10 +185,10 @@ export class Witnesses extends Component {
     };
 
     render() {
-        const { witnessVotes, currentProxy, totalVestingShares } = this.props;
-
+        const { witnessVotes, currentProxy, totalVestingShares, witnesses } = this.props;
         const { customUsername } = this.state;
-        const sorted_witnesses = this.props.witnesses.sort((a, b) =>
+
+        const sorted_witnesses = witnesses.sort((a, b) =>
             Long.fromString(String(b.get('votes'))).subtract(
                 Long.fromString(String(a.get('votes'))).toString()
             )

@@ -201,22 +201,25 @@ const FullInfo = styled.div`
     display: flex;
     align-items: center;
     height: 370px;
-    padding: 0 16px;
-    background-color: #f6f6f6;
     border-bottom: 1px solid #e1e1e1;
+    background-color: #f6f6f6;
     overflow: hidden;
     transition: 0.25s height ease, 0.25s background-color ease;
 
     ${is('collapsed')`
         height: 0;
+        border-bottom: 0;
         background-color: #ffffff;
     `};
 `;
 
 const InfoBlock = styled.div`
     display: flex;
+    justify-content: space-around;
     flex-direction: column;
-    flex-grow: 1;
+    width: 383px;
+    height: 100%;
+    padding: 0 16px;
 `;
 
 const InfoBlocksDivider = styled.div`
@@ -225,7 +228,14 @@ const InfoBlocksDivider = styled.div`
     background-color: #e6e6e6;
 `;
 
-const InfoString = styled.div``;
+const InfoString = styled.div`
+    font-size: 14px;
+    color: #393636;
+`;
+
+const InfoStringSpan = styled.span`
+    font-weight: bold;
+`;
 
 export default class WitnessesString extends Component {
     state = {
@@ -247,10 +257,9 @@ export default class WitnessesString extends Component {
         const lastBlock = item.get('last_confirmed_block_num');
         const lastUpdateFeed = item.get('last_sbd_exchange_update');
         const priceFeed = item.get('sbd_exchange_rate');
-        const version = item.get('running_version');
         const signingKey = item.get('signing_key');
-        const props = item.get('props').toJS();
-
+        const props = item.get('props');
+        console.log(props);
         const oneM = Math.pow(10, 6);
         const approval = votes / oneM / oneM;
         const percentage = 100 * (votes / oneM / totalVestingShares.split(' ')[0]);
@@ -286,6 +295,13 @@ export default class WitnessesString extends Component {
             }
         }
 
+        const votesBlock = (
+            <Fragment>
+                {formatDecimal(approval.toFixed(), 0)}
+                <span>M</span>
+            </Fragment>
+        );
+
         return (
             <Fragment>
                 <WitnessString
@@ -314,10 +330,7 @@ export default class WitnessesString extends Component {
                         </VoteButton>
                     </VoteButtonCeil>
                     <PercentsCeil>{percentage.toFixed(2)}%</PercentsCeil>
-                    <AllVotesCeil>
-                        {formatDecimal(approval.toFixed(), 0)}
-                        <span>M</span>
-                    </AllVotesCeil>
+                    <AllVotesCeil>{votesBlock}</AllVotesCeil>
                     <PostLinkCeil>{witness_thread}</PostLinkCeil>
                     <MissedCeil>{missed}</MissedCeil>
                     <LastBlockCeil>{lastBlock}</LastBlockCeil>
@@ -339,20 +352,110 @@ export default class WitnessesString extends Component {
                 </WitnessString>
                 <FullInfo collapsed={stringCollapsed}>
                     <InfoBlock>
-                        <InfoString>{tt('witnesses_jsx.approval')}:</InfoString>
-                        <InfoBlock>{tt('witnesses_jsx.information')}:</InfoBlock>
-                        <InfoBlock>{`${tt('witnesses_jsx.missed_1')} ${tt(
-                            'witnesses_jsx.missed_2'
-                        )}:`}</InfoBlock>
-                        <InfoBlock>{`${tt('witnesses_jsx.last_block1')} ${tt(
-                            'witnesses_jsx.last_block2'
-                        )}:`}</InfoBlock>
-                        <InfoBlock>{tt('witnesses_jsx.price_feed')}:</InfoBlock>
+                        <InfoString>
+                            <InfoStringSpan>{tt('witnesses_jsx.approval')}:</InfoStringSpan>
+                            {votesBlock}
+                        </InfoString>
+                        <InfoString>
+                            <InfoStringSpan>{tt('witnesses_jsx.information')}:</InfoStringSpan>
+                            {witness_thread}
+                        </InfoString>
+                        <InfoString>
+                            <InfoStringSpan>
+                                {`${tt('witnesses_jsx.missed_1')} ${tt(
+                                    'witnesses_jsx.missed_2'
+                                )}: `}
+                            </InfoStringSpan>
+                            {missed}
+                        </InfoString>
+                        <InfoString>
+                            <InfoStringSpan>
+                                {`${tt('witnesses_jsx.last_block1')} ${tt(
+                                    'witnesses_jsx.last_block2'
+                                )}: `}
+                            </InfoStringSpan>
+                            {lastBlock}
+                        </InfoString>
+                        <InfoString>
+                            <InfoStringSpan>{tt('witnesses_jsx.price_feed')}:</InfoStringSpan>
+                            {priceFeed.get('quote')} {priceFeed.get('base')}
+                        </InfoString>
+                        <InfoString>
+                            <InfoStringSpan>{tt('witnesses_jsx.props')}:</InfoStringSpan>
+                        </InfoString>
+                        <InfoString>
+                            <InfoStringSpan>{tt('witnesses_jsx.version')}:</InfoStringSpan>
+                            {item.get('running_version')}
+                        </InfoString>
+                        <InfoString>
+                            <InfoStringSpan>Account creation fee:</InfoStringSpan>
+                            {props.get('account_creation_fee')}
+                        </InfoString>
+                        <InfoString>
+                            <InfoStringSpan>Maximum Block Size:</InfoStringSpan>
+                            {props.get('maximum_block_size')}
+                        </InfoString>
                     </InfoBlock>
                     <InfoBlocksDivider />
-                    <InfoBlock>test</InfoBlock>
+                    <InfoBlock>
+                        <InfoString>
+                            <InfoStringSpan>SBD interest rate::</InfoStringSpan>
+                        </InfoString>
+                        <InfoString>
+                            <InfoStringSpan>Create account min golos fee:</InfoStringSpan>
+                        </InfoString>
+                        <InfoString>
+                            <InfoStringSpan>Create account min delegation:</InfoStringSpan>
+                        </InfoString>
+                        <InfoString>
+                            <InfoStringSpan>Create account delegation time:</InfoStringSpan>
+                        </InfoString>
+                        <InfoString>
+                            <InfoStringSpan>Min delegation:</InfoStringSpan>
+                        </InfoString>
+                        <InfoString>
+                            <InfoStringSpan>Max referral interest rate:</InfoStringSpan>
+                        </InfoString>
+                        <InfoString>
+                            <InfoStringSpan>Max referral term sec:</InfoStringSpan>
+                        </InfoString>
+                        <InfoString>
+                            <InfoStringSpan>Min referral break fee:</InfoStringSpan>
+                        </InfoString>
+                        <InfoString>
+                            <InfoStringSpan>Posts window:</InfoStringSpan>
+                        </InfoString>
+                    </InfoBlock>
                     <InfoBlocksDivider />
-                    <InfoBlock>test</InfoBlock>
+                    <InfoBlock>
+                        <InfoString>
+                            <InfoStringSpan>Comments window:</InfoStringSpan>
+                        </InfoString>
+                        <InfoString>
+                            <InfoStringSpan>Votes window:</InfoStringSpan>
+                        </InfoString>
+                        <InfoString>
+                            <InfoStringSpan>Max delegated vesting interest rate:</InfoStringSpan>
+                        </InfoString>
+                        <InfoString>
+                            <InfoStringSpan>Custom ops bandwidth multiplier:</InfoStringSpan>
+                        </InfoString>
+                        <InfoString>
+                            <InfoStringSpan>Min curation percent:</InfoStringSpan>
+                        </InfoString>
+                        <InfoString>
+                            <InfoStringSpan>Max curation percent:</InfoStringSpan>
+                        </InfoString>
+                        <InfoString>
+                            <InfoStringSpan>Curation reward curve:</InfoStringSpan>
+                        </InfoString>
+                        <InfoString>
+                            <InfoStringSpan>Allow distribute auction reward:</InfoStringSpan>
+                        </InfoString>
+                        <InfoString>
+                            <InfoStringSpan>Allow return auction reward to fund:</InfoStringSpan>
+                        </InfoString>
+                    </InfoBlock>
                 </FullInfo>
             </Fragment>
         );

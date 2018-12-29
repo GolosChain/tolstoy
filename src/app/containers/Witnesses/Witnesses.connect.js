@@ -11,7 +11,6 @@ export default connect(
         const currentAccount = currentUser && state.global.getIn(['accounts', username]);
         const witnessVotes = currentAccount && currentAccount.get('witness_votes').toSet();
         const currentProxy = currentAccount && currentAccount.get('proxy');
-
         return {
             witnesses: state.global.get('witnesses'),
             username,
