@@ -163,24 +163,26 @@ export class AboutPanel extends Component {
                     </AuthorInfo>
                     <Divider />
                 </Avatar>
-                <Cake>
-                    {about ? (
-                        <AboutText>{about}</AboutText>
-                    ) : (
-                        <Fragment>
-                            <Icon width="36" height="34" name="cake" />
-                            <CakeText>
-                                {tt('on_golos_from')}
-                                &nbsp;
-                                <FormattedDate
-                                    value={new Date(created)}
-                                    month="long"
-                                    year="numeric"
-                                />
-                            </CakeText>
-                        </Fragment>
-                    )}
-                </Cake>
+                {(created || about) && (
+                    <Cake>
+                        {about ? (
+                            <AboutText>{about}</AboutText>
+                        ) : (
+                            <Fragment>
+                                <Icon width="36" height="34" name="cake" />
+                                <CakeText>
+                                    {tt('on_golos_from')}
+                                    &nbsp;
+                                    <FormattedDate
+                                        value={new Date(created)}
+                                        month="long"
+                                        year="numeric"
+                                    />
+                                </CakeText>
+                            </Fragment>
+                        )}
+                    </Cake>
+                )}
                 <Buttons>
                     <ButtonInPanel light onClick={this.openDonateDialog}>
                         <IconStyled width="17" height="15" name="coins_plus" />
