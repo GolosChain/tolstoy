@@ -125,12 +125,12 @@ export default class UserStatus extends Component {
                     ))}
                 </Statuses>
                 <ProgressLine progress={statusPosition} toNext={toNext} />
-                {reputation && (
+                {reputation ? (
                     <Rating>
                         {tt('user_profile.account_summary.reputation')}:{' '}
                         <RatingValue>{rep10}</RatingValue>
                     </Rating>
-                )}
+                ) : null}
             </Wrapper>
         ) : null;
     }

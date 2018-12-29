@@ -89,6 +89,10 @@ const ActivityText = styled.div`
         color: #757575;
     `};
 
+    ${is('withPadding')`
+        padding-top: 15px;
+    `};
+
     & a {
         color: #959595;
         font-weight: 500;
@@ -211,6 +215,7 @@ export default class ActivityItem extends Component {
         let leftSide = null;
         let nameLink = null;
         let followBlock = null;
+        let rewards = null;
 
         if (['reward', 'curatorReward'].includes(notification.get('eventType'))) {
             leftSide = (
@@ -218,6 +223,7 @@ export default class ActivityItem extends Component {
                     <Icon {...icons[notification.get('eventType')]} />
                 </LeftSide>
             );
+            rewards = true;
         }
 
         const account = notification.getIn(['computed', 'accounts'], emptyList).get(0);
@@ -251,7 +257,7 @@ export default class ActivityItem extends Component {
                     <ActivityDesc isCompact={isCompact}>
                         <ActivityLeft>
                             {nameLink}
-                            <ActivityText isCompact={isCompact}>
+                            <ActivityText isCompact={isCompact} withPadding={rewards}>
                                 <Interpolate
                                     with={getPropsForInterpolation(notification)}
                                     component="div"
