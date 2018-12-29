@@ -6,13 +6,13 @@ import { is } from 'immutable';
 import tt from 'counterpart';
 
 import {
-    firstBreakPoint,
-    firstBreakPointStrTemplate,
-    secondBreakPoint,
-    secondBreakPointStrTemplate,
+    witnessPageDesktopPoint,
+    witnessPageDesktopPointStrTemplate,
+    witnessPagePadPoint,
+    witnessPagePadPointStrTemplate,
     stringTemplate,
-    thirdBreakPoint,
-    thirdBreakPointStrTemplate,
+    witnessPageMobilePoint,
+    witnessPageMobilePointStrTemplate,
 } from 'src/app/containers/Witnesses/WitnessesStrings/WitnessesString';
 import WitnessesStrings from 'src/app/containers/Witnesses/WitnessesStrings/WitnessesStrings';
 import VoteForAnyWitness from 'src/app/containers/Witnesses/VoteForAnyWitness';
@@ -31,19 +31,23 @@ const Wrapper = styled.div`
     max-width: 1150px;
     margin: 0 auto;
 
-    @media (max-width: ${firstBreakPoint}px) {
+    @media (max-width: ${witnessPageDesktopPoint}px) {
         max-width: 750px;
     }
-    @media (max-width: ${secondBreakPoint}px) {
+    @media (max-width: ${witnessPagePadPoint}px) {
         max-width: 500px;
     }
-    @media (max-width: ${thirdBreakPoint}px) {
+    @media (max-width: ${witnessPageMobilePoint}px) {
         max-width: 320px;
     }
 `;
 
 const Header = styled.div`
     padding-top: 30px;
+
+    @media (max-width: ${witnessPageMobilePoint}px) {
+        padding: 30px 16px 0 16px;
+    }
 `;
 
 const HeaderTitle = styled.h2`
@@ -84,31 +88,31 @@ const PercentHeadItem = styled(TableHeadItem)`
 `;
 
 const VotesHeadItem = styled(TableHeadItem)`
-    @media (max-width: ${thirdBreakPoint}px) {
+    @media (max-width: ${witnessPageMobilePoint}px) {
         display: none;
     }
 `;
 
 const InfoHeadItem = styled(TableHeadItem)`
-    @media (max-width: ${firstBreakPoint}px) {
+    @media (max-width: ${witnessPageDesktopPoint}px) {
         display: none;
     }
 `;
 
 const MissedBlocksHeadItem = styled(TableHeadItem)`
-    @media (max-width: ${secondBreakPoint}px) {
+    @media (max-width: ${witnessPagePadPoint}px) {
         display: none;
     }
 `;
 
 const LastBlockHeadItem = styled(TableHeadItem)`
-    @media (max-width: ${secondBreakPoint}px) {
+    @media (max-width: ${witnessPagePadPoint}px) {
         display: none;
     }
 `;
 
 const PriceFeedHeadItem = styled(TableHeadItem)`
-    @media (max-width: ${firstBreakPoint}px) {
+    @media (max-width: ${witnessPageDesktopPoint}px) {
         display: none;
     }
 `;
@@ -126,14 +130,14 @@ const TableHead = styled.div`
         padding-left: 16px;
     }
 
-    @media (max-width: ${firstBreakPoint}px) {
-        grid-template-columns: ${firstBreakPointStrTemplate};
+    @media (max-width: ${witnessPageDesktopPoint}px) {
+        grid-template-columns: ${witnessPageDesktopPointStrTemplate};
     }
-    @media (max-width: ${secondBreakPoint}px) {
-        grid-template-columns: ${secondBreakPointStrTemplate};
+    @media (max-width: ${witnessPagePadPoint}px) {
+        grid-template-columns: ${witnessPagePadPointStrTemplate};
     }
-    @media (max-width: ${thirdBreakPoint}px) {
-        grid-template-columns: ${thirdBreakPointStrTemplate};
+    @media (max-width: ${witnessPageMobilePoint}px) {
+        grid-template-columns: ${witnessPageMobilePointStrTemplate};
     }
 `;
 

@@ -11,12 +11,12 @@ import { formatDecimal } from 'app/utils/ParsersAndFormatters';
 import CloseOpenButton from 'src/app/components/cards/CloseOpenButton/index';
 
 export const stringTemplate = '170px 70px 90px 115px 160px 120px 140px 225px 60px';
-export const firstBreakPoint = 1180;
-export const firstBreakPointStrTemplate = '165px 70px 90px 115px 120px 130px 60px';
-export const secondBreakPoint = 767;
-export const secondBreakPointStrTemplate = '165px 70px 90px 115px 60px';
-export const thirdBreakPoint = 530;
-export const thirdBreakPointStrTemplate = '140px 50px 80px 50px';
+export const witnessPageDesktopPoint = 1180;
+export const witnessPageDesktopPointStrTemplate = '165px 70px 90px 115px 120px 130px 60px';
+export const witnessPagePadPoint = 767;
+export const witnessPagePadPointStrTemplate = '165px 70px 90px 115px 60px';
+export const witnessPageMobilePoint = 530;
+export const witnessPageMobilePointStrTemplate = '140px 50px 80px 50px';
 
 const ellipsisStyles = `
     overflow: hidden;
@@ -61,7 +61,7 @@ const AllVotesCeil = styled(WitnessInfoCeil)`
     line-height: 1.29;
     letter-spacing: 0.4px;
 
-    @media (max-width: ${thirdBreakPoint}px) {
+    @media (max-width: ${witnessPageMobilePoint}px) {
         display: none;
     }
 `;
@@ -70,7 +70,7 @@ const FeedCeil = styled(WitnessInfoCeil)`
     font-family: 'Open Sans', sans-serif;
     line-height: 1.4;
 
-    @media (max-width: ${firstBreakPoint}px) {
+    @media (max-width: ${witnessPageDesktopPoint}px) {
         display: none;
     }
 `;
@@ -108,7 +108,7 @@ const PostLink = styled(({ to, href, children, ...props }) =>
 `;
 
 const PostLinkCeil = styled(WitnessInfoCeil)`
-    @media (max-width: ${firstBreakPoint}px) {
+    @media (max-width: ${witnessPageDesktopPoint}px) {
         display: none;
     }
 `;
@@ -116,7 +116,7 @@ const PostLinkCeil = styled(WitnessInfoCeil)`
 const MissedCeil = styled(WitnessInfoCeil)`
     ${ellipsisStyles};
 
-    @media (max-width: ${secondBreakPoint}px) {
+    @media (max-width: ${witnessPagePadPoint}px) {
         display: none;
     }
 `;
@@ -124,7 +124,7 @@ const MissedCeil = styled(WitnessInfoCeil)`
 const LastBlockCeil = styled(WitnessInfoCeil)`
     ${ellipsisStyles};
 
-    @media (max-width: ${secondBreakPoint}px) {
+    @media (max-width: ${witnessPagePadPoint}px) {
         display: none;
     }
 `;
@@ -160,14 +160,14 @@ const WitnessString = styled.div`
         opacity: 0.4;
     `};
 
-    @media (max-width: ${firstBreakPoint}px) {
-        grid-template-columns: ${firstBreakPointStrTemplate};
+    @media (max-width: ${witnessPageDesktopPoint}px) {
+        grid-template-columns: ${witnessPageDesktopPointStrTemplate};
     }
-    @media (max-width: ${secondBreakPoint}px) {
-        grid-template-columns: ${secondBreakPointStrTemplate};
+    @media (max-width: ${witnessPagePadPoint}px) {
+        grid-template-columns: ${witnessPagePadPointStrTemplate};
     }
-    @media (max-width: ${thirdBreakPoint}px) {
-        grid-template-columns: ${thirdBreakPointStrTemplate};
+    @media (max-width: ${witnessPageMobilePoint}px) {
+        grid-template-columns: ${witnessPageMobilePointStrTemplate};
     }
 `;
 
@@ -238,10 +238,10 @@ const FullInfoDivider = styled.div`
 const FullInfoFirstDivider = styled(FullInfoDivider)`
     left: 382px;
 
-    @media (max-width: ${firstBreakPoint}px) {
+    @media (max-width: ${witnessPageDesktopPoint}px) {
         left: 374px;
     }
-    @media (max-width: ${secondBreakPoint}px) {
+    @media (max-width: ${witnessPagePadPoint}px) {
         display: none;
     }
 `;
@@ -249,7 +249,7 @@ const FullInfoFirstDivider = styled(FullInfoDivider)`
 const FullInfoSecondDivider = styled(FullInfoDivider)`
     right: 382px;
 
-    @media (max-width: ${firstBreakPoint}px) {
+    @media (max-width: ${witnessPageDesktopPoint}px) {
         display: none;
     }
 `;
@@ -277,12 +277,12 @@ const FullInfo = styled.div`
         background-color: #ffffff !important;
     `};
 
-    @media (max-width: ${firstBreakPoint}px) {
+    @media (max-width: ${witnessPageDesktopPoint}px) {
         grid-template-columns: 1fr 1fr;
         grid-template-rows: repeat(14, 1fr);
         height: 575px;
     }
-    @media (max-width: ${secondBreakPoint}px) {
+    @media (max-width: ${witnessPagePadPoint}px) {
         grid-template-columns: 1fr;
         grid-template-rows: repeat(27, 1fr);
         height: 1000px;

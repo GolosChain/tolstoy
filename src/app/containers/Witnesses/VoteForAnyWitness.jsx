@@ -2,8 +2,14 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
+import { witnessPageMobilePoint } from 'src/app/containers/Witnesses/WitnessesStrings/WitnessesString';
+
 const VoteForWitness = styled.div`
     padding: 30px 0;
+
+    @media (max-width: ${witnessPageMobilePoint}px) {
+        padding: 30px 16px;
+    }
 `;
 
 const VoteForWitnessTitle = styled.p``;
@@ -21,6 +27,11 @@ const VoteWitnessInput = styled.input`
     box-shadow: 0 1px 11px 0 rgba(0, 0, 0, 0.06);
     background-color: #ffffff;
     transition: box-shadow 0.1s ease;
+
+    @media (max-width: ${witnessPageMobilePoint}px) {
+        width: 170px;
+        padding: 10px;
+    }
 `;
 
 const SearchForWitnessButton = styled.button`
@@ -35,6 +46,10 @@ const SearchForWitnessButton = styled.button`
     text-transform: uppercase;
     line-height: 1.92;
     cursor: pointer;
+
+    @media (max-width: ${witnessPageMobilePoint}px) {
+        padding: 0 10px;
+    }
 `;
 
 export default class VoteForAnyWitness extends Component {
