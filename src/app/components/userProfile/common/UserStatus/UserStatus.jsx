@@ -43,7 +43,7 @@ const Statuses = styled.div`
 
 const ProgressLine = styled.div`
     width: 100%;
-    height: 1px;
+    height: 1.15px;
     position: relative;
     background-color: #d8d8d8;
 
