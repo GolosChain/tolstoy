@@ -177,22 +177,23 @@ const VoteButton = styled.button`
     align-items: center;
     width: 30px;
     height: 30px;
-    background-color: #2879ff;
+    background-color: #ffffff;
+    border: 1px solid rgba(57, 54, 54, 0.3);
     border-radius: 50%;
     cursor: pointer;
 
     &:hover {
         ${({ upvoted }) =>
-            upvoted ? 'border: 1px solid rgba(57, 54, 54, 0.6);' : 'background-color: #0e69ff'};
+            upvoted ? 'background-color: #0e69ff' : 'border: 1px solid rgba(57, 54, 54, 0.6)'};
     }
 
     ${is('upvoted')`
-        border: 1px solid rgba(57, 54, 54, 0.3);
-        background-color: #ffffff;
+        background-color: #2879ff;
+        border: 0;
     `};
 
     & svg {
-        color: #${({ upvoted }) => (upvoted ? '393636' : 'ffffff')};
+        color: #${({ upvoted }) => (upvoted ? 'ffffff' : '393636')};
         flex-shrink: 0;
     }
 `;
@@ -208,11 +209,14 @@ const PriceFeedTokens = styled.div`
 const LastFeedTime = styled.div`
     font-size: 12px;
     color: #959595;
+    ${ellipsisStyles};
 `;
 
 const InfoString = styled.div`
     display: flex;
     align-items: center;
+    overflow: hidden;
+    white-space: nowrap;
     font-size: 14px;
     color: #393636;
 
@@ -257,14 +261,15 @@ const FullInfoSecondDivider = styled(FullInfoDivider)`
 const FullInfo = styled.div`
     position: relative;
     display: grid;
+    grid-auto-flow: column;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: repeat(9, 1fr);
+    grid-template-rows: repeat(11, 1fr);
 
     height: 370px;
     border-bottom: 1px solid #e1e1e1;
     background-color: #f6f6f6;
     overflow: hidden;
-    transition: 0.25s height ease, 0.25s background-color ease;
+    transition: 0.25s background-color ease;
 
     & ${InfoString} {
         margin: 0 16px;
@@ -279,12 +284,13 @@ const FullInfo = styled.div`
 
     @media (max-width: ${witnessPageDesktopPoint}px) {
         grid-template-columns: 1fr 1fr;
-        grid-template-rows: repeat(14, 1fr);
+        grid-template-rows: repeat(16, 1fr);
         height: 575px;
     }
+
     @media (max-width: ${witnessPagePadPoint}px) {
         grid-template-columns: 1fr;
-        grid-template-rows: repeat(27, 1fr);
+        grid-template-rows: repeat(31, 1fr);
         height: 1000px;
     }
 `;
@@ -375,10 +381,17 @@ export default class WitnessesString extends Component {
                     <VoteButtonCeil>
                         <VoteButton
                             onClick={() => accountWitnessVote(owner, !myVote)}
-                            title={tt('g.vote')}
+                            title={tt(
+                                myVote
+                                    ? 'witnesses_jsx.remove_vote_from_witness_node'
+                                    : 'witnesses_jsx.vote_for_witness'
+                            )}
                             upvoted={myVote ? 1 : 0}
                         >
-                            <Icon name={myVote ? 'opposite-witness' : 'witness-logo'} size="16" />
+                            <Icon
+                                name={myVote ? 'white-oppos-witness' : 'witness-logo'}
+                                size="16"
+                            />
                         </VoteButton>
                     </VoteButtonCeil>
                     <PercentsCeil>{percentage.toFixed(2)}%</PercentsCeil>
@@ -413,27 +426,11 @@ export default class WitnessesString extends Component {
                         {votesBlock}
                     </InfoString>
                     <InfoString>
-                        <InfoStringSpan>SBD interest rate:&nbsp;</InfoStringSpan>
-                        {props.get('sbd_interest_rate') / 100}%
-                    </InfoString>
-                    <InfoString>
-                        <InfoStringSpan>Comments window:&nbsp;</InfoStringSpan>
-                        {props.get('comments_window')}
-                    </InfoString>
-                    <InfoString>
                         <InfoStringSpan>
                             {tt('witnesses_jsx.information')}
                             :&nbsp;
                         </InfoStringSpan>
                         {witness_thread}
-                    </InfoString>
-                    <InfoString>
-                        <InfoStringSpan>Create account min golos fee:&nbsp;</InfoStringSpan>
-                        {props.get('create_account_min_golos_fee')}
-                    </InfoString>
-                    <InfoString>
-                        <InfoStringSpan>Votes window:&nbsp;</InfoStringSpan>
-                        {props.get('votes_window')}
                     </InfoString>
                     <InfoString>
                         <InfoStringSpan>
@@ -443,27 +440,11 @@ export default class WitnessesString extends Component {
                         {missed}
                     </InfoString>
                     <InfoString>
-                        <InfoStringSpan>Create account min delegation:&nbsp;</InfoStringSpan>
-                        {props.get('create_account_min_delegation')}
-                    </InfoString>
-                    <InfoString>
-                        <InfoStringSpan>Max delegated vesting interest rate:&nbsp;</InfoStringSpan>
-                        {props.get('max_delegated_vesting_interest_rate')}
-                    </InfoString>
-                    <InfoString>
                         <InfoStringSpan>
                             {tt('witnesses_jsx.last_block1')} {tt('witnesses_jsx.last_block2')}
                             :&nbsp;
                         </InfoStringSpan>
                         {lastBlock}
-                    </InfoString>
-                    <InfoString>
-                        <InfoStringSpan>Create account delegation time:&nbsp;</InfoStringSpan>
-                        {props.get('create_account_delegation_time') / 1000 / 60}&nbsp;min
-                    </InfoString>
-                    <InfoString>
-                        <InfoStringSpan>Custom ops bandwidth multiplier:&nbsp;</InfoStringSpan>
-                        {props.get('custom_ops_bandwidth_multiplier')}
                     </InfoString>
                     <InfoString>
                         <InfoStringSpan>
@@ -475,22 +456,7 @@ export default class WitnessesString extends Component {
                             &nbsp;
                         </PriceFeedQuote>
                         {priceFeed.get('base')}
-                    </InfoString>
-                    <InfoString>
-                        <InfoStringSpan>Min delegation:&nbsp;</InfoStringSpan>
-                        {props.get('min_delegation')}
-                    </InfoString>
-                    <InfoString>
-                        <InfoStringSpan>Min curation percent:&nbsp;</InfoStringSpan>
-                        {props.get('min_curation_percent') / 1000}%
-                    </InfoString>
-                    <InfoString>
-                        <InfoStringSpan>
-                            {tt('witnesses_jsx.props')}
-                            :&nbsp;
-                        </InfoStringSpan>
-                        {props.get('sbd_interest_rate') / 100}% /&nbsp;
-                        {props.get('maximum_block_size')} &nbsp;
+                        &nbsp;
                         <LastFeedTime>
                             <TimeAgoWrapper
                                 date={lastUpdateFeed}
@@ -499,12 +465,13 @@ export default class WitnessesString extends Component {
                         </LastFeedTime>
                     </InfoString>
                     <InfoString>
-                        <InfoStringSpan>Max referral interest rate:&nbsp;</InfoStringSpan>
-                        {props.get('max_referral_interest_rate')}
-                    </InfoString>
-                    <InfoString>
-                        <InfoStringSpan>Max curation percent:&nbsp;</InfoStringSpan>
-                        {props.get('max_curation_percent') / 1000}%
+                        <InfoStringSpan>
+                            {tt('witnesses_jsx.props')}
+                            :&nbsp;
+                        </InfoStringSpan>
+                        {props.get('account_creation_fee')} /&nbsp;
+                        {props.get('sbd_interest_rate') / 100}% /&nbsp;
+                        {props.get('maximum_block_size')}
                     </InfoString>
                     <InfoString>
                         <InfoStringSpan>
@@ -514,35 +481,142 @@ export default class WitnessesString extends Component {
                         {item.get('running_version')}
                     </InfoString>
                     <InfoString>
-                        <InfoStringSpan>Max referral term sec:&nbsp;</InfoStringSpan>
-                        {props.get('max_referral_term_sec')}
-                    </InfoString>
-                    <InfoString>
-                        <InfoStringSpan>Curation reward curve:&nbsp;</InfoStringSpan>
-                        {props.get('curation_reward_curve')}
-                    </InfoString>
-                    <InfoString>
-                        <InfoStringSpan>Account creation fee:&nbsp;</InfoStringSpan>
+                        <InfoStringSpan>
+                            {tt('witnesses_jsx.account_creation_fee')}:&nbsp;
+                        </InfoStringSpan>
                         {props.get('account_creation_fee')}
                     </InfoString>
                     <InfoString>
-                        <InfoStringSpan>Min referral break fee:&nbsp;</InfoStringSpan>
-                        {props.get('min_referral_break_fee')}
-                    </InfoString>
-                    <InfoString>
-                        <InfoStringSpan>Allow distribute auction reward:&nbsp;</InfoStringSpan>
-                        {props.get('allow_distribute_auction_reward') ? 'yes' : 'no'}
-                    </InfoString>
-                    <InfoString>
-                        <InfoStringSpan>Maximum Block Size:&nbsp;</InfoStringSpan>
+                        <InfoStringSpan>
+                            {tt('witnesses_jsx.maximum_block_size')}:&nbsp;
+                        </InfoStringSpan>
                         {props.get('maximum_block_size')}
                     </InfoString>
                     <InfoString>
-                        <InfoStringSpan>Posts window:&nbsp;</InfoStringSpan>
+                        <InfoStringSpan>
+                            {tt('witnesses_jsx.sbg_interest_rate')}:&nbsp;
+                        </InfoStringSpan>
+                        {props.get('sbd_interest_rate') / 100}%
+                    </InfoString>
+                    <InfoString>
+                        <InfoStringSpan>
+                            {tt('witnesses_jsx.auction_window_size')}:&nbsp;
+                        </InfoStringSpan>
+                        {props.get('auction_window_size')}
+                    </InfoString>
+                    <InfoString>
+                        <InfoStringSpan>
+                            {tt('witnesses_jsx.create_account_min_golos_fee')}:&nbsp;
+                        </InfoStringSpan>
+                        {props.get('create_account_min_golos_fee')}
+                    </InfoString>
+                    <InfoString>
+                        <InfoStringSpan>
+                            {tt('witnesses_jsx.create_account_min_delegation')}:&nbsp;
+                        </InfoStringSpan>
+                        {props.get('create_account_min_delegation')}
+                    </InfoString>
+                    <InfoString>
+                        <InfoStringSpan>
+                            {tt('witnesses_jsx.create_account_delegation_time')}:&nbsp;
+                        </InfoStringSpan>
+                        {props.get('create_account_delegation_time') / 1000 / 60}
+                        &nbsp;min
+                    </InfoString>
+                    <InfoString>
+                        <InfoStringSpan>{tt('witnesses_jsx.min_delegation')}:&nbsp;</InfoStringSpan>
+                        {props.get('min_delegation')}
+                    </InfoString>
+                    <InfoString>
+                        <InfoStringSpan>
+                            {tt('witnesses_jsx.max_referral_interest_rate')}:&nbsp;
+                        </InfoStringSpan>
+                        {props.get('max_referral_interest_rate')}
+                    </InfoString>
+                    <InfoString>
+                        <InfoStringSpan>
+                            {tt('witnesses_jsx.max_referral_term_sec')}:&nbsp;
+                        </InfoStringSpan>
+                        {props.get('max_referral_term_sec')}
+                    </InfoString>
+                    <InfoString>
+                        <InfoStringSpan>
+                            {tt('witnesses_jsx.min_referral_break_fee')}:&nbsp;
+                        </InfoStringSpan>
+                        {props.get('min_referral_break_fee')}
+                    </InfoString>
+                    <InfoString>
+                        <InfoStringSpan>
+                            {tt('witnesses_jsx.max_referral_break_fee')}:&nbsp;
+                        </InfoStringSpan>
+                        {props.get('max_referral_break_fee')}
+                    </InfoString>
+                    <InfoString>
+                        <InfoStringSpan>{tt('witnesses_jsx.posts_window')}:&nbsp;</InfoStringSpan>
                         {props.get('posts_window')}
                     </InfoString>
                     <InfoString>
-                        <InfoStringSpan>Allow return auction reward to fund:&nbsp;</InfoStringSpan>
+                        <InfoStringSpan>
+                            {tt('witnesses_jsx.comments_window')}:&nbsp;
+                        </InfoStringSpan>
+                        {props.get('comments_window')}
+                    </InfoString>
+                    <InfoString>
+                        <InfoStringSpan>
+                            {tt('witnesses_jsx.comments_per_window')}:&nbsp;
+                        </InfoStringSpan>
+                        {props.get('comments_per_window')}
+                    </InfoString>
+                    <InfoString>
+                        <InfoStringSpan>{tt('witnesses_jsx.votes_window')}:&nbsp;</InfoStringSpan>
+                        {props.get('votes_window')}
+                    </InfoString>
+                    <InfoString>
+                        <InfoStringSpan>
+                            {tt('witnesses_jsx.votes_per_window')}:&nbsp;
+                        </InfoStringSpan>
+                        {props.get('votes_per_window')}
+                    </InfoString>
+                    <InfoString>
+                        <InfoStringSpan>
+                            {tt('witnesses_jsx.max_delegated_vesting_interest_rate')}:&nbsp;
+                        </InfoStringSpan>
+                        {props.get('max_delegated_vesting_interest_rate')}
+                    </InfoString>
+                    <InfoString>
+                        <InfoStringSpan>
+                            {tt('witnesses_jsx.custom_ops_bandwidth_multiplier')}:&nbsp;
+                        </InfoStringSpan>
+                        {props.get('custom_ops_bandwidth_multiplier')}
+                    </InfoString>
+                    <InfoString>
+                        <InfoStringSpan>
+                            {tt('witnesses_jsx.min_curation_percent')}:&nbsp;
+                        </InfoStringSpan>
+                        {props.get('min_curation_percent') / 100}%
+                    </InfoString>
+                    <InfoString>
+                        <InfoStringSpan>
+                            {tt('witnesses_jsx.max_curation_percent')}:&nbsp;
+                        </InfoStringSpan>
+                        {props.get('max_curation_percent') / 100}%
+                    </InfoString>
+                    <InfoString>
+                        <InfoStringSpan>
+                            {tt('witnesses_jsx.curation_reward_curve')}:&nbsp;
+                        </InfoStringSpan>
+                        {props.get('curation_reward_curve')}
+                    </InfoString>
+                    <InfoString>
+                        <InfoStringSpan>
+                            {tt('witnesses_jsx.allow_distribute_auction_reward')}:&nbsp;
+                        </InfoStringSpan>
+                        {props.get('allow_distribute_auction_reward') ? 'yes' : 'no'}
+                    </InfoString>
+                    <InfoString>
+                        <InfoStringSpan>
+                            {tt('witnesses_jsx.allow_return_auction_reward_to_fund')}:&nbsp;
+                        </InfoStringSpan>
                         {props.get('allow_return_auction_reward_to_fund') ? 'yes' : 'no'}
                     </InfoString>
                 </FullInfo>
