@@ -1048,6 +1048,9 @@
     "the_owner_key_is_required_to_change_other_keys": "Ключ власника це головний ключ до всього аккаунта, він необхідний для зміни інших ключів.",
     "the_private_key_or_password_should_be_kept_offline": "Приватний ключ або пароль повинен зберігатися в офлайні так часто наскільки це можливо."
   },
+  "view_count": {
+    "views": "Переглядів"
+  },
   "voting_jsx": {
     "begin_recovery": "Почати відновлення",
     "changing_to_a_downvote": "Зміни на голос проти",
@@ -1134,8 +1137,5 @@
       "other": "%(count)s голосів",
       "zero": "0 голосів"
     }
-  },
-  "view_count": {
-    "views": "Переглядів"
   }
 }
