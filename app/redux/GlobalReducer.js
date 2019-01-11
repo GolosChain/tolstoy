@@ -218,10 +218,8 @@ export default createModule({
                 const key = author + '/' + permlink;
                 const parent_key = parent_author + '/' + parent_permlink;
                 // Add key if not exist
-                let updatedState = state.updateIn(
-                    ['content', parent_key, 'replies'],
-                    List(),
-                    l => (l.findIndex(i => i === key) === -1 ? l.push(key) : l)
+                let updatedState = state.updateIn(['content', parent_key, 'replies'], List(), l =>
+                    l.findIndex(i => i === key) === -1 ? l.push(key) : l
                 );
 
                 const children = updatedState.getIn(['content', parent_key, 'replies'], List())
@@ -238,10 +236,8 @@ export default createModule({
         {
             action: 'UPDATE_ACCOUNT_WITNESS_VOTE',
             reducer: (state, { payload: { account, witness, approve } }) =>
-                state.updateIn(
-                    ['accounts', account, 'witness_votes'],
-                    Set(),
-                    votes => (approve ? Set(votes).add(witness) : Set(votes).remove(witness))
+                state.updateIn(['accounts', account, 'witness_votes'], Set(), votes =>
+                    approve ? Set(votes).add(witness) : Set(votes).remove(witness)
                 ),
         },
         {
@@ -490,6 +486,11 @@ export default createModule({
             action: 'UPDATE_JSON_METADATA',
             reducer: (state, { payload: { accountName, jsonMetadata } }) =>
                 state.setIn(['accounts', accountName, 'json_metadata'], jsonMetadata),
+        },
+        {
+            action: 'RECEIVE_CHAIN_PROPERTIES',
+            reducer: (state, { payload: { chainProps } }) =>
+                state.set('chain_properies', fromJS(chainProps)),
         },
     ],
 });

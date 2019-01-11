@@ -217,6 +217,8 @@
       "delegate_button": "Delegate",
       "tabs": {
         "delegate": {
+          "interest_rate": "Interest rate",
+          "receive_rewards": "Receive rewards using delegated GP",
           "tip_1": "You can delegate some amount of your Golos Power to other users.",
           "tip_2": "You can cancel delegation or change the amount at any time. Upon cancellation, the delegated Golos Power will be returned to your account in 7 days.",
           "title": "Delegate"
