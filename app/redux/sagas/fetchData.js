@@ -25,6 +25,7 @@ export function* fetchDataWatches() {
     yield fork(watchFetchVestingDelegations);
     yield fork(watchFetchRewards);
     yield fork(watchFetchCurrentUserTransfers);
+    yield fork(watchFetchChainProperties);
 }
 
 function* watchGetContent() {
@@ -475,6 +476,20 @@ function* fetchVestingDelegations({ payload: { account, type } }) {
             account,
             type,
             vesting_delegations,
+        })
+    );
+}
+
+export function* watchFetchChainProperties() {
+    yield takeLatest('global/FETCH_CHAIN_PROPERTIES', fetchChainProperties);
+}
+
+function* fetchChainProperties() {
+    const chainProps = yield call([api, api.getChainProperties]);
+
+    yield put(
+        GlobalReducer.actions.receiveChainProperties({
+            chainProps,
         })
     );
 }
