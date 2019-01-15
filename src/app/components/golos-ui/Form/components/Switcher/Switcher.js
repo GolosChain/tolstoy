@@ -7,6 +7,7 @@ const Wrapper = styled.div`
     display: inline-block;
     width: 34px;
     height: 14px;
+    flex-shrink: 0;
 
     border-radius: 7px;
     background-color: #e9e9e9;
