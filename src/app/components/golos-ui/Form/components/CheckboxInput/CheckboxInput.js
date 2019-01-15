@@ -17,12 +17,14 @@ const IconOn = styled(Icon).attrs({ name: 'checkbox-on' })`
     width: 18px;
     height: 18px;
     color: #2879ff;
+    flex-shrink: 0;
 `;
 
 const IconOff = styled(Icon).attrs({ name: 'checkbox-off' })`
     width: 18px;
     height: 18px;
     color: #d7d7d7;
+    flex-shrink: 0;
 `;
 
 const Title = styled.div`
