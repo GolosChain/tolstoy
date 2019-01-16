@@ -28,6 +28,7 @@
 
   &__header {
     padding-top: 30px;
+    padding-bottom: 5px;
     text-align: center;
   }
 
@@ -35,7 +36,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 40px;
+    padding: 0 20px;
+    min-height: 40px;
     font-size: 20px;
     font-weight: 500;
   }

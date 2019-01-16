@@ -7,7 +7,9 @@ import { api } from 'golos-js';
 
 import ComplexInput from 'golos-ui/ComplexInput';
 import SplashLoader from 'golos-ui/SplashLoader';
+import { CheckboxInput } from 'golos-ui/Form';
 import Shrink from 'golos-ui/Shrink';
+import Slider from 'src/app/components/golos-ui/Slider';
 import { processError } from 'src/app/helpers/dialogs';
 
 import { MIN_VOICE_POWER } from 'app/client_config';
@@ -29,6 +31,8 @@ const TYPES = {
     DELEGATE: 'DELEGATE',
     CANCEL: 'CANCEL',
 };
+
+const DEFAULT_DELEGATED_VESTING_INTEREST_RATE = 25;
 
 const DialogFrameStyled = styled(DialogFrame)`
     flex-basis: 580px;
@@ -140,6 +144,8 @@ class DelegateVestingDialog extends PureComponent {
             delegationData: null,
             editAccountName: null,
             autoFocusValue: Boolean(target),
+            receiveInterest: false,
+            interestRate: DEFAULT_DELEGATED_VESTING_INTEREST_RATE,
         };
 
         this._globalProps = props.globalProps.toJS();
@@ -260,46 +266,96 @@ class DelegateVestingDialog extends PureComponent {
     }
 
     _renderDelegateBody({ availableBalanceString }) {
-        const { target, amount, autoFocusValue } = this.state;
+        const { target, amount, autoFocusValue, receiveInterest } = this.state;
 
         return (
-            <Columns>
-                <Column>
-                    <Section>
-                        <Label>{tt('dialogs_transfer.to')}</Label>
-                        <AccountNameInput
-                            name="account"
-                            block
-                            placeholder={tt(
-                                'dialogs_transfer.delegate_vesting.tabs.delegated.to_placeholder'
-                            )}
-                            autoFocus={!autoFocusValue}
-                            value={target}
-                            onChange={this._onTargetChange}
-                        />
-                    </Section>
-                </Column>
-                <Column>
-                    <Section>
-                        <Label>
-                            {tt('dialogs_transfer.delegate_vesting.tabs.delegated.amount_label')}
-                        </Label>
-                        <ComplexInput
-                            placeholder={tt('dialogs_transfer.amount_placeholder', {
-                                amount: availableBalanceString,
-                            })}
-                            spellCheck="false"
-                            value={amount}
-                            activeId="power"
-                            buttons={[{ id: 'power', title: tt('token_names.VESTING_TOKEN3') }]}
-                            autoFocus={autoFocusValue}
-                            onChange={this._onAmountChange}
-                            onFocus={this._onAmountFocus}
-                            onBlur={this._onAmountBlur}
-                        />
-                    </Section>
-                </Column>
-            </Columns>
+            <Fragment>
+                <Columns>
+                    <Column>
+                        <Section>
+                            <Label>{tt('dialogs_transfer.to')}</Label>
+                            <AccountNameInput
+                                name="account"
+                                block
+                                placeholder={tt(
+                                    'dialogs_transfer.delegate_vesting.tabs.delegated.to_placeholder'
+                                )}
+                                autoFocus={!autoFocusValue}
+                                value={target}
+                                onChange={this._onTargetChange}
+                            />
+                        </Section>
+                    </Column>
+                    <Column>
+                        <Section>
+                            <Label>
+                                {tt(
+                                    'dialogs_transfer.delegate_vesting.tabs.delegated.amount_label'
+                                )}
+                            </Label>
+                            <ComplexInput
+                                placeholder={tt('dialogs_transfer.amount_placeholder', {
+                                    amount: availableBalanceString,
+                                })}
+                                spellCheck="false"
+                                value={amount}
+                                activeId="power"
+                                buttons={[{ id: 'power', title: tt('token_names.VESTING_TOKEN3') }]}
+                                autoFocus={autoFocusValue}
+                                onChange={this._onAmountChange}
+                                onFocus={this._onAmountFocus}
+                                onBlur={this._onAmountBlur}
+                            />
+                        </Section>
+                    </Column>
+                </Columns>
+                <Columns>
+                    <Column>
+                        <Section>
+                            <CheckboxInput
+                                value={receiveInterest}
+                                title={tt(
+                                    'dialogs_transfer.delegate_vesting.tabs.delegate.receive_rewards'
+                                )}
+                                onChange={this.receiveInterestChange}
+                            />
+                        </Section>
+                    </Column>
+                </Columns>
+                <Columns>
+                    {receiveInterest && (
+                        <Column>
+                            <Section>
+                                <Label>
+                                    {tt(
+                                        'dialogs_transfer.delegate_vesting.tabs.delegate.interest_rate'
+                                    )}
+                                </Label>
+                                {this.renderInterestRateSlider()}
+                            </Section>
+                        </Column>
+                    )}
+                </Columns>
+            </Fragment>
+        );
+    }
+
+    renderInterestRateSlider() {
+        const { chainProps } = this.props;
+        const { interestRate } = this.state;
+
+        if (!chainProps) {
+            return <LoadingIndicator type="circle" size={25} />;
+        }
+
+        const maxValue = chainProps.get('max_delegated_vesting_interest_rate') / 100;
+        return (
+            <Slider
+                value={interestRate}
+                min={0}
+                max={maxValue}
+                onChange={this.onInterestRateChange}
+            />
         );
     }
 
@@ -408,13 +464,37 @@ class DelegateVestingDialog extends PureComponent {
         });
     };
 
+    receiveInterestChange = checked => {
+        if (checked) {
+            this.props.fetchChainProperties();
+        }
+
+        this.setState({
+            receiveInterest: checked,
+        });
+    };
+
+    onInterestRateChange = value => {
+        this.setState({
+            interestRate: value,
+        });
+    };
+
     onCloseClick = () => {
         this.props.onClose();
     };
 
     onOkClick = () => {
         const { myUser } = this.props;
-        const { target, amount, loader, disabled, delegationData } = this.state;
+        const {
+            target,
+            amount,
+            loader,
+            disabled,
+            delegationData,
+            receiveInterest,
+            interestRate,
+        } = this.state;
 
         if (loader || disabled) {
             return;
@@ -448,7 +528,11 @@ class DelegateVestingDialog extends PureComponent {
             vesting_shares: vesting + ' GESTS',
         };
 
-        this.props.delegate(operation, err => {
+        if (receiveInterest) {
+            operation.interest_rate = interestRate * 100;
+        }
+
+        this.props.delegate(operation, receiveInterest, err => {
             if (err) {
                 this.setState({
                     loader: false,
@@ -486,7 +570,7 @@ class DelegateVestingDialog extends PureComponent {
             loader: true,
         });
 
-        this.props.delegate(operation, err => {
+        this.props.delegate(operation, false, err => {
             if (err) {
                 this.setState({
                     disabled: false,
@@ -569,13 +653,16 @@ export default connect(
             myUser,
             myAccount,
             globalProps: state.global.get('props'),
+            chainProps: state.global.get('chain_properies'),
         };
     },
     {
-        delegate: (operation, callback) => dispatch =>
+        delegate: (operation, receiveInterest, callback) => dispatch =>
             dispatch(
                 transaction.actions.broadcastOperation({
-                    type: 'delegate_vesting_shares',
+                    type: receiveInterest
+                        ? 'delegate_vesting_shares_with_interest'
+                        : 'delegate_vesting_shares',
                     operation,
                     successCallback() {
                         callback(null);
@@ -589,6 +676,10 @@ export default connect(
                     },
                 })
             ),
+        fetchChainProperties: () => dispatch =>
+            dispatch({
+                type: 'global/FETCH_CHAIN_PROPERTIES',
+            }),
         showNotification,
     },
     null,
