@@ -5,7 +5,6 @@ import { userHeaderSelector } from 'src/app/redux/selectors/userProfile/commonPr
 import { checkWitness } from 'src/app/redux/actions/user';
 import { updateFollow } from 'src/app/redux/actions/follow';
 import { confirmUnfollowDialog } from 'src/app/redux/actions/dialogs';
-import { loginIfNeed } from 'src/app/redux/actions/login';
 import transaction from 'app/redux/Transaction';
 
 export default connect(
@@ -14,8 +13,13 @@ export default connect(
         checkWitness,
         updateFollow,
         confirmUnfollowDialog,
-        loginIfNeed,
-        accountWitnessVote: (username, witness, approve, witnessVoteCallback) =>
+        accountWitnessVote: (
+            username,
+            witness,
+            approve,
+            witnessVoteCallback,
+            witnessErrorCallback
+        ) =>
             transaction.actions.broadcastOperation({
                 type: 'account_witness_vote',
                 operation: {
@@ -25,6 +29,9 @@ export default connect(
                 },
                 successCallback() {
                     witnessVoteCallback();
+                },
+                errorCallback() {
+                    witnessErrorCallback();
                 },
             }),
     }
