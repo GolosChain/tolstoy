@@ -33,6 +33,7 @@ aleksandr1/4exgg6-ya-vam-govoryu-bez-paniki-vse-budet-khorosho-google-oficialno-
 vp-cosmos/ochistka-veshestv-metodom-perekristallizacii-svoimi-rukami
 bitt333/kak-pravilno-brat-vzyatki
 prismo/skraping-veb-saitov-s-pomoshyu-python-r-mitchell
+cyberdin/sovety-eksperta-kriminalista-dlya-plokhikh-parnei
 `
     .trim()
     .split('\n');
