@@ -23,6 +23,10 @@ const Wrapper = styled.div`
         margin: 0 -12px 0 -14px;
     }
 
+    @media (max-width: 360px) {
+        margin: 0 -7px 0 -9px;
+    }
+
     ${is('vertical')`
         flex-direction: column;
         margin: -4px 0 !important;
@@ -41,6 +45,10 @@ const LikeWrapper = styled.i`
     @media (max-width: 500px) {
         width: 48px;
         height: 48px;
+    }
+
+    @media (max-width: 360px) {
+        width: 30px;
     }
 
     &:hover {
