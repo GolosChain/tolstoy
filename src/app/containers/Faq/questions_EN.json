@@ -1,14 +1,6 @@
 [
   {
-    "title": "Why should I send a text message when registering? Will my money be safe?",
-    "answer": "SMS verification aims to eliminate spam user registration. We will not charge any fee, the message cost depends on your phone company’s rate."
-  },
-  {
-    "title": "I cannot send a SMS, what should I do?",
-    "answer": "Please, make sure that you have enough funds in your account to cover a message fee and the phone number is specified correctly. If you still have a problem, please contact your phone company or try to sign up by using another phone number."
-  },
-  {
-    "title": "I have some problems with registration:<ul><li>a text message was successfully sent but I cannot complete the sign-up form;</li><li>I’ve completed the registration but there occurred an error;</li><li>I’ve completed the registration but when I try to log in I see a message that there’s no such account name.</li></ul>What should I do?",
+    "title": "I have some problems with registration:<ul><li>I’ve completed the registration form but there occurred an error;</li><li>I’ve completed the registration but when I try to log in I see a message that there’s no such account name.</li></ul>What should I do?",
     "answer": "Please contact:<ul><li>the <a href='https://tlg.name/golos_support' target='_blank' rel='noopener noreferrer'>Support Chat</a> to report a problem about it or send a direct message to <a href='https://tlg.name/@dankinescop' target='_blank' rel='noopener noreferrer'>@dankinescop</a> or <a href='https://tlg.name/@chinpu' target='_blank' rel='noopener noreferrer'>@chinpu</a>;</li><li>or mail to <a href='mailto:support@golos.io' target='_blank' rel='noopener noreferrer'>support@golos.io</a>.</li></ul>"
   },
   {
