@@ -153,6 +153,7 @@ export default class Footer extends PureComponent {
 
     render() {
         const { currentSupply } = this.props;
+        const currentYear = new Date().getFullYear();
 
         return (
             <Wrapper>
@@ -284,7 +285,7 @@ export default class Footer extends PureComponent {
                     </Container>
                 </FooterMenus>
                 <FooterCopyright>
-                    <Container>© 2018 Golos.io</Container>
+                    <Container>{`© 2016 - ${currentYear} Golos.io`}</Container>
                 </FooterCopyright>
             </Wrapper>
         );
