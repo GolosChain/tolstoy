@@ -43,7 +43,6 @@ const Wrapper = styled.div`
 
     @media (max-width: 360px) {
         max-width: 100%;
-        overflow: hidden;
     }
 `;
 
@@ -123,7 +122,7 @@ const DotsMore = styled(Repost)`
     }
 
     @media (max-width: 360px) {
-        padding: 0 10px;
+        padding: 0 5px;
     }
 `;
 
