@@ -76,6 +76,11 @@ const SliderBlock = styled.div`
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
     background: #fff;
     animation: from-down 0.2s;
+
+    @media (max-width: 360px) {
+        margin: 0;
+        z-index: 10;
+    }
 `;
 
 const SliderBlockTip = styled.div`
