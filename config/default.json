@@ -125,6 +125,5 @@
   "openexchangerates_app_id": "app id",
   "gate_service_url": "",
   "facade_service_url": "",
-  "rates_service_url": "",
-  "relapio_token": ""
+  "rates_service_url": ""
 }

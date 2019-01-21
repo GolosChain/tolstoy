@@ -90,7 +90,6 @@ export class PostContent extends Component {
 
         // connect
         url: PropTypes.string.isRequired,
-        relapioToken: PropTypes.string,
     };
 
     state = {
@@ -136,17 +135,9 @@ export class PostContent extends Component {
     };
 
     renderHelmet() {
-        const { title, relapioToken } = this.props;
+        const { title } = this.props;
 
-        return (
-            <Helmet title={tt('meta.title.common.post', { title })}>
-                <script
-                    type="text/javascript"
-                    async
-                    src={`https://relap.io/api/v6/head.js?token=${relapioToken}`}
-                />
-            </Helmet>
-        );
+        return <Helmet title={tt('meta.title.common.post', { title })} />;
     }
 
     renderPreview() {

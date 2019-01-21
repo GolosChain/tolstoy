@@ -4,6 +4,7 @@ import * as golos from 'golos-js';
 delete process.env.BROWSER;
 
 const path = require('path');
+
 const ROOT = path.join(__dirname, '..');
 
 // Tell `require` calls to look into `/app` also
@@ -28,8 +29,6 @@ global.$STM_Config = {
     lang_server: config.get('lang_server'),
     /* isTestnet: config.get('is_testnet'), */
     is_sandbox: config.get('is_sandbox') === 'false' ? false : true,
-    gate_service_url: config.get('gate_service_url'),
-    relapio_token: config.get('relapio_token'),
 };
 
 const WebpackIsomorphicTools = require('webpack-isomorphic-tools');
