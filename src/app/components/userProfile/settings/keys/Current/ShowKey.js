@@ -61,6 +61,10 @@ const Hint = styled.div`
     margin-top: 12px;
 `;
 
+const ButtonsWrapper = styled.div`
+    display: flex;
+`;
+
 const ButtonStyled = styled(Button)`
     max-width: 100%;
     margin-top: 25px;
@@ -176,6 +180,10 @@ export default class ShowKey extends Component {
         return null;
     }
 
+    renderQRButton() {
+        return <ButtonStyled onClick={this.handleShowQr}>показать QR</ButtonStyled>;
+    }
+
     render() {
         const { pubkey } = this.props;
         const { showPrivate, wif } = this.state;
@@ -192,7 +200,10 @@ export default class ShowKey extends Component {
                         <Hint>{this.renderHint()}</Hint>
                     </KeyInfo>
                 </Flex>
-                {this.renderButton()}
+                <ButtonsWrapper>
+                    {this.renderButton()}
+                    {this.renderQRButton()}
+                </ButtonsWrapper>
             </Wrapper>
         );
     }
