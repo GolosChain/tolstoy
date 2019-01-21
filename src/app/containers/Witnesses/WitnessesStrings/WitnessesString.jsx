@@ -10,9 +10,9 @@ import links from 'app/utils/Links';
 import { formatDecimal } from 'app/utils/ParsersAndFormatters';
 import CloseOpenButton from 'src/app/components/cards/CloseOpenButton/index';
 
-export const stringTemplate = '170px 70px 90px 115px 160px 120px 140px 225px 60px';
+export const stringTemplate = '170px 70px 90px 160px 120px 140px 225px 115px 60px';
 export const witnessPageDesktopPoint = 1180;
-export const witnessPageDesktopPointStrTemplate = '165px 70px 90px 115px 120px 130px 60px';
+export const witnessPageDesktopPointStrTemplate = '165px 70px 90px 120px 130px 115px 60px';
 export const witnessPagePadPoint = 767;
 export const witnessPagePadPointStrTemplate = '165px 70px 90px 115px 60px';
 export const witnessPageMobilePoint = 530;
@@ -395,7 +395,6 @@ export default class WitnessesString extends Component {
                         </VoteButton>
                     </VoteButtonCeil>
                     <PercentsCeil>{percentage.toFixed(2)}%</PercentsCeil>
-                    <AllVotesCeil>{votesBlock}</AllVotesCeil>
                     <PostLinkCeil>{witness_thread}</PostLinkCeil>
                     <MissedCeil>{missed}</MissedCeil>
                     <LastBlockCeil>{lastBlock}</LastBlockCeil>
@@ -411,6 +410,7 @@ export default class WitnessesString extends Component {
                             />
                         </LastFeedTime>
                     </FeedCeil>
+                    <AllVotesCeil>{item.get('running_version')}</AllVotesCeil>
                     <ToggleStringCeil>
                         <CloseOpenButton collapsed={stringCollapsed} toggle={this.toggleString} />
                     </ToggleStringCeil>
@@ -418,13 +418,6 @@ export default class WitnessesString extends Component {
                 <FullInfo collapsed={stringCollapsed}>
                     <FullInfoFirstDivider />
                     <FullInfoSecondDivider />
-                    <InfoString>
-                        <InfoStringSpan>
-                            {tt('witnesses_jsx.approval')}
-                            :&nbsp;
-                        </InfoStringSpan>
-                        {votesBlock}
-                    </InfoString>
                     <InfoString>
                         <InfoStringSpan>
                             {tt('witnesses_jsx.information')}

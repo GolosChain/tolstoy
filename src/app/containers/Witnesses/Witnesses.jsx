@@ -217,7 +217,6 @@ export class Witnesses extends Component {
                                 <TableHeadItem>{tt('witnesses_jsx.witness')}</TableHeadItem>
                                 <TableHeadItem />
                                 <PercentHeadItem>%</PercentHeadItem>
-                                <VotesHeadItem>{tt('witnesses_jsx.approval')}</VotesHeadItem>
                                 <InfoHeadItem>{tt('witnesses_jsx.information')}</InfoHeadItem>
                                 <MissedBlocksHeadItem>
                                     <div>{tt('witnesses_jsx.missed_1')}</div>
@@ -230,6 +229,7 @@ export class Witnesses extends Component {
                                 <PriceFeedHeadItem>
                                     {tt('witnesses_jsx.price_feed')}
                                 </PriceFeedHeadItem>
+                                <VotesHeadItem>{tt('witnesses_jsx.version')}</VotesHeadItem>
                                 <TableHeadItem />
                             </TableHead>
                             <WitnessesStrings
