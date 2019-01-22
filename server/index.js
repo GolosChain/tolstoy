@@ -28,7 +28,8 @@ global.$STM_Config = {
     chain_id: config.get('chain_id'),
     lang_server: config.get('lang_server'),
     /* isTestnet: config.get('is_testnet'), */
-    is_sandbox: config.get('is_sandbox') === 'false' ? false : true,
+    is_sandbox: config.get('is_sandbox') !== 'false',
+    gate_service_url: config.get('gate_service_url'),
 };
 
 const WebpackIsomorphicTools = require('webpack-isomorphic-tools');
