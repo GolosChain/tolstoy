@@ -67,6 +67,13 @@ export default class Menu extends PureComponent {
             height: 16,
         },
         {
+            link: '//explorer.golos.io',
+            icon: 'golos_explorer',
+            text: 'Golos Explorer',
+            width: 32,
+            height: 19,
+        },
+        {
             link: '/~witnesses',
             icon: 'delegates',
             text: tt('navigation.delegates'),
@@ -117,6 +124,13 @@ export default class Menu extends PureComponent {
             text: tt('g.market'),
             width: 20,
             height: 16,
+        },
+        {
+            link: '//explorer.golos.io',
+            icon: 'golos_explorer',
+            text: 'Golos Explorer',
+            width: 32,
+            height: 19,
         },
         {
             link: '/~witnesses',
