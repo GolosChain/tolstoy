@@ -1141,7 +1141,7 @@
     "the_private_key_or_password_should_be_kept_offline": "Приватный ключ или пароль должен храниться в оффлайне насколько это возможно."
   },
   "view_count": {
-    "views": "Просмотров"
+    "view_count": "Количество просмотров"
   },
   "voting_jsx": {
     "begin_recovery": "Начать восстановление",

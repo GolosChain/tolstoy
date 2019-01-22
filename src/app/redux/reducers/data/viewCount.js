@@ -7,8 +7,13 @@ export default function(state = initialState, { type, payload }) {
         case POST_FETCH_VIEW_COUNT_SUCCESS:
             const newState = { ...state };
 
+            const now = Date.now();
+
             for (const { postLink, viewCount } of payload.results) {
-                newState[postLink] = viewCount;
+                newState[postLink] = {
+                    viewCount,
+                    timestamp: now,
+                };
             }
 
             return newState;

@@ -2,12 +2,13 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
 import { currentPostSelector } from 'src/app/redux/selectors/post/commonPost';
-import { offchainSelector, currentUsernameSelector } from 'src/app/redux/selectors/common';
+import { currentUsernameSelector } from 'src/app/redux/selectors/common';
 import { PostContent } from 'src/app/containers/post/postContent/PostContent';
 
 export default connect(
-    createSelector([currentPostSelector, currentUsernameSelector], (post, username) => {
-        return {
+    createSelector(
+        [currentPostSelector, currentUsernameSelector],
+        (post, username) => ({
             isAuthor: username === post.author,
             author: post.author,
             tags: post.tags,
@@ -20,6 +21,6 @@ export default connect(
             created: post.created,
             permLink: post.permLink,
             url: post.url,
-        };
-    })
+        })
+    )
 )(PostContent);
