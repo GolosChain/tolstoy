@@ -61,14 +61,26 @@ const Hint = styled.div`
     margin-top: 12px;
 `;
 
-const ButtonsWrapper = styled.div`
-    display: flex;
-`;
-
 const ButtonStyled = styled(Button)`
     max-width: 100%;
     margin-top: 25px;
     white-space: normal;
+`;
+
+const ButtonsWrapper = styled.div`
+    display: flex;
+
+    & ${ButtonStyled}:first-child {
+        margin-right: 10px;
+    }
+
+    @media (max-width: 500px) {
+        flex-direction: column;
+
+        & ${ButtonStyled}:first-child {
+            margin-right: 0;
+        }
+    }
 `;
 
 export default class ShowKey extends Component {
@@ -191,10 +203,6 @@ export default class ShowKey extends Component {
         return (
             <Wrapper>
                 <Flex>
-                    <ImageQR
-                        src={require('src/app/assets/images/qr.png')}
-                        onClick={this.handleShowQr}
-                    />
                     <KeyInfo>
                         <Key showPrivate={showPrivate}>{showPrivate ? wif : pubkey}</Key>
                         <Hint>{this.renderHint()}</Hint>
