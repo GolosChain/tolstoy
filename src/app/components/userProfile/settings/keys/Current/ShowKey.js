@@ -193,7 +193,7 @@ export default class ShowKey extends Component {
     }
 
     renderQRButton() {
-        return <ButtonStyled onClick={this.handleShowQr}>показать QR</ButtonStyled>;
+        return <ButtonStyled onClick={this.handleShowQr}>{tt('g.show')} QR</ButtonStyled>;
     }
 
     render() {
