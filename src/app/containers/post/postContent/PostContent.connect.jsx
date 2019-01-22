@@ -6,8 +6,9 @@ import { offchainSelector, currentUsernameSelector } from 'src/app/redux/selecto
 import { PostContent } from 'src/app/containers/post/postContent/PostContent';
 
 export default connect(
-    createSelector([currentPostSelector, currentUsernameSelector], (post, username) => {
-        return {
+    createSelector(
+        [currentPostSelector, currentUsernameSelector],
+        (post, username) => ({
             isAuthor: username === post.author,
             author: post.author,
             tags: post.tags,
@@ -20,6 +21,6 @@ export default connect(
             created: post.created,
             permLink: post.permLink,
             url: post.url,
-        };
-    })
+        })
+    )
 )(PostContent);
