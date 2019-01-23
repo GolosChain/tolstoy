@@ -490,7 +490,7 @@ export default createModule({
         {
             action: 'RECEIVE_CHAIN_PROPERTIES',
             reducer: (state, { payload: { chainProps } }) =>
-                state.set('chain_properies', fromJS(chainProps)),
+                state.set('chain_properties', fromJS(chainProps)),
         },
     ],
 });

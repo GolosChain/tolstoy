@@ -45,6 +45,7 @@ const icons = new Map([
 
     ['editor/plus-18', require('app/assets/icons/editor/plus-18.svg')],
     ['editor/coin', require('app/assets/icons/editor/coin.svg')],
+    ['editor/k', require('app/assets/icons/editor/k.svg')],
     ['editor/share', require('app/assets/icons/editor/share.svg')],
     ['editor/info', require('app/assets/icons/editor/info.svg')],
     ['editor/plus', require('app/assets/icons/editor/plus.svg')],

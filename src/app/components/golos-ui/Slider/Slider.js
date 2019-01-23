@@ -80,6 +80,20 @@ const Wrapper = styled.div`
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
 
+    ${is('disabled')`
+        cursor: default;
+        
+        ${Progress} {
+            background: #8e8e8e;
+        }
+        
+        ${Handle} {
+            border-color: #8e8e8e;
+            background: #8e8e8e;
+            cursor: default;
+        }
+    `}
+
     &:before {
         position: absolute;
         content: '';
@@ -111,6 +125,7 @@ export default class Slider extends PureComponent {
         red: PropTypes.bool,
         showCaptions: PropTypes.bool,
         hideHandleValue: PropTypes.bool,
+        disabled: PropTypes.bool,
         onChange: PropTypes.func.isRequired,
     };
 
@@ -123,30 +138,27 @@ export default class Slider extends PureComponent {
     };
 
     rootRef = createRef();
-    wrapperRef = createRef();
-
-    componentDidMount() {
-        this.wrapperRef.current.addEventListener('click', this.onClick);
-        this.wrapperRef.current.addEventListener('mousedown', this.onMouseDown);
-        this.wrapperRef.current.addEventListener('touchstart', this.onTouchStart);
-    }
 
     componentWillUnmount() {
         this.removeListeners();
-        this.wrapperRef.current.removeEventListener('click', this.onClick);
-        this.wrapperRef.current.removeEventListener('mousedown', this.onMouseDown);
-        this.wrapperRef.current.removeEventListener('touchstart', this.onTouchStart);
     }
 
     render() {
-        const { min, max, hideHandleValue, showCaptions, ...passProps } = this.props;
+        const { min, max, hideHandleValue, showCaptions, disabled, ...passProps } = this.props;
         const value = Number(this.props.value);
 
         const isMobile = checkMobileDevice();
         const percent = (100 * (value - min)) / (max - min) || 0;
 
         return (
-            <Wrapper {...passProps} innerRef={this.wrapperRef} showCaptions={showCaptions}>
+            <Wrapper
+                {...passProps}
+                showCaptions={showCaptions}
+                disabled={disabled}
+                onClick={disabled ? null : this.onClick}
+                onMouseDown={disabled ? null : this.onMouseDown}
+                onTouchStart={disabled ? null : this.onTouchStart}
+            >
                 <Progress width={percent} />
                 <HandleSlot innerRef={this.rootRef}>
                     <HandleWrapper left={percent}>
@@ -163,9 +175,9 @@ export default class Slider extends PureComponent {
                 </HandleSlot>
                 {showCaptions && (
                     <Captions>
-                        <Caption left>0%</Caption>
-                        <Caption center>50%</Caption>
-                        <Caption right>100%</Caption>
+                        <Caption left>{min}%</Caption>
+                        <Caption center>{Math.round(min + (max - min) / 2)}%</Caption>
+                        <Caption right>{max}%</Caption>
                     </Captions>
                 )}
             </Wrapper>

@@ -7,7 +7,7 @@ import is from 'styled-is';
 
 import TagInput from 'app/components/elements/postEditor/TagInput';
 import TagsEditLine from 'app/components/elements/postEditor/TagsEditLine';
-import PostOptions from 'app/components/elements/postEditor/PostOptions/PostOptions';
+import PostOptions from 'app/components/elements/postEditor/PostOptions';
 import Button from 'app/components/elements/common/Button';
 import Hint from 'app/components/elements/common/Hint';
 import Icon from 'golos-ui/Icon';
@@ -139,6 +139,7 @@ export default class PostFooter extends PureComponent {
         postDisabled: PropTypes.bool,
         disabledHint: PropTypes.string,
         onPayoutTypeChange: PropTypes.func.isRequired,
+        onCurationPercentChange: PropTypes.func.isRequired,
         onTagsChange: PropTypes.func.isRequired,
         onPostClick: PropTypes.func.isRequired,
         onResetClick: PropTypes.func.isRequired,
@@ -207,9 +208,11 @@ export default class PostFooter extends PureComponent {
                     <PostOptions
                         nsfw={this.props.tags.includes(NSFW_TAG)}
                         payoutType={this.props.payoutType}
+                        curationPercent={this.props.curationPercent}
                         editMode={editMode}
                         onNsfwClick={this._onNsfwClick}
                         onPayoutChange={this.props.onPayoutTypeChange}
+                        onCurationPercentChange={this.props.onCurationPercentChange}
                     />
                     {mobileButtonsWrapperRef &&
                         mobileButtonsWrapperRef.current &&

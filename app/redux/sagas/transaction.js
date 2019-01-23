@@ -397,7 +397,7 @@ function* preBroadcast_comment({ operation, username }) {
     let permlink = operation.permlink;
     const {
         author,
-        __config: { originalBody, autoVote, comment_options },
+        __config: { originalBody, autoVote, comment_options, curationPercent },
     } = operation;
 
     const { parent_author = '', parent_permlink = operation.category } = operation;
@@ -450,6 +450,7 @@ function* preBroadcast_comment({ operation, username }) {
             percent_steem_dollars = 10000, // 10000 === 100%
             allow_votes = true,
             allow_curation_rewards = true,
+            curator_rewards_percent = null,
         } = comment_options;
 
         const extensions = [];
@@ -464,6 +465,15 @@ function* preBroadcast_comment({ operation, username }) {
                 1,
                 {
                     destination: AUCTION_REWARD_DESTINATION.DESTINATION[auctionRewardDestination],
+                },
+            ]);
+        }
+
+        if (curator_rewards_percent) {
+            extensions.push([
+                2,
+                {
+                    percent: curator_rewards_percent,
                 },
             ]);
         }
