@@ -55,8 +55,10 @@ export default class ViewCount extends Component {
             return null;
         }
 
+        const hint = tt('view_count.view_count');
+
         return (
-            <Wrapper data-tooltip={tt('view_count.view_count')} mini={mini} className={className}>
+            <Wrapper data-tooltip={hint} aria-label={hint} mini={mini} className={className}>
                 <EyeIcon />
                 <Text>{viewCount}</Text>
             </Wrapper>
