@@ -1,4 +1,4 @@
-import React, { PureComponent, createRef } from 'react';
+import React, { PureComponent, createRef, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
@@ -68,18 +68,23 @@ const BubbleText = styled.p`
     color: #757575;
 `;
 
-const CuratorText = styled.p`
+const CurationText = styled.p`
     margin: 0 0 6px;
     font-size: 15px;
     white-space: nowrap;
     color: #393636;
 `;
 
-const CuratorValue = styled.b`
+const CurationValue = styled.b`
     display: inline-block;
     width: 38px;
     text-align: left;
     font-weight: 500;
+`;
+
+const MobileCurationValue = styled.b`
+    margin-left: 8px;
+    font-weight: bold;
 `;
 
 const MobileWrapper = styled.div`
@@ -128,12 +133,17 @@ const NsfwWrapper = styled.div`
     width: 100%;
 `;
 
-const NsfwIconWrapper = styled.div`
+const MobileOption = styled.div`
     display: flex;
     align-items: center;
 `;
 
-const NsfwTip = styled.p`
+const MobileOptionCuration = styled(MobileOption)`
+    margin-bottom: 8px;
+`;
+
+const MobileOptionTitle = styled.p`
+    width: 100%;
     margin: 0;
     padding-left: 16px;
     font-size: 15px;
@@ -147,6 +157,11 @@ const NsfwTip = styled.p`
 
 const SliderStyled = styled(Slider)`
     margin-top: 20px;
+`;
+
+const MobileCurationBlock = styled.div`
+    display: flex;
+    justify-content: space-between;
 `;
 
 export default class PostOptions extends PureComponent {
@@ -243,18 +258,25 @@ export default class PostOptions extends PureComponent {
                 </MobileWrapper>
                 <MobileWrapper>
                     <NsfwWrapper>
-                        <NsfwIconWrapper>
+                        <MobileOption>
                             <Icon name="editor/plus-18" size="1_5x" />
-                            <NsfwTip>{tt('post_editor.nsfw_content')}</NsfwTip>
-                        </NsfwIconWrapper>
+                            <MobileOptionTitle>{tt('post_editor.nsfw_content')}</MobileOptionTitle>
+                        </MobileOption>
                         <Switcher value={nsfw} onChange={onNsfwClick} />
                     </NsfwWrapper>
                 </MobileWrapper>
+                {showCurationPercent ? (
+                    <MobileWrapper>{this.renderCurationPercentSlider(true)}</MobileWrapper>
+                ) : null}
             </Wrapper>
         );
     }
 
     _renderCurationMenu() {
+        return <Hint align="center">{this.renderCurationPercentSlider()}</Hint>;
+    }
+
+    renderCurationPercentSlider(isMobile) {
         const { curationPercent, minCurationPercent, maxCurationPercent, editMode } = this.props;
 
         let min;
@@ -277,10 +299,23 @@ export default class PostOptions extends PureComponent {
         }
 
         return (
-            <Hint align="center">
-                <CuratorText>
-                    {tt('post_editor.set_curator_percent')} <CuratorValue>{percent}%</CuratorValue>
-                </CuratorText>
+            <Fragment>
+                {isMobile ? (
+                    <MobileOptionCuration>
+                        <Icon name="editor/k" size="1_5x" />
+                        <MobileOptionTitle>
+                            <MobileCurationBlock>
+                                {tt('post_editor.set_curator_percent')}{' '}
+                                <MobileCurationValue>{percent}%</MobileCurationValue>
+                            </MobileCurationBlock>
+                        </MobileOptionTitle>
+                    </MobileOptionCuration>
+                ) : (
+                    <CurationText>
+                        {tt('post_editor.set_curator_percent')}{' '}
+                        <CurationValue>{percent}%</CurationValue>
+                    </CurationText>
+                )}
                 <SliderStyled
                     value={percent}
                     min={min}
@@ -289,7 +324,7 @@ export default class PostOptions extends PureComponent {
                     showCaptions={showCaptions}
                     onChange={this.onCurationPercentChange}
                 />
-            </Hint>
+            </Fragment>
         );
     }
 
