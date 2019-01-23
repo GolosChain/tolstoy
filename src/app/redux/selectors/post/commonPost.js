@@ -95,6 +95,7 @@ export const currentPostSelector = createDeepEqualSelector(
             comments: post.get('comments'),
             stats: post.get('stats').toJS(),
             isEmpty: post.get('mode') === 'not_set',
+            curationRewardsPercent: post.get('curation_rewards_percent'),
         };
     }
 );

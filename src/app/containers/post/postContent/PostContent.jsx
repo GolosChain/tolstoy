@@ -13,6 +13,7 @@ import PostHeader from 'src/app/containers/post/postHeader';
 import MarkdownViewer from 'app/components/cards/MarkdownViewer';
 import PostFormLoader from 'app/components/modules/PostForm/loader';
 import ViewCount from 'src/app/components/common/ViewCount';
+import CurationPercent from 'src/app/components/common/CurationPercent';
 
 const Wrapper = styled.article`
     position: relative;
@@ -45,7 +46,28 @@ const Footer = styled.div`
 `;
 
 const FooterInfoBlock = styled.div`
+    display: flex;
+    align-items: center;
     flex-shrink: 0;
+
+    & > * {
+        margin-left: 24px;
+
+        &:first-child {
+            margin-left: 0;
+        }
+    }
+
+    @media (max-width: 500px) {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-end;
+        margin-bottom: -1px;
+
+        & > * {
+            margin-left: 0 !important;
+        }
+    }
 `;
 
 const PostTitle = styled.h1`
@@ -164,6 +186,8 @@ export class PostContent extends Component {
         } = this.props;
         const { hideTagsCategory } = this.state;
 
+        const postLink = `${author}/${permLink}`;
+
         return (
             <Preview>
                 <Body>
@@ -200,7 +224,8 @@ export class PostContent extends Component {
                         </Tags>
                     ) : null}
                     <FooterInfoBlock>
-                        <ViewCount postLink={`${author}/${permLink}`} />
+                        <CurationPercent postLink={postLink} />
+                        <ViewCount postLink={postLink} />
                     </FooterInfoBlock>
                 </Footer>
             </Preview>
