@@ -1134,7 +1134,7 @@
     "the_private_key_or_password_should_be_kept_offline": "The private key or password for the owner key should be kept offline as much as possible."
   },
   "view_count": {
-    "views": "Views count"
+    "view_count": "Views count"
   },
   "voting_jsx": {
     "begin_recovery": "Begin Recovery",

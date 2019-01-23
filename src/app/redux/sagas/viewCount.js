@@ -1,4 +1,4 @@
-import { takeEvery, throttle } from 'redux-saga/effects';
+import { call, put, takeEvery, throttle } from 'redux-saga/effects';
 
 import { POST_NEED_VIEW_COUNT, POST_FETCH_VIEW_COUNT_SUCCESS } from '../constants/post';
 import { getGateSocket } from '../../helpers/gate';

@@ -16,6 +16,7 @@ import ReplyBlock from '../../common/ReplyBlock';
 import CardAuthor from '../CardAuthor';
 import { getImageSrc } from 'src/app/helpers/images';
 import { isContainTags } from 'app/utils/StateFunctions';
+import ViewCount from '../../common/ViewCount';
 
 const PREVIEW_IMAGE_SIZE = '859x356';
 
@@ -197,6 +198,10 @@ const Root = styled(EntryWrapper)`
     `};
 `;
 
+const ViewCountStyled = styled(ViewCount)`
+    margin: -2px 8px 0 0;
+`;
+
 @withRouter
 export default class PostCard extends PureComponent {
     static propTypes = {
@@ -254,7 +259,7 @@ export default class PostCard extends PureComponent {
     }
 
     renderHeader() {
-        const { data, isRepost, compact, reblogData, params, postInFeed } = this.props;
+        const { data, isRepost, compact, reblogData, params, postInFeed, permLink } = this.props;
 
         const category = detransliterate(data.get('category'));
         let author;
@@ -282,6 +287,7 @@ export default class PostCard extends PureComponent {
                         created={created}
                     />
                     <Filler />
+                    {compact ? null : <ViewCountStyled postLink={permLink} mini />}
                     {compact ? null : (
                         <Category
                             to={categoryUri}

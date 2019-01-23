@@ -12,6 +12,7 @@ import { breakWordStyles } from 'src/app/helpers/styles';
 import PostHeader from 'src/app/containers/post/postHeader';
 import MarkdownViewer from 'app/components/cards/MarkdownViewer';
 import PostFormLoader from 'app/components/modules/PostForm/loader';
+import ViewCount from 'src/app/components/common/ViewCount';
 
 const Wrapper = styled.article`
     position: relative;
@@ -36,6 +37,15 @@ const Preview = styled.div`
 
 const Body = styled.div`
     margin-top: 5px;
+`;
+
+const Footer = styled.div`
+    display: flex;
+    margin-top: 20px;
+`;
+
+const FooterInfoBlock = styled.div`
+    flex-shrink: 0;
 `;
 
 const PostTitle = styled.h1`
@@ -74,12 +84,12 @@ const PostBody = styled.div`
 
 const Tags = styled.div`
     display: flex;
+    flex-grow: 1;
     flex-wrap: wrap;
-    margin-top: 20px;
+`;
 
-    ${TagLink} {
-        margin: 10px 10px 0 0;
-    }
+const TagLinkStyled = styled(TagLink)`
+    margin: 5px 10px 5px 0;
 `;
 
 @withRouter
@@ -141,7 +151,17 @@ export class PostContent extends Component {
     }
 
     renderPreview() {
-        const { payout, title, body, pictures, created, tags, category } = this.props;
+        const {
+            payout,
+            title,
+            body,
+            pictures,
+            created,
+            tags,
+            category,
+            author,
+            permLink,
+        } = this.props;
         const { hideTagsCategory } = this.state;
 
         return (
@@ -158,26 +178,31 @@ export class PostContent extends Component {
                         />
                     </PostBody>
                 </Body>
-                {tags.length ? (
-                    <Tags>
-                        {tags.map((tag, index) => {
-                            if (hideTagsCategory && tag.origin === category.origin) {
-                                return null;
-                            }
+                <Footer>
+                    {tags.length ? (
+                        <Tags>
+                            {tags.map((tag, index) => {
+                                if (hideTagsCategory && tag.origin === category.origin) {
+                                    return null;
+                                }
 
-                            return (
-                                <TagLink
-                                    to={'/trending?tags=' + tag.tag}
-                                    key={index}
-                                    aria-label={tt('aria_label.tag', { tag: tag.tag })}
-                                    category={tag.origin === category.origin}
-                                >
-                                    {tag.tag}
-                                </TagLink>
-                            );
-                        })}
-                    </Tags>
-                ) : null}
+                                return (
+                                    <TagLinkStyled
+                                        to={'/trending?tags=' + tag.tag}
+                                        key={index}
+                                        aria-label={tt('aria_label.tag', { tag: tag.tag })}
+                                        category={tag.origin === category.origin}
+                                    >
+                                        {tag.tag}
+                                    </TagLinkStyled>
+                                );
+                            })}
+                        </Tags>
+                    ) : null}
+                    <FooterInfoBlock>
+                        <ViewCount postLink={`${author}/${permLink}`} />
+                    </FooterInfoBlock>
+                </Footer>
             </Preview>
         );
     }
