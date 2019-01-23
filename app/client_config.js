@@ -101,6 +101,7 @@ export const ANDROID_PACKAGE = 'io.golos.golos';
 export const ANDROID_URL_SCHEME = 'golosioapp';
 export const ANDROID_DEEP_LINK_DOMAIN = 'golos.io';
 export const TERMS_OF_SERVICE_URL = 'https://golos.io/legal/terms_of_service.pdf';
+export const GOLOS_EXPLORER = 'https://explorer.golos.io';
 export const WIKI_URL = 'https://wiki.golos.io/';
 export const MARKDOWN_STYLING_GUIDE_URL =
     'https://golos.io/ru--golos/@on0tole/osnovy-oformleniya-postov-na-golose-polnyi-kurs-po-rabote-s-markdown';

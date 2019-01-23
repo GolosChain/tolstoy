@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import by from 'styled-by';
 import tt from 'counterpart';
 
-import { APP_NAME_UP, TERMS_OF_SERVICE_URL } from 'app/client_config';
+import { APP_NAME_UP, GOLOS_EXPLORER, TERMS_OF_SERVICE_URL } from 'app/client_config';
 
 import CurrencyValue from 'src/app/components/common/CurrencyValue';
 import Container from 'src/app/components/common/Container';
@@ -162,7 +162,7 @@ export default class Footer extends PureComponent {
                         <Menu type="payout">
                             <MenuTitle>{tt('footer.total_paid')}</MenuTitle>
                             <MenuList aria-label={tt('aria_label.total_paid')}>
-                                <MenuItem href="https://explorer.golos.io" type="big">
+                                <MenuItem href={GOLOS_EXPLORER} type="big" target="_blank">
                                     <CurrencyValue value={currentSupply} decimals="short" />
                                 </MenuItem>
                             </MenuList>
@@ -186,6 +186,9 @@ export default class Footer extends PureComponent {
                                     </MenuItem>
                                     <MenuItem href={TERMS_OF_SERVICE_URL}>
                                         {tt('navigation.terms_of_service')}
+                                    </MenuItem>
+                                    <MenuItem href={GOLOS_EXPLORER} target="_blank">
+                                        Golos Explorer
                                     </MenuItem>
                                 </MenuList>
                             </MenuBlock>
