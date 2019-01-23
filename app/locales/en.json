@@ -1136,6 +1136,9 @@
   "view_count": {
     "view_count": "Views count"
   },
+  "curation_percent": {
+    "curation_rewards_percent": "Curation rewards percent"
+  },
   "voting_jsx": {
     "begin_recovery": "Begin Recovery",
     "changing_to_a_downvote": "Changing to a Down-Vote",

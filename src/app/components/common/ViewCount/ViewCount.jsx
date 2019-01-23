@@ -14,6 +14,7 @@ const Text = styled.div`
 const Wrapper = styled.div`
     display: flex;
     align-items: center;
+    padding: 3px 0;
     font-size: 18px;
     letter-spacing: 1.6px;
     color: #757575;

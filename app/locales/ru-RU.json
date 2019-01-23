@@ -1143,6 +1143,9 @@
   "view_count": {
     "view_count": "Количество просмотров"
   },
+  "curation_percent": {
+    "curation_rewards_percent": "Процент кураторкских выплат"
+  },
   "voting_jsx": {
     "begin_recovery": "Начать восстановление",
     "changing_to_a_downvote": "Измение на \"голос против\"",
