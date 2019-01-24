@@ -51,21 +51,21 @@ const FooterInfoBlock = styled.div`
     flex-shrink: 0;
 
     & > * {
-        margin-left: 24px;
-
-        &:first-child {
-            margin-left: 0;
+        &:not(:first-child) {
+            margin-left: 24px;
         }
     }
 
     @media (max-width: 500px) {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: flex-end;
         justify-content: flex-end;
         margin-bottom: -1px;
 
         & > * {
-            margin-left: 0 !important;
+            &:not(:first-child) {
+                margin-left: 0;
+            }
         }
     }
 `;
@@ -111,6 +111,7 @@ const Tags = styled.div`
 `;
 
 const TagLinkStyled = styled(TagLink)`
+    height: 26px;
     margin: 5px 10px 5px 0;
 `;
 
