@@ -420,6 +420,13 @@ export default class WitnessesString extends Component {
                     <FullInfoSecondDivider />
                     <InfoString>
                         <InfoStringSpan>
+                            {tt('witnesses_jsx.approval')}
+                            :&nbsp;
+                        </InfoStringSpan>
+                        {votesBlock}
+                    </InfoString>
+                    <InfoString>
+                        <InfoStringSpan>
                             {tt('witnesses_jsx.information')}
                             :&nbsp;
                         </InfoStringSpan>
