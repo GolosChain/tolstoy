@@ -33,7 +33,21 @@ const Wrapper = styled.div`
         ${EyeIcon} {
             width: 22px;
         }
-    `}
+    `};
+
+    ${is('micro')`
+        font-size: 12px;
+        letter-spacing: normal;
+        
+        ${EyeIcon} {
+            width: 19px;
+            color: #959595;
+        }
+        
+        ${Text} {
+            margin-left: 6px;
+        }
+    `};
 `;
 
 export default class ViewCount extends Component {
@@ -50,7 +64,7 @@ export default class ViewCount extends Component {
     }
 
     render() {
-        const { viewCount, mini, className } = this.props;
+        const { viewCount, mini, micro, className } = this.props;
 
         if (viewCount === null || viewCount === undefined) {
             return null;
@@ -59,7 +73,13 @@ export default class ViewCount extends Component {
         const hint = tt('view_count.view_count');
 
         return (
-            <Wrapper data-tooltip={hint} aria-label={hint} mini={mini} className={className}>
+            <Wrapper
+                data-tooltip={hint}
+                aria-label={hint}
+                mini={mini}
+                micro={micro}
+                className={className}
+            >
                 <EyeIcon />
                 <Text>{viewCount}</Text>
             </Wrapper>

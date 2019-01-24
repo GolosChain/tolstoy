@@ -16,29 +16,81 @@ import { ReplyBlock } from '../../common/ReplyBlock';
 import CompactPostCardMenu from 'src/app/components/common/CompactPostCardMenu';
 import { detransliterate, repLog10 } from 'app/utils/ParsersAndFormatters';
 import { isContainTags } from 'app/utils/StateFunctions';
+import ViewCount from '../../common/ViewCount';
+import CurationPercent from '../../common/CurationPercent';
 
-const TWO_LINE_THRESHOLD = 1020;
 const MOBILE_THRESHOLD = 500;
 const PREVIEW_WIDTH = 148;
 const PREVIEW_HEIGHT = 80;
 const MOBILE_PREVIEW_WIDTH = 108;
 const MOBILE_PREVIEW_HEIGHT = 60;
+const EXTEND_HEADER_ON = 850;
 const PREVIEW_SIZE = `${PREVIEW_WIDTH}x${PREVIEW_HEIGHT}`;
 
 const TEXT_LENGTH_LIMIT = 194; // Примерно 3 строки текста
 const MOBILE_TEXT_LENGTH_LIMIT = 120;
 
-const Root = styled.div`
-    padding: 20px 20px 8px;
+const Wrapper = styled.div`
     margin-bottom: 20px;
     border-radius: 8px;
     background: #fff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
 
     @media (max-width: ${MOBILE_THRESHOLD}px) {
-        padding: 16px 16px 10px;
         margin-bottom: 10px;
         border-radius: 0;
+    }
+`;
+
+const ContentWrapper = styled.div`
+    padding: 0 20px;
+
+    @media (max-width: ${MOBILE_THRESHOLD}px) {
+        padding: 0 16px;
+    }
+`;
+
+const HeaderWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    @media (max-width: ${EXTEND_HEADER_ON}px) {
+        display: block;
+    }
+`;
+
+const Header = styled.div`
+    margin-bottom: 16px;
+    border-bottom: 1px solid #e1e1e1;
+
+    @media (max-width: ${EXTEND_HEADER_ON}px) {
+        margin-bottom: 2px;
+        border-bottom: none;
+    }
+`;
+
+const HeaderLeft = styled(ContentWrapper)`
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+
+    @media (max-width: ${EXTEND_HEADER_ON}px) {
+        border-bottom: 1px solid #e1e1e1;
+    }
+`;
+
+const HeaderRight = styled(ContentWrapper)`
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+
+    & > * {
+        margin-left: 28px;
+
+        &:first-child {
+            margin-left: 0;
+        }
     }
 `;
 
@@ -87,7 +139,7 @@ const PostContent = styled.div`
     ${is('repost')`
         padding-top: 3px;
         margin-bottom: 7px;
-    `}
+    `};
 
     @media (max-width: ${MOBILE_THRESHOLD}px) {
         font-size: 12px;
@@ -117,11 +169,14 @@ const Filler = styled.div`
 const Footer = styled.div`
     display: flex;
     align-items: center;
-    margin-top: 10px;
+    padding-bottom: 8px;
+    margin-top: 6px;
     min-height: 20px;
 
     @media (max-width: ${MOBILE_THRESHOLD}px) {
         justify-content: space-between;
+        padding-bottom: 0;
+        margin-top: 0;
 
         ${Filler} {
             display: none;
@@ -152,26 +207,16 @@ const Splitter = styled.div`
 const DetailsBlock = styled.div`
     display: flex;
     align-items: center;
-    margin-left: 7px;
     font-size: 14px;
-    color: #959595;
+    font-weight: 500;
+    color: #393636;
     user-select: none;
     overflow: hidden;
-
-    ${is('inbody')`
-        margin: 5px -3px 0;
-        font-size: 13px;
-
-        @media (max-width: 500px) {
-            flex-wrap: wrap;
-            line-height: 1.2;
-            font-size: 10px;
-        }
-    `};
 `;
 
 const DateLink = styled(LinkStyled)`
-    padding: 0 3px;
+    font-size: 13px;
+    color: #959595;
 `;
 
 const AuthorLink = styled(LinkStyled)`
@@ -179,10 +224,7 @@ const AuthorLink = styled(LinkStyled)`
     padding-right: 3px;
     user-select: none;
     white-space: nowrap;
-
-    &:hover * {
-        border-color: #333;
-    }
+    color: #393636;
 `;
 
 const RepostArrowIcon = styled(Icon).attrs({ name: 'repost_solid' })`
@@ -196,7 +238,6 @@ const RepostArrowIcon = styled(Icon).attrs({ name: 'repost_solid' })`
 
 const AuthorName = styled.div`
     display: inline-block;
-    font-weight: 500;
 `;
 
 const AuthorRating = styled.div`
@@ -209,32 +250,21 @@ const AuthorRating = styled.div`
     border-radius: 100px;
     text-align: center;
     font-size: 12px;
-    font-weight: 500;
     transition: border-color 0.15s;
-
-    @media (max-width: 500px) {
-        width: 12px;
-        height: 12px;
-        line-height: 12px;
-        font-size: 8px;
-    }
 `;
 
 const CategoryLink = styled(LinkStyled)`
-    padding-left: 3px;
+    padding-left: 5px;
     padding-right: 10px;
     max-width: 160px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-
-    ${is('inbody')`
-        padding-right: 3px;
-    `};
+    color: #393636;
 `;
 
 const CategoryLinkIn = styled.span`
-    color: #959595;
+    color: #393636;
 `;
 
 const ImageLink = styled(Link)`
@@ -296,7 +326,6 @@ const DotsIcon = styled(Icon).attrs({
 export default class PostCardCompact extends PureComponent {
     state = {
         menu: false,
-        twoLines: process.env.BROWSER ? window.innerWidth < TWO_LINE_THRESHOLD : false,
         mobile: process.env.BROWSER ? window.innerWidth < MOBILE_THRESHOLD : false,
     };
 
@@ -319,14 +348,40 @@ export default class PostCardCompact extends PureComponent {
     // called by @listenLazy
     onResize = () => {
         this.setState({
-            twoLines: window.innerWidth < TWO_LINE_THRESHOLD,
             mobile: window.innerWidth < MOBILE_THRESHOLD,
         });
     };
 
+    renderHeader() {
+        const { permLink, data, reblogData, isRepost } = this.props;
+
+        let created;
+
+        if (isRepost) {
+            created = reblogData.get('date');
+        } else {
+            created = data.get('created');
+        }
+
+        return (
+            <Header>
+                <HeaderWrapper>
+                    <HeaderLeft>{this.renderDetails()}</HeaderLeft>
+                    <HeaderRight>
+                        <ViewCount postLink={permLink} micro />
+                        <CurationPercent postLink={permLink} micro />
+                        <DateLink to={data.get('url')}>
+                            <TimeAgoWrapper date={created} />
+                        </DateLink>
+                    </HeaderRight>
+                </HeaderWrapper>
+            </Header>
+        );
+    }
+
     renderBody() {
         const { sanitizedData, stats, isRepost, repostHtml, data, warnNsfw } = this.props;
-        const { twoLines, mobile } = this.state;
+        const { mobile } = this.state;
         const withImage = sanitizedData.image_link && !stats.gray && !stats.hide;
 
         let trimLength = mobile ? MOBILE_TEXT_LENGTH_LIMIT : TEXT_LENGTH_LIMIT;
@@ -358,7 +413,6 @@ export default class PostCardCompact extends PureComponent {
                             }}
                         />
                     </BodyLink>
-                    {twoLines ? this.renderDetails(true) : null}
                 </Body>
             </BodyBlock>
         );
@@ -383,7 +437,7 @@ export default class PostCardCompact extends PureComponent {
         }
     }
 
-    renderDetails(inBody) {
+    renderDetails() {
         const { data, params, isRepost, reblogData } = this.props;
 
         const category = detransliterate(data.get('category'));
@@ -391,19 +445,9 @@ export default class PostCardCompact extends PureComponent {
 
         const currentFeed =
             params.order && params.category !== 'feed' ? `/${params.order}` : '/trending';
-        let created;
-
-        if (isRepost) {
-            created = reblogData.get('date');
-        } else {
-            created = data.get('created');
-        }
 
         return (
-            <DetailsBlock inbody={inBody ? 1 : 0}>
-                <DateLink to={data.get('url')}>
-                    <TimeAgoWrapper date={created} />
-                </DateLink>
+            <DetailsBlock>
                 {isRepost ? (
                     <Fragment>
                         <AuthorLink to={`/@${reblogData.get('repostAuthor')}`}>
@@ -416,11 +460,7 @@ export default class PostCardCompact extends PureComponent {
                     <AuthorName>{data.get('author')}</AuthorName>
                     <AuthorRating>{repLog10(data.get('author_reputation'))}</AuthorRating>
                 </AuthorLink>
-                <CategoryLink
-                    inbody={inBody ? 1 : 0}
-                    to={`${currentFeed}?tags=${category}`}
-                    aria-label={categoryTooltip}
-                >
+                <CategoryLink to={`${currentFeed}?tags=${category}`} aria-label={categoryTooltip}>
                     <CategoryLinkIn>{tt('g.in')}</CategoryLinkIn> {category}
                 </CategoryLink>
             </DetailsBlock>
@@ -429,7 +469,7 @@ export default class PostCardCompact extends PureComponent {
 
     renderFooter() {
         const { permLink, sanitizedData, data, isFavorite } = this.props;
-        const { menu, twoLines } = this.state;
+        const { menu } = this.state;
 
         return (
             <Footer>
@@ -437,12 +477,6 @@ export default class PostCardCompact extends PureComponent {
                 <Splitter />
                 <ReplyBlock mini count={data.get('children')} link={data.get('url')} />
                 {this.renderRepostButton()}
-                {twoLines ? null : (
-                    <Fragment>
-                        <Splitter />
-                        {this.renderDetails()}
-                    </Fragment>
-                )}
                 <Filler />
                 <MenuWrapper>
                     {menu ? (
@@ -466,10 +500,13 @@ export default class PostCardCompact extends PureComponent {
         }
 
         return (
-            <Root>
-                {this.renderBody()}
-                {this.renderFooter()}
-            </Root>
+            <Wrapper>
+                {this.renderHeader()}
+                <ContentWrapper>
+                    {this.renderBody()}
+                    {this.renderFooter()}
+                </ContentWrapper>
+            </Wrapper>
         );
     }
 }

@@ -32,9 +32,23 @@ const Wrapper = styled.div`
             width: 17px;
         }
     `};
+
+    ${is('micro')`
+        font-size: 12px;
+        letter-spacing: normal;
+        
+        ${KIcon} {
+            width: 16px;
+            color: #959595;
+        }
+        
+        ${Text} {
+            margin-left: 6px;
+        }
+    `};
 `;
 
-export default function CurationPercent({ curationPercent, mini, className }) {
+export default function CurationPercent({ curationPercent, mini, micro, className }) {
     if (curationPercent === null || curationPercent === undefined) {
         return null;
     }
@@ -42,7 +56,13 @@ export default function CurationPercent({ curationPercent, mini, className }) {
     const hint = tt('curation_percent.curation_rewards_percent');
 
     return (
-        <Wrapper data-tooltip={hint} aria-label={hint} mini={mini} className={className}>
+        <Wrapper
+            data-tooltip={hint}
+            aria-label={hint}
+            mini={mini}
+            micro={micro}
+            className={className}
+        >
             <KIcon />
             <Text>{curationPercent}%</Text>
         </Wrapper>
