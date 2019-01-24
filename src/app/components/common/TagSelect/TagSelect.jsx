@@ -53,7 +53,7 @@ const Action = styled.div`
         color: #fc5d16;
     `};
 
-    &:not(last-child) {
+    &:not(:last-child) {
         &:after {
             position: absolute;
             content: '';

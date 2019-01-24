@@ -17,15 +17,15 @@ const Wrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 0 -7px 0 -9px;
-
-    @media (max-width: 500px) {
-        margin: 0 -12px 0 -14px;
-    }
-
-    @media (max-width: 360px) {
-        margin: 0 -7px 0 -9px;
-    }
+    //margin: 0 -7px 0 -9px;
+    //
+    //@media (max-width: 500px) {
+    //    margin: 0 -12px 0 -14px;
+    //}
+    //
+    //@media (max-width: 360px) {
+    //    margin: 0 -7px 0 -9px;
+    //}
 
     ${is('vertical')`
         flex-direction: column;

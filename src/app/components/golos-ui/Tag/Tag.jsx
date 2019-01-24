@@ -19,10 +19,6 @@ export const Tag = styled.div`
     background-color: #ffffff;
     transition: border-color 0.15s ease;
 
-    &:not(last-child) {
-        margin-right: 10px;
-    }
-
     &:hover {
         border-color: #2879ff;
     }

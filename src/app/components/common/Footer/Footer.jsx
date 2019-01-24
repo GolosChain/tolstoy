@@ -22,7 +22,7 @@ const FooterMenus = styled.div`
 `;
 
 const Menu = styled.div`
-    &:not(last-child) {
+    &:not(:last-child) {
         margin-right: 10px;
     }
 
@@ -66,7 +66,7 @@ const MenuList = styled.div`
     flex-direction: column;
 
     @media (min-width: 500px) {
-        &:not(last-child) {
+        &:not(:last-child) {
             margin-right: 50px;
         }
     }
@@ -90,7 +90,7 @@ const MenuItem = styled.a`
     line-height: 16px;
     color: #959595;
 
-    &:not(last-child) {
+    &:not(:last-child) {
         margin-bottom: 20px;
     }
 

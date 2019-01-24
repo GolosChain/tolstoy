@@ -58,7 +58,6 @@ export default connect(
                 tagsSelect,
                 tagsFilter,
                 collapsed,
-                order,
             };
         }
     ),

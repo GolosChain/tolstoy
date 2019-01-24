@@ -17,6 +17,7 @@ import CardAuthor from '../CardAuthor';
 import { getImageSrc } from 'src/app/helpers/images';
 import { isContainTags } from 'app/utils/StateFunctions';
 import ViewCount from '../../common/ViewCount';
+import CurationPercent from '../../common/CurationPercent';
 
 const PREVIEW_IMAGE_SIZE = '859x356';
 
@@ -44,30 +45,8 @@ const HeaderLine = styled.div`
     }
 `;
 
-const HeaderLineGrid = styled(HeaderLine)`
-    padding: 4px 18px;
-`;
-
-const Category = styled(TagLink)`
-    margin-right: 14px;
-`;
-
-const Toolbar = styled.div`
-    display: flex;
-    align-items: center;
-`;
-
 const ToolbarAction = styled.div`
     flex-shrink: 0;
-    margin-right: 10px;
-
-    &:last-child {
-        margin-right: 0 !important;
-    }
-
-    @media (max-width: 700px) {
-        margin-right: 6px;
-    }
 `;
 
 const ToolbarEditAction = styled(ToolbarAction.withComponent(Link))`
@@ -147,22 +126,52 @@ const Footer = styled.div`
     `};
 `;
 
-const VotePanelStyled = styled(VotePanel)`
-    padding: 0 18px;
+const FooterToolbar = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 18px 6px;
 
     ${is('compact')`
         width: 100%;
-        margin-bottom: 6px;
-        
-        @media (max-width: 500px) {
-            margin-bottom: 3px;
-        }
     `};
+
+    @media (max-width: 340px) {
+        & > *:nth-child(n + 3) {
+            display: none;
+        }
+    }
+
+    & > * {
+        margin-left: 24px;
+
+        ${is('compact')`
+            margin-right: 0;
+        `}
+
+        &:first-child {
+            margin-left: 0 !important;
+        }
+
+        @media (max-width: 700px) {
+            margin-left: 6px;
+        }
+    }
+`;
+
+const VotePanelStyled = styled(VotePanel)`
+    margin-left: -7px;
+`;
+
+const PostImageWrapper = styled.div`
+    @media (max-width: 500px) {
+        margin: 0 18px;
+    }
 `;
 
 const PostImage = styled.div.attrs({
     style: ({ src }) => ({
-        backgroundImage: `url(${src})`,
+        backgroundImage: `url("${src}")`,
     }),
 })`
     width: 100%;
@@ -182,7 +191,7 @@ const Filler = styled.div`
     flex-grow: 1;
 `;
 
-const Root = styled(EntryWrapper)`
+const Wrapper = styled(EntryWrapper)`
     position: relative;
     border-radius: 8px;
     background: #fff;
@@ -196,10 +205,55 @@ const Root = styled(EntryWrapper)`
             opacity: 1;
         }
     `};
+
+    @media (max-width: 500px) {
+        border-radius: 0;
+    }
 `;
 
-const ViewCountStyled = styled(ViewCount)`
-    margin: -2px 8px 0 0;
+const HeaderRightPanel = styled.div`
+    display: flex;
+    align-items: center;
+
+    ${is('compact')`
+        flex-direction: column;
+        align-items: flex-end;
+        margin-top: -2px;
+        margin-bottom: 2px;
+    `};
+`;
+
+const HeaderStatusIcons = styled.div`
+    display: flex;
+    align-items: center;
+
+    & > * {
+        margin-left: 32px;
+    }
+
+    ${is('compact')`
+        margin-bottom: 4px;
+    
+        & > * {
+            margin-left: 20px;
+            
+            &:first-child {
+                margin-left: 0;
+            }
+        }
+    `};
+`;
+
+const ViewCountStyled = styled(ViewCount)``;
+
+const CurationPercentStyled = styled(CurationPercent)`
+    @media (max-width: 340px) {
+        display: none;
+    }
+`;
+
+const Category = styled(TagLink)`
+    margin-left: 32px;
 `;
 
 @withRouter
@@ -249,12 +303,12 @@ export default class PostCard extends PureComponent {
         }
 
         return (
-            <Root className={className} gray={stats.gray || stats.hide}>
+            <Wrapper className={className} gray={stats.gray || stats.hide}>
                 {this.renderHeader()}
                 {isRepost ? this.renderRepostPart() : null}
                 {this.renderBody()}
                 {this.renderFooter()}
-            </Root>
+            </Wrapper>
         );
     }
 
@@ -287,8 +341,11 @@ export default class PostCard extends PureComponent {
                         created={created}
                     />
                     <Filler />
-                    {compact ? null : <ViewCountStyled postLink={permLink} mini />}
-                    {compact ? null : (
+                    <HeaderRightPanel compact={compact}>
+                        <HeaderStatusIcons compact={compact}>
+                            <ViewCountStyled postLink={permLink} mini />
+                            <CurationPercentStyled postLink={permLink} mini />
+                        </HeaderStatusIcons>
                         <Category
                             to={categoryUri}
                             category={1}
@@ -296,22 +353,8 @@ export default class PostCard extends PureComponent {
                         >
                             {category}
                         </Category>
-                    )}
-                    <Toolbar>
-                        {this.renderEditButton()}
-                        {this.renderPinButton()}
-                        {this.renderRepostButton()}
-                        {this.renderFavoriteButton()}
-                    </Toolbar>
+                    </HeaderRightPanel>
                 </HeaderLine>
-                {compact ? (
-                    <HeaderLineGrid>
-                        <Category to={categoryUri} category={1}>
-                            {category}
-                        </Category>
-                        <Filler />
-                    </HeaderLineGrid>
-                ) : null}
             </Header>
         );
     }
@@ -458,7 +501,11 @@ export default class PostCard extends PureComponent {
                 compact={compact ? 1 : 0}
                 onClick={this.props.onClick}
             >
-                {withImage ? <PostImage compact={compact} src={imageLink} /> : null}
+                {withImage ? (
+                    <PostImageWrapper>
+                        <PostImage compact={compact} src={imageLink} />
+                    </PostImageWrapper>
+                ) : null}
                 <Body>
                     <PostTitle>{sanitizedData.title}</PostTitle>
                     <PostContent dangerouslySetInnerHTML={sanitizedData.html} />
@@ -472,7 +519,13 @@ export default class PostCard extends PureComponent {
 
         return (
             <Footer compact={compact}>
-                <VotePanelStyled contentLink={permLink} compact={compact} />
+                <FooterToolbar compact={compact}>
+                    <VotePanelStyled contentLink={permLink} compact={true} />
+                    {this.renderEditButton()}
+                    {this.renderPinButton()}
+                    {this.renderRepostButton()}
+                    {this.renderFavoriteButton()}
+                </FooterToolbar>
                 {compact ? null : <Filler />}
                 <ReplyBlock
                     compact={compact}

@@ -20,7 +20,7 @@ const Card = styled(Flex)`
     }
 `;
 Card.defaultProps = {
-    column: true
+    column: true,
 };
 export default Card;
 

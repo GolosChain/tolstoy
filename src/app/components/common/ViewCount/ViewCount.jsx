@@ -7,6 +7,11 @@ import Icon from 'golos-ui/Icon';
 
 const INVALIDATION_INTERVAL = 60 * 1000;
 
+const EyeIcon = styled(Icon).attrs({ name: 'eye' })`
+    width: 20px;
+    color: #333;
+`;
+
 const Text = styled.div`
     margin: 0 -1px 0 10px;
 `;
@@ -25,15 +30,10 @@ const Wrapper = styled.div`
         font-size: 16px;
         letter-spacing: 1.4px;
         
-        ${Text} {
-            margin-right: 7px;
+        ${EyeIcon} {
+            width: 22px;
         }
     `}
-`;
-
-const EyeIcon = styled(Icon).attrs({ name: 'eye' })`
-    width: 20px;
-    color: #333;
 `;
 
 export default class ViewCount extends Component {

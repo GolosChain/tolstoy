@@ -5,6 +5,11 @@ import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
 
+const KIcon = styled(Icon).attrs({ name: 'k_round' })`
+    width: 20px;
+    color: #333;
+`;
+
 const Text = styled.div`
     margin: 0 -1px 0 10px;
 `;
@@ -18,11 +23,15 @@ const Wrapper = styled.div`
     color: #757575;
     user-select: none;
     cursor: default;
-`;
 
-const KIcon = styled(Icon).attrs({ name: 'k_round' })`
-    width: 20px;
-    color: #333;
+    ${is('mini')`
+        font-size: 16px;
+        letter-spacing: 1.4px;
+    
+        ${KIcon} {
+            width: 17px;
+        }
+    `};
 `;
 
 export default function CurationPercent({ curationPercent, mini, className }) {
