@@ -130,7 +130,7 @@ const FooterToolbar = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 18px 6px;
+    padding: 0 18px 7px;
 
     ${is('compact')`
         width: 100%;
@@ -142,20 +142,16 @@ const FooterToolbar = styled.div`
         }
     }
 
-    & > * {
+    & > :not(:first-child) {
         margin-left: 24px;
-
-        ${is('compact')`
-            margin-right: 0;
-        `}
-
-        &:first-child {
-            margin-left: 0 !important;
-        }
 
         @media (max-width: 700px) {
             margin-left: 6px;
         }
+
+        ${is('compact')`
+            margin-left: 0 !important;
+        `};
     }
 `;
 
@@ -227,24 +223,18 @@ const HeaderStatusIcons = styled.div`
     display: flex;
     align-items: center;
 
-    & > * {
+    & > &:first-child {
         margin-left: 32px;
     }
 
     ${is('compact')`
         margin-bottom: 4px;
     
-        & > * {
+        & > :not(:first-child) {
             margin-left: 20px;
-            
-            &:first-child {
-                margin-left: 0;
-            }
         }
     `};
 `;
-
-const ViewCountStyled = styled(ViewCount)``;
 
 const CurationPercentStyled = styled(CurationPercent)`
     @media (max-width: 340px) {
@@ -343,7 +333,7 @@ export default class PostCard extends PureComponent {
                     <Filler />
                     <HeaderRightPanel compact={compact}>
                         <HeaderStatusIcons compact={compact}>
-                            <ViewCountStyled postLink={permLink} mini />
+                            <ViewCount postLink={permLink} mini />
                             <CurationPercentStyled postLink={permLink} mini />
                         </HeaderStatusIcons>
                         <Category

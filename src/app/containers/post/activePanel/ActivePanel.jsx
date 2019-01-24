@@ -57,7 +57,7 @@ const Divider = styled.div`
 `;
 
 const VotePanelWrapper = styled(VotePanel)`
-    padding: 0 22px 0 18px;
+    padding: 0 13px 0 9px;
 
     @media (max-width: 768px) {
         display: -webkit-box;
@@ -65,7 +65,7 @@ const VotePanelWrapper = styled(VotePanel)`
     }
 
     @media (max-width: 360px) {
-        padding: 12px 10px;
+        padding: 12px 7px;
     }
 `;
 

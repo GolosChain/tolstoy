@@ -24,7 +24,7 @@ const PREVIEW_WIDTH = 148;
 const PREVIEW_HEIGHT = 80;
 const MOBILE_PREVIEW_WIDTH = 108;
 const MOBILE_PREVIEW_HEIGHT = 60;
-const EXTEND_HEADER_ON = 850;
+const EXTEND_HEADER_THRESHOLD = 850;
 const PREVIEW_SIZE = `${PREVIEW_WIDTH}x${PREVIEW_HEIGHT}`;
 
 const TEXT_LENGTH_LIMIT = 194; // Примерно 3 строки текста
@@ -55,7 +55,7 @@ const HeaderWrapper = styled.div`
     align-items: center;
     justify-content: space-between;
 
-    @media (max-width: ${EXTEND_HEADER_ON}px) {
+    @media (max-width: ${EXTEND_HEADER_THRESHOLD}px) {
         display: block;
     }
 `;
@@ -64,7 +64,7 @@ const Header = styled.div`
     margin-bottom: 16px;
     border-bottom: 1px solid #e1e1e1;
 
-    @media (max-width: ${EXTEND_HEADER_ON}px) {
+    @media (max-width: ${EXTEND_HEADER_THRESHOLD}px) {
         margin-bottom: 2px;
         border-bottom: none;
     }
@@ -75,7 +75,7 @@ const HeaderLeft = styled(ContentWrapper)`
     align-items: center;
     min-height: 48px;
 
-    @media (max-width: ${EXTEND_HEADER_ON}px) {
+    @media (max-width: ${EXTEND_HEADER_THRESHOLD}px) {
         border-bottom: 1px solid #e1e1e1;
     }
 `;
