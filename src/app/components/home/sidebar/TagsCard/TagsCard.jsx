@@ -56,6 +56,10 @@ const Wrapper = styled.div`
 // `;
 
 const TagSelectStyled = styled(TagSelect)`
+    &:not(:last-child) {
+        margin-right: 10px;
+    }
+
     @media (max-width: 768px) {
         margin-bottom: 20px;
     }
