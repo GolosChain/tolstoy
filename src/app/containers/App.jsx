@@ -193,11 +193,13 @@ export class App extends Component {
 
 function sendNewVisitToAmplitudeCom() {
     if (!sessionStorage.getItem(AMPLITUDE_SESSION)) {
-        if (checkMobileDevice()) {
-            window.amplitude.getInstance().logEvent('Attendance - new visitation (mobile)');
-        } else {
-            window.amplitude.getInstance().logEvent('Attendance - new visitation (desktop)');
+        if (window.amplitude) {
+            if (checkMobileDevice()) {
+                window.amplitude.getInstance().logEvent('Attendance - new visitation (mobile)');
+            } else {
+                window.amplitude.getInstance().logEvent('Attendance - new visitation (desktop)');
+            }
+            sessionStorage.setItem(AMPLITUDE_SESSION, true);
         }
-        sessionStorage.setItem(AMPLITUDE_SESSION, true);
     }
 }
