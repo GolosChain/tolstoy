@@ -143,6 +143,9 @@
     "final_confirm": "Accept our Terms of Use:",
     "take_your_secret_key": "Receive your generated password"
   },
+  "curation_percent": {
+    "curation_rewards_percent": "Curation rewards percent"
+  },
   "dialog": {
     "alert": "Alert",
     "clear": "Clear",
@@ -776,13 +779,13 @@
     "payout_option_50_hint": "Receive payout in Golos and GBG",
     "preview_mode": "Preview mode",
     "recommended_tags": "Recommended tags",
+    "set_curator_percent": "Set curator reward percent:",
     "set_payout_type": "Select the type of payment for your post",
     "tags_input_placeholder": "Add tags",
     "text_placeholder": "Start your story...",
     "title_placeholder": "Enter the title",
     "update": "Update",
-    "wait_uploading": "Images uploading...",
-    "set_curator_percent": "Set curator reward percent:"
+    "wait_uploading": "Images uploading..."
   },
   "post_jsx": {
     "comments_were_hidden_due_to_low_ratings": "Comments were hidden due to low ratings",
@@ -1112,8 +1115,8 @@
       "all": "All",
       "author_rewards": "Author Rewards",
       "curation_rewards": "Curation Rewards",
-      "delegation_rewards": "Delegated GP",
       "delegation": "Delegation",
+      "delegation_rewards": "Delegated GP",
       "gbg": "GBG",
       "golos": "Golos",
       "golos_power": "Golos Power",
@@ -1137,9 +1140,6 @@
   },
   "view_count": {
     "view_count": "Views count"
-  },
-  "curation_percent": {
-    "curation_rewards_percent": "Curation rewards percent"
   },
   "voting_jsx": {
     "begin_recovery": "Begin Recovery",

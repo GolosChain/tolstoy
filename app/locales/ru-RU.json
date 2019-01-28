@@ -144,6 +144,9 @@
     "final_confirm": "Удостоверьтесь, что вы надежно сохранили сгенерированный пароль, и ознакомьтесь с Условиями использования сайта:",
     "take_your_secret_key": "Получите ваш сгенерированный пароль"
   },
+  "curation_percent": {
+    "curation_rewards_percent": "Процент кураторкских выплат"
+  },
   "dialog": {
     "alert": "Предупреждение",
     "clear": "Очистить",
@@ -781,13 +784,13 @@
     "payout_option_50_hint": "Получить награду Силой Голоса и Золотыми",
     "preview_mode": "Режим предпросмотра",
     "recommended_tags": "Рекомендуемые теги",
+    "set_curator_percent": "Процент кураторских наград:",
     "set_payout_type": "Выберите вид награды за свой пост",
     "tags_input_placeholder": "Добавьте теги",
     "text_placeholder": "Расскажите свою историю...",
     "title_placeholder": "Введите заголовок",
     "update": "Обновить",
-    "wait_uploading": "Загружаются файлы",
-    "set_curator_percent": "Процент кураторских наград:"
+    "wait_uploading": "Загружаются файлы"
   },
   "post_jsx": {
     "comments_were_hidden_due_to_low_ratings": "Комментарии были скрыты из-за низкого рейтинга",
@@ -1119,8 +1122,8 @@
       "all": "Все",
       "author_rewards": "Авторские",
       "curation_rewards": "Кураторские",
-      "delegation_rewards": "Делегированная СГ",
       "delegation": "Делегирование",
+      "delegation_rewards": "Делегированная СГ",
       "gbg": "Золото",
       "golos": "Голос",
       "golos_power": "Сила Голоса",
@@ -1144,9 +1147,6 @@
   },
   "view_count": {
     "view_count": "Количество просмотров"
-  },
-  "curation_percent": {
-    "curation_rewards_percent": "Процент кураторкских выплат"
   },
   "voting_jsx": {
     "begin_recovery": "Начать восстановление",
