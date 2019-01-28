@@ -50,6 +50,7 @@ export const REWARDS_TABS = {
 export const REWARDS_TYPES = {
     CURATORIAL: 'CURATORIAL',
     AUTHOR: 'AUTHOR',
+    DELEGATION: 'DELEGATION',
 };
 
 export const DIRECTION = {
@@ -263,7 +264,18 @@ export default class WalletContent extends Component {
         let transactions;
 
         if (mainTab === MAIN_TABS.REWARDS) {
-            const type = rewardType === REWARDS_TYPES.AUTHOR ? 'author' : 'curation';
+            let type;
+            switch (rewardType) {
+                case REWARDS_TYPES.AUTHOR:
+                    type = 'author';
+                    break;
+                case REWARDS_TYPES.CURATORIAL:
+                    type = 'curation';
+                    break;
+                case REWARDS_TYPES.DELEGATION:
+                    type = 'delegation';
+                    break;
+            }
 
             transactions = pageAccount.getIn(['rewards', type, 'items']);
 
@@ -303,7 +315,11 @@ export default class WalletContent extends Component {
                 }
             } else if (mainTab === MAIN_TABS.POWER) {
             } else if (mainTab === MAIN_TABS.REWARDS) {
-                if (type === 'curation_reward' || type === 'author_reward') {
+                if (
+                    type === 'curation_reward' ||
+                    type === 'author_reward' ||
+                    type === 'delegation_reward'
+                ) {
                     line = this.processRewards(type, data, stamp);
                 }
             }
@@ -517,8 +533,8 @@ export default class WalletContent extends Component {
                         icon: isSafe
                             ? 'lock'
                             : opCurrency === CURRENCY.GOLOS
-                                ? 'logo'
-                                : 'brilliant',
+                            ? 'logo'
+                            : 'brilliant',
                         color: isSafe ? safeColor : isReceive ? CURRENCY_COLOR[opCurrency] : null,
                     };
                 }
@@ -569,6 +585,21 @@ export default class WalletContent extends Component {
                 currencies,
                 memo: data.memo || null,
                 icon: 'a',
+                color: '#f57c02',
+            };
+        } else if (rewardType === REWARDS_TYPES.DELEGATION && type === 'delegation_reward') {
+            const amount = vestsToGolosEasy(data.vesting_shares);
+
+            if (/^0+\.0+$/.test(amount)) {
+                return;
+            }
+
+            return {
+                type: DIRECTION.RECEIVE,
+                title: data.delegatee,
+                amount: '+' + amount,
+                currency: CURRENCY.GOLOS_POWER,
+                icon: 'k',
                 color: '#f57c02',
             };
         }
