@@ -112,6 +112,10 @@ export default class WalletTabs extends PureComponent {
                         id={REWARDS_TYPES.AUTHOR}
                         title={tt('user_wallet.tab_title.author_rewards')}
                     />
+                    <TabContainer
+                        id={REWARDS_TYPES.DELEGATION}
+                        title={tt('user_wallet.tab_title.delegation_rewards')}
+                    />
                 </TabsContent>
             </Tabs>
         );

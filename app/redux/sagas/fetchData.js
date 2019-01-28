@@ -284,7 +284,18 @@ export function* fetchRewards({ payload }) {
     });
 
     try {
-        const filter = type === 'author' ? 'author_reward' : 'curation_reward';
+        let filter;
+        switch (type) {
+            case 'author':
+                filter = 'author_reward';
+                break;
+            case 'curation':
+                filter = 'curation_reward';
+                break;
+            case 'delegation':
+                filter = 'delegation_reward';
+                break;
+        }
 
         const data = yield call(
             [api, api.getAccountHistoryAsync],
