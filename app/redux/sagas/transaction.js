@@ -440,7 +440,10 @@ function* preBroadcast_comment({ operation, username }) {
     const comment_op = [['comment', op]];
 
     const auctionRewardDestination = yield select(state =>
-        state.data.settings.getIn(['basic', 'auctionRewardDestination'])
+        state.data.settings.getIn(
+            ['basic', 'auctionRewardDestination'],
+            AUCTION_REWARD_DESTINATION.DEFAULT
+        )
     );
 
     // comment_options must come directly after comment
