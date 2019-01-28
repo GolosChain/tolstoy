@@ -43,6 +43,10 @@ const Body = styled.div`
 const Footer = styled.div`
     display: flex;
     margin-top: 20px;
+
+    @media (max-width: 500px) {
+        flex-direction: column;
+    }
 `;
 
 const FooterInfoBlock = styled.div`
@@ -50,22 +54,12 @@ const FooterInfoBlock = styled.div`
     align-items: center;
     flex-shrink: 0;
 
-    & > * {
-        &:not(:first-child) {
-            margin-left: 24px;
-        }
-    }
-
     @media (max-width: 500px) {
-        flex-direction: column;
-        align-items: flex-end;
         justify-content: flex-end;
-        margin-bottom: -1px;
+        margin-top: 10px;
 
-        & > * {
-            &:not(:first-child) {
-                margin-left: 0;
-            }
+        & > :last-child {
+            margin-left: 24px;
         }
     }
 `;
