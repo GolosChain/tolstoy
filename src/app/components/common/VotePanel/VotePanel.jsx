@@ -39,7 +39,7 @@ const LikeWrapper = styled.i`
         height: 48px;
     }
 
-    @media (max-width: 360px) {
+    @media (max-width: 410px) {
         width: 30px;
     }
 
