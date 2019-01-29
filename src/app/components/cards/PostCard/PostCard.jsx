@@ -43,6 +43,10 @@ const HeaderLine = styled.div`
     & > * {
         pointer-events: initial;
     }
+
+    @media (min-width: 361px) and (max-width: 400px) {
+        padding: 2px 10px;
+    }
 `;
 
 const ToolbarAction = styled.div`
@@ -99,6 +103,10 @@ const BodyLink = styled(Link)`
 const Body = styled.div`
     position: relative;
     padding: 0 18px 12px;
+
+    @media (min-width: 361px) and (max-width: 400px) {
+        padding: 0 10px 12px;
+    }
 `;
 
 const RepostBody = styled(Body)`
@@ -136,7 +144,13 @@ const FooterToolbar = styled.div`
         width: 100%;
     `};
 
-    @media (max-width: 340px) {
+    @media (max-width: 400px) {
+        padding: 0 5px 7px;
+    }
+
+    @media (max-width: 359px) {
+        justify-content: center;
+
         & > *:nth-child(n + 3) {
             display: none;
         }
@@ -157,6 +171,10 @@ const FooterToolbar = styled.div`
 
 const VotePanelStyled = styled(VotePanel)`
     margin-left: -7px;
+
+    @media (max-width: 400px) {
+        margin-left: 0;
+    }
 `;
 
 const PostImageWrapper = styled.div`
@@ -223,13 +241,17 @@ const HeaderStatusIcons = styled.div`
     display: flex;
     align-items: center;
 
+    & > :not(:first-child) {
+        margin-left: 20px;
+    }
+
     & > &:first-child {
         margin-left: 32px;
     }
 
     ${is('compact')`
         margin-bottom: 4px;
-    
+
         & > :not(:first-child) {
             margin-left: 20px;
         }
