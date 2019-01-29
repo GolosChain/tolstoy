@@ -7,6 +7,8 @@ felixjasper
 jekasds
 bot-reporter
 filinlex
+fynjy
+ilyachema
 `
     .trim()
     .split('\n');
@@ -16,6 +18,8 @@ bm-marrivas
 bm-eash
 bm-twicy70
 creoboo
+bm-sergeychv
+bm-md
 `
     .trim()
     .split('\n');
