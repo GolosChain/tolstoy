@@ -142,7 +142,7 @@ const MobileOptionCuration = styled(MobileOption)`
     margin-bottom: 8px;
 `;
 
-const MobileOptionTitle = styled.p`
+const MobileOptionTitle = styled.div`
     width: 100%;
     margin: 0;
     padding-left: 16px;

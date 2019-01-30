@@ -39,10 +39,19 @@ export default connect(
         if (props.editMode) {
             return editPostSelector(state, props);
         } else {
-            return {
+            const chainProps = state.global.get('chain_properties');
+
+            const addProps = {
                 author: currentUsernameSelector(state),
                 selfVote: selfVoteSelector(state),
             };
+
+            if (chainProps) {
+                addProps.minCurationPercent = chainProps.get('min_curation_percent');
+                addProps.maxCurationPercent = chainProps.get('max_curation_percent');
+            }
+
+            return addProps;
         }
     },
     {
