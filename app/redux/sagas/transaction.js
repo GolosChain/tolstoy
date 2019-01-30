@@ -397,7 +397,7 @@ function* preBroadcast_comment({ operation, username }) {
     let permlink = operation.permlink;
     const {
         author,
-        __config: { originalBody, autoVote, comment_options, curationPercent },
+        __config: { originalBody, autoVote, comment_options },
     } = operation;
 
     const { parent_author = '', parent_permlink = operation.category } = operation;

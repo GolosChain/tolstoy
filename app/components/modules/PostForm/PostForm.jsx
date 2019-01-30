@@ -712,8 +712,15 @@ export default class PostForm extends React.Component {
             data.parent_permlink = parentPermLink;
             data.__config.originalBody = body;
         } else {
+            const { minCurationPercent, maxCurationPercent } = this.props;
+
+            const boundPercent = Math.min(
+                Math.max(minCurationPercent, curationPercent),
+                maxCurationPercent
+            );
+
             const commentOptions = {
-                curator_rewards_percent: curationPercent,
+                curator_rewards_percent: boundPercent,
             };
 
             if (payoutType === PAYOUT_TYPES.PAY_0) {
