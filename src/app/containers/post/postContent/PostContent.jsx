@@ -54,13 +54,13 @@ const FooterInfoBlock = styled.div`
     align-items: center;
     flex-shrink: 0;
 
+    & > :last-child {
+        margin-left: 24px;
+    }
+
     @media (max-width: 500px) {
         justify-content: flex-end;
         margin-top: 10px;
-
-        & > :last-child {
-            margin-left: 24px;
-        }
     }
 `;
 

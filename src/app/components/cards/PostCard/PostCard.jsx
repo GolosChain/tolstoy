@@ -241,18 +241,18 @@ const HeaderStatusIcons = styled.div`
     display: flex;
     align-items: center;
 
-    & > :not(:first-child) {
-        margin-left: 20px;
+    & > :last-child {
+        margin-left: 32px;
     }
 
-    & > &:first-child {
-        margin-left: 32px;
+    & > :first-child {
+        margin-left: 20px;
     }
 
     ${is('compact')`
         margin-bottom: 4px;
 
-        & > :not(:first-child) {
+        & > :last-child {
             margin-left: 20px;
         }
     `};
