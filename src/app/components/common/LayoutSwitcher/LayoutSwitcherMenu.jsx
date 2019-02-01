@@ -35,7 +35,9 @@ const Item = styled.li`
 
     ${is('active')`
         color: #2879ff;
-    `} @media (max-width: 500px) {
+    `};
+
+    @media (max-width: 500px) {
         padding: 15px 20px;
     }
 `;
