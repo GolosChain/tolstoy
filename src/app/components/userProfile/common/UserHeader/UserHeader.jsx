@@ -551,7 +551,6 @@ export default class UserHeader extends Component {
             updateFollow,
             profileButtonsInfo,
             confirmUnfollowDialog,
-            loginIfNeed,
             accountWitnessVote,
         } = this.props;
 
@@ -574,7 +573,6 @@ export default class UserHeader extends Component {
                                 profileButtonsInfo={profileButtonsInfo}
                                 updateFollow={updateFollow}
                                 confirmUnfollowDialog={confirmUnfollowDialog}
-                                loginIfNeed={loginIfNeed}
                                 accountWitnessVote={accountWitnessVote}
                             />
                         </Fragment>

@@ -4,23 +4,14 @@ import { Link } from 'react-router';
 import { List } from 'immutable';
 import tt from 'counterpart';
 import styled from 'styled-components';
-import is from 'styled-is';
 
 import { APP_NAME } from 'app/client_config';
 
-import { CONTAINER_MOBILE_WIDTH, CONTAINER_MOBILE_MARGIN } from 'src/app/constants/container';
 import CardsList from 'src/app/components/common/CardsList';
 import NoPostsPlaceholder from 'src/app/components/home/NoPostsPlaceholder';
 
 const Wrapper = styled.div`
     background-color: #f9f9f9;
-
-    ${is('addGaps')`
-        @media (max-width: ${CONTAINER_MOBILE_WIDTH}px) {
-            margin-left: ${CONTAINER_MOBILE_MARGIN}px;
-            margin-right: ${CONTAINER_MOBILE_MARGIN}px;
-        }
-    `};
 `;
 
 const Callout = styled.div`
@@ -52,7 +43,10 @@ export default class HomeContent extends Component {
     renderCallout() {
         const { category, order, currentUsername, routeParams, tagsStr } = this.props;
 
-        const accountName = routeParams.order.slice(1);
+        let accountName = null;
+        if (routeParams.order) {
+            accountName = routeParams.order.slice(1);
+        }
 
         if (category !== 'feed') {
             return <NoPostsPlaceholder order={order} tagsStr={tagsStr} accountName={accountName} />;
@@ -104,7 +98,7 @@ export default class HomeContent extends Component {
         }
 
         return (
-            <Wrapper addGaps={layout !== 'compact'}>
+            <Wrapper>
                 <CardsList
                     pageAccountName={pageAccountName}
                     items={posts}

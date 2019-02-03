@@ -60,25 +60,16 @@ export default class VoteWitnessFollow extends Component {
     };
 
     voteForWitness = () => {
-        const {
-            profileButtonsInfo,
+        const { profileButtonsInfo, authUser, accountUsername, accountWitnessVote } = this.props;
+
+        this.setState({ busy: true });
+        accountWitnessVote(
             authUser,
             accountUsername,
-            loginIfNeed,
-            accountWitnessVote,
-        } = this.props;
-
-        loginIfNeed(logged => {
-            if (logged) {
-                this.setState({ busy: true });
-                accountWitnessVote(
-                    authUser,
-                    accountUsername,
-                    !profileButtonsInfo.witnessUpvoted,
-                    () => this.setState({ busy: false })
-                );
-            }
-        });
+            !profileButtonsInfo.witnessUpvoted,
+            () => this.setState({ busy: false }),
+            () => this.setState({ busy: false })
+        );
     };
 
     renderWitnessButton() {

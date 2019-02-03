@@ -653,7 +653,7 @@ export default connect(
             myUser,
             myAccount,
             globalProps: state.global.get('props'),
-            chainProps: state.global.get('chain_properies'),
+            chainProps: state.global.get('chain_properties'),
         };
     },
     {
@@ -676,10 +676,9 @@ export default connect(
                     },
                 })
             ),
-        fetchChainProperties: () => dispatch =>
-            dispatch({
-                type: 'global/FETCH_CHAIN_PROPERTIES',
-            }),
+        fetchChainProperties: () => ({
+            type: 'global/FETCH_CHAIN_PROPERTIES',
+        }),
         showNotification,
     },
     null,

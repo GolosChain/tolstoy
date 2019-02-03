@@ -40,7 +40,7 @@ const PostDesc = styled.div`
 `;
 
 const AuthorLine = styled.div`
-    margin: 3px 0;
+    margin-bottom: 3px;
     line-height: 1.1;
 `;
 

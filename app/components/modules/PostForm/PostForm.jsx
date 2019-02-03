@@ -39,6 +39,8 @@ export const PAYOUT_TYPES = {
     PAY_100: 3,
 };
 
+const DEFAULT_CURATION_PERCENT = 5000; // 50%
+
 export const PAYOUT_OPTIONS = [
     {
         id: PAYOUT_TYPES.PAY_100,
@@ -181,6 +183,7 @@ export default class PostForm extends React.Component {
         category: PropTypes.string,
         title: PropTypes.string,
         body: PropTypes.string,
+        payoutType: PropTypes.number,
         jsonMetadata: PropTypes.object,
     };
 
@@ -203,6 +206,7 @@ export default class PostForm extends React.Component {
             rteState: null,
             tags: [],
             payoutType: PAYOUT_TYPES.PAY_50,
+            curationPercent: DEFAULT_CURATION_PERCENT,
             isPosting: false,
             uploadingCount: 0,
             isPreviewButtonVisible: true,
@@ -228,7 +232,13 @@ export default class PostForm extends React.Component {
     }
 
     componentDidMount() {
+        const { editMode } = this.props;
+
         window.addEventListener('scroll', this._checkPreviewButtonPosition);
+
+        if (!editMode) {
+            this.props.fetchChainProperties();
+        }
     }
 
     _tryLoadDraft() {
@@ -257,6 +267,7 @@ export default class PostForm extends React.Component {
             state.emptyBody = draft.text.trim().length === 0;
             state.tags = draft.tags;
             state.payoutType = draft.payoutType || PAYOUT_TYPES.PAY_50;
+            state.curationPercent = draft.curationPercent || DEFAULT_CURATION_PERCENT;
 
             if (state.editorId === EDITORS_TYPES.MARKDOWN_OLD) {
                 state.editorId = EDITORS_TYPES.MARKDOWN;
@@ -272,7 +283,7 @@ export default class PostForm extends React.Component {
     }
 
     _fillFromMetadata() {
-        const { title, body, category, jsonMetadata } = this.props;
+        const { title, body, category, payoutType, curationPercent, jsonMetadata } = this.props;
 
         if (jsonMetadata.format === 'markdown') {
             this.state.editorId = EDITORS_TYPES.MARKDOWN;
@@ -290,6 +301,9 @@ export default class PostForm extends React.Component {
         }
 
         this.state.emptyBody = false;
+
+        this.state.payoutType = payoutType;
+        this.state.curationPercent = curationPercent;
 
         const tagsFromData = [...(jsonMetadata.tags || [])];
 
@@ -314,6 +328,7 @@ export default class PostForm extends React.Component {
             text,
             tags,
             payoutType,
+            curationPercent,
             isPreview,
             uploadingCount,
             isPosting,
@@ -377,6 +392,8 @@ export default class PostForm extends React.Component {
                             onTagsChange={this._onTagsChange}
                             payoutType={payoutType}
                             onPayoutTypeChange={this._onPayoutTypeChange}
+                            curationPercent={curationPercent}
+                            onCurationPercentChange={this._onCurationPercentChange}
                             postDisabled={Boolean(disallowPostCode) || isPosting}
                             disabledHint={disallowPostCode ? tt(disallowPostCode) : null}
                             onPostClick={this._postSafe}
@@ -544,13 +561,17 @@ export default class PostForm extends React.Component {
         );
     };
 
+    _onCurationPercentChange = percent => {
+        this.setState({ curationPercent: percent }, this._saveDraftLazy);
+    };
+
     _onPayoutTypeChange = payoutType => {
         this.setState({ payoutType }, this._saveDraftLazy);
     };
 
     _saveDraft = () => {
         const { editMode, permLink } = this.props;
-        const { isPreview, editorId, title, text, tags, payoutType } = this.state;
+        const { isPreview, editorId, title, text, tags, payoutType, curationPercent } = this.state;
 
         try {
             let body;
@@ -568,6 +589,7 @@ export default class PostForm extends React.Component {
                 text: body,
                 tags,
                 payoutType,
+                curationPercent,
             };
 
             const json = JSON.stringify(save);
@@ -603,7 +625,7 @@ export default class PostForm extends React.Component {
 
     _post = () => {
         const { author, editMode, selfVote } = this.props;
-        const { title, tags, payoutType, editorId } = this.state;
+        const { title, tags, payoutType, curationPercent, editorId } = this.state;
         let error;
 
         if (!title.trim()) {
@@ -690,7 +712,16 @@ export default class PostForm extends React.Component {
             data.parent_permlink = parentPermLink;
             data.__config.originalBody = body;
         } else {
-            const commentOptions = {};
+            const { minCurationPercent, maxCurationPercent } = this.props;
+
+            const boundPercent = Math.min(
+                Math.max(minCurationPercent, curationPercent),
+                maxCurationPercent
+            );
+
+            const commentOptions = {
+                curator_rewards_percent: boundPercent,
+            };
 
             if (payoutType === PAYOUT_TYPES.PAY_0) {
                 commentOptions.max_accepted_payout = '0.000 ' + DEBT_TICKER;

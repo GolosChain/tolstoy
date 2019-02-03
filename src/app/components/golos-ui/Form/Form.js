@@ -120,6 +120,10 @@ export const FormFooter = styled.div`
     @media (max-width: 576px) {
         border-radius: 0;
         box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
+
+        .Dialog & {
+            border-radius: 8px;
+        }
     }
 `;
 

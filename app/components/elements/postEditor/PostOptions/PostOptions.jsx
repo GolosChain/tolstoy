@@ -1,12 +1,14 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, createRef, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
+import { isNil } from 'ramda';
 
 import Icon from 'app/components/elements/Icon';
 import Hint from 'app/components/elements/common/Hint';
 import Switcher from 'golos-ui/Form/components/Switcher';
+import Slider from 'golos-ui/Slider';
 import RadioGroup from 'app/components/elements/common/RadioGroup';
 import { PAYOUT_OPTIONS } from 'app/components/modules/PostForm/PostForm';
 
@@ -24,11 +26,17 @@ const Wrapper = styled.div`
 `;
 
 const DesktopWrapper = styled.div`
-    position: relative;
+    display: flex;
+    align-items: center;
 
     @media (max-width: 860px) {
         display: none;
     }
+`;
+
+const ButtonContainer = styled.div`
+    position: relative;
+    flex-shrink: 0;
 `;
 
 const IconWrapper = styled.span`
@@ -58,6 +66,25 @@ const BubbleText = styled.p`
     margin: 0 0 6px;
     font-size: 14px;
     color: #757575;
+`;
+
+const CurationText = styled.p`
+    margin: 0 0 6px;
+    font-size: 15px;
+    white-space: nowrap;
+    color: #393636;
+`;
+
+const CurationValue = styled.b`
+    display: inline-block;
+    width: 38px;
+    text-align: left;
+    font-weight: 500;
+`;
+
+const MobileCurationValue = styled.b`
+    margin-left: 8px;
+    font-weight: bold;
 `;
 
 const MobileWrapper = styled.div`
@@ -106,12 +133,17 @@ const NsfwWrapper = styled.div`
     width: 100%;
 `;
 
-const NsfwIconWrapper = styled.div`
+const MobileOption = styled.div`
     display: flex;
     align-items: center;
 `;
 
-const NsfwTip = styled.p`
+const MobileOptionCuration = styled(MobileOption)`
+    margin-bottom: 8px;
+`;
+
+const MobileOptionTitle = styled.div`
+    width: 100%;
     margin: 0;
     padding-left: 16px;
     font-size: 15px;
@@ -123,51 +155,93 @@ const NsfwTip = styled.p`
     color: #333333;
 `;
 
+const SliderStyled = styled(Slider)`
+    margin-top: 20px;
+`;
+
+const MobileCurationBlock = styled.div`
+    display: flex;
+    justify-content: space-between;
+`;
+
 export default class PostOptions extends PureComponent {
     static propTypes = {
         nsfw: PropTypes.bool.isRequired,
         payoutType: PropTypes.number.isRequired,
+        curationPercent: PropTypes.number.isRequired,
+        minCurationPercent: PropTypes.number,
+        maxCurationPercent: PropTypes.number,
         editMode: PropTypes.bool,
         onNsfwClick: PropTypes.func.isRequired,
         onPayoutChange: PropTypes.func.isRequired,
+        onCurationPercentChange: PropTypes.func.isRequired,
     };
 
     state = {
-        showCoinMenu: false,
+        showPayoutMenu: false,
+        showCuratorMenu: false,
     };
 
-    _onAwayClickListen = false;
+    _curatorContainer = createRef();
+    _payoutContainer = createRef();
+
+    componentDidMount() {
+        window.addEventListener('mousedown', this.onAwayClick);
+    }
 
     componentWillUnmount() {
         this._unmount = true;
-
-        if (this._onAwayClickListen) {
-            window.removeEventListener('mousedown', this._onAwayClick);
-        }
+        window.removeEventListener('mousedown', this.onAwayClick);
     }
 
     render() {
-        const { showCoinMenu } = this.state;
-        const { editMode, payoutType, nsfw, onNsfwClick } = this.props;
+        const {
+            editMode,
+            payoutType,
+            nsfw,
+            minCurationPercent,
+            maxCurationPercent,
+            onNsfwClick,
+        } = this.props;
+        const { showPayoutMenu, showCuratorMenu } = this.state;
+
+        const showCurationPercent =
+            editMode || (!isNil(minCurationPercent) && minCurationPercent !== maxCurationPercent);
 
         return (
             <Wrapper>
                 <DesktopWrapper>
-                    <IconWrapper isActive={showCoinMenu} onClick={this._onCoinClick}>
-                        <Icon
-                            name="editor/coin"
-                            size="1_5x"
-                            data-tooltip={tt('post_editor.payout_hint')}
-                        />
-                    </IconWrapper>
-                    {showCoinMenu ? this._renderCoinMenu() : null}
-                    <IconWrapper isWarning={nsfw} onClick={onNsfwClick}>
-                        <Icon
-                            name="editor/plus-18"
-                            size="1_5x"
-                            data-tooltip={tt('post_editor.nsfw_hint')}
-                        />
-                    </IconWrapper>
+                    {showCurationPercent ? (
+                        <ButtonContainer innerRef={this._curatorContainer}>
+                            <IconWrapper isActive={showCuratorMenu} onClick={this._onCuratorClick}>
+                                <Icon
+                                    name="editor/k"
+                                    size="1_5x"
+                                    data-tooltip={tt('post_editor.payout_hint')}
+                                />
+                            </IconWrapper>
+                            {showCuratorMenu ? this._renderCurationMenu() : null}
+                        </ButtonContainer>
+                    ) : null}
+                    <ButtonContainer innerRef={this._payoutContainer}>
+                        <IconWrapper isActive={showPayoutMenu} onClick={this._onPayoutClick}>
+                            <Icon
+                                name="editor/coin"
+                                size="1_5x"
+                                data-tooltip={tt('post_editor.payout_hint')}
+                            />
+                        </IconWrapper>
+                        {showPayoutMenu ? this._renderPayoutMenu() : null}
+                    </ButtonContainer>
+                    <ButtonContainer>
+                        <IconWrapper isWarning={nsfw} onClick={onNsfwClick}>
+                            <Icon
+                                name="editor/plus-18"
+                                size="1_5x"
+                                data-tooltip={tt('post_editor.nsfw_hint')}
+                            />
+                        </IconWrapper>
+                    </ButtonContainer>
                 </DesktopWrapper>
                 <MobileWrapper>
                     <PayoutLabel>{tt('post_editor.set_payout_type')}</PayoutLabel>
@@ -179,28 +253,86 @@ export default class PostOptions extends PureComponent {
                             hint: hint ? tt(hint) : null,
                         }))}
                         value={payoutType}
-                        onChange={this._onCoinModeChange}
+                        onChange={this.onPayoutModeChange}
                     />
                 </MobileWrapper>
                 <MobileWrapper>
                     <NsfwWrapper>
-                        <NsfwIconWrapper>
+                        <MobileOption>
                             <Icon name="editor/plus-18" size="1_5x" />
-
-                            <NsfwTip>{tt('post_editor.nsfw_content')}</NsfwTip>
-                        </NsfwIconWrapper>
+                            <MobileOptionTitle>{tt('post_editor.nsfw_content')}</MobileOptionTitle>
+                        </MobileOption>
                         <Switcher value={nsfw} onChange={onNsfwClick} />
                     </NsfwWrapper>
                 </MobileWrapper>
+                {showCurationPercent ? (
+                    <MobileWrapper>{this.renderCurationPercentSlider(true)}</MobileWrapper>
+                ) : null}
             </Wrapper>
         );
     }
 
-    _renderCoinMenu() {
+    _renderCurationMenu() {
+        return <Hint align="center">{this.renderCurationPercentSlider()}</Hint>;
+    }
+
+    renderCurationPercentSlider(isMobile) {
+        const { curationPercent, minCurationPercent, maxCurationPercent, editMode } = this.props;
+
+        let min;
+        let max;
+        let percent;
+        let showCaptions;
+
+        if (editMode) {
+            min = 0;
+            max = 100;
+            percent = curationPercent / 100;
+            showCaptions = false;
+        } else {
+            const actualPercent = Math.round(curationPercent / 100);
+
+            min = Math.ceil(minCurationPercent / 100);
+            max = Math.floor(maxCurationPercent / 100);
+            percent = Math.max(Math.min(actualPercent, max), min);
+            showCaptions = true;
+        }
+
+        return (
+            <Fragment>
+                {isMobile ? (
+                    <MobileOptionCuration>
+                        <Icon name="editor/k" size="1_5x" />
+                        <MobileOptionTitle>
+                            <MobileCurationBlock>
+                                {tt('post_editor.set_curator_percent')}{' '}
+                                <MobileCurationValue>{percent}%</MobileCurationValue>
+                            </MobileCurationBlock>
+                        </MobileOptionTitle>
+                    </MobileOptionCuration>
+                ) : (
+                    <CurationText>
+                        {tt('post_editor.set_curator_percent')}{' '}
+                        <CurationValue>{percent}%</CurationValue>
+                    </CurationText>
+                )}
+                <SliderStyled
+                    value={percent}
+                    min={min}
+                    max={max}
+                    disabled={editMode}
+                    showCaptions={showCaptions}
+                    onChange={this.onCurationPercentChange}
+                />
+            </Fragment>
+        );
+    }
+
+    _renderPayoutMenu() {
         const { editMode, payoutType } = this.props;
 
         return (
-            <Hint align="center" innerRef={this._onBubbleRef}>
+            <Hint align="center">
                 <BubbleText>{tt('post_editor.set_payout_type')}:</BubbleText>
                 <RadioGroup
                     disabled={editMode}
@@ -210,45 +342,52 @@ export default class PostOptions extends PureComponent {
                         hint: hint ? tt(hint) : null,
                     }))}
                     value={payoutType}
-                    onChange={this._onCoinModeChange}
+                    onChange={this.onPayoutModeChange}
                 />
             </Hint>
         );
     }
 
-    _onCoinClick = () => {
-        this.setState(
-            {
-                showCoinMenu: !this.state.showCoinMenu,
-            },
-            () => {
-                const { showCoinMenu } = this.state;
+    _onCuratorClick = () => {
+        this.setState({
+            showCuratorMenu: !this.state.showCuratorMenu,
+            showPayoutMenu: false,
+        });
+    };
 
-                if (showCoinMenu && !this._onAwayClickListen) {
-                    window.addEventListener('mousedown', this._onAwayClick);
-                    this._onAwayClickListen = true;
+    _onPayoutClick = () => {
+        this.setState({
+            showPayoutMenu: !this.state.showPayoutMenu,
+            showCuratorMenu: false,
+        });
+    };
+
+    onCurationPercentChange = percent => {
+        this.props.onCurationPercentChange(Math.round(percent * 100));
+    };
+
+    onPayoutModeChange = payoutMode => {
+        this.props.onPayoutChange(payoutMode);
+    };
+
+    onAwayClick = e => {
+        const { showPayoutMenu, showCuratorMenu } = this.state;
+
+        if (showPayoutMenu || showCuratorMenu) {
+            for (const dropdown of [this._payoutContainer, this._curatorContainer]) {
+                if (dropdown.current && dropdown.current.contains(e.target)) {
+                    return;
                 }
             }
-        );
-    };
 
-    _onCoinModeChange = coinMode => {
-        this.props.onPayoutChange(coinMode);
-    };
-
-    _onAwayClick = e => {
-        if (this._bubble && !this._bubble.contains(e.target)) {
             setTimeout(() => {
                 if (!this._unmount) {
                     this.setState({
-                        showCoinMenu: false,
+                        showPayoutMenu: false,
+                        showCuratorMenu: false,
                     });
                 }
             }, 50);
         }
-    };
-
-    _onBubbleRef = el => {
-        this._bubble = el;
     };
 }

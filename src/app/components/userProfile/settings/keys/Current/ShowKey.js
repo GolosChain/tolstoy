@@ -67,6 +67,22 @@ const ButtonStyled = styled(Button)`
     white-space: normal;
 `;
 
+const ButtonsWrapper = styled.div`
+    display: flex;
+
+    & ${ButtonStyled}:first-child {
+        margin-right: 10px;
+    }
+
+    @media (max-width: 500px) {
+        flex-direction: column;
+
+        & ${ButtonStyled}:first-child {
+            margin-right: 0;
+        }
+    }
+`;
+
 export default class ShowKey extends Component {
     static propTypes = {
         pubkey: PropTypes.string.isRequired,
@@ -176,6 +192,10 @@ export default class ShowKey extends Component {
         return null;
     }
 
+    renderQRButton() {
+        return <ButtonStyled onClick={this.handleShowQr}>{tt('g.show')} QR</ButtonStyled>;
+    }
+
     render() {
         const { pubkey } = this.props;
         const { showPrivate, wif } = this.state;
@@ -183,16 +203,15 @@ export default class ShowKey extends Component {
         return (
             <Wrapper>
                 <Flex>
-                    <ImageQR
-                        src={require('src/app/assets/images/qr.png')}
-                        onClick={this.handleShowQr}
-                    />
                     <KeyInfo>
                         <Key showPrivate={showPrivate}>{showPrivate ? wif : pubkey}</Key>
                         <Hint>{this.renderHint()}</Hint>
                     </KeyInfo>
                 </Flex>
-                {this.renderButton()}
+                <ButtonsWrapper>
+                    {this.renderButton()}
+                    {this.renderQRButton()}
+                </ButtonsWrapper>
             </Wrapper>
         );
     }

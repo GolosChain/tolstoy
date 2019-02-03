@@ -143,6 +143,9 @@
     "final_confirm": "Accept our Terms of Use:",
     "take_your_secret_key": "Receive your generated password"
   },
+  "curation_percent": {
+    "curation_rewards_percent": "Curation rewards percent"
+  },
   "dialog": {
     "alert": "Alert",
     "clear": "Clear",
@@ -776,6 +779,7 @@
     "payout_option_50_hint": "Receive payout in Golos and GBG",
     "preview_mode": "Preview mode",
     "recommended_tags": "Recommended tags",
+    "set_curator_percent": "Set curator reward percent:",
     "set_payout_type": "Select the type of payment for your post",
     "tags_input_placeholder": "Add tags",
     "text_placeholder": "Start your story...",
@@ -1112,6 +1116,7 @@
       "author_rewards": "Author Rewards",
       "curation_rewards": "Curation Rewards",
       "delegation": "Delegation",
+      "delegation_rewards": "Delegated GP",
       "gbg": "GBG",
       "golos": "Golos",
       "golos_power": "Golos Power",
@@ -1134,7 +1139,7 @@
     "the_private_key_or_password_should_be_kept_offline": "The private key or password for the owner key should be kept offline as much as possible."
   },
   "view_count": {
-    "views": "Views count"
+    "view_count": "Views count"
   },
   "voting_jsx": {
     "begin_recovery": "Begin Recovery",
@@ -1240,30 +1245,6 @@
     "witness_proxy_set": "Set proxy",
     "witness_thread": "witness thread",
     "you_can_vote_for_maximum_of_witnesses": "You can vote for a maximum of 30 witnesses",
-    "account_creation_fee": "Account creation fee",
-    "maximum_block_size": "Maximum Block Size",
-    "sbg_interest_rate": "SBD interest rate",
-    "auction_window_size": "Auction window size",
-    "create_account_min_golos_fee": "Create account min golos fee",
-    "create_account_min_delegation": "Create account min delegation",
-    "create_account_delegation_time": "Create account delegation time",
-    "min_delegation": "Min delegation",
-    "max_referral_interest_rate": "Max referral interest rate",
-    "max_referral_term_sec": "Max referral term sec",
-    "min_referral_break_fee": "Min referral break fee",
-    "max_referral_break_fee": "Max referral break fee",
-    "posts_window": "Posts window",
-    "comments_window": "Comments window",
-    "comments_per_window": "Comments per window",
-    "votes_window": "Votes window",
-    "votes_per_window": "Votes per window",
-    "max_delegated_vesting_interest_rate": "Max delegated vesting interest rate",
-    "custom_ops_bandwidth_multiplier": "Custom ops bandwidth multiplier",
-    "min_curation_percent": "Min curation percent",
-    "max_curation_percent": "Max curation percent",
-    "curation_reward_curve": "Curation reward curve",
-    "allow_distribute_auction_reward": "Allow distribute auction reward",
-    "allow_return_auction_reward_to_fund": "Allow return auction reward to fund",
     "you_have_votes_remaining": "",
     "you_have_votes_remaining_count": {
       "one": "You have 1 vote remaining",

@@ -8,10 +8,7 @@
     "facebook": {
       "callback": "/handle_facebook_callback",
       "key": "",
-      "scope": [
-        "email",
-        "user_location"
-      ],
+      "scope": ["email", "user_location"],
       "secret": ""
     },
     "reddit": {
@@ -21,19 +18,14 @@
         "state": "void"
       },
       "key": "",
-      "scope": [
-        "identity"
-      ],
+      "scope": ["identity"],
       "secret": ""
     },
     "vk": {
       "key": "",
       "secret": "",
       "callback": "/handle_vk_callback",
-      "scope": [
-        "identity",
-        "email"
-      ]
+      "scope": ["identity", "email"]
     },
     "server": {
       "host": "golos.io",
@@ -59,7 +51,7 @@
     "setAllHeaders": true
   },
   "img_proxy_prefix": "https://imgp.golos.io/",
-  "lang_server" : "https://lang.golos.io/",
+  "lang_server": "https://lang.golos.io/",
   "ipfs_prefix": false,
   "mixpanel": false,
   "notify": {
@@ -126,5 +118,5 @@
   "gate_service_url": "",
   "facade_service_url": "",
   "rates_service_url": "",
-  "relapio_token": ""
+  "meta_service_url": ""
 }

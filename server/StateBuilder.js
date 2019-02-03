@@ -5,6 +5,8 @@ import resolveRoute from 'app/ResolveRoute';
 import { reverseTags, prepareTrendingTags } from 'app/utils/tags';
 import { IGNORE_TEST_TAGS, IGNORE_TAGS, PUBLIC_API } from 'app/client_config';
 import { COUNT_OF_TAGS } from 'src/app/redux/constants/common';
+import { getPostsViewCount } from './callServices/meta';
+import { timeoutError } from './utils/time';
 
 const DEFAULT_VOTE_LIMIT = 10000;
 const COUNT_TAGS_ON_PAGE = 250;
@@ -38,6 +40,7 @@ export default async function getState(
                 actual: rates,
                 dates: [],
             },
+            viewCount: {},
         },
     };
 
@@ -88,6 +91,25 @@ export default async function getState(
 
         for (let accountData of accountsData) {
             state.global.accounts[accountData.name] = accountData;
+        }
+    }
+
+    const links = Object.keys(state.global.content);
+
+    if (links.length) {
+        try {
+            const results = await Promise.race([getPostsViewCount(links), timeoutError(500)]);
+
+            const now = Date.now();
+
+            for (const { postLink, viewCount } of results) {
+                state.data.viewCount[postLink] = {
+                    viewCount,
+                    timestamp: now,
+                };
+            }
+        } catch (err) {
+            console.warn('getPostsViewCount failed:', err);
         }
     }
 

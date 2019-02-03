@@ -5,9 +5,18 @@ import ViewCount from './ViewCount';
 
 const selector = createSelector(
     [state => state.data.viewCount, (state, props) => props.postLink],
-    (viewCount, postLink) => ({
-        viewCount: viewCount[postLink],
-    })
+    (viewCount, postLink) => {
+        const viewCountInfo = viewCount[postLink];
+
+        if (!viewCountInfo) {
+            return {};
+        }
+
+        return {
+            viewCount: viewCountInfo.viewCount,
+            timestamp: viewCountInfo.timestamp,
+        };
+    }
 );
 
 export default connect(

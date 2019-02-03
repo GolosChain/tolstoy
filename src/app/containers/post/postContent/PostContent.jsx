@@ -12,6 +12,8 @@ import { breakWordStyles } from 'src/app/helpers/styles';
 import PostHeader from 'src/app/containers/post/postHeader';
 import MarkdownViewer from 'app/components/cards/MarkdownViewer';
 import PostFormLoader from 'app/components/modules/PostForm/loader';
+import ViewCount from 'src/app/components/common/ViewCount';
+import CurationPercent from 'src/app/components/common/CurationPercent';
 
 const Wrapper = styled.article`
     position: relative;
@@ -36,6 +38,30 @@ const Preview = styled.div`
 
 const Body = styled.div`
     margin-top: 5px;
+`;
+
+const Footer = styled.div`
+    display: flex;
+    margin-top: 20px;
+
+    @media (max-width: 500px) {
+        flex-direction: column;
+    }
+`;
+
+const FooterInfoBlock = styled.div`
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+
+    & > :last-child {
+        margin-left: 24px;
+    }
+
+    @media (max-width: 500px) {
+        justify-content: flex-end;
+        margin-top: 10px;
+    }
 `;
 
 const PostTitle = styled.h1`
@@ -74,12 +100,13 @@ const PostBody = styled.div`
 
 const Tags = styled.div`
     display: flex;
+    flex-grow: 1;
     flex-wrap: wrap;
-    margin-top: 20px;
+`;
 
-    ${TagLink} {
-        margin: 10px 10px 0 0;
-    }
+const TagLinkStyled = styled(TagLink)`
+    height: 26px;
+    margin: 5px 10px 5px 0;
 `;
 
 @withRouter
@@ -90,7 +117,6 @@ export class PostContent extends Component {
 
         // connect
         url: PropTypes.string.isRequired,
-        relapioToken: PropTypes.string,
     };
 
     state = {
@@ -136,22 +162,26 @@ export class PostContent extends Component {
     };
 
     renderHelmet() {
-        const { title, relapioToken } = this.props;
+        const { title } = this.props;
 
-        return (
-            <Helmet title={tt('meta.title.common.post', { title })}>
-                <script
-                    type="text/javascript"
-                    async
-                    src={`https://relap.io/api/v6/head.js?token=${relapioToken}`}
-                />
-            </Helmet>
-        );
+        return <Helmet title={tt('meta.title.common.post', { title })} />;
     }
 
     renderPreview() {
-        const { payout, title, body, pictures, created, tags, category } = this.props;
+        const {
+            payout,
+            title,
+            body,
+            pictures,
+            created,
+            tags,
+            category,
+            author,
+            permLink,
+        } = this.props;
         const { hideTagsCategory } = this.state;
+
+        const postLink = `${author}/${permLink}`;
 
         return (
             <Preview>
@@ -167,26 +197,32 @@ export class PostContent extends Component {
                         />
                     </PostBody>
                 </Body>
-                {tags.length ? (
-                    <Tags>
-                        {tags.map((tag, index) => {
-                            if (hideTagsCategory && tag.origin === category.origin) {
-                                return null;
-                            }
+                <Footer>
+                    {tags.length ? (
+                        <Tags>
+                            {tags.map((tag, index) => {
+                                if (hideTagsCategory && tag.origin === category.origin) {
+                                    return null;
+                                }
 
-                            return (
-                                <TagLink
-                                    to={'/trending?tags=' + tag.tag}
-                                    key={index}
-                                    aria-label={tt('aria_label.tag', { tag: tag.tag })}
-                                    category={tag.origin === category.origin}
-                                >
-                                    {tag.tag}
-                                </TagLink>
-                            );
-                        })}
-                    </Tags>
-                ) : null}
+                                return (
+                                    <TagLinkStyled
+                                        to={'/trending?tags=' + tag.tag}
+                                        key={index}
+                                        aria-label={tt('aria_label.tag', { tag: tag.tag })}
+                                        category={tag.origin === category.origin}
+                                    >
+                                        {tag.tag}
+                                    </TagLinkStyled>
+                                );
+                            })}
+                        </Tags>
+                    ) : null}
+                    <FooterInfoBlock>
+                        <CurationPercent postLink={postLink} />
+                        <ViewCount postLink={postLink} />
+                    </FooterInfoBlock>
+                </Footer>
             </Preview>
         );
     }

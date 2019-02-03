@@ -81,11 +81,11 @@
     "account_sid": "SDC_TWILIO_ACCOUNT_SID"
   },
   "upload_image": "SDC_UPLOAD_IMAGE_URL",
-  "lang_server" : "SDC_LANG_SERVER_URL",
+  "lang_server": "SDC_LANG_SERVER_URL",
   "session_cookie_key": "SDC_SESSION_COOKIE_KEY",
   "ws_connection_client": "SDC_CLIENT_WEBSOCKET_URL",
   "ws_connection_server": "SDC_SERVER_WEBSOCKET_URL",
-  "chain_id" : "SDC_CHAIN_ID",
+  "chain_id": "SDC_CHAIN_ID",
   "metrics": {
     "name": "SDC_METRICS_NAME",
     "host": "SDC_METRICS_HOST"
@@ -100,5 +100,5 @@
   "gate_service_url": "SDC_GATE_SERVICE_URL",
   "facade_service_url": "SDC_FACADE_SERVICE_URL",
   "rates_service_url": "SDC_RATES_SERVICE_URL",
-  "relapio_token": "SDC_RELAPIO_TOKEN"
+  "meta_service_url": "SDC_META_SERVICE_URL"
 }

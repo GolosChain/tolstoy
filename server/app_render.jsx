@@ -16,6 +16,7 @@ import secureRandom from 'secure-random';
 import ErrorPage from 'server/server-error';
 import { DEFAULT_LANGUAGE, LANGUAGES, LOCALE_COOKIE_KEY } from 'app/client_config';
 import { metrics } from './metrics';
+import { getActualRates } from './callServices/rates';
 
 const DB_RECONNECT_TIMEOUT =
     process.env.NODE_ENV === 'development' ? 1000 * 60 * 60 : 1000 * 60 * 10;
@@ -192,22 +193,6 @@ async function getRates() {
     ]);
 
     return rates;
-}
-
-function getActualRates() {
-    const url = config.get('rates_service_url');
-
-    return new Promise((resolve, reject) => {
-        const client = jayson.client.http(url);
-
-        client.request('getActual', [], (err, data) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(data.result.rates);
-            }
-        });
-    });
 }
 
 async function getGbgPerGolos() {

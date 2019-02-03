@@ -1029,6 +1029,7 @@
       "author_rewards": "Авторскі",
       "curation_rewards": "Кураторські",
       "delegation": "Делегування",
+      "delegation_rewards": "Делегованна СГ",
       "gbg": "Золото",
       "golos": "Голос",
       "golos_power": "Сила Голосу",
@@ -1051,7 +1052,7 @@
     "the_private_key_or_password_should_be_kept_offline": "Приватний ключ або пароль повинен зберігатися в офлайні так часто наскільки це можливо."
   },
   "view_count": {
-    "views": "Переглядів"
+    "view_count": "Переглядів"
   },
   "voting_jsx": {
     "begin_recovery": "Почати відновлення",

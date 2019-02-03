@@ -144,6 +144,9 @@
     "final_confirm": "Удостоверьтесь, что вы надежно сохранили сгенерированный пароль, и ознакомьтесь с Условиями использования сайта:",
     "take_your_secret_key": "Получите ваш сгенерированный пароль"
   },
+  "curation_percent": {
+    "curation_rewards_percent": "Процент кураторкских выплат"
+  },
   "dialog": {
     "alert": "Предупреждение",
     "clear": "Очистить",
@@ -781,6 +784,7 @@
     "payout_option_50_hint": "Получить награду Силой Голоса и Золотыми",
     "preview_mode": "Режим предпросмотра",
     "recommended_tags": "Рекомендуемые теги",
+    "set_curator_percent": "Процент кураторских наград:",
     "set_payout_type": "Выберите вид награды за свой пост",
     "tags_input_placeholder": "Добавьте теги",
     "text_placeholder": "Расскажите свою историю...",
@@ -1119,6 +1123,7 @@
       "author_rewards": "Авторские",
       "curation_rewards": "Кураторские",
       "delegation": "Делегирование",
+      "delegation_rewards": "Делегированная СГ",
       "gbg": "Золото",
       "golos": "Голос",
       "golos_power": "Сила Голоса",
@@ -1141,7 +1146,7 @@
     "the_private_key_or_password_should_be_kept_offline": "Приватный ключ или пароль должен храниться в оффлайне насколько это возможно."
   },
   "view_count": {
-    "views": "Просмотров"
+    "view_count": "Количество просмотров"
   },
   "voting_jsx": {
     "begin_recovery": "Начать восстановление",
