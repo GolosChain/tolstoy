@@ -1,6 +1,7 @@
 import React, { PureComponent, createRef } from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
+import is from 'styled-is';
 import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
@@ -32,6 +33,10 @@ const Item = styled.li`
         color: #2879ff;
     }
 
+    ${is('active')`
+        color: #2879ff;
+    `};
+
     @media (max-width: 500px) {
         padding: 15px 20px;
     }
@@ -46,8 +51,10 @@ const ItemIcon = styled(Icon)`
 export default class LayoutSwitcherMenu extends PureComponent {
     root = createRef();
 
-    onItemClick = layout => {
-        this.props.onChange(layout);
+    onItemClick = (layout, isActive) => {
+        if (!isActive) {
+            this.props.onChange(layout);
+        }
         this.props.onClose();
     };
 
@@ -75,7 +82,7 @@ export default class LayoutSwitcherMenu extends PureComponent {
     };
 
     render() {
-        const { layouts, target } = this.props;
+        const { layouts, target, activeLayout } = this.props;
         const box = target.getBoundingClientRect();
 
         return createPortal(
@@ -87,16 +94,20 @@ export default class LayoutSwitcherMenu extends PureComponent {
                 innerRef={this.root}
             >
                 <List>
-                    {layouts.map(layoutName => (
-                        <Item
-                            key={layoutName}
-                            data-tooltip={tt(`layout_switcher.tooltip.${layoutName}`)}
-                            aria-label={tt(`layout_switcher.tooltip.${layoutName}`)}
-                            onClick={() => this.onItemClick(layoutName)}
-                        >
-                            <ItemIcon name={`layout_${layoutName}`} />
-                        </Item>
-                    ))}
+                    {layouts.map(layoutName => {
+                        const isActive = activeLayout === layoutName;
+                        return (
+                            <Item
+                                key={layoutName}
+                                data-tooltip={tt(`layout_switcher.tooltip.${layoutName}`)}
+                                aria-label={tt(`layout_switcher.tooltip.${layoutName}`)}
+                                active={isActive}
+                                onClick={() => this.onItemClick(layoutName, isActive)}
+                            >
+                                <ItemIcon name={`layout_${layoutName}`} />
+                            </Item>
+                        );
+                    })}
                 </List>
             </Menu>,
             document.getElementById('content')

@@ -82,18 +82,19 @@ export default class LayoutSwitcher extends PureComponent {
     };
 
     render() {
-        const { mobile } = this.props;
+        const { mobile, layout } = this.props;
         const { open, isMobile } = this.state;
 
         return (
             <Fragment>
                 <Handle innerRef={this.handle} mobile={mobile} onClick={this.onHandleClick}>
-                    <IconStyled name="layout_list" />
+                    <IconStyled name={`layout_${layout}`} />
                 </Handle>
                 {open ? (
                     <LayoutSwitcherMenu
                         target={this.handle.current}
                         layouts={isMobile ? LAYOUTS.filter(layout => layout !== 'grid') : LAYOUTS}
+                        activeLayout={layout}
                         onChange={this.onChange}
                         onClose={this.onClose}
                     />
