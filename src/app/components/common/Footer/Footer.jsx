@@ -85,14 +85,11 @@ const MenuIconList = styled.div`
 
 const MenuItem = styled.a`
     display: flex;
+    margin-bottom: 20px;
     font-size: 16px;
     letter-spacing: -0.26px;
     line-height: 16px;
     color: #959595;
-
-    &:not(:last-child) {
-        margin-bottom: 20px;
-    }
 
     &:hover {
         color: #606060;
