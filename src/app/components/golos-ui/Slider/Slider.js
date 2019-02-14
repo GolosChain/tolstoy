@@ -92,7 +92,9 @@ const Wrapper = styled.div`
             background: #8e8e8e;
             cursor: default;
         }
-    `} &:before {
+    `};
+
+    &:before {
         position: absolute;
         content: '';
         top: 10px;
