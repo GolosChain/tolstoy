@@ -92,9 +92,7 @@ const Wrapper = styled.div`
             background: #8e8e8e;
             cursor: default;
         }
-    `}
-
-    &:before {
+    `} &:before {
         position: absolute;
         content: '';
         top: 10px;
@@ -124,6 +122,7 @@ export default class Slider extends PureComponent {
         max: PropTypes.number,
         red: PropTypes.bool,
         showCaptions: PropTypes.bool,
+        percentsInCaption: PropTypes.bool,
         hideHandleValue: PropTypes.bool,
         disabled: PropTypes.bool,
         onChange: PropTypes.func.isRequired,
@@ -134,6 +133,7 @@ export default class Slider extends PureComponent {
         min: 0,
         max: 100,
         showCaptions: false,
+        percentsInCaption: false,
         hideHandleValue: false,
     };
 
@@ -144,11 +144,29 @@ export default class Slider extends PureComponent {
     }
 
     render() {
-        const { min, max, hideHandleValue, showCaptions, disabled, ...passProps } = this.props;
+        const {
+            min,
+            max,
+            hideHandleValue,
+            showCaptions,
+            disabled,
+            percentsInCaption,
+            ...passProps
+        } = this.props;
         const value = Number(this.props.value);
 
         const isMobile = checkMobileDevice();
         const percent = (100 * (value - min)) / (max - min) || 0;
+
+        let leftCaption = min;
+        let centralCaption = Math.round(min + (max - min) / 2);
+        let rightCaption = max;
+        const tooltipPercents = `${Math.round((100 * value) / max)}%`;
+        if (percentsInCaption) {
+            leftCaption = 0;
+            centralCaption = 50;
+            rightCaption = 100;
+        }
 
         return (
             <Wrapper
@@ -164,9 +182,13 @@ export default class Slider extends PureComponent {
                     <HandleWrapper left={percent}>
                         {hideHandleValue && !isMobile ? (
                             <Handle
-                                data-tooltip={tt('settings_jsx.default_voting_power_tip', {
-                                    value,
-                                })}
+                                data-tooltip={
+                                    percentsInCaption
+                                        ? tooltipPercents
+                                        : tt('settings_jsx.default_voting_power_tip', {
+                                              value,
+                                          })
+                                }
                             />
                         ) : (
                             <Handle>{value}</Handle>
@@ -175,9 +197,9 @@ export default class Slider extends PureComponent {
                 </HandleSlot>
                 {showCaptions && (
                     <Captions>
-                        <Caption left>{min}%</Caption>
-                        <Caption center>{Math.round(min + (max - min) / 2)}%</Caption>
-                        <Caption right>{max}%</Caption>
+                        <Caption left>{leftCaption}%</Caption>
+                        <Caption center>{centralCaption}%</Caption>
+                        <Caption right>{rightCaption}%</Caption>
                     </Captions>
                 )}
             </Wrapper>

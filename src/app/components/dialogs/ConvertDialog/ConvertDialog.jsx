@@ -288,7 +288,7 @@ export default class ConvertDialog extends PureComponent {
                     </Fragment>
                 );
             case TYPES.POWER:
-                const cur = Math.round(parseFloat(amount.replace(/\s+/, '')) * 1000);
+                const cur = Math.round(parseFloat(amount.replace(/\s+/, '')) * 1000) || 0;
                 const max = Math.round(balance * 1000);
 
                 return (
@@ -297,6 +297,7 @@ export default class ConvertDialog extends PureComponent {
                             value={cur}
                             max={max}
                             showCaptions
+                            percentsInCaption
                             hideHandleValue
                             onChange={this.onSliderChange}
                         />
