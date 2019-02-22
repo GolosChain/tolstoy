@@ -38,6 +38,10 @@ vp-cosmos/ochistka-veshestv-metodom-perekristallizacii-svoimi-rukami
 bitt333/kak-pravilno-brat-vzyatki
 prismo/skraping-veb-saitov-s-pomoshyu-python-r-mitchell
 cyberdin/sovety-eksperta-kriminalista-dlya-plokhikh-parnei
+maxxco6/kto-takaya-anastasiya-gizerskaya
+vladimirben/blanki-i-polisy-osago-deshevo
+rusaken/kak-pravilno-davat-vzyatki
+redhat/srok-iskovoi-davnosti
 `
     .trim()
     .split('\n');
