@@ -255,7 +255,7 @@ export default class DialogManager extends React.PureComponent {
 
   _onShadowRef = el => {
     const body = document.body;
-    const content = document.getElementById('content');
+    const content = document.getElementById('__next');
 
     if (el) {
       if (window.innerHeight < body.offsetHeight) {

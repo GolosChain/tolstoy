@@ -14,6 +14,7 @@ import {
   CONTAINER_MOBILE_MARGIN,
 } from 'constants/container';
 
+import { showLoginModal } from 'store/actions/modals';
 import Icon from 'components/golos-ui/Icon';
 import IconBadge from 'components/golos-ui/IconBadge';
 
@@ -358,14 +359,12 @@ export default class Header extends PureComponent {
 
   onLoginClick = e => {
     e.preventDefault();
-
-    this.props.onLogin();
+    showLoginModal();
   };
 
   onLogoutClick = e => {
     e.preventDefault();
-
-    this.props.onLogout();
+    this.props.logout();
   };
 
   onMenuToggle = () => {

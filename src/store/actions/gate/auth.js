@@ -4,6 +4,7 @@ import { sign } from 'communjs/lib/auth';
 import ecc from 'eosjs-ecc';
 
 import { CALL_GATE } from 'store/middlewares/gate-api';
+import { removeAuth } from 'utils/localStore';
 import {
   AUTH_LOGIN_SUCCESS,
   AUTH_LOGIN_ERROR,
@@ -72,7 +73,7 @@ export const login = (username, key) => async dispatch => {
     const date = new Date();
     date.setFullYear(date.getFullYear() + 1);
 
-    document.cookie = `commun.username=${username}; path=/; expires=${date.toGMTString()}`;
+    document.cookie = `golos.username=${username}; path=/; expires=${date.toGMTString()}`;
 
     return auth;
   } catch (err) {
@@ -82,7 +83,9 @@ export const login = (username, key) => async dispatch => {
 };
 
 export const logout = () => dispatch => {
-  document.cookie = `commun.username=; Expires=${new Date().toGMTString()}`;
+  removeAuth();
+
+  document.cookie = `golos.username=; path=/; expires=${new Date().toGMTString()}`;
 
   dispatch({ type: AUTH_LOGOUT, payload: {} });
 };

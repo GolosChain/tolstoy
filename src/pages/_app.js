@@ -6,24 +6,24 @@ if (process.browser) {
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Provider, connect } from 'react-redux';
+import { Provider } from 'react-redux';
 import App, { Container } from 'next/app';
 import Head from 'next/head';
 import withRedux from 'next-redux-wrapper';
+import tt from 'counterpart';
 import { ThemeProvider } from 'styled-components';
-// eslint-disable-next-line no-unused-vars
-import fetch from 'isomorphic-unfetch'; // global/window
+import 'isomorphic-unfetch';
 import { Cookies } from 'react-cookie';
 
 import 'components/styles/index.scss';
 
 import initStore from 'store/store';
 import { setScreenTypeByUserAgent } from 'store/actions/ui';
+import { login, setServerAccountName } from 'store/actions/gate/auth';
+import { getAuth } from 'utils/localStore';
 import defaultTheme from 'themes';
 
-//import { getAuth } from 'utils/localStore';
-//import { login, setServerAccountName } from 'store/actions/gate/auth';
-
+import { LOCALE_COOKIE_KEY, LOCALE_COOKIE_EXPIRES, AMPLITUDE_SESSION } from 'constants/config';
 import Translator from 'shared/Translator';
 import Header from 'components/header/Header';
 import Notifications from 'components/common/Notifications';
@@ -33,44 +33,29 @@ import MobileAppButton from 'components/elements/MobileBanners/MobileAppButton';
 import DialogManager from 'components/elements/common/DialogManager';
 import ScrollUpstairsButton from 'components/common/ScrollUpstairsButton';
 import ContentErrorBoundary from 'containers/ContentErrorBoundary';
-
-import tt from 'counterpart';
-import { init as initAnchorHelper } from '../utils/anchorHelper';
-//import { validateLocaleQuery } from '../utils/ParsersAndFormatters';
-
-import { LOCALE_COOKIE_KEY, LOCALE_COOKIE_EXPIRES, AMPLITUDE_SESSION } from 'constants/config';
 import { checkMobileDevice } from 'helpers/browser';
+import { init as initAnchorHelper } from 'utils/anchorHelper';
 
 @withRedux(initStore, { debug: Boolean(process.env.DEBUG_REDUX) })
-@connect(
-  null,
-  {
-    loginUser: () => {},
-    logoutUser: () => {},
-  }
-)
 export default class GolosApp extends App {
   static propTypes = {
     error: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
     location: PropTypes.object,
-    loginUser: PropTypes.func.isRequired,
-    logoutUser: PropTypes.func.isRequired,
   };
 
   static async getInitialProps({ Component, ctx }) {
     if (ctx.req) {
-      // const action = setScreenTypeByUserAgent(ctx.req.headers['user-agent']);
-      //
-      // if (action) {
-      //     ctx.store.dispatch(action);
-      // }
-      //
-      // const username = ctx.req.cookies['commun.username'];
-      //
-      // if (username) {
-      //     ctx.store.dispatch(setServerAccountName(username));
-      // }
+      const action = setScreenTypeByUserAgent(ctx.req.headers['user-agent']);
+      if (action) {
+        ctx.store.dispatch(action);
+      }
+
+      const username = ctx.req.cookies['golos.username'];
+
+      if (username) {
+        ctx.store.dispatch(setServerAccountName(username));
+      }
     }
 
     return {
@@ -93,41 +78,18 @@ export default class GolosApp extends App {
   }
 
   componentDidMount() {
-    // // try to autologin
-    // const auth = getAuth();
-    //
-    // if (auth) {
-    //     const { store } = this.props;
-    //     const { accountName, privateKey } = auth;
-    //
-    //     store.dispatch(login(accountName, privateKey));
-    // }
+    const auth = getAuth();
 
-    // this.props.loginUser();
+    if (auth) {
+      const { store } = this.props;
+      const { accountName, privateKey } = auth;
+
+      store.dispatch(login(accountName, privateKey));
+    }
+
     sendNewVisitToAmplitudeCom();
 
-    window.addEventListener('storage', this.checkLogin);
-
     initAnchorHelper();
-
-    // const locale = validateLocaleQuery(this.props.location);
-    //
-    // if (locale) {
-    //     this.onChangeLocale(locale);
-    //
-    //     const uri = window.location.toString();
-    //     window.history.replaceState({}, document.title, uri.substring(0, uri.indexOf('?')));
-    // }
-  }
-
-  // componentDidUpdate(nextProps) {
-  //     if (nextProps.location.pathname !== this.props.location.pathname) {
-  //         this.setState({ showCallout: false });
-  //     }
-  // }
-
-  componentWillUnmount() {
-    window.removeEventListener('storage', this.checkLogin);
   }
 
   componentDidCatch(error, errorInfo) {
@@ -143,18 +105,6 @@ export default class GolosApp extends App {
       expires: LOCALE_COOKIE_EXPIRES,
     });
     this.props.changeLocale(locale);
-  };
-
-  checkLogin = event => {
-    if (event.key === 'autopost2') {
-      if (event.newValue) {
-        if (!event.oldValue || event.oldValue !== event.newValue) {
-          this.props.loginUser();
-        }
-      } else {
-        this.props.logoutUser();
-      }
-    }
   };
 
   renderCallout() {

@@ -3,11 +3,12 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import tt from 'counterpart';
 
+import { MODAL_CONFIRM } from 'store/constants/modalTypes';
+import { saveAuth } from 'utils/localStore';
 import DialogManager from 'components/elements/common/DialogManager';
 import { translateError } from 'utils/ParsersAndFormatters';
 import Button from 'components/golos-ui/Button';
 import Icon from 'components/golos-ui/Icon';
-import { Checkbox } from 'components/golos-ui/Form';
 import { logOpenDialogAnalytics } from 'helpers/gaLogs';
 
 const WIF_LENGTH = 52;
@@ -124,32 +125,6 @@ const PasswordInput = styled(Input)`
   border: solid 1px #e1e1e1;
 `;
 
-const BlockCheckboxes = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin-bottom: 20px;
-`;
-
-const ConsentCheckbox = styled.label`
-  display: flex;
-  justify-content: space-between;
-  height: 24px;
-  padding: 0 4px;
-  margin: 0 -4px 4px;
-  text-transform: none;
-  user-select: none;
-  color: #393636;
-`;
-
-const CheckboxLabel = styled.div`
-  display: flex;
-  align-items: center;
-  white-space: nowrap;
-  flex: 1;
-  margin-left: 14px;
-`;
-
 const LoginButton = styled(Button)`
   width: 170px;
   align-self: center;
@@ -174,14 +149,13 @@ export class LoginForm extends Component {
     strictAuthType: PropTypes.bool,
     loginError: PropTypes.string,
     loginCanceled: PropTypes.func.isRequired,
+    login: PropTypes.func,
     onClose: PropTypes.func,
   };
 
   state = {
     username: this.getUsernameFromProps(),
     password: '',
-    consent: true,
-    saveCredentials: process.env.BROWSER ? localStorage.getItem('saveLogin') !== 'no' : true,
     submitting: false,
     activeConfirmed: false,
   };
@@ -226,22 +200,8 @@ export class LoginForm extends Component {
     return true;
   };
 
-  changeConsent = () => {
-    this.setState({
-      consent: !this.state.consent,
-    });
-    this.clearError();
-  };
-
-  changeSaveCredentials = () => {
-    const saveCredentials = !this.state.saveCredentials;
-    this.setState({ saveCredentials });
-    localStorage.setItem('saveLogin', saveCredentials ? 'yes' : 'no');
-    this.clearError();
-  };
-
   submit = async () => {
-    const { isConfirm, strictAuthType, loginOperation, forceSave } = this.props;
+    const { login, isConfirm, onClose } = this.props;
     const { username, password, activeConfirmed } = this.state;
 
     if (
@@ -263,29 +223,33 @@ export class LoginForm extends Component {
       });
     }
 
-    let name = username.trim().toLowerCase();
-
-    if (!strictAuthType) {
-      // 'nickname/active' => 'nickname'
-      name = name.replace(/\/.+$/, '');
-    }
-
-    this.props.dispatchLogin({
-      username: name,
-      password,
-      saveLogin: forceSave || this.state.saveCredentials,
-      isLogin: !isConfirm,
-      loginOperation,
-      isConfirm,
+    this.setState({
+      loginError: null,
     });
+
+    try {
+      const auth = await login(username, password);
+      if (auth) {
+        saveAuth(username, password);
+      }
+
+      onClose({ status: MODAL_CONFIRM });
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error(err);
+
+      this.setState({
+        loginError: err,
+      });
+    }
   };
 
   onFormSubmit = e => {
     e.preventDefault();
 
-    const { consent, submitting } = this.state;
+    const { submitting } = this.state;
 
-    if (submitting || !consent) {
+    if (submitting) {
       return;
     }
 
@@ -327,7 +291,7 @@ export class LoginForm extends Component {
 
   render() {
     const { onClose, loginError, isConfirm, forceSave, operationType, className } = this.props;
-    const { username, password, consent, saveCredentials, submitting } = this.state;
+    const { username, password, submitting } = this.state;
 
     let loginErr = null;
     let passwordErr = null;
@@ -407,26 +371,7 @@ export class LoginForm extends Component {
               </p>
             </OwnerLoginWarning>
           )}
-          <BlockCheckboxes>
-            {
-              // commented for a while
-              /*<ConsentCheckbox tabIndex="0" onClick={this.changeConsent}>
-                            <Checkbox value={consent} />
-                            <CheckboxLabel>{tt('loginform_jsx.consent')}</CheckboxLabel>
-                        </ConsentCheckbox>*/
-            }
-            {forceSave ? null : (
-              <ConsentCheckbox tabIndex="0" onClick={this.changeSaveCredentials}>
-                <Checkbox value={saveCredentials} />
-                <CheckboxLabel>
-                  {isConfirm
-                    ? tt('loginform_jsx.save_password_on_page')
-                    : tt('loginform_jsx.keep_me_logged_in')}
-                </CheckboxLabel>
-              </ConsentCheckbox>
-            )}
-          </BlockCheckboxes>
-          <LoginButton disabled={submitting || !consent || isLoginByOwnerKey} onClick={this.submit}>
+          <LoginButton type="submit" disabled={submitting || isLoginByOwnerKey}>
             {isConfirm ? tt('g.authorize') : tt('g.login')}
           </LoginButton>
         </Form>
