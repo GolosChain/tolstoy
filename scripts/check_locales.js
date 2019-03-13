@@ -1,6 +1,6 @@
-const en = require('../src/app/locales/en.json');
-const ru = require('../src/app/locales/ru-RU.json');
-const ua = require('../src/app/locales/ua.json');
+const en = require('../src/locales/en.json');
+const ru = require('../src/locales/ru-RU.json');
+const ua = require('../src/locales/ua.json');
 
 const data = {
   en: extractKeys(en),

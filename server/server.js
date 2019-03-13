@@ -3,7 +3,7 @@ const cookieParser = require('cookie-parser');
 const next = require('next');
 const path = require('path');
 
-const routes = require('../src/app/shared/routes');
+const routes = require('../src/shared/routes');
 
 const port = parseInt(process.env.PORT, 10) || 4000;
 

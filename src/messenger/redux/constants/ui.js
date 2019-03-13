@@ -1,4 +1,0 @@
-export const UI_SEARCH_SHOW_RESULTS = 'ui/SEARCH_SHOW_RESULTS';
-export const UI_SEARCH_HIDE_RESULTS = 'ui/SEARCH_HIDE_RESULTS';
-
-export const UI_SELECT_CHAT = 'ui/SELECT_CHAT';
