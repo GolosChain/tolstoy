@@ -9,37 +9,37 @@ import { PopoverBody } from 'src/app/containers/post/popoverBody/PopoverBody';
 import { repLog10 } from 'src/app/utils/ParsersAndFormatters';
 
 export default connect(
-    // createSelector(
-    //     [popoverUserInfoSelector, currentUsernameSelector],
-    //     (author, currentUsername) => ({
-    //         account: author.account,
-    //         name: author.name,
-    //         about: author.about,
-    //         followersCount: author.followerCount,
-    //         pinnedPosts: author.pinnedPosts,
-    //         pinnedPostsUrls: author.pinnedPostsUrls,
-    //         showFollowBlock: author.account !== currentUsername,
-    //         reputation: repLog10(author.accountReputation),
-    //     })
-    // ),
-    () => ({
-        account: 'account',
-        name: 'name',
-        about: 'about',
-        followersCount: 0,
-        pinnedPosts: [],
-        pinnedPostsUrls: [],
-        showFollowBlock: false,
-        reputation: repLog10(123),
+  // createSelector(
+  //     [popoverUserInfoSelector, currentUsernameSelector],
+  //     (author, currentUsername) => ({
+  //         account: author.account,
+  //         name: author.name,
+  //         about: author.about,
+  //         followersCount: author.followerCount,
+  //         pinnedPosts: author.pinnedPosts,
+  //         pinnedPostsUrls: author.pinnedPostsUrls,
+  //         showFollowBlock: author.account !== currentUsername,
+  //         reputation: repLog10(author.accountReputation),
+  //     })
+  // ),
+  () => ({
+    account: 'account',
+    name: 'name',
+    about: 'about',
+    followersCount: 0,
+    pinnedPosts: [],
+    pinnedPostsUrls: [],
+    showFollowBlock: false,
+    reputation: repLog10(123),
+  }),
+  {
+    getPostContent: urls => ({
+      //type: USER_PINNED_POSTS_LOAD,
+      type: 'USER_PINNED_POSTS_LOAD',
+      payload: {
+        urls,
+      },
     }),
-    {
-        getPostContent: urls => ({
-            //type: USER_PINNED_POSTS_LOAD,
-            type: 'USER_PINNED_POSTS_LOAD',
-            payload: {
-                urls,
-            },
-        }),
-        loadUserFollowData: () => {},
-    }
+    loadUserFollowData: () => {},
+  }
 )(PopoverBody);

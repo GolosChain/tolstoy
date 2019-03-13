@@ -8,15 +8,15 @@ import { createSelector } from 'reselect';
 import { Mute } from './Mute';
 
 export default connect(
-    // createSelector(
-    //     [muteSelector, currentUsernameSelector],
-    //     (muteData, username) => ({
-    //         ...muteData,
-    //         username,
-    //     })
-    // ),
-    () => ({}),
-    {
-        updateFollow: () => {},
-    }
+  // createSelector(
+  //     [muteSelector, currentUsernameSelector],
+  //     (muteData, username) => ({
+  //         ...muteData,
+  //         username,
+  //     })
+  // ),
+  () => ({}),
+  {
+    updateFollow: () => {},
+  }
 )(Mute);

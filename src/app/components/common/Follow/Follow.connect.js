@@ -10,12 +10,12 @@ import { createSelector } from 'reselect';
 import Follow from './Follow';
 
 export default connect(
-    () => ({
-        username: 'who-is-it',
-        isFollow: false,
-    }),
-    {
-        updateFollow: () => {},
-        confirmUnfollowDialog: () => {},
-    }
+  () => ({
+    username: 'who-is-it',
+    isFollow: false,
+  }),
+  {
+    updateFollow: () => {},
+    confirmUnfollowDialog: () => {},
+  }
 )(Follow);

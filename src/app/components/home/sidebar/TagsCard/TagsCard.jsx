@@ -12,11 +12,11 @@ import Button from 'golos-ui/Button';
 import TagSelect from 'src/app/components/common/TagSelect';
 
 const Wrapper = styled.div`
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 
-    @media (max-width: 500px) {
-        display: none;
-    }
+  @media (max-width: 500px) {
+    display: none;
+  }
 `;
 
 // const SearchTagsWrapper = styled.div`
@@ -55,53 +55,53 @@ const Wrapper = styled.div`
 // `;
 
 const TagSelectStyled = styled(TagSelect)`
-    &:not(:last-child) {
-        margin-right: 10px;
-    }
+  &:not(:last-child) {
+    margin-right: 10px;
+  }
 
-    @media (max-width: 768px) {
-        margin-bottom: 20px;
-    }
+  @media (max-width: 768px) {
+    margin-bottom: 20px;
+  }
 `;
 
 const Title = styled.div`
-    position: relative;
-    line-height: 1;
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: 0.7px;
-    color: #333333;
-    text-transform: uppercase;
+  position: relative;
+  line-height: 1;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.7px;
+  color: #333333;
+  text-transform: uppercase;
 
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 
-    ${is('onClick')`
+  ${is('onClick')`
         cursor: pointer;
     `};
 `;
 
 const TagsWrapper = styled.div`
-    display: flex;
-    flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
 
-    @media (min-width: 768px) {
-        margin-bottom: 10px;
-    }
+  @media (min-width: 768px) {
+    margin-bottom: 10px;
+  }
 `;
 
 const CollapseIcon = styled(Icon).attrs({
-    name: 'chevron',
-    width: 12,
-    height: 7,
+  name: 'chevron',
+  width: 12,
+  height: 7,
 })`
-    position: absolute;
-    right: 0;
-    transform: rotate(0.5turn);
-    transition: transform 0.4s;
+  position: absolute;
+  right: 0;
+  transform: rotate(0.5turn);
+  transition: transform 0.4s;
 
-    &:hover {
-        color: #000;
-    }
+  &:hover {
+    color: #000;
+  }
 `;
 
 // const ButtonLink = styled(Link)`
@@ -120,62 +120,62 @@ const CollapseIcon = styled(Icon).attrs({
 // `;
 
 export default class TagsCard extends Component {
-    static propTypes = {
-        // connect
-        category: PropTypes.string,
-        order: PropTypes.string,
-        currentUsername: PropTypes.string,
-        tags: PropTypes.array,
-        tagsSelect: PropTypes.array,
-        tagsFilter: PropTypes.array,
-        collapsed: PropTypes.bool,
-        changeHomeTagsCardCollapse: PropTypes.func,
-        saveTag: PropTypes.func,
-        loadMore: PropTypes.func,
-    };
+  static propTypes = {
+    // connect
+    category: PropTypes.string,
+    order: PropTypes.string,
+    currentUsername: PropTypes.string,
+    tags: PropTypes.array,
+    tagsSelect: PropTypes.array,
+    tagsFilter: PropTypes.array,
+    collapsed: PropTypes.bool,
+    changeHomeTagsCardCollapse: PropTypes.func,
+    saveTag: PropTypes.func,
+    loadMore: PropTypes.func,
+  };
 
-    static defaultProps = {
-        tags: [],
-    };
+  static defaultProps = {
+    tags: [],
+  };
 
-    onToggleClick = () => {
-        this.props.changeHomeTagsCardCollapse(!this.props.collapsed);
-    };
+  onToggleClick = () => {
+    this.props.changeHomeTagsCardCollapse(!this.props.collapsed);
+  };
 
-    onTagClick = (tag, action) => {
-        const { category, order, currentUsername } = this.props;
+  onTagClick = (tag, action) => {
+    const { category, order, currentUsername } = this.props;
 
-        this.props.saveTag(tag, action);
-        this.props.loadMore({ category, order, accountname: currentUsername });
-    };
+    this.props.saveTag(tag, action);
+    this.props.loadMore({ category, order, accountname: currentUsername });
+  };
 
-    renderTag = (tag, key) => {
-        const { tagsSelect, tagsFilter } = this.props;
+  renderTag = (tag, key) => {
+    const { tagsSelect, tagsFilter } = this.props;
 
-        const isSelected = tagsSelect.includes(tag);
-        const isFiltered = tagsFilter.includes(tag);
-        return (
-            <TagSelectStyled
-                key={key}
-                tag={tag}
-                ariaLabel={
-                    isSelected
-                        ? tt('aria_label.cancel_sort_by_tag', { tag })
-                        : tt('aria_label.sort_by_tag', { tag })
-                }
-                isSelected={isSelected}
-                isFiltered={isFiltered}
-                onTagClick={this.onTagClick}
-            />
-        );
-    };
+    const isSelected = tagsSelect.includes(tag);
+    const isFiltered = tagsFilter.includes(tag);
+    return (
+      <TagSelectStyled
+        key={key}
+        tag={tag}
+        ariaLabel={
+          isSelected
+            ? tt('aria_label.cancel_sort_by_tag', { tag })
+            : tt('aria_label.sort_by_tag', { tag })
+        }
+        isSelected={isSelected}
+        isFiltered={isFiltered}
+        onTagClick={this.onTagClick}
+      />
+    );
+  };
 
-    render() {
-        const { tags, collapsed } = this.props;
+  render() {
+    const { tags, collapsed } = this.props;
 
-        return (
-            <Wrapper>
-                {/* <SearchTagsWrapper>
+    return (
+      <Wrapper>
+        {/* <SearchTagsWrapper>
                     <SearchInput
                         type="text"
                         placeholder="Введите тэг"
@@ -188,21 +188,21 @@ export default class TagsCard extends Component {
                     )}
                 </SearchTagsWrapper> */}
 
-                <Title>{tt('tags.popularTags')}</Title>
-                <TagsWrapper>{tags.map(this.renderTag)}</TagsWrapper>
-                {collapsed ? (
-                    <Title role="button" onClick={this.onToggleClick}>
-                        {tt('tags.show_more_tags')}
-                        <CollapseIcon />
-                    </Title>
-                ) : (
-                    <Button auto onClick={this.onToggleClick}>
-                        {tt('g.collapse')}
-                    </Button>
-                )}
+        <Title>{tt('tags.popularTags')}</Title>
+        <TagsWrapper>{tags.map(this.renderTag)}</TagsWrapper>
+        {collapsed ? (
+          <Title role="button" onClick={this.onToggleClick}>
+            {tt('tags.show_more_tags')}
+            <CollapseIcon />
+          </Title>
+        ) : (
+          <Button auto onClick={this.onToggleClick}>
+            {tt('g.collapse')}
+          </Button>
+        )}
 
-                {/* {!collapsed && <ButtonLink to="/tags">Показать все</ButtonLink>} */}
-            </Wrapper>
-        );
-    }
+        {/* {!collapsed && <ButtonLink to="/tags">Показать все</ButtonLink>} */}
+      </Wrapper>
+    );
+  }
 }

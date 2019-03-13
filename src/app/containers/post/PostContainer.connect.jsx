@@ -12,41 +12,39 @@ import { isHide, isContainTags } from 'src/app/utils/StateFunctions';
 import { HIDE_BY_TAGS } from 'src/app/constants/tags';
 
 export default connect(
-    createSelector(
-        [
-            currentPostSelector,
-            authorSelector,
-            currentUsernameSelector,
-            currentUserSelector,
-            locationTagsSelector,
-        ],
-        (post, author, username, user, { tagsSelect }) => {
-            if (!post) {
-                return {};
-            }
+  createSelector(
+    [
+      currentPostSelector,
+      authorSelector,
+      currentUsernameSelector,
+      currentUserSelector,
+      locationTagsSelector,
+    ],
+    (post, author, username, user, { tagsSelect }) => {
+      if (!post) {
+        return {};
+      }
 
-            return {
-                author: author.account,
-                postLoaded: Boolean(post),
-                isPinned: author.pinnedPostsUrls.includes(author.account + '/' + post.permLink),
-                permLink: post.permLink,
-                isFavorite: post.isFavorite,
-                isOwner: username === author.account,
-                stats: post.stats,
-                isHidden:
-                    isHide(post) ||
-                    post.isEmpty ||
-                    (username !== author.account &&
-                        isContainTags(post, HIDE_BY_TAGS) &&
-                        !tagsSelect.length),
-                user,
-            };
-        }
-    ),
-
-    {
-        togglePin,
-        toggleFavorite,
-        recordPostView,
+      return {
+        author: author.account,
+        postLoaded: Boolean(post),
+        isPinned: author.pinnedPostsUrls.includes(author.account + '/' + post.permLink),
+        permLink: post.permLink,
+        isFavorite: post.isFavorite,
+        isOwner: username === author.account,
+        stats: post.stats,
+        isHidden:
+          isHide(post) ||
+          post.isEmpty ||
+          (username !== author.account && isContainTags(post, HIDE_BY_TAGS) && !tagsSelect.length),
+        user,
+      };
     }
+  ),
+
+  {
+    togglePin,
+    toggleFavorite,
+    recordPostView,
+  }
 )(PostContainer);

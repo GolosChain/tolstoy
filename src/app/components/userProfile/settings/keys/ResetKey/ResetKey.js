@@ -12,324 +12,305 @@ import { CardContent } from 'golos-ui/Card';
 import { Input, CheckboxInput, FormError, FormFooter, FormFooterButton } from 'golos-ui/Form';
 
 const FormErrorStyled = styled(FormError)`
-    font-size: 13px;
-    color: #f00;
+  font-size: 13px;
+  color: #f00;
 `;
 
 const RulesBlock = styled.div`
-    padding: 13px 18px;
-    margin-bottom: 28px;
-    border: 1px solid #2879ff;
-    border-radius: 6px;
+  padding: 13px 18px;
+  margin-bottom: 28px;
+  border: 1px solid #2879ff;
+  border-radius: 6px;
 `;
 
 const Ol = styled.ol`
-    list-style: none;
-    counter-reset: li;
-    margin: 0 0 0 15px;
+  list-style: none;
+  counter-reset: li;
+  margin: 0 0 0 15px;
 `;
 
 const Li = styled.li`
-    counter-increment: li;
-    font-size: 15px;
+  counter-increment: li;
+  font-size: 15px;
 
-    &::before {
-        content: counter(li);
-        display: inline-block;
-        width: 1em;
-        margin-left: -1.5em;
-        margin-right: 10px;
+  &::before {
+    content: counter(li);
+    display: inline-block;
+    width: 1em;
+    margin-left: -1.5em;
+    margin-right: 10px;
 
-        font-weight: 900;
-        font-size: 14px;
-        text-align: right;
-        color: #2879ff;
-    }
+    font-weight: 900;
+    font-size: 14px;
+    text-align: right;
+    color: #2879ff;
+  }
 `;
 
 const Hint = styled.div`
-    margin-top: 15px;
-    font-size: 14px;
-    line-height: 20px;
-    color: #959595;
+  margin-top: 15px;
+  font-size: 14px;
+  line-height: 20px;
+  color: #959595;
 `;
 
 const FieldBlock = styled.label`
-    margin-bottom: 18px;
-    cursor: pointer;
-    user-select: none;
-    text-transform: none;
+  margin-bottom: 18px;
+  cursor: pointer;
+  user-select: none;
+  text-transform: none;
 
-    &:last-child {
-        margin-bottom: 0;
-    }
+  &:last-child {
+    margin-bottom: 0;
+  }
 
-    ${is('mini')`
+  ${is('mini')`
         margin-bottom: 10px;
     `};
 `;
 
 const LabelText = styled.div`
-    font-size: 14px;
-    color: #393636;
-    user-select: none;
+  font-size: 14px;
+  color: #393636;
+  user-select: none;
 `;
 
 const CheckboxLabel = styled.div`
-    margin-left: 10px;
-    color: #959595;
+  margin-left: 10px;
+  color: #959595;
 `;
 
 export default class ResetKey extends PureComponent {
-    static propTypes = {
-        account: PropTypes.object.isRequired,
-        onSubmitChangePassword: PropTypes.func,
+  static propTypes = {
+    account: PropTypes.object.isRequired,
+    onSubmitChangePassword: PropTypes.func,
+  };
+
+  state = {
+    newWif: 'P' + key_utils.get_random_key().toWif(),
+  };
+
+  validate = values => {
+    return {
+      password: !values.password
+        ? tt('g.required')
+        : PublicKey.fromString(values.password)
+        ? tt('g.you_need_private_password_or_key_not_a_public_key')
+        : undefined,
+      confirmPassword: !values.confirmPassword
+        ? tt('g.required')
+        : values.confirmPassword.trim() !== values.newWif
+        ? tt('g.passwords_do_not_match')
+        : undefined,
+      confirmCheck: !values.confirmCheck ? tt('g.required') : undefined,
+      confirmSaved: !values.confirmSaved ? tt('g.required') : undefined,
     };
+  };
 
-    state = {
-        newWif: 'P' + key_utils.get_random_key().toWif(),
-    };
+  getAccountAuths = account => {
+    return ['posting', 'active', 'owner'].reduce((acc, key) => {
+      const auths = account.getIn([key, 'account_auths']);
+      if (!auths.isEmpty()) {
+        acc.push(auths);
+      }
+      return acc;
+    }, []);
+  };
 
-    validate = values => {
-        return {
-            password: !values.password
-                ? tt('g.required')
-                : PublicKey.fromString(values.password)
-                ? tt('g.you_need_private_password_or_key_not_a_public_key')
-                : undefined,
-            confirmPassword: !values.confirmPassword
-                ? tt('g.required')
-                : values.confirmPassword.trim() !== values.newWif
-                ? tt('g.passwords_do_not_match')
-                : undefined,
-            confirmCheck: !values.confirmCheck ? tt('g.required') : undefined,
-            confirmSaved: !values.confirmSaved ? tt('g.required') : undefined,
-        };
-    };
+  onSubmitChangePassword = values => {
+    const { changePassword, notify } = this.props;
 
-    getAccountAuths = account => {
-        return ['posting', 'active', 'owner'].reduce((acc, key) => {
-            const auths = account.getIn([key, 'account_auths']);
-            if (!auths.isEmpty()) {
-                acc.push(auths);
-            }
-            return acc;
-        }, []);
-    };
-
-    onSubmitChangePassword = values => {
-        const { changePassword, notify } = this.props;
-
-        return new Promise((resolve, reject) => {
-            changePassword({
-                accountName: values.username,
-                password: values.password,
-                newWif: values.newWif,
-                clearAccountAuths: values.clearAccountAuths,
-                successCallback: () => {
-                    notify('Password Updated');
-                    window.location = `/login#account=${values.username}&msg=passwordupdated`;
-                    resolve();
-                },
-                errorCallback: e => {
-                    if (e === 'Canceled') {
-                        resolve();
-                    } else {
-                        console.log('changePassword ERROR:', e);
-                        reject({
-                            [FORM_ERROR]: e,
-                        });
-                    }
-                },
+    return new Promise((resolve, reject) => {
+      changePassword({
+        accountName: values.username,
+        password: values.password,
+        newWif: values.newWif,
+        clearAccountAuths: values.clearAccountAuths,
+        successCallback: () => {
+          notify('Password Updated');
+          window.location = `/login#account=${values.username}&msg=passwordupdated`;
+          resolve();
+        },
+        errorCallback: e => {
+          if (e === 'Canceled') {
+            resolve();
+          } else {
+            console.log('changePassword ERROR:', e);
+            reject({
+              [FORM_ERROR]: e,
             });
-        });
+          }
+        },
+      });
+    });
+  };
+
+  render() {
+    const { account, password } = this.props;
+    const { newWif } = this.state;
+
+    const isDialog = !isNil(password);
+
+    const initialData = {
+      username: account.get('name'),
+      newWif,
+      password: isDialog ? password : '',
     };
 
-    render() {
-        const { account, password } = this.props;
-        const { newWif } = this.state;
+    const accountAuths = this.getAccountAuths(account);
+    const hasAuths = accountAuths.length > 0;
 
-        const isDialog = !isNil(password);
-
-        const initialData = {
-            username: account.get('name'),
-            newWif,
-            password: isDialog ? password : '',
-        };
-
-        const accountAuths = this.getAccountAuths(account);
-        const hasAuths = accountAuths.length > 0;
-
-        return (
-            <Form
-                initialValues={initialData}
-                validate={this.validate}
-                onSubmit={this.onSubmitChangePassword}
-            >
-                {({
-                    handleSubmit,
-                    submitError,
-                    form,
-                    submitting,
-                    pristine,
-                    hasValidationErrors,
-                }) => (
-                    <form onSubmit={handleSubmit}>
-                        {submitting && <SplashLoader />}
-                        <CardContent column>
-                            <RulesBlock>
-                                <Ol>
-                                    <Li>{tt('password_rules.p1')}</Li>
-                                    <Li>
-                                        <strong>{tt('password_rules.p2')}</strong>
-                                    </Li>
-                                    <Li>{tt('password_rules.p3')}</Li>
-                                    <Li>{tt('password_rules.p4')}</Li>
-                                    <Li>{tt('password_rules.p5')}</Li>
-                                    <Li>{tt('password_rules.p6')}</Li>
-                                    <Li>{tt('password_rules.p7')}</Li>
-                                </Ol>
-                            </RulesBlock>
-                            <Field name="username">
-                                {({ input, meta }) => (
-                                    <FieldBlock>
-                                        <LabelText>{tt('g.account_name')}</LabelText>
-                                        <Input {...input} type="text" autoComplete="off" disabled />
-                                        <FormErrorStyled meta={meta} />
-                                    </FieldBlock>
-                                )}
-                            </Field>
-                            <Field name="password">
-                                {({ input, meta }) => (
-                                    <FieldBlock>
-                                        <LabelText>{tt('g.current_password')}</LabelText>
-                                        <Input
-                                            {...input}
-                                            type="password"
-                                            autoCorrect="off"
-                                            autoCapitalize="off"
-                                            spellCheck="false"
-                                            disabled={submitting || isDialog}
-                                        />
-                                        <FormErrorStyled meta={meta} />
-                                    </FieldBlock>
-                                )}
-                            </Field>
-                            <Field name="newWif">
-                                {({ input, meta }) => (
-                                    <FieldBlock>
-                                        <LabelText>{tt('g.generated_password')}</LabelText>
-                                        <Input
-                                            {...input}
-                                            type="text"
-                                            autoComplete="off"
-                                            disabled={submitting}
-                                            readOnly
-                                        />
-                                        <FormErrorStyled meta={meta} />
-                                        <Hint>{tt('g.backup_password_by_storing_it')}</Hint>
-                                    </FieldBlock>
-                                )}
-                            </Field>
-                            <Field name="confirmPassword">
-                                {({ input, meta }) => (
-                                    <FieldBlock>
-                                        <LabelText>{tt('g.re_enter_generate_password')}</LabelText>
-                                        <Input
-                                            {...input}
-                                            type="text"
-                                            autoComplete="off"
-                                            autoCorrect="off"
-                                            autoCapitalize="off"
-                                            spellCheck="false"
-                                            disabled={submitting}
-                                        />
-                                        <FormErrorStyled meta={meta} />
-                                    </FieldBlock>
-                                )}
-                            </Field>
-                            {hasAuths && (
-                                <Field name="clearAccountAuths">
-                                    {({ input, meta }) => (
-                                        <FieldBlock mini>
-                                            <CheckboxInput
-                                                {...input}
-                                                title={
-                                                    <CheckboxLabel>
-                                                        {tt('g.clear_accounts_auths')}
-                                                    </CheckboxLabel>
-                                                }
-                                            />
-                                            <FormErrorStyled meta={meta} />
-                                        </FieldBlock>
-                                    )}
-                                </Field>
-                            )}
-                            <Field name="confirmCheck">
-                                {({ input, meta }) => (
-                                    <FieldBlock mini>
-                                        <CheckboxInput
-                                            {...input}
-                                            title={
-                                                <CheckboxLabel>
-                                                    {tt(
-                                                        'g.understand_that_APP_NAME_cannot_recover_password',
-                                                        { APP_NAME: 'GOLOS.io' }
-                                                    )}
-                                                </CheckboxLabel>
-                                            }
-                                        />
-                                        <FormErrorStyled meta={meta} />
-                                    </FieldBlock>
-                                )}
-                            </Field>
-                            <Field name="confirmSaved">
-                                {({ input, meta }) => (
-                                    <FieldBlock mini>
-                                        <CheckboxInput
-                                            {...input}
-                                            title={
-                                                <CheckboxLabel>
-                                                    {tt('g.i_saved_password')}
-                                                </CheckboxLabel>
-                                            }
-                                        />
-                                        <FormErrorStyled meta={meta} />
-                                    </FieldBlock>
-                                )}
-                            </Field>
-                            {submitError && <div>{submitError}</div>}
-                        </CardContent>
-                        <FormFooter>
-                            {isDialog ? (
-                                <FormFooterButton
-                                    onClick={() => {
-                                        form.reset();
-                                        this.props.onCloseClick();
-                                    }}
-                                    disabled={submitting}
-                                >
-                                    {tt('g.cancel')}
-                                </FormFooterButton>
-                            ) : (
-                                <FormFooterButton
-                                    onClick={form.reset}
-                                    disabled={submitting || pristine}
-                                >
-                                    {tt('settings_jsx.reset')}
-                                </FormFooterButton>
-                            )}
-                            <FormFooterButton
-                                type="submit"
-                                primary
-                                disabled={submitting || pristine || hasValidationErrors}
-                            >
-                                {tt('settings_jsx.update')}
-                            </FormFooterButton>
-                        </FormFooter>
-                    </form>
+    return (
+      <Form
+        initialValues={initialData}
+        validate={this.validate}
+        onSubmit={this.onSubmitChangePassword}
+      >
+        {({ handleSubmit, submitError, form, submitting, pristine, hasValidationErrors }) => (
+          <form onSubmit={handleSubmit}>
+            {submitting && <SplashLoader />}
+            <CardContent column>
+              <RulesBlock>
+                <Ol>
+                  <Li>{tt('password_rules.p1')}</Li>
+                  <Li>
+                    <strong>{tt('password_rules.p2')}</strong>
+                  </Li>
+                  <Li>{tt('password_rules.p3')}</Li>
+                  <Li>{tt('password_rules.p4')}</Li>
+                  <Li>{tt('password_rules.p5')}</Li>
+                  <Li>{tt('password_rules.p6')}</Li>
+                  <Li>{tt('password_rules.p7')}</Li>
+                </Ol>
+              </RulesBlock>
+              <Field name="username">
+                {({ input, meta }) => (
+                  <FieldBlock>
+                    <LabelText>{tt('g.account_name')}</LabelText>
+                    <Input {...input} type="text" autoComplete="off" disabled />
+                    <FormErrorStyled meta={meta} />
+                  </FieldBlock>
                 )}
-            </Form>
-        );
-    }
+              </Field>
+              <Field name="password">
+                {({ input, meta }) => (
+                  <FieldBlock>
+                    <LabelText>{tt('g.current_password')}</LabelText>
+                    <Input
+                      {...input}
+                      type="password"
+                      autoCorrect="off"
+                      autoCapitalize="off"
+                      spellCheck="false"
+                      disabled={submitting || isDialog}
+                    />
+                    <FormErrorStyled meta={meta} />
+                  </FieldBlock>
+                )}
+              </Field>
+              <Field name="newWif">
+                {({ input, meta }) => (
+                  <FieldBlock>
+                    <LabelText>{tt('g.generated_password')}</LabelText>
+                    <Input
+                      {...input}
+                      type="text"
+                      autoComplete="off"
+                      disabled={submitting}
+                      readOnly
+                    />
+                    <FormErrorStyled meta={meta} />
+                    <Hint>{tt('g.backup_password_by_storing_it')}</Hint>
+                  </FieldBlock>
+                )}
+              </Field>
+              <Field name="confirmPassword">
+                {({ input, meta }) => (
+                  <FieldBlock>
+                    <LabelText>{tt('g.re_enter_generate_password')}</LabelText>
+                    <Input
+                      {...input}
+                      type="text"
+                      autoComplete="off"
+                      autoCorrect="off"
+                      autoCapitalize="off"
+                      spellCheck="false"
+                      disabled={submitting}
+                    />
+                    <FormErrorStyled meta={meta} />
+                  </FieldBlock>
+                )}
+              </Field>
+              {hasAuths && (
+                <Field name="clearAccountAuths">
+                  {({ input, meta }) => (
+                    <FieldBlock mini>
+                      <CheckboxInput
+                        {...input}
+                        title={<CheckboxLabel>{tt('g.clear_accounts_auths')}</CheckboxLabel>}
+                      />
+                      <FormErrorStyled meta={meta} />
+                    </FieldBlock>
+                  )}
+                </Field>
+              )}
+              <Field name="confirmCheck">
+                {({ input, meta }) => (
+                  <FieldBlock mini>
+                    <CheckboxInput
+                      {...input}
+                      title={
+                        <CheckboxLabel>
+                          {tt('g.understand_that_APP_NAME_cannot_recover_password', {
+                            APP_NAME: 'GOLOS.io',
+                          })}
+                        </CheckboxLabel>
+                      }
+                    />
+                    <FormErrorStyled meta={meta} />
+                  </FieldBlock>
+                )}
+              </Field>
+              <Field name="confirmSaved">
+                {({ input, meta }) => (
+                  <FieldBlock mini>
+                    <CheckboxInput
+                      {...input}
+                      title={<CheckboxLabel>{tt('g.i_saved_password')}</CheckboxLabel>}
+                    />
+                    <FormErrorStyled meta={meta} />
+                  </FieldBlock>
+                )}
+              </Field>
+              {submitError && <div>{submitError}</div>}
+            </CardContent>
+            <FormFooter>
+              {isDialog ? (
+                <FormFooterButton
+                  onClick={() => {
+                    form.reset();
+                    this.props.onCloseClick();
+                  }}
+                  disabled={submitting}
+                >
+                  {tt('g.cancel')}
+                </FormFooterButton>
+              ) : (
+                <FormFooterButton onClick={form.reset} disabled={submitting || pristine}>
+                  {tt('settings_jsx.reset')}
+                </FormFooterButton>
+              )}
+              <FormFooterButton
+                type="submit"
+                primary
+                disabled={submitting || pristine || hasValidationErrors}
+              >
+                {tt('settings_jsx.update')}
+              </FormFooterButton>
+            </FormFooter>
+          </form>
+        )}
+      </Form>
+    );
+  }
 }

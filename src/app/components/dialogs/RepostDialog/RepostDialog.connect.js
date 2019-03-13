@@ -7,18 +7,18 @@ import { sanitizeCardPostData } from 'src/app/redux/selectors/post/commonPost';
 import RepostDialog from './RepostDialog';
 
 export default connect(
-    (state, props) => {
-        const post = state.global.getIn(['content', props.postLink]);
+  (state, props) => {
+    const post = state.global.getIn(['content', props.postLink]);
 
-        return {
-            myAccountName: currentUsernameSelector(state),
-            sanitizedPost: sanitizeCardPostData(post),
-        };
-    },
-    {
-        repost,
-        showNotification,
-    },
-    null,
-    { withRef: true }
+    return {
+      myAccountName: currentUsernameSelector(state),
+      sanitizedPost: sanitizeCardPostData(post),
+    };
+  },
+  {
+    repost,
+    showNotification,
+  },
+  null,
+  { withRef: true }
 )(RepostDialog);

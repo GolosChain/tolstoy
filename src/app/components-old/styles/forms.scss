@@ -1,9 +1,12 @@
 form {
   .error {
-    input, input:active, input:focus {
+    input,
+    input:active,
+    input:focus {
       border-color: $alert-color;
     }
-    label, .help-text {
+    label,
+    .help-text {
       color: $alert-color;
     }
     .help-text {
@@ -14,39 +17,41 @@ form {
     color: $success-color;
   }
 }
-input, textarea, select {
-    // Overwrite 16px margin-bottom, it was pusing error messages down away from the form element
-    margin-bottom: 0 !important;
+input,
+textarea,
+select {
+  // Overwrite 16px margin-bottom, it was pusing error messages down away from the form element
+  margin-bottom: 0 !important;
 }
 .error {
-    color: $alert-color;
-    margin-bottom: 10px;
+  color: $alert-color;
+  margin-bottom: 10px;
 }
 .warning {
-    color: darkgoldenrod;
-    margin-bottom: 10px;
+  color: darkgoldenrod;
+  margin-bottom: 10px;
 }
 .darkred {
-    color: darkred;
-    margin-bottom: 10px;
+  color: darkred;
+  margin-bottom: 10px;
 }
 .info {
-    color: dimgrey;
-    margin-bottom: 10px;
+  color: dimgrey;
+  margin-bottom: 10px;
 }
 .hoverBackground:hover {
-    background-color: antiquewhite;
+  background-color: antiquewhite;
 }
 .de-emphasize {
   color: $dark-gray;
 }
 .overflow-ellipsis {
-    overflow: hidden;
-    text-overflow: ellipsis;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .darkbtn {
-    padding: 12px;
-    background-color: #eee;
+  padding: 12px;
+  background-color: #eee;
 }
 
 // // what about touch-screen only?

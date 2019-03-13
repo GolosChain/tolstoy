@@ -1,7 +1,7 @@
 import defaultTheme from './default';
 
 export const themes = {
-    Default: defaultTheme,
+  Default: defaultTheme,
 };
 
 export default defaultTheme;

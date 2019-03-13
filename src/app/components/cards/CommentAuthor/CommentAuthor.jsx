@@ -7,39 +7,39 @@ import tt from 'counterpart';
 import Userpic from 'src/app/components/common/Userpic';
 
 const Wrapper = styled.div`
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 `;
 
 const Avatar = styled(Link)`
-    position: relative;
-    display: flex;
-    margin-right: 10px;
-    border-radius: 50%;
+  position: relative;
+  display: flex;
+  margin-right: 10px;
+  border-radius: 50%;
 `;
 
 const AuthorName = styled(Link)`
-    display: block;
-    margin: 3px 0;
-    font-family: ${a => a.theme.fontFamily};
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.1;
-    color: #333;
-    text-decoration: none;
+  display: block;
+  margin: 3px 0;
+  font-family: ${a => a.theme.fontFamily};
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.1;
+  color: #333;
+  text-decoration: none;
 `;
 
 const CommentAuthor = ({ author }) => (
-    <Wrapper>
-        <Avatar to={`/@${author}`} aria-label={tt('aria_label.avatar')}>
-            <Userpic account={author} size={37} />
-        </Avatar>
-        <AuthorName to={`/@${author}`}>{author}</AuthorName>
-    </Wrapper>
+  <Wrapper>
+    <Avatar to={`/@${author}`} aria-label={tt('aria_label.avatar')}>
+      <Userpic account={author} size={37} />
+    </Avatar>
+    <AuthorName to={`/@${author}`}>{author}</AuthorName>
+  </Wrapper>
 );
 
 CommentAuthor.propTypes = {
-    author: PropTypes.string.isRequired,
+  author: PropTypes.string.isRequired,
 };
 
 export default CommentAuthor;

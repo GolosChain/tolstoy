@@ -22,30 +22,30 @@ const rProxyDomainsDimensions = /https?:\/\/(?:imgp|images)\.golos\.io\/\d+x\d+\
  *                                      if true, preserves the first {int}x{int} in a proxy url. If not found, uses 0x0
  */
 export default function(url, dimensions = false) {
-    let respUrl = url;
+  let respUrl = url;
 
-    const proxyList = url.match(rProxyDomainsDimensions);
+  const proxyList = url.match(rProxyDomainsDimensions);
 
-    if (proxyList) {
-        const lastProxy = last(proxyList);
-        respUrl = url.substring(url.lastIndexOf(lastProxy) + lastProxy.length);
+  if (proxyList) {
+    const lastProxy = last(proxyList);
+    respUrl = url.substring(url.lastIndexOf(lastProxy) + lastProxy.length);
+  }
+
+  if (dimensions && $STM_Config && $STM_Config.img_proxy_prefix) {
+    let dims;
+
+    if (typeof dimensions === 'string') {
+      dims = dimensions + '/';
+    } else if (proxyList) {
+      dims = head(proxyList).match(/\d+x\d+\//)[0];
+    } else {
+      dims = NATURAL_SIZE;
     }
 
-    if (dimensions && $STM_Config && $STM_Config.img_proxy_prefix) {
-        let dims;
-
-        if (typeof dimensions === 'string') {
-            dims = dimensions + '/';
-        } else if (proxyList) {
-            dims = head(proxyList).match(/\d+x\d+\//)[0];
-        } else {
-            dims = NATURAL_SIZE;
-        }
-
-        if (dims !== NATURAL_SIZE || !rProxyDomain.test(respUrl)) {
-            return $STM_Config.img_proxy_prefix + dims + respUrl;
-        }
+    if (dims !== NATURAL_SIZE || !rProxyDomain.test(respUrl)) {
+      return $STM_Config.img_proxy_prefix + dims + respUrl;
     }
+  }
 
-    return respUrl;
+  return respUrl;
 }

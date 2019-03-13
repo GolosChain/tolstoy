@@ -6,17 +6,17 @@ import { CommentsContainer } from 'src/app/containers/post/commentsContainer/Com
 import { locationSelector } from 'src/app/redux/selectors/app/location';
 
 export default connect(
-    createSelector(
-        [routePostSelector, commentsSelector, locationSelector, state => state.ui.common],
-        (data, commentsData, location, uiCommon) => ({
-            pathname: location.get('pathname'),
-            data,
-            commentInputFocused: uiCommon.get('commentInputFocused'),
-            ...commentsData,
-        })
-    ),
+  createSelector(
+    [routePostSelector, commentsSelector, locationSelector, state => state.ui.common],
+    (data, commentsData, location, uiCommon) => ({
+      pathname: location.get('pathname'),
+      data,
+      commentInputFocused: uiCommon.get('commentInputFocused'),
+      ...commentsData,
+    })
+  ),
 
-    {
-        fetchCommentsIfNeeded,
-    }
+  {
+    fetchCommentsIfNeeded,
+  }
 )(CommentsContainer);

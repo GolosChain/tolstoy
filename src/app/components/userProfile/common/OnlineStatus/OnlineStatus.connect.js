@@ -6,11 +6,11 @@ import { connect } from 'react-redux';
 import OnlineStatus from './OnlineStatus';
 
 export default connect(
-    (state, props) => ({
-        // isOwner: currentUsernameSelector(state) === props.username,
-        isOwner: true,
-    }),
-    {
-        fetchUserLastOnline: () => {},
-    }
+  (state, props) => ({
+    // isOwner: currentUsernameSelector(state) === props.username,
+    isOwner: true,
+  }),
+  {
+    fetchUserLastOnline: () => {},
+  }
 )(OnlineStatus);

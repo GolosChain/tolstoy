@@ -14,17 +14,17 @@ const reqApp = require.context('../app', true, /\.stories\.jsx?$/);
 const reqSrc = require.context('../src', true, /\.stories\.jsx?$/);
 
 function loadStories() {
-    for (let fileName of req.keys()) {
-        req(fileName);
-    }
+  for (let fileName of req.keys()) {
+    req(fileName);
+  }
 
-    for (let fileName of reqApp.keys()) {
-        reqApp(fileName);
-    }
+  for (let fileName of reqApp.keys()) {
+    reqApp(fileName);
+  }
 
-    for (let fileName of reqSrc.keys()) {
-        reqSrc(fileName);
-    }
+  for (let fileName of reqSrc.keys()) {
+    reqSrc(fileName);
+  }
 }
 
 addDecorator(withThemes(themes));

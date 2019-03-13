@@ -14,7 +14,7 @@ import useRedirects from './redirects';
 import useGeneralApi from './api/general';
 import useAccountRecoveryApi from './api/account_recovery';
 import useRegistrationApi from './api/registration';
-import {ratesRoutes as useRatesRoutes} from './api/rates';
+import { ratesRoutes as useRatesRoutes } from './api/rates';
 import isBot from 'koa-isbot';
 import session from './utils/cryptoSession';
 import csrf from 'koa-csrf';
@@ -38,100 +38,102 @@ app.keys = [config.get('session_key')];
 const crypto_key = config.get('server_session_secret');
 
 session(app, {
-    maxAge: 1000 * 3600 * 24 * 60,
-    crypto_key,
-    key: config.get('session_cookie_key')
+  maxAge: 1000 * 3600 * 24 * 60,
+  crypto_key,
+  key: config.get('session_cookie_key'),
 });
 csrf(app);
 // app.use(csrf.middleware);
 app.use(flash({ key: 'flash' }));
 
 function convertEntriesToArrays(obj) {
-    return Object.keys(obj).reduce((result, key) => {
-        result[key] = obj[key].split(/\s+/);
-        return result;
-    }, {});
+  return Object.keys(obj).reduce((result, key) => {
+    result[key] = obj[key].split(/\s+/);
+    return result;
+  }, {});
 }
 
 // some redirects
 app.use(function*(next) {
-    // normalize url for %40 opportunity for @ in posts
-    if (this.url.indexOf('%40') !== -1) {
-      const transfer = this.url.split("?")[0].split(`/`).includes(`transfers`);
-      if (!transfer) {
-        //  fixme potential 500
-        this.redirect(decodeURIComponent(this.url));
-        return;
-      }
+  // normalize url for %40 opportunity for @ in posts
+  if (this.url.indexOf('%40') !== -1) {
+    const transfer = this.url
+      .split('?')[0]
+      .split(`/`)
+      .includes(`transfers`);
+    if (!transfer) {
+      //  fixme potential 500
+      this.redirect(decodeURIComponent(this.url));
+      return;
     }
-    // redirect to home page/feed if known account
-    if (this.method === 'GET' && this.url === '/' && this.session.a) {
-        this.status = 302;
-        this.redirect(`/@${this.session.a}/feed`);
-        return;
-    }
-    // normalize user name url from cased params
-    if (
-        this.method === 'GET' &&
-            (routeRegex.UserProfile1.test(this.url) ||
-                routeRegex.PostNoCategory.test(this.url))
-    ) {
-        const p = this.originalUrl.toLowerCase();
-		let userCheck = "";
-		if (routeRegex.Post.test(this.url)) {
-			userCheck = p.split("/")[2].slice(1);
-		} else {
-			userCheck = p.split("/")[1].slice(1);
-		}
-		if (blockedUsers.includes(userCheck)) {
-			console.log('Illegal content user found blocked', `@${userCheck}`);
-			this.status = 451;
-			return;
-		}
-        if (p !== this.originalUrl) {
-            this.status = 301;
-            this.redirect(p);
-            return;
-        }
-    }
-    // normalize top category filtering from cased params
-    if (this.method === 'GET' && routeRegex.CategoryFilters.test(this.url)) {
-        const p = this.originalUrl.toLowerCase();
-        if (p !== this.originalUrl) {
-            this.status = 301;
-            this.redirect(p);
-            return;
-        }
-    }
-    // remember ch, cn, r url params in the session and remove them from url
-    if (this.method === 'GET' && /\?[^\w]*(ch=|cn=|r=)/.test(this.url)) {
-        let redir = this.url.replace(/((ch|cn|r)=[^&]+)/gi, r => {
-            const p = r.split('=');
-            if (p.length === 2) this.session[p[0]] = p[1];
-            return '';
-        });
-        redir = redir.replace(/&&&?/, '');
-        redir = redir.replace(/\?&?$/, '');
-        console.log(`server redirect ${this.url} -> ${redir}`);
-        this.status = 302;
-        this.redirect(redir);
+  }
+  // redirect to home page/feed if known account
+  if (this.method === 'GET' && this.url === '/' && this.session.a) {
+    this.status = 302;
+    this.redirect(`/@${this.session.a}/feed`);
+    return;
+  }
+  // normalize user name url from cased params
+  if (
+    this.method === 'GET' &&
+    (routeRegex.UserProfile1.test(this.url) || routeRegex.PostNoCategory.test(this.url))
+  ) {
+    const p = this.originalUrl.toLowerCase();
+    let userCheck = '';
+    if (routeRegex.Post.test(this.url)) {
+      userCheck = p.split('/')[2].slice(1);
     } else {
-        yield next;
+      userCheck = p.split('/')[1].slice(1);
     }
+    if (blockedUsers.includes(userCheck)) {
+      console.log('Illegal content user found blocked', `@${userCheck}`);
+      this.status = 451;
+      return;
+    }
+    if (p !== this.originalUrl) {
+      this.status = 301;
+      this.redirect(p);
+      return;
+    }
+  }
+  // normalize top category filtering from cased params
+  if (this.method === 'GET' && routeRegex.CategoryFilters.test(this.url)) {
+    const p = this.originalUrl.toLowerCase();
+    if (p !== this.originalUrl) {
+      this.status = 301;
+      this.redirect(p);
+      return;
+    }
+  }
+  // remember ch, cn, r url params in the session and remove them from url
+  if (this.method === 'GET' && /\?[^\w]*(ch=|cn=|r=)/.test(this.url)) {
+    let redir = this.url.replace(/((ch|cn|r)=[^&]+)/gi, r => {
+      const p = r.split('=');
+      if (p.length === 2) this.session[p[0]] = p[1];
+      return '';
+    });
+    redir = redir.replace(/&&&?/, '');
+    redir = redir.replace(/\?&?$/, '');
+    console.log(`server redirect ${this.url} -> ${redir}`);
+    this.status = 302;
+    this.redirect(redir);
+  } else {
+    yield next;
+  }
 });
 
 // load production middleware
 if (env === 'production') {
-    app.use(require('koa-conditional-get')());
-    app.use(require('koa-etag')());
-    app.use(require('koa-compressor')());
+  app.use(require('koa-conditional-get')());
+  app.use(require('koa-etag')());
+  app.use(require('koa-compressor')());
 }
 
 // Logging
 if (env === 'production') {
-    app.use(prod_logger());
+  app.use(prod_logger());
 } else {
-    app.use(koa_logger());
+  app.use(koa_logger());
 }
 
 app.use(helmet());
@@ -139,37 +141,37 @@ app.use(helmet());
 app.use(mount('/static', staticCache(path.join(__dirname, '../app/assets/static'), cacheOpts)));
 
 app.use(
-    mount('/robots.txt', function*() {
-        this.set('Cache-Control', 'public, max-age=86400000');
-        this.type = 'text/plain';
-        this.body = 'User-agent: *\nAllow: /';
-    })
+  mount('/robots.txt', function*() {
+    this.set('Cache-Control', 'public, max-age=86400000');
+    this.type = 'text/plain';
+    this.body = 'User-agent: *\nAllow: /';
+  })
 );
 
 app.use(
-    mount('/.well-known/assetlinks.json', function*() {
-        this.type = 'application/json';
-        const file_content = fs
-            .readFileSync(path.join(__dirname, '../app/assets/.well-known/assetlinks.json'))
-            .toString();
-        this.body = file_content
-    })
+  mount('/.well-known/assetlinks.json', function*() {
+    this.type = 'application/json';
+    const file_content = fs
+      .readFileSync(path.join(__dirname, '../app/assets/.well-known/assetlinks.json'))
+      .toString();
+    this.body = file_content;
+  })
 );
 
 // set user's uid - used to identify users in logs and some other places
 // FIXME SECURITY PRIVACY cycle this uid after a period of time
 app.use(function*(next) {
-    if (! /(\.js(on)?|\.css|\.map|\.ico|\.png|\.jpe?g)$/.test(this.url)) {
-        const last_visit = this.session.last_visit;
-        this.session.last_visit = new Date().getTime() / 1000 | 0;
-        if (!this.session.uid) {
-            this.session.uid = secureRandom.randomBuffer(13).toString('hex');
-            this.session.new_visit = true;
-        } else {
-            this.session.new_visit = this.session.last_visit - last_visit > 1800;
-        }
+  if (!/(\.js(on)?|\.css|\.map|\.ico|\.png|\.jpe?g)$/.test(this.url)) {
+    const last_visit = this.session.last_visit;
+    this.session.last_visit = (new Date().getTime() / 1000) | 0;
+    if (!this.session.uid) {
+      this.session.uid = secureRandom.randomBuffer(13).toString('hex');
+      this.session.new_visit = true;
+    } else {
+      this.session.new_visit = this.session.last_visit - last_visit > 1800;
     }
-    yield next;
+  }
+  yield next;
 });
 
 useRedirects(app);
@@ -183,64 +185,73 @@ useRatesRoutes(app);
 // our config uses strings, this splits them to lists on whitespace.
 
 if (env === 'production') {
-    const helmetConfig = {
-        directives: convertEntriesToArrays(config.get('helmet.directives')),
-        reportOnly: config.get('helmet.reportOnly'),
-        setAllHeaders: config.get('helmet.setAllHeaders')
-    };
-    helmetConfig.directives.reportUri = '/api/v1/csp_violation';
-    app.use(helmet.contentSecurityPolicy(helmetConfig));
+  const helmetConfig = {
+    directives: convertEntriesToArrays(config.get('helmet.directives')),
+    reportOnly: config.get('helmet.reportOnly'),
+    setAllHeaders: config.get('helmet.setAllHeaders'),
+  };
+  helmetConfig.directives.reportUri = '/api/v1/csp_violation';
+  app.use(helmet.contentSecurityPolicy(helmetConfig));
 }
 
 app.use(favicon(path.join(__dirname, '../app/assets/images/favicons/favicon.ico')));
-app.use(mount('/favicons', staticCache(path.join(__dirname, '../app/assets/images/favicons'), cacheOpts)));
+app.use(
+  mount('/favicons', staticCache(path.join(__dirname, '../app/assets/images/favicons'), cacheOpts))
+);
 app.use(mount('/images', staticCache(path.join(__dirname, '../app/assets/images'), cacheOpts)));
 app.use(mount('/legal', staticCache(path.join(__dirname, '../app/assets/legal'), cacheOpts)));
-app.use(mount('/sitemap.xml', staticCache(path.join(__dirname, '../app/assets/sitemap.xml'), cacheOpts)));
-app.use(mount('/robots.txt', staticCache(path.join(__dirname, '../app/assets/robots.txt'), cacheOpts)));
+app.use(
+  mount('/sitemap.xml', staticCache(path.join(__dirname, '../app/assets/sitemap.xml'), cacheOpts))
+);
+app.use(
+  mount('/robots.txt', staticCache(path.join(__dirname, '../app/assets/robots.txt'), cacheOpts))
+);
 app.use(isBot());
-
 
 // Proxy asset folder to webpack development server in development mode
 if (env === 'development') {
-    const webpack_dev_port = process.env.PORT
-        ? parseInt(process.env.PORT) + 1
-        : 8081;
-    const proxyhost = `http://${(process.platform === 'win32') ? '127.0.0.1' : '0.0.0.0'}:${webpack_dev_port}`;
-    console.log('proxying to webpack dev server at ' + proxyhost);
-    const proxy = require('koa-proxy')({
-        host: proxyhost,
-        map: filePath => 'assets/' + filePath
-    });
-    app.use(mount('/assets', proxy));
+  const webpack_dev_port = process.env.PORT ? parseInt(process.env.PORT) + 1 : 8081;
+  const proxyhost = `http://${
+    process.platform === 'win32' ? '127.0.0.1' : '0.0.0.0'
+  }:${webpack_dev_port}`;
+  console.log('proxying to webpack dev server at ' + proxyhost);
+  const proxy = require('koa-proxy')({
+    host: proxyhost,
+    map: filePath => 'assets/' + filePath,
+  });
+  app.use(mount('/assets', proxy));
 } else {
-    app.use(mount('/assets', staticCache(path.join(__dirname, '../dist'), cacheOpts)));
+  app.use(mount('/assets', staticCache(path.join(__dirname, '../dist'), cacheOpts)));
 }
 
 if (env !== 'test') {
-    const appRender = require('./app_render');
-    app.use(function*() {
-        // clear require() cache if in development mode
-        // (makes asset hot reloading work)
-        if (process.env.NODE_ENV !== 'production') {
-            webpackIsomorphicTools.refresh()
-        }
+  const appRender = require('./app_render');
+  app.use(function*() {
+    // clear require() cache if in development mode
+    // (makes asset hot reloading work)
+    if (process.env.NODE_ENV !== 'production') {
+      webpackIsomorphicTools.refresh();
+    }
 
-        yield appRender(this);
-        // if (app_router.dbStatus.ok) recordWebEvent(this, 'page_load');
-        const bot = this.state.isBot;
-        if (bot) {
-            console.log(`[reqid ${this.request.header['x-request-id']}] ${this.method} ${this.originalUrl} ${this.status} (BOT '${bot}')`);
-        }
-    });
+    yield appRender(this);
+    // if (app_router.dbStatus.ok) recordWebEvent(this, 'page_load');
+    const bot = this.state.isBot;
+    if (bot) {
+      console.log(
+        `[reqid ${this.request.header['x-request-id']}] ${this.method} ${this.originalUrl} ${
+          this.status
+        } (BOT '${bot}')`
+      );
+    }
+  });
 
-    const port = process.env.PORT ? parseInt(process.env.PORT) : 8080;
+  const port = process.env.PORT ? parseInt(process.env.PORT) : 8080;
 
-    app.listen(port);
+  app.listen(port);
 
-    // Tell parent process koa-server is started
-    if (process.send) process.send('online');
-    console.log(`Application started on port ${port}`);
+  // Tell parent process koa-server is started
+  if (process.send) process.send('online');
+  console.log(`Application started on port ${port}`);
 }
 
 module.exports = app;

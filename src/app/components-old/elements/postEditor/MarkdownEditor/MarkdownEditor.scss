@@ -1,5 +1,5 @@
-@import "~codemirror/lib/codemirror.css";
-@import "~codemirror-md/src/css/editor.css";
+@import '~codemirror/lib/codemirror.css';
+@import '~codemirror-md/src/css/editor.css';
 
 .MarkdownEditor {
   padding-top: 4px;
@@ -35,4 +35,4 @@
   }
 }
 
-@import "simplemde-overrides";
+@import 'simplemde-overrides';

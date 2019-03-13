@@ -4,20 +4,20 @@ import LandingTeam from 'src/app/components-old/elements/about/LandingTeam/Landi
 import LandingPartners from 'src/app/components-old/elements/about/LandingPartners/LandingPartners';
 
 class Landing extends PureComponent {
-    render() {
-        return (
-            <div className="Landing">
-                <WhatIsGolos />
-                <hr />
-                <LandingTeam />
-                <hr />
-                <LandingPartners />
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div className="Landing">
+        <WhatIsGolos />
+        <hr />
+        <LandingTeam />
+        <hr />
+        <LandingPartners />
+      </div>
+    );
+  }
 }
 
 export default {
-    path: 'about',
-    component: Landing,
+  path: 'about',
+  component: Landing,
 };

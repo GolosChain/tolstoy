@@ -4,19 +4,19 @@ import AndroidMarket from './AndroidMarket';
 import './MobileBanners.scss';
 
 export default class MobileBanners extends PureComponent {
-    static propTypes = {
-        showAndroid: PropTypes.bool,
-        showiOS: PropTypes.bool,
-    };
+  static propTypes = {
+    showAndroid: PropTypes.bool,
+    showiOS: PropTypes.bool,
+  };
 
-    render() {
-        const { showAndroid, showiOS } = this.props;
+  render() {
+    const { showAndroid, showiOS } = this.props;
 
-        return (
-            <div className="mobile-banners-wrapper">
-                {showAndroid ? <AndroidMarket /> : null}
-                {showiOS ? <AndroidMarket /> : null}
-            </div>
-        );
-    }
+    return (
+      <div className="mobile-banners-wrapper">
+        {showAndroid ? <AndroidMarket /> : null}
+        {showiOS ? <AndroidMarket /> : null}
+      </div>
+    );
+  }
 }

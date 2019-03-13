@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 import PayoutInfo from './PayoutInfo';
 
 export default connect(
-    // getPayoutPermLink,
-    () => ({}),
-    {
-        getHistoricalData: () => {},
-    }
+  // getPayoutPermLink,
+  () => ({}),
+  {
+    getHistoricalData: () => {},
+  }
 )(PayoutInfo);

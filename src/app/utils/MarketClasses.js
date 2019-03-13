@@ -1,113 +1,116 @@
-import {roundDown, roundUp} from "./MarketUtils";
-import { LIQUID_TICKER, DEBT_TICKER } from 'src/app/client_config'
+import { roundDown, roundUp } from './MarketUtils';
+import { LIQUID_TICKER, DEBT_TICKER } from 'src/app/client_config';
 const precision = 1000;
 
 export class Order {
-    constructor(order, side) {
-        this.side = side;
-        this.price = parseFloat(order.real_price);
-        this.price = side === 'asks' ? roundUp(this.price, 6) : Math.max(roundDown(this.price, 6), 0.000001);
-        this.stringPrice = this.price.toFixed(6);
-        this.steem = parseInt(order.steem, 10);
-        this.sbd = parseInt(order.sbd, 10);
-        this.date = order.created;
-    }
+  constructor(order, side) {
+    this.side = side;
+    this.price = parseFloat(order.real_price);
+    this.price =
+      side === 'asks' ? roundUp(this.price, 6) : Math.max(roundDown(this.price, 6), 0.000001);
+    this.stringPrice = this.price.toFixed(6);
+    this.steem = parseInt(order.steem, 10);
+    this.sbd = parseInt(order.sbd, 10);
+    this.date = order.created;
+  }
 
-    getSteemAmount() {
-        return this.steem / precision;
-    }
+  getSteemAmount() {
+    return this.steem / precision;
+  }
 
-    getStringSteem() {
-        return this.getSteemAmount().toFixed(3);
-    }
+  getStringSteem() {
+    return this.getSteemAmount().toFixed(3);
+  }
 
-    getPrice() {
-        return this.price;
-    }
+  getPrice() {
+    return this.price;
+  }
 
-    getStringPrice() {
-        return this.stringPrice;
-    }
+  getStringPrice() {
+    return this.stringPrice;
+  }
 
-    getStringSBD() {
-        return this.getSBDAmount().toFixed(3);
-    }
+  getStringSBD() {
+    return this.getSBDAmount().toFixed(3);
+  }
 
-    getSBDAmount() {
-        return this.sbd / precision;
-    }
+  getSBDAmount() {
+    return this.sbd / precision;
+  }
 
-    add(order) {
-        return new Order({
-            real_price: this.price,
-            steem: this.steem + order.steem,
-            sbd: this.sbd + order.sbd,
-            date: this.date
-        }, this.type);
-    }
+  add(order) {
+    return new Order(
+      {
+        real_price: this.price,
+        steem: this.steem + order.steem,
+        sbd: this.sbd + order.sbd,
+        date: this.date,
+      },
+      this.type
+    );
+  }
 
-    equals(order) {
-        return (
-            this.getStringSBD() === order.getStringSBD() &&
-            this.getStringSteem() === order.getStringSteem() &&
-            this.getStringPrice() === order.getStringPrice()
-        );
-    }
+  equals(order) {
+    return (
+      this.getStringSBD() === order.getStringSBD() &&
+      this.getStringSteem() === order.getStringSteem() &&
+      this.getStringPrice() === order.getStringPrice()
+    );
+  }
 }
 
 export class TradeHistory {
+  constructor(fill) {
+    // Norm date (FF bug)
+    var zdate = fill.date;
+    if (!/Z$/.test(zdate)) zdate = zdate + 'Z';
 
-    constructor(fill) {
-        // Norm date (FF bug)
-        var zdate = fill.date;
-        if(!/Z$/.test(zdate))
-          zdate = zdate + 'Z'
-
-        this.date = new Date(zdate);
-        this.type = fill.current_pays.indexOf(DEBT_TICKER) !== -1 ? "bid" : "ask";
-        this.color = this.type == "bid" ? "buy-color" : "sell-color";
-        if (this.type === "bid") {
-            this.sbd = parseFloat(fill.current_pays.split(" " + DEBT_TICKER)[0]);
-            this.steem = parseFloat(fill.open_pays.split(" " + LIQUID_TICKER)[0]);
-        } else {
-            this.sbd = parseFloat(fill.open_pays.split(" " + DEBT_TICKER)[0]);
-            this.steem = parseFloat(fill.current_pays.split(" " + LIQUID_TICKER)[0]);
-        }
-
-        this.price = this.sbd / this.steem;
-        this.price = this.type === 'ask' ? roundUp(this.price, 6) : Math.max(roundDown(this.price, 6), 0.000001);
-        this.stringPrice = this.price.toFixed(6);
+    this.date = new Date(zdate);
+    this.type = fill.current_pays.indexOf(DEBT_TICKER) !== -1 ? 'bid' : 'ask';
+    this.color = this.type == 'bid' ? 'buy-color' : 'sell-color';
+    if (this.type === 'bid') {
+      this.sbd = parseFloat(fill.current_pays.split(' ' + DEBT_TICKER)[0]);
+      this.steem = parseFloat(fill.open_pays.split(' ' + LIQUID_TICKER)[0]);
+    } else {
+      this.sbd = parseFloat(fill.open_pays.split(' ' + DEBT_TICKER)[0]);
+      this.steem = parseFloat(fill.current_pays.split(' ' + LIQUID_TICKER)[0]);
     }
 
-    getSteemAmount() {
-        return this.steem;
-    }
+    this.price = this.sbd / this.steem;
+    this.price =
+      this.type === 'ask' ? roundUp(this.price, 6) : Math.max(roundDown(this.price, 6), 0.000001);
+    this.stringPrice = this.price.toFixed(6);
+  }
 
-    getStringSteem() {
-        return this.getSteemAmount().toFixed(3);
-    }
+  getSteemAmount() {
+    return this.steem;
+  }
 
-    getSBDAmount() {
-        return this.sbd;
-    }
+  getStringSteem() {
+    return this.getSteemAmount().toFixed(3);
+  }
 
-    getStringSBD() {
-        return this.getSBDAmount().toFixed(3);
-    }
+  getSBDAmount() {
+    return this.sbd;
+  }
 
-    getPrice() {
-        return this.price;
-    }
+  getStringSBD() {
+    return this.getSBDAmount().toFixed(3);
+  }
 
-    getStringPrice() {
-        return this.stringPrice;
-    }
+  getPrice() {
+    return this.price;
+  }
 
-    equals(order) {
-        return (
-            this.getStringSBD() === order.getStringSBD() &&
-            this.getStringSteem() === order.getStringSteem() &&
-            this.getStringPrice() === order.getStringPrice()
-        );
-    }
+  getStringPrice() {
+    return this.stringPrice;
+  }
+
+  equals(order) {
+    return (
+      this.getStringSBD() === order.getStringSBD() &&
+      this.getStringSteem() === order.getStringSteem() &&
+      this.getStringPrice() === order.getStringPrice()
+    );
+  }
 }

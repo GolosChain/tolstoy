@@ -23,82 +23,82 @@ import ReLink from '../ReLink';
 import MarkdownViewer from 'src/app/components-old/cards/MarkdownViewer';
 
 const Header = styled.div`
-    padding: 12px 0 8px 0;
-    flex-shrink: 0;
+  padding: 12px 0 8px 0;
+  flex-shrink: 0;
 
-    ${is('collapsed')`
+  ${is('collapsed')`
         padding: 5px 0;
     `};
 `;
 
 const HeaderLine = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-    padding: 0 18px;
-    pointer-events: none;
+  padding: 0 18px;
+  pointer-events: none;
 
-    ${is('alertmode')`
+  ${is('alertmode')`
         justify-content: unset;
     `};
 
-    & > * {
-        pointer-events: initial;
-    }
+  & > * {
+    pointer-events: initial;
+  }
 `;
 
 const Category = styled(TagLink)`
-    margin-right: 4px;
+  margin-right: 4px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  min-width: 0;
+  max-width: 100%;
+
+  @media (max-width: 500px) {
+    display: none;
+  }
+`;
+
+const MobileCategory = styled(TagLink)`
+  && {
+    margin: 15px 0;
+    max-width: 100%;
+    width: auto;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
     min-width: 0;
-    max-width: 100%;
+  }
 
-    @media (max-width: 500px) {
-        display: none;
-    }
-`;
-
-const MobileCategory = styled(TagLink)`
-    && {
-        margin: 15px 0;
-        max-width: 100%;
-        width: auto;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        min-width: 0;
-    }
-
-    @media (min-width: 501px) {
-        display: none;
-    }
+  @media (min-width: 501px) {
+    display: none;
+  }
 `;
 
 const Title = styled.div`
-    display: flex;
-    justify-content: space-between;
-    position: relative;
-    padding: 0 18px;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  padding: 0 18px;
 
-    margin-bottom: 8px;
+  margin-bottom: 8px;
 `;
 
 const CommentBody = styled(({ shortText, isPostPage, to, ...otherProps }) =>
-    isPostPage ? <div {...otherProps} /> : <Link to={to} {...otherProps} />
+  isPostPage ? <div {...otherProps} /> : <Link to={to} {...otherProps} />
 )`
-    display: block;
-    flex-grow: 1;
+  display: block;
+  flex-grow: 1;
 
-    margin-right: 18px;
-    overflow-x: hidden;
+  margin-right: 18px;
+  overflow-x: hidden;
 
-    font-family: ${a => a.theme.fontFamily};
-    color: #959595 !important;
+  font-family: ${a => a.theme.fontFamily};
+  color: #959595 !important;
 
-    ${is('shortText')`
+  ${is('shortText')`
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -106,39 +106,39 @@ const CommentBody = styled(({ shortText, isPostPage, to, ...otherProps }) =>
 `;
 
 const CommentBodyWrapper = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-    padding: 0 18px;
+  padding: 0 18px;
 `;
 
 const Root = styled(EntryWrapper)`
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    margin: -1px -1px 15px -1px;
-    border: 1px solid transparent;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin: -1px -1px 15px -1px;
+  border: 1px solid transparent;
 
-    min-height: 50px;
+  min-height: 50px;
 
-    ${is('highlighted')`
+  ${is('highlighted')`
         box-shadow: 0 0 0 0.2rem #c8e1ff;
         border-color: #2188ff;
         border-radius: 3px;
     `};
 
-    ${is('renderCard')`
+  ${is('renderCard')`
         border-radius: 8px;
         background: #fff;
         box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
     `};
 
-    ${is('collapsed')`
+  ${is('collapsed')`
         justify-content: center;
     `};
 
-    ${is('gray')`
+  ${is('gray')`
         opacity: 0.37;
         transition: opacity 0.25s;
 
@@ -149,415 +149,408 @@ const Root = styled(EntryWrapper)`
 `;
 
 const Reply = styled.div`
-    padding: 0 18px 0 60px;
+  padding: 0 18px 0 60px;
 
-    @media (max-width: 450px) {
-        padding-left: 40px;
-    }
+  @media (max-width: 450px) {
+    padding-left: 40px;
+  }
 `;
 
 const LoaderWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 90px;
-    opacity: 0;
-    animation: fade-in 0.25s forwards;
-    animation-delay: 0.25s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 90px;
+  opacity: 0;
+  animation: fade-in 0.25s forwards;
+  animation-delay: 0.25s;
 `;
 
 const TogglerWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    overflow: hidden;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
 `;
 
 const EmptyCloseOpenButton = styled.div`
-    flex-shrink: 0;
+  flex-shrink: 0;
 
-    width: 30px;
-    height: 30px;
+  width: 30px;
+  height: 30px;
 `;
 
 const SpamBlock = styled.div`
-    display: flex;
-    align-items: center;
-    margin-right: 40px;
+  display: flex;
+  align-items: center;
+  margin-right: 40px;
 
-    @media (max-width: 576px) {
-        flex-wrap: wrap;
+  @media (max-width: 576px) {
+    flex-wrap: wrap;
 
-        & ${Button} {
-            margin-top: 5px;
-        }
+    & ${Button} {
+      margin-top: 5px;
     }
+  }
 `;
 
 const SpamText = styled.div`
-    margin-right: 10px;
-    font-size: 15px;
-    color: #8a8a8a;
+  margin-right: 10px;
+  font-size: 15px;
+  color: #8a8a8a;
 `;
 
 const MobileTagWrapper = styled.div`
-    @media (max-width: 500px) {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        max-width: calc(100% - 40px);
-        overflow: hidden;
-    }
+  @media (max-width: 500px) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: calc(100% - 40px);
+    overflow: hidden;
+  }
 `;
 
 export class CommentCard extends PureComponent {
-    static propTypes = {
-        location: PropTypes.object,
-        permLink: PropTypes.string,
-        isPostPage: PropTypes.bool,
-        updateComments: PropTypes.func,
+  static propTypes = {
+    location: PropTypes.object,
+    permLink: PropTypes.string,
+    isPostPage: PropTypes.bool,
+    updateComments: PropTypes.func,
 
-        comment: PropTypes.instanceOf(Map),
-        stats: PropTypes.object,
-        title: PropTypes.string.isRequired,
-        extractedContent: PropTypes.shape({
-            link: PropTypes.string,
-            desc: PropTypes.string,
-            body: PropTypes.string,
-        }),
-        isOwner: PropTypes.bool.isRequired,
-        username: PropTypes.string,
-        payout: PropTypes.number,
-    };
+    comment: PropTypes.instanceOf(Map),
+    stats: PropTypes.object,
+    title: PropTypes.string.isRequired,
+    extractedContent: PropTypes.shape({
+      link: PropTypes.string,
+      desc: PropTypes.string,
+      body: PropTypes.string,
+    }),
+    isOwner: PropTypes.bool.isRequired,
+    username: PropTypes.string,
+    payout: PropTypes.number,
+  };
 
-    static defaultProps = {
-        location: {},
-        updateComments: () => {},
-    };
+  static defaultProps = {
+    location: {},
+    updateComments: () => {},
+  };
 
-    state = {
-        showReply: false,
-        edit: false,
-        collapsed: false,
-        highlighted: false,
-        showAlert: this.isNeedShowAlert(this.props),
-    };
+  state = {
+    showReply: false,
+    edit: false,
+    collapsed: false,
+    highlighted: false,
+    showAlert: this.isNeedShowAlert(this.props),
+  };
 
-    commentRef = createRef();
-    replyRef = createRef();
-    commentTitleRef = createRef();
+  commentRef = createRef();
+  replyRef = createRef();
+  commentTitleRef = createRef();
 
-    componentDidMount() {
-        this.tryHighlightComment();
+  componentDidMount() {
+    this.tryHighlightComment();
+  }
+
+  componentWillReceiveProps(props) {
+    const { location, stats } = this.props;
+
+    if (props.location.hash !== location.hash) {
+      this.tryHighlightComment();
     }
 
-    componentWillReceiveProps(props) {
-        const { location, stats } = this.props;
+    if (!stats && props.stats) {
+      this.setState({
+        showAlert: this.isNeedShowAlert(props),
+      });
+    }
+  }
 
-        if (props.location.hash !== location.hash) {
-            this.tryHighlightComment();
-        }
+  tryHighlightComment = () => {
+    const { anchorId } = this.props;
+    const { highlighted } = this.state;
 
-        if (!stats && props.stats) {
-            this.setState({
-                showAlert: this.isNeedShowAlert(props),
-            });
-        }
+    if (window.location.hash.replace('#', '') === anchorId && !highlighted) {
+      const commentEl = document.getElementById(anchorId);
+      if (commentEl) {
+        commentEl.scrollIntoView(true);
+        getScrollElement().scrollTop -= 200;
+        this.setState({ highlighted: true });
+      }
+    } else if (highlighted) {
+      this.setState({ highlighted: false });
+    }
+  };
+
+  isNeedShowAlert(props) {
+    if (props.stats && !props.showSpam) {
+      return props.stats.gray;
     }
 
-    tryHighlightComment = () => {
-        const { anchorId } = this.props;
-        const { highlighted } = this.state;
+    return false;
+  }
 
-        if (window.location.hash.replace('#', '') === anchorId && !highlighted) {
-            const commentEl = document.getElementById(anchorId);
-            if (commentEl) {
-                commentEl.scrollIntoView(true);
-                getScrollElement().scrollTop -= 200;
-                this.setState({ highlighted: true });
-            }
-        } else if (highlighted) {
-            this.setState({ highlighted: false });
-        }
-    };
+  renderHeaderForPost() {
+    const { comment, extractedContent, isPostPage } = this.props;
+    const { collapsed, showAlert } = this.state;
 
-    isNeedShowAlert(props) {
-        if (props.stats && !props.showSpam) {
-            return props.stats.gray;
-        }
-
-        return false;
-    }
-
-    renderHeaderForPost() {
-        const { comment, extractedContent, isPostPage } = this.props;
-        const { collapsed, showAlert } = this.state;
-
-        return (
-            <Header collapsed={collapsed}>
-                <HeaderLine alertmode={showAlert}>
-                    <CardAuthor
-                        infoPopover
-                        commentInPost
-                        contentLink={comment.get('url')}
-                        author={comment.get('author')}
-                        created={comment.get('created')}
-                    />
-                    {showAlert ? (
-                        <SpamBlock>
-                            <SpamText>{tt('comment_card.hidden')}</SpamText>
-                            <Button light onClick={this.onShowClick}>
-                                {tt('g.show')}
-                            </Button>
-                        </SpamBlock>
-                    ) : (
-                        <Fragment>
-                            {collapsed ? (
-                                <CommentBody
-                                    to={extractedContent.link}
-                                    onClick={this.rememberScrollPosition}
-                                    dangerouslySetInnerHTML={{ __html: extractedContent.desc }}
-                                    shortText
-                                    isPostPage={isPostPage}
-                                />
-                            ) : null}
-                            <EmptyCloseOpenButton />
-                        </Fragment>
-                    )}
-                </HeaderLine>
-            </Header>
-        );
-    }
-
-    renderHeaderForProfile() {
-        const { title, comment, fullParentUrl } = this.props;
-        const { collapsed } = this.state;
-        const detransliteratedCategory = detransliterate(comment.get('category'));
-
-        return (
-            <Header collapsed={collapsed}>
-                <HeaderLine>
-                    {collapsed ? (
-                        <ReLink
-                            fullParentURL={fullParentUrl}
-                            title={title}
-                            onClick={this.rememberScrollPosition}
-                        />
-                    ) : (
-                        <MobileTagWrapper>
-                            <CardAuthor
-                                contentLink={comment.get('url')}
-                                author={comment.get('author')}
-                                created={comment.get('created')}
-                            />
-                            <MobileCategory
-                                to={'/trending?tags=' + detransliteratedCategory}
-                                category={1}
-                            >
-                                {detransliteratedCategory}
-                            </MobileCategory>
-                        </MobileTagWrapper>
-                    )}
-                    <TogglerWrapper>
-                        <Category to={'/trending?tags=' + detransliteratedCategory} category={1}>
-                            {detransliteratedCategory}
-                        </Category>
-                        <CloseOpenButton collapsed={collapsed} toggle={this.toggleComment} />
-                    </TogglerWrapper>
-                </HeaderLine>
-            </Header>
-        );
-    }
-
-    renderTitle() {
-        const { isOwner, fullParentUrl, title } = this.props;
-        const { edit } = this.state;
-
-        return (
-            <Title ref={this.commentTitleRef}>
-                <ReLink
-                    fullParentURL={fullParentUrl}
-                    title={title}
-                    onClick={this.rememberScrollPosition}
-                />
-                {isOwner && !edit && <EditButton onEditClick={this.onEditClick} />}
-            </Title>
-        );
-    }
-
-    renderBodyText() {
-        const { extractedContent, comment, isOwner, isPostPage, payout } = this.props;
-        const { edit } = this.state;
-
-        return (
+    return (
+      <Header collapsed={collapsed}>
+        <HeaderLine alertmode={showAlert}>
+          <CardAuthor
+            infoPopover
+            commentInPost
+            contentLink={comment.get('url')}
+            author={comment.get('author')}
+            created={comment.get('created')}
+          />
+          {showAlert ? (
+            <SpamBlock>
+              <SpamText>{tt('comment_card.hidden')}</SpamText>
+              <Button light onClick={this.onShowClick}>
+                {tt('g.show')}
+              </Button>
+            </SpamBlock>
+          ) : (
             <Fragment>
-                {edit ? (
-                    <CommentFormLoader
-                        reply
-                        editMode
-                        hideFooter
-                        autoFocus
-                        params={comment.toJS()}
-                        forwardRef={this.commentRef}
-                        commentTitleRef={this.commentTitleRef.current}
-                        onSuccess={this.onEditDone}
-                        onCancel={this.onEditDone}
-                    />
-                ) : (
-                    <CommentBodyWrapper>
-                        <CommentBody
-                            to={comment.get('url')}
-                            onClick={this.rememberScrollPosition}
-                            isPostPage={isPostPage}
-                        >
-                            <MarkdownViewer
-                                text={extractedContent.body}
-                                jsonMetadata={comment.get('json_metadata')}
-                                highQualityPost={payout > 10}
-                                noImage={!comment.getIn(['stats', 'pictures'])}
-                                timeCteated={new Date(comment.get('created'))}
-                            />
-                        </CommentBody>
-                        {isOwner && isPostPage && <EditButton onEditClick={this.onEditClick} />}
-                    </CommentBodyWrapper>
-                )}
-            </Fragment>
-        );
-    }
-
-    renderReplyEditor() {
-        const { comment, username } = this.props;
-
-        return (
-            <Reply>
-                <CommentFormLoader
-                    reply
-                    hideFooter
-                    autoFocus
-                    withHeader
-                    params={comment.toJS()}
-                    forwardRef={this.replyRef}
-                    replyAuthor={username}
-                    onSuccess={this.onReplySuccess}
-                    onCancel={this.onReplyCancel}
+              {collapsed ? (
+                <CommentBody
+                  to={extractedContent.link}
+                  onClick={this.rememberScrollPosition}
+                  dangerouslySetInnerHTML={{ __html: extractedContent.desc }}
+                  shortText
+                  isPostPage={isPostPage}
                 />
-            </Reply>
-        );
-    }
+              ) : null}
+              <EmptyCloseOpenButton />
+            </Fragment>
+          )}
+        </HeaderLine>
+      </Header>
+    );
+  }
 
-    rememberScrollPosition = () => {
-        this.props.onClick();
-    };
+  renderHeaderForProfile() {
+    const { title, comment, fullParentUrl } = this.props;
+    const { collapsed } = this.state;
+    const detransliteratedCategory = detransliterate(comment.get('category'));
 
-    onReplySuccess = () => {
-        this.setState({
-            showReply: false,
-        });
+    return (
+      <Header collapsed={collapsed}>
+        <HeaderLine>
+          {collapsed ? (
+            <ReLink
+              fullParentURL={fullParentUrl}
+              title={title}
+              onClick={this.rememberScrollPosition}
+            />
+          ) : (
+            <MobileTagWrapper>
+              <CardAuthor
+                contentLink={comment.get('url')}
+                author={comment.get('author')}
+                created={comment.get('created')}
+              />
+              <MobileCategory to={'/trending?tags=' + detransliteratedCategory} category={1}>
+                {detransliteratedCategory}
+              </MobileCategory>
+            </MobileTagWrapper>
+          )}
+          <TogglerWrapper>
+            <Category to={'/trending?tags=' + detransliteratedCategory} category={1}>
+              {detransliteratedCategory}
+            </Category>
+            <CloseOpenButton collapsed={collapsed} toggle={this.toggleComment} />
+          </TogglerWrapper>
+        </HeaderLine>
+      </Header>
+    );
+  }
 
-        this.props.onNotify(tt('g.reply_has_published'));
-        this.props.updateComments();
-    };
+  renderTitle() {
+    const { isOwner, fullParentUrl, title } = this.props;
+    const { edit } = this.state;
 
-    onReplyCancel = () => {
-        this.setState({
-            showReply: false,
-        });
-    };
+    return (
+      <Title ref={this.commentTitleRef}>
+        <ReLink fullParentURL={fullParentUrl} title={title} onClick={this.rememberScrollPosition} />
+        {isOwner && !edit && <EditButton onEditClick={this.onEditClick} />}
+      </Title>
+    );
+  }
 
-    onEditClick = () => {
-        this.setState({
-            edit: true,
-        });
-    };
+  renderBodyText() {
+    const { extractedContent, comment, isOwner, isPostPage, payout } = this.props;
+    const { edit } = this.state;
 
-    onEditDone = () => {
-        this.setState({
-            edit: false,
-        });
-    };
-
-    onReplyClick = () => {
-        this.setState({
-            showReply: true,
-        });
-    };
-
-    toggleComment = () => {
-        this.setState({
-            collapsed: !this.state.collapsed,
-        });
-    };
-
-    onShowClick = () => {
-        this.setState({
-            showAlert: false,
-        });
-    };
-
-    render() {
-        const {
-            dataLoaded,
-            comment,
-            username,
-            extractedContent,
-            isOwner,
-            onVote,
-            isPostPage,
-            className,
-            stats,
-            showSpam,
-            anchorId,
-            openDonateDialog,
-        } = this.props;
-
-        const { showReply, collapsed, edit, highlighted, showAlert } = this.state;
-
-        if (!showSpam && stats && stats.hide) {
-            return null;
-        }
-
-        if (isHide(comment)) {
-            return null;
-        }
-
-        if (!dataLoaded) {
-            return (
-                <LoaderWrapper>
-                    <LoadingIndicator type="circle" size={40} />
-                </LoaderWrapper>
-            );
-        }
-
-        return (
-            <Root
-                id={anchorId}
-                highlighted={highlighted}
-                renderCard={!isPostPage}
-                collapsed={collapsed}
-                className={className}
-                gray={stats && (stats.gray || stats.hide) && !isPostPage}
+    return (
+      <Fragment>
+        {edit ? (
+          <CommentFormLoader
+            reply
+            editMode
+            hideFooter
+            autoFocus
+            params={comment.toJS()}
+            forwardRef={this.commentRef}
+            commentTitleRef={this.commentTitleRef.current}
+            onSuccess={this.onEditDone}
+            onCancel={this.onEditDone}
+          />
+        ) : (
+          <CommentBodyWrapper>
+            <CommentBody
+              to={comment.get('url')}
+              onClick={this.rememberScrollPosition}
+              isPostPage={isPostPage}
             >
-                {isPostPage ? this.renderHeaderForPost() : this.renderHeaderForProfile()}
-                {collapsed || showAlert ? null : (
-                    <Fragment>
-                        {!isPostPage && this.renderTitle()}
-                        {this.renderBodyText()}
-                        {showReply && this.renderReplyEditor()}
-                        <CommentFooter
-                            comment={comment}
-                            contentLink={extractedContent.link}
-                            isOwner={isOwner}
-                            showReply={showReply}
-                            edit={edit}
-                            username={username}
-                            onVote={onVote}
-                            replyRef={this.replyRef}
-                            commentRef={this.commentRef}
-                            onReplyClick={this.onReplyClick}
-                            openDonateDialog={openDonateDialog}
-                        />
-                    </Fragment>
-                )}
-            </Root>
-        );
+              <MarkdownViewer
+                text={extractedContent.body}
+                jsonMetadata={comment.get('json_metadata')}
+                highQualityPost={payout > 10}
+                noImage={!comment.getIn(['stats', 'pictures'])}
+                timeCteated={new Date(comment.get('created'))}
+              />
+            </CommentBody>
+            {isOwner && isPostPage && <EditButton onEditClick={this.onEditClick} />}
+          </CommentBodyWrapper>
+        )}
+      </Fragment>
+    );
+  }
+
+  renderReplyEditor() {
+    const { comment, username } = this.props;
+
+    return (
+      <Reply>
+        <CommentFormLoader
+          reply
+          hideFooter
+          autoFocus
+          withHeader
+          params={comment.toJS()}
+          forwardRef={this.replyRef}
+          replyAuthor={username}
+          onSuccess={this.onReplySuccess}
+          onCancel={this.onReplyCancel}
+        />
+      </Reply>
+    );
+  }
+
+  rememberScrollPosition = () => {
+    this.props.onClick();
+  };
+
+  onReplySuccess = () => {
+    this.setState({
+      showReply: false,
+    });
+
+    this.props.onNotify(tt('g.reply_has_published'));
+    this.props.updateComments();
+  };
+
+  onReplyCancel = () => {
+    this.setState({
+      showReply: false,
+    });
+  };
+
+  onEditClick = () => {
+    this.setState({
+      edit: true,
+    });
+  };
+
+  onEditDone = () => {
+    this.setState({
+      edit: false,
+    });
+  };
+
+  onReplyClick = () => {
+    this.setState({
+      showReply: true,
+    });
+  };
+
+  toggleComment = () => {
+    this.setState({
+      collapsed: !this.state.collapsed,
+    });
+  };
+
+  onShowClick = () => {
+    this.setState({
+      showAlert: false,
+    });
+  };
+
+  render() {
+    const {
+      dataLoaded,
+      comment,
+      username,
+      extractedContent,
+      isOwner,
+      onVote,
+      isPostPage,
+      className,
+      stats,
+      showSpam,
+      anchorId,
+      openDonateDialog,
+    } = this.props;
+
+    const { showReply, collapsed, edit, highlighted, showAlert } = this.state;
+
+    if (!showSpam && stats && stats.hide) {
+      return null;
     }
+
+    if (isHide(comment)) {
+      return null;
+    }
+
+    if (!dataLoaded) {
+      return (
+        <LoaderWrapper>
+          <LoadingIndicator type="circle" size={40} />
+        </LoaderWrapper>
+      );
+    }
+
+    return (
+      <Root
+        id={anchorId}
+        highlighted={highlighted}
+        renderCard={!isPostPage}
+        collapsed={collapsed}
+        className={className}
+        gray={stats && (stats.gray || stats.hide) && !isPostPage}
+      >
+        {isPostPage ? this.renderHeaderForPost() : this.renderHeaderForProfile()}
+        {collapsed || showAlert ? null : (
+          <Fragment>
+            {!isPostPage && this.renderTitle()}
+            {this.renderBodyText()}
+            {showReply && this.renderReplyEditor()}
+            <CommentFooter
+              comment={comment}
+              contentLink={extractedContent.link}
+              isOwner={isOwner}
+              showReply={showReply}
+              edit={edit}
+              username={username}
+              onVote={onVote}
+              replyRef={this.replyRef}
+              commentRef={this.commentRef}
+              onReplyClick={this.onReplyClick}
+              openDonateDialog={openDonateDialog}
+            />
+          </Fragment>
+        )}
+      </Root>
+    );
+  }
 }

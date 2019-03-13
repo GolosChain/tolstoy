@@ -1,15 +1,17 @@
 # GOLOS.io
 
-GOLOS.io is the react.js web interface to the world's first and best blockchain-based social media platform.  It uses [STEEM/GOLOS](https://github.com/GolosChain/golos), a fork of Steem/Steemit blockchain powered by Graphene 2.0 technology to store JSON-based content for a plethora of web applications.   
+GOLOS.io is the react.js web interface to the world's first and best blockchain-based social media platform. It uses [STEEM/GOLOS](https://github.com/GolosChain/golos), a fork of Steem/Steemit blockchain powered by Graphene 2.0 technology to store JSON-based content for a plethora of web applications.
 
 ## Why would I want to use GOLOS.io?
-* Learning how to build blockchain-based web applications using STEEM/Golos as a content storage mechanism in react.js
-* Reviewing the inner workings of the GOLOS.io social media platform
-* Assisting with software development for GOLOS.io
+
+- Learning how to build blockchain-based web applications using STEEM/Golos as a content storage mechanism in react.js
+- Reviewing the inner workings of the GOLOS.io social media platform
+- Assisting with software development for GOLOS.io
 
 ## Installation
 
 #### Clone the repository and make a tmp folder
+
 ```bash
 git clone https://github.com/GolosChain/tolstoy
 cd tolstoy
@@ -27,7 +29,6 @@ yarn global add babel-cli
 ```
 
 #### Create config file
-
 
 ```bash
 cd config
@@ -76,6 +77,7 @@ mysql -u root
 ```
 
 Now launch mysql client and create golos_dev database:
+
 ```bash
 mysql -u root
 > CREATE DATABASE golos_dev CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -95,7 +97,7 @@ Run `sequelize db:migrate` in `db/` directory.
 yarn start
 ```
 
-You now have your development front end running at localhost:3002, connected to the main public golos blockchain. You don't need to run ```golos``` locally, by default you will connect to ```wss://ws.golos.io```.  Use your regular account name and credentials to login -- there is no separate dev login.
+You now have your development front end running at localhost:3002, connected to the main public golos blockchain. You don't need to run `golos` locally, by default you will connect to `wss://ws.golos.io`. Use your regular account name and credentials to login -- there is no separate dev login.
 
 #### Style Guides
 
@@ -107,10 +109,12 @@ You now have your development front end running at localhost:3002, connected to 
 - Component's stylesheet file name should match component name
 
 ##### Js & Jsx
+
 We are using _Airbnb JavaScript Style Guide_ with some modifications (see .eslintrc).
 Please run _eslint_ in the working directory before committing your changes and make sure you didn't introduce any new styling issues.
 
 ##### CSS & SCSS
+
 If component requires a css rule, please use its uppercase name for the class, e.g. "Header" class for the header's root div.
 We adhere to BEM methodology with exception for Foundation classes, here is an example for the Header component:
 
@@ -142,7 +146,6 @@ yarn global add pm2 # one time
 cp example/process-example.json process.json
 pm2 start config/process.json
 ```
-
 
 ## Issues
 

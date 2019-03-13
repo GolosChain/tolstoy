@@ -13,80 +13,80 @@ import CardsListWrapper from '../CardsListWrapper';
 import { visuallyHidden } from 'src/app/helpers/styles';
 
 const Loader = styled(LoadingIndicator)`
-    margin-top: 30px;
+  margin-top: 30px;
 `;
 
 const Header = styled.h1`
-    ${visuallyHidden};
+  ${visuallyHidden};
 `;
 
 class CommentsContent extends Component {
-    render() {
-        const { pageAccount } = this.props;
+  render() {
+    const { pageAccount } = this.props;
 
-        return (
-            <Fragment>
-                <Helmet
-                    title={tt('meta.title.profile.comments', {
-                        name: pageAccount.get('name'),
-                    })}
-                />
-                <Header>{tt('g.comments')}</Header>
-                <CardsListWrapper>{this._render()}</CardsListWrapper>
-            </Fragment>
-        );
+    return (
+      <Fragment>
+        <Helmet
+          title={tt('meta.title.profile.comments', {
+            name: pageAccount.get('name'),
+          })}
+        />
+        <Header>{tt('g.comments')}</Header>
+        <CardsListWrapper>{this._render()}</CardsListWrapper>
+      </Fragment>
+    );
+  }
+
+  renderItem(props) {
+    return <CommentCard {...props} showSpam />;
+  }
+
+  _render() {
+    const { pageAccount, isOwner } = this.props;
+
+    const posts = pageAccount.get('posts') || pageAccount.get('comments');
+
+    if (!posts) {
+      return <Loader type="circle" center size={40} />;
     }
 
-    renderItem(props) {
-        return <CommentCard {...props} showSpam />;
+    const pageUserName = pageAccount.get('name');
+
+    if (!posts.size) {
+      return (
+        <InfoBlock>
+          <EmptyBlock>
+            {tt('g.empty')}
+            <EmptySubText>
+              {isOwner
+                ? tt('content.tip.comments.start_writing')
+                : tt('content.tip.comments.user_has_no_comments')}
+            </EmptySubText>
+          </EmptyBlock>
+        </InfoBlock>
+      );
     }
 
-    _render() {
-        const { pageAccount, isOwner } = this.props;
-
-        const posts = pageAccount.get('posts') || pageAccount.get('comments');
-
-        if (!posts) {
-            return <Loader type="circle" center size={40} />;
-        }
-
-        const pageUserName = pageAccount.get('name');
-
-        if (!posts.size) {
-            return (
-                <InfoBlock>
-                    <EmptyBlock>
-                        {tt('g.empty')}
-                        <EmptySubText>
-                            {isOwner
-                                ? tt('content.tip.comments.start_writing')
-                                : tt('content.tip.comments.user_has_no_comments')}
-                        </EmptySubText>
-                    </EmptyBlock>
-                </InfoBlock>
-            );
-        }
-
-        return (
-            <BlogCardsList
-                pageAccountName={pageUserName}
-                category="comments"
-                itemRender={this.renderItem}
-                disallowGrid
-                allowInlineReply={!isOwner}
-                order="by_comments"
-            />
-        );
-    }
+    return (
+      <BlogCardsList
+        pageAccountName={pageUserName}
+        category="comments"
+        itemRender={this.renderItem}
+        disallowGrid
+        allowInlineReply={!isOwner}
+        order="by_comments"
+      />
+    );
+  }
 }
 
 export default connect((state, props) => {
-    const pageAccountName = props.params.accountName.toLowerCase();
-    const pageAccount = state.global.getIn(['accounts', pageAccountName]);
-    const isOwner = state.user.getIn(['current', 'username']) === pageAccountName;
+  const pageAccountName = props.params.accountName.toLowerCase();
+  const pageAccount = state.global.getIn(['accounts', pageAccountName]);
+  const isOwner = state.user.getIn(['current', 'username']) === pageAccountName;
 
-    return {
-        pageAccount,
-        isOwner,
-    };
+  return {
+    pageAccount,
+    isOwner,
+  };
 })(CommentsContent);

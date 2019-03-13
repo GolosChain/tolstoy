@@ -8,25 +8,25 @@ const { JSDOM } = jsdom;
 
 const exposedProperties = ['window', 'navigator', 'document'];
 
-global.document = (new JSDOM('')).window.document;
-global.$GLS_Config = {currency: 'USD'}
+global.document = new JSDOM('').window.document;
+global.$GLS_Config = { currency: 'USD' };
 global.window = document.defaultView;
 
-Object.keys(document.defaultView).forEach((property) => {
-    if (typeof global[property] === 'undefined') {
-        exposedProperties.push(property);
-        global[property] = document.defaultView[property];
-    }
+Object.keys(document.defaultView).forEach(property => {
+  if (typeof global[property] === 'undefined') {
+    exposedProperties.push(property);
+    global[property] = document.defaultView[property];
+  }
 });
 
 global.navigator = {
-    userAgent: 'node.js'
+  userAgent: 'node.js',
 };
 
 documentRef = document;
 
 function donothing() {
-    return null;
+  return null;
 }
 require.extensions['.svg'] = donothing;
 require.extensions['.css'] = donothing;

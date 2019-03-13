@@ -1,27 +1,27 @@
 .App__content {
-    .callout {
-      margin-top: 0.75rem;
-      border: 1px solid $light-gray;
-    }
+  .callout {
+    margin-top: 0.75rem;
+    border: 1px solid $light-gray;
+  }
 }
 
 .PlainLink {
-    color: $dark-gray;
+  color: $dark-gray;
 }
 
 .downvoted {
+  color: #848282;
+  opacity: 0.3;
+  -webkit-filter: grayscale(1); // image
+  filter: gray; // image grayscale
+  .Comment__header-user {
     color: #848282;
-    opacity: .3;
-    -webkit-filter: grayscale(1); // image
-    filter: gray; // image grayscale
-    .Comment__header-user {
-        color: #848282;
-    }
+  }
 }
 .downvoted:hover {
-    opacity: 1;
-    filter: none;
-    -webkit-filter: none;
+  opacity: 1;
+  filter: none;
+  -webkit-filter: none;
 }
 
 .App__announcement {

@@ -8,42 +8,42 @@ const activeStyles = `
 `;
 
 const Tab = styled.div`
-    position: relative;
-    display: inline-flex;
-    align-items: center;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
 
-    height: 36px;
-    padding: 0 6px;
-    margin: 0 3px;
+  height: 36px;
+  padding: 0 6px;
+  margin: 0 3px;
 
-    font-family: ${({ theme }) => theme.fontFamily};
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: 1.09px;
-    text-transform: uppercase;
-    color: #b7b7b9;
+  font-family: ${({ theme }) => theme.fontFamily};
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 1.09px;
+  text-transform: uppercase;
+  color: #b7b7b9;
 
-    cursor: pointer;
+  cursor: pointer;
 
-    &:hover {
-        color: #333;
-    }
+  &:hover {
+    color: #333;
+  }
 
-    ${({ active }) => active && activeStyles};
+  ${({ active }) => active && activeStyles};
 
-    &.${({ activeClassName }) => activeClassName} {
-        ${activeStyles};
-    }
+  &.${({ activeClassName }) => activeClassName} {
+    ${activeStyles};
+  }
 `;
 
 Tab.propTypes = {
-    active: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
-    activeClassName: PropTypes.string,
+  active: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
+  activeClassName: PropTypes.string,
 };
 
 Tab.defaultProps = {
-    active: undefined,
-    activeClassName: 'active',
+  active: undefined,
+  activeClassName: 'active',
 };
 
 export const TabLinkIndex = Tab.withComponent(IndexLink);

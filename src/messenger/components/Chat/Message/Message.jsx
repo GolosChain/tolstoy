@@ -9,35 +9,31 @@ import MessageIn from './MessageIn';
 import MessageOut from './MessageOut';
 
 const Wrapper = styled.div`
-    display: flex;
-    overflow: hidden;
+  display: flex;
+  overflow: hidden;
 `;
 
 const propTypes = {
-    contactImage: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    messageText: PropTypes.string.isRequired,
-    date: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    metadata: PropTypes.instanceOf(Map),
+  contactImage: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  messageText: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  metadata: PropTypes.instanceOf(Map),
 };
 
 const Message = ({ contactImage, messageText, date, type, metadata }) => (
-    <Wrapper>
-        {type === 'messageIn' ? (
-            <MessageIn
-                contactImage={contactImage}
-                messageText={messageText}
-                date={fortmatTime(date)}
-            />
-        ) : (
-            <MessageOut
-                contactImage={contactImage}
-                messageText={messageText}
-                date={fortmatTime(date)}
-                metadata={metadata}
-            />
-        )}
-    </Wrapper>
+  <Wrapper>
+    {type === 'messageIn' ? (
+      <MessageIn contactImage={contactImage} messageText={messageText} date={fortmatTime(date)} />
+    ) : (
+      <MessageOut
+        contactImage={contactImage}
+        messageText={messageText}
+        date={fortmatTime(date)}
+        metadata={metadata}
+      />
+    )}
+  </Wrapper>
 );
 
 Message.propTypes = propTypes;

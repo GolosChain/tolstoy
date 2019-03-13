@@ -28,14 +28,9 @@
     "check-locales": "node scripts/check_locales.js",
     "pre-commit": "lint-staged"
   },
-  "pre-commit": [
-    "pre-commit"
-  ],
+  "pre-commit": ["pre-commit"],
   "lint-staged": {
-    "*.{js,jsx}": [
-      "prettier --write",
-      "git add"
-    ]
+    "*.{js,jsx}": ["prettier --write", "git add"]
   },
   "author": "Golos.io",
   "license": "MIT",
@@ -231,10 +226,7 @@
     "printWidth": 100,
     "overrides": [
       {
-        "files": [
-          "*.json",
-          "*.scss"
-        ],
+        "files": ["*.json", "*.scss"],
         "options": {
           "tabWidth": 2
         }

@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import ActivityItem from './ActivityItem';
 
 export default connect(
-    null,
-    {
-        markNotificationAsRead: () => {},
-    }
+  null,
+  {
+    markNotificationAsRead: () => {},
+  }
 )(ActivityItem);

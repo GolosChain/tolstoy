@@ -1,6 +1,4 @@
-
 .RadioGroup {
-
   $dot-size: 20px;
 
   &__item {
@@ -37,13 +35,13 @@
     color: #333;
 
     &_value {
-      color: #0078C4;
+      color: #0078c4;
     }
   }
 
   &__input:focus + &__svg-wrapper {
     border-radius: $dot-size / 2;
-    background: rgba(0,120,196, 0.1);
+    background: rgba(0, 120, 196, 0.1);
   }
 
   &__label-text {

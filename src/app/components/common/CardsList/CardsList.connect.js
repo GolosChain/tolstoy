@@ -18,22 +18,22 @@ import CardsList from './CardsList';
 // );
 
 export default connect(
-    // createDeepEqualSelector(
-    //     [locationSelector, uiSelector('common'), ignoreResultSelector],
-    //     (location, uiCommon, ignoreResult) => ({
-    //         location,
-    //         listScrollPosition: uiCommon.get('listScrollPosition'),
-    //         backClickTs: uiCommon.get('backClickTs'),
-    //         ignoreResult,
-    //     })
-    // ),
-    () => ({
-        location: null,
-        listScrollPosition: null,
-        backClickTs: null,
-        ignoreResult: null,
-    }),
-    {
-        saveListScrollPosition: () => {},
-    }
+  // createDeepEqualSelector(
+  //     [locationSelector, uiSelector('common'), ignoreResultSelector],
+  //     (location, uiCommon, ignoreResult) => ({
+  //         location,
+  //         listScrollPosition: uiCommon.get('listScrollPosition'),
+  //         backClickTs: uiCommon.get('backClickTs'),
+  //         ignoreResult,
+  //     })
+  // ),
+  () => ({
+    location: null,
+    listScrollPosition: null,
+    backClickTs: null,
+    ignoreResult: null,
+  }),
+  {
+    saveListScrollPosition: () => {},
+  }
 )(CardsList);

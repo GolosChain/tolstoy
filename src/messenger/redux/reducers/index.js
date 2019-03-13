@@ -4,7 +4,7 @@ import ui from './ui';
 import messages from './messages';
 
 export default combineReducers({
-    contacts,
-    ui,
-    messages,
+  contacts,
+  ui,
+  messages,
 });

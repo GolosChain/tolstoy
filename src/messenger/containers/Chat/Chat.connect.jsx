@@ -8,12 +8,12 @@ import { getThreadMessages } from 'src/messenger/redux/selectors/messages';
 import { sendMessage } from 'src/messenger/redux/actions/transactions';
 
 export default connect(
-    state => ({
-        selectedContact: getSelectedContact(state),
-        messages: getThreadMessages(state),
-        currentUserProfileImage: getCurrentUserProfileImage(state),
-    }),
-    {
-        sendMessage,
-    }
+  state => ({
+    selectedContact: getSelectedContact(state),
+    messages: getThreadMessages(state),
+    currentUserProfileImage: getCurrentUserProfileImage(state),
+  }),
+  {
+    sendMessage,
+  }
 )(ChatContainer);

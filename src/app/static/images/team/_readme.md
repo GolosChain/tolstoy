@@ -3,6 +3,7 @@
 Для работы процессинга нужна программа convert (imagemagick).
 
 Установка на MacOS:
+
 ```
 brew install imagemagick
 ```

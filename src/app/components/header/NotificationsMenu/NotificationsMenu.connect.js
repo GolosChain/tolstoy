@@ -21,16 +21,16 @@ import NotificationsMenu from './NotificationsMenu';
 // );
 
 export default connect(
-    () => ({
-        notifications: [],
-        isFetching: false,
-        canLoadMore: false,
-        lastLoadedId: null,
-        authorizedUsername: null,
-    }),
-    {
-        getNotificationsOnlineHistory: () => {},
-        markAllNotificationsAsViewed: () => {},
-        clearOnlineNotifications: () => {},
-    }
+  () => ({
+    notifications: [],
+    isFetching: false,
+    canLoadMore: false,
+    lastLoadedId: null,
+    authorizedUsername: null,
+  }),
+  {
+    getNotificationsOnlineHistory: () => {},
+    markAllNotificationsAsViewed: () => {},
+    clearOnlineNotifications: () => {},
+  }
 )(NotificationsMenu);

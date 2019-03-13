@@ -7,12 +7,12 @@ import { connect } from 'react-redux';
 import MainNavigation from './MainNavigation';
 
 export default connect(
-    // createStructuredSelector({
-    //     myAccountName: currentUsernameSelector,
-    //     search: locationSearchSelector,
-    // })
-    () => ({
-        myAccountName: 'currentUsernameSelector',
-        search: '',
-    })
+  // createStructuredSelector({
+  //     myAccountName: currentUsernameSelector,
+  //     search: locationSearchSelector,
+  // })
+  () => ({
+    myAccountName: 'currentUsernameSelector',
+    search: '',
+  })
 )(MainNavigation);

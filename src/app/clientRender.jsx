@@ -1,5 +1,5 @@
 export function getStoreState() {
-    return null;
+  return null;
 }
 
 export function dispatch() {}

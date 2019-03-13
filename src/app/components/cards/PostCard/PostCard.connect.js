@@ -6,11 +6,11 @@ import { connect } from 'react-redux';
 import PostCard from './PostCard';
 
 export default connect(
-    // postCardSelector,
-    () => ({}),
-    {
-        toggleFavorite: () => {},
-        togglePin: () => {},
-        openRepostDialog: () => {},
-    }
+  // postCardSelector,
+  () => ({}),
+  {
+    toggleFavorite: () => {},
+    togglePin: () => {},
+    openRepostDialog: () => {},
+  }
 )(PostCard);

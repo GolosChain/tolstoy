@@ -6,24 +6,24 @@ import DialogFrame from 'src/app/components-old/dialogs/DialogFrame';
 import ResetKey from 'src/app/components/userProfile/settings/keys/ResetKey';
 
 const DialogFrameStyled = styled(DialogFrame)`
-    flex-basis: 580px;
+  flex-basis: 580px;
 `;
 
 export default class ResetKeysDialog extends Component {
-    onClose = () => {
-        this.props.onClose();
-    };
+  onClose = () => {
+    this.props.onClose();
+  };
 
-    render() {
-        const { account, user, password } = this.props;
-        return (
-            <DialogFrameStyled
-                title={tt('dialogs_reset_keys.title', { user })}
-                titleSize={20}
-                onCloseClick={this.onClose}
-            >
-                <ResetKey account={account} password={password} onCloseClick={this.onClose} />
-            </DialogFrameStyled>
-        );
-    }
+  render() {
+    const { account, user, password } = this.props;
+    return (
+      <DialogFrameStyled
+        title={tt('dialogs_reset_keys.title', { user })}
+        titleSize={20}
+        onCloseClick={this.onClose}
+      >
+        <ResetKey account={account} password={password} onCloseClick={this.onClose} />
+      </DialogFrameStyled>
+    );
+  }
 }

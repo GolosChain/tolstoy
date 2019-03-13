@@ -8,28 +8,28 @@ import { onVote } from 'src/app/redux/actions/vote';
 import { currentPostSelector, authorSelector } from 'src/app/redux/selectors/post/commonPost';
 
 export default connect(
-    createSelector(
-        [currentPostSelector, authorSelector, currentUsernameSelector, appSelector('location')],
-        (post, author, username, location) => {
-            const prev = location.get('previous');
+  createSelector(
+    [currentPostSelector, authorSelector, currentUsernameSelector, appSelector('location')],
+    (post, author, username, location) => {
+      const prev = location.get('previous');
 
-            let backURL = null;
-            if (prev) {
-                backURL = prev.get('pathname') + prev.get('search', '') + prev.get('hash', '');
-            }
+      let backURL = null;
+      if (prev) {
+        backURL = prev.get('pathname') + prev.get('search', '') + prev.get('hash', '');
+      }
 
-            return {
-                post,
-                username,
-                contentLink: `${author.account}/${post.permLink}`,
-                isOwner: username === author.account,
-                backURL,
-                isPinned: author.pinnedPostsUrls.includes(author.account + '/' + post.permLink),
-            };
-        }
-    ),
-    {
-        onVote,
-        onBackClick,
+      return {
+        post,
+        username,
+        contentLink: `${author.account}/${post.permLink}`,
+        isOwner: username === author.account,
+        backURL,
+        isPinned: author.pinnedPostsUrls.includes(author.account + '/' + post.permLink),
+      };
     }
+  ),
+  {
+    onVote,
+    onBackClick,
+  }
 )(SidePanel);

@@ -13,7 +13,7 @@
   text-align: center;
   border: solid 1px #e1e1e1;
   opacity: 1;
-  transition: all .3s;
+  transition: all 0.3s;
   cursor: pointer;
   &.btn-primary {
     background-color: #0078c4;
@@ -40,6 +40,6 @@
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
   }
   &:hover {
-    opacity: .8;
+    opacity: 0.8;
   }
 }

@@ -2,15 +2,15 @@ import koa_router from 'koa-router';
 import koa_body from 'koa-body';
 import http from 'http';
 import config from 'config';
-import {CURRENCIES} from 'src/app/client_config';
+import { CURRENCIES } from 'src/app/client_config';
 
 let oxrates = {};
 
 function ratesRoutes(app) {
-  const router = koa_router({prefix: '/api/v1/rates'});
+  const router = koa_router({ prefix: '/api/v1/rates' });
   app.use(router.routes());
 
-  router.get('/', function* () {
+  router.get('/', function*() {
     this.body = oxrates;
     checkRates();
   });
@@ -45,28 +45,34 @@ function checkRates() {
   ) {
     return;
   }
-  http.get({
-    host: 'openexchangerates.org',
-    path: '/api/latest.json?symbols=XAU,'
-      + CURRENCIES.join(',')
-      + '&app_id='
-      + config.get('openexchangerates_app_id'),
-    method: 'GET'
-  }, function(res) {
-    res.setEncoding('utf-8');
-    res.on('data', function(stuff) {
-      var parsed = {};
-      try {
-        oxrates = JSON.parse(stuff);
-      } catch(e) {
-        new Error('The result is broken. Unexpected some token in JSON');
+  http
+    .get(
+      {
+        host: 'openexchangerates.org',
+        path:
+          '/api/latest.json?symbols=XAU,' +
+          CURRENCIES.join(',') +
+          '&app_id=' +
+          config.get('openexchangerates_app_id'),
+        method: 'GET',
+      },
+      function(res) {
+        res.setEncoding('utf-8');
+        res.on('data', function(stuff) {
+          var parsed = {};
+          try {
+            oxrates = JSON.parse(stuff);
+          } catch (e) {
+            new Error('The result is broken. Unexpected some token in JSON');
+          }
+        });
       }
+    )
+    .on('error', function(err) {
+      new Error('fetchRates an error', err);
     });
-  }).on('error', function(err){
-    new Error('fetchRates an error', err);
-  });
-};
+}
 
 module.exports = {
-  ratesRoutes
+  ratesRoutes,
 };

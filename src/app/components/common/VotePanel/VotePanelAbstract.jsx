@@ -17,11 +17,11 @@ import PayoutInfoDialog from '../PayoutInfoDialog';
 import { confirmVote } from 'src/app/helpers/votes';
 
 import {
-    USERS_NUMBER_IN_TOOLTIP,
-    getSavedPercent,
-    savePercent,
-    makeTooltip,
-    usersListForTooltip,
+  USERS_NUMBER_IN_TOOLTIP,
+  getSavedPercent,
+  savePercent,
+  makeTooltip,
+  usersListForTooltip,
 } from './helpers';
 
 const MOBILE_WIDTH = 890;
@@ -32,17 +32,17 @@ const DISLIKE_PERCENT_KEY = 'golos.dislike-percent';
 export const SLIDER_OFFSET = 8;
 
 const OkIcon = styled(Icon)`
-    width: 16px;
-    margin-right: 13px;
-    color: #a8a8a8;
-    cursor: pointer;
-    transition: color 0.15s;
+  width: 16px;
+  margin-right: 13px;
+  color: #a8a8a8;
+  cursor: pointer;
+  transition: color 0.15s;
 
-    &:hover {
-        color: #2879ff;
-    }
+  &:hover {
+    color: #2879ff;
+  }
 
-    ${is('red')`
+  ${is('red')`
         &:hover {
             color: #ff4e00;
         }
@@ -50,372 +50,362 @@ const OkIcon = styled(Icon)`
 `;
 
 const CancelIcon = styled(Icon)`
-    width: 12px;
-    margin-left: 13px;
-    color: #e1e1e1;
-    transition: color 0.15s;
-    cursor: pointer;
+  width: 12px;
+  margin-left: 13px;
+  color: #e1e1e1;
+  transition: color 0.15s;
+  cursor: pointer;
 
-    &:hover {
-        color: #333;
-    }
+  &:hover {
+    color: #333;
+  }
 `;
 
 const SliderBlock = styled.div`
-    position: absolute;
-    display: flex;
-    height: 40px;
-    top: 0;
-    left: 0;
-    width: 100%;
-    min-width: 220px;
-    padding: 0 14px;
-    margin: 0 -${SLIDER_OFFSET}px;
-    align-items: center;
-    border-radius: 8px;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
-    background: #fff;
-    animation: from-down 0.2s;
+  position: absolute;
+  display: flex;
+  height: 40px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-width: 220px;
+  padding: 0 14px;
+  margin: 0 -${SLIDER_OFFSET}px;
+  align-items: center;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
+  background: #fff;
+  animation: from-down 0.2s;
 
-    @media (max-width: 360px) {
-        margin: 0;
-        z-index: 10;
-    }
+  @media (max-width: 360px) {
+    margin: 0;
+    z-index: 10;
+  }
 `;
 
 const SliderBlockTip = styled.div`
-    position: absolute;
-    bottom: 0;
-    left: ${a => a.left || '50%'};
-    margin-left: -5px;
-    margin-bottom: -5px;
-    width: 10px;
-    height: 10px;
-    transform: rotate(45deg);
-    background: #fff;
-    box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.1);
+  position: absolute;
+  bottom: 0;
+  left: ${a => a.left || '50%'};
+  margin-left: -5px;
+  margin-bottom: -5px;
+  width: 10px;
+  height: 10px;
+  transform: rotate(45deg);
+  background: #fff;
+  box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.1);
 `;
 
 const SliderStyled = styled(Slider)`
-    flex-grow: 1;
-    flex-shrink: 1;
+  flex-grow: 1;
+  flex-shrink: 1;
 `;
 
 const PostPayoutStyled = styled(PostPayout)`
-    white-space: nowrap;
-    user-select: none;
+  white-space: nowrap;
+  user-select: none;
 `;
 
 const Money = styled.div``;
 
 const MoneyWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    height: 36px;
-    padding: 0 4px;
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 4px;
+  cursor: pointer;
 
-    @media (max-width: 500px) {
-        height: 48px;
-        padding: 0 8px;
-    }
+  @media (max-width: 500px) {
+    height: 48px;
+    padding: 0 8px;
+  }
 `;
 
 export default class VotePanelAbstract extends PureComponent {
-    static propTypes = {
-        data: PropTypes.instanceOf(Map),
-        username: PropTypes.string,
-        vertical: PropTypes.bool,
+  static propTypes = {
+    data: PropTypes.instanceOf(Map),
+    username: PropTypes.string,
+    vertical: PropTypes.bool,
+  };
+
+  state = {
+    sliderAction: null,
+    showSlider: false,
+    votePercent: 0,
+    isMobile: this.isMobile(),
+  };
+
+  componentDidMount() {
+    window.addEventListener('resize', this.onResize);
+  }
+
+  componentWillUnmount() {
+    this.onResize.cancel();
+    window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('click', this.onAwayClick);
+    window.removeEventListener('touchstart', this.onAwayClick);
+  }
+
+  getMoneyComponent() {
+    return Money;
+  }
+
+  onLikesNumberClick = () => {
+    const { contentLink } = this.props;
+
+    this.props.openVotersDialog(contentLink, 'likes');
+  };
+
+  onDislikesNumberClick = () => {
+    const { contentLink } = this.props;
+
+    this.props.openVotersDialog(contentLink, 'dislikes');
+  };
+
+  render() {
+    if (!this.props.data) {
+      return null;
+    }
+
+    return this.renderInner();
+  }
+
+  renderInner() {
+    throw new Error('Abstract method call');
+  }
+
+  calcTipLeft() {
+    return 0;
+  }
+
+  callVerticalOffset() {
+    return 0;
+  }
+
+  renderSlider() {
+    const { sliderAction, votePercent } = this.state;
+
+    const tipLeft = this.calcTipLeft();
+    const verticalOffset = this.callVerticalOffset();
+
+    return (
+      <SliderBlock style={{ top: verticalOffset }}>
+        <SliderBlockTip left={`${tipLeft}px`} />
+        <OkIcon
+          name="check"
+          red={sliderAction === 'dislike' ? 1 : 0}
+          data-tooltip={tt('g.vote')}
+          onClick={this.onOkVoteClick}
+        />
+        <SliderStyled
+          value={votePercent}
+          red={sliderAction === 'dislike'}
+          onChange={this.onPercentChange}
+        />
+        <CancelIcon name="cross" data-tooltip={tt('g.cancel')} onClick={this.onCancelVoteClick} />
+      </SliderBlock>
+    );
+  }
+
+  getPayoutInfoComponent = () => {
+    const { data } = this.props;
+
+    return <PayoutInfo postLink={data.get('author') + '/' + data.get('permlink')} />;
+  };
+
+  getVotesTooltips() {
+    const { votesSummary } = this.props;
+    const { showSlider } = this.state;
+
+    if (showSlider) {
+      return {};
+    }
+
+    return {
+      likeTooltip: makeTooltip(
+        usersListForTooltip(votesSummary.firstLikes),
+        votesSummary.likes > USERS_NUMBER_IN_TOOLTIP
+      ),
+      dislikeTooltip: makeTooltip(
+        usersListForTooltip(votesSummary.firstDislikes),
+        votesSummary.dislikes > USERS_NUMBER_IN_TOOLTIP
+      ),
     };
+  }
 
-    state = {
-        sliderAction: null,
-        showSlider: false,
-        votePercent: 0,
-        isMobile: this.isMobile(),
-    };
+  renderPayout(add) {
+    const { data } = this.props;
+    const { isMobile } = this.state;
+    const postLink = data.get('author') + '/' + data.get('permlink');
 
-    componentDidMount() {
-        window.addEventListener('resize', this.onResize);
+    const Money = this.getMoneyComponent();
+
+    if (isMobile) {
+      return (
+        <MoneyWrapper aria-label={tt('aria_label.expected_payout')} onClick={this.onPayoutClick}>
+          <Money>
+            <PostPayoutStyled postLink={postLink} />
+            {add}
+          </Money>
+        </MoneyWrapper>
+      );
+    } else {
+      return (
+        <Popover content={this.getPayoutInfoComponent}>
+          <MoneyWrapper>
+            <Money>
+              <PostPayoutStyled postLink={postLink} />
+              {add}
+            </Money>
+          </MoneyWrapper>
+        </Popover>
+      );
     }
+  }
 
-    componentWillUnmount() {
-        this.onResize.cancel();
-        window.removeEventListener('resize', this.onResize);
-        window.removeEventListener('click', this.onAwayClick);
-        window.removeEventListener('touchstart', this.onAwayClick);
-    }
+  isMobile() {
+    return process.env.BROWSER ? window.innerWidth < MOBILE_WIDTH : false;
+  }
 
-    getMoneyComponent() {
-        return Money;
-    }
-
-    onLikesNumberClick = () => {
-        const { contentLink } = this.props;
-
-        this.props.openVotersDialog(contentLink, 'likes');
-    };
-
-    onDislikesNumberClick = () => {
-        const { contentLink } = this.props;
-
-        this.props.openVotersDialog(contentLink, 'dislikes');
-    };
-
-    render() {
-        if (!this.props.data) {
-            return null;
-        }
-
-        return this.renderInner();
-    }
-
-    renderInner() {
-        throw new Error('Abstract method call');
-    }
-
-    calcTipLeft() {
-        return 0;
-    }
-
-    callVerticalOffset() {
-        return 0;
-    }
-
-    renderSlider() {
-        const { sliderAction, votePercent } = this.state;
-
-        const tipLeft = this.calcTipLeft();
-        const verticalOffset = this.callVerticalOffset();
-
-        return (
-            <SliderBlock style={{ top: verticalOffset }}>
-                <SliderBlockTip left={`${tipLeft}px`} />
-                <OkIcon
-                    name="check"
-                    red={sliderAction === 'dislike' ? 1 : 0}
-                    data-tooltip={tt('g.vote')}
-                    onClick={this.onOkVoteClick}
-                />
-                <SliderStyled
-                    value={votePercent}
-                    red={sliderAction === 'dislike'}
-                    onChange={this.onPercentChange}
-                />
-                <CancelIcon
-                    name="cross"
-                    data-tooltip={tt('g.cancel')}
-                    onClick={this.onCancelVoteClick}
-                />
-            </SliderBlock>
-        );
-    }
-
-    getPayoutInfoComponent = () => {
-        const { data } = this.props;
-
-        return <PayoutInfo postLink={data.get('author') + '/' + data.get('permlink')} />;
-    };
-
-    getVotesTooltips() {
-        const { votesSummary } = this.props;
-        const { showSlider } = this.state;
-
-        if (showSlider) {
-            return {};
-        }
-
-        return {
-            likeTooltip: makeTooltip(
-                usersListForTooltip(votesSummary.firstLikes),
-                votesSummary.likes > USERS_NUMBER_IN_TOOLTIP
-            ),
-            dislikeTooltip: makeTooltip(
-                usersListForTooltip(votesSummary.firstDislikes),
-                votesSummary.dislikes > USERS_NUMBER_IN_TOOLTIP
-            ),
-        };
-    }
-
-    renderPayout(add) {
-        const { data } = this.props;
-        const { isMobile } = this.state;
-        const postLink = data.get('author') + '/' + data.get('permlink');
-
-        const Money = this.getMoneyComponent();
-
-        if (isMobile) {
-            return (
-                <MoneyWrapper
-                    aria-label={tt('aria_label.expected_payout')}
-                    onClick={this.onPayoutClick}
-                >
-                    <Money>
-                        <PostPayoutStyled postLink={postLink} />
-                        {add}
-                    </Money>
-                </MoneyWrapper>
-            );
-        } else {
-            return (
-                <Popover content={this.getPayoutInfoComponent}>
-                    <MoneyWrapper>
-                        <Money>
-                            <PostPayoutStyled postLink={postLink} />
-                            {add}
-                        </Money>
-                    </MoneyWrapper>
-                </Popover>
-            );
-        }
-    }
-
-    isMobile() {
-        return process.env.BROWSER ? window.innerWidth < MOBILE_WIDTH : false;
-    }
-
-    hideSlider() {
-        this.setState({
-            showSlider: false,
-            sliderAction: null,
-        });
-
-        window.removeEventListener('click', this.onAwayClick);
-        window.removeEventListener('touchstart', this.onAwayClick);
-    }
-
-    rootRef = createRef();
-    likeRef = createRef();
-    dislikeRef = createRef();
-
-    onLikeClick = this.loginProtection(() => {
-        const { votesSummary, isRich, defaultVotePower } = this.props;
-
-        if (this.state.showSlider) {
-            this.hideSlider();
-        } else if (votesSummary.myVote === 'like') {
-            this.onChange(0);
-        } else if (isRich) {
-            if (defaultVotePower && !isNaN(Number(defaultVotePower))) {
-                const votePower = Number((defaultVotePower / 100).toFixed(2));
-                this.onChange(votePower);
-            } else {
-                this.setState({
-                    votePercent: getSavedPercent(LIKE_PERCENT_KEY),
-                    sliderAction: 'like',
-                    showSlider: true,
-                });
-            }
-        } else {
-            this.onChange(1);
-        }
+  hideSlider() {
+    this.setState({
+      showSlider: false,
+      sliderAction: null,
     });
 
-    onDislikeClick = this.loginProtection(async () => {
-        const { votesSummary, isRich } = this.props;
+    window.removeEventListener('click', this.onAwayClick);
+    window.removeEventListener('touchstart', this.onAwayClick);
+  }
 
-        if (this.state.showSlider) {
-            this.hideSlider();
-        } else if (votesSummary.myVote === 'dislike') {
-            this.onChange(0);
-        } else if (isRich) {
-            this.setState({
-                votePercent: getSavedPercent(DISLIKE_PERCENT_KEY),
-                sliderAction: 'dislike',
-                showSlider: true,
-            });
+  rootRef = createRef();
+  likeRef = createRef();
+  dislikeRef = createRef();
 
-            window.addEventListener('click', this.onAwayClick);
-            window.addEventListener('touchstart', this.onAwayClick);
-        } else {
-            if (await this.showDislikeAlert()) {
-                this.onChange(-1);
-            }
-        }
-    });
+  onLikeClick = this.loginProtection(() => {
+    const { votesSummary, isRich, defaultVotePower } = this.props;
 
-    async onChange(percent) {
-        const { username, data, myVote } = this.props;
-
-        if (await confirmVote(myVote, percent)) {
-            this.props.onVote(username, data.get('author'), data.get('permlink'), percent);
-        }
-    }
-
-    showDislikeAlert() {
-        return new Promise(resolve => {
-            DialogManager.showDialog({
-                component: DislikeAlert,
-                onClose(yes) {
-                    resolve(yes);
-                },
-            });
-        });
-    }
-
-    onAwayClick = e => {
-        if (this.rootRef.current && !this.rootRef.current.contains(e.target)) {
-            this.hideSlider();
-        }
-    };
-
-    onPercentChange = percent => {
-        if (percent !== 0) {
-            this.setState({
-                votePercent: percent,
-            });
-        }
-    };
-
-    onOkVoteClick = async () => {
-        const { sliderAction, votePercent } = this.state;
-
-        if (sliderAction === 'dislike') {
-            if (!(await this.showDislikeAlert())) {
-                return;
-            }
-        }
-
-        const multiplier = sliderAction === 'like' ? 1 : -1;
-
-        if (votePercent) {
-            this.onChange(multiplier * (votePercent / 100));
-            savePercent(
-                sliderAction === 'like' ? LIKE_PERCENT_KEY : DISLIKE_PERCENT_KEY,
-                votePercent
-            );
-            this.hideSlider();
-        }
-    };
-
-    onCancelVoteClick = () => {
-        this.hideSlider();
-    };
-
-    onPayoutClick = () => {
-        const { data } = this.props;
-
-        DialogManager.showDialog({
-            component: PayoutInfoDialog,
-            props: {
-                postLink: data.get('author') + '/' + data.get('permlink'),
-            },
-        });
-    };
-
-    onResize = throttle(() => {
+    if (this.state.showSlider) {
+      this.hideSlider();
+    } else if (votesSummary.myVote === 'like') {
+      this.onChange(0);
+    } else if (isRich) {
+      if (defaultVotePower && !isNaN(Number(defaultVotePower))) {
+        const votePower = Number((defaultVotePower / 100).toFixed(2));
+        this.onChange(votePower);
+      } else {
         this.setState({
-            isMobile: this.isMobile(),
+          votePercent: getSavedPercent(LIKE_PERCENT_KEY),
+          sliderAction: 'like',
+          showSlider: true,
         });
-    }, 100);
-
-    loginProtection(func) {
-        return (...args) => {
-            this.props.loginIfNeed(logged => {
-                if (logged) {
-                    func(...args);
-                }
-            });
-        };
+      }
+    } else {
+      this.onChange(1);
     }
+  });
+
+  onDislikeClick = this.loginProtection(async () => {
+    const { votesSummary, isRich } = this.props;
+
+    if (this.state.showSlider) {
+      this.hideSlider();
+    } else if (votesSummary.myVote === 'dislike') {
+      this.onChange(0);
+    } else if (isRich) {
+      this.setState({
+        votePercent: getSavedPercent(DISLIKE_PERCENT_KEY),
+        sliderAction: 'dislike',
+        showSlider: true,
+      });
+
+      window.addEventListener('click', this.onAwayClick);
+      window.addEventListener('touchstart', this.onAwayClick);
+    } else {
+      if (await this.showDislikeAlert()) {
+        this.onChange(-1);
+      }
+    }
+  });
+
+  async onChange(percent) {
+    const { username, data, myVote } = this.props;
+
+    if (await confirmVote(myVote, percent)) {
+      this.props.onVote(username, data.get('author'), data.get('permlink'), percent);
+    }
+  }
+
+  showDislikeAlert() {
+    return new Promise(resolve => {
+      DialogManager.showDialog({
+        component: DislikeAlert,
+        onClose(yes) {
+          resolve(yes);
+        },
+      });
+    });
+  }
+
+  onAwayClick = e => {
+    if (this.rootRef.current && !this.rootRef.current.contains(e.target)) {
+      this.hideSlider();
+    }
+  };
+
+  onPercentChange = percent => {
+    if (percent !== 0) {
+      this.setState({
+        votePercent: percent,
+      });
+    }
+  };
+
+  onOkVoteClick = async () => {
+    const { sliderAction, votePercent } = this.state;
+
+    if (sliderAction === 'dislike') {
+      if (!(await this.showDislikeAlert())) {
+        return;
+      }
+    }
+
+    const multiplier = sliderAction === 'like' ? 1 : -1;
+
+    if (votePercent) {
+      this.onChange(multiplier * (votePercent / 100));
+      savePercent(sliderAction === 'like' ? LIKE_PERCENT_KEY : DISLIKE_PERCENT_KEY, votePercent);
+      this.hideSlider();
+    }
+  };
+
+  onCancelVoteClick = () => {
+    this.hideSlider();
+  };
+
+  onPayoutClick = () => {
+    const { data } = this.props;
+
+    DialogManager.showDialog({
+      component: PayoutInfoDialog,
+      props: {
+        postLink: data.get('author') + '/' + data.get('permlink'),
+      },
+    });
+  };
+
+  onResize = throttle(() => {
+    this.setState({
+      isMobile: this.isMobile(),
+    });
+  }, 100);
+
+  loginProtection(func) {
+    return (...args) => {
+      this.props.loginIfNeed(logged => {
+        if (logged) {
+          func(...args);
+        }
+      });
+    };
+  }
 }

@@ -8,74 +8,74 @@ import { commentsArrayToObject, getSortFunction } from 'src/app/helpers/comments
 import { locationSelector } from 'src/app/redux/selectors/app/location';
 
 function buildCommentsStructure(commentsFromStore, postPermLink, sortBy = 'old') {
-    const commentsFullData = commentsArrayToObject([...commentsFromStore.toJS()]);
+  const commentsFullData = commentsArrayToObject([...commentsFromStore.toJS()]);
 
-    const result = [];
-    for (let key in commentsFullData) {
-        const currentComment = commentsFullData[key];
+  const result = [];
+  for (let key in commentsFullData) {
+    const currentComment = commentsFullData[key];
 
-        if (isNotMainComment(currentComment, postPermLink)) {
-            continue;
-        }
-
-        result.push(getCommentsWithRepliesRecursively(currentComment, commentsFullData));
+    if (isNotMainComment(currentComment, postPermLink)) {
+      continue;
     }
 
-    sortComments(result, sortBy, commentsFullData);
-    return result;
+    result.push(getCommentsWithRepliesRecursively(currentComment, commentsFullData));
+  }
+
+  sortComments(result, sortBy, commentsFullData);
+  return result;
 }
 
 function isNotMainComment(currentComment, postPermLink) {
-    return postPermLink !== currentComment.parent_permlink;
+  return postPermLink !== currentComment.parent_permlink;
 }
 
 function getCommentsWithRepliesRecursively(currentComment, commentsFullData) {
-    return {
-        url: `${currentComment.author}/${currentComment.permlink}`,
-        replies: getReplies(currentComment, commentsFullData),
-    };
+  return {
+    url: `${currentComment.author}/${currentComment.permlink}`,
+    replies: getReplies(currentComment, commentsFullData),
+  };
 }
 
 function getReplies(currentComment, commentsFullData) {
-    const replies = currentComment.replies;
-    let structuredReplies = [];
+  const replies = currentComment.replies;
+  let structuredReplies = [];
 
-    for (let reply of replies) {
-        const currentReply = commentsFullData[reply];
+  for (let reply of replies) {
+    const currentReply = commentsFullData[reply];
 
-        let processedReplay = getCommentsWithRepliesRecursively(currentReply, commentsFullData);
+    let processedReplay = getCommentsWithRepliesRecursively(currentReply, commentsFullData);
 
-        structuredReplies.push(processedReplay);
-    }
+    structuredReplies.push(processedReplay);
+  }
 
-    return structuredReplies;
+  return structuredReplies;
 }
 
 function sortComments(comments, sortBy, commentsFullData) {
-    comments.sort(getSortFunction(sortBy, commentsFullData));
-    for (let comment of comments) {
-        sortComments(comment.replies, sortBy, commentsFullData);
-    }
+  comments.sort(getSortFunction(sortBy, commentsFullData));
+  for (let comment of comments) {
+    sortComments(comment.replies, sortBy, commentsFullData);
+  }
 }
 
 export default connect(
-    createSelector(
-        [commentsSelector, locationSelector],
-        (commentsData, location) => {
-            const { comments, postPermLink, isFetching } = commentsData;
-            const structuredComments = buildCommentsStructure(
-                comments,
-                postPermLink,
-                location.getIn(['query', 'sort'])
-            );
+  createSelector(
+    [commentsSelector, locationSelector],
+    (commentsData, location) => {
+      const { comments, postPermLink, isFetching } = commentsData;
+      const structuredComments = buildCommentsStructure(
+        comments,
+        postPermLink,
+        location.getIn(['query', 'sort'])
+      );
 
-            return {
-                structuredComments,
-                isFetching,
-            };
-        }
-    ),
-    {
-        saveListScrollPosition,
+      return {
+        structuredComments,
+        isFetching,
+      };
     }
+  ),
+  {
+    saveListScrollPosition,
+  }
 )(CommentsList);

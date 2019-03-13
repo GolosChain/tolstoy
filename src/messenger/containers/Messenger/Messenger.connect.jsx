@@ -5,8 +5,8 @@ import MessengerApp from './Messenger';
 import { initMessenger } from 'src/messenger/redux/actions/messenger';
 
 export default connect(
-    null,
-    {
-        initMessenger,
-    }
+  null,
+  {
+    initMessenger,
+  }
 )(MessengerApp);

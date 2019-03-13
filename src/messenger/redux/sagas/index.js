@@ -6,8 +6,8 @@ import transactions from './transactions';
 import messages from './messages';
 
 export default function* rootSaga() {
-    yield fork(messenger);
-    yield fork(contacts);
-    yield fork(transactions);
-    yield fork(messages);
+  yield fork(messenger);
+  yield fork(contacts);
+  yield fork(transactions);
+  yield fork(messages);
 }

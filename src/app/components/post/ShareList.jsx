@@ -8,49 +8,49 @@ import { shareList } from 'src/app/helpers/socialShare';
 import Icon from 'golos-ui/Icon';
 
 const Wrapper = styled.div`
-    ${is('horizontal')`
+  ${is('horizontal')`
         display: flex;
     `};
 `;
 
 const ItemContainer = styled.div`
-    display: flex;
-    padding: 18px;
-    cursor: pointer;
+  display: flex;
+  padding: 18px;
+  cursor: pointer;
 
-    &:hover {
-        color: #2879ff;
-    }
+  &:hover {
+    color: #2879ff;
+  }
 `;
 
 export default class ShareList extends Component {
-    static propTypes = {
-        post: PropTypes.object.isRequired,
-        horizontal: PropTypes.bool,
-    };
+  static propTypes = {
+    post: PropTypes.object.isRequired,
+    horizontal: PropTypes.bool,
+  };
 
-    static defaultProps = {
-        horizontal: false,
-    };
+  static defaultProps = {
+    horizontal: false,
+  };
 
-    render() {
-        const { horizontal, post } = this.props;
+  render() {
+    const { horizontal, post } = this.props;
 
-        return (
-            <Wrapper horizontal={horizontal}>
-                {shareList.map(item => (
-                    <ItemContainer
-                        key={item.icon}
-                        aria-label={tt(item.ariaLabel)}
-                        onClick={e => {
-                            e.preventDefault();
-                            item.callback(post);
-                        }}
-                    >
-                        <Icon name={item.icon} />
-                    </ItemContainer>
-                ))}
-            </Wrapper>
-        );
-    }
+    return (
+      <Wrapper horizontal={horizontal}>
+        {shareList.map(item => (
+          <ItemContainer
+            key={item.icon}
+            aria-label={tt(item.ariaLabel)}
+            onClick={e => {
+              e.preventDefault();
+              item.callback(post);
+            }}
+          >
+            <Icon name={item.icon} />
+          </ItemContainer>
+        ))}
+      </Wrapper>
+    );
+  }
 }

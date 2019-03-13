@@ -5,25 +5,25 @@ import is, { isOr } from 'styled-is';
 import { Link } from 'mocks/react-router';
 
 export const Tag = styled.div`
-    position: relative;
-    line-height: 12px;
-    padding: 6px 12px;
-    border-radius: 4px;
-    font-size: 12px;
-    font-weight: 500;
-    text-overflow: ellipsis;
-    text-align: center;
-    white-space: nowrap;
-    color: #757575;
-    border: solid 1px #e1e1e1;
-    background-color: #ffffff;
-    transition: border-color 0.15s ease;
+  position: relative;
+  line-height: 12px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  text-align: center;
+  white-space: nowrap;
+  color: #757575;
+  border: solid 1px #e1e1e1;
+  background-color: #ffffff;
+  transition: border-color 0.15s ease;
 
-    &:hover {
-        border-color: #2879ff;
-    }
+  &:hover {
+    border-color: #2879ff;
+  }
 
-    ${is('filtered')`
+  ${is('filtered')`
         color: ##757575;
         background-color: #ececec;
         border-color: #ececec;
@@ -35,7 +35,7 @@ export const Tag = styled.div`
         }
     `};
 
-    ${isOr('selected', 'category')`
+  ${isOr('selected', 'category')`
         color: #2879ff;
         border-color: #cde0ff;
 
@@ -47,11 +47,11 @@ export const Tag = styled.div`
 `;
 
 Tag.propTypes = {
-    category: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
+  category: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
 };
 
 Tag.defaultProps = {
-    category: 0,
+  category: 0,
 };
 
 export const TagLink = Tag.withComponent(({ category, ...otherProps }) => <Link {...otherProps} />);

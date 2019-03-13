@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 
 const ChatListPanel = styled.div`
-    display: flex;
-    flex-direction: column;
-    flex: 1 1 40%;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 40%;
 
-    box-shadow: 2px 0px 12px -4px rgba(0, 0, 0, 0.5);
+  box-shadow: 2px 0px 12px -4px rgba(0, 0, 0, 0.5);
 `;
 
 export { ChatListPanel };

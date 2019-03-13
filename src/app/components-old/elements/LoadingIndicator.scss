@@ -64,7 +64,10 @@
   height: 18px;
   margin: auto;
   position: absolute;
-  top: 0; left: 0; bottom: 0; right: 0;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
 }
 
 .with-progress .spinner {
@@ -93,11 +96,13 @@
 }
 
 @keyframes bouncedelay {
-  0%, 80%, 100% {
-    transform: scale(0.0);
+  0%,
+  80%,
+  100% {
+    transform: scale(0);
   }
   40% {
-    transform: scale(1.0);
+    transform: scale(1);
   }
 }
 
@@ -124,16 +129,25 @@
 }
 
 @-webkit-keyframes bouncedelay {
-  0%, 80%, 100% { -webkit-transform: scale(0.0) }
-  40% { -webkit-transform: scale(1.0) }
+  0%,
+  80%,
+  100% {
+    -webkit-transform: scale(0);
+  }
+  40% {
+    -webkit-transform: scale(1);
+  }
 }
 
 @keyframes bouncedelay {
-  0%, 80%, 100% {
-    transform: scale(0.0);
-  } 40% {
-      transform: scale(1.0);
-    }
+  0%,
+  80%,
+  100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
 }
 
 .LoadingIndicator.circle.inline {
@@ -158,4 +172,3 @@
   height: 11px;
   margin: 0px;
 }
-

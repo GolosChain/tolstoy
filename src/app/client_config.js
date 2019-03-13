@@ -25,19 +25,19 @@ export const DEFAULT_LANGUAGE = 'ru';
 export const LOCALE_COOKIE_KEY = 'gls.locale';
 export const LOCALE_COOKIE_EXPIRES = new Date(Date.now() + 315360000000); // 10 years
 export const LANGUAGES = {
-    ru: {
-        value: 'Русский',
-        shortValue: 'RU',
-    },
-    en: {
-        value: 'English',
-        shortValue: 'EN',
-    },
-    /* in react-intl they use 'uk' instead of 'ua' */
-    uk: {
-        value: 'Українська',
-        shortValue: 'UA',
-    },
+  ru: {
+    value: 'Русский',
+    shortValue: 'RU',
+  },
+  en: {
+    value: 'English',
+    shortValue: 'EN',
+  },
+  /* in react-intl they use 'uk' instead of 'ua' */
+  uk: {
+    value: 'Українська',
+    shortValue: 'UA',
+  },
 };
 // First element always is USD, it needs to be correct fetch yahoo exchange rates from server side
 export const CURRENCIES = ['USD', 'RUB', 'EUR', DEBT_TOKEN_SHORT, LIQUID_TICKER];
@@ -48,7 +48,7 @@ export const TWITTER_HANDLE = '@goloschain';
 export const SHARE_IMAGE = 'https://' + APP_DOMAIN + '/images/golos-share.png';
 export const TWITTER_SHARE_IMAGE = 'https://' + APP_DOMAIN + '/images/golos-twshare.png';
 export const SITE_DESCRIPTION =
-    'Голос - социальная сеть, построенная на публичном блокчейне. Вознаграждение пользователей осуществляется за счет дополнительной эмиссии токенов. При этом распределением токенов управляют текущие пользователи сети через голосование за лучший контент.';
+  'Голос - социальная сеть, построенная на публичном блокчейне. Вознаграждение пользователей осуществляется за счет дополнительной эмиссии токенов. При этом распределением токенов управляют текущие пользователи сети через голосование за лучший контент.';
 
 // registration
 export const REGISTRATION_URL = 'https://reg.golos.io/';
@@ -60,28 +60,28 @@ export const SUPPORT_EMAIL_2 = 'pr@golos.io';
 export const IGNORE_TEST_TAGS = ['test'];
 export const IGNORE_TAGS = ['bm-open', 'bm-ceh23', 'bm-tasks', 'bm-taskceh1'];
 export const PUBLIC_API = {
-    created: 'getDiscussionsByCreatedAsync',
-    recent: 'getDiscussionsByCreatedAsync',
-    hot: 'getDiscussionsByHotAsync',
-    trending: 'getDiscussionsByTrendingAsync',
-    promoted: 'getDiscussionsByPromotedAsync',
-    active: 'getDiscussionsByActiveAsync',
-    responses: 'getDiscussionsByChildrenAsync',
-    votes: 'getDiscussionsByVotesAsync',
-    cashout: 'getDiscussionsByCashoutAsync',
-    payout: 'getDiscussionsByPayoutAsync',
-    feed: 'getDiscussionsByFeedAsync',
+  created: 'getDiscussionsByCreatedAsync',
+  recent: 'getDiscussionsByCreatedAsync',
+  hot: 'getDiscussionsByHotAsync',
+  trending: 'getDiscussionsByTrendingAsync',
+  promoted: 'getDiscussionsByPromotedAsync',
+  active: 'getDiscussionsByActiveAsync',
+  responses: 'getDiscussionsByChildrenAsync',
+  votes: 'getDiscussionsByVotesAsync',
+  cashout: 'getDiscussionsByCashoutAsync',
+  payout: 'getDiscussionsByPayoutAsync',
+  feed: 'getDiscussionsByFeedAsync',
 };
 export const ACCOUNT_OPERATIONS = [
-    'transfer_to_vesting',
-    'withdraw_vesting',
-    'interest',
-    'transfer',
-    'convert',
-    'fill_convert_request',
-    'transfer_to_savings',
-    'transfer_from_savings',
-    'cancel_transfer_from_savings',
+  'transfer_to_vesting',
+  'withdraw_vesting',
+  'interest',
+  'transfer',
+  'convert',
+  'fill_convert_request',
+  'transfer_to_savings',
+  'transfer_from_savings',
+  'cancel_transfer_from_savings',
 ];
 
 export const SEO_TITLE = 'GOLOS.io Блоги';
@@ -89,11 +89,11 @@ export const SEO_TITLE = 'GOLOS.io Блоги';
 export const USER_GENDER = ['undefined', 'male', 'female'];
 
 export const SMS_SERVICES = {
-    default: '+46769438807',
-    '7': '+79169306359',
-    '77': '+77770076977',
-    '375': '+375292308770',
-    '380': '+380931777772',
+  default: '+46769438807',
+  '7': '+79169306359',
+  '77': '+77770076977',
+  '375': '+375292308770',
+  '380': '+380931777772',
 };
 
 export const ANDROID_APP_NAME = 'Golos.io';
@@ -104,31 +104,31 @@ export const TERMS_OF_SERVICE_URL = 'https://golos.io/legal/terms_of_service.pdf
 export const GOLOS_EXPLORER = 'https://explorer.golos.io';
 export const WIKI_URL = 'https://wiki.golos.io/';
 export const MARKDOWN_STYLING_GUIDE_URL =
-    'https://golos.io/ru--golos/@on0tole/osnovy-oformleniya-postov-na-golose-polnyi-kurs-po-rabote-s-markdown';
+  'https://golos.io/ru--golos/@on0tole/osnovy-oformleniya-postov-na-golose-polnyi-kurs-po-rabote-s-markdown';
 
 export const MIN_VOICE_POWER = 3;
 
 export const DEFAULT_VOTE_LIMIT = 10000;
 
 export const LEAVE_PAGE_WHITELIST_DOMAINS = [
-    'golos.io',
-    'golos.blog',
-    'golostools.com',
-    'github.com',
-    'play.google.com',
-    'tlg.name',
-    'facebook.com',
-    'vk.com',
-    'instagram.com',
-    'twitter.com',
-    'explorer.golos.io',
-    'kuna.com.ua',
-    'forklog.com',
-    'steepshot.io',
-    'goldvoice.club',
-    'golos.today',
-    'cpeda.space',
-    'linkedin.com',
+  'golos.io',
+  'golos.blog',
+  'golostools.com',
+  'github.com',
+  'play.google.com',
+  'tlg.name',
+  'facebook.com',
+  'vk.com',
+  'instagram.com',
+  'twitter.com',
+  'explorer.golos.io',
+  'kuna.com.ua',
+  'forklog.com',
+  'steepshot.io',
+  'goldvoice.club',
+  'golos.today',
+  'cpeda.space',
+  'linkedin.com',
 ];
 
 export const DONATION_FOR = 'Donation for';
@@ -136,9 +136,9 @@ export const DONATION_FOR = 'Donation for';
 export const AMPLITUDE_SESSION = 'amplitudeSession';
 
 export const AUCTION_REWARD_DESTINATION = {
-    DEFAULT: 'to_curators',
-    DESTINATION: {
-        to_reward_fund: 0,
-        to_curators: 1,
-    },
+  DEFAULT: 'to_curators',
+  DESTINATION: {
+    to_reward_fund: 0,
+    to_curators: 1,
+  },
 };

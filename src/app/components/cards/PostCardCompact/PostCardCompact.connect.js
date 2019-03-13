@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import PostCardCompact from './PostCardCompact';
 
 export default connect(
-    //postCardSelector,
-    () => ({}),
-    { openRepostDialog: () => {} }
+  //postCardSelector,
+  () => ({}),
+  { openRepostDialog: () => {} }
 )(PostCardCompact);

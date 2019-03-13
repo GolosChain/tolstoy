@@ -5,25 +5,19 @@ import { utils } from 'mocks/golos-js';
 import LookupAccounts from 'src/messenger/components/LookupAccounts';
 
 export default class LookupAccountsContainer extends Component {
+  handleSearchInput = query => {
+    const nameError = utils.validateAccountName(query);
 
-    handleSearchInput = query => {
-        const nameError = utils.validateAccountName(query);
-
-        if (!nameError) {
-            this.props.searchContacts(query);
-        }
+    if (!nameError) {
+      this.props.searchContacts(query);
     }
+  };
 
-    closeSearchResults = () => {
-        this.props.closeSearchResults();
-    }
+  closeSearchResults = () => {
+    this.props.closeSearchResults();
+  };
 
-    render() {
-        return (
-            <LookupAccounts
-                onChange={this.handleSearchInput}
-                onClose={this.closeSearchResults}
-            />
-        );
-    }
+  render() {
+    return <LookupAccounts onChange={this.handleSearchInput} onClose={this.closeSearchResults} />;
+  }
 }

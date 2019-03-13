@@ -15,28 +15,28 @@ tt.registerTranslations('ru', require('src/app/locales/ru-RU.json'));
 tt.registerTranslations('uk', require('src/app/locales/ua.json'));
 
 @connect(state => ({
-    // TODO:
-    locale: 'ru',
+  // TODO:
+  locale: 'ru',
 }))
 export default class Translator extends PureComponent {
-    render() {
-        const { locale, children } = this.props;
-        const localeWithoutRegionCode =
-            locale && typeof locale === 'string'
-                ? locale.toLowerCase().split(/[_-]+/)[0]
-                : DEFAULT_LANGUAGE; // fix for firefox private mode
+  render() {
+    const { locale, children } = this.props;
+    const localeWithoutRegionCode =
+      locale && typeof locale === 'string'
+        ? locale.toLowerCase().split(/[_-]+/)[0]
+        : DEFAULT_LANGUAGE; // fix for firefox private mode
 
-        tt.setLocale(localeWithoutRegionCode);
-        tt.setFallbackLocale('en');
+    tt.setLocale(localeWithoutRegionCode);
+    tt.setFallbackLocale('en');
 
-        return (
-            <IntlProvider
-                key={localeWithoutRegionCode}
-                locale={localeWithoutRegionCode}
-                defaultLocale={DEFAULT_LANGUAGE}
-            >
-                {children}
-            </IntlProvider>
-        );
-    }
+    return (
+      <IntlProvider
+        key={localeWithoutRegionCode}
+        locale={localeWithoutRegionCode}
+        defaultLocale={DEFAULT_LANGUAGE}
+      >
+        {children}
+      </IntlProvider>
+    );
+  }
 }

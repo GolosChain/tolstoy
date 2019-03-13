@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import CompactPostCardMenu from './CompactPostCardMenu';
 
 export default connect(
-    null,
-    {
-        toggleFavorite: () => {},
-    }
+  null,
+  {
+    toggleFavorite: () => {},
+  }
 )(CompactPostCardMenu);

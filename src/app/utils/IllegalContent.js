@@ -10,8 +10,8 @@ filinlex
 fynjy
 ilyachema
 `
-    .trim()
-    .split('\n');
+  .trim()
+  .split('\n');
 
 export const blockedUsersContent = `
 bm-marrivas
@@ -21,8 +21,8 @@ creoboo
 bm-sergeychv
 bm-md
 `
-    .trim()
-    .split('\n');
+  .trim()
+  .split('\n');
 
 export const blockedContent = `
 felicita/udachlivyi-den-dlya-golos-io-razygran-super-priz-v-gosloto
@@ -43,5 +43,5 @@ vladimirben/blanki-i-polisy-osago-deshevo
 rusaken/kak-pravilno-davat-vzyatki
 redhat/srok-iskovoi-davnosti
 `
-    .trim()
-    .split('\n');
+  .trim()
+  .split('\n');

@@ -1,4 +1,3 @@
-
 .HtmlEditor {
   &.HtmlEditor {
     border: none;
@@ -16,15 +15,15 @@
     min-height: 350px;
   }
 
-  & [class^=EditorToolbar__root] {
+  & [class^='EditorToolbar__root'] {
     margin-left: -7px;
   }
 
-  & [class^=IconButton__root] {
+  & [class^='IconButton__root'] {
     border: 1px solid transparent;
     background: none;
 
-    &[class*=IconButton__isActive] {
+    &[class*='IconButton__isActive'] {
       border-color: #6d6d6d;
       border-radius: 3px;
     }

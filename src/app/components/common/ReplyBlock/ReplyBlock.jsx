@@ -7,47 +7,47 @@ import tt from 'counterpart';
 import Icon from 'golos-ui/Icon';
 
 const RepliesQuantity = styled.div`
-    font-size: 16px;
-    font-weight: 500;
-    color: #959595;
-    user-select: none;
+  font-size: 16px;
+  font-weight: 500;
+  color: #959595;
+  user-select: none;
 `;
 
 const ReplyIcon = styled(Icon)`
-    width: 20px;
-    height: 20px;
-    margin-right: 7px;
-    margin-bottom: -2px;
-    color: #393636;
+  width: 20px;
+  height: 20px;
+  margin-right: 7px;
+  margin-bottom: -2px;
+  color: #393636;
 `;
 
 const Replies = styled(({ to, isLink, ...otherProps }) =>
-    isLink ? <Link to={to} {...otherProps} /> : <div {...otherProps} />
+  isLink ? <Link to={to} {...otherProps} /> : <div {...otherProps} />
 )`
-    display: flex;
-    align-items: center;
-    flex-grow: 1;
-    justify-content: flex-end;
-    height: 100%;
-    min-height: 50px;
-    padding: 0 10px;
-    user-select: none;
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  justify-content: flex-end;
+  height: 100%;
+  min-height: 50px;
+  padding: 0 10px;
+  user-select: none;
+  cursor: pointer;
 
-    @media (min-width: 890px) and (max-width: 1087px), (max-width: 639px) {
-        justify-content: center;
-    }
+  @media (min-width: 890px) and (max-width: 1087px), (max-width: 639px) {
+    justify-content: center;
+  }
 
-    ${is('isLink')`
+  ${is('isLink')`
         cursor: pointer;
     `};
 
-    ${is('compact')`
+  ${is('compact')`
         flex-grow: 0;
         padding: 0 10px;
     `};
 
-    ${is('mini')`
+  ${is('mini')`
         height: unset;
         min-height: unset;
         padding: 0 10px;
@@ -79,34 +79,34 @@ const Replies = styled(({ to, isLink, ...otherProps }) =>
 `;
 
 const Splitter = styled.div`
-    flex-shrink: 0;
-    width: 1px;
-    height: 26px;
-    background: #e1e1e1;
+  flex-shrink: 0;
+  width: 1px;
+  height: 26px;
+  background: #e1e1e1;
 `;
 
 const ReplyButton = styled(({ to, ...otherProps }) =>
-    to ? <Link to={to} {...otherProps} /> : <div {...otherProps} />
+  to ? <Link to={to} {...otherProps} /> : <div {...otherProps} />
 )`
-    height: 100%;
-    min-height: 50px;
-    padding: 0 18px 0 10px;
-    display: flex;
-    align-items: center;
-    flex-grow: ${({ compact }) => (compact ? '0' : '1')};
-    font-size: 12px;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: #393636 !important;
-    cursor: pointer;
+  height: 100%;
+  min-height: 50px;
+  padding: 0 18px 0 10px;
+  display: flex;
+  align-items: center;
+  flex-grow: ${({ compact }) => (compact ? '0' : '1')};
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #393636 !important;
+  cursor: pointer;
 `;
 
 const Root = styled.div`
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 
-    ${is('compact')`
+  ${is('compact')`
         width: 100%;
         height: 56px;
         justify-content: center;
@@ -119,65 +119,65 @@ const Root = styled.div`
 `;
 
 export class ReplyBlock extends Component {
-    static defaultProps = {
-        notOwner: true,
-    };
+  static defaultProps = {
+    notOwner: true,
+  };
 
-    static propTypes = {
-        compact: PropTypes.bool,
-        count: PropTypes.number,
-        link: PropTypes.string,
-        text: PropTypes.string,
-        notOwner: PropTypes.bool,
-        mini: PropTypes.bool,
-        onReplyClick: PropTypes.func,
+  static propTypes = {
+    compact: PropTypes.bool,
+    count: PropTypes.number,
+    link: PropTypes.string,
+    text: PropTypes.string,
+    notOwner: PropTypes.bool,
+    mini: PropTypes.bool,
+    onReplyClick: PropTypes.func,
 
-        // connect
-        toggleCommentInputFocus: PropTypes.func,
-    };
+    // connect
+    toggleCommentInputFocus: PropTypes.func,
+  };
 
-    toggleCommentInputFocus = () => {
-        this.props.toggleCommentInputFocus(true);
-    };
+  toggleCommentInputFocus = () => {
+    this.props.toggleCommentInputFocus(true);
+  };
 
-    render() {
-        const { compact, count, link, text, notOwner, mini, className, onReplyClick } = this.props;
+  render() {
+    const { compact, count, link, text, notOwner, mini, className, onReplyClick } = this.props;
 
-        const isLink = typeof compact === 'boolean';
+    const isLink = typeof compact === 'boolean';
 
-        return (
-            <Root compact={compact} className={className}>
-                <Replies
-                    to={`${link}#comments`}
-                    data-tooltip={tt('reply.comments_count')}
-                    aria-label={tt('aria_label.comments', { count })}
-                    isLink={isLink || mini}
-                    compact={compact ? 1 : 0}
-                    mini={mini ? 1 : 0}
-                >
-                    <ReplyIcon name="reply" />
-                    <RepliesQuantity>{count}</RepliesQuantity>
-                </Replies>
-                {mini ? null : !onReplyClick ? (
-                    <Fragment>
-                        <Splitter />
-                        <ReplyButton
-                            to={`${link}#createComment`}
-                            compact={compact ? 1 : 0}
-                            onClick={this.toggleCommentInputFocus}
-                        >
-                            {text}
-                        </ReplyButton>
-                    </Fragment>
-                ) : notOwner ? (
-                    <Fragment>
-                        <Splitter />
-                        <ReplyButton role="button" compact={compact ? 1 : 0} onClick={onReplyClick}>
-                            {text}
-                        </ReplyButton>
-                    </Fragment>
-                ) : null}
-            </Root>
-        );
-    }
+    return (
+      <Root compact={compact} className={className}>
+        <Replies
+          to={`${link}#comments`}
+          data-tooltip={tt('reply.comments_count')}
+          aria-label={tt('aria_label.comments', { count })}
+          isLink={isLink || mini}
+          compact={compact ? 1 : 0}
+          mini={mini ? 1 : 0}
+        >
+          <ReplyIcon name="reply" />
+          <RepliesQuantity>{count}</RepliesQuantity>
+        </Replies>
+        {mini ? null : !onReplyClick ? (
+          <Fragment>
+            <Splitter />
+            <ReplyButton
+              to={`${link}#createComment`}
+              compact={compact ? 1 : 0}
+              onClick={this.toggleCommentInputFocus}
+            >
+              {text}
+            </ReplyButton>
+          </Fragment>
+        ) : notOwner ? (
+          <Fragment>
+            <Splitter />
+            <ReplyButton role="button" compact={compact ? 1 : 0} onClick={onReplyClick}>
+              {text}
+            </ReplyButton>
+          </Fragment>
+        ) : null}
+      </Root>
+    );
+  }
 }

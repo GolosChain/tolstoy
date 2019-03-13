@@ -1,6 +1,6 @@
 .TagsIndex {
   input {
-    margin-bottom: 0.5rem!important;
+    margin-bottom: 0.5rem !important;
   }
 
   table tr {
@@ -13,9 +13,12 @@
       left: 100%;
     }
 
-    td, th {
+    td,
+    th {
       text-align: right;
-      &:first-child {text-align: left;}
+      &:first-child {
+        text-align: left;
+      }
     }
     th {
       cursor: pointer;
@@ -23,7 +26,8 @@
         opacity: 1;
       }
     }
-    td, th {
+    td,
+    th {
       text-align: right;
       &:first-child {
         text-align: left;
@@ -82,4 +86,3 @@
     opacity: 1;
   }
 }
-

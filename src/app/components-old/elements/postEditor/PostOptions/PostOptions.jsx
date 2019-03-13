@@ -13,43 +13,43 @@ import RadioGroup from 'src/app/components-old/elements/common/RadioGroup';
 import { PAYOUT_OPTIONS } from 'src/app/components-old/modules/PostForm/PostForm';
 
 const Wrapper = styled.div`
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-    margin: 0 30px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin: 0 30px;
 
-    @media (max-width: 860px) {
-        flex-direction: column;
-        width: 100%;
-        margin: 0;
-    }
+  @media (max-width: 860px) {
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+  }
 `;
 
 const DesktopWrapper = styled.div`
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 
-    @media (max-width: 860px) {
-        display: none;
-    }
+  @media (max-width: 860px) {
+    display: none;
+  }
 `;
 
 const ButtonContainer = styled.div`
-    position: relative;
-    flex-shrink: 0;
+  position: relative;
+  flex-shrink: 0;
 `;
 
 const IconWrapper = styled.span`
-    margin: 0 9px;
-    padding: 4px;
-    cursor: pointer;
-    transition: color 0.1s;
+  margin: 0 9px;
+  padding: 4px;
+  cursor: pointer;
+  transition: color 0.1s;
 
-    &:hover {
-        color: #0078c4;
-    }
+  &:hover {
+    color: #0078c4;
+  }
 
-    ${is('isWarning')`
+  ${is('isWarning')`
         color: #ef3434;
 
         &:hover {
@@ -57,95 +57,65 @@ const IconWrapper = styled.span`
         }
     `};
 
-    ${is('isActive')`
+  ${is('isActive')`
         color: #0078c4;
     `};
 `;
 
 const BubbleText = styled.p`
-    margin: 0 0 6px;
-    font-size: 14px;
-    color: #757575;
+  margin: 0 0 6px;
+  font-size: 14px;
+  color: #757575;
 `;
 
 const CurationText = styled.p`
-    margin: 0 0 6px;
-    font-size: 15px;
-    white-space: nowrap;
-    color: #393636;
+  margin: 0 0 6px;
+  font-size: 15px;
+  white-space: nowrap;
+  color: #393636;
 `;
 
 const CurationValue = styled.b`
-    display: inline-block;
-    width: 38px;
-    text-align: left;
-    font-weight: 500;
+  display: inline-block;
+  width: 38px;
+  text-align: left;
+  font-weight: 500;
 `;
 
 const MobileCurationValue = styled.b`
-    margin-left: 8px;
-    font-weight: bold;
+  margin-left: 8px;
+  font-weight: bold;
 `;
 
 const MobileWrapper = styled.div`
-    display: block;
-    width: 100%;
-    padding: 20px 16px;
+  display: block;
+  width: 100%;
+  padding: 20px 16px;
 
-    &:not(:last-child) {
-        border-bottom: 1px solid #e9e9e9;
-    }
+  &:not(:last-child) {
+    border-bottom: 1px solid #e9e9e9;
+  }
 
-    @media (min-width: 861px) {
-        display: none;
-    }
+  @media (min-width: 861px) {
+    display: none;
+  }
 `;
 
 const PayoutLabel = styled.h5`
-    display: block;
-    margin: 0;
-    padding: 0 0 12px;
-    font-size: 15px;
-    font-weight: 500;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 1.33;
-    letter-spacing: normal;
-    color: #959595;
+  display: block;
+  margin: 0;
+  padding: 0 0 12px;
+  font-size: 15px;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.33;
+  letter-spacing: normal;
+  color: #959595;
 `;
 
 const StyledRadioGroup = styled(RadioGroup)`
-    label {
-        font-size: 15px;
-        font-weight: 500;
-        font-style: normal;
-        font-stretch: normal;
-        line-height: 1.33;
-        letter-spacing: normal;
-        color: #333333;
-    }
-`;
-
-const NsfwWrapper = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-`;
-
-const MobileOption = styled.div`
-    display: flex;
-    align-items: center;
-`;
-
-const MobileOptionCuration = styled(MobileOption)`
-    margin-bottom: 8px;
-`;
-
-const MobileOptionTitle = styled.div`
-    width: 100%;
-    margin: 0;
-    padding-left: 16px;
+  label {
     font-size: 15px;
     font-weight: 500;
     font-style: normal;
@@ -153,241 +123,258 @@ const MobileOptionTitle = styled.div`
     line-height: 1.33;
     letter-spacing: normal;
     color: #333333;
+  }
+`;
+
+const NsfwWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+`;
+
+const MobileOption = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const MobileOptionCuration = styled(MobileOption)`
+  margin-bottom: 8px;
+`;
+
+const MobileOptionTitle = styled.div`
+  width: 100%;
+  margin: 0;
+  padding-left: 16px;
+  font-size: 15px;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.33;
+  letter-spacing: normal;
+  color: #333333;
 `;
 
 const SliderStyled = styled(Slider)`
-    margin-top: 20px;
+  margin-top: 20px;
 `;
 
 const MobileCurationBlock = styled.div`
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 `;
 
 export default class PostOptions extends PureComponent {
-    static propTypes = {
-        nsfw: PropTypes.bool.isRequired,
-        payoutType: PropTypes.number.isRequired,
-        curationPercent: PropTypes.number.isRequired,
-        minCurationPercent: PropTypes.number,
-        maxCurationPercent: PropTypes.number,
-        editMode: PropTypes.bool,
-        onNsfwClick: PropTypes.func.isRequired,
-        onPayoutChange: PropTypes.func.isRequired,
-        onCurationPercentChange: PropTypes.func.isRequired,
-    };
+  static propTypes = {
+    nsfw: PropTypes.bool.isRequired,
+    payoutType: PropTypes.number.isRequired,
+    curationPercent: PropTypes.number.isRequired,
+    minCurationPercent: PropTypes.number,
+    maxCurationPercent: PropTypes.number,
+    editMode: PropTypes.bool,
+    onNsfwClick: PropTypes.func.isRequired,
+    onPayoutChange: PropTypes.func.isRequired,
+    onCurationPercentChange: PropTypes.func.isRequired,
+  };
 
-    state = {
-        showPayoutMenu: false,
-        showCuratorMenu: false,
-    };
+  state = {
+    showPayoutMenu: false,
+    showCuratorMenu: false,
+  };
 
-    _curatorContainer = createRef();
-    _payoutContainer = createRef();
+  _curatorContainer = createRef();
+  _payoutContainer = createRef();
 
-    componentDidMount() {
-        window.addEventListener('mousedown', this.onAwayClick);
+  componentDidMount() {
+    window.addEventListener('mousedown', this.onAwayClick);
+  }
+
+  componentWillUnmount() {
+    this._unmount = true;
+    window.removeEventListener('mousedown', this.onAwayClick);
+  }
+
+  render() {
+    const {
+      editMode,
+      payoutType,
+      nsfw,
+      minCurationPercent,
+      maxCurationPercent,
+      onNsfwClick,
+    } = this.props;
+    const { showPayoutMenu, showCuratorMenu } = this.state;
+
+    const showCurationPercent =
+      editMode || (!isNil(minCurationPercent) && minCurationPercent !== maxCurationPercent);
+
+    return (
+      <Wrapper>
+        <DesktopWrapper>
+          {showCurationPercent ? (
+            <ButtonContainer ref={this._curatorContainer}>
+              <IconWrapper isActive={showCuratorMenu} onClick={this._onCuratorClick}>
+                <Icon name="editor/k" size="1_5x" data-tooltip={tt('post_editor.payout_hint')} />
+              </IconWrapper>
+              {showCuratorMenu ? this._renderCurationMenu() : null}
+            </ButtonContainer>
+          ) : null}
+          <ButtonContainer ref={this._payoutContainer}>
+            <IconWrapper isActive={showPayoutMenu} onClick={this._onPayoutClick}>
+              <Icon name="editor/coin" size="1_5x" data-tooltip={tt('post_editor.payout_hint')} />
+            </IconWrapper>
+            {showPayoutMenu ? this._renderPayoutMenu() : null}
+          </ButtonContainer>
+          <ButtonContainer>
+            <IconWrapper isWarning={nsfw} onClick={onNsfwClick}>
+              <Icon name="editor/plus-18" size="1_5x" data-tooltip={tt('post_editor.nsfw_hint')} />
+            </IconWrapper>
+          </ButtonContainer>
+        </DesktopWrapper>
+        <MobileWrapper>
+          <PayoutLabel>{tt('post_editor.set_payout_type')}</PayoutLabel>
+          <StyledRadioGroup
+            disabled={editMode}
+            options={PAYOUT_OPTIONS.map(({ id, title, hint }) => ({
+              id,
+              title: tt(title),
+              hint: hint ? tt(hint) : null,
+            }))}
+            value={payoutType}
+            onChange={this.onPayoutModeChange}
+          />
+        </MobileWrapper>
+        <MobileWrapper>
+          <NsfwWrapper>
+            <MobileOption>
+              <Icon name="editor/plus-18" size="1_5x" />
+              <MobileOptionTitle>{tt('post_editor.nsfw_content')}</MobileOptionTitle>
+            </MobileOption>
+            <Switcher value={nsfw} onChange={onNsfwClick} />
+          </NsfwWrapper>
+        </MobileWrapper>
+        {showCurationPercent ? (
+          <MobileWrapper>{this.renderCurationPercentSlider(true)}</MobileWrapper>
+        ) : null}
+      </Wrapper>
+    );
+  }
+
+  _renderCurationMenu() {
+    return <Hint align="center">{this.renderCurationPercentSlider()}</Hint>;
+  }
+
+  renderCurationPercentSlider(isMobile) {
+    const { curationPercent, minCurationPercent, maxCurationPercent, editMode } = this.props;
+
+    let min;
+    let max;
+    let percent;
+    let showCaptions;
+
+    if (editMode) {
+      min = 0;
+      max = 100;
+      percent = curationPercent / 100;
+      showCaptions = false;
+    } else {
+      const actualPercent = Math.round(curationPercent / 100);
+
+      min = Math.ceil(minCurationPercent / 100);
+      max = Math.floor(maxCurationPercent / 100);
+      percent = Math.max(Math.min(actualPercent, max), min);
+      showCaptions = true;
     }
 
-    componentWillUnmount() {
-        this._unmount = true;
-        window.removeEventListener('mousedown', this.onAwayClick);
-    }
+    return (
+      <Fragment>
+        {isMobile ? (
+          <MobileOptionCuration>
+            <Icon name="editor/k" size="1_5x" />
+            <MobileOptionTitle>
+              <MobileCurationBlock>
+                {tt('post_editor.set_curator_percent')}{' '}
+                <MobileCurationValue>{percent}%</MobileCurationValue>
+              </MobileCurationBlock>
+            </MobileOptionTitle>
+          </MobileOptionCuration>
+        ) : (
+          <CurationText>
+            {tt('post_editor.set_curator_percent')} <CurationValue>{percent}%</CurationValue>
+          </CurationText>
+        )}
+        <SliderStyled
+          value={percent}
+          min={min}
+          max={max}
+          disabled={editMode}
+          showCaptions={showCaptions}
+          onChange={this.onCurationPercentChange}
+        />
+      </Fragment>
+    );
+  }
 
-    render() {
-        const {
-            editMode,
-            payoutType,
-            nsfw,
-            minCurationPercent,
-            maxCurationPercent,
-            onNsfwClick,
-        } = this.props;
-        const { showPayoutMenu, showCuratorMenu } = this.state;
+  _renderPayoutMenu() {
+    const { editMode, payoutType } = this.props;
 
-        const showCurationPercent =
-            editMode || (!isNil(minCurationPercent) && minCurationPercent !== maxCurationPercent);
+    return (
+      <Hint align="center">
+        <BubbleText>{tt('post_editor.set_payout_type')}:</BubbleText>
+        <RadioGroup
+          disabled={editMode}
+          options={PAYOUT_OPTIONS.map(({ id, title, hint }) => ({
+            id,
+            title: tt(title),
+            hint: hint ? tt(hint) : null,
+          }))}
+          value={payoutType}
+          onChange={this.onPayoutModeChange}
+        />
+      </Hint>
+    );
+  }
 
-        return (
-            <Wrapper>
-                <DesktopWrapper>
-                    {showCurationPercent ? (
-                        <ButtonContainer ref={this._curatorContainer}>
-                            <IconWrapper isActive={showCuratorMenu} onClick={this._onCuratorClick}>
-                                <Icon
-                                    name="editor/k"
-                                    size="1_5x"
-                                    data-tooltip={tt('post_editor.payout_hint')}
-                                />
-                            </IconWrapper>
-                            {showCuratorMenu ? this._renderCurationMenu() : null}
-                        </ButtonContainer>
-                    ) : null}
-                    <ButtonContainer ref={this._payoutContainer}>
-                        <IconWrapper isActive={showPayoutMenu} onClick={this._onPayoutClick}>
-                            <Icon
-                                name="editor/coin"
-                                size="1_5x"
-                                data-tooltip={tt('post_editor.payout_hint')}
-                            />
-                        </IconWrapper>
-                        {showPayoutMenu ? this._renderPayoutMenu() : null}
-                    </ButtonContainer>
-                    <ButtonContainer>
-                        <IconWrapper isWarning={nsfw} onClick={onNsfwClick}>
-                            <Icon
-                                name="editor/plus-18"
-                                size="1_5x"
-                                data-tooltip={tt('post_editor.nsfw_hint')}
-                            />
-                        </IconWrapper>
-                    </ButtonContainer>
-                </DesktopWrapper>
-                <MobileWrapper>
-                    <PayoutLabel>{tt('post_editor.set_payout_type')}</PayoutLabel>
-                    <StyledRadioGroup
-                        disabled={editMode}
-                        options={PAYOUT_OPTIONS.map(({ id, title, hint }) => ({
-                            id,
-                            title: tt(title),
-                            hint: hint ? tt(hint) : null,
-                        }))}
-                        value={payoutType}
-                        onChange={this.onPayoutModeChange}
-                    />
-                </MobileWrapper>
-                <MobileWrapper>
-                    <NsfwWrapper>
-                        <MobileOption>
-                            <Icon name="editor/plus-18" size="1_5x" />
-                            <MobileOptionTitle>{tt('post_editor.nsfw_content')}</MobileOptionTitle>
-                        </MobileOption>
-                        <Switcher value={nsfw} onChange={onNsfwClick} />
-                    </NsfwWrapper>
-                </MobileWrapper>
-                {showCurationPercent ? (
-                    <MobileWrapper>{this.renderCurationPercentSlider(true)}</MobileWrapper>
-                ) : null}
-            </Wrapper>
-        );
-    }
+  _onCuratorClick = () => {
+    this.setState({
+      showCuratorMenu: !this.state.showCuratorMenu,
+      showPayoutMenu: false,
+    });
+  };
 
-    _renderCurationMenu() {
-        return <Hint align="center">{this.renderCurationPercentSlider()}</Hint>;
-    }
+  _onPayoutClick = () => {
+    this.setState({
+      showPayoutMenu: !this.state.showPayoutMenu,
+      showCuratorMenu: false,
+    });
+  };
 
-    renderCurationPercentSlider(isMobile) {
-        const { curationPercent, minCurationPercent, maxCurationPercent, editMode } = this.props;
+  onCurationPercentChange = percent => {
+    this.props.onCurationPercentChange(Math.round(percent * 100));
+  };
 
-        let min;
-        let max;
-        let percent;
-        let showCaptions;
+  onPayoutModeChange = payoutMode => {
+    this.props.onPayoutChange(payoutMode);
+  };
 
-        if (editMode) {
-            min = 0;
-            max = 100;
-            percent = curationPercent / 100;
-            showCaptions = false;
-        } else {
-            const actualPercent = Math.round(curationPercent / 100);
+  onAwayClick = e => {
+    const { showPayoutMenu, showCuratorMenu } = this.state;
 
-            min = Math.ceil(minCurationPercent / 100);
-            max = Math.floor(maxCurationPercent / 100);
-            percent = Math.max(Math.min(actualPercent, max), min);
-            showCaptions = true;
+    if (showPayoutMenu || showCuratorMenu) {
+      for (const dropdown of [this._payoutContainer, this._curatorContainer]) {
+        if (dropdown.current && dropdown.current.contains(e.target)) {
+          return;
         }
+      }
 
-        return (
-            <Fragment>
-                {isMobile ? (
-                    <MobileOptionCuration>
-                        <Icon name="editor/k" size="1_5x" />
-                        <MobileOptionTitle>
-                            <MobileCurationBlock>
-                                {tt('post_editor.set_curator_percent')}{' '}
-                                <MobileCurationValue>{percent}%</MobileCurationValue>
-                            </MobileCurationBlock>
-                        </MobileOptionTitle>
-                    </MobileOptionCuration>
-                ) : (
-                    <CurationText>
-                        {tt('post_editor.set_curator_percent')}{' '}
-                        <CurationValue>{percent}%</CurationValue>
-                    </CurationText>
-                )}
-                <SliderStyled
-                    value={percent}
-                    min={min}
-                    max={max}
-                    disabled={editMode}
-                    showCaptions={showCaptions}
-                    onChange={this.onCurationPercentChange}
-                />
-            </Fragment>
-        );
-    }
-
-    _renderPayoutMenu() {
-        const { editMode, payoutType } = this.props;
-
-        return (
-            <Hint align="center">
-                <BubbleText>{tt('post_editor.set_payout_type')}:</BubbleText>
-                <RadioGroup
-                    disabled={editMode}
-                    options={PAYOUT_OPTIONS.map(({ id, title, hint }) => ({
-                        id,
-                        title: tt(title),
-                        hint: hint ? tt(hint) : null,
-                    }))}
-                    value={payoutType}
-                    onChange={this.onPayoutModeChange}
-                />
-            </Hint>
-        );
-    }
-
-    _onCuratorClick = () => {
-        this.setState({
-            showCuratorMenu: !this.state.showCuratorMenu,
+      setTimeout(() => {
+        if (!this._unmount) {
+          this.setState({
             showPayoutMenu: false,
-        });
-    };
-
-    _onPayoutClick = () => {
-        this.setState({
-            showPayoutMenu: !this.state.showPayoutMenu,
             showCuratorMenu: false,
-        });
-    };
-
-    onCurationPercentChange = percent => {
-        this.props.onCurationPercentChange(Math.round(percent * 100));
-    };
-
-    onPayoutModeChange = payoutMode => {
-        this.props.onPayoutChange(payoutMode);
-    };
-
-    onAwayClick = e => {
-        const { showPayoutMenu, showCuratorMenu } = this.state;
-
-        if (showPayoutMenu || showCuratorMenu) {
-            for (const dropdown of [this._payoutContainer, this._curatorContainer]) {
-                if (dropdown.current && dropdown.current.contains(e.target)) {
-                    return;
-                }
-            }
-
-            setTimeout(() => {
-                if (!this._unmount) {
-                    this.setState({
-                        showPayoutMenu: false,
-                        showCuratorMenu: false,
-                    });
-                }
-            }, 50);
+          });
         }
-    };
+      }, 50);
+    }
+  };
 }

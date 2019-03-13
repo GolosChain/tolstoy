@@ -1,14 +1,14 @@
 const expo = {
-    ifStringParseJSON: item => {
-        if (typeof item === 'string') {
-            try {
-                return JSON.parse(item);
-            } catch (e) {
-                return item;
-            }
-        }
+  ifStringParseJSON: item => {
+    if (typeof item === 'string') {
+      try {
+        return JSON.parse(item);
+      } catch (e) {
         return item;
-    },
+      }
+    }
+    return item;
+  },
 };
 export default expo;
 

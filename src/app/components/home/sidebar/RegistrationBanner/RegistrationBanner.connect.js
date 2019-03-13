@@ -5,5 +5,5 @@ import { connect } from 'react-redux';
 import RegistrationBanner from './RegistrationBanner';
 
 export default connect(() => ({
-    currentUserSelector: 'currentUserSelector',
+  currentUserSelector: 'currentUserSelector',
 }))(RegistrationBanner);

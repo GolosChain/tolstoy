@@ -18,23 +18,17 @@
       "key": "",
       "secret": "",
       "callback": "/handle_facebook_callback",
-      "scope": [
-        "email",
-        "user_location"
-      ]
+      "scope": ["email", "user_location"]
     },
     "reddit": {
       "key": "",
       "secret": "",
       "callback": "/handle_reddit_callback",
-      "custom_params": {"state": "void", "duration": "temporary"},
-      "scope": [
-        "identity"
-      ]
+      "custom_params": { "state": "void", "duration": "temporary" },
+      "scope": ["identity"]
     }
   },
-  "helmet": {
-  },
+  "helmet": {},
   "registrar": {
     "account": "-",
     "signing_key": "-",
@@ -45,9 +39,7 @@
     "recovery_account": "golos"
   },
   "ws_connection_client": "wss://ws.golos.io",
-  "ws_connection_server": [
-    "wss://ws.golos.io"
-  ],
+  "ws_connection_server": ["wss://ws.golos.io"],
   "recaptcha": {
     "site_key": "",
     "secret_key": ""

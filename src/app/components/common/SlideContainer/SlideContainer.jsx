@@ -8,9 +8,9 @@ const SHIFT_SPEED = 0.7;
 const SHIFT_AMOUNT = 150;
 
 const Root = styled.div`
-    position: relative;
+  position: relative;
 
-    ${is('leftshade')`
+  ${is('leftshade')`
         &:before {
             position: absolute;
             content: '';
@@ -23,7 +23,7 @@ const Root = styled.div`
         }
     `};
 
-    ${is('rightshade')`
+  ${is('rightshade')`
         &:after {
             position: absolute;
             content: '';
@@ -38,159 +38,159 @@ const Root = styled.div`
 `;
 
 const Wrapper = styled.div`
-    position: relative;
-    display: block;
-    overflow-x: auto;
-    overflow-y: hidden;
+  position: relative;
+  display: block;
+  overflow-x: auto;
+  overflow-y: hidden;
 `;
 
 const Content = styled.div`
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 `;
 
 const ArrowContainer = styled.div`
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    top: 0;
-    bottom: 0;
-    width: 50px;
-    cursor: pointer;
-    z-index: 2;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  bottom: 0;
+  width: 50px;
+  cursor: pointer;
+  z-index: 2;
 `;
 
 const LeftArrowContainer = styled(ArrowContainer)`
-    left: 0;
+  left: 0;
 `;
 
 const RightArrowContainer = styled(ArrowContainer)`
-    right: 0;
+  right: 0;
 `;
 
 const ArrowIcon = styled(Icon).attrs({
-    name: 'chevron',
+  name: 'chevron',
 })`
-    width: 14px;
+  width: 14px;
 `;
 
 const LeftArrow = styled(ArrowIcon)`
-    transform: rotate(-90deg);
+  transform: rotate(-90deg);
 `;
 
 const RightArrow = styled(ArrowIcon)`
-    transform: rotate(90deg);
+  transform: rotate(90deg);
 `;
 
 class SlideContainer extends PureComponent {
-    state = {
-        currentOffsetIndex: 0,
-    };
+  state = {
+    currentOffsetIndex: 0,
+  };
 
-    componentDidMount() {
-        window.addEventListener('resize', this._renderLazy);
-        this._renderLazy();
+  componentDidMount() {
+    window.addEventListener('resize', this._renderLazy);
+    this._renderLazy();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this._renderLazy);
+    this._renderLazy.cancel();
+  }
+
+  render() {
+    const { children, className } = this.props;
+    const { contentWidth, scrollLeft, width } = this.state;
+
+    let left = false;
+    let right = false;
+
+    if (this._content) {
+      left = scrollLeft !== 0;
+      right = width > scrollLeft + contentWidth;
     }
 
-    componentWillUnmount() {
-        window.removeEventListener('resize', this._renderLazy);
-        this._renderLazy.cancel();
-    }
-
-    render() {
-        const { children, className } = this.props;
-        const { contentWidth, scrollLeft, width } = this.state;
-
-        let left = false;
-        let right = false;
-
-        if (this._content) {
-            left = scrollLeft !== 0;
-            right = width > scrollLeft + contentWidth;
-        }
-
-        return (
-            <Root className={className} leftshade={left} rightshade={right}>
-                {left ? (
-                    <LeftArrowContainer onClick={this._onLeftClick}>
-                        <LeftArrow />
-                    </LeftArrowContainer>
-                ) : null}
-                <Wrapper ref={this._onWrapperRef} onScroll={this._renderLazy}>
-                    <Content ref={this._onContentRef}>{children}</Content>
-                </Wrapper>
-                {right ? (
-                    <RightArrowContainer onClick={this._onRightClick}>
-                        <RightArrow />
-                    </RightArrowContainer>
-                ) : null}
-            </Root>
-        );
-    }
-
-    _onWrapperRef = el => {
-        this._wrapper = el;
-    };
-
-    _onContentRef = el => {
-        this._content = el;
-    };
-
-    _onLeftClick = () => {
-        this._scroll(SHIFT_AMOUNT, true);
-    };
-
-    _onRightClick = () => {
-        this._scroll(SHIFT_AMOUNT);
-    };
-
-    _scroll = (px, left) => {
-        this._stepTs = Date.now() - 16;
-        this._step(px, left);
-    };
-
-    _step = (px, left) => {
-        const now = Date.now();
-        const delta = now - this._stepTs;
-        this._stepTs = now;
-
-        const shift = Math.round(delta * SHIFT_SPEED);
-
-        if (left) {
-            this._wrapper.scrollLeft -= Math.min(px, shift);
-        } else {
-            this._wrapper.scrollLeft += Math.min(px, shift);
-        }
-
-        const remain = px - shift;
-
-        if (remain > 0) {
-            nextAnimationFrame(() => {
-                this._step(remain, left);
-            });
-        }
-    };
-
-    _renderLazy = throttle(
-        () => {
-            this.setState({
-                contentWidth: this._content.offsetWidth,
-                scrollLeft: this._wrapper.scrollLeft,
-                width: this._wrapper.scrollWidth,
-            });
-        },
-        50,
-        { leading: false }
+    return (
+      <Root className={className} leftshade={left} rightshade={right}>
+        {left ? (
+          <LeftArrowContainer onClick={this._onLeftClick}>
+            <LeftArrow />
+          </LeftArrowContainer>
+        ) : null}
+        <Wrapper ref={this._onWrapperRef} onScroll={this._renderLazy}>
+          <Content ref={this._onContentRef}>{children}</Content>
+        </Wrapper>
+        {right ? (
+          <RightArrowContainer onClick={this._onRightClick}>
+            <RightArrow />
+          </RightArrowContainer>
+        ) : null}
+      </Root>
     );
+  }
+
+  _onWrapperRef = el => {
+    this._wrapper = el;
+  };
+
+  _onContentRef = el => {
+    this._content = el;
+  };
+
+  _onLeftClick = () => {
+    this._scroll(SHIFT_AMOUNT, true);
+  };
+
+  _onRightClick = () => {
+    this._scroll(SHIFT_AMOUNT);
+  };
+
+  _scroll = (px, left) => {
+    this._stepTs = Date.now() - 16;
+    this._step(px, left);
+  };
+
+  _step = (px, left) => {
+    const now = Date.now();
+    const delta = now - this._stepTs;
+    this._stepTs = now;
+
+    const shift = Math.round(delta * SHIFT_SPEED);
+
+    if (left) {
+      this._wrapper.scrollLeft -= Math.min(px, shift);
+    } else {
+      this._wrapper.scrollLeft += Math.min(px, shift);
+    }
+
+    const remain = px - shift;
+
+    if (remain > 0) {
+      nextAnimationFrame(() => {
+        this._step(remain, left);
+      });
+    }
+  };
+
+  _renderLazy = throttle(
+    () => {
+      this.setState({
+        contentWidth: this._content.offsetWidth,
+        scrollLeft: this._wrapper.scrollLeft,
+        width: this._wrapper.scrollWidth,
+      });
+    },
+    50,
+    { leading: false }
+  );
 }
 
 function nextAnimationFrame(callback) {
-    if (window.requestAnimationFrame) {
-        window.requestAnimationFrame(callback);
-    } else {
-        setTimeout(() => callback(), 16);
-    }
+  if (window.requestAnimationFrame) {
+    window.requestAnimationFrame(callback);
+  } else {
+    setTimeout(() => callback(), 16);
+  }
 }
 
 export default SlideContainer;

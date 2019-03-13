@@ -8,65 +8,65 @@ import tt from 'counterpart';
 import extractContent from 'src/app/utils/ExtractContent';
 
 const WhoPostLink = styled(Link)`
-    display: block;
-    color: #333;
-    white-space: nowrap;
-    text-decoration: underline;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  display: block;
+  color: #333;
+  white-space: nowrap;
+  text-decoration: underline;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 export default class PostLink extends Component {
-    static propTypes = {
-        post: PropTypes.shape({
-            author: PropTypes.string.isRequired,
-            permLink: PropTypes.string.isRequired,
-        }),
-        getContent: PropTypes.func.isRequired,
-        postsContent: PropTypes.instanceOf(Map),
-    };
+  static propTypes = {
+    post: PropTypes.shape({
+      author: PropTypes.string.isRequired,
+      permLink: PropTypes.string.isRequired,
+    }),
+    getContent: PropTypes.func.isRequired,
+    postsContent: PropTypes.instanceOf(Map),
+  };
 
-    isMounted = false;
+  isMounted = false;
 
-    componentDidMount() {
-        this.isMounted = true;
-        this.fetchContent();
+  componentDidMount() {
+    this.isMounted = true;
+    this.fetchContent();
+  }
+
+  componentWillUnmount() {
+    this.isMounted = false;
+  }
+
+  async fetchContent() {
+    const { post, getContent, postsContent } = this.props;
+
+    if (postsContent.get(`${post.author}/${post.permLink}`)) {
+      return;
     }
 
-    componentWillUnmount() {
-        this.isMounted = false;
+    try {
+      await getContent({ author: post.author, permlink: post.permLink });
+    } catch (error) {
+      console.error(error);
     }
+  }
 
-    async fetchContent() {
-        const { post, getContent, postsContent } = this.props;
-
-        if (postsContent.get(`${post.author}/${post.permLink}`)) {
-            return;
-        }
-
-        try {
-            await getContent({ author: post.author, permlink: post.permLink });
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
-    render() {
-        const { post, postsContent } = this.props;
-        const fullPost = postsContent.get(`${post.author}/${post.permLink}`);
-        return fullPost ? (
-            <WhoPostLink to={fullPost.get('url')}>{renderRewardTrxTitle(fullPost)}</WhoPostLink>
-        ) : null;
-    }
+  render() {
+    const { post, postsContent } = this.props;
+    const fullPost = postsContent.get(`${post.author}/${post.permLink}`);
+    return fullPost ? (
+      <WhoPostLink to={fullPost.get('url')}>{renderRewardTrxTitle(fullPost)}</WhoPostLink>
+    ) : null;
+  }
 }
 
 function renderRewardTrxTitle(fullPost) {
-    let title = fullPost.get('title');
-    if (!title) {
-        title = extractContent(fullPost).desc
-    }
-    if (!title) {
-        title = tt('g.mediafile');
-    }
-    return title;
+  let title = fullPost.get('title');
+  if (!title) {
+    title = extractContent(fullPost).desc;
+  }
+  if (!title) {
+    title = tt('g.mediafile');
+  }
+  return title;
 }

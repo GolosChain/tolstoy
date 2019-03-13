@@ -10,27 +10,27 @@ import { authProtection } from 'src/app/helpers/hoc';
 import SettingsContent from './SettingsContent';
 
 export default authProtection()(
-    connect(
-        settingsContentSelector,
-        dispatch => ({
-            updateAccount: ({ successCallback, errorCallback, ...operation }) => {
-                dispatch(
-                    transaction.actions.broadcastOperation({
-                        type: 'account_metadata',
-                        operation,
-                        successCallback: () => {
-                            dispatch(user.actions.getAccount());
-                            successCallback();
-                        },
-                        errorCallback,
-                    })
-                );
+  connect(
+    settingsContentSelector,
+    dispatch => ({
+      updateAccount: ({ successCallback, errorCallback, ...operation }) => {
+        dispatch(
+          transaction.actions.broadcastOperation({
+            type: 'account_metadata',
+            operation,
+            successCallback: () => {
+              dispatch(user.actions.getAccount());
+              successCallback();
             },
-            notify: (message, dismiss = 3000) => {
-                dispatch(showNotification(message, 'settings', dismiss));
-            },
-            getSettingsOptions: () => dispatch(getSettingsOptions()),
-            setSettingsOptions: values => dispatch(setSettingsOptions(values)),
-        })
-    )(SettingsContent)
+            errorCallback,
+          })
+        );
+      },
+      notify: (message, dismiss = 3000) => {
+        dispatch(showNotification(message, 'settings', dismiss));
+      },
+      getSettingsOptions: () => dispatch(getSettingsOptions()),
+      setSettingsOptions: values => dispatch(setSettingsOptions(values)),
+    })
+  )(SettingsContent)
 );

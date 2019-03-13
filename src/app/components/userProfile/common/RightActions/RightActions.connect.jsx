@@ -12,19 +12,19 @@ import { createSelector } from 'reselect';
 import RightActions from './RightActions';
 
 export default connect(
-    // createSelector(
-    //     [currentUsernameSelector, (state, props) => props.pageAccountName.toLowerCase()],
-    //     (currentUsername, pageUsername) => ({
-    //         isOwner: currentUsername === pageUsername,
-    //     })
-    // ),
-    () => ({
-        isOwner: false,
-    }),
-    {
-        openConvertDialog: () => {},
-        openDelegateVestingDialog: () => {},
-        openTransferDialog: () => {},
-        openSafeDialog: () => {},
-    }
+  // createSelector(
+  //     [currentUsernameSelector, (state, props) => props.pageAccountName.toLowerCase()],
+  //     (currentUsername, pageUsername) => ({
+  //         isOwner: currentUsername === pageUsername,
+  //     })
+  // ),
+  () => ({
+    isOwner: false,
+  }),
+  {
+    openConvertDialog: () => {},
+    openDelegateVestingDialog: () => {},
+    openTransferDialog: () => {},
+    openSafeDialog: () => {},
+  }
 )(RightActions);

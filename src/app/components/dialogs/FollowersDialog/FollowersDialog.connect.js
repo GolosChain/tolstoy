@@ -6,10 +6,10 @@ import { connect } from 'react-redux';
 import FollowersDialog from './FollowersDialog';
 
 export default connect(
-    //followersDialogSelector,
-    () => ({}),
-    {
-        getFollowers: () => {},
-        getFollowing: () => {},
-    }
+  //followersDialogSelector,
+  () => ({}),
+  {
+    getFollowers: () => {},
+    getFollowing: () => {},
+  }
 )(FollowersDialog);

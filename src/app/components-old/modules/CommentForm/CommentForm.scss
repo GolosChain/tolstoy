@@ -1,4 +1,3 @@
-
 .CommentForm {
   display: flex;
   flex-direction: column;
@@ -48,7 +47,7 @@
     height: unset !important;
     padding: 40px 60px;
     border-radius: 18px;
-    background: rgba(0,0,0, 0.1);
+    background: rgba(0, 0, 0, 0.1);
   }
 
   &_edit {

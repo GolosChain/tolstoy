@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import { ReplyBlock } from './ReplyBlock';
 
 export default connect(
-    null,
-    {
-        toggleCommentInputFocus: () => {},
-    }
+  null,
+  {
+    toggleCommentInputFocus: () => {},
+  }
 )(ReplyBlock);

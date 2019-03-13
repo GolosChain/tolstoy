@@ -6,28 +6,22 @@ import RadioGroup from 'src/app/components-old/elements/common/RadioGroup';
 import './index.scss';
 
 const actions = {
-    onChange: action('onChange'),
+  onChange: action('onChange'),
 };
 
 storiesOf('RadioGroup', module)
-    .add('simple', () => (
-        <RadioGroup
-            options={[
-                { id: 'id1', title: 'option 1' },
-                { id: 'id2', title: 'option 2' },
-            ]}
-            value={'id1'}
-            {...actions}
-        />
-    ))
-    .add('disabled', () => (
-        <RadioGroup
-            disabled
-            options={[
-                { id: 'id1', title: 'option 1' },
-                { id: 'id2', title: 'option 2' },
-            ]}
-            value={'id1'}
-            {...actions}
-        />
-    ));
+  .add('simple', () => (
+    <RadioGroup
+      options={[{ id: 'id1', title: 'option 1' }, { id: 'id2', title: 'option 2' }]}
+      value={'id1'}
+      {...actions}
+    />
+  ))
+  .add('disabled', () => (
+    <RadioGroup
+      disabled
+      options={[{ id: 'id1', title: 'option 1' }, { id: 'id2', title: 'option 2' }]}
+      value={'id1'}
+      {...actions}
+    />
+  ));

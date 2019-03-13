@@ -75,6 +75,8 @@ changelly.com
 changely
 shapeshif
 shapeshift
-`.trim().split('\n');
+`
+  .trim()
+  .split('\n');
 
 export default list;

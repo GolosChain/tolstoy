@@ -9,33 +9,33 @@ import { connect } from 'react-redux';
 import UserHeader from './UserHeader';
 
 export default connect(
-    //userHeaderSelector,
-    () => ({}),
-    {
-        checkWitness: () => {},
-        updateFollow: () => {},
-        confirmUnfollowDialog: () => {},
-        accountWitnessVote: () => {},
-        // accountWitnessVote: (
-        //     username,
-        //     witness,
-        //     approve,
-        //     witnessVoteCallback,
-        //     witnessErrorCallback
-        // ) =>
-        //     transaction.actions.broadcastOperation({
-        //         type: 'account_witness_vote',
-        //         operation: {
-        //             account: username,
-        //             witness,
-        //             approve,
-        //         },
-        //         successCallback() {
-        //             witnessVoteCallback();
-        //         },
-        //         errorCallback() {
-        //             witnessErrorCallback();
-        //         },
-        //     }),
-    }
+  //userHeaderSelector,
+  () => ({}),
+  {
+    checkWitness: () => {},
+    updateFollow: () => {},
+    confirmUnfollowDialog: () => {},
+    accountWitnessVote: () => {},
+    // accountWitnessVote: (
+    //     username,
+    //     witness,
+    //     approve,
+    //     witnessVoteCallback,
+    //     witnessErrorCallback
+    // ) =>
+    //     transaction.actions.broadcastOperation({
+    //         type: 'account_witness_vote',
+    //         operation: {
+    //             account: username,
+    //             witness,
+    //             approve,
+    //         },
+    //         successCallback() {
+    //             witnessVoteCallback();
+    //         },
+    //         errorCallback() {
+    //             witnessErrorCallback();
+    //         },
+    //     }),
+  }
 )(UserHeader);

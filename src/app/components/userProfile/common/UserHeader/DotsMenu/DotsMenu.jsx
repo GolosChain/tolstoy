@@ -17,121 +17,121 @@ const fromUp = keyframes`
 `;
 
 const Wrapper = styled.div`
-    position: absolute;
-    right: 50%;
-    z-index: 1000;
-    transform: translateX(50%);
-    padding: 5px 0;
-    margin-bottom: 5px;
-    border-radius: 6px;
-    background: #ffffff;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
-    animation: ${fromUp} 0.2s linear forwards;
+  position: absolute;
+  right: 50%;
+  z-index: 1000;
+  transform: translateX(50%);
+  padding: 5px 0;
+  margin-bottom: 5px;
+  border-radius: 6px;
+  background: #ffffff;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
+  animation: ${fromUp} 0.2s linear forwards;
 `;
 
 const Pointer = styled.div`
-    position: absolute;
-    top: 100%;
-    right: 50%;
-    transform: translate(50%, -50%) rotate(45deg);
-    width: 14px;
-    height: 14px;
-    background: #ffffff;
-    box-shadow: 3px 3px 4px 0 rgba(0, 0, 0, 0.05);
+  position: absolute;
+  top: 100%;
+  right: 50%;
+  transform: translate(50%, -50%) rotate(45deg);
+  width: 14px;
+  height: 14px;
+  background: #ffffff;
+  box-shadow: 3px 3px 4px 0 rgba(0, 0, 0, 0.05);
 `;
 
 const Content = styled.div`
-    position: relative;
-    z-index: 1;
-    background-color: #ffffff;
+  position: relative;
+  z-index: 1;
+  background-color: #ffffff;
 
-    font-family: 'Open Sans', sans-serif;
-    font-size: 14px;
-    font-weight: normal;
-    color: #333333;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  color: #333333;
 `;
 
 const MuteButton = styled.button`
-    display: flex;
-    align-items: center;
-    padding: 5px 15px;
-    cursor: pointer;
-    white-space: nowrap;
-    text-transform: capitalize;
-    outline: none;
+  display: flex;
+  align-items: center;
+  padding: 5px 15px;
+  cursor: pointer;
+  white-space: nowrap;
+  text-transform: capitalize;
+  outline: none;
 
-    &:hover {
-        background: #f5f5f5;
-    }
+  &:hover {
+    background: #f5f5f5;
+  }
 
-    & ${Icon} {
-        flex-shrink: 0;
-        margin-right: 5px;
-    }
+  & ${Icon} {
+    flex-shrink: 0;
+    margin-right: 5px;
+  }
 `;
 
 export default class DotsMenu extends PureComponent {
-    static propTypes = {
-        authUser: PropTypes.string,
-        profileButtonsInfo: PropTypes.object,
-        accountUsername: PropTypes.string.isRequired,
-        updateFollow: PropTypes.func.isRequired,
-    };
+  static propTypes = {
+    authUser: PropTypes.string,
+    profileButtonsInfo: PropTypes.object,
+    accountUsername: PropTypes.string.isRequired,
+    updateFollow: PropTypes.func.isRequired,
+  };
 
-    wrapperRef = createRef();
+  wrapperRef = createRef();
 
-    componentDidMount() {
-        setTimeout(() => {
-            window.addEventListener('click', this.onAwayClick);
-        });
+  componentDidMount() {
+    setTimeout(() => {
+      window.addEventListener('click', this.onAwayClick);
+    });
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('click', this.onAwayClick);
+  }
+
+  onAwayClick = e => {
+    if (!this.wrapperRef.current.contains(e.target)) {
+      this.props.closeMenu();
     }
+  };
 
-    componentWillUnmount() {
-        window.removeEventListener('click', this.onAwayClick);
-    }
+  handleUpdateFollow(type) {
+    const { authUser, accountUsername } = this.props;
 
-    onAwayClick = e => {
-        if (!this.wrapperRef.current.contains(e.target)) {
-            this.props.closeMenu();
-        }
-    };
+    this.props.updateFollow(authUser, accountUsername, type);
+  }
 
-    handleUpdateFollow(type) {
-        const { authUser, accountUsername } = this.props;
+  muteUser = () => {
+    this.handleUpdateFollow('ignore');
+    this.props.closeMenu();
+  };
 
-        this.props.updateFollow(authUser, accountUsername, type);
-    }
+  unmuteUser = () => {
+    this.handleUpdateFollow(null);
+    this.props.closeMenu();
+  };
 
-    muteUser = () => {
-        this.handleUpdateFollow('ignore');
-        this.props.closeMenu();
-    };
+  render() {
+    const { profileButtonsInfo } = this.props;
 
-    unmuteUser = () => {
-        this.handleUpdateFollow(null);
-        this.props.closeMenu();
-    };
-
-    render() {
-        const { profileButtonsInfo } = this.props;
-
-        return (
-            <Wrapper ref={this.wrapperRef}>
-                <Pointer />
-                <Content>
-                    {profileButtonsInfo.followState !== 'ignore' ? (
-                        <MuteButton onClick={this.muteUser}>
-                            <Icon name="mute" size="18" />
-                            {tt('g.mute')}
-                        </MuteButton>
-                    ) : (
-                        <MuteButton onClick={this.unmuteUser}>
-                            <Icon name="unmute" size="18" />
-                            {tt('g.unmute')}
-                        </MuteButton>
-                    )}
-                </Content>
-            </Wrapper>
-        );
-    }
+    return (
+      <Wrapper ref={this.wrapperRef}>
+        <Pointer />
+        <Content>
+          {profileButtonsInfo.followState !== 'ignore' ? (
+            <MuteButton onClick={this.muteUser}>
+              <Icon name="mute" size="18" />
+              {tt('g.mute')}
+            </MuteButton>
+          ) : (
+            <MuteButton onClick={this.unmuteUser}>
+              <Icon name="unmute" size="18" />
+              {tt('g.unmute')}
+            </MuteButton>
+          )}
+        </Content>
+      </Wrapper>
+    );
+  }
 }

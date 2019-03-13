@@ -6,11 +6,11 @@ import Icon from '../Icon';
 const Root = styled.div``;
 
 const SubHeaderShrink = styled.div`
-    position: relative;
-    overflow: hidden;
-    transition: height 0.25s;
+  position: relative;
+  overflow: hidden;
+  transition: height 0.25s;
 
-    ${is('shrink')`
+  ${is('shrink')`
         &:after {
             position: absolute;
             content: '';
@@ -25,88 +25,88 @@ const SubHeaderShrink = styled.div`
 `;
 
 const SubHeaderCollapse = styled.div`
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 `;
 
 const CollapseIcon = styled(Icon)`
-    width: 60px;
-    height: 20px;
-    padding: 5px;
-    color: #c3c2c2;
-    cursor: pointer;
-    transform: rotate(0);
-    transition: transform 0.25s, color 0.15s;
+  width: 60px;
+  height: 20px;
+  padding: 5px;
+  color: #c3c2c2;
+  cursor: pointer;
+  transform: rotate(0);
+  transition: transform 0.25s, color 0.15s;
 
-    ${is('active')`
+  ${is('active')`
         transform: rotate(0.5turn);
     `};
 
-    &:hover {
-        color: #333;
-    }
+  &:hover {
+    color: #333;
+  }
 `;
 
 export default class Shrink extends PureComponent {
-    state = {
-        shrink: true,
-    };
+  state = {
+    shrink: true,
+  };
 
-    componentDidUpdate() {
-        const newHeight = this._content.offsetHeight;
+  componentDidUpdate() {
+    const newHeight = this._content.offsetHeight;
 
-        if (this._contentHeight !== newHeight) {
-            this._contentHeight = newHeight;
-            this.forceUpdate();
-        }
+    if (this._contentHeight !== newHeight) {
+      this._contentHeight = newHeight;
+      this.forceUpdate();
+    }
+  }
+
+  render() {
+    const { children, height } = this.props;
+    const { shrink } = this.state;
+
+    const allowShrink = this._contentHeight != null && height < this._contentHeight;
+
+    let realHeight;
+
+    if (this._contentHeight == null || (shrink && allowShrink)) {
+      realHeight = height;
+    } else {
+      realHeight = this._contentHeight;
     }
 
-    render() {
-        const { children, height } = this.props;
-        const { shrink } = this.state;
+    const realShrink = allowShrink && shrink;
 
-        const allowShrink = this._contentHeight != null && height < this._contentHeight;
+    return (
+      <Root>
+        <SubHeaderShrink shrink={realShrink} style={{ height: realHeight }}>
+          <div ref={this._onContentRef}>{children}</div>
+        </SubHeaderShrink>
+        {allowShrink ? (
+          <SubHeaderCollapse>
+            <CollapseIcon
+              name="chevron"
+              active={realShrink ? 1 : 0}
+              onClick={this._onCollapseClick}
+            />
+          </SubHeaderCollapse>
+        ) : null}
+      </Root>
+    );
+  }
 
-        let realHeight;
+  _onContentRef = el => {
+    this._content = el;
 
-        if (this._contentHeight == null || (shrink && allowShrink)) {
-            realHeight = height;
-        } else {
-            realHeight = this._contentHeight;
-        }
-
-        const realShrink = allowShrink && shrink;
-
-        return (
-            <Root>
-                <SubHeaderShrink shrink={realShrink} style={{ height: realHeight }}>
-                    <div ref={this._onContentRef}>{children}</div>
-                </SubHeaderShrink>
-                {allowShrink ? (
-                    <SubHeaderCollapse>
-                        <CollapseIcon
-                            name="chevron"
-                            active={realShrink ? 1 : 0}
-                            onClick={this._onCollapseClick}
-                        />
-                    </SubHeaderCollapse>
-                ) : null}
-            </Root>
-        );
+    if (el) {
+      this._contentHeight = el.offsetHeight;
+      this.forceUpdate();
     }
+  };
 
-    _onContentRef = el => {
-        this._content = el;
-
-        if (el) {
-            this._contentHeight = el.offsetHeight;
-            this.forceUpdate();
-        }
-    };
-
-    _onCollapseClick = () => {
-        this.setState({
-            shrink: !this.state.shrink,
-        });
-    };
+  _onCollapseClick = () => {
+    this.setState({
+      shrink: !this.state.shrink,
+    });
+  };
 }

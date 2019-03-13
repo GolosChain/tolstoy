@@ -22,10 +22,10 @@ import ViewCount from './ViewCount';
 // );
 
 export default connect(
-    () => ({
-        viewCount: 3,
-    }),
-    {
-        fetchViewCount: () => {},
-    }
+  () => ({
+    viewCount: 3,
+  }),
+  {
+    fetchViewCount: () => {},
+  }
 )(ViewCount);

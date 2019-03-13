@@ -11,16 +11,16 @@ const app = next({ dev, dir: path.resolve(__dirname, '../app') });
 const handler = routes.getRequestHandler(app);
 
 app.prepare().then(() => {
-    const server = express();
+  const server = express();
 
-    server.use(cookieParser());
-    server.use(express.static(path.join(__dirname, '../app/static')));
+  server.use(cookieParser());
+  server.use(express.static(path.join(__dirname, '../app/static')));
 
-    server.use(handler).listen(port, err => {
-        if (err) {
-            throw err;
-        }
-        // eslint-disable-next-line no-console
-        console.log(`> Ready on http://localhost:${port}`);
-    });
+  server.use(handler).listen(port, err => {
+    if (err) {
+      throw err;
+    }
+    // eslint-disable-next-line no-console
+    console.log(`> Ready on http://localhost:${port}`);
+  });
 });

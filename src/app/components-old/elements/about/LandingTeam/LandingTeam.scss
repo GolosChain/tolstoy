@@ -1,6 +1,6 @@
 .Team {
-
-  &__title, &__info {
+  &__title,
+  &__info {
     margin: 0 18px;
   }
 
@@ -34,7 +34,8 @@
     transform: translateY(11%);
   }
 
-  &__member-avatar, &__member-avatar-wrapper {
+  &__member-avatar,
+  &__member-avatar-wrapper {
     display: block;
     width: 164px;
     height: 164px;
@@ -59,8 +60,8 @@
 
 @include breakpoint(small only) {
   .Team {
-
-    &__member-avatar, &__member-avatar-wrapper {
+    &__member-avatar,
+    &__member-avatar-wrapper {
       width: 150px;
       height: 150px;
     }

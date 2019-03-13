@@ -1,13 +1,19 @@
 .Landing {
   font-family: Verdana, Geneva, sans-serif;
-  .blue 	{ color: #6191cf; } // font-family: ProximaNova;
-  .red 	{ color: #f12b24; }
-  .Landing__button_big { font-size: 47px; }
+  .blue {
+    color: #6191cf;
+  } // font-family: ProximaNova;
+  .red {
+    color: #f12b24;
+  }
+  .Landing__button_big {
+    font-size: 47px;
+  }
   h2 {
     font-weight: bold;
     margin-top: 3rem;
     a {
-      color: inherit!important;
+      color: inherit !important;
     }
   }
   hr {
@@ -29,10 +35,16 @@
       }
     }
   }
-  .button-blue { background-color: $mainly-blue; }
-  .Landing__supporting-text { color: #a8a8a8; }
+  .button-blue {
+    background-color: $mainly-blue;
+  }
+  .Landing__supporting-text {
+    color: #a8a8a8;
+  }
   @include breakpoint(small only) {
-    h2 { font-size: 2.38095rem; }
+    h2 {
+      font-size: 2.38095rem;
+    }
     .btn_block {
       display: flex;
       flex-direction: column;
@@ -51,14 +63,18 @@
       color: #a8a8a8;
     }
   }
-  .Faq__accordion { margin-bottom: 100px;}
+  .Faq__accordion {
+    margin-bottom: 100px;
+  }
   .Faq__action {
     margin-bottom: 80px;
     .Faq__p {
       font-size: 17px;
       color: #656565;
     }
-    .button { margin-right: 0 !important; }
+    .button {
+      margin-right: 0 !important;
+    }
   }
 }
 

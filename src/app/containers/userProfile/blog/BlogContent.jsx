@@ -14,89 +14,89 @@ import CardsListWrapper from '../CardsListWrapper';
 import { visuallyHidden } from 'src/app/helpers/styles';
 
 const Loader = styled(LoadingIndicator)`
-    margin-top: 30px;
+  margin-top: 30px;
 `;
 
 const Header = styled.h1`
-    ${visuallyHidden};
+  ${visuallyHidden};
 `;
 
 class BlogContent extends Component {
-    render() {
-        const { pageAccount, layout } = this.props;
+  render() {
+    const { pageAccount, layout } = this.props;
 
-        return (
-            <Fragment>
-                <Head>
-                    <title>
-                        {tt('meta.title.profile.blog', {
-                            name: pageAccount.get('name'),
-                        })}
-                    </title>
-                </Head>
-                <Header>{tt('g.blog')}</Header>
-                <CardsListWrapper noGaps={layout === 'compact'}>{this._render()}</CardsListWrapper>
-            </Fragment>
-        );
+    return (
+      <Fragment>
+        <Head>
+          <title>
+            {tt('meta.title.profile.blog', {
+              name: pageAccount.get('name'),
+            })}
+          </title>
+        </Head>
+        <Header>{tt('g.blog')}</Header>
+        <CardsListWrapper noGaps={layout === 'compact'}>{this._render()}</CardsListWrapper>
+      </Fragment>
+    );
+  }
+
+  _render() {
+    const { pageAccount } = this.props;
+
+    const posts = pageAccount.get('blog');
+
+    if (!posts) {
+      return <Loader type="circle" center size={40} />;
     }
 
-    _render() {
-        const { pageAccount } = this.props;
-
-        const posts = pageAccount.get('blog');
-
-        if (!posts) {
-            return <Loader type="circle" center size={40} />;
-        }
-
-        if (!posts.size) {
-            return this._renderCallOut();
-        }
-
-        return (
-            <BlogCardsList
-                pageAccountName={pageAccount.get('name')}
-                order="by_author"
-                category="blog"
-                showPinButton
-                //showSpam TODO
-            />
-        );
+    if (!posts.size) {
+      return this._renderCallOut();
     }
 
-    _renderCallOut() {
-        const { isOwner } = this.props;
+    return (
+      <BlogCardsList
+        pageAccountName={pageAccount.get('name')}
+        order="by_author"
+        category="blog"
+        showPinButton
+        //showSpam TODO
+      />
+    );
+  }
 
-        return (
-            <InfoBlock>
-                <EmptyBlock>
-                    {tt('g.empty')}
-                    <EmptySubText>
-                        {isOwner ? (
-                            <Fragment>
-                                {tt('content.tip.blog.start_writing')}{' '}
-                                <Link to="/submit">{`#${tt('content.tip.blog.tag_1')}`}</Link>{' '}
-                                <Link to="/submit">{`#${tt('content.tip.blog.tag_2')}`}</Link>
-                                {tt('content.tip.blog.start_writing_2')}
-                            </Fragment>
-                        ) : (
-                            tt('content.tip.blog.user_has_no_post')
-                        )}
-                    </EmptySubText>
-                </EmptyBlock>
-            </InfoBlock>
-        );
-    }
+  _renderCallOut() {
+    const { isOwner } = this.props;
+
+    return (
+      <InfoBlock>
+        <EmptyBlock>
+          {tt('g.empty')}
+          <EmptySubText>
+            {isOwner ? (
+              <Fragment>
+                {tt('content.tip.blog.start_writing')}{' '}
+                <Link to="/submit">{`#${tt('content.tip.blog.tag_1')}`}</Link>{' '}
+                <Link to="/submit">{`#${tt('content.tip.blog.tag_2')}`}</Link>
+                {tt('content.tip.blog.start_writing_2')}
+              </Fragment>
+            ) : (
+              tt('content.tip.blog.user_has_no_post')
+            )}
+          </EmptySubText>
+        </EmptyBlock>
+      </InfoBlock>
+    );
+  }
 }
 
 export default connect((state, props) => {
-    // const pageAccountName = props.params.accountName.toLowerCase();
-    // const pageAccount = state.global.getIn(['accounts', pageAccountName]);
-    // const isOwner = state.user.getIn(['current', 'username']) === pageAccountName;
+  // const pageAccountName = props.params.accountName.toLowerCase();
+  // const pageAccount = state.global.getIn(['accounts', pageAccountName]);
+  // const isOwner = state.user.getIn(['current', 'username']) === pageAccountName;
 
-    return {
-        pageAccount: null,
-        isOwner: false,
-        layout: 'list',
-    };
+  return {
+    pageAccount: null,
+    isOwner: false,
+    layout: 'list',
+  };
 })(BlogContent);
