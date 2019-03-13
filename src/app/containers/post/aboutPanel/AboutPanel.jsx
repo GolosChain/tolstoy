@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Link } from 'react-router';
+import { Link } from 'mocks/react-router';
 import tt from 'counterpart';
 import { FormattedDate } from 'react-intl';
 

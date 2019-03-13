@@ -11,7 +11,7 @@ import { NOTIFICATIONS_FILTER_TYPES, NOTIFICATIONS_PER_PAGE } from 'src/app/redu
 import Card from 'golos-ui/Card';
 import { TabContainer, Tabs } from 'golos-ui/Tabs';
 
-import LoadingIndicator from 'app/components/elements/LoadingIndicator';
+import LoadingIndicator from 'src/app/components-old/elements/LoadingIndicator';
 import ActivityList from 'src/app/components/common/ActivityList';
 import Flex from 'golos-ui/Flex';
 import { visuallyHidden } from 'src/app/helpers/styles';
@@ -144,7 +144,7 @@ export default class ActivityContent extends PureComponent {
             <Fragment>
                 <Helmet title={tt('meta.title.profile.activity', { name: pageAccountName })} />
                 <Header>{tt('g.activity')}</Header>
-                <Card auto innerRef={this.setRootRef}>
+                <Card auto ref={this.setRootRef}>
                     <Tabs activeTab={{ id: currentTabId }} onChange={this.handleChangeTab}>
                         <CardContent column auto>
                             {this.renderTabs()}

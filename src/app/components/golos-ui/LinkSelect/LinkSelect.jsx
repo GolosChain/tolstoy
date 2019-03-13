@@ -1,5 +1,5 @@
 import React, { PureComponent, createRef } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'mocks/react-router';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
@@ -140,7 +140,7 @@ export default class LinkSelect extends PureComponent {
         );
 
         return (
-            <Wrapper className={className} innerRef={this.root}>
+            <Wrapper className={className} ref={this.root}>
                 <SelectLike onClick={this.onSelectClick}>
                     {selectedOption ? (
                         selectedOption.text
@@ -150,7 +150,7 @@ export default class LinkSelect extends PureComponent {
                     <Chevron open={isOpen} />
                 </SelectLike>
                 {isOpen ? (
-                    <List innerRef={this.onListRef}>
+                    <List ref={this.onListRef}>
                         {links
                             .filter(option => !selectedOption || option.to !== selectedOption.to)
                             .map(option => (

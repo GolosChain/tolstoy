@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Link } from 'react-router';
+import { Link } from 'mocks/react-router';
 
 import Icon from 'golos-ui/Icon';
 import { breakWordStyles } from 'src/app/helpers/styles';

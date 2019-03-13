@@ -28,7 +28,7 @@ export class CommentsContainer extends Component {
     render() {
         const { commentsCount, data, commentInputFocused, user } = this.props;
         return (
-            <Wrapper innerRef={this.commentContainerRef}>
+            <Wrapper ref={this.commentContainerRef}>
                 <CommentsHeader commentsCount={commentsCount} />
                 {user && (
                     <CreateComment

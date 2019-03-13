@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
-import { api } from 'golos-js';
+import { api } from 'mocks/golos-js';
 
 import ComplexInput from 'golos-ui/ComplexInput';
 import SplashLoader from 'golos-ui/SplashLoader';
@@ -12,20 +12,21 @@ import Shrink from 'golos-ui/Shrink';
 import Slider from 'src/app/components/golos-ui/Slider';
 import { processError } from 'src/app/helpers/dialogs';
 
-import { MIN_VOICE_POWER } from 'app/client_config';
+import { MIN_VOICE_POWER } from 'src/app/client_config';
 import transaction from 'app/redux/Transaction';
-import { isBadActor } from 'app/utils/ChainValidation';
-import DialogFrame from 'app/components/dialogs/DialogFrame';
-import DialogManager from 'app/components/elements/common/DialogManager';
+import { isBadActor } from 'src/app/utils/ChainValidation';
+import DialogFrame from 'src/app/components-old/dialogs/DialogFrame';
+import DialogManager from 'src/app/components-old/elements/common/DialogManager';
 import DialogTypeSelect from 'src/app/components/userProfile/common/DialogTypeSelect';
 import { parseAmount2 } from 'src/app/helpers/currency';
-import { vestsToGolos, golosToVests, getVesting } from 'app/utils/StateFunctions';
+import { vestsToGolos, golosToVests, getVesting } from 'src/app/utils/StateFunctions';
 import DelegationsList from './DelegationsList';
-import LoadingIndicator from 'app/components/elements/LoadingIndicator';
+import LoadingIndicator from 'src/app/components-old/elements/LoadingIndicator';
 import DelegationEdit from './DelegationEdit';
 import { showNotification } from 'src/app/redux/actions/ui';
 import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';
 import AccountNameInput from 'src/app/components/common/AccountNameInput';
+import Icon from '../../golos-ui/Icon/Icon';
 
 const TYPES = {
     DELEGATE: 'DELEGATE',
@@ -107,11 +108,11 @@ const FooterLine = styled.div`
     animation: fade-in 0.15s;
 `;
 
-const ErrorLine = FooterLine.extend`
+const ErrorLine = styled(FooterLine)`
     color: #ff4641;
 `;
 
-const HintLine = FooterLine.extend`
+const HintLine = styled(FooterLine)`
     font-size: 14px;
     color: #666;
 `;

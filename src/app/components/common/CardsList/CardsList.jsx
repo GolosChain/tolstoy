@@ -5,11 +5,11 @@ import throttle from 'lodash/throttle';
 import styled from 'styled-components';
 
 import { getScrollElement } from 'src/app/helpers/window';
-import { isFetchingOrRecentlyUpdated } from 'app/utils/StateFunctions';
+import { isFetchingOrRecentlyUpdated } from 'src/app/utils/StateFunctions';
 
 import PostCard from 'src/app/components/cards/PostCard';
 import PostCardCompact from 'src/app/components/cards/PostCardCompact';
-import LoadingIndicator from 'app/components/elements/LoadingIndicator';
+import LoadingIndicator from 'src/app/components-old/elements/LoadingIndicator';
 
 export const FORCE_LINES_WIDTH = 1000;
 const FORCE_COMPACT_WIDTH = 550;
@@ -199,6 +199,8 @@ export default class CardsList extends PureComponent {
     itemRender = cardProps => {
         const { layout } = this.props;
 
+        return <div>{JSON.stringify(cardProps)}</div>;
+
         if (layout === 'compact') {
             return <PostCardCompact {...cardProps} />;
         } else {
@@ -265,7 +267,7 @@ export default class CardsList extends PureComponent {
 
     render() {
         return (
-            <Root innerRef={this.rootRef}>
+            <Root ref={this.rootRef}>
                 {this.renderCards()}
                 {this.renderLoaderIfNeed()}
             </Root>

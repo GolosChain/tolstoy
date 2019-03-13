@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import Icon from 'golos-ui/Icon';
-import proxifyImageUrl from 'app/utils/ProxifyUrl';
+import proxifyImageUrl from 'src/app/utils/ProxifyUrl';
 
 // Image size bigger than display size for better quality.
 // Current image proxy very dramatically reduce quality.

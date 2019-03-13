@@ -142,7 +142,7 @@ export default class Popover extends Component {
         return (
             <Container
                 className={className}
-                innerRef={ref => (this.container = ref)}
+                ref={ref => (this.container = ref)}
                 position={position}
                 show={show}
                 transform={

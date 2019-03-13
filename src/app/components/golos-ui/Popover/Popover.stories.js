@@ -3,8 +3,9 @@ import { storiesOf } from '@storybook/react';
 import Popover from './Popover';
 import Button from '../Button/Button';
 import styled from 'styled-components';
+import Icon from '../Icon/Icon';
 
-const ButtonWrapper = Button.extend`
+const ButtonWrapper = styled(extend)`
     position: relative;
     overflow: unset;
 `;

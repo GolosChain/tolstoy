@@ -1,12 +1,12 @@
 import React, { PureComponent, Fragment, createRef } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'mocks/react-router';
 import styled from 'styled-components';
 import is from 'styled-is';
 import throttle from 'lodash/throttle';
 import tt from 'counterpart';
 
-import { REGISTRATION_URL } from 'app/client_config';
+import { REGISTRATION_URL } from 'src/app/client_config';
 import {
     CONTAINER_FULL_WIDTH,
     CONTAINER_MOBILE_WIDTH,
@@ -16,7 +16,9 @@ import {
 
 import Icon from 'golos-ui/Icon';
 import IconBadge from 'golos-ui/IconBadge';
+
 import Button from 'golos-ui/Button';
+
 import Menu from '../Menu';
 import NotificationsMenu from '../NotificationsMenu';
 import Popover from 'src/app/components/header/Popover/Popover';
@@ -318,7 +320,8 @@ export default class Header extends PureComponent {
 
     componentDidMount() {
         window.addEventListener('resize', this.onResizeLazy);
-        this.props.getNotificationsOnlineHistoryFreshCount();
+        // TODO
+        //this.props.getNotificationsOnlineHistoryFreshCount();
 
         if (this.state.waitAuth) {
             this.timeoutId = setTimeout(() => {
@@ -447,10 +450,7 @@ export default class Header extends PureComponent {
                 aria-label={tt('aria_label.notifications', { count: freshCount })}
                 onClick={this.onNotificationsMenuToggle}
             >
-                <Notifications
-                    active={isNotificationsOpen ? 1 : 0}
-                    innerRef={this.notificationsRef}
-                >
+                <Notifications active={isNotificationsOpen ? 1 : 0} ref={this.notificationsRef}>
                     <IconBadge name="bell" size={20} count={freshCount} />
                 </Notifications>
             </Link>
@@ -516,7 +516,7 @@ export default class Header extends PureComponent {
                         <DotsWrapper
                             role="button"
                             aria-label={tt('aria_label.additional menu')}
-                            innerRef={this.dotsRef}
+                            ref={this.dotsRef}
                             active={isMenuOpen}
                             pad={isPadScreen ? 1 : 0}
                             mobile={isMobile ? 1 : 0}

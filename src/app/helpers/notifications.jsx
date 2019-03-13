@@ -1,9 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'mocks/react-router';
 import { List } from 'immutable';
 import tt from 'counterpart';
 
-import { DEBT_TOKEN_SHORT } from 'app/client_config';
+import { DEBT_TOKEN_SHORT } from 'src/app/client_config';
 
 const emptyList = List();
 

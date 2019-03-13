@@ -76,8 +76,8 @@ export default class Dropdown extends Component {
         const _items = items ? items.filter(i => i) : null;
 
         return (
-            <Wrapper className={className} innerRef={this._onRef}>
-                <TargetWrapper innerRef={this._onTargetRef} onClick={this._onWrapperClick}>
+            <Wrapper className={className} ref={this._onRef}>
+                <TargetWrapper ref={this._onTargetRef} onClick={this._onWrapperClick}>
                     {children}
                 </TargetWrapper>
                 {isOpen && _items && _items.length ? (

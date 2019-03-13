@@ -91,7 +91,7 @@ export default class LayoutSwitcherMenu extends PureComponent {
                     top: Math.round(box.top),
                     left: Math.round(box.left + box.width / 2),
                 }}
-                innerRef={this.root}
+                ref={this.root}
             >
                 <List>
                     {layouts.map(layoutName => {

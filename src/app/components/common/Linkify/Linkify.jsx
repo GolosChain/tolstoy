@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
-import { utils } from 'golos-js';
-import { Link } from 'react-router';
+import { utils } from 'mocks/golos-js';
+import { Link } from 'mocks/react-router';
 import styled from 'styled-components';
 
 const Wrapper = styled.span`

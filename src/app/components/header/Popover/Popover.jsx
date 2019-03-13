@@ -80,7 +80,7 @@ export default class Popover extends PureComponent {
 
         return (
             <Root
-                innerRef={this.root}
+                ref={this.root}
                 style={{ right: popoverRight }}
                 menuMobile={menuMobile}
                 notificationMobile={notificationMobile}

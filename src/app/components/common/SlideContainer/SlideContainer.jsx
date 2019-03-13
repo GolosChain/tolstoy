@@ -117,8 +117,8 @@ class SlideContainer extends PureComponent {
                         <LeftArrow />
                     </LeftArrowContainer>
                 ) : null}
-                <Wrapper innerRef={this._onWrapperRef} onScroll={this._renderLazy}>
-                    <Content innerRef={this._onContentRef}>{children}</Content>
+                <Wrapper ref={this._onWrapperRef} onScroll={this._renderLazy}>
+                    <Content ref={this._onContentRef}>{children}</Content>
                 </Wrapper>
                 {right ? (
                     <RightArrowContainer onClick={this._onRightClick}>

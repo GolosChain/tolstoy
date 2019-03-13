@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import is from 'styled-is';
-import { Link } from 'react-router';
+import { Link } from 'mocks/react-router';
 import tt from 'counterpart';
 
 import Userpic from 'src/app/components/common/Userpic';

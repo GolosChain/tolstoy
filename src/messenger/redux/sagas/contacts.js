@@ -1,8 +1,8 @@
 import { call, takeLatest, put, select } from 'redux-saga/effects';
 import { fromPairs, indexBy, prop, mergeDeepLeft, keys } from 'ramda';
-import { api } from 'golos-js';
+import { api } from 'mocks/golos-js';
 
-import normalizeProfile from 'app/utils/NormalizeProfile';
+import normalizeProfile from 'src/app/utils/NormalizeProfile';
 
 import {
     CONTACTS_SEARCH,
@@ -29,9 +29,9 @@ export function* contactsSearch({
     if (!names.length) {
         return;
     }
-    
+
     const result = yield call(fetchAccountsInfo, names);
-  
+
     yield put({
         type: CONTACTS_SEARCH_SUCCESS,
         payload: result
@@ -46,7 +46,7 @@ export function* contactsSearch({
 function* getContactsSize(owner) {
     const { size } = yield call([api, api.getContactsSizeAsync], owner);
     const sizeObj = fromPairs(size);
-    
+
     yield put({
         type: CONTACTS_GET_CONTACTS_LIST_SIZE_SUCCESS,
         payload: sizeObj
@@ -83,7 +83,7 @@ export function* fetchContactsList({
 
     contacts = indexBy(prop('contact'), contacts);
     const contactsInfo = yield call(fetchAccountsInfo, keys(contacts));
-   
+
     contacts = mergeDeepLeft(contacts, contactsInfo);
 
     yield put({

@@ -1,7 +1,10 @@
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+//import { Link } from 'src/app/shared/routes';
 import styled from 'styled-components';
 import is from 'styled-is';
+
+// TODO: Replace by Link
+const Link = styled.a``;
 
 export const BaseButton = styled.button`
     display: inline-flex;

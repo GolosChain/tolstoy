@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import is from 'styled-is';
-import LoadingIndicator from 'app/components/elements/LoadingIndicator';
+import LoadingIndicator from 'src/app/components-old/elements/LoadingIndicator';
 import React from 'react';
 
 const Root = styled.div`

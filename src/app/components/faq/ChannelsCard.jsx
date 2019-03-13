@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'mocks/react-router';
 import PropTypes from 'prop-types';
 import tt from 'counterpart';
 import styled from 'styled-components';
@@ -64,7 +64,7 @@ const Text = styled.p`
     }
 `;
 
-const CustomIcon = Icon.extend`
+const CustomIcon = styled(Icon)`
     min-width: ${props => props.width}px;
 `;
 

@@ -1,5 +1,5 @@
 import ByteBuffer from 'bytebuffer';
-import { ecc } from 'golos-js';
+import { ecc } from 'mocks/golos-js';
 
 import { EPOCH_TIME } from './constants';
 

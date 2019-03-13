@@ -5,7 +5,7 @@ import tt from 'counterpart';
 
 import { MINNOW, CRUCIAN, DOLPHIN, ORCA } from 'src/app/helpers/users';
 import Icon from 'golos-ui/Icon';
-import { repLog10 } from 'app/utils/ParsersAndFormatters';
+import { repLog10 } from 'src/app/utils/ParsersAndFormatters';
 
 const grey = '#e0e0e0';
 const blue = '#2879ff';

@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router';
+import { Link } from 'mocks/react-router';
 import tt from 'counterpart';
 
-import extractContent from 'app/utils/ExtractContent';
-import { detransliterate } from 'app/utils/ParsersAndFormatters';
+import extractContent from 'src/app/utils/ExtractContent';
+import { detransliterate } from 'src/app/utils/ParsersAndFormatters';
 import Icon from 'golos-ui/Icon/index';
 
 import Userpic from 'src/app/components/common/Userpic';
-import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
+import TimeAgoWrapper from 'src/app/components-old/elements/TimeAgoWrapper';
 import VotePanel from 'src/app/components/common/VotePanel';
 import Repost from 'src/app/components/post/repost';
 import PostActions from 'src/app/components/post/PostActions';

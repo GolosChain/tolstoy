@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import tt from 'counterpart';
-import { Link } from 'react-router';
+import { Link } from 'mocks/react-router';
 
 import Icon from 'golos-ui/Icon';
 

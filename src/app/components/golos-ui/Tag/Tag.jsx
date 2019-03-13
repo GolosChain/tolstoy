@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import is, { isOr } from 'styled-is';
-import { Link } from 'react-router';
+import { Link } from 'mocks/react-router';
 
 export const Tag = styled.div`
     position: relative;

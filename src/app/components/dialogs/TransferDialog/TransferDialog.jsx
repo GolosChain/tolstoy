@@ -7,14 +7,14 @@ import ComplexInput from 'golos-ui/ComplexInput';
 import SplashLoader from 'golos-ui/SplashLoader';
 import Icon from 'golos-ui/Icon';
 
-import { APP_DOMAIN, DONATION_FOR } from 'app/client_config';
-import { isBadActor } from 'app/utils/ChainValidation';
+import { APP_DOMAIN, DONATION_FOR } from 'src/app/client_config';
+import { isBadActor } from 'src/app/utils/ChainValidation';
 import { parseAmount } from 'src/app/helpers/currency';
 import { saveValue, getValue } from 'src/app/helpers/localStorageUtils';
 import { processError } from 'src/app/helpers/dialogs';
 
-import DialogFrame from 'app/components/dialogs/DialogFrame';
-import DialogManager from 'app/components/elements/common/DialogManager';
+import DialogFrame from 'src/app/components-old/dialogs/DialogFrame';
+import DialogManager from 'src/app/components-old/elements/common/DialogManager';
 import AccountNameInput from 'src/app/components/common/AccountNameInput';
 
 const CURRENCY_SAVE_KEY = 'transfer-dialog.default-currency';
@@ -72,7 +72,7 @@ const Label = styled.div`
     font-size: 14px;
 `;
 
-const NoteIcon = Icon.extend`
+const NoteIcon = styled(Icon)`
     margin: -10px 6px -10px 0;
     color: #e1e1e1;
 `;

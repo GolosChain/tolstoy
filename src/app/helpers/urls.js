@@ -1,5 +1,4 @@
-import { LEAVE_PAGE_WHITELIST_DOMAINS } from 'app/client_config';
-import { routeRegex } from 'app/ResolveRoute';
+import { LEAVE_PAGE_WHITELIST_DOMAINS } from 'src/app/client_config';
 
 function checkIsWhitelistUrl(url) {
     try {
@@ -28,14 +27,7 @@ export function sanitizeUrl(url) {
     if (!/^#|^\/(?!\/)|^(?:https?:)?\/\/|^\[?.*\]$/.test(url)) {
         url = 'https://' + url;
     }
-    if (
-        url.match(routeRegex.PostsIndex) ||
-        url.match(routeRegex.UserProfile1) ||
-        url.match(routeRegex.UserProfile2) ||
-        url.match(routeRegex.PostNoCategory) ||
-        checkIsWhitelistUrl(url) ||
-        url.startsWith('/leave_page?')
-    ) {
+    if (checkIsWhitelistUrl(url) || url.startsWith('/leave_page?')) {
         return url;
     }
 

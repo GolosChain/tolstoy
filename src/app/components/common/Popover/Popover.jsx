@@ -125,7 +125,7 @@ export default class Popover extends PureComponent {
                     style={wrapperStyle}
                     center={center}
                     up={toUp}
-                    innerRef={this._onPopoverRef}
+                    ref={this._onPopoverRef}
                 >
                     <Pointer up={toUp} style={pointerStyle} />
                     <Content>{content()}</Content>

@@ -1,5 +1,5 @@
 import React, { Component, createRef } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'mocks/react-router';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
@@ -300,11 +300,11 @@ export class SidePanel extends Component {
 
         return (
             <Wrapper
-                innerRef={this.sideBlockRef}
+                ref={this.sideBlockRef}
                 fixedOn={fixedOn}
                 showSideBlock={showSideBlockByWidth && showSideBlockByHeight}
             >
-                <PanelWrapper innerRef={this.panelRef} isVisible={showPanel}>
+                <PanelWrapper ref={this.panelRef} isVisible={showPanel}>
                     <WrapperVotePanel contentLink={contentLink} vertical />
                     <Repost contentLink={contentLink} />
                     <ShareWrapper

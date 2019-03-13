@@ -1,12 +1,12 @@
 import React, { PureComponent, Fragment } from 'react';
-import { withRouter } from 'react-router';
+import { withRouter } from 'next/router';
 import styled, { css } from 'styled-components';
 import is from 'styled-is';
-import { Link } from 'react-router';
+import { Link } from 'mocks/react-router';
 import tt from 'counterpart';
 
 import Icon from 'src/app/components/golos-ui/Icon';
-import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
+import TimeAgoWrapper from 'src/app/components-old/elements/TimeAgoWrapper';
 import { listenLazy } from 'src/app/helpers/hoc';
 import { getImageSrc } from 'src/app/helpers/images';
 import { breakWordStyles } from 'src/app/helpers/styles';
@@ -14,8 +14,8 @@ import { smartTrim } from 'src/app/helpers/text';
 import { VotePanelCompact } from 'src/app/components/common/VotePanel';
 import { ReplyBlock } from '../../common/ReplyBlock';
 import CompactPostCardMenu from 'src/app/components/common/CompactPostCardMenu';
-import { detransliterate, repLog10 } from 'app/utils/ParsersAndFormatters';
-import { isContainTags } from 'app/utils/StateFunctions';
+import { detransliterate, repLog10 } from 'src/app/utils/ParsersAndFormatters';
+import { isContainTags } from 'src/app/utils/StateFunctions';
 import ViewCount from '../../common/ViewCount';
 import CurationPercent from '../../common/CurationPercent';
 

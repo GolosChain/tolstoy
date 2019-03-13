@@ -2,7 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
-import { Link } from 'react-router';
+import { Link } from 'mocks/react-router';
 
 import Icon from 'golos-ui/Icon';
 import LayoutSwitcher from 'src/app/components/common/LayoutSwitcher';

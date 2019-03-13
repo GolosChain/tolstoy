@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import extractContent from 'app/utils/ExtractContent';
+import extractContent from 'src/app/utils/ExtractContent';
 
 import { CommentCard } from './CommentCard';
 import {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { utils } from 'golos-js';
+import { utils } from 'mocks/golos-js';
 
 import LookupAccounts from 'src/messenger/components/LookupAccounts';
 

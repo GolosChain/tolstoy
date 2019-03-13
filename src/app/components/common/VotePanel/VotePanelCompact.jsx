@@ -113,7 +113,7 @@ export default class VotePanelCompact extends VotePanelAbstract {
 
         return (
             <Fragment>
-                <UpVoteContainer innerRef={this.rootRef}>
+                <UpVoteContainer ref={this.rootRef}>
                     <UpVoteBlock
                         role="button"
                         data-tooltip={tt('g.like')}

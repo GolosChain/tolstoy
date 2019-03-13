@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'mocks/react-router';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';

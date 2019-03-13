@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'mocks/react-router';
 import PropTypes from 'prop-types';
 import { Map } from 'immutable';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import extractContent from 'app/utils/ExtractContent';
+import extractContent from 'src/app/utils/ExtractContent';
 
 const WhoPostLink = styled(Link)`
     display: block;

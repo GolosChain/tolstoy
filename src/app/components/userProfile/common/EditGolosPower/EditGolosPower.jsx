@@ -55,7 +55,7 @@ const Button = styled.button.attrs({ type: 'button' })`
     }
 `;
 
-const DelegationEditButtonIcon = Icon.extend`
+const DelegationEditButtonIcon = styled(Icon)`
     margin-${props => (props.right ? 'left' : 'right')}: 10px;
 `;
 

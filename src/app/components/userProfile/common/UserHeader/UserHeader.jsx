@@ -6,8 +6,8 @@ import memoize from 'lodash/memoize';
 import Dropzone from 'react-dropzone';
 import tt from 'counterpart';
 
-import o2j from 'shared/clash/object2json';
-import proxifyImageUrl from 'app/utils/ProxifyUrl';
+import o2j from 'src/app/shared/clash/object2json';
+import proxifyImageUrl from 'src/app/utils/ProxifyUrl';
 import { getUserStatus } from 'src/app/helpers/users';
 
 import Icon from 'golos-ui/Icon';
@@ -378,7 +378,7 @@ export default class UserHeader extends Component {
 
         return (
             <DropdownStyled
-                innerRef={this.dropdownRef}
+                ref={this.dropdownRef}
                 items={[
                     {
                         title: tt('user_profile.select_image'),

@@ -1,7 +1,8 @@
 import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
-import { browserHistory, withRouter } from 'react-router';
-import { Helmet } from 'react-helmet';
+import Head from 'next/head';
+import { withRouter } from 'next/router';
+import { browserHistory } from 'mocks/react-router';
 import throttle from 'lodash/throttle';
 import styled from 'styled-components';
 import tt from 'counterpart';
@@ -10,8 +11,8 @@ import { TagLink } from 'golos-ui/Tag';
 
 import { breakWordStyles } from 'src/app/helpers/styles';
 import PostHeader from 'src/app/containers/post/postHeader';
-import MarkdownViewer from 'app/components/cards/MarkdownViewer';
-import PostFormLoader from 'app/components/modules/PostForm/loader';
+import MarkdownViewer from 'src/app/components-old/cards/MarkdownViewer';
+import PostFormLoader from 'src/app/components-old/modules/PostForm/loader';
 import ViewCount from 'src/app/components/common/ViewCount';
 import CurationPercent from 'src/app/components/common/CurationPercent';
 
@@ -164,7 +165,11 @@ export class PostContent extends Component {
     renderHelmet() {
         const { title } = this.props;
 
-        return <Helmet title={tt('meta.title.common.post', { title })} />;
+        return (
+            <Head>
+                <title>{tt('meta.title.common.post', { title })}</title>
+            </Head>
+        );
     }
 
     renderPreview() {

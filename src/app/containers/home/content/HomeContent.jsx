@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
-import { List } from 'immutable';
+import { Link } from 'mocks/react-router';
 import tt from 'counterpart';
 import styled from 'styled-components';
 
-import { APP_NAME } from 'app/client_config';
+import { APP_NAME } from 'src/app/client_config';
 
 import CardsList from 'src/app/components/common/CardsList';
 import NoPostsPlaceholder from 'src/app/components/home/NoPostsPlaceholder';
@@ -27,7 +26,7 @@ export default class HomeContent extends Component {
         routeParams: PropTypes.object,
 
         // connect
-        posts: PropTypes.instanceOf(List),
+        posts: PropTypes.array,
         currentUsername: PropTypes.string,
         isFetching: PropTypes.bool,
         category: PropTypes.string,
@@ -37,14 +36,15 @@ export default class HomeContent extends Component {
     };
 
     static defaultProps = {
-        posts: List(),
+        posts: [],
     };
 
     renderCallout() {
         const { category, order, currentUsername, routeParams, tagsStr } = this.props;
 
         let accountName = null;
-        if (routeParams.order) {
+        // TODO: Where is routeParams?
+        if (routeParams && routeParams.order) {
             accountName = routeParams.order.slice(1);
         }
 

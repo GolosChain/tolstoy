@@ -69,17 +69,17 @@ const Button = styled.div`
     text-overflow: ellipsis;
 `;
 
-const MainButton = Button.extend`
+const MainButton = styled(Button)`
     padding-left: 8px;
 `;
 
-const ButtonLeft = Button.extend`
+const ButtonLeft = styled(Button)`
     border-right: 1px solid #e1e1e1;
     font-size: 12px;
     color: #959595;
 `;
 
-const ButtonRight = Button.extend`
+const ButtonRight = styled(Button)`
     border-left: 1px solid #e1e1e1;
     font-size: 12px;
     color: #333;
@@ -95,7 +95,7 @@ const Close = styled.div.attrs({ role: 'button' })`
     flex-shrink: 0;
 `;
 
-const CloseIcon = Icon.extend`
+const CloseIcon = styled(Icon)`
     width: 16px;
     height: 16px;
     color: #fff;

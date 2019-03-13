@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import tt from 'counterpart';
 import styled from 'styled-components';
 
-import DialogFrame from 'app/components/dialogs/DialogFrame';
+import DialogFrame from 'src/app/components-old/dialogs/DialogFrame';
 import ResetKey from 'src/app/components/userProfile/settings/keys/ResetKey';
 
 const DialogFrameStyled = styled(DialogFrame)`

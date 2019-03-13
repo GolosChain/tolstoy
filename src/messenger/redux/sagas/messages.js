@@ -1,6 +1,6 @@
 import { call, takeLatest, select, put } from 'redux-saga/effects';
 
-import { api } from 'golos-js';
+import { api } from 'mocks/golos-js';
 
 import { processMessages } from 'src/messenger/utils/messages';
 import { MESSAGES_GET_THREAD_SUCCESS } from 'src/messenger/redux/constants/messages';

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router';
+import { Link } from 'mocks/react-router';
 import tt from 'counterpart';
 
 import Userpic from '../../common/Userpic';
@@ -49,7 +49,7 @@ export default class AccountInfoMobile extends PureComponent {
         const { x, y } = calcXY(angle);
 
         return (
-            <MobileAccountBlock to={`/@${currentUsername}`} innerRef={this.accountRef}>
+            <MobileAccountBlock to={`/@${currentUsername}`} ref={this.accountRef}>
                 <PowerCircle>
                     <svg viewBox="-1 -1 2 2">
                         <circle cx="0" cy="0" r="1" fill="#2879ff" />

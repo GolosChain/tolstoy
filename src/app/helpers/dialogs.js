@@ -1,7 +1,7 @@
 import tt from 'counterpart';
 
 import { CLOSED_LOGIN_DIALOG } from 'src/app/redux/constants/common';
-import DialogManager from 'app/components/elements/common/DialogManager';
+import DialogManager from 'src/app/components-old/elements/common/DialogManager';
 
 export function processError(err) {
     const errStr = err.toString();

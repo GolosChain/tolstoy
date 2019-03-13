@@ -9,15 +9,15 @@ import SplashLoader from 'golos-ui/SplashLoader';
 import { Checkbox } from 'golos-ui/Form';
 
 import transaction from 'app/redux/Transaction';
-import { isBadActor } from 'app/utils/ChainValidation';
+import { isBadActor } from 'src/app/utils/ChainValidation';
 import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';
 import { showNotification } from 'src/app/redux/actions/ui';
 import { parseAmount } from 'src/app/helpers/currency';
 import { saveValue, getValue } from 'src/app/helpers/localStorageUtils';
 import { processError } from 'src/app/helpers/dialogs';
 
-import DialogFrame from 'app/components/dialogs/DialogFrame';
-import DialogManager from 'app/components/elements/common/DialogManager';
+import DialogFrame from 'src/app/components-old/dialogs/DialogFrame';
+import DialogManager from 'src/app/components-old/elements/common/DialogManager';
 import AccountNameInput from 'src/app/components/common/AccountNameInput';
 import DialogTypeSelect from 'src/app/components/userProfile/common/DialogTypeSelect';
 

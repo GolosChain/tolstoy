@@ -1,13 +1,13 @@
 import React, { Component, Fragment } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'mocks/react-router';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
 
-import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
+import TimeAgoWrapper from 'src/app/components-old/elements/TimeAgoWrapper';
 import Icon from 'golos-ui/Icon/index';
-import links from 'app/utils/Links';
-import { formatDecimal } from 'app/utils/ParsersAndFormatters';
+import links from 'src/app/utils/Links';
+import { formatDecimal } from 'src/app/utils/ParsersAndFormatters';
 import CloseOpenButton from 'src/app/components/cards/CloseOpenButton/index';
 
 export const stringTemplate = '170px 70px 90px 160px 120px 140px 225px 115px 60px';

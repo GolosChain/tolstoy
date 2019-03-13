@@ -1,9 +1,9 @@
 import { intersection } from 'ramda';
 
-import { processBlog } from 'shared/state';
+import { processBlog } from 'src/app/shared/state';
 import resolveRoute from 'app/ResolveRoute';
-import { reverseTags, prepareTrendingTags } from 'app/utils/tags';
-import { IGNORE_TEST_TAGS, IGNORE_TAGS, PUBLIC_API } from 'app/client_config';
+import { reverseTags, prepareTrendingTags } from 'src/app/utils/tags';
+import { IGNORE_TEST_TAGS, IGNORE_TAGS, PUBLIC_API } from 'src/app/client_config';
 import { COUNT_OF_TAGS } from 'src/app/redux/constants/common';
 import { getPostsViewCount } from './callServices/meta';
 import { timeoutError } from './utils/time';

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import { SUPPORT_EMAIL_2 } from 'app/client_config';
+import { SUPPORT_EMAIL_2 } from 'src/app/client_config';
 import Container from 'src/app/components/common/Container';
 
 const Wrapper = styled(Container).attrs({

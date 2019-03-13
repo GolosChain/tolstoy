@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'mocks/react-router';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import DialogFrame from 'app/components/dialogs/DialogFrame';
+import DialogFrame from 'src/app/components-old/dialogs/DialogFrame';
 
 const BodyWrapper = styled.div`
     text-align: center;

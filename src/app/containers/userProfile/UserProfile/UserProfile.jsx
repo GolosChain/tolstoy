@@ -4,14 +4,14 @@ import styled from 'styled-components';
 import is from 'styled-is';
 import { last } from 'ramda';
 import tt from 'counterpart';
-import { Helmet } from 'react-helmet';
+import Head from 'next/head';
 
-import { blockedUsers, blockedUsersContent } from 'app/utils/IllegalContent';
+import { blockedUsers, blockedUsersContent } from 'src/app/utils/IllegalContent';
 
 import { listenLazy } from 'src/app/helpers/hoc';
-import LoadingIndicator from 'app/components/elements/LoadingIndicator';
-import BlockedContent from 'app/components/elements/BlockedContent';
-import IllegalContentMessage from 'app/components/elements/IllegalContentMessage';
+import LoadingIndicator from 'src/app/components-old/elements/LoadingIndicator';
+import BlockedContent from 'src/app/components-old/elements/BlockedContent';
+import IllegalContentMessage from 'src/app/components-old/elements/IllegalContentMessage';
 import Container from 'src/app/components/common/Container';
 import UserHeader from 'src/app/components/userProfile/common/UserHeader';
 import UserNavigation from 'src/app/components/userProfile/common/UserNavigation';
@@ -122,10 +122,12 @@ export default class UserProfile extends Component {
         const { pageAccountName } = this.props;
 
         return (
-            <Fragment>
-                <Helmet title={tt('meta.title.profile.default', { name: pageAccountName })} />
+            <>
+                <Head>
+                    <title>{tt('meta.title.profile.default', { name: pageAccountName })}</title>
+                </Head>
                 {this._render()}
-            </Fragment>
+            </>
         );
     }
 
@@ -211,7 +213,7 @@ export default class UserProfile extends Component {
                                         currentAccount={currentAccount}
                                     />
                                 )}
-                                {this.props.sidebarRight}
+                                {this.props.sidebar}
                             </SidebarLeft>
                         )}
                         <Content center={route === 'settings'}>{this.props.content}</Content>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
-import { Link } from 'react-router';
+import { Link } from 'mocks/react-router';
 import PropTypes from 'prop-types';
 
 import Icon from 'golos-ui/Icon';
@@ -9,7 +9,7 @@ import Button from 'golos-ui/Button';
 import { TagLink } from 'golos-ui/Tag';
 
 import Userpic from 'src/app/components/common/Userpic';
-import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
+import TimeAgoWrapper from 'src/app/components-old/elements/TimeAgoWrapper';
 import PopoverBody from 'src/app/containers/post/popoverBody';
 import {
     AvatarBox,
@@ -232,7 +232,7 @@ export class PostHeader extends Component {
         const { showPopover } = this.state;
 
         return (
-            <Wrapper innerRef={forwardRef} className={className}>
+            <Wrapper ref={forwardRef} className={className}>
                 <UserInfoWrapper to={`/@${author}`}>
                     <Avatar aria-label={tt('aria_label.avatar')} onClick={this.onUserInfoClick}>
                         <PopoverBackgroundShade show={showPopover} />

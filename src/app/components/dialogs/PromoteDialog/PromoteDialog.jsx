@@ -6,7 +6,7 @@ import tt from 'counterpart';
 import { processError } from 'src/app/helpers/dialogs';
 
 import ComplexInput from 'golos-ui/ComplexInput';
-import DialogFrame from 'app/components/dialogs/DialogFrame';
+import DialogFrame from 'src/app/components-old/dialogs/DialogFrame';
 
 const DialogFrameStyled = styled(DialogFrame)`
     flex-basis: 240px;

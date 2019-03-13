@@ -51,7 +51,7 @@ const HeaderTitle = styled.div`
     `};
 `;
 
-const CollapseIcon = Icon.extend`
+const CollapseIcon = styled(Icon)`
     width: 32px;
     height: 32px;
     padding: 9px;
@@ -125,7 +125,7 @@ export default class CollapsingBlock extends PureComponent {
         };
 
         return (
-            <Root {...passProps} innerRef={this._onRootRef}>
+            <Root {...passProps} ref={this._onRootRef}>
                 <Header
                     onClick={this.onCollapseClick}
                     role="button"
@@ -141,7 +141,7 @@ export default class CollapsingBlock extends PureComponent {
                     animated={animated}
                     style={{ height: height || (collapsed ? 0 : null) }}
                 >
-                    <Body innerRef={this._onBodyRef}>{children}</Body>
+                    <Body ref={this._onBodyRef}>{children}</Body>
                 </BodyWrapper>
             </Root>
         );

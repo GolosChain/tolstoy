@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import MobileBanners from 'app/components/elements/MobileBanners/MobileBanners';
+import MobileBanners from 'src/app/components-old/elements/MobileBanners/MobileBanners';
 
 const Root = styled.section`
     padding: 20px 0;

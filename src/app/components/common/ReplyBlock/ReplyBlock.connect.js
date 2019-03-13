@@ -1,10 +1,12 @@
 import { connect } from 'react-redux';
+
+//import { toggleCommentInputFocus } from 'src/app/redux/actions/ui';
+
 import { ReplyBlock } from './ReplyBlock';
-import { toggleCommentInputFocus } from 'src/app/redux/actions/ui';
 
 export default connect(
     null,
     {
-        toggleCommentInputFocus,
+        toggleCommentInputFocus: () => {},
     }
 )(ReplyBlock);

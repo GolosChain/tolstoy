@@ -123,7 +123,7 @@ export default class CompactPostCardMenu extends PureComponent {
         const favoriteText = isFavorite ? tt('g.remove_from_favorites') : tt('g.add_to_favorites');
 
         return (
-            <Root innerRef={this.root}>
+            <Root ref={this.root}>
                 <Pointer />
                 <Content>
                     <ListGroup>{tt('post_card_menu.share_in')}:</ListGroup>

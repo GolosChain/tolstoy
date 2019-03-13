@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 
 import { renderValue } from 'src/app/helpers/currency';
-import HintIcon from 'app/components/elements/common/HintIcon/HintIcon';
-import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
+import HintIcon from 'src/app/components-old/elements/common/HintIcon/HintIcon';
+import TimeAgoWrapper from 'src/app/components-old/elements/TimeAgoWrapper';
 
 const Root = styled.div`
     border-radius: 8px;

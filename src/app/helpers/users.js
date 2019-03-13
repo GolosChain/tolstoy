@@ -1,6 +1,6 @@
 import throttle from 'lodash/throttle';
-import { api } from 'golos-js';
-import { getStoreState, dispatch } from 'app/clientRender';
+import { api } from 'mocks/golos-js';
+import { getStoreState, dispatch } from 'src/app/clientRender';
 
 export const MINNOW = 1000000;
 export const CRUCIAN = 10000000;

@@ -10,7 +10,7 @@ import Icon from 'golos-ui/Icon';
 import Slider from 'golos-ui/Slider';
 import PostPayout from 'src/app/components/common/PostPayout';
 import DislikeAlert from 'src/app/components/dialogs/DislikeAlert';
-import DialogManager from 'app/components/elements/common/DialogManager';
+import DialogManager from 'src/app/components-old/elements/common/DialogManager';
 import Popover from '../Popover';
 import PayoutInfo from '../PayoutInfo';
 import PayoutInfoDialog from '../PayoutInfoDialog';

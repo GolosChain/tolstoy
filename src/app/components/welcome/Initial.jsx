@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import LoadingIndicator from 'app/components/elements/LoadingIndicator';
+import LoadingIndicator from 'src/app/components-old/elements/LoadingIndicator';
 import CardPost from 'src/app/components/welcome/cardPost';
 
 const Root = styled.section`

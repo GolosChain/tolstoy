@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
 import transaction from 'app/redux/Transaction';
-import { vestsToGolos } from 'app/utils/StateFunctions';
+import { vestsToGolos } from 'src/app/utils/StateFunctions';
 import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';
 import { showNotification } from 'src/app/redux/actions/ui';
 import { currentUserSelector, currentAccountSelector } from 'src/app/redux/selectors/common';

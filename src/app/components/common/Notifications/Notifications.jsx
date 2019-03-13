@@ -7,16 +7,12 @@ import { NotificationStack } from 'react-notification';
 let keyIndex = 0;
 
 function defaultActiveBarStyleFactory(index, style) {
-    return Object.assign(
-      {},
-      style,
-      { bottom: `${2 + (index * 5)}rem` }
-    );
-  }
+    return Object.assign({}, style, { bottom: `${2 + index * 5}rem` });
+}
 
 @connect(
     state => ({
-        notifications: state.app.get('notifications'),
+        notifications: [], // state.app.get('notifications'),
     }),
     dispatch => ({
         removeNotification: key => dispatch({ type: 'REMOVE_NOTIFICATION', payload: { key } }),
@@ -24,7 +20,7 @@ function defaultActiveBarStyleFactory(index, style) {
 )
 export default class Notifications extends Component {
     static propTypes = {
-        notifications: PropTypes.object,
+        notifications: PropTypes.array,
         removeNotification: PropTypes.func,
     };
 
@@ -32,7 +28,7 @@ export default class Notifications extends Component {
         const { notifications, removeNotification } = this.props;
 
         const notificationsArray = notifications
-            ? notifications.toArray().map(notify => {
+            ? notifications.map(notify => {
                   if (!notify.key) {
                       notify.key = ++keyIndex;
                   }

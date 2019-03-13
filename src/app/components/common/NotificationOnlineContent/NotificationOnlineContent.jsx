@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Link } from 'react-router';
+import { Link } from 'mocks/react-router';
 import { List, Map } from 'immutable';
 
 import tt from 'counterpart';
 import Interpolate from 'react-interpolate-component';
-import normalizeProfile from 'app/utils/NormalizeProfile';
+import normalizeProfile from 'src/app/utils/NormalizeProfile';
 
 import { breakWordStyles } from 'src/app/helpers/styles';
 import { getPropsForInterpolation } from 'src/app/helpers/notifications';

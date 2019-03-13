@@ -6,7 +6,7 @@ import { ServerStyleSheet } from 'styled-components';
 import config from 'config';
 import jayson from 'jayson';
 import merge from 'lodash/merge';
-import { api } from 'golos-js';
+import { api } from 'mocks/golos-js';
 
 import ServerHTML from './server-html';
 import serverRender from './serverRender';
@@ -14,7 +14,7 @@ import models from 'db/models';
 import secureRandom from 'secure-random';
 
 import ErrorPage from 'server/server-error';
-import { DEFAULT_LANGUAGE, LANGUAGES, LOCALE_COOKIE_KEY } from 'app/client_config';
+import { DEFAULT_LANGUAGE, LANGUAGES, LOCALE_COOKIE_KEY } from 'src/app/client_config';
 import { metrics } from './metrics';
 import { getActualRates } from './callServices/rates';
 

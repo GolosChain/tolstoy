@@ -1,25 +1,21 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import { currentUsernameSelector } from 'src/app/redux/selectors/common';
-import { followSelector } from 'src/app/redux/selectors/follow/follow';
-import { updateFollow } from 'src/app/redux/actions/follow';
+// import { currentUsernameSelector } from 'src/app/redux/selectors/common';
+// import { followSelector } from 'src/app/redux/selectors/follow/follow';
+// import { updateFollow } from 'src/app/redux/actions/follow';
 
-import { Follow } from './Follow';
-import { confirmUnfollowDialog } from 'src/app/redux/actions/dialogs';
+// import { confirmUnfollowDialog } from 'src/app/redux/actions/dialogs';
+
+import Follow from './Follow';
 
 export default connect(
-    createSelector(
-        [currentUsernameSelector, followSelector],
-        (username, { isFollow }) => ({
-            username,
-            isFollow,
-        })
-    ),
+    () => ({
+        username: 'who-is-it',
+        isFollow: false,
+    }),
     {
-        updateFollow,
-        // confirmUnfollowDialog wrapped because of recursive import problem,
-        // while this file executes confirmUnfollowDialog is undefined
-        confirmUnfollowDialog: (...args) => confirmUnfollowDialog(...args),
+        updateFollow: () => {},
+        confirmUnfollowDialog: () => {},
     }
 )(Follow);

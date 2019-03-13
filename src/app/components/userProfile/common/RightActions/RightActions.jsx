@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router';
+import { Link } from 'mocks/react-router';
 import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
@@ -39,7 +39,7 @@ const LinkAction = styled(Link)`
     border-bottom: 1px solid #e9e9e9;
 `;
 
-const ActionIcon = Icon.extend`
+const ActionIcon = styled(Icon)`
     width: 20px;
     height: 20px;
     margin-right: 10px;

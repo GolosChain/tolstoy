@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { IndexLink, Link } from 'react-router';
+import { IndexLink, Link } from 'mocks/react-router';
 
 const activeStyles = `
     color: #333333;

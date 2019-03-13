@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { List } from 'immutable';
 
-import { compareActiveVotes } from 'app/utils/StateFunctions';
+import { compareActiveVotes } from 'src/app/utils/StateFunctions';
 import { getVoters } from 'src/app/redux/actions/vote';
 import {
     createDeepEqualSelector,

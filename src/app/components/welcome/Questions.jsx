@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'mocks/react-router';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import Icon from 'app/components/elements/Icon';
+import Icon from 'src/app/components-old/elements/Icon';
 import CardPost from 'src/app/components/welcome/cardPost';
-import LoadingIndicator from 'app/components/elements/LoadingIndicator';
-import { WIKI_URL } from 'app/client_config';
+import LoadingIndicator from 'src/app/components-old/elements/LoadingIndicator';
+import { WIKI_URL } from 'src/app/client_config';
 import { logOutboundLinkClickAnalytics } from 'src/app/helpers/gaLogs';
 
 const Root = styled.section`

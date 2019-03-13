@@ -65,7 +65,7 @@ export default class TextCut extends PureComponent {
                 }}
                 onClick={closed ? this._onClick : null}
             >
-                <Wrapper innerRef={this._onRef}>{children}</Wrapper>
+                <Wrapper ref={this._onRef}>{children}</Wrapper>
                 {withCut ? (
                     <IconStyled
                         name="chevron"

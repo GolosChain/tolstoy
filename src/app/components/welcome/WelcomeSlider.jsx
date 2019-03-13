@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'mocks/react-router';
 import tt from 'counterpart';
 import Slider from 'react-slick';
 import styled from 'styled-components';
@@ -128,7 +128,7 @@ export default class WelcomeSlider extends Component {
         };
 
         return (
-            <Root innerRef={this.rootRef}>
+            <Root ref={this.rootRef}>
                 <Slider {...settings}>
                     {slides.map((slide, i) => (
                         <SliderSlide key={i} to={slide.link}>

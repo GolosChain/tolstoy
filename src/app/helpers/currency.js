@@ -1,7 +1,7 @@
 import React from 'react';
-import { getStoreState, dispatch } from 'app/clientRender';
-import { getHistoricalData } from 'src/app/redux/actions/rates';
-import { CURRENCIES, DEFAULT_CURRENCY } from 'app/client_config';
+import { getStoreState, dispatch } from 'src/app/clientRender';
+//import { getHistoricalData } from 'src/app/redux/actions/rates';
+import { CURRENCIES, DEFAULT_CURRENCY } from 'src/app/client_config';
 
 const CURRENCY_SIGNS = {
     USD: '$_',

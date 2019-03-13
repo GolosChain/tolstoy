@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 // import { Link } from 'react-router';
-import { List, Map } from 'immutable';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
@@ -126,7 +125,7 @@ export default class TagsCard extends Component {
         category: PropTypes.string,
         order: PropTypes.string,
         currentUsername: PropTypes.string,
-        tags: PropTypes.instanceOf(List),
+        tags: PropTypes.array,
         tagsSelect: PropTypes.array,
         tagsFilter: PropTypes.array,
         collapsed: PropTypes.bool,

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import by from 'styled-by';
 import tt from 'counterpart';
 
-import { APP_NAME_UP, GOLOS_EXPLORER, TERMS_OF_SERVICE_URL } from 'app/client_config';
+import { APP_NAME_UP, GOLOS_EXPLORER, TERMS_OF_SERVICE_URL } from 'src/app/client_config';
 
 import CurrencyValue from 'src/app/components/common/CurrencyValue';
 import Container from 'src/app/components/common/Container';

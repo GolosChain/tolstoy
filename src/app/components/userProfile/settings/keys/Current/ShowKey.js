@@ -7,8 +7,8 @@ import tt from 'counterpart';
 
 import Flex from 'golos-ui/Flex';
 import Button from 'golos-ui/Button';
-import DialogManager from 'app/components/elements/common/DialogManager';
-import QrKeyView from 'app/components/elements/QrKeyView';
+import DialogManager from 'src/app/components-old/elements/common/DialogManager';
+import QrKeyView from 'src/app/components-old/elements/QrKeyView';
 
 const QR_SIZES = 58;
 const QR_MARGIN = 18;

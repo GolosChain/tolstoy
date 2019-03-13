@@ -1,7 +1,7 @@
 import { call, takeEvery, select } from 'redux-saga/effects';
 import ByteBuffer from 'bytebuffer';
 
-import { broadcast, ecc } from 'golos-js';
+import { broadcast, ecc } from 'mocks/golos-js';
 
 import { currentUsernameSelector } from 'src/app/redux/selectors/common';
 import { getCurrentUserPrivateMemoKey } from 'src/messenger/redux/selectors/common';

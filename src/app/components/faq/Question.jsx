@@ -99,14 +99,14 @@ export default class Question extends PureComponent {
         const { showAnswer } = this.state;
 
         return (
-            <Wrapper innerRef={this.root} onClick={this.onClick}>
+            <Wrapper ref={this.root} onClick={this.onClick}>
                 <Switcher collapsed={!showAnswer} toggle={this.changeAnswerState} />
                 <Title
                     onClick={this.changeAnswerState}
                     dangerouslySetInnerHTML={{ __html: question.title }}
                 />
                 <Answer
-                    innerRef={this.answerRef}
+                    ref={this.answerRef}
                     showAnswer={showAnswer}
                     dangerouslySetInnerHTML={{ __html: question.answer }}
                 />

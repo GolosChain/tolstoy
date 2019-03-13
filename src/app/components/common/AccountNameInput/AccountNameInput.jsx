@@ -2,15 +2,15 @@ import React, { PureComponent } from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 import is from 'styled-is';
-import { api, utils } from 'golos-js';
+import { api, utils } from 'mocks/golos-js';
 import memoize from 'lodash/memoize';
 import throttle from 'lodash/throttle';
 import { isEmpty } from 'ramda';
 
 import SimpleInput from 'golos-ui/SimpleInput';
-import keyCodes from 'app/utils/keyCodes';
+import keyCodes from 'src/app/utils/keyCodes';
 import { getScrollElement } from 'src/app/helpers/window';
-import { buildAccountNameAutocomplete } from 'app/utils/StateFunctions';
+import { buildAccountNameAutocomplete } from 'src/app/utils/StateFunctions';
 
 const MIN_SYMBOLS = 2;
 const MAX_VARIANTS = 5;
@@ -465,7 +465,7 @@ export default class AccountNameInput extends PureComponent {
         let isError = value && !focus && !valid;
 
         return (
-            <Wrapper block={block ? 1 : 0} innerRef={this.onRef}>
+            <Wrapper block={block ? 1 : 0} ref={this.onRef}>
                 <SimpleInputStyled
                     autoComplete="off"
                     autoCorrect="off"

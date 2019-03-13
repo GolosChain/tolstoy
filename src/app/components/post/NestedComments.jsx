@@ -109,7 +109,7 @@ export default class NestedComment extends Component {
                     isPostPage={true}
                     onClick={this.onEntryClick}
                     innerDeep={0}
-                    innerRef={this.nestedCommentRef}
+                    ref={this.nestedCommentRef}
                     updateComments={updateComments}
                 />
                 {!collapsed && this.renderReplies(replies)}

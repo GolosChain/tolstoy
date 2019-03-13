@@ -1,11 +1,11 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'mocks/react-router';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
-import { vestsToGolos } from 'app/utils/StateFunctions';
+import { vestsToGolos } from 'src/app/utils/StateFunctions';
 
 const Root = styled.div``;
 
@@ -21,7 +21,7 @@ const DelegationLine = styled.div`
     padding: 4px 0;
 `;
 
-const DelegationsHeader = DelegationLine.extend`
+const DelegationsHeader = styled(DelegationLine)`
     font-weight: bold;
 `;
 

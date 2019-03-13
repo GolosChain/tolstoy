@@ -87,7 +87,7 @@ export default class LayoutSwitcher extends PureComponent {
 
         return (
             <Fragment>
-                <Handle innerRef={this.handle} mobile={mobile} onClick={this.onHandleClick}>
+                <Handle ref={this.handle} mobile={mobile} onClick={this.onHandleClick}>
                     <IconStyled name={`layout_${layout}`} />
                 </Handle>
                 {open ? (

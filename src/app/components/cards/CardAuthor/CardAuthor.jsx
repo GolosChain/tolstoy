@@ -1,12 +1,12 @@
 import React, { Component, Fragment } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'mocks/react-router';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
 import Userpic from 'src/app/components/common/Userpic';
-import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
+import TimeAgoWrapper from 'src/app/components-old/elements/TimeAgoWrapper';
 
 import {
     AvatarBox,

@@ -6,7 +6,7 @@ import tt from 'counterpart';
 import Icon from 'golos-ui/Icon';
 import { safePaste } from 'src/app/helpers/browser';
 import { breakWordStyles } from 'src/app/helpers/styles';
-import DialogManager from 'app/components/elements/common/DialogManager';
+import DialogManager from 'src/app/components-old/elements/common/DialogManager';
 import { PostTitle, PostContent } from 'src/app/components/cards/common';
 import CardAuthor from 'src/app/components/cards/CardAuthor';
 import DialogButton from 'src/app/components/common/DialogButton';
@@ -196,7 +196,7 @@ export default class RepostDialog extends Component {
                         autoComplete="off"
                         value={text}
                         autoFocus
-                        innerRef={this.inputRef}
+                        ref={this.inputRef}
                         onInput={this.onTextChange}
                         onPaste={safePaste}
                     />

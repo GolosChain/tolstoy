@@ -1,5 +1,5 @@
 import React from 'react';
-import { LIQUID_TOKEN } from 'app/client_config';
+import { LIQUID_TOKEN } from 'src/app/client_config';
 import config from 'config';
 
 const APPLE_ICON_SIZES = [

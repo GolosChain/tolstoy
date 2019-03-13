@@ -1,6 +1,6 @@
 import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'mocks/react-router';
 import styled from 'styled-components';
 import is from 'styled-is';
 import { List, Map } from 'immutable';
@@ -9,12 +9,12 @@ import Interpolate from 'react-interpolate-component';
 
 import globalBus from 'src/app/helpers/globalBus';
 import { breakWordStyles } from 'src/app/helpers/styles';
-import normalizeProfile from 'app/utils/NormalizeProfile';
+import normalizeProfile from 'src/app/utils/NormalizeProfile';
 import { getPropsForInterpolation } from 'src/app/helpers/notifications';
 import Icon from 'golos-ui/Icon';
 
 import Avatar from 'src/app/components/common/Avatar';
-import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
+import TimeAgoWrapper from 'src/app/components-old/elements/TimeAgoWrapper';
 import Follow from 'src/app/components/common/Follow';
 
 const Wrapper = styled.div`
@@ -251,7 +251,7 @@ export default class ActivityItem extends Component {
         }
 
         return (
-            <Wrapper innerRef={this.root}>
+            <Wrapper ref={this.root}>
                 <Content>
                     {leftSide}
                     <ActivityDesc isCompact={isCompact}>

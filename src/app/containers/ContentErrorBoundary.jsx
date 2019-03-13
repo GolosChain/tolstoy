@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'mocks/react-router';
 import tt from 'counterpart';
 import styled from 'styled-components';
 
@@ -22,7 +22,7 @@ const Content = styled.div`
     display: flex;
     flex-grow: 1;
 
-    background: url('/images/errors/content-error-boundary-logo.svg') right no-repeat;
+    //background: url('/images/errors/content-error-boundary-logo.svg') right no-repeat;
     background-size: contain;
 
     @media (max-width: ${VERTICAL_VIEW_BREAK_POINT}px) and (min-height: 420px) {

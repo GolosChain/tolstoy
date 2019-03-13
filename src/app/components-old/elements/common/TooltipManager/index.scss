@@ -1,0 +1,55 @@
+@import '../../../styles/extends';
+
+.Tooltip {
+  position: absolute;
+  max-width: 300px;
+  margin-top: -10px;
+  user-select: none;
+  pointer-events: none;
+  z-index: 1000;
+
+  transform: translate(0, -100%);
+  animation: fade-in 0.2s;
+
+  &_bottom {
+    margin-top: 10px;
+    transform: translate(0, 0);
+  }
+
+  &__inner {
+    padding: 15px 26px;
+    border-radius: 8px;
+    color: #333;
+    background: #fff;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
+
+    transform: translate(-50%, 0);
+  }
+
+  &_left &__inner {
+    margin-left: -20px;
+    transform: translate(0, 0);
+  }
+
+  &_right &__inner {
+    margin-left: 20px;
+    transform: translate(-100%, 0);
+  }
+
+  &__inner::after {
+    @include dialog-tip();
+  }
+
+  &_bottom &__inner::after {
+    @include dialog-tip($up: true);
+  }
+
+  &_left &__inner::after {
+    left: 20px;
+  }
+
+  &_right &__inner::after {
+    left: unset !important;
+    right: 15px !important;
+  }
+}

@@ -1,5 +1,5 @@
 import { Long } from 'bytebuffer';
-import { parsePayoutAmount } from 'app/utils/ParsersAndFormatters';
+import { parsePayoutAmount } from 'src/app/utils/ParsersAndFormatters';
 
 export function commentsArrayToObject(arr) {
     return arr.reduce((obj, item) => {

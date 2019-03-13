@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-import normalizeProfile from 'app/utils/NormalizeProfile';
+import normalizeProfile from 'src/app/utils/NormalizeProfile';
 
 import {
     globalSelector,

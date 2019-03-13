@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
 
-import proxifyImageUrl from 'app/utils/ProxifyUrl';
+import proxifyImageUrl from 'src/app/utils/ProxifyUrl';
 
 import Icon from 'golos-ui/Icon';
 

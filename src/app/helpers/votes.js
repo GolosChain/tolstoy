@@ -1,5 +1,5 @@
 import tt from 'counterpart';
-import DialogManager from 'app/components/elements/common/DialogManager';
+import DialogManager from 'src/app/components-old/elements/common/DialogManager';
 
 export async function confirmVote(prevVote, percent) {
     // Maybe need add condition (prevVote.weight > 0)

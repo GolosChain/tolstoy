@@ -1,5 +1,5 @@
 import { Client } from 'rpc-websockets';
-import { getStoreState } from 'app/clientRender';
+import { getStoreState } from 'src/app/clientRender';
 
 let socketPromise = null;
 

@@ -1,6 +1,6 @@
 import React, { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'mocks/react-router';
 import styled from 'styled-components';
 import is from 'styled-is';
 import throttle from 'lodash/throttle';
@@ -9,7 +9,7 @@ import tt from 'counterpart';
 
 import globalBus from 'src/app/helpers/globalBus';
 import { FormFooter, FormFooterButton } from 'golos-ui/Form';
-import LoadingIndicator from 'app/components/elements/LoadingIndicator';
+import LoadingIndicator from 'src/app/components-old/elements/LoadingIndicator';
 import ActivityList from 'src/app/components/common/ActivityList';
 
 const NOTIFICATIONS_PER_PAGE = 20;
@@ -133,9 +133,9 @@ export default class NotificationsMenu extends PureComponent {
         )}</div>`;
 
         return (
-            <Wrapper mobile={isMobile} innerRef={this.root}>
+            <Wrapper mobile={isMobile} ref={this.root}>
                 <WrapperActivity
-                    innerRef={this.listWrapper}
+                    ref={this.listWrapper}
                     onScroll={this.onScrollLazy}
                     className="js-scroll-container"
                 >

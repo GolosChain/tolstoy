@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import is from 'styled-is';
 
-import { LANGUAGES } from 'app/client_config';
+import { LANGUAGES } from 'src/app/client_config';
 
 const HIDE_CHEVRON_WIDTH = 500;
 
@@ -134,11 +134,8 @@ export default class LocaleSelect extends PureComponent {
         const { currentUser, locale } = this.props;
         const { open } = this.state;
 
-        // for debug only, remove after fix
-        console.warn('locale', locale);
-
         return (
-            <Wrapper innerRef={this.onRef}>
+            <Wrapper ref={this.onRef}>
                 <Current onClick={this.onOpenClick}>
                     {LANGUAGES[locale].shortValue}
                     <Chevron open={open} />

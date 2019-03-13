@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { getAccountPrice } from 'src/app/redux/selectors/account/accountPrice';
+//import { getAccountPrice } from 'src/app/redux/selectors/account/accountPrice';
 import { formatCurrency } from 'src/app/helpers/currency';
 
 const FONT_MULTIPLIER = 48;
@@ -22,11 +22,11 @@ const Body = styled.div`
 `;
 
 @connect((state, props) => {
-    const { price, currency } = getAccountPrice(state, props.accountName);
+    // const { price, currency } = getAccountPrice(state, props.accountName);
 
     return {
-        price,
-        currency,
+        price: '1.123',
+        currency: 'GLS',
     };
 })
 export default class AccountPrice extends PureComponent {

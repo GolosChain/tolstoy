@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { APP_DOMAIN, LIQUID_TICKER } from 'app/client_config';
+import { APP_DOMAIN, LIQUID_TICKER } from 'src/app/client_config';
 
 class ServerError extends Component {
 

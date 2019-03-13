@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { browserHistory } from 'react-router';
+import { browserHistory } from 'mocks/react-router';
 
 import Container from 'src/app/components/common/Container';
 import LoginForm from './LoginForm';

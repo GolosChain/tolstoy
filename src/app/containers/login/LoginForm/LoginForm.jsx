@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import tt from 'counterpart';
 
-import DialogManager from 'app/components/elements/common/DialogManager';
-import { translateError } from 'app/utils/ParsersAndFormatters';
+import DialogManager from 'src/app/components-old/elements/common/DialogManager';
+import { translateError } from 'src/app/utils/ParsersAndFormatters';
 import Button from 'golos-ui/Button';
 import Icon from 'golos-ui/Icon';
 import { Checkbox } from 'golos-ui/Form';

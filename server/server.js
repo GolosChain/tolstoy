@@ -15,17 +15,15 @@ import useGeneralApi from './api/general';
 import useAccountRecoveryApi from './api/account_recovery';
 import useRegistrationApi from './api/registration';
 import {ratesRoutes as useRatesRoutes} from './api/rates';
-import useUserJson from './json/user_json';
-import usePostJson from './json/post_json';
 import isBot from 'koa-isbot';
 import session from './utils/cryptoSession';
 import csrf from 'koa-csrf';
 import flash from 'koa-flash';
 import config from 'config';
 import { routeRegex } from 'app/ResolveRoute';
-import { blockedUsers } from 'app/utils/IllegalContent';
+import { blockedUsers } from 'src/app/utils/IllegalContent';
 import secureRandom from 'secure-random';
-import { APP_NAME_LATIN } from 'app/client_config';
+import { APP_NAME_LATIN } from 'src/app/client_config';
 
 console.log('application server starting, please wait.');
 
@@ -176,8 +174,6 @@ app.use(function*(next) {
 
 useRedirects(app);
 useRegistrationApi(app);
-useUserJson(app);
-usePostJson(app);
 
 useAccountRecoveryApi(app);
 useGeneralApi(app);

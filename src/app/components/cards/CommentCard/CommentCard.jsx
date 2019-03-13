@@ -1,16 +1,16 @@
 import React, { PureComponent, Fragment, createRef } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'mocks/react-router';
 import { Map } from 'immutable';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
 
-import { detransliterate } from 'app/utils/ParsersAndFormatters';
-import { isHide } from 'app/utils/StateFunctions';
+import { detransliterate } from 'src/app/utils/ParsersAndFormatters';
+import { isHide } from 'src/app/utils/StateFunctions';
 import { getScrollElement } from 'src/app/helpers/window';
-import CommentFormLoader from 'app/components/modules/CommentForm/loader';
-import LoadingIndicator from 'app/components/elements/LoadingIndicator';
+import CommentFormLoader from 'src/app/components-old/modules/CommentForm/loader';
+import LoadingIndicator from 'src/app/components-old/elements/LoadingIndicator';
 
 import Button from 'golos-ui/Button';
 import { TagLink } from 'golos-ui/Tag';
@@ -20,7 +20,7 @@ import CommentFooter from '../CommentFooter';
 import CardAuthor from '../CardAuthor';
 import EditButton from '../EditButton';
 import ReLink from '../ReLink';
-import MarkdownViewer from 'app/components/cards/MarkdownViewer';
+import MarkdownViewer from 'src/app/components-old/cards/MarkdownViewer';
 
 const Header = styled.div`
     padding: 12px 0 8px 0;
@@ -373,7 +373,7 @@ export class CommentCard extends PureComponent {
         const { edit } = this.state;
 
         return (
-            <Title innerRef={this.commentTitleRef}>
+            <Title ref={this.commentTitleRef}>
                 <ReLink
                     fullParentURL={fullParentUrl}
                     title={title}

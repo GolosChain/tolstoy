@@ -5,8 +5,8 @@ import styled from 'styled-components';
 
 import Icon from 'golos-ui/Icon';
 import Button from 'golos-ui/Button';
-import DialogManager from 'app/components/elements/common/DialogManager';
-import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
+import DialogManager from 'src/app/components-old/elements/common/DialogManager';
+import TimeAgoWrapper from 'src/app/components-old/elements/TimeAgoWrapper';
 
 const Text = styled.div`
     flex: 1;

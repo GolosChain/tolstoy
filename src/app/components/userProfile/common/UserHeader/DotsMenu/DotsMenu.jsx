@@ -116,7 +116,7 @@ export default class DotsMenu extends PureComponent {
         const { profileButtonsInfo } = this.props;
 
         return (
-            <Wrapper innerRef={this.wrapperRef}>
+            <Wrapper ref={this.wrapperRef}>
                 <Pointer />
                 <Content>
                     {profileButtonsInfo.followState !== 'ignore' ? (

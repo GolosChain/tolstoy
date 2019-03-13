@@ -4,7 +4,7 @@ import { Set } from 'immutable';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import LoadingIndicator from 'app/components/elements/LoadingIndicator';
+import LoadingIndicator from 'src/app/components-old/elements/LoadingIndicator';
 import Avatar from 'src/app/components/common/Avatar';
 import Follow from 'src/app/components/common/Follow';
 import {
@@ -19,7 +19,7 @@ import {
     LoaderWrapper,
 } from 'src/app/components/dialogs/common/Dialog';
 
-import { USERS_PER_PAGE } from 'src/app/redux/constants/common';
+const USERS_PER_PAGE = 20;
 
 const ShowMore = styled.button`
     width: 100%;
@@ -125,7 +125,7 @@ export default class FollowersDialog extends PureComponent {
                     <Title>{tt(`user_profile.${type}_count`, { count: followCount })}</Title>
                     <IconClose onClick={this.props.onClose} />
                 </Header>
-                <Content innerRef={this.setRootRef}>
+                <Content ref={this.setRootRef}>
                     {users.map(this.renderUser)}
                     {loading && (
                         <StyledLoaderWrapper cutContent={hasMore}>

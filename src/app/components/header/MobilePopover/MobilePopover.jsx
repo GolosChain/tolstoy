@@ -66,7 +66,7 @@ export default class MobilePopover extends PureComponent {
         const { left } = this.state;
 
         return (
-            <Root innerRef={this._onRef}>
+            <Root ref={this._onRef}>
                 <Shadow />
                 {left == null ? null : <Arrow left={left} />}
                 {children}

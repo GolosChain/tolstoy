@@ -180,7 +180,7 @@ export default class Slider extends PureComponent {
                 onTouchStart={disabled ? null : this.onTouchStart}
             >
                 <Progress width={percent} />
-                <HandleSlot innerRef={this.rootRef}>
+                <HandleSlot ref={this.rootRef}>
                     <HandleWrapper left={percent}>
                         {hideHandleValue && !isMobile ? (
                             <Handle

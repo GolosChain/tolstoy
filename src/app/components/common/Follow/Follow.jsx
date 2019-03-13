@@ -53,7 +53,7 @@ const Wrapper = styled(Button)`
     `};
 `;
 
-export class Follow extends Component {
+export default class Follow extends Component {
     static propTypes = {
         // external
         following: PropTypes.string.isRequired,

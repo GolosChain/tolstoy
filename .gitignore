@@ -4,15 +4,16 @@ coverage
 node_modules
 *.log
 dist
+.next
 vendor/*
 tmp/*
-app/assets/static/*.js
-app/assets/static/*.json
-app/assets/google*.html
-app/assets/mailru*.html
-app/assets/yandex*.html
-app/assets/sitemap.xml
-app/assets/robots.txt
+src/app/static/static/*.js
+src/app/static/static/*.json
+src/app/assets/google*.html
+src/app/assets/mailru*.html
+src/app/assets/yandex*.html
+src/app/static/sitemap.xml
+src/app/static/robots.txt
 
 config/golos.json
 config/golos-dev.json

@@ -3,7 +3,7 @@ RUN npm install -g yarn
 
 WORKDIR /var/app
 RUN mkdir -p /var/app
-ADD package.json yarn.lock /var/app/
+ADD package_back.json yarn.lock /var/app/
 RUN yarn
 
 COPY . /var/app

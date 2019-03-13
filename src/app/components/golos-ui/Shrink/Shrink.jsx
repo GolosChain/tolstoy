@@ -29,7 +29,7 @@ const SubHeaderCollapse = styled.div`
     justify-content: center;
 `;
 
-const CollapseIcon = Icon.extend`
+const CollapseIcon = styled(Icon)`
     width: 60px;
     height: 20px;
     padding: 5px;

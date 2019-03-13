@@ -4,18 +4,18 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import Iso from 'iso';
 import { RouterContext, match } from 'react-router';
-import { api } from 'golos-js';
+import { api } from 'mocks/golos-js';
 import { Helmet } from 'react-helmet';
 
 import RootRoute from 'app/RootRoute';
-import { TITLE_SUFFIX, SEO_TITLE } from 'app/client_config';
-import NotFound from 'app/components/pages/NotFound';
+import { TITLE_SUFFIX, SEO_TITLE } from 'src/app/client_config';
+import NotFound from 'src/app/components-old/pages/NotFound';
 import getState from 'server/StateBuilder';
 import { routeRegex } from 'app/ResolveRoute';
-import { contentStats, calcVotesStats } from 'app/utils/StateFunctions';
+import { contentStats, calcVotesStats } from 'src/app/utils/StateFunctions';
 import rootReducer from 'app/redux/reducers';
-import Translator from 'app/Translator';
-import extractMeta from 'app/utils/ExtractMeta';
+import Translator from 'src/app/shared/Translator';
+import extractMeta from 'src/app/utils/ExtractMeta';
 
 export default async function serverRender({ uri, offchain, ErrorPage, settings, rates }) {
     let error, redirect, renderProps;

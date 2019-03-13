@@ -1,13 +1,13 @@
 import React, { PureComponent } from 'react';
-import { withRouter } from 'react-router';
+import { withRouter } from 'next/router';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'mocks/react-router';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
 import { Map } from 'immutable';
 
-import { detransliterate } from 'app/utils/ParsersAndFormatters';
+import { detransliterate } from 'src/app/utils/ParsersAndFormatters';
 import Icon from 'golos-ui/Icon';
 import { TagLink } from 'golos-ui/Tag';
 import { EntryWrapper, PostTitle, PostContent } from '../common';
@@ -15,7 +15,7 @@ import VotePanel from '../../common/VotePanel';
 import ReplyBlock from '../../common/ReplyBlock';
 import CardAuthor from '../CardAuthor';
 import { getImageSrc } from 'src/app/helpers/images';
-import { isContainTags } from 'app/utils/StateFunctions';
+import { isContainTags } from 'src/app/utils/StateFunctions';
 import ViewCount from '../../common/ViewCount';
 import CurationPercent from '../../common/CurationPercent';
 

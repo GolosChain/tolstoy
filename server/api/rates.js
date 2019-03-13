@@ -2,7 +2,7 @@ import koa_router from 'koa-router';
 import koa_body from 'koa-body';
 import http from 'http';
 import config from 'config';
-import {CURRENCIES} from 'app/client_config';
+import {CURRENCIES} from 'src/app/client_config';
 
 let oxrates = {};
 

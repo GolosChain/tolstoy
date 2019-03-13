@@ -1,16 +1,16 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { Helmet } from 'react-helmet';
+import Head from 'next/head';
 import tt from 'counterpart';
-import { Link } from 'react-router';
+import { Link } from 'mocks/react-router';
 
-import LoadingIndicator from 'app/components/elements/LoadingIndicator';
+import LoadingIndicator from 'src/app/components-old/elements/LoadingIndicator';
 import BlogCardsList from 'src/app/components/common/CardsList/BlogCardsList';
 import InfoBlock from 'src/app/components/common/InfoBlock';
 import EmptyBlock, { EmptySubText } from 'src/app/components/common/EmptyBlock';
 import CardsListWrapper from '../CardsListWrapper';
-import { uiSelector } from 'src/app/redux/selectors/common';
+// import { uiSelector } from 'src/app/redux/selectors/common';
 import { visuallyHidden } from 'src/app/helpers/styles';
 
 const Loader = styled(LoadingIndicator)`
@@ -27,11 +27,13 @@ class BlogContent extends Component {
 
         return (
             <Fragment>
-                <Helmet
-                    title={tt('meta.title.profile.blog', {
-                        name: pageAccount.get('name'),
-                    })}
-                />
+                <Head>
+                    <title>
+                        {tt('meta.title.profile.blog', {
+                            name: pageAccount.get('name'),
+                        })}
+                    </title>
+                </Head>
                 <Header>{tt('g.blog')}</Header>
                 <CardsListWrapper noGaps={layout === 'compact'}>{this._render()}</CardsListWrapper>
             </Fragment>
@@ -88,13 +90,13 @@ class BlogContent extends Component {
 }
 
 export default connect((state, props) => {
-    const pageAccountName = props.params.accountName.toLowerCase();
-    const pageAccount = state.global.getIn(['accounts', pageAccountName]);
-    const isOwner = state.user.getIn(['current', 'username']) === pageAccountName;
+    // const pageAccountName = props.params.accountName.toLowerCase();
+    // const pageAccount = state.global.getIn(['accounts', pageAccountName]);
+    // const isOwner = state.user.getIn(['current', 'username']) === pageAccountName;
 
     return {
-        pageAccount,
-        isOwner,
-        layout: uiSelector('profile', 'layout')(state),
+        pageAccount: null,
+        isOwner: false,
+        layout: 'list',
     };
 })(BlogContent);

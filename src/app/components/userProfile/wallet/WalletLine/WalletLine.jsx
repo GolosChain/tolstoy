@@ -1,15 +1,15 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'mocks/react-router';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
 
 import { breakWordStyles } from 'src/app/helpers/styles';
-import { MIN_VOICE_POWER } from 'app/client_config';
-import DialogManager from 'app/components/elements/common/DialogManager';
-import TimeAgoWrapper from 'app/components/elements/TimeAgoWrapper';
-import { golosToVests, getVesting } from 'app/utils/StateFunctions';
+import { MIN_VOICE_POWER } from 'src/app/client_config';
+import DialogManager from 'src/app/components-old/elements/common/DialogManager';
+import TimeAgoWrapper from 'src/app/components-old/elements/TimeAgoWrapper';
+import { golosToVests, getVesting } from 'src/app/utils/StateFunctions';
 
 import Icon from 'golos-ui/Icon';
 import SplashLoader from 'golos-ui/SplashLoader';

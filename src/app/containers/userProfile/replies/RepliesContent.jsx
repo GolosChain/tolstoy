@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Helmet } from 'react-helmet';
 import tt from 'counterpart';
 
-import LoadingIndicator from 'app/components/elements/LoadingIndicator';
+import LoadingIndicator from 'src/app/components-old/elements/LoadingIndicator';
 import InfoBlock from 'src/app/components/common/InfoBlock';
 import BlogCardsList from 'src/app/components/common/CardsList/BlogCardsList';
 import EmptyBlock, { EmptySubText } from 'src/app/components/common/EmptyBlock';

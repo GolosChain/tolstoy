@@ -11,15 +11,16 @@ import SplashLoader from 'golos-ui/SplashLoader';
 import { Checkbox } from 'golos-ui/Form';
 import { processError } from 'src/app/helpers/dialogs';
 
-import { MIN_VOICE_POWER } from 'app/client_config';
-import { isBadActor } from 'app/utils/ChainValidation';
-import DialogFrame from 'app/components/dialogs/DialogFrame';
-import DialogManager from 'app/components/elements/common/DialogManager';
+import { MIN_VOICE_POWER } from 'src/app/client_config';
+import { isBadActor } from 'src/app/utils/ChainValidation';
+import DialogFrame from 'src/app/components-old/dialogs/DialogFrame';
+import DialogManager from 'src/app/components-old/elements/common/DialogManager';
 import { parseAmount } from 'src/app/helpers/currency';
 import { boldify } from 'src/app/helpers/text';
-import { vestsToGolos, golosToVests } from 'app/utils/StateFunctions';
+import { vestsToGolos, golosToVests } from 'src/app/utils/StateFunctions';
 import DialogTypeSelect from 'src/app/components/userProfile/common/DialogTypeSelect';
 import AccountNameInput from 'src/app/components/common/AccountNameInput';
+import Icon from '../../golos-ui/Icon/Icon';
 
 const POWER_TO_GOLOS_INTERVAL = 13; // weeks
 
@@ -86,11 +87,11 @@ const FooterLine = styled.div`
     animation: fade-in 0.15s;
 `;
 
-const ErrorLine = FooterLine.extend`
+const ErrorLine = styled(FooterLine)`
     color: #ff4641;
 `;
 
-const HintLine = FooterLine.extend`
+const HintLine = styled(FooterLine)`
     font-size: 14px;
     color: #666;
 `;

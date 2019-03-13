@@ -29,7 +29,7 @@ export default class AccountMenuDesktopWrapper extends PureComponent {
 
     render() {
         return (
-            <Root innerRef={this._onRef}>
+            <Root ref={this._onRef}>
                 <Line />
                 <AccountMenu onClose={this._onMenuClose} />
             </Root>

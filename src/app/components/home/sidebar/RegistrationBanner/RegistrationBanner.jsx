@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router';
+import { Link } from 'mocks/react-router';
 import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
-import { REGISTRATION_URL } from 'app/client_config';
+import { REGISTRATION_URL } from 'src/app/client_config';
 
 const Wrapper = styled.div`
     display: flex;

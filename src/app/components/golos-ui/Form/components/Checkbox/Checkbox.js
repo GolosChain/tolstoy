@@ -8,11 +8,11 @@ const Wrapper = styled.div`
     cursor: pointer;
 `;
 
-const IconOn = Icon.extend`
+const IconOn = styled(Icon)`
     color: #2879ff;
 `;
 
-const IconOff = Icon.extend`
+const IconOff = styled(Icon)`
     color: #d7d7d7;
 `;
 

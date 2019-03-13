@@ -100,7 +100,7 @@ class Tabs extends Component {
                 key={index}
                 onClick={this.onClick(context, tab)}
                 id={tab.id}
-                innerRef={ref => this.setTabRef(ref, tab)}
+                ref={ref => this.setTabRef(ref, tab)}
                 active={context.activeTab.id === tab.id}
             >
                 {tab.title}
