@@ -12,7 +12,7 @@ import Shrink from 'golos-ui/Shrink';
 import Slider from 'src/app/components/golos-ui/Slider';
 import { processError } from 'src/app/helpers/dialogs';
 
-import { MIN_VOICE_POWER } from 'src/app/client_config';
+import { MIN_VOICE_POWER } from 'src/app/constants/config';
 import transaction from 'app/redux/Transaction';
 import { isBadActor } from 'src/app/utils/ChainValidation';
 import DialogFrame from 'src/app/components-old/dialogs/DialogFrame';

@@ -4,7 +4,7 @@ import { Link } from 'mocks/react-router';
 import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
-import { REGISTRATION_URL } from 'src/app/client_config';
+import { REGISTRATION_URL } from 'src/app/constants/config';
 
 const Wrapper = styled.div`
   display: flex;

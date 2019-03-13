@@ -1,7 +1,7 @@
 import tt from 'counterpart';
 import { has } from 'ramda';
 
-import { LANGUAGES } from 'src/app/client_config';
+import { LANGUAGES } from 'src/app/constants/config';
 
 function fractionalPartLen(value) {
   const parts = Number(value)

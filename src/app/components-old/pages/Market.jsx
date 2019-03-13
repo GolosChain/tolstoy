@@ -12,7 +12,7 @@ import OrderHistory from 'src/app/components-old/elements/OrderHistory';
 import { Order, TradeHistory } from 'src/app/utils/MarketClasses';
 import { roundUp, roundDown } from 'src/app/utils/MarketUtils';
 import TickerPriceStat from 'src/app/components-old/elements/TickerPriceStat';
-import { DEBT_TOKEN_SHORT, LIQUID_TICKER, DEBT_TICKER } from 'src/app/client_config';
+import { DEBT_TOKEN_SHORT, LIQUID_TICKER, DEBT_TICKER } from 'src/app/constants/config';
 import './Market.scss';
 
 class Market extends Component {

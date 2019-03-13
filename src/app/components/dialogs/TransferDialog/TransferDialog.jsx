@@ -7,7 +7,7 @@ import ComplexInput from 'golos-ui/ComplexInput';
 import SplashLoader from 'golos-ui/SplashLoader';
 import Icon from 'golos-ui/Icon';
 
-import { APP_DOMAIN, DONATION_FOR } from 'src/app/client_config';
+import { APP_DOMAIN, DONATION_FOR } from 'src/app/constants/config';
 import { isBadActor } from 'src/app/utils/ChainValidation';
 import { parseAmount } from 'src/app/helpers/currency';
 import { saveValue, getValue } from 'src/app/helpers/localStorageUtils';

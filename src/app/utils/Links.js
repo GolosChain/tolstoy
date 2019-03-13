@@ -1,4 +1,4 @@
-import { APP_DOMAIN } from 'src/app/client_config';
+import { APP_DOMAIN } from 'src/app/constants/config';
 
 const urlChar = '[^\\s"<>\\]\\[\\(\\)]';
 const urlCharEnd = urlChar.replace(/\]$/, ".,']"); // insert bad chars to end on

@@ -1,7 +1,7 @@
 import React from 'react';
 import HistoryRow from './OrderhistoryRow.jsx';
 import tt from 'counterpart';
-import { DEBT_TOKEN_SHORT } from 'src/app/client_config';
+import { DEBT_TOKEN_SHORT } from 'src/app/constants/config';
 
 export default class OrderHistory extends React.Component {
   constructor() {

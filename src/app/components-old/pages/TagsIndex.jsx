@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { numberWithCommas } from 'src/app/utils/StateFunctions';
 import tt from 'counterpart';
 import { detransliterate } from 'src/app/utils/ParsersAndFormatters';
-import { IGNORE_TAGS } from 'src/app/client_config';
+import { IGNORE_TAGS } from 'src/app/constants/config';
 import styled from 'styled-components';
 
 const Link = styled.a``;

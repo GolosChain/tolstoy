@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { addLocaleData, IntlProvider } from 'react-intl';
 import tt from 'counterpart';
 
-import { DEFAULT_LANGUAGE } from 'src/app/client_config';
+import { DEFAULT_LANGUAGE } from 'src/app/constants/config';
 import en from 'react-intl/locale-data/en';
 import ru from 'react-intl/locale-data/ru';
 import uk from 'react-intl/locale-data/uk';

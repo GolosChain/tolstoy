@@ -10,7 +10,7 @@ import {
   ANDROID_APP_NAME,
   ANDROID_PACKAGE,
   ANDROID_URL_SCHEME,
-} from 'src/app/client_config';
+} from 'src/app/constants/config';
 
 export default function extractMeta(chainData, routeParams) {
   const meta = [];

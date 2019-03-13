@@ -3,7 +3,7 @@ import sanitize from 'sanitize-html';
 import sanitizeConfig, { allowedTags } from '../../utils/SanitizeConfig';
 import transaction from '../../redux/Transaction';
 import { detransliterate } from '../../utils/ParsersAndFormatters';
-import { DEBT_TICKER } from '../../client_config';
+import { DEBT_TICKER } from '../../constants/config';
 import { getTags } from '../../shared/HtmlReady';
 
 export const replyAction = (dispatch, remarkable) => ({

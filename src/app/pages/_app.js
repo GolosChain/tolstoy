@@ -38,7 +38,7 @@ import tt from 'counterpart';
 import { init as initAnchorHelper } from '../utils/anchorHelper';
 //import { validateLocaleQuery } from '../utils/ParsersAndFormatters';
 
-import { LOCALE_COOKIE_KEY, LOCALE_COOKIE_EXPIRES, AMPLITUDE_SESSION } from 'src/app/client_config';
+import { LOCALE_COOKIE_KEY, LOCALE_COOKIE_EXPIRES, AMPLITUDE_SESSION } from 'src/app/constants/config';
 import { checkMobileDevice } from 'src/app/helpers/browser';
 
 @withRedux(initStore, { debug: Boolean(process.env.DEBUG_REDUX) })

@@ -9,11 +9,6 @@ vendor/*
 tmp/*
 src/app/static/static/*.js
 src/app/static/static/*.json
-src/app/assets/google*.html
-src/app/assets/mailru*.html
-src/app/assets/yandex*.html
-src/app/static/sitemap.xml
-src/app/static/robots.txt
 
 config/golos.json
 config/golos-dev.json
@@ -21,18 +16,9 @@ config/local.json
 config/process.json
 config/process-dev.json
 config/process-prod.json
-config/client_config.js
-
-db/config/config.json
-
-run/config/client/golos.json
-run/config/client/golos-dev.json
-run/config/pm2/process.json
 
 scripts/package-lock.json
 scripts/yarn.lock
-
-.vagrant
 
 .env.*
 

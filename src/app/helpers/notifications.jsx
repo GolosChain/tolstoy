@@ -3,7 +3,7 @@ import { Link } from 'mocks/react-router';
 import { List } from 'immutable';
 import tt from 'counterpart';
 
-import { DEBT_TOKEN_SHORT } from 'src/app/client_config';
+import { DEBT_TOKEN_SHORT } from 'src/app/constants/config';
 
 const emptyList = List();
 

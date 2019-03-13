@@ -11,11 +11,10 @@ before_install:
 
 script:
   - if [ -n "${TRAVIS_TAG}" ]; then
-       cd deploy/;
-       ./deploy.sh;
+    cd deploy/;
+    ./deploy.sh;
     fi
   - docker images
 
 notifications:
-    slack: goloschain:sLr7BW0VhNtuv1xrMKJ8MSQb
-
+  slack: goloschain:sLr7BW0VhNtuv1xrMKJ8MSQb

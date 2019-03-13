@@ -3,7 +3,7 @@ import tt from 'counterpart';
 import { api } from 'mocks/golos-js';
 import { PrivateKey } from 'golos-js/lib/auth/ecc';
 
-import { APP_NAME, APP_DOMAIN, SUPPORT_EMAIL } from 'src/app/client_config';
+import { APP_NAME, APP_DOMAIN, SUPPORT_EMAIL } from 'src/app/constants/config';
 import SvgImage from 'src/app/components-old/elements/SvgImage';
 import PasswordInput from 'src/app/components-old/elements/PasswordInput';
 import LoadingIndicator from 'src/app/components-old/elements/LoadingIndicator';

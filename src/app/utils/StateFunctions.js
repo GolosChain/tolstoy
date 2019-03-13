@@ -4,10 +4,12 @@ import { Map, List, Seq, Set, fromJS } from 'immutable';
 import { has, intersection } from 'ramda';
 
 import { parsePayoutAmount, repLog10 } from 'src/app/utils/ParsersAndFormatters';
-import { VEST_TICKER, LIQUID_TICKER } from 'src/app/client_config';
+import { VEST_TICKER, LIQUID_TICKER } from 'src/app/constants/config';
 import normalizeProfile from 'src/app/utils/NormalizeProfile';
 
-import { getStoreState } from 'src/app/clientRender';
+function getStoreState() {
+  throw new Error('MOCK');
+}
 
 const DEFAULT_DATE = '1970-01-01T00:00:00';
 const FETCH_DATA_EXPIRE_SEC = 15;

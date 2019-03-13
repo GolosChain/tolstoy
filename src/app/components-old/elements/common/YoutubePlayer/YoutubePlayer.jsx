@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
-import { APP_DOMAIN } from 'src/app/client_config';
+import { APP_DOMAIN } from 'src/app/constants/config';
 
 const PREVIEW_URL = 'https://img.youtube.com/vi';
 const PLAYER_URL = 'https://www.youtube.com/embed';

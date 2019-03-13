@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Icon from 'src/app/components-old/elements/Icon.jsx';
-import { APP_NAME, APP_ICON } from 'src/app/client_config';
+import { APP_NAME, APP_ICON } from 'src/app/constants/config';
 
 const Link = styled.a``;
 

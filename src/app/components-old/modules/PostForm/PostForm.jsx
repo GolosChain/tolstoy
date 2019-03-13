@@ -17,7 +17,7 @@ import PostTitle from 'src/app/components-old/elements/postEditor/PostTitle/Post
 import PreviewButton from 'src/app/components-old/elements/postEditor/PreviewButton';
 import MarkdownViewer, { getRemarkable } from 'src/app/components-old/cards/MarkdownViewer';
 import { checkPostHtml } from 'src/app/utils/validator';
-import { DEBT_TICKER } from 'src/app/client_config';
+import { DEBT_TICKER } from 'src/app/constants/config';
 import {
   processTagsFromData,
   processTagsToSend,

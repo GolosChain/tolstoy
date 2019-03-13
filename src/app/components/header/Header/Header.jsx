@@ -6,7 +6,7 @@ import is from 'styled-is';
 import throttle from 'lodash/throttle';
 import tt from 'counterpart';
 
-import { REGISTRATION_URL } from 'src/app/client_config';
+import { REGISTRATION_URL } from 'src/app/constants/config';
 import {
   CONTAINER_FULL_WIDTH,
   CONTAINER_MOBILE_WIDTH,

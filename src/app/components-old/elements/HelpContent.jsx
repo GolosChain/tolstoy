@@ -6,7 +6,7 @@ import { renderToString } from 'react-dom/server';
 let faqMarkdown;
 
 if (process.env.BROWSER) {
-  faqMarkdown = require('../../help/en/faq.md');
+  faqMarkdown = require('../../assets/help/en/faq.md');
 } else if (!faqMarkdown) {
   faqMarkdown = require('fs').readFileSync('app/help/en/faq.md', 'utf-8');
 }

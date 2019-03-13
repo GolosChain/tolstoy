@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 const ReactHighcharts = require('react-highcharts/dist/ReactHighstock');
 import tt from 'counterpart';
-import { DEBT_TOKEN_SHORT, LIQUID_TICKER, CURRENCY_SIGN } from 'src/app/client_config';
+import { DEBT_TOKEN_SHORT, LIQUID_TICKER, CURRENCY_SIGN } from 'src/app/constants/config';
 
 //Highstock does not play well with decimal x values, so we need to
 // multiply the x values by a constant factor and divide by this factor for

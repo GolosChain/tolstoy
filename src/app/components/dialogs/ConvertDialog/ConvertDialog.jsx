@@ -11,7 +11,7 @@ import SplashLoader from 'golos-ui/SplashLoader';
 import { Checkbox } from 'golos-ui/Form';
 import { processError } from 'src/app/helpers/dialogs';
 
-import { MIN_VOICE_POWER } from 'src/app/client_config';
+import { MIN_VOICE_POWER } from 'src/app/constants/config';
 import { isBadActor } from 'src/app/utils/ChainValidation';
 import DialogFrame from 'src/app/components-old/dialogs/DialogFrame';
 import DialogManager from 'src/app/components-old/elements/common/DialogManager';

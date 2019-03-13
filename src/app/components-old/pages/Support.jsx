@@ -1,6 +1,6 @@
 import React from 'react';
 import tt from 'counterpart';
-import { APP_NAME, SUPPORT_EMAIL } from 'src/app/client_config';
+import { APP_NAME, SUPPORT_EMAIL } from 'src/app/constants/config';
 
 class Support extends React.Component {
   render() {

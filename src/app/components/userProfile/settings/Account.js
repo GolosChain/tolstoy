@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Form, Field } from 'react-final-form';
 import tt from 'counterpart';
 
-import { USER_GENDER } from 'src/app/client_config';
+import { USER_GENDER } from 'src/app/constants/config';
 import SplashLoader from 'golos-ui/SplashLoader';
 import { CardContent } from 'golos-ui/Card';
 import {

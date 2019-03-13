@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
 // import constants from 'src/app/store/constants';
-// import { IGNORE_TAGS } from 'src/app/client_config';
+// import { IGNORE_TAGS } from 'src/app/constants/config';
 // import { changeHomeTagsCardCollapse } from 'src/app/redux/actions/ui';
 // import { saveTag } from 'src/app/redux/actions/tags';
 // import {

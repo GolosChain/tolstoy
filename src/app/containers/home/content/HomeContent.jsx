@@ -4,7 +4,7 @@ import { Link } from 'mocks/react-router';
 import tt from 'counterpart';
 import styled from 'styled-components';
 
-import { APP_NAME } from 'src/app/client_config';
+import { APP_NAME } from 'src/app/constants/config';
 
 import CardsList from 'src/app/components/common/CardsList';
 import NoPostsPlaceholder from 'src/app/components/home/NoPostsPlaceholder';

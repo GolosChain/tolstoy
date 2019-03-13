@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import tt from 'counterpart';
 
-import { REGISTRATION_URL } from 'src/app/client_config';
+import { REGISTRATION_URL } from 'src/app/constants/config';
 import { logOutboundLinkClickAnalytics } from 'src/app/helpers/gaLogs';
 
 class Start extends PureComponent {

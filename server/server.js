@@ -5,7 +5,7 @@ const path = require('path');
 
 const routes = require('../src/app/shared/routes');
 
-const port = parseInt(process.env.PORT, 10) || 3000;
+const port = parseInt(process.env.PORT, 10) || 4000;
 
 const app = next({
   dev: process.env.NODE_ENV !== 'production',

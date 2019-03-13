@@ -1,7 +1,13 @@
 import React from 'react';
-import { getStoreState, dispatch } from 'src/app/clientRender';
 //import { getHistoricalData } from 'src/app/redux/actions/rates';
-import { CURRENCIES, DEFAULT_CURRENCY } from 'src/app/client_config';
+import { CURRENCIES, DEFAULT_CURRENCY } from 'src/app/constants/config';
+
+function getStoreState() {
+  throw new Error('MOCK');
+}
+function dispatch() {
+  throw new Error('MOCK');
+}
 
 const CURRENCY_SIGNS = {
   USD: '$_',

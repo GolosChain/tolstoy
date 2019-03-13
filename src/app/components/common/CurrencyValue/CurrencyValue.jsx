@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { CURRENCIES } from 'src/app/client_config';
+import { CURRENCIES } from 'src/app/constants/config';
 import { renderValue } from 'src/app/helpers/currency';
 
 export default function CurrencyValue({ value, currency, className, ...props }) {
