@@ -4,7 +4,7 @@ import is from 'styled-is';
 import tt from 'counterpart';
 import PropTypes from 'prop-types';
 
-import Icon from 'golos-ui/Icon';
+import Icon from 'components/golos-ui/Icon';
 
 import VotePanel from 'components/common/VotePanel';
 import ReplyBlock from 'components/common/ReplyBlock';

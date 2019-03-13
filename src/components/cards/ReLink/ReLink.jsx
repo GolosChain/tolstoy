@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import Icon from 'golos-ui/Icon';
+import Icon from 'components/golos-ui/Icon';
 
 const Wrapper = styled.div`
   padding-right: 10px;

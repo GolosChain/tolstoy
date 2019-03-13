@@ -4,9 +4,9 @@ import tt from 'counterpart';
 import { Link } from 'mocks/react-router';
 import PropTypes from 'prop-types';
 
-import Icon from 'golos-ui/Icon';
-import Button from 'golos-ui/Button';
-import { TagLink } from 'golos-ui/Tag';
+import Icon from 'components/golos-ui/Icon';
+import Button from 'components/golos-ui/Button';
+import { TagLink } from 'components/golos-ui/Tag';
 
 import Userpic from 'components/common/Userpic';
 import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';

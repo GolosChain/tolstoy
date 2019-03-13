@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
 
-import ComplexInput from 'golos-ui/ComplexInput';
-import SplashLoader from 'golos-ui/SplashLoader';
-import { Checkbox } from 'golos-ui/Form';
+import ComplexInput from 'components/golos-ui/ComplexInput';
+import SplashLoader from 'components/golos-ui/SplashLoader';
+import { Checkbox } from 'components/golos-ui/Form';
 
 import transaction from 'app/redux/Transaction';
 import { isBadActor } from 'utils/ChainValidation';

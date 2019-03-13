@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import is, { isNot } from 'styled-is';
 import tt from 'counterpart';
 
-import Icon from 'golos-ui/Icon';
+import Icon from 'components/golos-ui/Icon';
 import VotePanelAbstract, { SLIDER_OFFSET } from './VotePanelAbstract';
 
 const OFFSET = -36;

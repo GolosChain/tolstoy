@@ -3,7 +3,7 @@ import { Link } from 'mocks/react-router';
 import tt from 'counterpart';
 import styled from 'styled-components';
 
-import Icon from 'golos-ui/Icon';
+import Icon from 'components/golos-ui/Icon';
 
 const MARGIN_POINT = 20;
 const VERTICAL_VIEW_BREAK_POINT = 945;

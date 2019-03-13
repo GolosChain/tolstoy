@@ -10,8 +10,8 @@ import o2j from 'shared/clash/object2json';
 import proxifyImageUrl from 'utils/ProxifyUrl';
 import { getUserStatus } from 'helpers/users';
 
-import Icon from 'golos-ui/Icon';
-import Flex from 'golos-ui/Flex';
+import Icon from 'components/golos-ui/Icon';
+import Flex from 'components/golos-ui/Flex';
 
 import { CONTAINER_MAX_WIDTH } from 'constants/container';
 import VoteWitnessFollow from 'components/common/VoteWitnessFollow';

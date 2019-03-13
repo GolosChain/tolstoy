@@ -4,7 +4,7 @@ import is from 'styled-is';
 import tt from 'counterpart';
 
 import { MINNOW, CRUCIAN, DOLPHIN, ORCA } from 'helpers/users';
-import Icon from 'golos-ui/Icon';
+import Icon from 'components/golos-ui/Icon';
 import { repLog10 } from 'utils/ParsersAndFormatters';
 
 const grey = '#e0e0e0';

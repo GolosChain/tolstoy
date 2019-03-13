@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Icon from 'golos-ui/Icon';
+import Icon from 'components/golos-ui/Icon';
 
 const Wrapper = styled.div`
   display: ${props => (props.inline ? 'inline-flex' : 'flex')};

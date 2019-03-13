@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Link } from 'mocks/react-router';
 
-import Icon from 'golos-ui/Icon';
+import Icon from 'components/golos-ui/Icon';
 import { breakWordStyles } from 'helpers/styles';
 
 export const Dialog = styled.div`

@@ -8,8 +8,8 @@ import tt from 'counterpart';
 import { Map } from 'immutable';
 
 import { detransliterate } from 'utils/ParsersAndFormatters';
-import Icon from 'golos-ui/Icon';
-import { TagLink } from 'golos-ui/Tag';
+import Icon from 'components/golos-ui/Icon';
+import { TagLink } from 'components/golos-ui/Tag';
 import { EntryWrapper, PostTitle, PostContent } from '../common';
 import VotePanel from '../../common/VotePanel';
 import ReplyBlock from '../../common/ReplyBlock';

@@ -1,8 +1,8 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import Button, { ButtonLink } from 'golos-ui/Button';
-import Icon from 'golos-ui/Icon';
+import Button, { ButtonLink } from 'components/golos-ui/Button';
+import Icon from 'components/golos-ui/Icon';
 
 storiesOf('Golos UI/Button', module)
   .add('type', () => <Button type="submit">Подписаться</Button>)

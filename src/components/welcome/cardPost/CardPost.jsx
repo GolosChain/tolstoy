@@ -5,7 +5,7 @@ import tt from 'counterpart';
 
 import extractContent from 'utils/ExtractContent';
 import { detransliterate } from 'utils/ParsersAndFormatters';
-import Icon from 'golos-ui/Icon/index';
+import Icon from 'components/golos-ui/Icon/index';
 
 import Userpic from 'components/common/Userpic';
 import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';

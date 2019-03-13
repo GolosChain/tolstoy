@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import Icon from 'golos-ui/Icon';
+import Icon from 'components/golos-ui/Icon';
 import VotePanelAbstract from './VotePanelAbstract';
 
 const UpVoteContainer = styled.div`

@@ -5,10 +5,10 @@ import is from 'styled-is';
 import tt from 'counterpart';
 import { api } from 'mocks/golos-js';
 
-import ComplexInput from 'golos-ui/ComplexInput';
-import SplashLoader from 'golos-ui/SplashLoader';
-import { CheckboxInput } from 'golos-ui/Form';
-import Shrink from 'golos-ui/Shrink';
+import ComplexInput from 'components/golos-ui/ComplexInput';
+import SplashLoader from 'components/golos-ui/SplashLoader';
+import { CheckboxInput } from 'components/golos-ui/Form';
+import Shrink from 'components/golos-ui/Shrink';
 import Slider from 'components/golos-ui/Slider';
 import { processError } from 'helpers/dialogs';
 

@@ -7,9 +7,9 @@ import { isNil } from 'ramda';
 import { Form, Field } from 'react-final-form';
 import { PublicKey, key_utils } from 'golos-js/lib/auth/ecc';
 
-import SplashLoader from 'golos-ui/SplashLoader';
-import { CardContent } from 'golos-ui/Card';
-import { Input, CheckboxInput, FormError, FormFooter, FormFooterButton } from 'golos-ui/Form';
+import SplashLoader from 'components/golos-ui/SplashLoader';
+import { CardContent } from 'components/golos-ui/Card';
+import { Input, CheckboxInput, FormError, FormFooter, FormFooterButton } from 'components/golos-ui/Form';
 
 const FormErrorStyled = styled(FormError)`
   font-size: 13px;

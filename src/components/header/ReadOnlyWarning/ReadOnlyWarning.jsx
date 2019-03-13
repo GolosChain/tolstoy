@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 
-import Icon from 'golos-ui/Icon';
+import Icon from 'components/golos-ui/Icon';
 
 const ReadOnlyBlock = styled.div`
   position: fixed;

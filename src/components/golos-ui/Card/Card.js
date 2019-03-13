@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Flex from 'golos-ui/Flex';
+import Flex from 'components/golos-ui/Flex';
 
 const Card = styled(Flex)`
   position: relative;

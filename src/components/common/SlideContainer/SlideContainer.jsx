@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import is from 'styled-is';
 import throttle from 'lodash/throttle';
-import Icon from 'golos-ui/Icon';
+import Icon from 'components/golos-ui/Icon';
 
 const SHIFT_SPEED = 0.7;
 const SHIFT_AMOUNT = 150;

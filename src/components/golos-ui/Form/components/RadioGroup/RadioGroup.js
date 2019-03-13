@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import is from 'styled-is';
 
 import { visuallyHidden } from 'helpers/styles';
-import Icon from 'golos-ui/Icon';
-import { Label as StyledLabel } from 'golos-ui/Form';
+import Icon from 'components/golos-ui/Icon';
+import { Label as StyledLabel } from 'components/golos-ui/Form';
 
 const Wrapper = styled.div``;
 

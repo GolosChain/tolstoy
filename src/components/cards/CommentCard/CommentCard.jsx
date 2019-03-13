@@ -12,8 +12,8 @@ import { getScrollElement } from 'helpers/window';
 import CommentFormLoader from 'components/modules/CommentForm/loader';
 import LoadingIndicator from 'components/elements/LoadingIndicator';
 
-import Button from 'golos-ui/Button';
-import { TagLink } from 'golos-ui/Tag';
+import Button from 'components/golos-ui/Button';
+import { TagLink } from 'components/golos-ui/Tag';
 import { EntryWrapper } from '../common';
 import CloseOpenButton from '../CloseOpenButton';
 import CommentFooter from '../CommentFooter';

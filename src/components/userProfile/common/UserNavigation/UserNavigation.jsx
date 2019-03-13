@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 import { Link } from 'mocks/react-router';
 
-import Icon from 'golos-ui/Icon';
+import Icon from 'components/golos-ui/Icon';
 import LayoutSwitcher from 'components/common/LayoutSwitcher';
 import Navigation from 'components/common/Navigation';
 import NavigationMobile from 'components/common/NavigationMobile';

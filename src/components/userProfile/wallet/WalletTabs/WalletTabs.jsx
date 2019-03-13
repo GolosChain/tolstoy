@@ -2,8 +2,8 @@ import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import { TabContainer, Tabs } from 'golos-ui/Tabs';
-import { CardContent } from 'golos-ui/Card';
+import { TabContainer, Tabs } from 'components/golos-ui/Tabs';
+import { CardContent } from 'components/golos-ui/Card';
 import {
   MAIN_TABS,
   CURRENCY,

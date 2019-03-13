@@ -5,7 +5,7 @@ import is from 'styled-is';
 import tt from 'counterpart';
 
 import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
-import Icon from 'golos-ui/Icon/index';
+import Icon from 'components/golos-ui/Icon/index';
 import links from 'utils/Links';
 import { formatDecimal } from 'utils/ParsersAndFormatters';
 import CloseOpenButton from 'components/cards/CloseOpenButton';

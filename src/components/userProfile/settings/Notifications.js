@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { TabContainer, Tabs } from 'golos-ui/Tabs';
+import { TabContainer, Tabs } from 'components/golos-ui/Tabs';
 
 import Online from './notifications/Online';
 import Push from './notifications/Push';

@@ -7,8 +7,8 @@ import tt from 'counterpart';
 
 // import { TAGS_MAX_LENGTH } from 'app/utils/tags';
 
-import Icon from 'golos-ui/Icon';
-import Button from 'golos-ui/Button';
+import Icon from 'components/golos-ui/Icon';
+import Button from 'components/golos-ui/Button';
 import TagSelect from 'components/common/TagSelect';
 
 const Wrapper = styled.div`

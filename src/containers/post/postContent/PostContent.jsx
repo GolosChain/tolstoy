@@ -7,7 +7,7 @@ import throttle from 'lodash/throttle';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import { TagLink } from 'golos-ui/Tag';
+import { TagLink } from 'components/golos-ui/Tag';
 
 import { breakWordStyles } from 'helpers/styles';
 import PostHeader from 'containers/post/postHeader';

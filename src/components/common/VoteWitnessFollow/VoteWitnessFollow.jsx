@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import Button from 'golos-ui/Button';
-import Icon from 'golos-ui/Icon';
+import Button from 'components/golos-ui/Button';
+import Icon from 'components/golos-ui/Icon';
 
 import LoadingIndicator from 'components/elements/LoadingIndicator';
 

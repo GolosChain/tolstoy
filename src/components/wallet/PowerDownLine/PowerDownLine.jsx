@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import tt from 'counterpart';
 import styled from 'styled-components';
 
-import Icon from 'golos-ui/Icon';
-import Button from 'golos-ui/Button';
+import Icon from 'components/golos-ui/Icon';
+import Button from 'components/golos-ui/Button';
 import DialogManager from 'components/elements/common/DialogManager';
 import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
 

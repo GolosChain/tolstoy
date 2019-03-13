@@ -5,8 +5,8 @@ import { Link } from 'mocks/react-router';
 import tt from 'counterpart';
 import { FormattedDate } from 'react-intl';
 
-import Icon from 'golos-ui/Icon';
-import Button from 'golos-ui/Button';
+import Icon from 'components/golos-ui/Icon';
+import Button from 'components/golos-ui/Button';
 
 import Userpic from 'components/common/Userpic';
 import Follow from 'components/common/Follow';

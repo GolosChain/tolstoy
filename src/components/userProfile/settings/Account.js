@@ -4,8 +4,8 @@ import { Form, Field } from 'react-final-form';
 import tt from 'counterpart';
 
 import { USER_GENDER } from 'constants/config';
-import SplashLoader from 'golos-ui/SplashLoader';
-import { CardContent } from 'golos-ui/Card';
+import SplashLoader from 'components/golos-ui/SplashLoader';
+import { CardContent } from 'components/golos-ui/Card';
 import {
   FormGroup,
   FormGroupRow,
@@ -17,8 +17,8 @@ import {
   FormError,
   FormFooter,
   FormFooterButton,
-} from 'golos-ui/Form';
-import Icon from 'golos-ui/Icon';
+} from 'components/golos-ui/Form';
+import Icon from 'components/golos-ui/Icon';
 
 const LabelIcon = styled(LabelRow)`
   flex-basis: 28px;

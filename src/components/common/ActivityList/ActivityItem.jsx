@@ -11,7 +11,7 @@ import globalBus from 'helpers/globalBus';
 import { breakWordStyles } from 'helpers/styles';
 import normalizeProfile from 'utils/NormalizeProfile';
 import { getPropsForInterpolation } from 'helpers/notifications';
-import Icon from 'golos-ui/Icon';
+import Icon from 'components/golos-ui/Icon';
 
 import Avatar from 'components/common/Avatar';
 import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';

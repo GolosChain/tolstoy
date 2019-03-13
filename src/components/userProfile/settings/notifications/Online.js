@@ -8,10 +8,10 @@ import createDecorator from 'final-form-calculate';
 import tt from 'counterpart';
 import { pick } from 'ramda';
 
-import SplashLoader from 'golos-ui/SplashLoader';
-import { CardContent, CardDivider } from 'golos-ui/Card';
-import { FormGroup, Switcher, FormFooter, FormFooterButton } from 'golos-ui/Form';
-import Icon from 'golos-ui/Icon';
+import SplashLoader from 'components/golos-ui/SplashLoader';
+import { CardContent, CardDivider } from 'components/golos-ui/Card';
+import { FormGroup, Switcher, FormFooter, FormFooterButton } from 'components/golos-ui/Form';
+import Icon from 'components/golos-ui/Icon';
 
 const GroupTitle = styled.div`
   margin-bottom: 8px;

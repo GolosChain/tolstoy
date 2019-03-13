@@ -5,7 +5,7 @@ import is from 'styled-is';
 import tt from 'counterpart';
 
 import Icon from 'components/elements/Icon';
-import Tag from 'golos-ui/Tag';
+import Tag from 'components/golos-ui/Tag';
 import { getFavoriteTags } from 'utils/tags';
 
 const Wrapper = styled.div`

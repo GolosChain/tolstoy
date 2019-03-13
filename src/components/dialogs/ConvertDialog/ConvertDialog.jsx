@@ -4,11 +4,11 @@ import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
 
-import Shrink from 'golos-ui/Shrink';
-import Slider from 'golos-ui/Slider';
-import ComplexInput from 'golos-ui/ComplexInput';
-import SplashLoader from 'golos-ui/SplashLoader';
-import { Checkbox } from 'golos-ui/Form';
+import Shrink from 'components/golos-ui/Shrink';
+import Slider from 'components/golos-ui/Slider';
+import ComplexInput from 'components/golos-ui/ComplexInput';
+import SplashLoader from 'components/golos-ui/SplashLoader';
+import { Checkbox } from 'components/golos-ui/Form';
 import { processError } from 'helpers/dialogs';
 
 import { MIN_VOICE_POWER } from 'constants/config';

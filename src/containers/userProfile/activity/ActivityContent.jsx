@@ -8,12 +8,12 @@ import throttle from 'lodash/throttle';
 
 import { NOTIFICATIONS_FILTER_TYPES, NOTIFICATIONS_PER_PAGE } from 'app/redux/constants/common';
 
-import Card from 'golos-ui/Card';
-import { TabContainer, Tabs } from 'golos-ui/Tabs';
+import Card from 'components/golos-ui/Card';
+import { TabContainer, Tabs } from 'components/golos-ui/Tabs';
 
 import LoadingIndicator from 'components/elements/LoadingIndicator';
 import ActivityList from 'components/common/ActivityList';
-import Flex from 'golos-ui/Flex';
+import Flex from 'components/golos-ui/Flex';
 import { visuallyHidden } from 'helpers/styles';
 
 const WrapperLoader = styled.div`

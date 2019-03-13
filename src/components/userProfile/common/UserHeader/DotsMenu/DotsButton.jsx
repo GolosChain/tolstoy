@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import Icon from 'golos-ui/Icon/index';
+import Icon from 'components/golos-ui/Icon/index';
 
 import DotsMenu from 'components/userProfile/common/UserHeader/DotsMenu/DotsMenu';
 

@@ -5,8 +5,8 @@ import is from 'styled-is';
 
 import tt from 'counterpart';
 
-import Flex from 'golos-ui/Flex';
-import Button from 'golos-ui/Button';
+import Flex from 'components/golos-ui/Flex';
+import Button from 'components/golos-ui/Button';
 import DialogManager from 'components/elements/common/DialogManager';
 import QrKeyView from 'components/elements/QrKeyView';
 

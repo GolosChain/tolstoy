@@ -1,7 +1,7 @@
 import React from 'react';
 import tt from 'counterpart';
 
-import { TabContainer, Tabs } from 'golos-ui/Tabs';
+import { TabContainer, Tabs } from 'components/golos-ui/Tabs';
 
 import Current from './keys/Current';
 import ResetKey from './keys/ResetKey';

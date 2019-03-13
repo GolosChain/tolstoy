@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import tt from 'counterpart';
 import styled from 'styled-components';
 
-import Icon from 'golos-ui/Icon';
+import Icon from 'components/golos-ui/Icon';
 import { logOutboundLinkClickAnalytics } from 'helpers/gaLogs';
 
 const LinkTo = ({ children, link, ariaLabel, onClick, className }) => (

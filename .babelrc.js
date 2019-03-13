@@ -5,9 +5,6 @@ module.exports = {
       'module-resolver',
       {
         root: ['./src'],
-        alias: {
-          'golos-ui': './src/components/golos-ui',
-        },
       },
     ],
     ['@babel/plugin-proposal-decorators', { legacy: true }],

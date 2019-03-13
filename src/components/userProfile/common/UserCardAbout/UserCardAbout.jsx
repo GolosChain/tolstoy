@@ -10,9 +10,9 @@ import { repLog10 } from 'utils/ParsersAndFormatters';
 import normalizeProfile from 'utils/NormalizeProfile';
 import { makeSocialLink, sanitizeUrl } from 'helpers/urls';
 
-import Icon from 'golos-ui/Icon';
-import { CardTitle } from 'golos-ui/Card';
-import CollapsingCard from 'golos-ui/CollapsingCard';
+import Icon from 'components/golos-ui/Icon';
+import { CardTitle } from 'components/golos-ui/Card';
+import CollapsingCard from 'components/golos-ui/CollapsingCard';
 import UserStatus from '../UserStatus';
 
 import DialogManager from 'components/elements/common/DialogManager';

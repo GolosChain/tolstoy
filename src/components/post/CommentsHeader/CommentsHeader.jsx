@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import tt from 'counterpart';
 
-import Popover from 'golos-ui/Popover';
+import Popover from 'components/golos-ui/Popover';
 import { logClickAnalytics } from 'helpers/gaLogs';
 import SortLine from 'components/post/CommentsHeader/SortLine';
 

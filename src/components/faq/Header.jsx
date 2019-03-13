@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import Icon from 'golos-ui/Icon';
+import Icon from 'components/golos-ui/Icon';
 import Container from '../common/Container';
 import { logOutboundLinkClickAnalytics } from 'helpers/gaLogs';
 

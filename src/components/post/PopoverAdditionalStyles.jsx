@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import is from 'styled-is';
 
-import Popover from 'golos-ui/Popover';
+import Popover from 'components/golos-ui/Popover';
 
 export const PopoverStyled = styled(Popover)`
   z-index: 3;

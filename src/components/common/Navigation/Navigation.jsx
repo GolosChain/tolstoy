@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import { TabLinkIndex } from 'golos-ui/Tab';
+import { TabLinkIndex } from 'components/golos-ui/Tab';
 import SlideContainer from 'components/common/SlideContainer';
 import {
   CONTAINER_MAX_WIDTH,

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
 
-import Tag from 'golos-ui/Tag';
+import Tag from 'components/golos-ui/Tag';
 import Popover from 'components/common/Popover';
 
 const SLIDER_OFFSET = 8;

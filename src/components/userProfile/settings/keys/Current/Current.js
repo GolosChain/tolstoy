@@ -5,7 +5,7 @@ import { Map, List } from 'immutable';
 
 import tt from 'counterpart';
 
-import { CardContent } from 'golos-ui/Card';
+import { CardContent } from 'components/golos-ui/Card';
 import ShowKey from './ShowKey.connect';
 
 const KeysBlock = styled.div`

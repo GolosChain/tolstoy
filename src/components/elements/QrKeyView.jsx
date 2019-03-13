@@ -3,7 +3,7 @@ import tt from 'counterpart';
 import styled from 'styled-components';
 import qrImage from 'qr-image';
 
-import Button from 'golos-ui/Button';
+import Button from 'components/golos-ui/Button';
 
 const Root = styled.div`
   display: flex;

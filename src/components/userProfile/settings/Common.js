@@ -8,8 +8,8 @@ import tt from 'counterpart';
 
 import { CURRENCIES, LANGUAGES, AUCTION_REWARD_DESTINATION } from 'constants/config';
 
-import SplashLoader from 'golos-ui/SplashLoader';
-import { CardContent } from 'golos-ui/Card';
+import SplashLoader from 'components/golos-ui/SplashLoader';
+import { CardContent } from 'components/golos-ui/Card';
 import {
   FormGroup,
   Label,
@@ -19,8 +19,8 @@ import {
   FormError,
   FormFooter,
   FormFooterButton,
-} from 'golos-ui/Form';
-import Slider from 'golos-ui/Slider';
+} from 'components/golos-ui/Form';
+import Slider from 'components/golos-ui/Slider';
 
 const CheckboxTitle = styled.div`
   margin-left: 10px;

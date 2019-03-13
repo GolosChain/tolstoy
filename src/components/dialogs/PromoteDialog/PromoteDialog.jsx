@@ -5,7 +5,7 @@ import tt from 'counterpart';
 
 import { processError } from 'helpers/dialogs';
 
-import ComplexInput from 'golos-ui/ComplexInput';
+import ComplexInput from 'components/golos-ui/ComplexInput';
 import DialogFrame from 'components/dialogs/DialogFrame';
 
 const DialogFrameStyled = styled(DialogFrame)`

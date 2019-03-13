@@ -6,8 +6,8 @@ import is from 'styled-is';
 import { Map } from 'immutable';
 import throttle from 'lodash/throttle';
 
-import Icon from 'golos-ui/Icon';
-import Slider from 'golos-ui/Slider';
+import Icon from 'components/golos-ui/Icon';
+import Slider from 'components/golos-ui/Slider';
 import PostPayout from 'components/common/PostPayout';
 import DislikeAlert from 'components/dialogs/DislikeAlert';
 import DialogManager from 'components/elements/common/DialogManager';

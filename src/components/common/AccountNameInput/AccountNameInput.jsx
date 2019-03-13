@@ -7,7 +7,7 @@ import memoize from 'lodash/memoize';
 import throttle from 'lodash/throttle';
 import { isEmpty } from 'ramda';
 
-import SimpleInput from 'golos-ui/SimpleInput';
+import SimpleInput from 'components/golos-ui/SimpleInput';
 import keyCodes from 'utils/keyCodes';
 import { getScrollElement } from 'helpers/window';
 import { buildAccountNameAutocomplete } from 'utils/StateFunctions';

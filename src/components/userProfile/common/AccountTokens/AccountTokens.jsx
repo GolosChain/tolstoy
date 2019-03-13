@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import CollapsingBlock from 'golos-ui/CollapsingBlock';
+import CollapsingBlock from 'components/golos-ui/CollapsingBlock';
 import PieChart from 'components/common/PieChart';
 
 const Root = styled.div``;

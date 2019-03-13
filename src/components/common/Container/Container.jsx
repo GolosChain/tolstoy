@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import is from 'styled-is';
-import Flex from 'golos-ui/Flex';
+import Flex from 'components/golos-ui/Flex';
 
 import {
   CONTAINER_MAX_WIDTH,

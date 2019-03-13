@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import tt from 'counterpart';
 
-import Flex from 'golos-ui/Flex';
+import Flex from 'components/golos-ui/Flex';
 
 import Container from 'components/common/Container';
 import ChannelsCard from './ChannelsCard';

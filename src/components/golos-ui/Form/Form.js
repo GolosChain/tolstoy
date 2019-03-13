@@ -2,7 +2,7 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import is from 'styled-is';
 
-import Flex from 'golos-ui/Flex';
+import Flex from 'components/golos-ui/Flex';
 
 const formControlStyles = css`
   position: relative;

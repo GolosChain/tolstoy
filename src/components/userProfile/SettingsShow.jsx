@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { Map } from 'immutable';
 
 import tt from 'counterpart';
-import SplashLoader from 'golos-ui/SplashLoader';
-import Card from 'golos-ui/Card';
-import { TabContainer, Tabs } from 'golos-ui/Tabs';
+import SplashLoader from 'components/golos-ui/SplashLoader';
+import Card from 'components/golos-ui/Card';
+import { TabContainer, Tabs } from 'components/golos-ui/Tabs';
 
 import Common from './settings/Common';
 import Account from './settings/Account';

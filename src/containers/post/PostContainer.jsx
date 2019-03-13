@@ -2,7 +2,7 @@ import React, { Component, createRef } from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import Button from 'golos-ui/Button';
+import Button from 'components/golos-ui/Button';
 import { blockedUsersContent, blockedContent } from 'utils/IllegalContent';
 import SidePanel from 'containers/post/sidePanel';
 import PostContent from 'containers/post/postContent';

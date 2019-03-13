@@ -8,7 +8,7 @@ import { APP_NAME_UP, GOLOS_EXPLORER, TERMS_OF_SERVICE_URL } from 'constants/con
 
 import CurrencyValue from 'components/common/CurrencyValue';
 import Container from 'components/common/Container';
-import Icon from 'golos-ui/Icon';
+import Icon from 'components/golos-ui/Icon';
 import { logOutboundLinkClickAnalytics } from 'helpers/gaLogs';
 
 const Wrapper = styled.div`

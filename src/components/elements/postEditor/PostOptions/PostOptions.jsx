@@ -7,8 +7,8 @@ import { isNil } from 'ramda';
 
 import Icon from 'components/elements/Icon';
 import Hint from 'components/elements/common/Hint';
-import Switcher from 'golos-ui/Form/components/Switcher';
-import Slider from 'golos-ui/Slider';
+import Switcher from 'components/golos-ui/Form/components/Switcher';
+import Slider from 'components/golos-ui/Slider';
 import RadioGroup from 'components/elements/common/RadioGroup';
 import { PAYOUT_OPTIONS } from 'components/modules/PostForm/PostForm';
 

@@ -10,7 +10,7 @@ import TagsEditLine from 'components/elements/postEditor/TagsEditLine';
 import PostOptions from 'components/elements/postEditor/PostOptions';
 import Button from 'components/elements/common/Button';
 import Hint from 'components/elements/common/Hint';
-import Icon from 'golos-ui/Icon';
+import Icon from 'components/golos-ui/Icon';
 import InfoIcon from 'components/elements/Icon';
 import PreviewButton from 'components/elements/postEditor/PreviewButton';
 import { NSFW_TAG } from 'utils/tags';

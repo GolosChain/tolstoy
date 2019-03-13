@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import LinkSelect from 'golos-ui/LinkSelect';
+import LinkSelect from 'components/golos-ui/LinkSelect';
 
 const Root = styled.div`
   display: flex;

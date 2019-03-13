@@ -5,8 +5,8 @@ import is from 'styled-is';
 import { Form, Field } from 'react-final-form';
 import tt from 'counterpart';
 
-import { CardContent, CardDivider } from 'golos-ui/Card';
-import { FormFooter, FormFooterButton } from 'golos-ui/Form';
+import { CardContent, CardDivider } from 'components/golos-ui/Card';
+import { FormFooter, FormFooterButton } from 'components/golos-ui/Form';
 import {
   FormGroup,
   FormGroupRow as StyledFormGroupRow,
@@ -14,8 +14,8 @@ import {
   LabelRow as StyledLabelRow,
   Switcher,
   Error,
-} from 'golos-ui/Form';
-import Icon from 'golos-ui/Icon';
+} from 'components/golos-ui/Form';
+import Icon from 'components/golos-ui/Icon';
 
 const Label = styled(StyledLabel)`
   margin-bottom: 20px;

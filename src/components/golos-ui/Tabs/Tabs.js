@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { TabsConsumer, TabsProvider } from './TabsContext';
 
-import Tab from 'golos-ui/Tab';
+import Tab from 'components/golos-ui/Tab';
 
 const TabsList = styled.ul`
   padding: 0;

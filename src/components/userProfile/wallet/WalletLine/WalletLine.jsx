@@ -11,8 +11,8 @@ import DialogManager from 'components/elements/common/DialogManager';
 import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
 import { golosToVests, getVesting } from 'utils/StateFunctions';
 
-import Icon from 'golos-ui/Icon';
-import SplashLoader from 'golos-ui/SplashLoader';
+import Icon from 'components/golos-ui/Icon';
+import SplashLoader from 'components/golos-ui/SplashLoader';
 
 import Linkify from 'components/common/Linkify';
 import TextCut from 'components/common/TextCut';

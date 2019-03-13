@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
 
-import Icon from 'golos-ui/Icon';
+import Icon from 'components/golos-ui/Icon';
 import { listenLazy } from 'helpers/hoc';
 import { FORCE_LINES_WIDTH } from 'components/common/CardsList/CardsList';
 import LayoutSwitcherMenu from './LayoutSwitcherMenu';

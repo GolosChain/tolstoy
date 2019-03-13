@@ -5,7 +5,7 @@ import is from 'styled-is';
 
 import proxifyImageUrl from 'utils/ProxifyUrl';
 
-import Icon from 'golos-ui/Icon';
+import Icon from 'components/golos-ui/Icon';
 
 // Optimized for lists. It will not generate new classes
 // for every avatar because we don't use props in css

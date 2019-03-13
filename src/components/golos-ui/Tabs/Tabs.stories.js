@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 
 import TabContainer from './TabContainer';
 import Tabs from './Tabs';
-import Card, { CardContent } from 'golos-ui/Card';
+import Card, { CardContent } from 'components/golos-ui/Card';
 
 const Tab1 = () => {
   return <div>This is tab 1</div>;

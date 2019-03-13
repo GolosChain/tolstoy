@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
-import Icon from 'golos-ui/Icon';
+import Icon from 'components/golos-ui/Icon';
 import PayoutInfo from '../PayoutInfo';
 
 const Root = styled.div`

@@ -8,7 +8,7 @@ import { List, Map } from 'immutable';
 import tt from 'counterpart';
 
 import globalBus from 'helpers/globalBus';
-import { FormFooter, FormFooterButton } from 'golos-ui/Form';
+import { FormFooter, FormFooterButton } from 'components/golos-ui/Form';
 import LoadingIndicator from 'components/elements/LoadingIndicator';
 import ActivityList from 'components/common/ActivityList';
 

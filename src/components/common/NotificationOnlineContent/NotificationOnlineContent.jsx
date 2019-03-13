@@ -12,7 +12,7 @@ import { breakWordStyles } from 'helpers/styles';
 import { getPropsForInterpolation } from 'helpers/notifications';
 
 import Avatar from 'components/common/Avatar';
-import Icon from 'golos-ui/Icon';
+import Icon from 'components/golos-ui/Icon';
 
 const Wrapper = styled.div`
   display: flex;

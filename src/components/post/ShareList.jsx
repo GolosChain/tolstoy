@@ -5,7 +5,7 @@ import is from 'styled-is';
 import tt from 'counterpart';
 import { shareList } from 'helpers/socialShare';
 
-import Icon from 'golos-ui/Icon';
+import Icon from 'components/golos-ui/Icon';
 
 const Wrapper = styled.div`
   ${is('horizontal')`

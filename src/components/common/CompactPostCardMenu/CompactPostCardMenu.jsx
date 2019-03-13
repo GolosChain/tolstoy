@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 
 import { shareList } from 'helpers/socialShare';
-import Icon from 'golos-ui/Icon';
+import Icon from 'components/golos-ui/Icon';
 
 const Root = styled.div`
   position: absolute;

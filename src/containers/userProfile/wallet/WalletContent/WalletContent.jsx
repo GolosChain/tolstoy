@@ -5,7 +5,7 @@ import tt from 'counterpart';
 import { Helmet } from 'react-helmet';
 import { api } from 'mocks/golos-js';
 
-import Card from 'golos-ui/Card';
+import Card from 'components/golos-ui/Card';
 
 import { APP_DOMAIN, DONATION_FOR } from 'constants/config';
 import LoadingIndicator from 'components/elements/LoadingIndicator';

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import Button from 'golos-ui/Button';
+import Button from 'components/golos-ui/Button';
 
 const MuteButton = styled.div`
   display: flex;

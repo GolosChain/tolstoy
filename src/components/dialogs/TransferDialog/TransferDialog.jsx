@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import ComplexInput from 'golos-ui/ComplexInput';
-import SplashLoader from 'golos-ui/SplashLoader';
-import Icon from 'golos-ui/Icon';
+import ComplexInput from 'components/golos-ui/ComplexInput';
+import SplashLoader from 'components/golos-ui/SplashLoader';
+import Icon from 'components/golos-ui/Icon';
 
 import { APP_DOMAIN, DONATION_FOR } from 'constants/config';
 import { isBadActor } from 'utils/ChainValidation';

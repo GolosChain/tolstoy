@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { visuallyHidden } from 'helpers/styles';
-import Icon from 'golos-ui/Icon';
+import Icon from 'components/golos-ui/Icon';
 
 const Wrapper = styled.label`
   position: relative;
