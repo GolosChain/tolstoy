@@ -11,30 +11,30 @@ const Root = styled.div`
   position: relative;
 
   ${is('leftshade')`
-        &:before {
-            position: absolute;
-            content: '';
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 80px;
-            background: linear-gradient(to right, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
-            z-index: 1;
-        }
-    `};
+    &:before {
+      position: absolute;
+      content: '';
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 80px;
+      background: linear-gradient(to right, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+      z-index: 1;
+    }
+  `};
 
   ${is('rightshade')`
-        &:after {
-            position: absolute;
-            content: '';
-            right: 0;
-            top: 0;
-            bottom: 0;
-            width: 80px;
-            background: linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
-            z-index: 1;
-        }
-    `};
+    &:after {
+      position: absolute;
+      content: '';
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 80px;
+      background: linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+      z-index: 1;
+    }
+  `};
 `;
 
 const Wrapper = styled.div`

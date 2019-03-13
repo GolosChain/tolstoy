@@ -42,8 +42,8 @@ const Button = styled.button.attrs({ type: 'button' })`
   outline: none;
 
   ${is('right')`
-        justify-content: flex-end;
-    `};
+    justify-content: flex-end;
+  `};
 
   &:hover {
     color: #333;

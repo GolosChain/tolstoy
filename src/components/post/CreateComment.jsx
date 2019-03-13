@@ -33,8 +33,8 @@ const Wrapper = styled.div`
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
 
   ${is('commentInputFocused')`
-        animation: ${shadowScale} 1.5s linear 0.8s;
-    `};
+    animation: ${shadowScale} 1.5s linear 0.8s;
+  `};
 `;
 
 export default class CreateComment extends Component {

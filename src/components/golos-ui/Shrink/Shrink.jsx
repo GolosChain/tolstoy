@@ -11,17 +11,17 @@ const SubHeaderShrink = styled.div`
   transition: height 0.25s;
 
   ${is('shrink')`
-        &:after {
-            position: absolute;
-            content: '';
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 20px;
-            background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
-            pointer-events: none;
-        }
-    `};
+    &:after {
+      position: absolute;
+      content: '';
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 20px;
+      background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+      pointer-events: none;
+    }
+  `};
 `;
 
 const SubHeaderCollapse = styled.div`
@@ -39,8 +39,8 @@ const CollapseIcon = styled(Icon)`
   transition: transform 0.25s, color 0.15s;
 
   ${is('active')`
-        transform: rotate(0.5turn);
-    `};
+    transform: rotate(0.5turn);
+  `};
 
   &:hover {
     color: #333;

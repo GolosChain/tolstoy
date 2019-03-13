@@ -25,12 +25,12 @@ const Container = styled(Flex)`
   }
 
   ${is('small')`
-        @media (max-width: 890px) {
-            margin: 0 auto;
-            flex-direction: column;
-            align-items: normal;
-        }
-    `};
+    @media (max-width: 890px) {
+      margin: 0 auto;
+      flex-direction: column;
+      align-items: normal;
+    }
+  `};
 `;
 Container.defaultProps = {
   auto: true,

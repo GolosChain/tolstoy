@@ -159,9 +159,9 @@ const SocialLink = styled.a`
   color: #333;
 
   ${is('fb')`
-        padding-left: 14px;
-        padding-right: 6px;
-    `};
+    padding-left: 14px;
+    padding-right: 6px;
+  `};
 `;
 
 const IconStyled = styled(Icon)`

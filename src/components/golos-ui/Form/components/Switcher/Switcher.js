@@ -15,8 +15,8 @@ const Wrapper = styled.div`
   cursor: pointer;
 
   ${is('checked')`
-        background-color: #93bbfe;
-    `};
+    background-color: #93bbfe;
+  `};
 `;
 
 const Toggler = styled.div`
@@ -33,9 +33,9 @@ const Toggler = styled.div`
   transition: left 0.13s, background-color 0.13s;
 
   ${is('checked')`
-        left: 17px;
-        background-color: #2879FF;
-    `};
+    left: 17px;
+    background-color: #2879FF;
+  `};
 `;
 
 const HiddenCheckbox = styled.input`

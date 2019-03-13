@@ -65,8 +65,8 @@ const FieldBlock = styled.label`
   }
 
   ${is('mini')`
-        margin-bottom: 10px;
-    `};
+    margin-bottom: 10px;
+  `};
 `;
 
 const LabelText = styled.div`

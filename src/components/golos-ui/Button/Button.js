@@ -53,30 +53,30 @@ export const BaseButton = styled.button`
   }
 
   ${is('auto')`
-        width: 100%;
-    `};
+    width: 100%;
+  `};
 
   ${is('light')`
-        color: #393636;
-        background-color: #fff;
-        border: 1px solid #e1e1e1;
-        
-        &:focus {
-            color: #393636;
-            background-color: #fff;
-            border: 1px solid #e1e1e1;
-        }
-        
-        &:hover {
-            color: #393636;
-            background-color: #fff;
-            border: 1px solid #c0c0c0;
-        }
-        
-        &:disabled {
-            background-color: #fff;
-        }
-    `};
+    color: #393636;
+    background-color: #fff;
+    border: 1px solid #e1e1e1;
+    
+    &:focus {
+      color: #393636;
+      background-color: #fff;
+      border: 1px solid #e1e1e1;
+    }
+    
+    &:hover {
+      color: #393636;
+      background-color: #fff;
+      border: 1px solid #c0c0c0;
+    }
+    
+    &:disabled {
+      background-color: #fff;
+    }
+  `};
 `;
 
 BaseButton.propTypes = {

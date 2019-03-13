@@ -23,8 +23,8 @@ const Label = styled(StyledLabel)`
   margin: 0;
 
   ${is('disabled')`
-        cursor: default;
-    `};
+    cursor: default;
+  `};
 `;
 
 const LabelText = styled.span`
@@ -33,12 +33,12 @@ const LabelText = styled.span`
   font-size: 14px;
 
   ${is('light')`
-        color: #959595;
-    `};
+    color: #959595;
+  `};
 
   ${is('disabled')`
-        color: #9c9c9c;
-    `};
+    color: #9c9c9c;
+  `};
 `;
 
 const Input = styled.input`
@@ -52,12 +52,12 @@ const IconStyled = styled(Icon)`
   color: #d8d8d9;
 
   ${is('value')`
-        color: #2879ff;
-    `};
+    color: #2879ff;
+  `};
 
   ${is('disabled')`
-        color: #d0d0d0;
-    `};
+    color: #d0d0d0;
+  `};
 `;
 
 export default class RadioGroup extends PureComponent {

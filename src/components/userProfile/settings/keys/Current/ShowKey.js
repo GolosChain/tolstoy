@@ -45,12 +45,12 @@ const Key = styled.div`
   }
 
   ${is('showPrivate')`
-        color: #2879ff;
+    color: #2879ff;
 
-        &:hover {
-            background: #d7e2fa;
-        }
-    `};
+    &:hover {
+      background: #d7e2fa;
+    }
+  `};
 `;
 
 const Hint = styled.div`

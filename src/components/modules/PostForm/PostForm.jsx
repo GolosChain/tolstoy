@@ -79,8 +79,8 @@ const Wrapper = styled.div`
     min-height: calc(100vh - 60px);
 
     ${is('isEdit')`
-            min-height: 100%;
-        `};
+      min-height: 100%;
+    `};
   }
 `;
 
@@ -95,13 +95,13 @@ const WorkArea = styled.div`
   overflow-y: auto;
 
   ${is('isEdit')`
-        padding: 10px 70px 0;
-    `};
+    padding: 10px 70px 0;
+  `};
 
   @media (max-width: 576px) {
     ${is('isEdit')`
-            padding: 10px 20px 0;
-        `};
+      padding: 10px 20px 0;
+    `};
   }
 `;
 
@@ -126,8 +126,8 @@ const Footer = styled.div`
   margin-top: 10px;
 
   ${is('isEdit')`
-        box-shadow: none;
-    `};
+    box-shadow: none;
+  `};
 `;
 
 const FooterContent = styled.div`

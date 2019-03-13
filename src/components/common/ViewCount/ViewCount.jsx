@@ -27,27 +27,27 @@ const Wrapper = styled.div`
   cursor: default;
 
   ${is('mini')`
-        font-size: 16px;
-        letter-spacing: 1.4px;
-        
-        ${EyeIcon} {
-            width: 22px;
-        }
-    `};
+    font-size: 16px;
+    letter-spacing: 1.4px;
+    
+    ${EyeIcon} {
+      width: 22px;
+    }
+  `};
 
   ${is('micro')`
-        font-size: 12px;
-        letter-spacing: normal;
-        
-        ${EyeIcon} {
-            width: 19px;
-            color: #959595;
-        }
-        
-        ${Text} {
-            margin-left: 6px;
-        }
-    `};
+    font-size: 12px;
+    letter-spacing: normal;
+    
+    ${EyeIcon} {
+      width: 19px;
+      color: #959595;
+    }
+    
+    ${Text} {
+      margin-left: 6px;
+    }
+  `};
 `;
 
 export default class ViewCount extends Component {

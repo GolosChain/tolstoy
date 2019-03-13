@@ -39,12 +39,12 @@ const Wrapper = styled.div`
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
 
   ${is('center')`
-        transform: translateX(-50%);
-    `};
+    transform: translateX(-50%);
+  `};
 
   ${is('up')`
-        bottom: 0;
-    `};
+    bottom: 0;
+  `};
 `;
 
 const Pointer = styled.div`
@@ -58,10 +58,10 @@ const Pointer = styled.div`
   box-shadow: -3px -3px 4px 0 rgba(0, 0, 0, 0.05);
 
   ${is('up')`
-        top: unset;
-        bottom: 0;
-        box-shadow: 3px 3px 4px 0 rgba(0, 0, 0, 0.05);
-    `};
+    top: unset;
+    bottom: 0;
+    box-shadow: 3px 3px 4px 0 rgba(0, 0, 0, 0.05);
+  `};
 `;
 
 const Content = styled.div`

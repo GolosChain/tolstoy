@@ -50,16 +50,16 @@ const IconWrapper = styled.span`
   }
 
   ${is('isWarning')`
-        color: #ef3434;
+    color: #ef3434;
 
-        &:hover {
-            color: #ef3434;
-        }
-    `};
+    &:hover {
+      color: #ef3434;
+    }
+  `};
 
   ${is('isActive')`
-        color: #0078c4;
-    `};
+    color: #0078c4;
+  `};
 `;
 
 const BubbleText = styled.p`

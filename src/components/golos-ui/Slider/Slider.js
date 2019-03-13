@@ -60,17 +60,17 @@ const Captions = styled.div`
 `;
 
 const Caption = styled.div`
-    flex: 1;
+  flex: 1;
 
-    ${is('left')`
-        text-align: left;
-    `}
-    ${is('center')`
-        text-align: center;
-    `}
-    ${is('right')`
-        text-align: right;
-    `}
+  ${is('left')`
+    text-align: left;
+  `}
+  ${is('center')`
+    text-align: center;
+  `}
+  ${is('right')`
+    text-align: right;
+  `}
 `;
 
 const Wrapper = styled.div`
@@ -81,18 +81,18 @@ const Wrapper = styled.div`
   -webkit-tap-highlight-color: transparent;
 
   ${is('disabled')`
-        cursor: default;
-        
-        ${Progress} {
-            background: #8e8e8e;
-        }
-        
-        ${Handle} {
-            border-color: #8e8e8e;
-            background: #8e8e8e;
-            cursor: default;
-        }
-    `};
+    cursor: default;
+    
+    ${Progress} {
+      background: #8e8e8e;
+    }
+    
+    ${Handle} {
+      border-color: #8e8e8e;
+      background: #8e8e8e;
+      cursor: default;
+    }
+  `};
 
   &:before {
     position: absolute;
@@ -106,15 +106,15 @@ const Wrapper = styled.div`
   }
 
   ${is('red')`
-        ${Progress} {
-            background: #ff4e00;
-        }
+    ${Progress} {
+      background: #ff4e00;
+    }
 
-        ${Handle} {
-            background: #ff4e00 !important;
-            border-color: #ff4e00 !important;
-        }
-    `};
+    ${Handle} {
+      background: #ff4e00 !important;
+      border-color: #ff4e00 !important;
+    }
+  `};
 `;
 
 export default class Slider extends PureComponent {

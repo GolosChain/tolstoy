@@ -34,11 +34,11 @@ const Item = styled.div`
   }
 
   ${is('isActive')`
-        font-weight: 500;
-        color: #000;
-        border-bottom-color: #0078C4;
-        cursor: default;
-    `};
+    font-weight: 500;
+    color: #000;
+    border-bottom-color: #0078C4;
+    cursor: default;
+  `};
 `;
 
 const Filler = styled.i`

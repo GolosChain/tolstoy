@@ -10,10 +10,10 @@ const Root = styled.div`
   user-select: none;
 
   ${is('mobilecolumn')`
-        @media (max-width: 600px) {
-            display: block;    
-        }
-    `}
+    @media (max-width: 600px) {
+      display: block;    
+    }
+  `}
 `;
 
 const TypeButton = styled.div.attrs({ role: 'button' })`
@@ -36,8 +36,8 @@ const TypeButton = styled.div.attrs({ role: 'button' })`
   }
 
   ${is('active')`
-        color: #333;
-    `};
+    color: #333;
+  `};
 `;
 
 export default class DialogTypeSelect extends PureComponent {

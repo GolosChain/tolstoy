@@ -30,8 +30,8 @@ const ComplexInnerInput = styled.input`
   }
 
   ${is('error')`
-        border-color: #fc544e !important;
-    `};
+    border-color: #fc544e !important;
+  `};
 `;
 
 const ComplexButton = styled.button`
@@ -53,10 +53,10 @@ const ComplexButton = styled.button`
   }
 
   ${is('active')`
-        border-color: #2879ff !important;
-        color: #2879ff;
-        z-index: 1;
-    `};
+    border-color: #2879ff !important;
+    color: #2879ff;
+    z-index: 1;
+  `};
 `;
 
 export default props => (

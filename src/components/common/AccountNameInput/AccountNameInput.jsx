@@ -21,8 +21,8 @@ const Wrapper = styled.label`
   display: inline-flex;
 
   ${is('block')`
-        display: flex;
-    `};
+    display: flex;
+  `};
 `;
 
 const Sign = styled.div`
@@ -39,12 +39,12 @@ const Sign = styled.div`
   order: 1;
 
   ${is('open')`
-        border-radius: 6px 0 0 0;
-    `};
+    border-radius: 6px 0 0 0;
+  `};
 
   ${is('error')`
-        border-color: #ff7d7d;
-    `};
+    border-color: #ff7d7d;
+  `};
 
   &::after {
     content: '@';
@@ -56,12 +56,12 @@ const SimpleInputStyled = styled(SimpleInput)`
   order: 2;
 
   ${is('open')`
-        border-radius: 0 6px 0 0;
-    `};
+    border-radius: 0 6px 0 0;
+  `};
 
   ${is('error')`
-        border-color: #ff7d7d;
-    `};
+    border-color: #ff7d7d;
+  `};
 
   &:disabled {
     background: #f2f2f2;
@@ -104,9 +104,9 @@ const Item = styled.li`
   }
 
   ${is('selected')`
-        color: #333 !important;
-        background: #b3d2f0 !important;
-    `};
+    color: #333 !important;
+    background: #b3d2f0 !important;
+  `};
 `;
 
 const Dots = styled.div`

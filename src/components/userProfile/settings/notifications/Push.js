@@ -36,8 +36,8 @@ const LabelIcon = styled(StyledLabelRow)`
   margin-right: 20px;
 
   ${is('active')`
-        color: #2879FF;
-    `};
+    color: #2879FF;
+  `};
 `;
 
 const Online = ({ isChanging, onSubmitGate }) => {

@@ -27,14 +27,16 @@ const ButtonBlock = styled.div`
   pointer-events: all;
 
   ${is('second')`
-        background: #fff;
-    `};
+    background: #fff;
+  `};
 
   ${is('show')`
-        transform: translate(0, 0);
-    `} ${is('hiding')`
-        transform: translate(0, 100px);
-    `};
+    transform: translate(0, 0);
+  `};
+  
+  ${is('hiding')`
+    transform: translate(0, 100px);
+  `};
 `;
 
 const Container = styled.div`
@@ -42,8 +44,8 @@ const Container = styled.div`
   transition: transform 0.25s;
 
   ${is('second')`
-        transform: translate(0, -50px);
-    `};
+    transform: translate(0, -50px);
+  `};
 `;
 
 const State = styled.div`

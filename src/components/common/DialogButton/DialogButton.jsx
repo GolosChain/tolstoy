@@ -58,33 +58,33 @@ const Button = styled.button`
   }
 
   ${is('primary')`
-        color: #2879ff;
-        
-        &:hover {
-            color: #60a0ff;
-        }
-        
-        &:disabled {
-            color: #8fc3ff;
-        }
-    `};
+    color: #2879ff;
+    
+    &:hover {
+      color: #60a0ff;
+    }
+    
+    &:disabled {
+      color: #8fc3ff;
+    }
+  `};
 
   ${is('warning')`
-        color: #ff4641;
-        
-        &:hover {
-            color: #f00;
-        }
-        
-        &:focus {
-            background: #ffe3dd;
-        }
-        
-        &:disabled {
-            color: #ffe3dd;
-            background: none;
-        }
-    `};
+    color: #ff4641;
+    
+    &:hover {
+      color: #f00;
+    }
+    
+    &:focus {
+      background: #ffe3dd;
+    }
+    
+    &:disabled {
+      color: #ffe3dd;
+      background: none;
+    }
+  `};
 `;
 
 export default function DialogButton(props) {

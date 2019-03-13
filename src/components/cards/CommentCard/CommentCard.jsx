@@ -27,8 +27,8 @@ const Header = styled.div`
   flex-shrink: 0;
 
   ${is('collapsed')`
-        padding: 5px 0;
-    `};
+    padding: 5px 0;
+  `};
 `;
 
 const HeaderLine = styled.div`
@@ -40,8 +40,8 @@ const HeaderLine = styled.div`
   pointer-events: none;
 
   ${is('alertmode')`
-        justify-content: unset;
-    `};
+    justify-content: unset;
+  `};
 
   & > * {
     pointer-events: initial;
@@ -99,10 +99,10 @@ const CommentBody = styled(({ shortText, isPostPage, to, ...otherProps }) =>
   color: #959595 !important;
 
   ${is('shortText')`
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    `};
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  `};
 `;
 
 const CommentBodyWrapper = styled.div`
@@ -123,29 +123,29 @@ const Root = styled(EntryWrapper)`
   min-height: 50px;
 
   ${is('highlighted')`
-        box-shadow: 0 0 0 0.2rem #c8e1ff;
-        border-color: #2188ff;
-        border-radius: 3px;
-    `};
+    box-shadow: 0 0 0 0.2rem #c8e1ff;
+    border-color: #2188ff;
+    border-radius: 3px;
+  `};
 
   ${is('renderCard')`
-        border-radius: 8px;
-        background: #fff;
-        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
-    `};
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
+  `};
 
   ${is('collapsed')`
-        justify-content: center;
-    `};
+    justify-content: center;
+  `};
 
   ${is('gray')`
-        opacity: 0.37;
-        transition: opacity 0.25s;
+    opacity: 0.37;
+    transition: opacity 0.25s;
 
-        &:hover {
-            opacity: 1;
-        }
-    `};
+    &:hover {
+      opacity: 1;
+    }
+  `};
 `;
 
 const Reply = styled.div`

@@ -45,8 +45,8 @@ const ToggleButton = styled(CloseOpenButton)`
   height: 30px;
 
   ${is('collapsed')`
-        top: 14px;
-    `};
+    top: 14px;
+  `};
 `;
 
 export default class NestedComment extends Component {

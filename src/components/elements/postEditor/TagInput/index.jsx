@@ -73,8 +73,8 @@ const MobileError = styled.p`
   color: #333;
 
   ${is('isError')`
-        color: #fc5d16;
-    `};
+    color: #fc5d16;
+  `};
 
   @media (min-width: 861px) {
     display: none;

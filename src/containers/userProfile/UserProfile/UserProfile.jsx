@@ -50,9 +50,9 @@ const Content = styled.div`
   min-width: 280px;
 
   ${is('center')`
-        flex-shrink: 0;
-        flex-grow: 0;
-    `};
+    flex-shrink: 0;
+    flex-grow: 0;
+  `};
 
   @media (max-width: 890px) {
     order: 4;

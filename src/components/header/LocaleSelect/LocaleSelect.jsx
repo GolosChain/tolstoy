@@ -39,10 +39,10 @@ const Chevron = styled.div`
   border-top-color: #363636;
 
   ${is('open')`
-        top: 19px;
-        border-top-color: transparent;
-        border-bottom-color: #363636;
-    `};
+    top: 19px;
+    border-top-color: transparent;
+    border-bottom-color: #363636;
+  `};
 
   @media (max-width: ${HIDE_CHEVRON_WIDTH}px) {
     display: none;
@@ -66,9 +66,9 @@ const List = styled.div`
   pointer-events: none;
 
   ${is('open')`
-        opacity: 1;
-        pointer-events: initial;
-    `};
+    opacity: 1;
+    pointer-events: initial;
+  `};
 
   @media (max-width: 500px) {
     padding-top: 46px;

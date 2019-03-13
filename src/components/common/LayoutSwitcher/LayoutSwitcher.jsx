@@ -36,11 +36,11 @@ const Handle = styled.button`
   }
 
   ${is('mobile')`
-        ${IconStyled} {
-            width: 14px;
-            height: 14px;
-        }
-    `};
+    ${IconStyled} {
+      width: 14px;
+      height: 14px;
+    }
+  `};
 `;
 
 @listenLazy('resize')

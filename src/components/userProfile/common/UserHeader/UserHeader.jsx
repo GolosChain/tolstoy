@@ -322,8 +322,8 @@ const MobileButtons = styled.div`
   margin-top: 16px;
 
   ${is('owner')`
-        display: none;
-    `};
+    display: none;
+  `};
 `;
 
 const MobileNameStatusWrapper = styled.div`

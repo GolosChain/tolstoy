@@ -18,8 +18,8 @@ export default styled.div`
     margin: ${CONTAINER_MOBILE_MARGIN}px;
 
     ${is('noGaps')`
-            margin-left: 0;
-            margin-right: 0;
-        `};
+      margin-left: 0;
+      margin-right: 0;
+    `};
   }
 `;

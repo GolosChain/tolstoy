@@ -137,9 +137,9 @@ const PostContent = styled.div`
   ${breakWordStyles};
 
   ${is('repost')`
-        padding-top: 3px;
-        margin-bottom: 7px;
-    `};
+    padding-top: 3px;
+    margin-bottom: 7px;
+  `};
 
   @media (max-width: ${MOBILE_THRESHOLD}px) {
     font-size: 12px;

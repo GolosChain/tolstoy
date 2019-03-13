@@ -76,8 +76,8 @@ const Title = styled.div`
   margin-bottom: 20px;
 
   ${is('onClick')`
-        cursor: pointer;
-    `};
+    cursor: pointer;
+  `};
 `;
 
 const TagsWrapper = styled.div`

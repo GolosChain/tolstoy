@@ -46,9 +46,9 @@ const Fixed = styled.div`
   z-index: 15;
 
   ${is('mobile')`
-        position: relative;
-        border: none;
-    `};
+    position: relative;
+    border: none;
+  `};
 `;
 
 const HeaderStub = styled.div`
@@ -144,9 +144,9 @@ const SearchBlock = styled(Link)`
   }
 
   ${is('mobile')`
-        margin: 0;
-        padding: 8px 10px;
-    `};
+    margin: 0;
+    padding: 8px 10px;
+  `};
 `;
 
 const Filler = styled.div`
@@ -179,8 +179,8 @@ const Buttons = styled.div`
   will-change: opacity;
 
   ${is('hidden')`
-        opacity: 0;
-    `};
+    opacity: 0;
+  `};
 `;
 
 const SignUp = styled.a`
@@ -218,10 +218,10 @@ const NewPostIcon = styled(Icon).attrs({ name: 'new-post' })`
   margin-right: 7px;
 
   ${is('mobile')`
-        width: 20px;
-        height: 20px;
-        margin: 0;
-    `}
+    width: 20px;
+    height: 20px;
+    margin: 0;
+  `}
 `;
 
 const Notifications = styled(IconWrapper)`
@@ -232,12 +232,12 @@ const Notifications = styled(IconWrapper)`
   }
 
   ${is('active')`
-        color: #2879ff;
-    `};
+    color: #2879ff;
+  `};
 
   ${is('mobile')`
-        margin-left: 0;
-    `};
+    margin-left: 0;
+  `};
 `;
 
 /* uncomment when messenger done
@@ -277,24 +277,24 @@ const DotsWrapper = styled(IconWrapper)`
   }
 
   ${is('active')`
-        & > ${Dots} {
-            color: #2879ff;
-        }
-    `};
+    & > ${Dots} {
+      color: #2879ff;
+    }
+  `};
 
   ${is('pad')`
-        padding: 10px 20px;
-    `};
+    padding: 10px 20px;
+  `};
 
   ${is('mobile')`
-        padding: 10px 16px;
-    `};
+    padding: 10px 16px;
+  `};
 
-  @media (max-width: 400px) {
-    ${is('mobile')`
-            padding: 10px 8px;
-        `};
-  }
+  ${is('mobile')`
+    @media (max-width: 400px) {
+      padding: 10px 8px;
+    }
+  `};
 `;
 
 export default class Header extends PureComponent {

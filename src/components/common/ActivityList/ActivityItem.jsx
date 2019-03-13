@@ -43,8 +43,8 @@ const ActivityDesc = styled.div`
   overflow: hidden;
 
   ${is('isCompact')`
-        justify-content: space-between;
-    `};
+    justify-content: space-between;
+  `};
 `;
 
 const AuthorName = styled(Link)`
@@ -86,12 +86,12 @@ const ActivityText = styled.div`
   ${breakWordStyles};
 
   ${is('isCompact')`
-        color: #757575;
-    `};
+    color: #757575;
+  `};
 
   ${is('withPadding')`
-        padding-top: 15px;
-    `};
+    padding-top: 15px;
+  `};
 
   & a {
     color: #959595;

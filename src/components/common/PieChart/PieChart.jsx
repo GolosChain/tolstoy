@@ -4,14 +4,14 @@ import is from 'styled-is';
 
 const Root = styled.div`
   ${is('animated')`
-        path {
-            transition: transform 0.15s;
-        }
-        
-        path:hover, .pie-chart-big {
-            transform: scale(1.1);
-        }
-    `};
+    path {
+      transition: transform 0.15s;
+    }
+    
+    path:hover, .pie-chart-big {
+      transform: scale(1.1);
+    }
+  `};
 `;
 
 export default class PieChart extends PureComponent {

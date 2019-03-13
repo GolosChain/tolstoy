@@ -29,8 +29,8 @@ const Wrapper = styled.div`
   }
 
   ${is('isEdit')`
-        justify-content: center;
-    `};
+    justify-content: center;
+  `};
 `;
 
 const Tags = styled.div`
@@ -47,9 +47,9 @@ const Tags = styled.div`
   }
 
   ${is('isOtherLine')`
-        flex-direction: column;
-        flex-grow: 0;
-    `};
+    flex-direction: column;
+    flex-grow: 0;
+  `};
 `;
 
 const ButtonsWrapper = styled.div`
@@ -86,8 +86,8 @@ const DisabledHint = styled(Hint)`
   transition: opacity 0.25s;
 
   ${is('isVisible')`
-        opacity: 1;
-    `};
+    opacity: 1;
+  `};
 `;
 
 const SendButton = styled.button`
@@ -120,8 +120,8 @@ const MobileError = styled.p`
   color: #333;
 
   ${is('isError')`
-        color: #fc5d16;
-    `};
+    color: #fc5d16;
+  `};
 
   @media (min-width: 861px) {
     display: none;

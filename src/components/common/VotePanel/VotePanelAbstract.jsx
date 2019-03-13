@@ -43,10 +43,10 @@ const OkIcon = styled(Icon)`
   }
 
   ${is('red')`
-        &:hover {
-            color: #ff4e00;
-        }
-    `};
+    &:hover {
+      color: #ff4e00;
+    }
+  `};
 `;
 
 const CancelIcon = styled(Icon)`

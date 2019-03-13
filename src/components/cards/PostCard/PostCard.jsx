@@ -30,8 +30,8 @@ const HeaderRepost = styled(Header)`
   padding: 0 0 10px;
 
   ${is('postInFeed')`
-        position: relative;
-    `}
+    position: relative;
+  `};
 `;
 
 const HeaderLine = styled.div`
@@ -68,19 +68,19 @@ const IconWrapper = styled.div`
   color: #393636;
 
   ${is('enabled')`
-        cursor: pointer;
-        transition: transform 0.15s;
+    cursor: pointer;
+    transition: transform 0.15s;
 
-        &:hover {
-            transform: scale(1.15);
-        }
-    `};
+    &:hover {
+      transform: scale(1.15);
+    }
+  `};
 
   ${is('isPinned')`
-        & ${Icon} {
-            color: #2879ff;
-        }
-    `};
+    & ${Icon} {
+      color: #2879ff;
+    }
+  `};
 `;
 
 const BodyLink = styled(Link)`
@@ -88,10 +88,10 @@ const BodyLink = styled(Link)`
   transition: none !important;
 
   ${is('compact')`
-        flex-shrink: 1;
-        flex-grow: 1;
-        overflow: hidden;
-    `};
+    flex-shrink: 1;
+    flex-grow: 1;
+    overflow: hidden;
+  `};
 
   &:visited {
     ${PostTitle} {
@@ -129,9 +129,9 @@ const Footer = styled.div`
   }
 
   ${is('compact')`
-        flex-direction: column;
-        align-items: center;
-    `};
+    flex-direction: column;
+    align-items: center;
+  `};
 `;
 
 const FooterToolbar = styled.div`
@@ -141,8 +141,8 @@ const FooterToolbar = styled.div`
   padding: 0 18px 7px;
 
   ${is('compact')`
-        width: 100%;
-    `};
+    width: 100%;
+  `};
 
   @media (max-width: 400px) {
     padding: 0 5px 7px;
@@ -164,8 +164,8 @@ const FooterToolbar = styled.div`
     }
 
     ${is('compact')`
-            margin-left: 0 !important;
-        `};
+      margin-left: 0 !important;
+    `};
   }
 `;
 
@@ -197,8 +197,8 @@ const PostImage = styled.div.attrs({
   background-size: cover;
 
   ${is('compact')`
-        height: 183px;
-    `};
+    height: 183px;
+  `};
 `;
 
 const Filler = styled.div`
@@ -212,13 +212,13 @@ const Wrapper = styled(EntryWrapper)`
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
 
   ${is('gray')`
-        opacity: 0.37;
-        transition: opacity 0.25s;
+    opacity: 0.37;
+    transition: opacity 0.25s;
 
-        &:hover {
-            opacity: 1;
-        }
-    `};
+    &:hover {
+      opacity: 1;
+    }
+  `};
 
   @media (max-width: 500px) {
     border-radius: 0;
@@ -230,11 +230,11 @@ const HeaderRightPanel = styled.div`
   align-items: center;
 
   ${is('compact')`
-        flex-direction: column;
-        align-items: flex-end;
-        margin-top: -2px;
-        margin-bottom: 2px;
-    `};
+    flex-direction: column;
+    align-items: flex-end;
+    margin-top: -2px;
+    margin-bottom: 2px;
+  `};
 `;
 
 const HeaderStatusIcons = styled.div`
@@ -250,12 +250,12 @@ const HeaderStatusIcons = styled.div`
   }
 
   ${is('compact')`
-        margin-bottom: 4px;
+    margin-bottom: 4px;
 
-        & > :last-child {
-            margin-left: 20px;
-        }
-    `};
+    & > :last-child {
+      margin-left: 20px;
+    }
+  `};
 `;
 
 const CurationPercentStyled = styled(CurationPercent)`

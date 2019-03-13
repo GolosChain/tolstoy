@@ -28,28 +28,28 @@ const Root = styled.i`
   transform: translateX(50px);
 
   ${is('isInvisible')`
-        visibility: hidden;
-        opacity: 0;
-    `};
+    visibility: hidden;
+    opacity: 0;
+  `};
 
   ${is('isPreview')`
-        color: #fff !important;
-        background: #2879ff;
-    `};
+    color: #fff !important;
+    background: #2879ff;
+  `};
 
   ${is('isStatic')`
-        position: static;
-        transform: translateX(0);
-        margin-top: 0;
-    `};
+    position: static;
+    transform: translateX(0);
+    margin-top: 0;
+  `};
 
   ${is('isMobile')`
-        display: block;
-    `};
+    display: block;
+  `};
 
   ${is('isDesktop')`
-        display: block;
-    `};
+    display: block;
+  `};
 
   &:hover {
     color: #0078c4;
@@ -67,14 +67,14 @@ const Root = styled.i`
 
   @media (min-width: 821px) {
     ${is('isMobile')`
-            display: none;
-        `};
+      display: none;
+    `};
   }
 
   @media (max-width: 820px) {
     ${is('isDesktop')`
-            display: none;
-        `};
+      display: none;
+    `};
   }
 `;
 

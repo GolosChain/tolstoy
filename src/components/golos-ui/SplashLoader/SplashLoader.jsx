@@ -19,8 +19,8 @@ const Root = styled.div`
   z-index: 1;
 
   ${is('light')`
-        background: rgba(255, 255, 255, 0.09);
-    `};
+    background: rgba(255, 255, 255, 0.09);
+  `};
 `;
 
 export default function SplashLoader(props) {

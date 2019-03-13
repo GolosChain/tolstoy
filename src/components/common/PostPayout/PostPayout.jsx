@@ -6,12 +6,12 @@ import CurrencyValue from 'components/common/CurrencyValue';
 
 const CurrencyValueStyled = styled(CurrencyValue)`
   ${is('limited')`
-        opacity: 0.33;
-    `};
+    opacity: 0.33;
+  `};
 
   ${is('declined')`
-        text-decoration: line-through;
-    `};
+    text-decoration: line-through;
+  `};
 `;
 
 export default class PostPayout extends PureComponent {

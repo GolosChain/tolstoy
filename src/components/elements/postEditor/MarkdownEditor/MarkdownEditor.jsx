@@ -41,15 +41,15 @@ const PanelWrapper = styled.div`
 
   @media (max-width: 360px) {
     ${is('isEdit')`
-            width: 100vw;
-            max-width: 100vw;
-        `};
+      width: 100vw;
+      max-width: 100vw;
+    `};
   }
 
   ${is('isEdit')`
-        width: 100%;
-        max-width: 100%;
-    `};
+    width: 100%;
+    max-width: 100%;
+  `};
 `;
 
 export default class MarkdownEditor extends PureComponent {

@@ -44,12 +44,12 @@ export const labelStyles = css`
   cursor: pointer;
 
   ${is('dark')`
-        color: #393636;
-    `};
+    color: #393636;
+  `};
 
   ${is('bold')`
-        font-weight: bold;
-    `};
+    font-weight: bold;
+  `};
 `;
 
 export const Label = styled.label`
@@ -177,32 +177,32 @@ export const FormFooterButton = styled.button`
   }
 
   ${is('primary')`
-        color: #2879ff;
+    color: #2879ff;
 
-        &:hover,
-        &:focus {
-          color: #2879ff;
-          background: #ddebff;
-        }
-    `};
+    &:hover,
+    &:focus {
+      color: #2879ff;
+      background: #ddebff;
+    }
+  `};
 
   ${is('warning')`
-        color: #ff4641;
+    color: #ff4641;
 
-        &:hover,
-        &:focus {
-            color: #ff4641;
-            background: #ffe3dd;
-        }
-    `};
+    &:hover,
+    &:focus {
+      color: #ff4641;
+      background: #ffe3dd;
+    }
+  `};
 
   ${is('cancel')`
-        color: #b7b7ba;
+    color: #b7b7ba;
 
-        &:hover,
-        &:focus {
-            color: #3a3a3a;
-            background: transparent;
-        }
-    `};
+    &:hover,
+    &:focus {
+      color: #3a3a3a;
+      background: transparent;
+    }
+  `};
 `;

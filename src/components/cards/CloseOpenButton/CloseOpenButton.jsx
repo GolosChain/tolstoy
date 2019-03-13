@@ -18,9 +18,9 @@ const ToggleCommentOpen = styled.div`
   transition: transform 0.25s;
 
   ${is('collapsed')`
-        color: #b7b7ba;
-        transform: rotate(0.5turn);
-    `};
+    color: #b7b7ba;
+    transform: rotate(0.5turn);
+  `};
 `;
 
 const ChevronIcon = styled(Icon)`

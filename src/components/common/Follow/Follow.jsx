@@ -43,14 +43,14 @@ const Wrapper = styled(Button)`
   }
 
   ${is('collapse')`
-        ${collapseStyles}
-    `};
+    ${collapseStyles}
+  `};
 
   ${is('collapseOnMobile')`
-        @media (max-width: 500px) {
-            ${collapseStyles}
-        }
-    `};
+    @media (max-width: 500px) {
+      ${collapseStyles}
+    }
+  `};
 `;
 
 export default class Follow extends Component {

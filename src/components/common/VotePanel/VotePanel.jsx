@@ -19,10 +19,10 @@ const Wrapper = styled.div`
   justify-content: space-between;
 
   ${is('vertical')`
-        flex-direction: column;
-        margin-top: -4px;
-        margin-bottom: -4px;
-    `};
+    flex-direction: column;
+    margin-top: -4px;
+    margin-bottom: -4px;
+  `};
 `;
 
 const LikeWrapper = styled.i`
@@ -86,29 +86,29 @@ const LikeBlock = styled.div`
   user-select: none;
 
   ${is('vertical')`
-        flex-direction: column;
-        margin: 0 !important;
-        padding: 0 0 10px;
-    `};
+    flex-direction: column;
+    margin: 0 !important;
+    padding: 0 0 10px;
+  `};
 
   ${isNot('vertical')`
-        &:hover,
-        &:hover ${LikeIcon}, &:hover ${LikeIconNeg} {
-            color: #000000;
-        }
-    `};
+    &:hover,
+    &:hover ${LikeIcon}, &:hover ${LikeIconNeg} {
+      color: #000000;
+    }
+  `};
 
   ${is('active')`
-        ${LikeIcon}, ${LikeCount} {
-            color: #2879ff !important;
-        }
-    `};
+    ${LikeIcon}, ${LikeCount} {
+      color: #2879ff !important;
+    }
+  `};
 
   ${is('activeNeg')`
-        ${LikeIconNeg}, ${LikeCount} {
-            color: #ff4e00 !important;
-        }
-    `};
+    ${LikeIconNeg}, ${LikeCount} {
+      color: #ff4e00 !important;
+    }
+  `};
 `;
 
 const IconTriangle = styled(Icon).attrs({

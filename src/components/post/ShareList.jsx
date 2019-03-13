@@ -9,8 +9,8 @@ import Icon from 'components/golos-ui/Icon';
 
 const Wrapper = styled.div`
   ${is('horizontal')`
-        display: flex;
-    `};
+    display: flex;
+  `};
 `;
 
 const ItemContainer = styled.div`

@@ -29,8 +29,8 @@ const Wrapper = styled.div`
   width: 100%;
 
   ${is('popover')`
-        padding: 20px 0;
-    `};
+    padding: 20px 0;
+  `};
 `;
 
 const Statuses = styled.div`

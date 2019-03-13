@@ -34,8 +34,8 @@ export const PopoverBackgroundShade = styled.div`
     background: rgba(0, 0, 0, 0.5);
 
     ${is('show')`
-            display: block;
-        `};
+      display: block;
+    `};
   }
 `;
 

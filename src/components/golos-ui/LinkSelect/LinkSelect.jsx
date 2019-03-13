@@ -33,9 +33,9 @@ const Chevron = styled.div`
   border-top-color: #363636;
 
   ${is('open')`
-        margin-top: -4px;
-        transform: rotate(180deg);
-    `}
+    margin-top: -4px;
+    transform: rotate(180deg);
+  `}
 `;
 
 const Placeholder = styled.div`

@@ -25,8 +25,8 @@ const Wrapper = styled.div.attrs({
   color: #393636;
 
   ${is('icon')`
-        margin-left: 6px;
-    `};
+    margin-left: 6px;
+  `};
 
   background-size: cover;
   background-repeat: no-repeat;

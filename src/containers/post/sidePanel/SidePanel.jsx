@@ -40,9 +40,9 @@ const PanelWrapper = styled.div`
   }
 
   ${is('isVisible')`
-        visibility: visible;
-        opacity: 1;
-    `};
+    visibility: visible;
+    opacity: 1;
+  `};
 `;
 
 const Wrapper = styled.div`
@@ -55,8 +55,8 @@ const Wrapper = styled.div`
   min-height: 50px;
 
   ${is('showSideBlock')`
-        visibility: visible
-    `};
+    visibility: visible
+  `};
 
   ${by('fixedOn', {
     center: `
@@ -129,9 +129,9 @@ const ShareWrapper = styled(ActionWrapper)`
 
 const IconWithState = styled(({ isOpen, ...rest }) => <Icon {...rest} />)`
   ${is('isOpen')`
-        transition: color 0s;
-        color: #2879ff;
-    `};
+    transition: color 0s;
+    color: #2879ff;
+  `};
 `;
 
 const WrapperVotePanel = styled(VotePanel)`

@@ -54,8 +54,8 @@ const Section = styled.div`
   margin: 10px 0;
 
   ${is('flex')`
-        display: flex;
-    `};
+    display: flex;
+  `};
 `;
 
 const Label = styled.div`

@@ -39,43 +39,43 @@ const Replies = styled(({ to, isLink, ...otherProps }) =>
   }
 
   ${is('isLink')`
-        cursor: pointer;
-    `};
+    cursor: pointer;
+  `};
 
   ${is('compact')`
-        flex-grow: 0;
-        padding: 0 10px;
-    `};
+    flex-grow: 0;
+    padding: 0 10px;
+  `};
 
   ${is('mini')`
-        height: unset;
-        min-height: unset;
-        padding: 0 10px;
+    height: unset;
+    min-height: unset;
+    padding: 0 10px;
 
-        &:hover {
-            &, ${RepliesQuantity}, ${ReplyIcon} {
-                color: #333;
-            }
-        }
+    &:hover {
+      &, ${RepliesQuantity}, ${ReplyIcon} {
+        color: #333;
+      }
+    }
 
-        ${RepliesQuantity} {
-            font-size: 14px;
-            color: #959595;
+    ${RepliesQuantity} {
+      font-size: 14px;
+      color: #959595;
 
-            @media (max-width: 500px) {
-                font-size: 12px;
-            }
-        }
+      @media (max-width: 500px) {
+        font-size: 12px;
+      }
+    }
 
-        ${ReplyIcon} {
-            width: 17px;
-            color: #959595;
+    ${ReplyIcon} {
+      width: 17px;
+      color: #959595;
 
-            @media (max-width: 500px) {
-                width: 15px;
-            }
-        }
-    `};
+      @media (max-width: 500px) {
+        width: 15px;
+      }
+    }
+  `};
 `;
 
 const Splitter = styled.div`
@@ -107,15 +107,15 @@ const Root = styled.div`
   align-items: center;
 
   ${is('compact')`
-        width: 100%;
-        height: 56px;
-        justify-content: center;
-        border-top: 1px solid #e9e9e9;
+    width: 100%;
+    height: 56px;
+    justify-content: center;
+    border-top: 1px solid #e9e9e9;
 
-        @media (max-width: 700px) {
-            height: 50px;
-        }
-    `};
+    @media (max-width: 700px) {
+      height: 50px;
+    }
+  `};
 `;
 
 export class ReplyBlock extends Component {

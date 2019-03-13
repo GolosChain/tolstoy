@@ -33,13 +33,13 @@ const PreviewButtonWrapper = styled.div`
   transform: translateX(40px);
 
   ${is('emptyBody')`
-        display: none;
-    `};
+    display: none;
+  `};
 
   ${is('isStatic')`
-        position: static;
-        transform: translateX(0);
-    `};
+    position: static;
+    transform: translateX(0);
+  `};
 `;
 
 const ReplyHeader = styled.div`

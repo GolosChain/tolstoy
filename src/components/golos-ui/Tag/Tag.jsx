@@ -24,16 +24,16 @@ export const Tag = styled.div`
   }
 
   ${is('filtered')`
-        color: ##757575;
-        background-color: #ececec;
-        border-color: #ececec;
+    color: ##757575;
+    background-color: #ececec;
+    border-color: #ececec;
 
-        &:hover {
-            color: ##757575;
-            background-color: #ddd;
-            border-color: #ddd;
-        }
-    `};
+    &:hover {
+      color: ##757575;
+      background-color: #ddd;
+      border-color: #ddd;
+    }
+  `};
 
   ${isOr('selected', 'category')`
         color: #2879ff;

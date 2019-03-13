@@ -46,12 +46,12 @@ const Action = styled.div`
   cursor: pointer;
 
   ${is('active')`
-        color: #959595;
-    `};
+    color: #959595;
+  `};
 
   ${is('remove')`
-        color: #fc5d16;
-    `};
+    color: #fc5d16;
+  `};
 
   &:not(:last-child) {
     &:after {

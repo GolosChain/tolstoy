@@ -153,12 +153,12 @@ const WitnessString = styled.div`
   }
 
   ${is('collapsed')`
-        background-color: #ffffff;
-    `};
+    background-color: #fff;
+  `};
 
   ${is('notActiveWitness')`
-        opacity: 0.4;
-    `};
+    opacity: 0.4;
+  `};
 
   @media (max-width: ${witnessPageDesktopPoint}px) {
     grid-template-columns: ${witnessPageDesktopPointStrTemplate};
@@ -188,9 +188,9 @@ const VoteButton = styled.button`
   }
 
   ${is('upvoted')`
-        background-color: #2879ff;
-        border: 0;
-    `};
+    background-color: #2879ff;
+    border: 0;
+  `};
 
   & svg {
     color: #${({ upvoted }) => (upvoted ? 'ffffff' : '393636')};
@@ -277,10 +277,10 @@ const FullInfo = styled.div`
   }
 
   ${is('collapsed')`
-        height: 0 !important;
-        border-bottom: 0 !important;
-        background-color: #ffffff !important;
-    `};
+    height: 0 !important;
+    border-bottom: 0 !important;
+    background-color: #ffffff !important;
+  `};
 
   @media (max-width: ${witnessPageDesktopPoint}px) {
     grid-template-columns: 1fr 1fr;

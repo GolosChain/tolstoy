@@ -65,8 +65,8 @@ const AccountPowerChunk = styled.div`
   background: #cde0ff;
 
   ${is('fill')`
-        background: #2879ff;
-    `};
+    background: #2879ff;
+  `};
 `;
 
 export default class AccountInfo extends PureComponent {

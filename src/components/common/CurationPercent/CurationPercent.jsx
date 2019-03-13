@@ -25,27 +25,27 @@ const Wrapper = styled.div`
   cursor: default;
 
   ${is('mini')`
-        font-size: 16px;
-        letter-spacing: 1.4px;
-    
-        ${KIcon} {
-            width: 17px;
-        }
-    `};
+    font-size: 16px;
+    letter-spacing: 1.4px;
+
+    ${KIcon} {
+      width: 17px;
+    }
+  `};
 
   ${is('micro')`
-        font-size: 12px;
-        letter-spacing: normal;
-        
-        ${KIcon} {
-            width: 16px;
-            color: #959595;
-        }
-        
-        ${Text} {
-            margin-left: 6px;
-        }
-    `};
+    font-size: 12px;
+    letter-spacing: normal;
+    
+    ${KIcon} {
+      width: 16px;
+      color: #959595;
+    }
+    
+    ${Text} {
+      margin-left: 6px;
+    }
+  `};
 `;
 
 export default function CurationPercent({ curationPercent, mini, micro, className }) {

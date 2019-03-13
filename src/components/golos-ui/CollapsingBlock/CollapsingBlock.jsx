@@ -47,8 +47,8 @@ const HeaderTitle = styled.div`
   text-overflow: ellipsis;
 
   ${is('upper')`
-        text-transform: uppercase;
-    `};
+    text-transform: uppercase;
+  `};
 `;
 
 const CollapseIcon = styled(Icon)`
@@ -64,16 +64,16 @@ const CollapseIcon = styled(Icon)`
   }
 
   ${is('flip')`
-        transform: rotate(0.5turn);
-    `};
+    transform: rotate(0.5turn);
+  `};
 `;
 
 const BodyWrapper = styled.div`
   overflow: hidden;
 
   ${is('animated')`
-        transition: height 0.5s;
-    `};
+    transition: height 0.5s;
+  `};
 `;
 
 const Body = styled.div``;

@@ -51,8 +51,8 @@ const OptionIconWrapper = styled.div`
   color: #d7d7d7;
 
   ${is('active')`
-        color: #2879ff;
-    `};
+    color: #2879ff;
+  `};
 `;
 
 const OptionIcon = styled(Icon)`

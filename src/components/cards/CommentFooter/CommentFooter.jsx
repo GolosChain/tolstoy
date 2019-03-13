@@ -91,8 +91,8 @@ const ButtonConfirm = styled.div`
   cursor: pointer;
 
   ${is('main')`
-        color: #2879ff !important;
-    `};
+    color: #2879ff !important;
+  `};
 
   &:hover {
     color: #393636;

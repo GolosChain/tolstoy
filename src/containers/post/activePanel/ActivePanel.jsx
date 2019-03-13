@@ -94,11 +94,11 @@ const SharingTriangle = styled(Repost)`
   padding: 0 12px;
 
   ${is('isOpen')`
-        & > svg {
-            transition: color 0s;
-            color: #2879ff;
-        }
-    `};
+    & > svg {
+      transition: color 0s;
+      color: #2879ff;
+    }
+  `};
 `;
 
 const DotsMore = styled(Repost)`
@@ -110,11 +110,11 @@ const DotsMore = styled(Repost)`
   }
 
   ${is('isOpen')`
-        & > ${Icon} {
-            transition: color 0s;
-            color: #2879ff;
-        }
-    `};
+    & > ${Icon} {
+      transition: color 0s;
+      color: #2879ff;
+    }
+  `};
 
   @media (max-width: 768px) {
     grid-area: dm;

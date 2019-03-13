@@ -29,14 +29,14 @@ const ButtonWrapper = styled.div`
 
   @media (max-width: 576px) {
     ${is('isEdit')`
-            padding: 0 20px;
-        `};
+      padding: 0 20px;
+    `};
   }
 
   ${is('isEdit')`
-        box-shadow: none;
-        padding: 0 70px;
-    `};
+    box-shadow: none;
+    padding: 0 70px;
+  `};
 `;
 
 let PostForm = null;

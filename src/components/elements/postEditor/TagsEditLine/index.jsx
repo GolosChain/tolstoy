@@ -26,14 +26,14 @@ const Wrapper = styled.div`
 
   @media (max-width: 576px) {
     ${is('isEditMode')`
-            padding: 0 20px;
-        `};
+      padding: 0 20px;
+    `};
   }
 
   ${is('isEditMode')`
-        margin: 0;
-        padding: 0 70px;
-    `};
+    margin: 0;
+    padding: 0 70px;
+  `};
 `;
 
 const TagsLine = styled.div`

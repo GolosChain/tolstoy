@@ -15,8 +15,8 @@ const IconStyled = styled(Icon)`
   will-change: color, transform;
 
   ${is('open')`
-        transform: rotate(1turn);
-    `};
+    transform: rotate(1turn);
+  `};
 
   &:hover {
     color: #333;
@@ -32,12 +32,12 @@ const Root = styled.div`
   overflow: hidden;
 
   ${is('closed')`
-        cursor: pointer;
+    cursor: pointer;
 
-        &:hover ${IconStyled} {
-            color: #333;
-        }
-    `};
+    &:hover ${IconStyled} {
+      color: #333;
+    }
+  `};
 `;
 
 const Wrapper = styled.div`
