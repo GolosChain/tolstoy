@@ -5,10 +5,10 @@
   "author": "Good guys from Commun",
   "license": "MIT",
   "private": true,
-  "main": "src/server/server.js",
+  "main": "server/server.js",
   "scripts": {
     "precommit": "NODE_ENV=production lint-staged",
-    "dev": "nodemon src/server/server.js",
+    "dev": "nodemon server/server.js",
     "build": "next build src",
     "start": "NODE_ENV=production node src/server/server.js",
     "test": "jest"
