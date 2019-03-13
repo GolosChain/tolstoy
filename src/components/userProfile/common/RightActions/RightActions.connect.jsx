@@ -1,13 +1,13 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-// import { currentUsernameSelector } from 'src/app/redux/selectors/common';
+// import { currentUsernameSelector } from 'app/redux/selectors/common';
 // import {
 //     openConvertDialog,
 //     openDelegateVestingDialog,
 //     openTransferDialog,
 //     openSafeDialog,
-// } from 'src/app/redux/actions/dialogs';
+// } from 'app/redux/actions/dialogs';
 
 import RightActions from './RightActions';
 

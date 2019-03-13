@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
 
 import transaction from 'app/redux/Transaction';
-import { showNotification } from 'src/app/redux/actions/ui';
-import { fetchPathStateAction } from 'src/app/redux/actions/fetch';
-import { currentAccountSelector } from 'src/app/redux/selectors/common';
-import { sanitizeCardPostData } from 'src/app/redux/selectors/post/commonPost';
+import { showNotification } from 'app/redux/actions/ui';
+import { fetchPathStateAction } from 'app/redux/actions/fetch';
+import { currentAccountSelector } from 'app/redux/selectors/common';
+import { sanitizeCardPostData } from 'app/redux/selectors/post/commonPost';
 import RepostDialog from './PromoteDialog';
 
 export default connect(

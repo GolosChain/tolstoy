@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-// import { currentUsernameSelector } from 'src/app/redux/selectors/common';
-// import { updateFollow } from 'src/app/redux/actions/follow';
-//import { muteSelector } from 'src/app/redux/selectors/follow/follow';
+// import { currentUsernameSelector } from 'app/redux/selectors/common';
+// import { updateFollow } from 'app/redux/actions/follow';
+//import { muteSelector } from 'app/redux/selectors/follow/follow';
 
 import { Mute } from './Mute';
 

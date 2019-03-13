@@ -1,6 +1,6 @@
 import assert from 'assert';
 import secureRandom from 'secure-random';
-import links, * as linksRe from 'src/utils/Links';
+import links, * as linksRe from 'utils/Links';
 
 describe('Links', () => {
   it('all', () => {

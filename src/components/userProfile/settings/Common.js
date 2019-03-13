@@ -6,7 +6,7 @@ import { Map } from 'immutable';
 import { Form, Field } from 'react-final-form';
 import tt from 'counterpart';
 
-import { CURRENCIES, LANGUAGES, AUCTION_REWARD_DESTINATION } from 'src/constants/config';
+import { CURRENCIES, LANGUAGES, AUCTION_REWARD_DESTINATION } from 'constants/config';
 
 import SplashLoader from 'golos-ui/SplashLoader';
 import { CardContent } from 'golos-ui/Card';

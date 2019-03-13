@@ -1,6 +1,6 @@
 import React from 'react';
 import { browserHistory } from 'mocks/react-router';
-import PostFormLoader from 'src/components/modules/PostForm/loader';
+import PostFormLoader from 'components/modules/PostForm/loader';
 
 class SubmitPost extends React.PureComponent {
   constructor(props) {

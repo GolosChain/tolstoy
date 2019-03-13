@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 
 import transaction from 'app/redux/Transaction';
-import { loginIfNeed } from 'src/app/redux/actions/login';
-import { Witnesses } from 'src/containers/Witnesses/Witnesses';
+import { loginIfNeed } from 'app/redux/actions/login';
+import { Witnesses } from 'containers/Witnesses/Witnesses';
 
 export default connect(
   state => {

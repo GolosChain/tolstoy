@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import is from 'styled-is';
 import tt from 'counterpart';
-import { shareList } from 'src/helpers/socialShare';
+import { shareList } from 'helpers/socialShare';
 
 import Icon from 'golos-ui/Icon';
 

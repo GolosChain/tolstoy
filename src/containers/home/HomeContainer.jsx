@@ -7,11 +7,11 @@ import {
   CONTAINER_FULL_WIDTH,
   CONTAINER_MOBILE_WIDTH,
   CONTAINER_MOBILE_MARGIN,
-} from 'src/constants/container';
-import Container from 'src/components/common/Container';
-import MainNavigation from 'src/components/main/MainNavigation';
-import TagsBox from 'src/components/home/TagsBox';
-import RegistrationBanner from 'src/components/home/sidebar/RegistrationBanner';
+} from 'constants/container';
+import Container from 'components/common/Container';
+import MainNavigation from 'components/main/MainNavigation';
+import TagsBox from 'components/home/TagsBox';
+import RegistrationBanner from 'components/home/sidebar/RegistrationBanner';
 
 const Wrapper = styled.div`
   background-color: #f9f9f9;

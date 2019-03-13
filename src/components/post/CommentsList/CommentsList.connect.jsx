@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import { commentsSelector } from 'src/app/redux/selectors/post/commonPost';
-import { saveListScrollPosition } from 'src/app/redux/actions/ui';
-import { CommentsList } from 'src/components/post/CommentsList/CommentsList';
-import { commentsArrayToObject, getSortFunction } from 'src/helpers/comments';
-import { locationSelector } from 'src/app/redux/selectors/app/location';
+import { commentsSelector } from 'app/redux/selectors/post/commonPost';
+import { saveListScrollPosition } from 'app/redux/actions/ui';
+import { CommentsList } from 'components/post/CommentsList/CommentsList';
+import { commentsArrayToObject, getSortFunction } from 'helpers/comments';
+import { locationSelector } from 'app/redux/selectors/app/location';
 
 function buildCommentsStructure(commentsFromStore, postPermLink, sortBy = 'old') {
   const commentsFullData = commentsArrayToObject([...commentsFromStore.toJS()]);

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import tt from 'counterpart';
 import styled from 'styled-components';
 import is from 'styled-is';
-import Icon from 'src/components/elements/Icon';
+import Icon from 'components/elements/Icon';
 
 const Wrapper = styled.div`
   position: relative;

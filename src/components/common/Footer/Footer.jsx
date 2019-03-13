@@ -4,12 +4,12 @@ import styled from 'styled-components';
 import by from 'styled-by';
 import tt from 'counterpart';
 
-import { APP_NAME_UP, GOLOS_EXPLORER, TERMS_OF_SERVICE_URL } from 'src/constants/config';
+import { APP_NAME_UP, GOLOS_EXPLORER, TERMS_OF_SERVICE_URL } from 'constants/config';
 
-import CurrencyValue from 'src/components/common/CurrencyValue';
-import Container from 'src/components/common/Container';
+import CurrencyValue from 'components/common/CurrencyValue';
+import Container from 'components/common/Container';
 import Icon from 'golos-ui/Icon';
-import { logOutboundLinkClickAnalytics } from 'src/helpers/gaLogs';
+import { logOutboundLinkClickAnalytics } from 'helpers/gaLogs';
 
 const Wrapper = styled.div`
   border-top: 1px solid #e1e1e1;

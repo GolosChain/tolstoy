@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 
-// import { userHeaderSelector } from 'src/app/redux/selectors/userProfile/commonProfile';
-// import { checkWitness } from 'src/app/redux/actions/user';
-// import { updateFollow } from 'src/app/redux/actions/follow';
-// import { confirmUnfollowDialog } from 'src/app/redux/actions/dialogs';
+// import { userHeaderSelector } from 'app/redux/selectors/userProfile/commonProfile';
+// import { checkWitness } from 'app/redux/actions/user';
+// import { updateFollow } from 'app/redux/actions/follow';
+// import { confirmUnfollowDialog } from 'app/redux/actions/dialogs';
 // import transaction from 'app/redux/Transaction';
 
 import UserHeader from './UserHeader';

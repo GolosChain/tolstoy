@@ -1,11 +1,11 @@
 import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
 
-import { currentUsernameSelector, parseJSON } from 'src/app/redux/selectors/common';
+import { currentUsernameSelector, parseJSON } from 'app/redux/selectors/common';
 import transaction from 'app/redux/Transaction';
-import { showNotification } from 'src/app/redux/actions/ui';
+import { showNotification } from 'app/redux/actions/ui';
 import PostForm, { PAYOUT_TYPES } from './PostForm';
-import { postSelector } from 'src/app/redux/selectors/post/commonPost';
+import { postSelector } from 'app/redux/selectors/post/commonPost';
 
 const editPostSelector = createSelector(
   [(state, props) => postSelector(state, `${props.author}/${props.permLink}`)],

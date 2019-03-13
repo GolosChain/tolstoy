@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import is from 'styled-is';
 
 import Icon from 'golos-ui/Icon';
-import { listenLazy } from 'src/helpers/hoc';
-import { FORCE_LINES_WIDTH } from 'src/components/common/CardsList/CardsList';
+import { listenLazy } from 'helpers/hoc';
+import { FORCE_LINES_WIDTH } from 'components/common/CardsList/CardsList';
 import LayoutSwitcherMenu from './LayoutSwitcherMenu';
 
 const LAYOUTS = ['list', 'compact', 'grid'];

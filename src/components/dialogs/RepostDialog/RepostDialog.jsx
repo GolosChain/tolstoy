@@ -4,12 +4,12 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
-import { safePaste } from 'src/helpers/browser';
-import { breakWordStyles } from 'src/helpers/styles';
-import DialogManager from 'src/components/elements/common/DialogManager';
-import { PostTitle, PostContent } from 'src/components/cards/common';
-import CardAuthor from 'src/components/cards/CardAuthor';
-import DialogButton from 'src/components/common/DialogButton';
+import { safePaste } from 'helpers/browser';
+import { breakWordStyles } from 'helpers/styles';
+import DialogManager from 'components/elements/common/DialogManager';
+import { PostTitle, PostContent } from 'components/cards/common';
+import CardAuthor from 'components/cards/CardAuthor';
+import DialogButton from 'components/common/DialogButton';
 
 const MAX_CHARS = 600;
 const PADDING = 24;

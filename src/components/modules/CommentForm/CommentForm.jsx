@@ -9,19 +9,19 @@ import cn from 'classnames';
 import tt from 'counterpart';
 
 import transaction from 'app/redux/Transaction';
-import DialogManager from 'src/components/elements/common/DialogManager';
-import Icon from 'src/components/elements/Icon';
-import MarkdownEditor from 'src/components/elements/postEditor/MarkdownEditor/MarkdownEditor';
-import CommentFooter from 'src/components/elements/postEditor/CommentFooter';
-import PreviewButton from 'src/components/elements/postEditor/PreviewButton';
-import MarkdownViewer, { getRemarkable } from 'src/components/cards/MarkdownViewer/MarkdownViewer';
-import { checkPostHtml } from 'src/utils/validator';
-import { showNotification } from 'src/app/redux/actions/ui';
-import { getTags } from 'src/shared/HtmlReady';
+import DialogManager from 'components/elements/common/DialogManager';
+import Icon from 'components/elements/Icon';
+import MarkdownEditor from 'components/elements/postEditor/MarkdownEditor/MarkdownEditor';
+import CommentFooter from 'components/elements/postEditor/CommentFooter';
+import PreviewButton from 'components/elements/postEditor/PreviewButton';
+import MarkdownViewer, { getRemarkable } from 'components/cards/MarkdownViewer/MarkdownViewer';
+import { checkPostHtml } from 'utils/validator';
+import { showNotification } from 'app/redux/actions/ui';
+import { getTags } from 'shared/HtmlReady';
 import './CommentForm.scss';
-import { toggleCommentInputFocus } from 'src/app/redux/actions/ui';
-import CommentAuthor from 'src/components/cards/CommentAuthor';
-import { loginIfNeed } from 'src/app/redux/actions/login';
+import { toggleCommentInputFocus } from 'app/redux/actions/ui';
+import CommentAuthor from 'components/cards/CommentAuthor';
+import { loginIfNeed } from 'app/redux/actions/login';
 
 const DRAFT_KEY = 'golos.comment.draft';
 

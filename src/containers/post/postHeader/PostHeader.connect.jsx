@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import { currentPostSelector, authorSelector } from 'src/app/redux/selectors/post/commonPost';
-import { currentUsernameSelector } from 'src/app/redux/selectors/common';
-import { followingSelector } from 'src/app/redux/selectors/follow/follow';
-import { updateFollow } from 'src/app/redux/actions/follow';
-import { PostHeader } from 'src/containers/post/postHeader/PostHeader';
-import { confirmUnfollowDialog } from 'src/app/redux/actions/dialogs';
+import { currentPostSelector, authorSelector } from 'app/redux/selectors/post/commonPost';
+import { currentUsernameSelector } from 'app/redux/selectors/common';
+import { followingSelector } from 'app/redux/selectors/follow/follow';
+import { updateFollow } from 'app/redux/actions/follow';
+import { PostHeader } from 'containers/post/postHeader/PostHeader';
+import { confirmUnfollowDialog } from 'app/redux/actions/dialogs';
 
 export default connect(
   createSelector(

@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
-import { vestsToGolos } from 'src/utils/StateFunctions';
+import { vestsToGolos } from 'utils/StateFunctions';
 
 const Root = styled.div``;
 

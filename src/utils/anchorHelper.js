@@ -1,4 +1,4 @@
-import { getScrollElement } from 'src/helpers/window';
+import { getScrollElement } from 'helpers/window';
 
 export function init() {
   window.addEventListener('hashchange', () => {

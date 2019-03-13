@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 
 import ScrollToTop from 'react-scroll-up';
-import Icon from 'src/components/golos-ui/Icon';
-import { logClickAnalytics } from 'src/helpers/gaLogs';
+import Icon from 'components/golos-ui/Icon';
+import { logClickAnalytics } from 'helpers/gaLogs';
 
 const TopIcon = styled(Icon)`
   flex-shrink: 0;

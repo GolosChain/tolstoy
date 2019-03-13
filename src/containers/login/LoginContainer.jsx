@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { browserHistory } from 'mocks/react-router';
 
-import Container from 'src/components/common/Container';
+import Container from 'components/common/Container';
 import LoginForm from './LoginForm';
 
 const HEADER_HEIGHT = 60;

@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 
-// import { userSelector, currentUsernameSelector } from 'src/app/redux/selectors/common';
-// import { loginCanceled } from 'src/app/redux/actions/login';
-// import { openResetKeysDialog } from 'src/app/redux/actions/dialogs';
+// import { userSelector, currentUsernameSelector } from 'app/redux/selectors/common';
+// import { loginCanceled } from 'app/redux/actions/login';
+// import { openResetKeysDialog } from 'app/redux/actions/dialogs';
 import { LoginForm } from './LoginForm';
 
 export default connect(

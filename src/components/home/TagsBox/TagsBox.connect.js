@@ -1,13 +1,13 @@
 import { connect } from 'react-redux';
 
-// import constants from 'src/app/store/constants';
+// import constants from 'app/store/constants';
 // import {
 //     createDeepEqualSelector,
 //     currentUsernameSelector,
 //     routeParamSelector,
-// } from 'src/app/redux/selectors/common';
-// import { locationTagsSelector } from 'src/app/redux/selectors/app/location';
-// import { deleteTag } from 'src/app/redux/actions/tags';
+// } from 'app/redux/selectors/common';
+// import { locationTagsSelector } from 'app/redux/selectors/app/location';
+// import { deleteTag } from 'app/redux/actions/tags';
 
 import TagsBox from './TagsBox';
 

@@ -1,8 +1,8 @@
 import xmldom from 'xmldom';
-import linksRe, { any as linksAny } from 'src/utils/Links';
-import { validate_account_name } from 'src/utils/ChainValidation';
-import { detransliterate } from 'src/utils/ParsersAndFormatters';
-import { sanitizeUrl } from 'src/helpers/urls';
+import linksRe, { any as linksAny } from 'utils/Links';
+import { validate_account_name } from 'utils/ChainValidation';
+import { detransliterate } from 'utils/ParsersAndFormatters';
+import { sanitizeUrl } from 'helpers/urls';
 
 let DOMParser = null;
 let XMLSerializer = null;

@@ -2,11 +2,11 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
 import transaction from 'app/redux/Transaction';
-import { vestsToGolos } from 'src/utils/StateFunctions';
-import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';
-import { showNotification } from 'src/app/redux/actions/ui';
-import { currentUserSelector, currentAccountSelector } from 'src/app/redux/selectors/common';
-import { powerDownSelector } from 'src/app/redux/selectors/wallet/powerDown';
+import { vestsToGolos } from 'utils/StateFunctions';
+import { fetchCurrentStateAction } from 'app/redux/actions/fetch';
+import { showNotification } from 'app/redux/actions/ui';
+import { currentUserSelector, currentAccountSelector } from 'app/redux/selectors/common';
+import { powerDownSelector } from 'app/redux/selectors/wallet/powerDown';
 
 import ConvertDialog from './ConvertDialog';
 

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
 
-import { visuallyHidden } from 'src/helpers/styles';
+import { visuallyHidden } from 'helpers/styles';
 import Icon from 'golos-ui/Icon';
 import { Label as StyledLabel } from 'golos-ui/Form';
 

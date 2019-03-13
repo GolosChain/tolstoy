@@ -6,13 +6,13 @@ import is from 'styled-is';
 import throttle from 'lodash/throttle';
 import tt from 'counterpart';
 
-import { REGISTRATION_URL } from 'src/constants/config';
+import { REGISTRATION_URL } from 'constants/config';
 import {
   CONTAINER_FULL_WIDTH,
   CONTAINER_MOBILE_WIDTH,
   CONTAINER_BASE_MARGIN,
   CONTAINER_MOBILE_MARGIN,
-} from 'src/constants/container';
+} from 'constants/container';
 
 import Icon from 'golos-ui/Icon';
 import IconBadge from 'golos-ui/IconBadge';
@@ -21,7 +21,7 @@ import Button from 'golos-ui/Button';
 
 import Menu from '../Menu';
 import NotificationsMenu from '../NotificationsMenu';
-import Popover from 'src/components/header/Popover/Popover';
+import Popover from 'components/header/Popover/Popover';
 import LocaleSelect from '../LocaleSelect';
 import AccountInfo from '../AccountInfo';
 import AccountInfoMobile from '../AccountInfoMobile';

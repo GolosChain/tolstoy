@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import Button from 'src/components/elements/Button';
+import Button from 'components/elements/Button';
 
 const ButtonStyled = styled(Button)`
   margin-right: 14px;

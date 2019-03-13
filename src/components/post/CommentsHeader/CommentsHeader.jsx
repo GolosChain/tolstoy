@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import tt from 'counterpart';
 
 import Popover from 'golos-ui/Popover';
-import { logClickAnalytics } from 'src/helpers/gaLogs';
-import SortLine from 'src/components/post/CommentsHeader/SortLine';
+import { logClickAnalytics } from 'helpers/gaLogs';
+import SortLine from 'components/post/CommentsHeader/SortLine';
 
 const SORT_CATEGORIES = ['popularity', 'voices', 'first_new', 'first_old'];
 

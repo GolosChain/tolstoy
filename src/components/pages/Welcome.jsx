@@ -1,1 +1,1 @@
-export { default } from 'src/containers/Welcome';
+export { default } from 'containers/Welcome';

@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import { List } from 'immutable';
 import tt from 'counterpart';
 
-import LoadingIndicator from 'src/components/elements/LoadingIndicator';
+import LoadingIndicator from 'components/elements/LoadingIndicator';
 
-import Avatar from 'src/components/common/Avatar';
-import Follow from 'src/components/common/Follow';
+import Avatar from 'components/common/Avatar';
+import Follow from 'components/common/Follow';
 import {
   Dialog,
   Header,
@@ -18,7 +18,7 @@ import {
   UserLink,
   Name,
   LoaderWrapper,
-} from 'src/components/dialogs/common/Dialog';
+} from 'components/dialogs/common/Dialog';
 
 const ShowAll = styled.button`
   width: 100%;

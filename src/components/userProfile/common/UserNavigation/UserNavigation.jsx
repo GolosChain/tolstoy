@@ -5,9 +5,9 @@ import tt from 'counterpart';
 import { Link } from 'mocks/react-router';
 
 import Icon from 'golos-ui/Icon';
-import LayoutSwitcher from 'src/components/common/LayoutSwitcher';
-import Navigation from 'src/components/common/Navigation';
-import NavigationMobile from 'src/components/common/NavigationMobile';
+import LayoutSwitcher from 'components/common/LayoutSwitcher';
+import Navigation from 'components/common/Navigation';
+import NavigationMobile from 'components/common/NavigationMobile';
 
 const SettingsLink = styled(Link)`
   display: flex;

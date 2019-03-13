@@ -4,11 +4,11 @@ import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
 
-import TimeAgoWrapper from 'src/components/elements/TimeAgoWrapper';
+import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
 import Icon from 'golos-ui/Icon/index';
-import links from 'src/utils/Links';
-import { formatDecimal } from 'src/utils/ParsersAndFormatters';
-import CloseOpenButton from 'src/components/cards/CloseOpenButton';
+import links from 'utils/Links';
+import { formatDecimal } from 'utils/ParsersAndFormatters';
+import CloseOpenButton from 'components/cards/CloseOpenButton';
 
 export const stringTemplate = '170px 70px 90px 160px 120px 140px 225px 115px 60px';
 export const witnessPageDesktopPoint = 1180;

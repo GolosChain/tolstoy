@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import { favoritesLoadNextPageAction } from 'src/app/redux/actions/favorites';
-import { dataSelector, uiSelector } from 'src/app/redux/selectors/common';
+import { favoritesLoadNextPageAction } from 'app/redux/actions/favorites';
+import { dataSelector, uiSelector } from 'app/redux/selectors/common';
 import CardsList from './CardsList.connect';
 
 export default connect(

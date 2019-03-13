@@ -1,6 +1,6 @@
 import React from 'react';
-//import { getHistoricalData } from 'src/app/redux/actions/rates';
-import { CURRENCIES, DEFAULT_CURRENCY } from 'src/constants/config';
+//import { getHistoricalData } from 'app/redux/actions/rates';
+import { CURRENCIES, DEFAULT_CURRENCY } from 'constants/config';
 
 function getStoreState() {
   throw new Error('MOCK');

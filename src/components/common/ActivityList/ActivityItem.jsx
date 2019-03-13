@@ -7,15 +7,15 @@ import { List, Map } from 'immutable';
 import tt from 'counterpart';
 import Interpolate from 'react-interpolate-component';
 
-import globalBus from 'src/helpers/globalBus';
-import { breakWordStyles } from 'src/helpers/styles';
-import normalizeProfile from 'src/utils/NormalizeProfile';
-import { getPropsForInterpolation } from 'src/helpers/notifications';
+import globalBus from 'helpers/globalBus';
+import { breakWordStyles } from 'helpers/styles';
+import normalizeProfile from 'utils/NormalizeProfile';
+import { getPropsForInterpolation } from 'helpers/notifications';
 import Icon from 'golos-ui/Icon';
 
-import Avatar from 'src/components/common/Avatar';
-import TimeAgoWrapper from 'src/components/elements/TimeAgoWrapper';
-import Follow from 'src/components/common/Follow';
+import Avatar from 'components/common/Avatar';
+import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
+import Follow from 'components/common/Follow';
 
 const Wrapper = styled.div`
   padding: 10px 15px;

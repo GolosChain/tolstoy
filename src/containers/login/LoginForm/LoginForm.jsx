@@ -3,12 +3,12 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import tt from 'counterpart';
 
-import DialogManager from 'src/components/elements/common/DialogManager';
-import { translateError } from 'src/utils/ParsersAndFormatters';
+import DialogManager from 'components/elements/common/DialogManager';
+import { translateError } from 'utils/ParsersAndFormatters';
 import Button from 'golos-ui/Button';
 import Icon from 'golos-ui/Icon';
 import { Checkbox } from 'golos-ui/Form';
-import { logOpenDialogAnalytics } from 'src/helpers/gaLogs';
+import { logOpenDialogAnalytics } from 'helpers/gaLogs';
 
 const WIF_LENGTH = 52;
 const OWNER_KEY_OPERATIONS = [

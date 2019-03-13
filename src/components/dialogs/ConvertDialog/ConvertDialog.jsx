@@ -9,17 +9,17 @@ import Slider from 'golos-ui/Slider';
 import ComplexInput from 'golos-ui/ComplexInput';
 import SplashLoader from 'golos-ui/SplashLoader';
 import { Checkbox } from 'golos-ui/Form';
-import { processError } from 'src/helpers/dialogs';
+import { processError } from 'helpers/dialogs';
 
-import { MIN_VOICE_POWER } from 'src/constants/config';
-import { isBadActor } from 'src/utils/ChainValidation';
-import DialogFrame from 'src/components/dialogs/DialogFrame';
-import DialogManager from 'src/components/elements/common/DialogManager';
-import { parseAmount } from 'src/helpers/currency';
-import { boldify } from 'src/helpers/text';
-import { vestsToGolos, golosToVests } from 'src/utils/StateFunctions';
-import DialogTypeSelect from 'src/components/userProfile/common/DialogTypeSelect';
-import AccountNameInput from 'src/components/common/AccountNameInput';
+import { MIN_VOICE_POWER } from 'constants/config';
+import { isBadActor } from 'utils/ChainValidation';
+import DialogFrame from 'components/dialogs/DialogFrame';
+import DialogManager from 'components/elements/common/DialogManager';
+import { parseAmount } from 'helpers/currency';
+import { boldify } from 'helpers/text';
+import { vestsToGolos, golosToVests } from 'utils/StateFunctions';
+import DialogTypeSelect from 'components/userProfile/common/DialogTypeSelect';
+import AccountNameInput from 'components/common/AccountNameInput';
 import Icon from '../../golos-ui/Icon/Icon';
 
 const POWER_TO_GOLOS_INTERVAL = 13; // weeks

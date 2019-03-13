@@ -1,14 +1,14 @@
 import { connect } from 'react-redux';
 
-//import constants from 'src/app/store/constants';
+//import constants from 'app/store/constants';
 // import {
 //     createDeepEqualSelector,
 //     globalSelector,
 //     appSelector,
 //     currentUsernameSelector,
 //     uiSelector,
-// } from 'src/app/redux/selectors/common';
-// import { locationTagsSelector } from 'src/app/redux/selectors/app/location';
+// } from 'app/redux/selectors/common';
+// import { locationTagsSelector } from 'app/redux/selectors/app/location';
 
 import HomeContent from './HomeContent';
 

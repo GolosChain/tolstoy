@@ -1,5 +1,5 @@
 import React from 'react';
-import Icon from 'src/components/elements/Icon';
+import Icon from 'components/elements/Icon';
 
 export default class HintIcon extends React.PureComponent {
   constructor(props) {

@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import transaction from 'app/redux/Transaction';
-import LoadingIndicator from 'src/components/elements/LoadingIndicator';
+import LoadingIndicator from 'components/elements/LoadingIndicator';
 import { PrivateKey, PublicKey, key_utils } from 'golos-js/lib/auth/ecc';
-import { validate_account_name } from 'src/utils/ChainValidation';
-import { cleanReduxInput } from 'src/utils/ReduxForms';
-import { showNotification } from 'src/app/redux/actions/ui';
+import { validate_account_name } from 'utils/ChainValidation';
+import { cleanReduxInput } from 'utils/ReduxForms';
+import { showNotification } from 'app/redux/actions/ui';
 import tt from 'counterpart';
 import { api } from 'mocks/golos-js';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import is from 'styled-is';
-import { visuallyHidden } from 'src/helpers/styles';
+import { visuallyHidden } from 'helpers/styles';
 
 const Wrapper = styled.div`
   display: inline-block;

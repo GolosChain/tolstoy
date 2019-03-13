@@ -4,10 +4,10 @@ import { Link } from 'mocks/react-router';
 import tt from 'counterpart';
 import styled from 'styled-components';
 
-import { APP_NAME } from 'src/constants/config';
+import { APP_NAME } from 'constants/config';
 
-import CardsList from 'src/components/common/CardsList';
-import NoPostsPlaceholder from 'src/components/home/NoPostsPlaceholder';
+import CardsList from 'components/common/CardsList';
+import NoPostsPlaceholder from 'components/home/NoPostsPlaceholder';
 
 const Wrapper = styled.div`
   background-color: #f9f9f9;

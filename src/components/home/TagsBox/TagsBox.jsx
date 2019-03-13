@@ -5,8 +5,8 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
-import SlideContainer from 'src/components/common/SlideContainer';
-import TagSelect from 'src/components/common/TagSelect';
+import SlideContainer from 'components/common/SlideContainer';
+import TagSelect from 'components/common/TagSelect';
 
 const Wrapper = styled.div`
   display: flex;

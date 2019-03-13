@@ -2,8 +2,8 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { Map } from 'immutable';
 
-//import { globalSelector } from 'src/app/redux/selectors/common';
-import { getUserStatus } from 'src/helpers/users';
+//import { globalSelector } from 'app/redux/selectors/common';
+import { getUserStatus } from 'helpers/users';
 
 import UserStatus from './UserStatus';
 

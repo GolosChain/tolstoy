@@ -5,7 +5,7 @@ import {
   CONTAINER_BASE_MARGIN,
   CONTAINER_MOBILE_MARGIN,
   CONTAINER_MOBILE_WIDTH,
-} from 'src/constants/container';
+} from 'constants/container';
 
 export default styled.div`
   margin: 0;

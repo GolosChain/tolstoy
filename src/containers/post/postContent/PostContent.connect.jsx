@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import { currentPostSelector } from 'src/app/redux/selectors/post/commonPost';
-import { currentUsernameSelector } from 'src/app/redux/selectors/common';
-import { PostContent } from 'src/containers/post/postContent/PostContent';
+import { currentPostSelector } from 'app/redux/selectors/post/commonPost';
+import { currentUsernameSelector } from 'app/redux/selectors/common';
+import { PostContent } from 'containers/post/postContent/PostContent';
 
 export default connect(
   createSelector(

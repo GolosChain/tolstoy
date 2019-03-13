@@ -8,9 +8,9 @@ import throttle from 'lodash/throttle';
 import { isEmpty } from 'ramda';
 
 import SimpleInput from 'golos-ui/SimpleInput';
-import keyCodes from 'src/utils/keyCodes';
-import { getScrollElement } from 'src/helpers/window';
-import { buildAccountNameAutocomplete } from 'src/utils/StateFunctions';
+import keyCodes from 'utils/keyCodes';
+import { getScrollElement } from 'helpers/window';
+import { buildAccountNameAutocomplete } from 'utils/StateFunctions';
 
 const MIN_SYMBOLS = 2;
 const MAX_VARIANTS = 5;

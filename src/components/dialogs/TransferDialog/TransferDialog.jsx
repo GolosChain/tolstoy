@@ -7,15 +7,15 @@ import ComplexInput from 'golos-ui/ComplexInput';
 import SplashLoader from 'golos-ui/SplashLoader';
 import Icon from 'golos-ui/Icon';
 
-import { APP_DOMAIN, DONATION_FOR } from 'src/constants/config';
-import { isBadActor } from 'src/utils/ChainValidation';
-import { parseAmount } from 'src/helpers/currency';
-import { saveValue, getValue } from 'src/helpers/localStorageUtils';
-import { processError } from 'src/helpers/dialogs';
+import { APP_DOMAIN, DONATION_FOR } from 'constants/config';
+import { isBadActor } from 'utils/ChainValidation';
+import { parseAmount } from 'helpers/currency';
+import { saveValue, getValue } from 'helpers/localStorageUtils';
+import { processError } from 'helpers/dialogs';
 
-import DialogFrame from 'src/components/dialogs/DialogFrame';
-import DialogManager from 'src/components/elements/common/DialogManager';
-import AccountNameInput from 'src/components/common/AccountNameInput';
+import DialogFrame from 'components/dialogs/DialogFrame';
+import DialogManager from 'components/elements/common/DialogManager';
+import AccountNameInput from 'components/common/AccountNameInput';
 
 const CURRENCY_SAVE_KEY = 'transfer-dialog.default-currency';
 

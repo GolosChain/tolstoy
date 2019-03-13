@@ -8,13 +8,13 @@ import throttle from 'lodash/throttle';
 
 import Icon from 'golos-ui/Icon';
 import Slider from 'golos-ui/Slider';
-import PostPayout from 'src/components/common/PostPayout';
-import DislikeAlert from 'src/components/dialogs/DislikeAlert';
-import DialogManager from 'src/components/elements/common/DialogManager';
+import PostPayout from 'components/common/PostPayout';
+import DislikeAlert from 'components/dialogs/DislikeAlert';
+import DialogManager from 'components/elements/common/DialogManager';
 import Popover from '../Popover';
 import PayoutInfo from '../PayoutInfo';
 import PayoutInfoDialog from '../PayoutInfoDialog';
-import { confirmVote } from 'src/helpers/votes';
+import { confirmVote } from 'helpers/votes';
 
 import {
   USERS_NUMBER_IN_TOOLTIP,

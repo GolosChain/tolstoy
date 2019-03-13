@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import EditGolosPower from 'src/components/userProfile/common/EditGolosPower';
+import EditGolosPower from 'components/userProfile/common/EditGolosPower';
 
 const Root = styled.div`
   position: absolute;

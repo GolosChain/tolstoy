@@ -7,14 +7,14 @@ import { api } from 'mocks/golos-js';
 
 import Card from 'golos-ui/Card';
 
-import { APP_DOMAIN, DONATION_FOR } from 'src/constants/config';
-import LoadingIndicator from 'src/components/elements/LoadingIndicator';
-import { vestsToGolos, vestsToGolosEasy } from 'src/utils/StateFunctions';
-import { validateTransferQuery } from 'src/utils/ParsersAndFormatters';
-import WalletTabs from 'src/components/userProfile/wallet/WalletTabs';
-import WalletLine from 'src/components/userProfile/wallet/WalletLine';
-import PowerDownLine from 'src/components/wallet/PowerDownLine';
-import { visuallyHidden } from 'src/helpers/styles';
+import { APP_DOMAIN, DONATION_FOR } from 'constants/config';
+import LoadingIndicator from 'components/elements/LoadingIndicator';
+import { vestsToGolos, vestsToGolosEasy } from 'utils/StateFunctions';
+import { validateTransferQuery } from 'utils/ParsersAndFormatters';
+import WalletTabs from 'components/userProfile/wallet/WalletTabs';
+import WalletLine from 'components/userProfile/wallet/WalletLine';
+import PowerDownLine from 'components/wallet/PowerDownLine';
+import { visuallyHidden } from 'helpers/styles';
 
 const DEFAULT_ROWS_LIMIT = 25;
 const LOAD_LIMIT = 500;

@@ -1,5 +1,5 @@
-import extractContent from 'src/utils/ExtractContent';
-import normalizeProfile from 'src/utils/NormalizeProfile';
+import extractContent from 'utils/ExtractContent';
+import normalizeProfile from 'utils/NormalizeProfile';
 import {
   SEO_TITLE,
   APP_DOMAIN,
@@ -10,7 +10,7 @@ import {
   ANDROID_APP_NAME,
   ANDROID_PACKAGE,
   ANDROID_URL_SCHEME,
-} from 'src/constants/config';
+} from 'constants/config';
 
 export default function extractMeta(chainData, routeParams) {
   const meta = [];

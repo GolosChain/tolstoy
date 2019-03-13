@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import tt from 'counterpart';
-import { cleanReduxInput } from 'src/utils/ReduxForms';
-import { validateTags } from 'src/utils/tags';
+import { cleanReduxInput } from 'utils/ReduxForms';
+import { validateTags } from 'utils/tags';
 
 class CategorySelector extends React.Component {
   static propTypes = {

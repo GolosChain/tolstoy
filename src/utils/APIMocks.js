@@ -12,7 +12,7 @@ import {
   repliesByLastUpdate,
   accountHistory,
   contentReplies,
-} from 'src/utils/test_fixtures/chain_data';
+} from 'utils/test_fixtures/chain_data';
 
 export function getDynamicGlobalProperties() {
   return Promise.resolve(globalProps);

@@ -5,7 +5,7 @@ import { Map } from 'immutable';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import extractContent from 'src/utils/ExtractContent';
+import extractContent from 'utils/ExtractContent';
 
 const WhoPostLink = styled(Link)`
   display: block;

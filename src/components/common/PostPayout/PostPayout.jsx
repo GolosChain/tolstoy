@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import is from 'styled-is';
 
-import CurrencyValue from 'src/components/common/CurrencyValue';
+import CurrencyValue from 'components/common/CurrencyValue';
 
 const CurrencyValueStyled = styled(CurrencyValue)`
   ${is('limited')`

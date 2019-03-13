@@ -4,13 +4,13 @@ import styled from 'styled-components';
 import { Helmet } from 'react-helmet';
 import tt from 'counterpart';
 
-import LoadingIndicator from 'src/components/elements/LoadingIndicator';
-import BlogCardsList from 'src/components/common/CardsList/BlogCardsList';
-import InfoBlock from 'src/components/common/InfoBlock';
-import EmptyBlock, { EmptySubText } from 'src/components/common/EmptyBlock';
-import CommentCard from 'src/components/cards/CommentCard';
+import LoadingIndicator from 'components/elements/LoadingIndicator';
+import BlogCardsList from 'components/common/CardsList/BlogCardsList';
+import InfoBlock from 'components/common/InfoBlock';
+import EmptyBlock, { EmptySubText } from 'components/common/EmptyBlock';
+import CommentCard from 'components/cards/CommentCard';
 import CardsListWrapper from '../CardsListWrapper';
-import { visuallyHidden } from 'src/helpers/styles';
+import { visuallyHidden } from 'helpers/styles';
 
 const Loader = styled(LoadingIndicator)`
   margin-top: 30px;

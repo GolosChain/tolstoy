@@ -1,17 +1,17 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import extractContent from 'src/utils/ExtractContent';
+import extractContent from 'utils/ExtractContent';
 
 import { CommentCard } from './CommentCard';
 import {
   currentUsernameSelector,
   appSelector,
   globalSelector,
-} from 'src/app/redux/selectors/common';
-import { onVote } from 'src/app/redux/actions/vote';
-import { showNotification } from 'src/app/redux/actions/ui';
-import { openTransferDialog } from 'src/app/redux/actions/dialogs';
+} from 'app/redux/selectors/common';
+import { onVote } from 'app/redux/actions/vote';
+import { showNotification } from 'app/redux/actions/ui';
+import { openTransferDialog } from 'app/redux/actions/dialogs';
 
 export default connect(
   createSelector(

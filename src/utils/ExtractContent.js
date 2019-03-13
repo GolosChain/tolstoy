@@ -2,10 +2,10 @@ import sanitize from 'sanitize-html';
 import Remarkable from 'remarkable';
 import memoize from 'lodash/memoize';
 
-import remarkableStripper from 'src/utils/RemarkableStripper';
-import { htmlDecode } from 'src/utils/Html';
-import { getTags } from 'src/shared/HtmlReady';
-import { smartTrim } from 'src/helpers/text';
+import remarkableStripper from 'utils/RemarkableStripper';
+import { htmlDecode } from 'utils/Html';
+import { getTags } from 'shared/HtmlReady';
+import { smartTrim } from 'helpers/text';
 
 const DESC_LENGTH = 600;
 const DESC_LENGTH_WITH_IMAGE = 300;

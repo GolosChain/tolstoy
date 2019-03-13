@@ -7,10 +7,10 @@ import throttle from 'lodash/throttle';
 import { List, Map } from 'immutable';
 import tt from 'counterpart';
 
-import globalBus from 'src/helpers/globalBus';
+import globalBus from 'helpers/globalBus';
 import { FormFooter, FormFooterButton } from 'golos-ui/Form';
-import LoadingIndicator from 'src/components/elements/LoadingIndicator';
-import ActivityList from 'src/components/common/ActivityList';
+import LoadingIndicator from 'components/elements/LoadingIndicator';
+import ActivityList from 'components/common/ActivityList';
 
 const NOTIFICATIONS_PER_PAGE = 20;
 const LOAD_MORE_VERTICAL_GAP = 300;

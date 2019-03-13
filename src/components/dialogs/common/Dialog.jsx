@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Link } from 'mocks/react-router';
 
 import Icon from 'golos-ui/Icon';
-import { breakWordStyles } from 'src/helpers/styles';
+import { breakWordStyles } from 'helpers/styles';
 
 export const Dialog = styled.div`
   position: relative;

@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 // import { createStructuredSelector } from 'reselect';
 
-// import { currentUsernameSelector } from 'src/app/redux/selectors/common';
-// import { locationSearchSelector } from 'src/app/redux/selectors/app/location';
+// import { currentUsernameSelector } from 'app/redux/selectors/common';
+// import { locationSearchSelector } from 'app/redux/selectors/app/location';
 
 import MainNavigation from './MainNavigation';
 

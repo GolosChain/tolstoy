@@ -3,8 +3,8 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import thunkMiddleware from 'redux-thunk';
 import { modalsMiddleware } from 'redux-modals-manager';
 
-import { apiCommunMiddleware, apiGateMiddleware } from 'src/store/middlewares';
-import rootReducer from 'src/store/reducers';
+import { apiCommunMiddleware, apiGateMiddleware } from 'store/middlewares';
+import rootReducer from 'store/reducers';
 
 export default (state = {}) => {
   const middlewares = [thunkMiddleware, apiCommunMiddleware, apiGateMiddleware, modalsMiddleware];

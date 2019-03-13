@@ -1,9 +1,9 @@
 import React, { Component, createRef } from 'react';
 import styled from 'styled-components';
 
-import CommentsHeader from 'src/components/post/CommentsHeader/CommentsHeader';
-import CreateComment from 'src/components/post/CreateComment';
-import CommentsList from 'src/components/post/CommentsList';
+import CommentsHeader from 'components/post/CommentsHeader/CommentsHeader';
+import CreateComment from 'components/post/CreateComment';
+import CommentsList from 'components/post/CommentsList';
 
 const Wrapper = styled.div`
   padding-top: 20px;

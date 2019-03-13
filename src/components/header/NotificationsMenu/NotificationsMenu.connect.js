@@ -5,13 +5,13 @@ import { connect } from 'react-redux';
 //     currentUsernameSelector,
 //     entitiesArraySelector,
 //     statusSelector,
-// } from 'src/app/redux/selectors/common';
-//import { hydratedNotificationsSelector } from 'src/app/redux/selectors/notifications';
-//import { markAllNotificationsAsViewed } from 'src/app/redux/actions/notifications';
+// } from 'app/redux/selectors/common';
+//import { hydratedNotificationsSelector } from 'app/redux/selectors/notifications';
+//import { markAllNotificationsAsViewed } from 'app/redux/actions/notifications';
 // import {
 //     getNotificationsOnlineHistory,
 //     clearOnlineNotifications,
-// } from 'src/app/redux/actions/notificationsOnline';
+// } from 'app/redux/actions/notificationsOnline';
 import NotificationsMenu from './NotificationsMenu';
 
 // const filteredNotificationsSelector = createDeepEqualSelector(

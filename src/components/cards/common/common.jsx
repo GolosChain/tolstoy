@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { breakWordStyles } from 'src/helpers/styles';
+import { breakWordStyles } from 'helpers/styles';
 
 export const EntryWrapper = styled.div`
   margin-bottom: 16px;

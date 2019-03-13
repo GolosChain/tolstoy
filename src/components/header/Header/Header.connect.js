@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 
 //import user from 'app/redux/User';
-//import { getNotificationsOnlineHistoryFreshCount } from 'src/app/redux/actions/notificationsOnline';
-//import { statusSelector } from 'src/app/redux/selectors/common';
+//import { getNotificationsOnlineHistoryFreshCount } from 'app/redux/actions/notificationsOnline';
+//import { statusSelector } from 'app/redux/selectors/common';
 
 import Header from './Header';
 

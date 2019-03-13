@@ -4,14 +4,9 @@ module.exports = {
     [
       'module-resolver',
       {
-        root: ['.', './src/app'],
+        root: ['./src'],
         alias: {
-          'golos-ui': './src/app/components/golos-ui',
-          mocks: './src/app/mocks',
-          components: './src/app/components',
-          shared: './src/app/shared',
-          store: './src/app/store',
-          utils: './src/app/utils',
+          'golos-ui': './src/components/golos-ui',
         },
       },
     ],

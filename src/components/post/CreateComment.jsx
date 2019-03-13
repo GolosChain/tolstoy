@@ -5,9 +5,9 @@ import is from 'styled-is';
 import by from 'styled-by';
 import { Map } from 'immutable';
 
-import CommentFormLoader from 'src/components/modules/CommentForm/loader';
+import CommentFormLoader from 'components/modules/CommentForm/loader';
 
-import { smoothScroll } from 'src/helpers/window';
+import { smoothScroll } from 'helpers/window';
 
 const shadowScale = keyframes`
   0% {

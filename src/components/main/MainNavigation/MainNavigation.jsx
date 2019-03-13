@@ -2,10 +2,10 @@ import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import Navigation from 'src/components/common/Navigation';
-import LayoutSwitcher from 'src/components/common/LayoutSwitcher';
-import NavigationMobile from 'src/components/common/NavigationMobile';
-import { listenLazy } from 'src/helpers/hoc';
+import Navigation from 'components/common/Navigation';
+import LayoutSwitcher from 'components/common/LayoutSwitcher';
+import NavigationMobile from 'components/common/NavigationMobile';
+import { listenLazy } from 'helpers/hoc';
 
 const MobileWrapper = styled.div`
   border-top: 1px solid #e1e1e1;

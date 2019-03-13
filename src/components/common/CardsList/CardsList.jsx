@@ -4,12 +4,12 @@ import { List, Map, OrderedSet } from 'immutable';
 import throttle from 'lodash/throttle';
 import styled from 'styled-components';
 
-import { getScrollElement } from 'src/helpers/window';
-import { isFetchingOrRecentlyUpdated } from 'src/utils/StateFunctions';
+import { getScrollElement } from 'helpers/window';
+import { isFetchingOrRecentlyUpdated } from 'utils/StateFunctions';
 
-import PostCard from 'src/components/cards/PostCard';
-import PostCardCompact from 'src/components/cards/PostCardCompact';
-import LoadingIndicator from 'src/components/elements/LoadingIndicator';
+import PostCard from 'components/cards/PostCard';
+import PostCardCompact from 'components/cards/PostCardCompact';
+import LoadingIndicator from 'components/elements/LoadingIndicator';
 
 export const FORCE_LINES_WIDTH = 1000;
 const FORCE_COMPACT_WIDTH = 550;

@@ -1,5 +1,5 @@
 import tt from 'counterpart';
-import BadActorList from 'src/utils/BadActorList';
+import BadActorList from 'utils/BadActorList';
 
 export function isBadActor(name) {
   return BadActorList.includes(name);

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
-//import { getVestsToGolosRatio, globalSelector, dataSelector } from 'src/app/redux/selectors/common';
+//import { getVestsToGolosRatio, globalSelector, dataSelector } from 'app/redux/selectors/common';
 
 import AccountTokens from './AccountTokens';
 

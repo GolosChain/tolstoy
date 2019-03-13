@@ -3,9 +3,9 @@ import { Long } from 'bytebuffer';
 import { Map, List, Seq, Set, fromJS } from 'immutable';
 import { has, intersection } from 'ramda';
 
-import { parsePayoutAmount, repLog10 } from 'src/utils/ParsersAndFormatters';
-import { VEST_TICKER, LIQUID_TICKER } from 'src/constants/config';
-import normalizeProfile from 'src/utils/NormalizeProfile';
+import { parsePayoutAmount, repLog10 } from 'utils/ParsersAndFormatters';
+import { VEST_TICKER, LIQUID_TICKER } from 'constants/config';
+import normalizeProfile from 'utils/NormalizeProfile';
 
 function getStoreState() {
   throw new Error('MOCK');

@@ -13,9 +13,9 @@ import {
   stringTemplate,
   witnessPageMobilePoint,
   witnessPageMobilePointStrTemplate,
-} from 'src/containers/Witnesses/WitnessesStrings/WitnessesString';
-import WitnessesStrings from 'src/containers/Witnesses/WitnessesStrings/WitnessesStrings';
-import VoteForAnyWitness from 'src/containers/Witnesses/VoteForAnyWitness';
+} from 'containers/Witnesses/WitnessesStrings/WitnessesString';
+import WitnessesStrings from 'containers/Witnesses/WitnessesStrings/WitnessesStrings';
+import VoteForAnyWitness from 'containers/Witnesses/VoteForAnyWitness';
 
 const Long = ByteBuffer.Long;
 

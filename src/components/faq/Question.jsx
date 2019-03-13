@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import CloseOpenButton from '../cards/CloseOpenButton/CloseOpenButton';
-import { logOutboundLinkClickAnalytics } from 'src/helpers/gaLogs';
+import { logOutboundLinkClickAnalytics } from 'helpers/gaLogs';
 
 const Wrapper = styled.div`
   position: relative;

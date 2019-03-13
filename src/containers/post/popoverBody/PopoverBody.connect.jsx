@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-// import { currentUsernameSelector } from 'src/app/redux/selectors/common';
-// import { popoverUserInfoSelector } from 'src/app/redux/selectors/post/commonPost';
-// import { USER_PINNED_POSTS_LOAD } from 'src/app/redux/constants/pinnedPosts';
-// import { loadUserFollowData } from 'src/app/redux/actions/followers';
-import { PopoverBody } from 'src/containers/post/popoverBody/PopoverBody';
-import { repLog10 } from 'src/utils/ParsersAndFormatters';
+// import { currentUsernameSelector } from 'app/redux/selectors/common';
+// import { popoverUserInfoSelector } from 'app/redux/selectors/post/commonPost';
+// import { USER_PINNED_POSTS_LOAD } from 'app/redux/constants/pinnedPosts';
+// import { loadUserFollowData } from 'app/redux/actions/followers';
+import { PopoverBody } from 'containers/post/popoverBody/PopoverBody';
+import { repLog10 } from 'utils/ParsersAndFormatters';
 
 export default connect(
   // createSelector(

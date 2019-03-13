@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-//import { toggleCommentInputFocus } from 'src/app/redux/actions/ui';
+//import { toggleCommentInputFocus } from 'app/redux/actions/ui';
 
 import { ReplyBlock } from './ReplyBlock';
 

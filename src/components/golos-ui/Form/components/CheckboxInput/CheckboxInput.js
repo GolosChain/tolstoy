@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { visuallyHidden } from 'src/helpers/styles';
+import { visuallyHidden } from 'helpers/styles';
 import Icon from 'golos-ui/Icon';
 
 const Wrapper = styled.label`

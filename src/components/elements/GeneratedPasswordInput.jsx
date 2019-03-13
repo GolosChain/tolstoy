@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { key_utils } from 'golos-js/lib/auth/ecc';
 import tt from 'counterpart';
-import { APP_NAME_UP, TERMS_OF_SERVICE_URL } from 'src/constants/config';
+import { APP_NAME_UP, TERMS_OF_SERVICE_URL } from 'constants/config';
 
 function allChecked(confirmCheckboxes) {
   return confirmCheckboxes.box1 && confirmCheckboxes.box2 && confirmCheckboxes.box3;

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import DialogFrame from 'src/components/dialogs/DialogFrame';
+import DialogFrame from 'components/dialogs/DialogFrame';
 
 const DialogFrameStyled = styled(DialogFrame)`
   flex-basis: 328px;

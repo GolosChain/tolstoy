@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import tt from 'counterpart';
 import { api } from 'mocks/golos-js';
 
-import GeneratedPasswordInput from 'src/components/elements/GeneratedPasswordInput';
-import LoadingIndicator from 'src/components/elements/LoadingIndicator';
-import Callout from 'src/components/elements/Callout';
+import GeneratedPasswordInput from 'components/elements/GeneratedPasswordInput';
+import LoadingIndicator from 'components/elements/LoadingIndicator';
+import Callout from 'components/elements/Callout';
 import { passwordToOwnerPubKey } from './RecoverAccountStep1';
 
 class RecoverAccountStep2 extends React.Component {

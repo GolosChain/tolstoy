@@ -4,7 +4,7 @@ import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
 import Container from '../common/Container';
-import { logOutboundLinkClickAnalytics } from 'src/helpers/gaLogs';
+import { logOutboundLinkClickAnalytics } from 'helpers/gaLogs';
 
 const Wrapper = styled.div`
   background-color: #f9f9f9;

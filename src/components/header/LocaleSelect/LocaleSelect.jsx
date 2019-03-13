@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import is from 'styled-is';
 
-import { LANGUAGES } from 'src/constants/config';
+import { LANGUAGES } from 'constants/config';
 
 const HIDE_CHEVRON_WIDTH = 500;
 

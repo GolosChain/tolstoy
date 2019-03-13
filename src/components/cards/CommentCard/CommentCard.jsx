@@ -6,11 +6,11 @@ import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
 
-import { detransliterate } from 'src/utils/ParsersAndFormatters';
-import { isHide } from 'src/utils/StateFunctions';
-import { getScrollElement } from 'src/helpers/window';
-import CommentFormLoader from 'src/components/modules/CommentForm/loader';
-import LoadingIndicator from 'src/components/elements/LoadingIndicator';
+import { detransliterate } from 'utils/ParsersAndFormatters';
+import { isHide } from 'utils/StateFunctions';
+import { getScrollElement } from 'helpers/window';
+import CommentFormLoader from 'components/modules/CommentForm/loader';
+import LoadingIndicator from 'components/elements/LoadingIndicator';
 
 import Button from 'golos-ui/Button';
 import { TagLink } from 'golos-ui/Tag';
@@ -20,7 +20,7 @@ import CommentFooter from '../CommentFooter';
 import CardAuthor from '../CardAuthor';
 import EditButton from '../EditButton';
 import ReLink from '../ReLink';
-import MarkdownViewer from 'src/components/cards/MarkdownViewer/MarkdownViewer';
+import MarkdownViewer from 'components/cards/MarkdownViewer/MarkdownViewer';
 
 const Header = styled.div`
   padding: 12px 0 8px 0;

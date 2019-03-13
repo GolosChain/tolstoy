@@ -8,8 +8,8 @@ import { FormattedDate } from 'react-intl';
 import Icon from 'golos-ui/Icon';
 import Button from 'golos-ui/Button';
 
-import Userpic from 'src/components/common/Userpic';
-import Follow from 'src/components/common/Follow';
+import Userpic from 'components/common/Userpic';
+import Follow from 'components/common/Follow';
 
 const Wrapper = styled.div`
   display: flex;

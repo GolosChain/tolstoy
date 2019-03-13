@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import { TabLinkIndex } from 'golos-ui/Tab';
-import SlideContainer from 'src/components/common/SlideContainer';
+import SlideContainer from 'components/common/SlideContainer';
 import {
   CONTAINER_MAX_WIDTH,
   CONTAINER_FULL_WIDTH,
   CONTAINER_BASE_MARGIN,
   CONTAINER_MOBILE_WIDTH,
   CONTAINER_MOBILE_MARGIN,
-} from 'src/constants/container';
+} from 'constants/container';
 
 const SlideContainerStyled = styled(SlideContainer)`
   background: #fff;

@@ -9,7 +9,7 @@ const port = parseInt(process.env.PORT, 10) || 4000;
 
 const app = next({
   dev: process.env.NODE_ENV !== 'production',
-  dir: path.resolve(__dirname, '../src/app'),
+  dir: path.resolve(__dirname, '../src'),
 });
 
 const handler = routes.getRequestHandler(app);
@@ -18,7 +18,7 @@ app.prepare().then(() => {
   const server = express();
 
   server.use(cookieParser());
-  server.use(express.static(path.join(__dirname, '../src/app/static')));
+  server.use(express.static(path.join(__dirname, '../src/static')));
 
   server.use(handler).listen(port, err => {
     if (err) {

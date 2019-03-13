@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import KEYS from 'src/utils/keyCodes';
-import Hint from 'src/components/elements/common/Hint';
-import { breakWordStyles } from 'src/helpers/styles';
-import { safePaste } from 'src/helpers/browser';
+import KEYS from 'utils/keyCodes';
+import Hint from 'components/elements/common/Hint';
+import { breakWordStyles } from 'helpers/styles';
+import { safePaste } from 'helpers/browser';
 
 const INPUT_HEIGHT = 38;
 

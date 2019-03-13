@@ -15,31 +15,31 @@ import { ThemeProvider } from 'styled-components';
 import fetch from 'isomorphic-unfetch'; // global/window
 import { Cookies } from 'react-cookie';
 
-import 'src/components/styles/index.scss';
+import 'components/styles/index.scss';
 
-import initStore from 'src/store/store';
-import { setScreenTypeByUserAgent } from 'src/store/actions/ui';
-import defaultTheme from 'src/themes';
+import initStore from 'store/store';
+import { setScreenTypeByUserAgent } from 'store/actions/ui';
+import defaultTheme from 'themes';
 
 //import { getAuth } from 'utils/localStore';
 //import { login, setServerAccountName } from 'store/actions/gate/auth';
 
-import Translator from 'src/shared/Translator';
-import Header from 'src/components/header/Header';
-import Notifications from 'src/components/common/Notifications';
-import Footer from 'src/components/common/Footer';
-import TooltipManager from 'src/components/elements/common/TooltipManager';
-import MobileAppButton from 'src/components/elements/MobileBanners/MobileAppButton';
-import DialogManager from 'src/components/elements/common/DialogManager';
-import ScrollUpstairsButton from 'src/components/common/ScrollUpstairsButton';
-import ContentErrorBoundary from 'src/containers/ContentErrorBoundary';
+import Translator from 'shared/Translator';
+import Header from 'components/header/Header';
+import Notifications from 'components/common/Notifications';
+import Footer from 'components/common/Footer';
+import TooltipManager from 'components/elements/common/TooltipManager';
+import MobileAppButton from 'components/elements/MobileBanners/MobileAppButton';
+import DialogManager from 'components/elements/common/DialogManager';
+import ScrollUpstairsButton from 'components/common/ScrollUpstairsButton';
+import ContentErrorBoundary from 'containers/ContentErrorBoundary';
 
 import tt from 'counterpart';
 import { init as initAnchorHelper } from '../utils/anchorHelper';
 //import { validateLocaleQuery } from '../utils/ParsersAndFormatters';
 
-import { LOCALE_COOKIE_KEY, LOCALE_COOKIE_EXPIRES, AMPLITUDE_SESSION } from 'src/constants/config';
-import { checkMobileDevice } from 'src/helpers/browser';
+import { LOCALE_COOKIE_KEY, LOCALE_COOKIE_EXPIRES, AMPLITUDE_SESSION } from 'constants/config';
+import { checkMobileDevice } from 'helpers/browser';
 
 @withRedux(initStore, { debug: Boolean(process.env.DEBUG_REDUX) })
 @connect(

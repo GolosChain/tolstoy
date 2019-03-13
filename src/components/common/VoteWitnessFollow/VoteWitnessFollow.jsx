@@ -6,7 +6,7 @@ import tt from 'counterpart';
 import Button from 'golos-ui/Button';
 import Icon from 'golos-ui/Icon';
 
-import LoadingIndicator from 'src/components/elements/LoadingIndicator';
+import LoadingIndicator from 'components/elements/LoadingIndicator';
 
 const ButtonStyled = styled(Button)`
   &:not(:last-child) {

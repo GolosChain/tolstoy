@@ -5,15 +5,15 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
-import Userpic from 'src/components/common/Userpic';
-import TimeAgoWrapper from 'src/components/elements/TimeAgoWrapper';
+import Userpic from 'components/common/Userpic';
+import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
 
 import {
   AvatarBox,
   PopoverBackgroundShade,
   PopoverStyled,
-} from 'src/components/post/PopoverAdditionalStyles';
-import PopoverBody from 'src/containers/post/popoverBody';
+} from 'components/post/PopoverAdditionalStyles';
+import PopoverBody from 'containers/post/popoverBody';
 
 const USER_PIC_SIZE = 37;
 

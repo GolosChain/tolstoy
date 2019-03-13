@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
-// import { followersDialogSelector } from 'src/app/redux/selectors/dialogs/followersDialog';
-// import { getFollowers, getFollowing } from 'src/app/redux/actions/followers';
+// import { followersDialogSelector } from 'app/redux/selectors/dialogs/followersDialog';
+// import { getFollowers, getFollowing } from 'app/redux/actions/followers';
 
 import FollowersDialog from './FollowersDialog';
 

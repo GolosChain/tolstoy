@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FormattedRelative } from 'react-intl';
 import styled from 'styled-components';
 
-import { fixDate } from 'src/helpers/time';
+import { fixDate } from 'helpers/time';
 
 const Wrapper = styled.span`
   white-space: nowrap;

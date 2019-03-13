@@ -6,26 +6,26 @@ import throttle from 'lodash/throttle';
 import Turndown from 'turndown';
 import tt from 'counterpart';
 
-import HtmlReady, { getTags } from 'src/shared/HtmlReady';
-import DialogManager from 'src/components/elements/common/DialogManager';
-import Icon from 'src/components/elements/Icon';
-import MarkdownEditor from 'src/components/elements/postEditor/MarkdownEditor/MarkdownEditor';
-import HtmlEditor from 'src/components/elements/postEditor/HtmlEditor/HtmlEditor';
-import EditorSwitcher from 'src/components/elements/postEditor/EditorSwitcher/EditorSwitcher';
-import PostFooter from 'src/components/elements/postEditor/PostFooter/PostFooter';
-import PostTitle from 'src/components/elements/postEditor/PostTitle/PostTitle';
-import PreviewButton from 'src/components/elements/postEditor/PreviewButton';
-import MarkdownViewer, { getRemarkable } from 'src/components/cards/MarkdownViewer/MarkdownViewer';
-import { checkPostHtml } from 'src/utils/validator';
-import { DEBT_TICKER } from 'src/constants/config';
+import HtmlReady, { getTags } from 'shared/HtmlReady';
+import DialogManager from 'components/elements/common/DialogManager';
+import Icon from 'components/elements/Icon';
+import MarkdownEditor from 'components/elements/postEditor/MarkdownEditor/MarkdownEditor';
+import HtmlEditor from 'components/elements/postEditor/HtmlEditor/HtmlEditor';
+import EditorSwitcher from 'components/elements/postEditor/EditorSwitcher/EditorSwitcher';
+import PostFooter from 'components/elements/postEditor/PostFooter/PostFooter';
+import PostTitle from 'components/elements/postEditor/PostTitle/PostTitle';
+import PreviewButton from 'components/elements/postEditor/PreviewButton';
+import MarkdownViewer, { getRemarkable } from 'components/cards/MarkdownViewer/MarkdownViewer';
+import { checkPostHtml } from 'utils/validator';
+import { DEBT_TICKER } from 'constants/config';
 import {
   processTagsFromData,
   processTagsToSend,
   validateTags,
   updateFavoriteTags,
-} from 'src/utils/tags';
-import { DRAFT_KEY, EDIT_KEY } from 'src/utils/postForm';
-import { breakWordStyles } from 'src/helpers/styles';
+} from 'utils/tags';
+import { DRAFT_KEY, EDIT_KEY } from 'utils/postForm';
+import { breakWordStyles } from 'helpers/styles';
 
 const EDITORS_TYPES = {
   MARKDOWN: 1,

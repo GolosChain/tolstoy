@@ -5,22 +5,22 @@ import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
 
-import { breakWordStyles } from 'src/helpers/styles';
-import { MIN_VOICE_POWER } from 'src/constants/config';
-import DialogManager from 'src/components/elements/common/DialogManager';
-import TimeAgoWrapper from 'src/components/elements/TimeAgoWrapper';
-import { golosToVests, getVesting } from 'src/utils/StateFunctions';
+import { breakWordStyles } from 'helpers/styles';
+import { MIN_VOICE_POWER } from 'constants/config';
+import DialogManager from 'components/elements/common/DialogManager';
+import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
+import { golosToVests, getVesting } from 'utils/StateFunctions';
 
 import Icon from 'golos-ui/Icon';
 import SplashLoader from 'golos-ui/SplashLoader';
 
-import Linkify from 'src/components/common/Linkify';
-import TextCut from 'src/components/common/TextCut';
-import EditGolosPower from 'src/components/userProfile/common/EditGolosPower';
+import Linkify from 'components/common/Linkify';
+import TextCut from 'components/common/TextCut';
+import EditGolosPower from 'components/userProfile/common/EditGolosPower';
 import {
   DIRECTION,
   CURRENCY_COLOR,
-} from 'src/containers/userProfile/wallet/WalletContent/WalletContent';
+} from 'containers/userProfile/wallet/WalletContent/WalletContent';
 import PostLink from './RewardTrxTitle';
 
 const Root = styled.div`

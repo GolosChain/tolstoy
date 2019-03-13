@@ -5,13 +5,13 @@ import Head from 'next/head';
 import tt from 'counterpart';
 import { Link } from 'mocks/react-router';
 
-import LoadingIndicator from 'src/components/elements/LoadingIndicator';
-import BlogCardsList from 'src/components/common/CardsList/BlogCardsList';
-import InfoBlock from 'src/components/common/InfoBlock';
-import EmptyBlock, { EmptySubText } from 'src/components/common/EmptyBlock';
+import LoadingIndicator from 'components/elements/LoadingIndicator';
+import BlogCardsList from 'components/common/CardsList/BlogCardsList';
+import InfoBlock from 'components/common/InfoBlock';
+import EmptyBlock, { EmptySubText } from 'components/common/EmptyBlock';
 import CardsListWrapper from '../CardsListWrapper';
-// import { uiSelector } from 'src/app/redux/selectors/common';
-import { visuallyHidden } from 'src/helpers/styles';
+// import { uiSelector } from 'app/redux/selectors/common';
+import { visuallyHidden } from 'helpers/styles';
 
 const Loader = styled(LoadingIndicator)`
   margin-top: 30px;

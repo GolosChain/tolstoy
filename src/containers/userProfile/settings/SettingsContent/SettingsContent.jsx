@@ -6,7 +6,7 @@ import { FORM_ERROR } from 'final-form';
 import { pick } from 'ramda';
 import tt from 'counterpart';
 
-import { SettingsShow } from 'src/components/userProfile';
+import { SettingsShow } from 'components/userProfile';
 
 export default class SettingsContent extends PureComponent {
   static propTypes = {

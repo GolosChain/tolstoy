@@ -4,14 +4,14 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 import { Helmet } from 'react-helmet';
 
-import { authProtection } from 'src/helpers/hoc';
-import LoadingIndicator from 'src/components/elements/LoadingIndicator';
-import FavoritePostsList from 'src/components/common/CardsList/FavoritePostsList';
-import InfoBlock from 'src/components/common/InfoBlock';
-import { favoritesLoadNextPageAction } from 'src/app/redux/actions/favorites';
-import EmptyBlock, { EmptySubText } from 'src/components/common/EmptyBlock';
+import { authProtection } from 'helpers/hoc';
+import LoadingIndicator from 'components/elements/LoadingIndicator';
+import FavoritePostsList from 'components/common/CardsList/FavoritePostsList';
+import InfoBlock from 'components/common/InfoBlock';
+import { favoritesLoadNextPageAction } from 'app/redux/actions/favorites';
+import EmptyBlock, { EmptySubText } from 'components/common/EmptyBlock';
 import CardsListWrapper from '../CardsListWrapper';
-import { visuallyHidden } from 'src/helpers/styles';
+import { visuallyHidden } from 'helpers/styles';
 
 const Loader = styled(LoadingIndicator)`
   margin-top: 30px;

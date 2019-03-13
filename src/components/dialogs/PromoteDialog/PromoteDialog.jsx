@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import { processError } from 'src/helpers/dialogs';
+import { processError } from 'helpers/dialogs';
 
 import ComplexInput from 'golos-ui/ComplexInput';
-import DialogFrame from 'src/components/dialogs/DialogFrame';
+import DialogFrame from 'components/dialogs/DialogFrame';
 
 const DialogFrameStyled = styled(DialogFrame)`
   flex-basis: 240px;

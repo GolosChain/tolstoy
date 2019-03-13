@@ -3,12 +3,12 @@ import tt from 'counterpart';
 import { api } from 'mocks/golos-js';
 import { PrivateKey } from 'golos-js/lib/auth/ecc';
 
-import { APP_NAME, APP_DOMAIN, SUPPORT_EMAIL } from 'src/constants/config';
-import SvgImage from 'src/components/elements/SvgImage';
-import PasswordInput from 'src/components/elements/PasswordInput';
-import LoadingIndicator from 'src/components/elements/LoadingIndicator';
-import constants from 'src/store/constants';
-import { fixDate } from 'src/helpers/time';
+import { APP_NAME, APP_DOMAIN, SUPPORT_EMAIL } from 'constants/config';
+import SvgImage from 'components/elements/SvgImage';
+import PasswordInput from 'components/elements/PasswordInput';
+import LoadingIndicator from 'components/elements/LoadingIndicator';
+import constants from 'store/constants';
+import { fixDate } from 'helpers/time';
 
 export function passwordToOwnerPubKey(account_name, password) {
   let privateKey;

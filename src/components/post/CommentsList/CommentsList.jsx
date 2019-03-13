@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import NestedComment from 'src/components/post/NestedComments';
+import NestedComment from 'components/post/NestedComments';
 
 export class CommentsList extends Component {
   static propTypes = {

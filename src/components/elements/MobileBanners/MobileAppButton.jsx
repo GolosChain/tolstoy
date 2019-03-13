@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
-import { ANDROID_PACKAGE, ANDROID_DEEP_LINK_DOMAIN } from 'src/constants/config';
-import OpenMobileAppButton from 'src/components/common/OpenMobileAppButton';
+import { ANDROID_PACKAGE, ANDROID_DEEP_LINK_DOMAIN } from 'constants/config';
+import OpenMobileAppButton from 'components/common/OpenMobileAppButton';
 
 const STORE_KEY = 'golos.hideOpenAppLink';
 

@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import cn from 'classnames';
 
-import proxifyImageUrl from 'src/utils/ProxifyUrl';
-import { loadUserLazy } from 'src/helpers/users';
+import proxifyImageUrl from 'utils/ProxifyUrl';
+import { loadUserLazy } from 'helpers/users';
 
 const DEFAULT_AVATAR = '/images/user.png';
 

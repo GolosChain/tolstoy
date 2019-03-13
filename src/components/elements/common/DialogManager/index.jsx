@@ -3,9 +3,9 @@ import cn from 'classnames';
 import { last } from 'ramda';
 import tt from 'counterpart';
 
-import KEYS from 'src/utils/keyCodes';
-import CommonDialog from 'src/components/dialogs/CommonDialog';
-import LoginForm from 'src/containers/login/LoginForm';
+import KEYS from 'utils/keyCodes';
+import CommonDialog from 'components/dialogs/CommonDialog';
+import LoginForm from 'containers/login/LoginForm';
 
 let queue = [];
 let instance = null;

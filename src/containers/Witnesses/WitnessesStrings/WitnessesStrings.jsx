@@ -1,6 +1,6 @@
 import React from 'react';
 
-import WitnessesString from 'src/containers/Witnesses/WitnessesStrings/WitnessesString';
+import WitnessesString from 'containers/Witnesses/WitnessesStrings/WitnessesString';
 
 export default function WitnessesStrings({
   sortedWitnesses,

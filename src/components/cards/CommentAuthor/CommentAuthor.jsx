@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import Userpic from 'src/components/common/Userpic';
+import Userpic from 'components/common/Userpic';
 
 const Wrapper = styled.div`
   display: flex;

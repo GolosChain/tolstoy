@@ -5,12 +5,12 @@ import is from 'styled-is';
 import tt from 'counterpart';
 import { isNil } from 'ramda';
 
-import Icon from 'src/components/elements/Icon';
-import Hint from 'src/components/elements/common/Hint';
+import Icon from 'components/elements/Icon';
+import Hint from 'components/elements/common/Hint';
 import Switcher from 'golos-ui/Form/components/Switcher';
 import Slider from 'golos-ui/Slider';
-import RadioGroup from 'src/components/elements/common/RadioGroup';
-import { PAYOUT_OPTIONS } from 'src/components/modules/PostForm/PostForm';
+import RadioGroup from 'components/elements/common/RadioGroup';
+import { PAYOUT_OPTIONS } from 'components/modules/PostForm/PostForm';
 
 const Wrapper = styled.div`
   display: flex;

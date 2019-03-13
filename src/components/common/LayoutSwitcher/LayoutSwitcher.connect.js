@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-// import { changeProfileLayout } from 'src/app/redux/actions/ui';
+// import { changeProfileLayout } from 'app/redux/actions/ui';
 
 import LayoutSwitcher from './LayoutSwitcher';
 

@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import tt from 'counterpart';
-import DialogFrame from 'src/components/dialogs/DialogFrame';
-import Input from 'src/components/elements/common/Input';
-import keyCodes from 'src/utils/keyCodes';
+import DialogFrame from 'components/dialogs/DialogFrame';
+import Input from 'components/elements/common/Input';
+import keyCodes from 'utils/keyCodes';
 
 export default class LinkOptionsDialog extends React.PureComponent {
   static propTypes = {

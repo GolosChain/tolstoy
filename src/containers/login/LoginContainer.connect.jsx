@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import { LoginContainer } from 'src/containers/login/LoginContainer';
-import { currentUsernameSelector } from 'src/app/redux/selectors/common';
+import { LoginContainer } from 'containers/login/LoginContainer';
+import { currentUsernameSelector } from 'app/redux/selectors/common';
 
 export default connect(
   createSelector(

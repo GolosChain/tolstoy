@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import tt from 'counterpart';
 
-import Hero from 'src/components/welcome/Hero';
-import About from 'src/components/welcome/About';
-import Initial from 'src/components/welcome/Initial';
-import Differences from 'src/components/welcome/Differences';
-import Mobile from 'src/components/welcome/Mobile';
-import Reviews from 'src/components/welcome/Reviews';
-import Questions from 'src/components/welcome/Questions';
+import Hero from 'components/welcome/Hero';
+import About from 'components/welcome/About';
+import Initial from 'components/welcome/Initial';
+import Differences from 'components/welcome/Differences';
+import Mobile from 'components/welcome/Mobile';
+import Reviews from 'components/welcome/Reviews';
+import Questions from 'components/welcome/Questions';
 
 const CATEGORY_NUMBER = 3;
 

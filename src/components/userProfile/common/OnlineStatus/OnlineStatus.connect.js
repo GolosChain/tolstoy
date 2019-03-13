@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
-// import { currentUsernameSelector } from 'src/app/redux/selectors/common';
-// import { fetchUserLastOnline } from 'src/app/redux/actions/userOnline';
+// import { currentUsernameSelector } from 'app/redux/selectors/common';
+// import { fetchUserLastOnline } from 'app/redux/actions/userOnline';
 
 import OnlineStatus from './OnlineStatus';
 

@@ -6,15 +6,15 @@ import tt from 'counterpart';
 import { Helmet } from 'react-helmet';
 import throttle from 'lodash/throttle';
 
-import { NOTIFICATIONS_FILTER_TYPES, NOTIFICATIONS_PER_PAGE } from 'src/app/redux/constants/common';
+import { NOTIFICATIONS_FILTER_TYPES, NOTIFICATIONS_PER_PAGE } from 'app/redux/constants/common';
 
 import Card from 'golos-ui/Card';
 import { TabContainer, Tabs } from 'golos-ui/Tabs';
 
-import LoadingIndicator from 'src/components/elements/LoadingIndicator';
-import ActivityList from 'src/components/common/ActivityList';
+import LoadingIndicator from 'components/elements/LoadingIndicator';
+import ActivityList from 'components/common/ActivityList';
 import Flex from 'golos-ui/Flex';
-import { visuallyHidden } from 'src/helpers/styles';
+import { visuallyHidden } from 'helpers/styles';
 
 const WrapperLoader = styled.div`
   display: flex;

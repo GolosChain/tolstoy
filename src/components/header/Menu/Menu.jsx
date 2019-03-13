@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
-import { logOutboundLinkClickAnalytics } from 'src/helpers/gaLogs';
+import { logOutboundLinkClickAnalytics } from 'helpers/gaLogs';
 
 const Ul = styled.ul`
   padding: 5px 0 6px;

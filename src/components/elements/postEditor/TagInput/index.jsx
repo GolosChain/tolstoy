@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
 
-import Icon from 'src/components/elements/Icon';
-import Hint from 'src/components/elements/common/Hint';
-import { validateTag } from 'src/utils/tags';
-import KEYS from 'src/utils/keyCodes';
+import Icon from 'components/elements/Icon';
+import Hint from 'components/elements/common/Hint';
+import { validateTag } from 'utils/tags';
+import KEYS from 'utils/keyCodes';
 
 const Wrapper = styled.div`
   position: relative;

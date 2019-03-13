@@ -1,15 +1,15 @@
 import { connect } from 'react-redux';
 import { List } from 'immutable';
 
-import { compareActiveVotes } from 'src/utils/StateFunctions';
-import { getVoters } from 'src/app/redux/actions/vote';
+import { compareActiveVotes } from 'utils/StateFunctions';
+import { getVoters } from 'app/redux/actions/vote';
 import {
   createDeepEqualSelector,
   globalSelector,
   currentUsernameSelector,
   uiSelector,
-} from 'src/app/redux/selectors/common';
-import VotersDialog from 'src/components/dialogs/VotersDialog/VotersDialog';
+} from 'app/redux/selectors/common';
+import VotersDialog from 'components/dialogs/VotersDialog/VotersDialog';
 
 const MAX_VOTE_PERCENT = 10000;
 

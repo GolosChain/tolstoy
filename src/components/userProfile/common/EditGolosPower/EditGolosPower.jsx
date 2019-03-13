@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
 
-import Icon from 'src/components/golos-ui/Icon';
-import Slider from 'src/components/golos-ui/Slider';
-import ComplexInput from 'src/components/golos-ui/ComplexInput';
-import { parseAmount3 } from 'src/helpers/currency';
+import Icon from 'components/golos-ui/Icon';
+import Slider from 'components/golos-ui/Slider';
+import ComplexInput from 'components/golos-ui/ComplexInput';
+import { parseAmount3 } from 'helpers/currency';
 
 const Root = styled.div`
   position: absolute;

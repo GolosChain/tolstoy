@@ -1,6 +1,6 @@
 import React from 'react';
-import MarkdownViewer from 'src/components/cards/MarkdownViewer/MarkdownViewer';
-import Icon from 'src/components/elements/Icon';
+import MarkdownViewer from 'components/cards/MarkdownViewer/MarkdownViewer';
+import Icon from 'components/elements/Icon';
 import { renderToString } from 'react-dom/server';
 
 let faqMarkdown;

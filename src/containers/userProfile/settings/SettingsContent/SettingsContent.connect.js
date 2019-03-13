@@ -2,10 +2,10 @@ import { connect } from 'react-redux';
 
 import user from 'app/redux/User';
 import transaction from 'app/redux/Transaction';
-import { settingsContentSelector } from 'src/app/redux/selectors/userProfile/settings';
-import { getSettingsOptions, setSettingsOptions } from 'src/app/redux/actions/settings';
-import { showNotification } from 'src/app/redux/actions/ui';
-import { authProtection } from 'src/helpers/hoc';
+import { settingsContentSelector } from 'app/redux/selectors/userProfile/settings';
+import { getSettingsOptions, setSettingsOptions } from 'app/redux/actions/settings';
+import { showNotification } from 'app/redux/actions/ui';
+import { authProtection } from 'helpers/hoc';
 
 import SettingsContent from './SettingsContent';
 

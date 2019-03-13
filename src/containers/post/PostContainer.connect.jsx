@@ -1,15 +1,15 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import { currentUsernameSelector, currentUserSelector } from 'src/app/redux/selectors/common';
-import { locationTagsSelector } from 'src/app/redux/selectors/app/location';
-import { currentPostSelector, authorSelector } from 'src/app/redux/selectors/post/commonPost';
-import { PostContainer } from 'src/containers/post/PostContainer';
-import { togglePin } from 'src/app/redux/actions/pinnedPosts';
-import { toggleFavorite } from 'src/app/redux/actions/favorites';
-import { recordPostView } from 'src/app/redux/actions/post';
-import { isHide, isContainTags } from 'src/utils/StateFunctions';
-import { HIDE_BY_TAGS } from 'src/constants/tags';
+import { currentUsernameSelector, currentUserSelector } from 'app/redux/selectors/common';
+import { locationTagsSelector } from 'app/redux/selectors/app/location';
+import { currentPostSelector, authorSelector } from 'app/redux/selectors/post/commonPost';
+import { PostContainer } from 'containers/post/PostContainer';
+import { togglePin } from 'app/redux/actions/pinnedPosts';
+import { toggleFavorite } from 'app/redux/actions/favorites';
+import { recordPostView } from 'app/redux/actions/post';
+import { isHide, isContainTags } from 'utils/StateFunctions';
+import { HIDE_BY_TAGS } from 'constants/tags';
 
 export default connect(
   createSelector(

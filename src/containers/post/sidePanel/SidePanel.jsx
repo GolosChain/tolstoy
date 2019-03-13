@@ -7,15 +7,15 @@ import by from 'styled-by';
 import tt from 'counterpart';
 import throttle from 'lodash/throttle';
 
-import Icon from 'src/components/golos-ui/Icon';
+import Icon from 'components/golos-ui/Icon';
 
-import ShareList from 'src/components/post/ShareList';
-import { PopoverStyled } from 'src/components/post/PopoverAdditionalStyles';
-import PostActions from 'src/components/post/PostActions';
-import { POST_MAX_WIDTH } from 'src/containers/post/PostContainer';
-import VotePanel from 'src/components/common/VotePanel';
-import Repost from 'src/components/post/repost';
-import { logClickAnalytics } from 'src/helpers/gaLogs';
+import ShareList from 'components/post/ShareList';
+import { PopoverStyled } from 'components/post/PopoverAdditionalStyles';
+import PostActions from 'components/post/PostActions';
+import { POST_MAX_WIDTH } from 'containers/post/PostContainer';
+import VotePanel from 'components/common/VotePanel';
+import Repost from 'components/post/repost';
+import { logClickAnalytics } from 'helpers/gaLogs';
 
 const HEADER_HEIGHT = 60;
 const DESKTOP_FOOTER_HEIGHT = 324;

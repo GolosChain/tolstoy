@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
-import WhatIsGolos from 'src/components/elements/about/WhatIsGolos/WhatIsGolos';
-import LandingTeam from 'src/components/elements/about/LandingTeam/LandingTeam';
-import LandingPartners from 'src/components/elements/about/LandingPartners/LandingPartners';
+import WhatIsGolos from 'components/elements/about/WhatIsGolos/WhatIsGolos';
+import LandingTeam from 'components/elements/about/LandingTeam/LandingTeam';
+import LandingPartners from 'components/elements/about/LandingPartners/LandingPartners';
 
 class Landing extends PureComponent {
   render() {

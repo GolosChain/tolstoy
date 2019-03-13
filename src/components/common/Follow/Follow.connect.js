@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-// import { currentUsernameSelector } from 'src/app/redux/selectors/common';
-// import { followSelector } from 'src/app/redux/selectors/follow/follow';
-// import { updateFollow } from 'src/app/redux/actions/follow';
+// import { currentUsernameSelector } from 'app/redux/selectors/common';
+// import { followSelector } from 'app/redux/selectors/follow/follow';
+// import { updateFollow } from 'app/redux/actions/follow';
 
-// import { confirmUnfollowDialog } from 'src/app/redux/actions/dialogs';
+// import { confirmUnfollowDialog } from 'app/redux/actions/dialogs';
 
 import Follow from './Follow';
 

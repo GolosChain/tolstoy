@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 // import user from 'app/redux/User';
 // import transaction from 'app/redux/Transaction';
-// import { showNotification } from 'src/app/redux/actions/ui';
+// import { showNotification } from 'app/redux/actions/ui';
 
 import UserProfile from './UserProfile';
 

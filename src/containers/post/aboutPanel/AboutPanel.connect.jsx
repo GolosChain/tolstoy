@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import { authorSelector, currentPostSelector } from 'src/app/redux/selectors/post/commonPost';
-import { AboutPanel } from 'src/containers/post/aboutPanel/AboutPanel';
-import { openTransferDialog } from 'src/app/redux/actions/dialogs';
+import { authorSelector, currentPostSelector } from 'app/redux/selectors/post/commonPost';
+import { AboutPanel } from 'containers/post/aboutPanel/AboutPanel';
+import { openTransferDialog } from 'app/redux/actions/dialogs';
 
 export default connect(
   createSelector(

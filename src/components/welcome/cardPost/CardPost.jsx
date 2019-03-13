@@ -3,15 +3,15 @@ import styled from 'styled-components';
 import { Link } from 'mocks/react-router';
 import tt from 'counterpart';
 
-import extractContent from 'src/utils/ExtractContent';
-import { detransliterate } from 'src/utils/ParsersAndFormatters';
+import extractContent from 'utils/ExtractContent';
+import { detransliterate } from 'utils/ParsersAndFormatters';
 import Icon from 'golos-ui/Icon/index';
 
-import Userpic from 'src/components/common/Userpic';
-import TimeAgoWrapper from 'src/components/elements/TimeAgoWrapper';
-import VotePanel from 'src/components/common/VotePanel';
-import Repost from 'src/components/post/repost';
-import PostActions from 'src/components/post/PostActions';
+import Userpic from 'components/common/Userpic';
+import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
+import VotePanel from 'components/common/VotePanel';
+import Repost from 'components/post/repost';
+import PostActions from 'components/post/PostActions';
 
 const Root = styled.div`
   border-radius: 8.5px;

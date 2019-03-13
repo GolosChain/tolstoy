@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
 
-import { MINNOW, CRUCIAN, DOLPHIN, ORCA } from 'src/helpers/users';
+import { MINNOW, CRUCIAN, DOLPHIN, ORCA } from 'helpers/users';
 import Icon from 'golos-ui/Icon';
-import { repLog10 } from 'src/utils/ParsersAndFormatters';
+import { repLog10 } from 'utils/ParsersAndFormatters';
 
 const grey = '#e0e0e0';
 const blue = '#2879ff';

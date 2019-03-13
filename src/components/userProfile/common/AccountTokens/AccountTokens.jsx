@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 
 import CollapsingBlock from 'golos-ui/CollapsingBlock';
-import PieChart from 'src/components/common/PieChart';
+import PieChart from 'components/common/PieChart';
 
 const Root = styled.div``;
 

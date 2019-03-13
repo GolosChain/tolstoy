@@ -4,15 +4,15 @@ import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import tt from 'counterpart';
 import transaction from 'app/redux/Transaction';
-import { showNotification } from 'src/app/redux/actions/ui';
-import TransactionError from 'src/components/elements/TransactionError';
-import DepthChart from 'src/components/elements/DepthChart';
-import Orderbook from 'src/components/elements/Orderbook';
-import OrderHistory from 'src/components/elements/OrderHistory';
-import { Order, TradeHistory } from 'src/utils/MarketClasses';
-import { roundUp, roundDown } from 'src/utils/MarketUtils';
-import TickerPriceStat from 'src/components/elements/TickerPriceStat';
-import { DEBT_TOKEN_SHORT, LIQUID_TICKER, DEBT_TICKER } from 'src/constants/config';
+import { showNotification } from 'app/redux/actions/ui';
+import TransactionError from 'components/elements/TransactionError';
+import DepthChart from 'components/elements/DepthChart';
+import Orderbook from 'components/elements/Orderbook';
+import OrderHistory from 'components/elements/OrderHistory';
+import { Order, TradeHistory } from 'utils/MarketClasses';
+import { roundUp, roundDown } from 'utils/MarketUtils';
+import TickerPriceStat from 'components/elements/TickerPriceStat';
+import { DEBT_TOKEN_SHORT, LIQUID_TICKER, DEBT_TICKER } from 'constants/config';
 import './Market.scss';
 
 class Market extends Component {

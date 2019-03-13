@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import { SUPPORT_EMAIL_2 } from 'src/constants/config';
-import Container from 'src/components/common/Container';
+import { SUPPORT_EMAIL_2 } from 'constants/config';
+import Container from 'components/common/Container';
 
 const Wrapper = styled(Container).attrs({
   justify: 'space-between',

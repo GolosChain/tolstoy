@@ -8,8 +8,8 @@ import throttle from 'lodash/throttle';
 import Dropzone from 'react-dropzone';
 import tt from 'counterpart';
 import cn from 'classnames';
-import MarkdownEditorToolbar from 'src/components/elements/postEditor/MarkdownEditorToolbar';
-import DialogManager from 'src/components/elements/common/DialogManager';
+import MarkdownEditorToolbar from 'components/elements/postEditor/MarkdownEditorToolbar';
+import DialogManager from 'components/elements/common/DialogManager';
 import './MarkdownEditor.scss';
 
 const DELAYED_TIMEOUT = 1000;

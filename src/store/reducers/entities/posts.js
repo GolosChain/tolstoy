@@ -1,9 +1,9 @@
 import { path } from 'ramda';
 import update from 'immutability-helper';
 
-import { SET_POST_VOTE } from 'src/store/constants';
-import { formatContentId } from 'src/store/schemas/gate';
-import { mergeEntities } from 'src/utils/store';
+import { SET_POST_VOTE } from 'store/constants';
+import { formatContentId } from 'store/schemas/gate';
+import { mergeEntities } from 'utils/store';
 
 const initialState = {};
 

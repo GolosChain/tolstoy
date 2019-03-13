@@ -2,8 +2,8 @@ import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import LoadingIndicator from 'src/components/elements/LoadingIndicator';
-import CardPost from 'src/components/welcome/cardPost';
+import LoadingIndicator from 'components/elements/LoadingIndicator';
+import CardPost from 'components/welcome/cardPost';
 
 const Root = styled.section`
   padding: 20px 0;

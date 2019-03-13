@@ -6,16 +6,16 @@ import { last } from 'ramda';
 import tt from 'counterpart';
 import Head from 'next/head';
 
-import { blockedUsers, blockedUsersContent } from 'src/utils/IllegalContent';
+import { blockedUsers, blockedUsersContent } from 'utils/IllegalContent';
 
-import { listenLazy } from 'src/helpers/hoc';
-import LoadingIndicator from 'src/components/elements/LoadingIndicator';
-import BlockedContent from 'src/components/elements/BlockedContent';
-import IllegalContentMessage from 'src/components/elements/IllegalContentMessage';
-import Container from 'src/components/common/Container';
-import UserHeader from 'src/components/userProfile/common/UserHeader';
-import UserNavigation from 'src/components/userProfile/common/UserNavigation';
-import UserCardAbout from 'src/components/userProfile/common/UserCardAbout';
+import { listenLazy } from 'helpers/hoc';
+import LoadingIndicator from 'components/elements/LoadingIndicator';
+import BlockedContent from 'components/elements/BlockedContent';
+import IllegalContentMessage from 'components/elements/IllegalContentMessage';
+import Container from 'components/common/Container';
+import UserHeader from 'components/userProfile/common/UserHeader';
+import UserNavigation from 'components/userProfile/common/UserNavigation';
+import UserCardAbout from 'components/userProfile/common/UserCardAbout';
 
 const NAV_BAR_TYPES = {
   BIG: 1,

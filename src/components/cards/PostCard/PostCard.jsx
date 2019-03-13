@@ -7,15 +7,15 @@ import is from 'styled-is';
 import tt from 'counterpart';
 import { Map } from 'immutable';
 
-import { detransliterate } from 'src/utils/ParsersAndFormatters';
+import { detransliterate } from 'utils/ParsersAndFormatters';
 import Icon from 'golos-ui/Icon';
 import { TagLink } from 'golos-ui/Tag';
 import { EntryWrapper, PostTitle, PostContent } from '../common';
 import VotePanel from '../../common/VotePanel';
 import ReplyBlock from '../../common/ReplyBlock';
 import CardAuthor from '../CardAuthor';
-import { getImageSrc } from 'src/helpers/images';
-import { isContainTags } from 'src/utils/StateFunctions';
+import { getImageSrc } from 'helpers/images';
+import { isContainTags } from 'utils/StateFunctions';
 import ViewCount from '../../common/ViewCount';
 import CurationPercent from '../../common/CurationPercent';
 

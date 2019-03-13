@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import golosTeam from './golos-team.json';
 import coreTeam from './core-team.json';
-import Icon from 'src/components/golos-ui/Icon';
+import Icon from 'components/golos-ui/Icon';
 
 const CONTACTS_ORDER = ['golos', 'email', 'github', 'linkedin', 'facebook', 'dribbble'];
 const SOCIAL_ICON_SIZE = 32;

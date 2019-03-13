@@ -1,6 +1,6 @@
 import { assert, expect } from 'chai';
 
-import normalizeProfile from 'src/utils/NormalizeProfile';
+import normalizeProfile from 'utils/NormalizeProfile';
 
 describe('normalizeProfile', () => {
   it('should return an empty object ', () => {

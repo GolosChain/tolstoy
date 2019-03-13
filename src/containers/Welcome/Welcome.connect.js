@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import user from 'app/redux/User';
-import { Welcome } from 'src/containers/Welcome/Welcome';
+import { Welcome } from 'containers/Welcome/Welcome';
 
 export default connect(
   null,

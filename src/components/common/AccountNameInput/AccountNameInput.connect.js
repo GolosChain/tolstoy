@@ -5,7 +5,7 @@ import {
   globalSelector,
   currentUsernameSelector,
   currentAccountSelector,
-} from 'src/app/redux/selectors/common';
+} from 'app/redux/selectors/common';
 import AccountNameInput from './AccountNameInput';
 
 export default connect(

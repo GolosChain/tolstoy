@@ -5,10 +5,10 @@ import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
 
-import Icon from 'src/components/golos-ui/Icon';
+import Icon from 'components/golos-ui/Icon';
 
-import VotePanel from 'src/components/common/VotePanel';
-import ReplyBlock from 'src/components/common/ReplyBlock';
+import VotePanel from 'components/common/VotePanel';
+import ReplyBlock from 'components/common/ReplyBlock';
 
 const FORCE_ONE_COLUMN_WIDTH = 550;
 

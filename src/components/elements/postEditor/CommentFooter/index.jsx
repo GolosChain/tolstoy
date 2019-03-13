@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import tt from 'counterpart';
-import Button from 'src/components/elements/common/Button';
-import Hint from 'src/components/elements/common/Hint';
+import Button from 'components/elements/common/Button';
+import Hint from 'components/elements/common/Hint';
 import './index.scss';
 
 export default class CommentFooter extends React.PureComponent {

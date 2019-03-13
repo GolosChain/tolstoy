@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import links from 'src/utils/Links';
+import links from 'utils/Links';
 import { browserHistory } from 'mocks/react-router';
 
 export default class Link extends React.Component {

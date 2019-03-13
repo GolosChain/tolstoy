@@ -8,15 +8,15 @@ import Icon from 'golos-ui/Icon';
 import Button from 'golos-ui/Button';
 import { TagLink } from 'golos-ui/Tag';
 
-import Userpic from 'src/components/common/Userpic';
-import TimeAgoWrapper from 'src/components/elements/TimeAgoWrapper';
-import PopoverBody from 'src/containers/post/popoverBody';
+import Userpic from 'components/common/Userpic';
+import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
+import PopoverBody from 'containers/post/popoverBody';
 import {
   AvatarBox,
   PopoverBackgroundShade,
   PopoverStyled,
-} from 'src/components/post/PopoverAdditionalStyles';
-import PostActions from 'src/components/post/PostActions';
+} from 'components/post/PopoverAdditionalStyles';
+import PostActions from 'components/post/PostActions';
 
 const Wrapper = styled.div`
   position: relative;

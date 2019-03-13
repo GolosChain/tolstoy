@@ -1,14 +1,14 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import { ActivePanel } from 'src/containers/post/activePanel/ActivePanel';
-import { openPromoteDialog, openRepostDialog } from 'src/app/redux/actions/dialogs';
-import { currentUsernameSelector } from 'src/app/redux/selectors/common';
+import { ActivePanel } from 'containers/post/activePanel/ActivePanel';
+import { openPromoteDialog, openRepostDialog } from 'app/redux/actions/dialogs';
+import { currentUsernameSelector } from 'app/redux/selectors/common';
 import {
   authorSelector,
   currentPostSelector,
   routePostSelector,
-} from 'src/app/redux/selectors/post/commonPost';
+} from 'app/redux/selectors/post/commonPost';
 
 export default connect(
   createSelector(

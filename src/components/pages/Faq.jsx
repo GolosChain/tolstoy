@@ -1,1 +1,1 @@
-export { default } from 'src/containers/Faq';
+export { default } from 'containers/Faq';

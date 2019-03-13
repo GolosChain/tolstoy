@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import settings from './settings';
 import tt from 'counterpart';
-import { dataSelector } from 'src/app/redux/selectors/common';
+import { dataSelector } from 'app/redux/selectors/common';
 
 @connect(state => {
   const settings = dataSelector('settings')(state);

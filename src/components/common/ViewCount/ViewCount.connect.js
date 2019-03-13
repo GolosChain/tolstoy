@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-// import { fetchViewCount } from 'src/app/redux/actions/post';
+// import { fetchViewCount } from 'app/redux/actions/post';
 
 import ViewCount from './ViewCount';
 

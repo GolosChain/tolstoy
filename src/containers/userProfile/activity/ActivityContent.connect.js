@@ -1,17 +1,17 @@
 import { connect } from 'react-redux';
 
-import { NOTIFICATIONS_FILTER_TYPES } from 'src/app/redux/constants/common';
+import { NOTIFICATIONS_FILTER_TYPES } from 'app/redux/constants/common';
 import {
   createDeepEqualSelector,
   entitiesArraySelector,
   statusSelector,
   uiSelector,
   routerParamSelector,
-} from 'src/app/redux/selectors/common';
-import { hydratedNotificationsSelector } from 'src/app/redux/selectors/notifications';
-import { getNotificationsHistory } from 'src/app/redux/actions/notifications';
-import { changeProfileActivityTab } from 'src/app/redux/actions/ui';
-import { authProtection } from 'src/helpers/hoc';
+} from 'app/redux/selectors/common';
+import { hydratedNotificationsSelector } from 'app/redux/selectors/notifications';
+import { getNotificationsHistory } from 'app/redux/actions/notifications';
+import { changeProfileActivityTab } from 'app/redux/actions/ui';
+import { authProtection } from 'helpers/hoc';
 
 import ActivityContent from './ActivityContent';
 

@@ -7,7 +7,7 @@ import {
   CALL_MARK_AS_VIEWED_SUCCESS,
   CALL_MARK_ALL_AS_VIEWED_SUCCESS,
 } from 'store/constants';
-import { mergeEntities } from 'src/utils/store';
+import { mergeEntities } from 'utils/store';
 
 const initialState = {};
 

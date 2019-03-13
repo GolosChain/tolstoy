@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 
 import transaction from 'app/redux/Transaction';
-import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';
-import { showNotification } from 'src/app/redux/actions/ui';
+import { fetchCurrentStateAction } from 'app/redux/actions/fetch';
+import { showNotification } from 'app/redux/actions/ui';
 
 import TransferDialog from './TransferDialog';
 

@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import transaction from 'app/redux/Transaction';
 import { PrivateKey } from 'golos-js/lib/auth/ecc';
 
-import { showNotification } from 'src/app/redux/actions/ui';
+import { showNotification } from 'app/redux/actions/ui';
 import ResetKey from './ResetKey';
 
 export default connect(

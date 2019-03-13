@@ -5,7 +5,7 @@ import tt from 'counterpart';
 import styled from 'styled-components';
 
 import Icon from 'golos-ui/Icon';
-import { logOutboundLinkClickAnalytics } from 'src/helpers/gaLogs';
+import { logOutboundLinkClickAnalytics } from 'helpers/gaLogs';
 
 const LinkTo = ({ children, link, ariaLabel, onClick, className }) => (
   <Link

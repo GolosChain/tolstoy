@@ -5,9 +5,9 @@ import Remarkable from 'remarkable';
 import cn from 'classnames';
 import tt from 'counterpart';
 import sanitize from 'sanitize-html';
-import HtmlReady from 'src/shared/HtmlReady';
-import YoutubePlayer from 'src/components/elements/common/YoutubePlayer/YoutubePlayer';
-import sanitizeConfig, { noImageText } from 'src/utils/SanitizeConfig';
+import HtmlReady from 'shared/HtmlReady';
+import YoutubePlayer from 'components/elements/common/YoutubePlayer/YoutubePlayer';
+import sanitizeConfig, { noImageText } from 'utils/SanitizeConfig';
 
 let remarkable = null;
 

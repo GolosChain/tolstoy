@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import tt from 'counterpart';
-import DialogFrame from 'src/components/dialogs/DialogFrame';
+import DialogFrame from 'components/dialogs/DialogFrame';
 import DropZone from 'react-dropzone';
-import DialogManager from 'src/components/elements/common/DialogManager';
-import Input from 'src/components/elements/common/Input';
-import PictureSvg from 'src/assets/icons/editor-toolbar/picture.svg';
-import keyCodes from 'src/utils/keyCodes';
+import DialogManager from 'components/elements/common/DialogManager';
+import Input from 'components/elements/common/Input';
+import PictureSvg from 'assets/icons/editor-toolbar/picture.svg';
+import keyCodes from 'utils/keyCodes';
 
 export default class AddImageDialog extends React.PureComponent {
   static propTypes = {

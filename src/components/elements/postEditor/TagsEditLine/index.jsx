@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
 
-import Icon from 'src/components/elements/Icon';
+import Icon from 'components/elements/Icon';
 import Tag from 'golos-ui/Tag';
-import { getFavoriteTags } from 'src/utils/tags';
+import { getFavoriteTags } from 'utils/tags';
 
 const Wrapper = styled.div`
   display: flex;

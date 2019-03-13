@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
 
-import { getScrollElement } from 'src/helpers/window';
+import { getScrollElement } from 'helpers/window';
 
-import CommentCard from 'src/components/cards/CommentCard';
-import CloseOpenButton from 'src/components/cards/CloseOpenButton';
+import CommentCard from 'components/cards/CommentCard';
+import CloseOpenButton from 'components/cards/CloseOpenButton';
 
 const MAX_DEEP = 6;
 

@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { numberWithCommas } from 'src/utils/StateFunctions';
+import { numberWithCommas } from 'utils/StateFunctions';
 import tt from 'counterpart';
-import { detransliterate } from 'src/utils/ParsersAndFormatters';
-import { IGNORE_TAGS } from 'src/constants/config';
+import { detransliterate } from 'utils/ParsersAndFormatters';
+import { IGNORE_TAGS } from 'constants/config';
 import styled from 'styled-components';
 
 const Link = styled.a``;

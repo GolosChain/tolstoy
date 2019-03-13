@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { hydratedNotificationOnlineSelector } from 'src/app/redux/selectors/notifications';
+import { hydratedNotificationOnlineSelector } from 'app/redux/selectors/notifications';
 
 import NotificationOnlineContent from './NotificationOnlineContent';
 

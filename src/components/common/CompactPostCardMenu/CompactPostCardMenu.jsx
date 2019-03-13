@@ -2,7 +2,7 @@ import React, { PureComponent, createRef } from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import { shareList } from 'src/helpers/socialShare';
+import { shareList } from 'helpers/socialShare';
 import Icon from 'golos-ui/Icon';
 
 const Root = styled.div`

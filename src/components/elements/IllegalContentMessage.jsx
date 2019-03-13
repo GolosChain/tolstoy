@@ -1,6 +1,6 @@
 import React from 'react';
 import tt from 'counterpart';
-import { TERMS_OF_SERVICE_URL } from 'src/constants/config';
+import { TERMS_OF_SERVICE_URL } from 'constants/config';
 
 const IllegalContentMessage = () => {
   return (

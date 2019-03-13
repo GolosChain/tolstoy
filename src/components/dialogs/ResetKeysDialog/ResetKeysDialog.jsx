@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import tt from 'counterpart';
 import styled from 'styled-components';
 
-import DialogFrame from 'src/components/dialogs/DialogFrame';
-import ResetKey from 'src/components/userProfile/settings/keys/ResetKey';
+import DialogFrame from 'components/dialogs/DialogFrame';
+import ResetKey from 'components/userProfile/settings/keys/ResetKey';
 
 const DialogFrameStyled = styled(DialogFrame)`
   flex-basis: 580px;

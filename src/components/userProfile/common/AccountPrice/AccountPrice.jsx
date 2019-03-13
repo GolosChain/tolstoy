@@ -2,8 +2,8 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-//import { getAccountPrice } from 'src/app/redux/selectors/account/accountPrice';
-import { formatCurrency } from 'src/helpers/currency';
+//import { getAccountPrice } from 'app/redux/selectors/account/accountPrice';
+import { formatCurrency } from 'helpers/currency';
 
 const FONT_MULTIPLIER = 48;
 

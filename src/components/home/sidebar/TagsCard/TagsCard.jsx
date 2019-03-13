@@ -9,7 +9,7 @@ import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
 import Button from 'golos-ui/Button';
-import TagSelect from 'src/components/common/TagSelect';
+import TagSelect from 'components/common/TagSelect';
 
 const Wrapper = styled.div`
   margin-bottom: 20px;

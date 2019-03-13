@@ -6,14 +6,14 @@ import PropTypes from 'prop-types';
 
 import Icon from 'golos-ui/Icon';
 
-import VotePanel from 'src/components/common/VotePanel';
-import ReplyBlock from 'src/components/common/ReplyBlock';
-import ShareList from 'src/components/post/ShareList';
+import VotePanel from 'components/common/VotePanel';
+import ReplyBlock from 'components/common/ReplyBlock';
+import ShareList from 'components/post/ShareList';
 import {
   PopoverBackgroundShade,
   PopoverStyled,
-} from 'src/components/post/PopoverAdditionalStyles';
-import PostActions from 'src/components/post/PostActions';
+} from 'components/post/PopoverAdditionalStyles';
+import PostActions from 'components/post/PostActions';
 
 const Wrapper = styled.div`
   display: flex;

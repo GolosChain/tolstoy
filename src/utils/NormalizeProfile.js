@@ -1,4 +1,4 @@
-import linksRe from 'src/utils/Links';
+import linksRe from 'utils/Links';
 
 function truncate(str, len) {
   if (str) {

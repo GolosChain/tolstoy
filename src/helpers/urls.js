@@ -1,4 +1,4 @@
-import { LEAVE_PAGE_WHITELIST_DOMAINS } from 'src/constants/config';
+import { LEAVE_PAGE_WHITELIST_DOMAINS } from 'constants/config';
 
 function checkIsWhitelistUrl(url) {
   try {

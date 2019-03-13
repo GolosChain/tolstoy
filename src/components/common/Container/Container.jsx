@@ -8,7 +8,7 @@ import {
   CONTAINER_BASE_MARGIN,
   CONTAINER_FULL_WIDTH,
   CONTAINER_MOBILE_MARGIN,
-} from 'src/constants/container';
+} from 'constants/container';
 
 const Container = styled(Flex)`
   max-width: ${CONTAINER_MAX_WIDTH}px;

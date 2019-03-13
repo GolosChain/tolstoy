@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 
 import transaction from 'app/redux/Transaction';
-import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';
-import { showNotification } from 'src/app/redux/actions/ui';
-import { powerDownSelector } from 'src/app/redux/selectors/wallet/powerDown';
+import { fetchCurrentStateAction } from 'app/redux/actions/fetch';
+import { showNotification } from 'app/redux/actions/ui';
+import { powerDownSelector } from 'app/redux/selectors/wallet/powerDown';
 
 import PowerDownLine from './PowerDownLine';
 

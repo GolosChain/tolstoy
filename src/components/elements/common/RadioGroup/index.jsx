@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
-import HintIcon from 'src/components/elements/common/HintIcon/HintIcon';
+import HintIcon from 'components/elements/common/HintIcon/HintIcon';
 import radioOn from './radio-on.svg';
 import radioOff from './radio-off.svg';
 

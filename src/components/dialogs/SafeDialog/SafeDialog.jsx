@@ -9,17 +9,17 @@ import SplashLoader from 'golos-ui/SplashLoader';
 import { Checkbox } from 'golos-ui/Form';
 
 import transaction from 'app/redux/Transaction';
-import { isBadActor } from 'src/utils/ChainValidation';
-import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';
-import { showNotification } from 'src/app/redux/actions/ui';
-import { parseAmount } from 'src/helpers/currency';
-import { saveValue, getValue } from 'src/helpers/localStorageUtils';
-import { processError } from 'src/helpers/dialogs';
+import { isBadActor } from 'utils/ChainValidation';
+import { fetchCurrentStateAction } from 'app/redux/actions/fetch';
+import { showNotification } from 'app/redux/actions/ui';
+import { parseAmount } from 'helpers/currency';
+import { saveValue, getValue } from 'helpers/localStorageUtils';
+import { processError } from 'helpers/dialogs';
 
-import DialogFrame from 'src/components/dialogs/DialogFrame';
-import DialogManager from 'src/components/elements/common/DialogManager';
-import AccountNameInput from 'src/components/common/AccountNameInput';
-import DialogTypeSelect from 'src/components/userProfile/common/DialogTypeSelect';
+import DialogFrame from 'components/dialogs/DialogFrame';
+import DialogManager from 'components/elements/common/DialogManager';
+import AccountNameInput from 'components/common/AccountNameInput';
+import DialogTypeSelect from 'components/userProfile/common/DialogTypeSelect';
 
 const CURRENCY_SAVE_KEY = 'transfer-dialog.default-currency';
 

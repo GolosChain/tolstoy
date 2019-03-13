@@ -3,16 +3,16 @@ import { connect } from 'react-redux';
 import { addLocaleData, IntlProvider } from 'react-intl';
 import tt from 'counterpart';
 
-import { DEFAULT_LANGUAGE } from 'src/constants/config';
+import { DEFAULT_LANGUAGE } from 'constants/config';
 import en from 'react-intl/locale-data/en';
 import ru from 'react-intl/locale-data/ru';
 import uk from 'react-intl/locale-data/uk';
 
 addLocaleData([...en, ...ru, ...uk]);
 
-tt.registerTranslations('en', require('src/locales/en.json'));
-tt.registerTranslations('ru', require('src/locales/ru-RU.json'));
-tt.registerTranslations('uk', require('src/locales/ua.json'));
+tt.registerTranslations('en', require('locales/en.json'));
+tt.registerTranslations('ru', require('locales/ru-RU.json'));
+tt.registerTranslations('uk', require('locales/ua.json'));
 
 @connect(state => ({
   // TODO:

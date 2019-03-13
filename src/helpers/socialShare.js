@@ -1,4 +1,4 @@
-import { APP_URL } from 'src/constants/config';
+import { APP_URL } from 'constants/config';
 
 export const shareList = [
   {

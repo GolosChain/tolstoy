@@ -9,23 +9,23 @@ import ComplexInput from 'golos-ui/ComplexInput';
 import SplashLoader from 'golos-ui/SplashLoader';
 import { CheckboxInput } from 'golos-ui/Form';
 import Shrink from 'golos-ui/Shrink';
-import Slider from 'src/components/golos-ui/Slider';
-import { processError } from 'src/helpers/dialogs';
+import Slider from 'components/golos-ui/Slider';
+import { processError } from 'helpers/dialogs';
 
-import { MIN_VOICE_POWER } from 'src/constants/config';
+import { MIN_VOICE_POWER } from 'constants/config';
 import transaction from 'app/redux/Transaction';
-import { isBadActor } from 'src/utils/ChainValidation';
-import DialogFrame from 'src/components/dialogs/DialogFrame';
-import DialogManager from 'src/components/elements/common/DialogManager';
-import DialogTypeSelect from 'src/components/userProfile/common/DialogTypeSelect';
-import { parseAmount2 } from 'src/helpers/currency';
-import { vestsToGolos, golosToVests, getVesting } from 'src/utils/StateFunctions';
+import { isBadActor } from 'utils/ChainValidation';
+import DialogFrame from 'components/dialogs/DialogFrame';
+import DialogManager from 'components/elements/common/DialogManager';
+import DialogTypeSelect from 'components/userProfile/common/DialogTypeSelect';
+import { parseAmount2 } from 'helpers/currency';
+import { vestsToGolos, golosToVests, getVesting } from 'utils/StateFunctions';
 import DelegationsList from './DelegationsList';
-import LoadingIndicator from 'src/components/elements/LoadingIndicator';
+import LoadingIndicator from 'components/elements/LoadingIndicator';
 import DelegationEdit from './DelegationEdit';
-import { showNotification } from 'src/app/redux/actions/ui';
-import { fetchCurrentStateAction } from 'src/app/redux/actions/fetch';
-import AccountNameInput from 'src/components/common/AccountNameInput';
+import { showNotification } from 'app/redux/actions/ui';
+import { fetchCurrentStateAction } from 'app/redux/actions/fetch';
+import AccountNameInput from 'components/common/AccountNameInput';
 import Icon from '../../golos-ui/Icon/Icon';
 
 const TYPES = {

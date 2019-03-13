@@ -5,17 +5,17 @@ import is from 'styled-is';
 import { Link } from 'mocks/react-router';
 import tt from 'counterpart';
 
-import Icon from 'src/components/golos-ui/Icon';
-import TimeAgoWrapper from 'src/components/elements/TimeAgoWrapper';
-import { listenLazy } from 'src/helpers/hoc';
-import { getImageSrc } from 'src/helpers/images';
-import { breakWordStyles } from 'src/helpers/styles';
-import { smartTrim } from 'src/helpers/text';
-import { VotePanelCompact } from 'src/components/common/VotePanel';
+import Icon from 'components/golos-ui/Icon';
+import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
+import { listenLazy } from 'helpers/hoc';
+import { getImageSrc } from 'helpers/images';
+import { breakWordStyles } from 'helpers/styles';
+import { smartTrim } from 'helpers/text';
+import { VotePanelCompact } from 'components/common/VotePanel';
 import { ReplyBlock } from '../../common/ReplyBlock';
-import CompactPostCardMenu from 'src/components/common/CompactPostCardMenu';
-import { detransliterate, repLog10 } from 'src/utils/ParsersAndFormatters';
-import { isContainTags } from 'src/utils/StateFunctions';
+import CompactPostCardMenu from 'components/common/CompactPostCardMenu';
+import { detransliterate, repLog10 } from 'utils/ParsersAndFormatters';
+import { isContainTags } from 'utils/StateFunctions';
 import ViewCount from '../../common/ViewCount';
 import CurationPercent from '../../common/CurationPercent';
 

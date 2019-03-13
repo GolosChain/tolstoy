@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-// import { dataSelector } from 'src/app/redux/selectors/common';
+// import { dataSelector } from 'app/redux/selectors/common';
 
 import CurrencyValue from './CurrencyValue';
 

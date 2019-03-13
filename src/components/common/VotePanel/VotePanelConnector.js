@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-// import { currentUserSelector, currentUsernameSelector } from 'src/app/redux/selectors/common';
-// import { postSelector } from 'src/app/redux/selectors/post/commonPost';
-// import { onVote } from 'src/app/redux/actions/vote';
-// import { openVotersDialog } from 'src/app/redux/actions/dialogs';
-// import { loginIfNeed } from 'src/app/redux/actions/login';
-import { calcVotesStats, compareActiveVotes } from 'src/utils/StateFunctions';
+// import { currentUserSelector, currentUsernameSelector } from 'app/redux/selectors/common';
+// import { postSelector } from 'app/redux/selectors/post/commonPost';
+// import { onVote } from 'app/redux/actions/vote';
+// import { openVotersDialog } from 'app/redux/actions/dialogs';
+// import { loginIfNeed } from 'app/redux/actions/login';
+import { calcVotesStats, compareActiveVotes } from 'utils/StateFunctions';
 import { VOTE_PERCENT_THRESHOLD } from './helpers';
 
 // const defaultVotePowerSelector = state => state.data.settings.getIn(['basic', 'award']);

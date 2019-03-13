@@ -2,9 +2,9 @@ import React, { PureComponent, Fragment } from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import { renderValue } from 'src/helpers/currency';
-import HintIcon from 'src/components/elements/common/HintIcon/HintIcon';
-import TimeAgoWrapper from 'src/components/elements/TimeAgoWrapper';
+import { renderValue } from 'helpers/currency';
+import HintIcon from 'components/elements/common/HintIcon/HintIcon';
+import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
 
 const Root = styled.div`
   border-radius: 8px;

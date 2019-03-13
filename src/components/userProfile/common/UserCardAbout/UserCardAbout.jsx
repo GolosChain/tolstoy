@@ -6,17 +6,17 @@ import tt from 'counterpart';
 
 import { FormattedDate } from 'react-intl';
 
-import { repLog10 } from 'src/utils/ParsersAndFormatters';
-import normalizeProfile from 'src/utils/NormalizeProfile';
-import { makeSocialLink, sanitizeUrl } from 'src/helpers/urls';
+import { repLog10 } from 'utils/ParsersAndFormatters';
+import normalizeProfile from 'utils/NormalizeProfile';
+import { makeSocialLink, sanitizeUrl } from 'helpers/urls';
 
 import Icon from 'golos-ui/Icon';
 import { CardTitle } from 'golos-ui/Card';
 import CollapsingCard from 'golos-ui/CollapsingCard';
 import UserStatus from '../UserStatus';
 
-import DialogManager from 'src/components/elements/common/DialogManager';
-import FollowersDialog from 'src/components/dialogs/FollowersDialog';
+import DialogManager from 'components/elements/common/DialogManager';
+import FollowersDialog from 'components/dialogs/FollowersDialog';
 
 const CollapsingCardStyled = styled(CollapsingCard)`
   margin-bottom: 18px;

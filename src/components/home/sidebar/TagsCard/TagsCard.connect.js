@@ -1,19 +1,19 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-// import constants from 'src/app/store/constants';
-// import { IGNORE_TAGS } from 'src/app/constants/config';
-// import { changeHomeTagsCardCollapse } from 'src/app/redux/actions/ui';
-// import { saveTag } from 'src/app/redux/actions/tags';
+// import constants from 'app/store/constants';
+// import { IGNORE_TAGS } from 'app/constants/config';
+// import { changeHomeTagsCardCollapse } from 'app/redux/actions/ui';
+// import { saveTag } from 'app/redux/actions/tags';
 // import {
 //     createDeepEqualSelector,
 //     uiSelector,
 //     currentUsernameSelector,
 //     globalSelector,
 //     routeParamSelector,
-// } from 'src/app/redux/selectors/common';
-// import { locationTagsSelector } from 'src/app/redux/selectors/app/location';
-// import { COUNT_OF_TAGS } from 'src/app/redux/constants/common';
+// } from 'app/redux/selectors/common';
+// import { locationTagsSelector } from 'app/redux/selectors/app/location';
+// import { COUNT_OF_TAGS } from 'app/redux/constants/common';
 
 import TagsCard from './TagsCard';
 

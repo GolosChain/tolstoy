@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import tt from 'counterpart';
-import DialogFrame from 'src/components/dialogs/DialogFrame';
+import DialogFrame from 'components/dialogs/DialogFrame';
 
 const TYPES = {
   info: {

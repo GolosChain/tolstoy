@@ -1,6 +1,6 @@
 import React from 'react';
-import TimeAgoWrapper from 'src/components/elements/TimeAgoWrapper';
-import Icon from 'src/components/elements/Icon.jsx';
+import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
+import Icon from 'components/elements/Icon.jsx';
 
 export default class OrderhistoryRow extends React.Component {
   constructor(props) {

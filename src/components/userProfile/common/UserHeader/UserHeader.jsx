@@ -6,20 +6,20 @@ import memoize from 'lodash/memoize';
 import Dropzone from 'react-dropzone';
 import tt from 'counterpart';
 
-import o2j from 'src/shared/clash/object2json';
-import proxifyImageUrl from 'src/utils/ProxifyUrl';
-import { getUserStatus } from 'src/helpers/users';
+import o2j from 'shared/clash/object2json';
+import proxifyImageUrl from 'utils/ProxifyUrl';
+import { getUserStatus } from 'helpers/users';
 
 import Icon from 'golos-ui/Icon';
 import Flex from 'golos-ui/Flex';
 
-import { CONTAINER_MAX_WIDTH } from 'src/constants/container';
-import VoteWitnessFollow from 'src/components/common/VoteWitnessFollow';
-import Container from 'src/components/common/Container';
+import { CONTAINER_MAX_WIDTH } from 'constants/container';
+import VoteWitnessFollow from 'components/common/VoteWitnessFollow';
+import Container from 'components/common/Container';
 import UserProfileAvatar from '../UserProfileAvatar';
-import Dropdown from 'src/components/common/Dropdown';
-import DotsButton from 'src/components/userProfile/common/UserHeader/DotsMenu/DotsButton';
-import OnlineStatus from 'src/components/userProfile/common/OnlineStatus';
+import Dropdown from 'components/common/Dropdown';
+import DotsButton from 'components/userProfile/common/UserHeader/DotsMenu/DotsButton';
+import OnlineStatus from 'components/userProfile/common/OnlineStatus';
 
 const Wrapper = styled.div`
   position: relative;

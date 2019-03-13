@@ -7,10 +7,10 @@ import {
   currentUserSelector,
   pageAccountSelector,
   globalSelector,
-} from 'src/app/redux/selectors/common';
-import { openTransferDialog } from 'src/app/redux/actions/dialogs';
-import { setWalletTabState, setWalletTabsState } from 'src/app/redux/actions/ui';
-import { uiSelector } from 'src/app/redux/selectors/common';
+} from 'app/redux/selectors/common';
+import { openTransferDialog } from 'app/redux/actions/dialogs';
+import { setWalletTabState, setWalletTabsState } from 'app/redux/actions/ui';
+import { uiSelector } from 'app/redux/selectors/common';
 
 export const getGlobalPropsSelector = createSelector(
   [globalSelector('props')],

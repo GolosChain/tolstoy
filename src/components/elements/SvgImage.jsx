@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import cn from 'classnames';
 
 const images = new Map([
-  ['facebook', require('src/static/images/facebook.svg')],
-  ['reddit', require('src/static/images/reddit.svg')],
-  ['golos', require('src/static/images/golos.svg')],
+  ['facebook', require('static/images/facebook.svg')],
+  ['reddit', require('static/images/reddit.svg')],
+  ['golos', require('static/images/golos.svg')],
 ]);
 
 export default class SvgImage extends React.PureComponent {

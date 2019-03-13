@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import { REGISTRATION_URL } from 'src/constants/config';
+import { REGISTRATION_URL } from 'constants/config';
 
 const Wrapper = styled.div`
   display: flex;

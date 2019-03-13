@@ -1,12 +1,12 @@
 import React from 'react';
 import cn from 'classnames';
 import tt from 'counterpart';
-import KEYS from 'src/utils/keyCodes';
-import Icon from 'src/components/elements/Icon';
-import DialogManager from 'src/components/elements/common/DialogManager';
+import KEYS from 'utils/keyCodes';
+import Icon from 'components/elements/Icon';
+import DialogManager from 'components/elements/common/DialogManager';
 import AddImageDialog from '../../../dialogs/AddImageDialog';
 import LinkOptionsDialog from '../../../dialogs/LinkOptionsDialog';
-import plusSvg from 'src/assets/icons/editor-toolbar/plus.svg';
+import plusSvg from 'assets/icons/editor-toolbar/plus.svg';
 import './index.scss';
 
 const MAX_HEADING = 4;

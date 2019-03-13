@@ -9,12 +9,12 @@ import tt from 'counterpart';
 
 import { TagLink } from 'golos-ui/Tag';
 
-import { breakWordStyles } from 'src/helpers/styles';
-import PostHeader from 'src/containers/post/postHeader';
-import MarkdownViewer from 'src/components/cards/MarkdownViewer/MarkdownViewer';
-import PostFormLoader from 'src/components/modules/PostForm/loader';
-import ViewCount from 'src/components/common/ViewCount';
-import CurationPercent from 'src/components/common/CurationPercent';
+import { breakWordStyles } from 'helpers/styles';
+import PostHeader from 'containers/post/postHeader';
+import MarkdownViewer from 'components/cards/MarkdownViewer/MarkdownViewer';
+import PostFormLoader from 'components/modules/PostForm/loader';
+import ViewCount from 'components/common/ViewCount';
+import CurationPercent from 'components/common/CurationPercent';
 
 const Wrapper = styled.article`
   position: relative;

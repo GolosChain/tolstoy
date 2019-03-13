@@ -1,7 +1,7 @@
 import commun from 'communjs';
 
-import { defaults } from 'src/utils/common';
-import { CALL_GATE } from 'src/store/middlewares/gate-api';
+import { defaults } from 'utils/common';
+import { CALL_GATE } from 'store/middlewares/gate-api';
 import { PROVIDE_BW, PROVIDE_BW_SUCCESS, PROVIDE_BW_ERROR } from 'store/constants';
 import { currentUsernameSelector } from 'store/selectors/auth';
 

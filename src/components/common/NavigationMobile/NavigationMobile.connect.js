@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-// import { pathnameSelector } from 'src/app/redux/selectors/app/location';
+// import { pathnameSelector } from 'app/redux/selectors/app/location';
 
 import NavigationMobile from './NavigationMobile';
 

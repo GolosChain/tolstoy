@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 //     uiSelector,
 //     globalSelector,
 //     currentUsernameSelector,
-// } from 'src/app/redux/selectors/common';
-// import { saveListScrollPosition } from 'src/app/redux/actions/ui';
-// import { locationSelector } from 'src/app/redux/selectors/app/location';
+// } from 'app/redux/selectors/common';
+// import { saveListScrollPosition } from 'app/redux/actions/ui';
+// import { locationSelector } from 'app/redux/selectors/app/location';
 
 import CardsList from './CardsList';
 

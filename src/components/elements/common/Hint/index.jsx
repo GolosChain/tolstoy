@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
-import Icon from 'src/components/elements/Icon';
+import Icon from 'components/elements/Icon';
 
 export default class Hint extends React.PureComponent {
   static propTypes = {

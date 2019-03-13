@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import WelcomeSlider from 'src/components/welcome/WelcomeSlider';
+import WelcomeSlider from 'components/welcome/WelcomeSlider';
 
 const Root = styled.section`
   padding: 30px 0;

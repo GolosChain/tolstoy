@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import { witnessPageMobilePoint } from 'src/containers/Witnesses/WitnessesStrings/WitnessesString';
+import { witnessPageMobilePoint } from 'containers/Witnesses/WitnessesStrings/WitnessesString';
 
 const VoteForWitness = styled.div`
   padding: 30px 0;

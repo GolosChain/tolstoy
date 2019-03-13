@@ -1,1 +1,1 @@
-export { default } from 'src/containers/Witnesses';
+export { default } from 'containers/Witnesses';

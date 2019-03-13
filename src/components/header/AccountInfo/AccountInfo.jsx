@@ -4,7 +4,7 @@ import is from 'styled-is';
 import { Link } from 'mocks/react-router';
 import tt from 'counterpart';
 
-import Userpic from 'src/components/common/Userpic';
+import Userpic from 'components/common/Userpic';
 
 const AccountInfoBlock = styled(Link)`
   position: relative;

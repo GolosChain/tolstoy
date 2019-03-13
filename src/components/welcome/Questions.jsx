@@ -3,11 +3,11 @@ import { Link } from 'mocks/react-router';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import Icon from 'src/components/elements/Icon';
-import CardPost from 'src/components/welcome/cardPost';
-import LoadingIndicator from 'src/components/elements/LoadingIndicator';
-import { WIKI_URL } from 'src/constants/config';
-import { logOutboundLinkClickAnalytics } from 'src/helpers/gaLogs';
+import Icon from 'components/elements/Icon';
+import CardPost from 'components/welcome/cardPost';
+import LoadingIndicator from 'components/elements/LoadingIndicator';
+import { WIKI_URL } from 'constants/config';
+import { logOutboundLinkClickAnalytics } from 'helpers/gaLogs';
 
 const Root = styled.section`
   padding: 20px 0;

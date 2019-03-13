@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import tt from 'counterpart';
 
-import { REGISTRATION_URL } from 'src/constants/config';
-import { logOutboundLinkClickAnalytics } from 'src/helpers/gaLogs';
+import { REGISTRATION_URL } from 'constants/config';
+import { logOutboundLinkClickAnalytics } from 'helpers/gaLogs';
 
 class Start extends PureComponent {
   state = {

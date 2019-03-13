@@ -2,16 +2,16 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { Map } from 'immutable';
 
-import { CardPost } from 'src/components/welcome/cardPost/CardPost';
-import { toggleFavorite } from 'src/app/redux/actions/favorites';
-import { togglePin } from 'src/app/redux/actions/pinnedPosts';
-import { postSelector } from 'src/app/redux/selectors/post/commonPost';
+import { CardPost } from 'components/welcome/cardPost/CardPost';
+import { toggleFavorite } from 'app/redux/actions/favorites';
+import { togglePin } from 'app/redux/actions/pinnedPosts';
+import { postSelector } from 'app/redux/selectors/post/commonPost';
 import {
   currentUsernameSelector,
   dataSelector,
   globalSelector,
-} from 'src/app/redux/selectors/common';
-import { extractPinnedPosts } from 'src/app/redux/selectors/account/pinnedPosts';
+} from 'app/redux/selectors/common';
+import { extractPinnedPosts } from 'app/redux/selectors/account/pinnedPosts';
 
 const emptyMap = Map();
 

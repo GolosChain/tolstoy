@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { CURRENCIES } from 'src/constants/config';
-import { renderValue } from 'src/helpers/currency';
+import { CURRENCIES } from 'constants/config';
+import { renderValue } from 'helpers/currency';
 
 export default function CurrencyValue({ value, currency, className, ...props }) {
   return <span className={className}>{renderValue(value, currency, props)}</span>;

@@ -6,13 +6,13 @@ import { Link } from 'mocks/react-router';
 
 import Icon from 'golos-ui/Icon';
 
-import { breakWordStyles } from 'src/helpers/styles';
+import { breakWordStyles } from 'helpers/styles';
 
-import Userpic from 'src/components/common/Userpic';
-import { ClosePopoverButton } from 'src/components/post/PopoverAdditionalStyles';
-import Mute from 'src/components/common/Mute';
-import Follow from 'src/components/common/Follow';
-import UserStatus from 'src/components/userProfile/common/UserStatus';
+import Userpic from 'components/common/Userpic';
+import { ClosePopoverButton } from 'components/post/PopoverAdditionalStyles';
+import Mute from 'components/common/Mute';
+import Follow from 'components/common/Follow';
+import UserStatus from 'components/userProfile/common/UserStatus';
 
 const USER_ICON_SIZE = 50;
 

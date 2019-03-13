@@ -6,12 +6,12 @@ import { List, Map } from 'immutable';
 
 import tt from 'counterpart';
 import Interpolate from 'react-interpolate-component';
-import normalizeProfile from 'src/utils/NormalizeProfile';
+import normalizeProfile from 'utils/NormalizeProfile';
 
-import { breakWordStyles } from 'src/helpers/styles';
-import { getPropsForInterpolation } from 'src/helpers/notifications';
+import { breakWordStyles } from 'helpers/styles';
+import { getPropsForInterpolation } from 'helpers/notifications';
 
-import Avatar from 'src/components/common/Avatar';
+import Avatar from 'components/common/Avatar';
 import Icon from 'golos-ui/Icon';
 
 const Wrapper = styled.div`

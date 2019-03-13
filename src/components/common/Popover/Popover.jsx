@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 import is from 'styled-is';
 import throttle from 'lodash/throttle';
-import { getScrollElement } from 'src/helpers/window';
+import { getScrollElement } from 'helpers/window';
 
 const POPOVER_OFFSET = 25;
 const POINTER_HEIGHT = 10;

@@ -5,15 +5,15 @@ import tt from 'counterpart';
 import styled from 'styled-components';
 import is from 'styled-is';
 
-import TagInput from 'src/components/elements/postEditor/TagInput';
-import TagsEditLine from 'src/components/elements/postEditor/TagsEditLine';
-import PostOptions from 'src/components/elements/postEditor/PostOptions';
-import Button from 'src/components/elements/common/Button';
-import Hint from 'src/components/elements/common/Hint';
+import TagInput from 'components/elements/postEditor/TagInput';
+import TagsEditLine from 'components/elements/postEditor/TagsEditLine';
+import PostOptions from 'components/elements/postEditor/PostOptions';
+import Button from 'components/elements/common/Button';
+import Hint from 'components/elements/common/Hint';
 import Icon from 'golos-ui/Icon';
-import InfoIcon from 'src/components/elements/Icon';
-import PreviewButton from 'src/components/elements/postEditor/PreviewButton';
-import { NSFW_TAG } from 'src/utils/tags';
+import InfoIcon from 'components/elements/Icon';
+import PreviewButton from 'components/elements/postEditor/PreviewButton';
+import { NSFW_TAG } from 'utils/tags';
 
 const Wrapper = styled.div`
   display: flex;

@@ -2,8 +2,8 @@ import React from 'react';
 import { browserHistory } from 'mocks/react-router';
 import { connect } from 'react-redux';
 
-import LoadingIndicator from 'src/components/elements/LoadingIndicator';
-import NotFoundFragment from 'src/components/elements/NotFoundFragment';
+import LoadingIndicator from 'components/elements/LoadingIndicator';
+import NotFoundFragment from 'components/elements/NotFoundFragment';
 
 class PostWrapper extends React.Component {
   constructor() {
