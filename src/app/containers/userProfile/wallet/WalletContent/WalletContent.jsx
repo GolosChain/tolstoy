@@ -8,7 +8,7 @@ import { api } from 'mocks/golos-js';
 import Card from 'golos-ui/Card';
 
 import { APP_DOMAIN, DONATION_FOR } from 'src/app/constants/config';
-import LoadingIndicator from 'src/app/components-old/elements/LoadingIndicator';
+import LoadingIndicator from 'src/app/components/elements/LoadingIndicator';
 import { vestsToGolos, vestsToGolosEasy } from 'src/app/utils/StateFunctions';
 import { validateTransferQuery } from 'src/app/utils/ParsersAndFormatters';
 import WalletTabs from 'src/app/components/userProfile/wallet/WalletTabs';

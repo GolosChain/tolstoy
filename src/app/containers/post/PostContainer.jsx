@@ -6,13 +6,13 @@ import Button from 'golos-ui/Button';
 import { blockedUsersContent, blockedContent } from 'src/app/utils/IllegalContent';
 import SidePanel from 'src/app/containers/post/sidePanel';
 import PostContent from 'src/app/containers/post/postContent';
-import LoadingIndicator from 'src/app/components-old/elements/LoadingIndicator';
+import LoadingIndicator from 'src/app/components/elements/LoadingIndicator';
 import RegistrationPanel from 'src/app/components/post/RegistrationPanel';
 import AboutPanel from 'src/app/containers/post/aboutPanel';
 import ActivePanel from 'src/app/containers/post/activePanel';
 import CommentsContainer from 'src/app/containers/post/commentsContainer';
-import NotFoundFragment from 'src/app/components-old/elements/NotFoundFragment';
-import BlockedContent from 'src/app/components-old/elements/BlockedContent';
+import NotFoundFragment from 'src/app/components/elements/NotFoundFragment';
+import BlockedContent from 'src/app/components/elements/BlockedContent';
 
 export const POST_MAX_WIDTH = 840;
 const POST_MARGINS_MOBILE = 20;

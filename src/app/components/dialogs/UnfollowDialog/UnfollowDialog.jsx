@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import DialogFrame from 'src/app/components-old/dialogs/DialogFrame';
+import DialogFrame from 'src/app/components/dialogs/DialogFrame';
 
 const BodyWrapper = styled.div`
   text-align: center;

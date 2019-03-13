@@ -13,8 +13,8 @@ import { processError } from 'src/app/helpers/dialogs';
 
 import { MIN_VOICE_POWER } from 'src/app/constants/config';
 import { isBadActor } from 'src/app/utils/ChainValidation';
-import DialogFrame from 'src/app/components-old/dialogs/DialogFrame';
-import DialogManager from 'src/app/components-old/elements/common/DialogManager';
+import DialogFrame from 'src/app/components/dialogs/DialogFrame';
+import DialogManager from 'src/app/components/elements/common/DialogManager';
 import { parseAmount } from 'src/app/helpers/currency';
 import { boldify } from 'src/app/helpers/text';
 import { vestsToGolos, golosToVests } from 'src/app/utils/StateFunctions';

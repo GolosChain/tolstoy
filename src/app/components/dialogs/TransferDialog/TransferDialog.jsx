@@ -13,8 +13,8 @@ import { parseAmount } from 'src/app/helpers/currency';
 import { saveValue, getValue } from 'src/app/helpers/localStorageUtils';
 import { processError } from 'src/app/helpers/dialogs';
 
-import DialogFrame from 'src/app/components-old/dialogs/DialogFrame';
-import DialogManager from 'src/app/components-old/elements/common/DialogManager';
+import DialogFrame from 'src/app/components/dialogs/DialogFrame';
+import DialogManager from 'src/app/components/elements/common/DialogManager';
 import AccountNameInput from 'src/app/components/common/AccountNameInput';
 
 const CURRENCY_SAVE_KEY = 'transfer-dialog.default-currency';

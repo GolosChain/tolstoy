@@ -11,7 +11,7 @@ import { NOTIFICATIONS_FILTER_TYPES, NOTIFICATIONS_PER_PAGE } from 'src/app/redu
 import Card from 'golos-ui/Card';
 import { TabContainer, Tabs } from 'golos-ui/Tabs';
 
-import LoadingIndicator from 'src/app/components-old/elements/LoadingIndicator';
+import LoadingIndicator from 'src/app/components/elements/LoadingIndicator';
 import ActivityList from 'src/app/components/common/ActivityList';
 import Flex from 'golos-ui/Flex';
 import { visuallyHidden } from 'src/app/helpers/styles';

@@ -9,9 +9,9 @@ import Head from 'next/head';
 import { blockedUsers, blockedUsersContent } from 'src/app/utils/IllegalContent';
 
 import { listenLazy } from 'src/app/helpers/hoc';
-import LoadingIndicator from 'src/app/components-old/elements/LoadingIndicator';
-import BlockedContent from 'src/app/components-old/elements/BlockedContent';
-import IllegalContentMessage from 'src/app/components-old/elements/IllegalContentMessage';
+import LoadingIndicator from 'src/app/components/elements/LoadingIndicator';
+import BlockedContent from 'src/app/components/elements/BlockedContent';
+import IllegalContentMessage from 'src/app/components/elements/IllegalContentMessage';
 import Container from 'src/app/components/common/Container';
 import UserHeader from 'src/app/components/userProfile/common/UserHeader';
 import UserNavigation from 'src/app/components/userProfile/common/UserNavigation';

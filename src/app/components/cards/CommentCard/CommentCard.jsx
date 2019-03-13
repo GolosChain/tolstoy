@@ -9,8 +9,8 @@ import tt from 'counterpart';
 import { detransliterate } from 'src/app/utils/ParsersAndFormatters';
 import { isHide } from 'src/app/utils/StateFunctions';
 import { getScrollElement } from 'src/app/helpers/window';
-import CommentFormLoader from 'src/app/components-old/modules/CommentForm/loader';
-import LoadingIndicator from 'src/app/components-old/elements/LoadingIndicator';
+import CommentFormLoader from 'src/app/components/modules/CommentForm/loader';
+import LoadingIndicator from 'src/app/components/elements/LoadingIndicator';
 
 import Button from 'golos-ui/Button';
 import { TagLink } from 'golos-ui/Tag';
@@ -20,7 +20,7 @@ import CommentFooter from '../CommentFooter';
 import CardAuthor from '../CardAuthor';
 import EditButton from '../EditButton';
 import ReLink from '../ReLink';
-import MarkdownViewer from 'src/app/components-old/cards/MarkdownViewer';
+import MarkdownViewer from 'src/app/components/cards/MarkdownViewer/MarkdownViewer';
 
 const Header = styled.div`
   padding: 12px 0 8px 0;

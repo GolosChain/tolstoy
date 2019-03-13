@@ -3,9 +3,9 @@ import { Link } from 'mocks/react-router';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import Icon from 'src/app/components-old/elements/Icon';
+import Icon from 'src/app/components/elements/Icon';
 import CardPost from 'src/app/components/welcome/cardPost';
-import LoadingIndicator from 'src/app/components-old/elements/LoadingIndicator';
+import LoadingIndicator from 'src/app/components/elements/LoadingIndicator';
 import { WIKI_URL } from 'src/app/constants/config';
 import { logOutboundLinkClickAnalytics } from 'src/app/helpers/gaLogs';
 

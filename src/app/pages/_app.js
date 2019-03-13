@@ -15,7 +15,7 @@ import { ThemeProvider } from 'styled-components';
 import fetch from 'isomorphic-unfetch'; // global/window
 import { Cookies } from 'react-cookie';
 
-import 'src/app/components-old/styles/index.scss';
+import 'src/app/components/styles/index.scss';
 
 import initStore from 'src/app/store/store';
 import { setScreenTypeByUserAgent } from 'src/app/store/actions/ui';
@@ -28,9 +28,9 @@ import Translator from 'src/app/shared/Translator';
 import Header from 'src/app/components/header/Header';
 import Notifications from 'src/app/components/common/Notifications';
 import Footer from 'src/app/components/common/Footer';
-import TooltipManager from 'src/app/components-old/elements/common/TooltipManager';
-import MobileAppButton from 'src/app/components-old/elements/MobileBanners/MobileAppButton';
-import DialogManager from 'src/app/components-old/elements/common/DialogManager';
+import TooltipManager from 'src/app/components/elements/common/TooltipManager';
+import MobileAppButton from 'src/app/components/elements/MobileBanners/MobileAppButton';
+import DialogManager from 'src/app/components/elements/common/DialogManager';
 import ScrollUpstairsButton from 'src/app/components/common/ScrollUpstairsButton';
 import ContentErrorBoundary from 'src/app/containers/ContentErrorBoundary';
 

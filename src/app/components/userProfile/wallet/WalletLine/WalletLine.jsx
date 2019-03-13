@@ -7,8 +7,8 @@ import tt from 'counterpart';
 
 import { breakWordStyles } from 'src/app/helpers/styles';
 import { MIN_VOICE_POWER } from 'src/app/constants/config';
-import DialogManager from 'src/app/components-old/elements/common/DialogManager';
-import TimeAgoWrapper from 'src/app/components-old/elements/TimeAgoWrapper';
+import DialogManager from 'src/app/components/elements/common/DialogManager';
+import TimeAgoWrapper from 'src/app/components/elements/TimeAgoWrapper';
 import { golosToVests, getVesting } from 'src/app/utils/StateFunctions';
 
 import Icon from 'golos-ui/Icon';

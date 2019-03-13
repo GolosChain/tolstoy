@@ -5,7 +5,7 @@ import is from 'styled-is';
 import by from 'styled-by';
 import { Map } from 'immutable';
 
-import CommentFormLoader from 'src/app/components-old/modules/CommentForm/loader';
+import CommentFormLoader from 'src/app/components/modules/CommentForm/loader';
 
 import { smoothScroll } from 'src/app/helpers/window';
 

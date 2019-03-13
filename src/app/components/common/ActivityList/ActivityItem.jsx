@@ -14,7 +14,7 @@ import { getPropsForInterpolation } from 'src/app/helpers/notifications';
 import Icon from 'golos-ui/Icon';
 
 import Avatar from 'src/app/components/common/Avatar';
-import TimeAgoWrapper from 'src/app/components-old/elements/TimeAgoWrapper';
+import TimeAgoWrapper from 'src/app/components/elements/TimeAgoWrapper';
 import Follow from 'src/app/components/common/Follow';
 
 const Wrapper = styled.div`

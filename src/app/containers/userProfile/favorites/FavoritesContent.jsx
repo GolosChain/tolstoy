@@ -5,7 +5,7 @@ import tt from 'counterpart';
 import { Helmet } from 'react-helmet';
 
 import { authProtection } from 'src/app/helpers/hoc';
-import LoadingIndicator from 'src/app/components-old/elements/LoadingIndicator';
+import LoadingIndicator from 'src/app/components/elements/LoadingIndicator';
 import FavoritePostsList from 'src/app/components/common/CardsList/FavoritePostsList';
 import InfoBlock from 'src/app/components/common/InfoBlock';
 import { favoritesLoadNextPageAction } from 'src/app/redux/actions/favorites';

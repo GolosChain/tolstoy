@@ -6,7 +6,7 @@ import tt from 'counterpart';
 
 import Icon from 'golos-ui/Icon';
 import Userpic from 'src/app/components/common/Userpic';
-import TimeAgoWrapper from 'src/app/components-old/elements/TimeAgoWrapper';
+import TimeAgoWrapper from 'src/app/components/elements/TimeAgoWrapper';
 
 import {
   AvatarBox,

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
 
-import TimeAgoWrapper from 'src/app/components-old/elements/TimeAgoWrapper';
+import TimeAgoWrapper from 'src/app/components/elements/TimeAgoWrapper';
 import Icon from 'golos-ui/Icon/index';
 import links from 'src/app/utils/Links';
 import { formatDecimal } from 'src/app/utils/ParsersAndFormatters';

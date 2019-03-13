@@ -4,7 +4,7 @@ import { Set } from 'immutable';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import LoadingIndicator from 'src/app/components-old/elements/LoadingIndicator';
+import LoadingIndicator from 'src/app/components/elements/LoadingIndicator';
 import Avatar from 'src/app/components/common/Avatar';
 import Follow from 'src/app/components/common/Follow';
 import {

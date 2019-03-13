@@ -11,8 +11,8 @@ import { TagLink } from 'golos-ui/Tag';
 
 import { breakWordStyles } from 'src/app/helpers/styles';
 import PostHeader from 'src/app/containers/post/postHeader';
-import MarkdownViewer from 'src/app/components-old/cards/MarkdownViewer';
-import PostFormLoader from 'src/app/components-old/modules/PostForm/loader';
+import MarkdownViewer from 'src/app/components/cards/MarkdownViewer/MarkdownViewer';
+import PostFormLoader from 'src/app/components/modules/PostForm/loader';
 import ViewCount from 'src/app/components/common/ViewCount';
 import CurationPercent from 'src/app/components/common/CurationPercent';
 

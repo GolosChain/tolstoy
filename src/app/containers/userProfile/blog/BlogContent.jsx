@@ -5,7 +5,7 @@ import Head from 'next/head';
 import tt from 'counterpart';
 import { Link } from 'mocks/react-router';
 
-import LoadingIndicator from 'src/app/components-old/elements/LoadingIndicator';
+import LoadingIndicator from 'src/app/components/elements/LoadingIndicator';
 import BlogCardsList from 'src/app/components/common/CardsList/BlogCardsList';
 import InfoBlock from 'src/app/components/common/InfoBlock';
 import EmptyBlock, { EmptySubText } from 'src/app/components/common/EmptyBlock';

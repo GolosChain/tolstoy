@@ -8,7 +8,7 @@ import { detransliterate } from 'src/app/utils/ParsersAndFormatters';
 import Icon from 'golos-ui/Icon/index';
 
 import Userpic from 'src/app/components/common/Userpic';
-import TimeAgoWrapper from 'src/app/components-old/elements/TimeAgoWrapper';
+import TimeAgoWrapper from 'src/app/components/elements/TimeAgoWrapper';
 import VotePanel from 'src/app/components/common/VotePanel';
 import Repost from 'src/app/components/post/repost';
 import PostActions from 'src/app/components/post/PostActions';

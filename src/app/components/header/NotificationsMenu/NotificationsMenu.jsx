@@ -9,7 +9,7 @@ import tt from 'counterpart';
 
 import globalBus from 'src/app/helpers/globalBus';
 import { FormFooter, FormFooterButton } from 'golos-ui/Form';
-import LoadingIndicator from 'src/app/components-old/elements/LoadingIndicator';
+import LoadingIndicator from 'src/app/components/elements/LoadingIndicator';
 import ActivityList from 'src/app/components/common/ActivityList';
 
 const NOTIFICATIONS_PER_PAGE = 20;

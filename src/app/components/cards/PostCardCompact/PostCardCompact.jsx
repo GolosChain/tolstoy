@@ -6,7 +6,7 @@ import { Link } from 'mocks/react-router';
 import tt from 'counterpart';
 
 import Icon from 'src/app/components/golos-ui/Icon';
-import TimeAgoWrapper from 'src/app/components-old/elements/TimeAgoWrapper';
+import TimeAgoWrapper from 'src/app/components/elements/TimeAgoWrapper';
 import { listenLazy } from 'src/app/helpers/hoc';
 import { getImageSrc } from 'src/app/helpers/images';
 import { breakWordStyles } from 'src/app/helpers/styles';

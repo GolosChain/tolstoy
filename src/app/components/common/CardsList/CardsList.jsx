@@ -9,7 +9,7 @@ import { isFetchingOrRecentlyUpdated } from 'src/app/utils/StateFunctions';
 
 import PostCard from 'src/app/components/cards/PostCard';
 import PostCardCompact from 'src/app/components/cards/PostCardCompact';
-import LoadingIndicator from 'src/app/components-old/elements/LoadingIndicator';
+import LoadingIndicator from 'src/app/components/elements/LoadingIndicator';
 
 export const FORCE_LINES_WIDTH = 1000;
 const FORCE_COMPACT_WIDTH = 550;

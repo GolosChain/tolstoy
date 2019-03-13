@@ -15,7 +15,7 @@ import { CardTitle } from 'golos-ui/Card';
 import CollapsingCard from 'golos-ui/CollapsingCard';
 import UserStatus from '../UserStatus';
 
-import DialogManager from 'src/app/components-old/elements/common/DialogManager';
+import DialogManager from 'src/app/components/elements/common/DialogManager';
 import FollowersDialog from 'src/app/components/dialogs/FollowersDialog';
 
 const CollapsingCardStyled = styled(CollapsingCard)`
