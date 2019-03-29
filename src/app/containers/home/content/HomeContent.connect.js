@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 
+import { FORCE_POST } from 'app/client_config';
 import constants from 'app/redux/constants';
 import {
     createDeepEqualSelector,
@@ -41,7 +42,11 @@ export default connect(
                 order = 'feed';
             }
 
-            const posts = discussions.getIn([tagsStr, order]);
+            let posts = discussions.getIn([tagsStr, order]);
+
+            if (posts) {
+                posts = posts.filter(url => url !== FORCE_POST.url).unshift(FORCE_POST.url);
+            }
 
             const status = globalStatus && globalStatus.getIn([tagsStr, order], null);
             const isFetching = (status && status.fetching) || loading || fetching || false;

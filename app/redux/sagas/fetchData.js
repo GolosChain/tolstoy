@@ -7,7 +7,13 @@ import { getContent } from 'app/redux/sagas/shared';
 import GlobalReducer from './../GlobalReducer';
 import constants from './../constants';
 import { reverseTags } from 'app/utils/tags';
-import { IGNORE_TEST_TAGS, IGNORE_TAGS, PUBLIC_API, ACCOUNT_OPERATIONS } from 'app/client_config';
+import {
+    IGNORE_TEST_TAGS,
+    IGNORE_TAGS,
+    PUBLIC_API,
+    ACCOUNT_OPERATIONS,
+    FORCE_POST,
+} from 'app/client_config';
 import { processBlog } from 'shared/state';
 import { RATES_GET_ACTUAL } from 'src/app/redux/constants/rates';
 import { locationTagsSelector } from 'src/app/redux/selectors/app/location';
@@ -223,6 +229,8 @@ function* fetchState(action) {
             const tag = parts[1] == null ? '' : parts[1];
 
             yield call(fetchData, { payload: { order: parts[0], category: tag } });
+
+            yield call(fetchForcePost);
         } else if (parts[0] == 'tags') {
             const tags = {};
             const trending_tags = yield call([api, api.getTrendingTagsAsync], '', 250);
@@ -330,6 +338,24 @@ export function* fetchRewards({ payload }) {
 
 export function* watchDataRequests() {
     yield takeLatest('REQUEST_DATA', fetchData);
+}
+
+function* fetchForcePost({ accounts }) {
+    if (FORCE_POST) {
+        const content = yield call(
+            [api, api.getContentAsync],
+            FORCE_POST.author,
+            FORCE_POST.permlink
+        );
+
+        yield put(
+            GlobalReducer.actions.receiveState({
+                content: {
+                    [FORCE_POST.url]: content,
+                },
+            })
+        );
+    }
 }
 
 function* fetchData(action) {
