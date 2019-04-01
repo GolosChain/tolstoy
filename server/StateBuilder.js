@@ -3,7 +3,7 @@ import { intersection } from 'ramda';
 import { processBlog } from 'shared/state';
 import resolveRoute from 'app/ResolveRoute';
 import { reverseTags, prepareTrendingTags } from 'app/utils/tags';
-import { IGNORE_TEST_TAGS, IGNORE_TAGS, PUBLIC_API, FORCE_POST } from 'app/client_config';
+import { IGNORE_TEST_TAGS, IGNORE_TAGS, PUBLIC_API } from 'app/client_config';
 import { COUNT_OF_TAGS } from 'src/app/redux/constants/common';
 import { getPostsViewCount } from './callServices/meta';
 import { timeoutError } from './utils/time';
@@ -215,7 +215,7 @@ async function getStateForWitnesses(state, route, { api }) {
     }
 }
 
-async function getStateForApi(state, { params }, { routeParts, api, query, accounts }) {
+async function getStateForApi(state, { params }, { routeParts, api, query }) {
     const args = { limit: 20, truncate_body: 1024 };
 
     let discussionsType;
@@ -293,16 +293,6 @@ async function getStateForApi(state, { params }, { routeParts, api, query, accou
     }
 
     state.global.discussion_idx[discussionsKey] = discussion_idxes;
-
-    if (FORCE_POST) {
-        state.global.content[FORCE_POST.url] = await api.getContentAsync(
-            FORCE_POST.author,
-            FORCE_POST.permlink,
-            undefined
-        );
-
-        accounts.add(FORCE_POST.author);
-    }
 }
 
 async function getStateForTags(state, params, { trendingTags }) {
