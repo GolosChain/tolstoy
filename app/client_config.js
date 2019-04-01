@@ -142,9 +142,3 @@ export const AUCTION_REWARD_DESTINATION = {
         to_curators: 1,
     },
 };
-
-export const FORCE_POST = {
-    author: 'goloscore',
-    permlink: 'otvety-na-voprosy-o-cyberway-chast-3',
-    url: 'goloscore/otvety-na-voprosy-o-cyberway-chast-3',
-};
