@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import styled, { keyframes } from 'styled-components';
+import moment from 'moment';
 import is from 'styled-is';
 import { Link } from 'react-router';
 import tt from 'counterpart';
@@ -7,8 +8,8 @@ import tt from 'counterpart';
 import Button from 'src/app/components/golos-ui/Button';
 import Icon from 'src/app/components/golos-ui/Icon';
 
-const TIME_START = new Date('2019-04-10T16:43:03.490Z');
-const TIME_END = new Date('2019-04-10T16:53:03.490Z');
+const TIME_START = new Date('2019-04-12T06:07:00.000Z');
+const TIME_END = new Date('2019-04-21T06:07:00.000Z');
 
 const TICK_EVERY = 10000;
 
@@ -18,7 +19,7 @@ const DAY = 24 * HOUR;
 
 const VOTING_KEY = 'gls.votingCollapsed';
 
-const VOTING_POST = '/golosio/@golosio/golos-io-prilozhenie-dlya-soobshestv-na-blokcheine-cyberway';
+const VOTING_POST = '/cyberway/@goloscore/tranzit-na-cyberway-golosovanie';
 
 const Wrapper = styled.div`
     position: relative;
@@ -85,6 +86,8 @@ const Timer = styled.span`
     display: flex;
     justify-content: center;
     margin-bottom: 22px;
+    user-select: none;
+    cursor: initial;
 `;
 
 const Part = styled.span`
@@ -148,6 +151,7 @@ export default class VotingCTA extends PureComponent {
 
     state = {
         isCollapsed: VotingCTA.getCollapsedState(),
+        isVotingStarted: Date.now() > TIME_START,
         isHidden: Date.now() > TIME_END,
     };
 
@@ -221,6 +225,8 @@ export default class VotingCTA extends PureComponent {
         const hours = Math.floor((remains - days * DAY) / HOUR);
         const minutes = Math.floor((remains - days * DAY - hours * HOUR) / MINUTE);
 
+        const endDate = moment(timeX).format('lll');
+
         return (
             <Wrapper>
                 <CollapseButton collapse={1} onClick={this.onCollapseClick}>
@@ -231,7 +237,7 @@ export default class VotingCTA extends PureComponent {
                 <TimeRemains>
                     {isVotingStarted ? tt('voting_cta.time_end') : tt('voting_cta.time_start')}
                 </TimeRemains>
-                <Timer>
+                <Timer data-tooltip={endDate} aria-label={endDate}>
                     <Part>
                         <Digits>{nn(days)}</Digits>
                         <DigitsLabel>{tt('voting_cta.timer.days', { count: days })}</DigitsLabel>
