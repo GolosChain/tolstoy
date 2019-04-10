@@ -7,8 +7,8 @@ import tt from 'counterpart';
 import Button from 'src/app/components/golos-ui/Button';
 import Icon from 'src/app/components/golos-ui/Icon';
 
-const TIME_START = new Date('2019-04-12T06:07:00.000Z');
-const TIME_END = new Date('2019-04-21T06:07:00.000Z');
+const TIME_START = new Date('2019-04-10T16:43:03.490Z');
+const TIME_END = new Date('2019-04-10T16:53:03.490Z');
 
 const TICK_EVERY = 10000;
 
