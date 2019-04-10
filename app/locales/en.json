@@ -1251,5 +1251,25 @@
       "other": "You have %(count)s votes remaining",
       "zero": "You have no votes remaining"
     }
+  },
+  "voting_cta": {
+    "referendum": "Referendum for switching to CyberWay",
+    "time_start": "Voting will begin in:",
+    "time_end": "Voting will end in:",
+    "vote": "Vote",
+    "timer": {
+      "days": {
+        "one": "day",
+        "other": "days"
+      },
+      "hours": {
+        "one": "hour",
+        "other": "hours"
+      },
+      "minutes": {
+        "one": "minute",
+        "other": "minutes"
+      }
+    }
   }
 }
