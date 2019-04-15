@@ -5,11 +5,11 @@ import is from 'styled-is';
 import { Link } from 'react-router';
 import tt from 'counterpart';
 
-import Button from 'src/app/components/golos-ui/Button';
 import Icon from 'src/app/components/golos-ui/Icon';
+import VotingButtons from '../VotingButtons';
 
-const TIME_START = new Date('2019-04-12T06:07:00.000Z');
-const TIME_END = new Date('2019-04-21T06:07:00.000Z');
+export const VOTING_TIME_START = new Date('2019-04-12T06:07:00.000Z');
+export const VOTING_TIME_END = new Date('2019-04-21T06:07:00.000Z');
 
 const TICK_EVERY = 10000;
 
@@ -134,10 +134,25 @@ const ColumnSymbol = styled.span`
     }
 `;
 
-const ButtonStyled = styled(Button)`
-    width: 100%;
-    height: 40px;
+const VotingButtonsStyled = styled(VotingButtons)`
+    margin: 0 -6px;
+
+    & > * {
+        flex-grow: 1;
+    }
+`;
+
+const DetailsBlock = styled.div`
+    display: flex;
+    justify-content: center;
+    margin: 18px 0 -4px;
+`;
+
+const DetailsLink = styled(Link)`
     font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.0759em;
+    color: #3b7cf6;
 `;
 
 export default class VotingCTA extends PureComponent {
@@ -151,8 +166,8 @@ export default class VotingCTA extends PureComponent {
 
     state = {
         isCollapsed: VotingCTA.getCollapsedState(),
-        isVotingStarted: Date.now() > TIME_START,
-        isHidden: Date.now() > TIME_END,
+        isVotingStarted: Date.now() >= VOTING_TIME_START,
+        isHidden: Date.now() >= VOTING_TIME_END,
     };
 
     componentDidMount() {
@@ -170,7 +185,7 @@ export default class VotingCTA extends PureComponent {
     onTick = () => {
         const now = Date.now();
 
-        if (now > TIME_END) {
+        if (now >= VOTING_TIME_END) {
             this.setState({
                 isHidden: true,
             });
@@ -179,7 +194,7 @@ export default class VotingCTA extends PureComponent {
         }
 
         this.setState({
-            isVotingStarted: now > TIME_START,
+            isVotingStarted: now >= VOTING_TIME_START,
         });
     };
 
@@ -217,7 +232,7 @@ export default class VotingCTA extends PureComponent {
             );
         }
 
-        const timeX = isVotingStarted ? TIME_END : TIME_START;
+        const timeX = isVotingStarted ? VOTING_TIME_END : VOTING_TIME_START;
 
         const remains = Math.max(0, timeX.getTime() - Date.now());
 
@@ -255,9 +270,10 @@ export default class VotingCTA extends PureComponent {
                         </DigitsLabel>
                     </Part>
                 </Timer>
-                <Link to={VOTING_POST}>
-                    <ButtonStyled>{tt('voting_cta.vote')}</ButtonStyled>
-                </Link>
+                <VotingButtonsStyled />
+                <DetailsBlock>
+                    <DetailsLink to={VOTING_POST}>{tt('voting_cta.details')}</DetailsLink>
+                </DetailsBlock>
             </Wrapper>
         );
     }

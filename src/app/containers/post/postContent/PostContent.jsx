@@ -14,6 +14,7 @@ import MarkdownViewer from 'app/components/cards/MarkdownViewer';
 import PostFormLoader from 'app/components/modules/PostForm/loader';
 import ViewCount from 'src/app/components/common/ViewCount';
 import CurationPercent from 'src/app/components/common/CurationPercent';
+import CyberVotingPanel from 'src/app/containers/post/cyberVotingPanel';
 
 const Wrapper = styled.article`
     position: relative;
@@ -178,6 +179,7 @@ export class PostContent extends Component {
             category,
             author,
             permLink,
+            url,
         } = this.props;
         const { hideTagsCategory } = this.state;
 
@@ -197,6 +199,9 @@ export class PostContent extends Component {
                         />
                     </PostBody>
                 </Body>
+                {url === '/cyberway/@goloscore/tranzit-na-cyberway-golosovanie' ? (
+                    <CyberVotingPanel />
+                ) : null}
                 <Footer>
                     {tags.length ? (
                         <Tags>

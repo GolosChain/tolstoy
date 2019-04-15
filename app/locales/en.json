@@ -1253,10 +1253,16 @@
     }
   },
   "voting_cta": {
+    "details": "Details",
     "referendum": "Referendum for switching to CyberWay",
     "time_start": "Voting will begin in:",
     "time_end": "Voting will end in:",
-    "vote": "Vote",
+    "vote-yes": "Yes",
+    "vote-no": "No",
+    "voting_success": "Your vote accepted",
+    "voted_thanks": "Thanks,",
+    "voted": "your vote has been counted",
+    "in_post_title": "Поддерживаете ли вы переход текущего Голоса на блокчейн CyberWay?",
     "timer": {
       "days": {
         "one": "day",

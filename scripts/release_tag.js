@@ -17,7 +17,7 @@ async function run() {
         .map(tag => tag.trim())
         .filter(tag => tag.length);
 
-    for (let tag of tags) {
+    for (const tag of tags) {
         const match = tag.match(/^(\d+)\.(\d+)/);
 
         if (match) {
@@ -42,10 +42,7 @@ async function run() {
     const options = orderedVersions.map(version => {
         const { minor, tag } = versions.get(version);
 
-        return `${`${version}.${minor + 1}`.padEnd(
-            10,
-            ' '
-        )} latest tag: ${tag}`;
+        return `${`${version}.${minor + 1}`.padEnd(10, ' ')} latest tag: ${tag}`;
     });
 
     const result = await inquirer.prompt([
