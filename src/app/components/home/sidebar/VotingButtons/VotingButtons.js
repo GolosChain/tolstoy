@@ -26,11 +26,6 @@ const VotedBlock = styled.div`
     color: #a7a7a7;
 `;
 
-const NoWrap = styled.span`
-    margin: 0 6px;
-    white-space: nowrap;
-`;
-
 const ButtonStyled = styled(Button)`
     height: 40px;
     font-size: 14px;
@@ -100,8 +95,7 @@ export default class VotingButtons extends PureComponent {
         if (isVoted) {
             return (
                 <VotedBlock className={className}>
-                    {tt('voting_cta.voted_thanks')}
-                    <NoWrap>{tt('voting_cta.voted')}</NoWrap>
+                    <span>{tt('voting_cta.voted_thanks')}</span>
                 </VotedBlock>
             );
         }

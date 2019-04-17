@@ -1260,8 +1260,7 @@
     "vote-yes": "Yes",
     "vote-no": "No",
     "voting_success": "Your vote accepted",
-    "voted_thanks": "Thanks,",
-    "voted": "your vote has been counted",
+    "voted_thanks": "Thanks, your vote has been counted",
     "in_post_title": "Поддерживаете ли вы переход текущего Голоса на блокчейн CyberWay?",
     "timer": {
       "days": {
