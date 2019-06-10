@@ -12,6 +12,7 @@ import Container from 'src/app/components/common/Container';
 import MainNavigation from 'src/app/components/main/MainNavigation';
 import TagsBox from 'src/app/components/home/TagsBox';
 import RegistrationBanner from 'src/app/components/home/sidebar/RegistrationBanner';
+import WeCard from 'src/app/components/home/sidebar/WeCard';
 
 const Wrapper = styled.div`
     background-color: #f9f9f9;
@@ -73,6 +74,7 @@ export default class HomeContainer extends Component {
                         {content}
                     </Content>
                     <Sidebar>
+                        <WeCard />
                         <RegistrationBanner />
                         {sidebar}
                     </Sidebar>
