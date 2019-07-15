@@ -315,7 +315,7 @@ export default class PostCard extends PureComponent {
         }
 
         return (
-            <Wrapper className={className} gray={stats.gray || stats.hide}>
+            <Wrapper className={className} gray={stats.gray}>
                 {this.renderHeader()}
                 {isRepost ? this.renderRepostPart() : null}
                 {this.renderBody()}
@@ -501,7 +501,7 @@ export default class PostCard extends PureComponent {
 
     renderBody() {
         const { compact, sanitizedData, stats, data, warnNsfw } = this.props;
-        const withImage = sanitizedData.image_link && !stats.gray && !stats.hide;
+        const withImage = sanitizedData.image_link && !stats.gray;
         const imageLink =
             warnNsfw && isContainTags(data, ['nsfw'])
                 ? '/images/nsfw/nsfw.svg'
