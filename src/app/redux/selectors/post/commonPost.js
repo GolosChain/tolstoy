@@ -223,6 +223,7 @@ export const postCardSelector = createDeepEqualSelector(
         }
 
         const isOwner = currentUsername === data.get('author');
+        const stats = data.get('stats').toJS();
 
         return {
             myAccount: currentUsername,
@@ -242,12 +243,13 @@ export const postCardSelector = createDeepEqualSelector(
             pinDisabled: props.pageAccountName !== currentUsername,
             isPinned,
             isOwner,
-            stats: data.get('stats').toJS(),
+            stats,
             reblogData,
             allowRepost:
                 !isOwner && (!isRepost || reblogData.get('repostAuthor') !== currentUsername),
             isHidden:
                 isHide(data) ||
+                stats.hide ||
                 (!isOwner && isContainTags(data, HIDE_BY_TAGS) && !tagsSelect.length),
             postInFeed: checkPostInFeed(location),
         };
