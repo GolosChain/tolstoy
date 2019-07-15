@@ -133,7 +133,7 @@ export function contentStats(content) {
 
     const gray =
         !hasPendingPayout && (authorRepLog10 < 1 || (authorRepLog10 < 65 && meetsGrayThreshold));
-    const hide = !hasPendingPayout && authorRepLog10 < 0; // rephide
+    const hide = authorRepLog10 < 0; // rephide // !hasPendingPayout && authorRepLog10 < 0
     const pictures = !gray;
 
     // Combine tags+category to check nsfw status
@@ -247,12 +247,12 @@ export function fromJSGreedy(js) {
     return typeof js !== 'object' || js === null
         ? js
         : Array.isArray(js)
-            ? Seq(js)
-                  .map(fromJSGreedy)
-                  .toList()
-            : Seq(js)
-                  .map(fromJSGreedy)
-                  .toMap();
+        ? Seq(js)
+              .map(fromJSGreedy)
+              .toList()
+        : Seq(js)
+              .map(fromJSGreedy)
+              .toMap();
 }
 
 export function calcVotesStats(votes, me) {
